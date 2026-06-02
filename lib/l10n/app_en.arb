@@ -1,7 +1,16 @@
 {
   "@@locale": "en",
   "welcomeTitle": "Finish it your way",
-  "welcomeSubtitle": "Own a core-and-shell apartment and finish it to your taste",
+  "welcomeSubtitle": "Build your private space.. from core-and-shell to luxury",
   "startNow": "Start Now",
-  "exploreAsHost": "Explore as a host"
+  "exploreAsHost": "Explore as a host",
+  "login": "Login",
+  "createAccount": "Create Account",
+  "mobileNumber": "Mobile number",
+  "next": "Next",
+  "orVia": "Or via",
+  "termsAndConditions": "Terms and Conditions",
+  "privacyPolicy": "Privacy Policy",
+  "registerAgreement": "By registering, you agree to the",
+  "and": "and"
 }

@@ -8,4 +8,7 @@ class AppColors {
   static const Color gold = Color(0xFFC59A5A);
   static const Color white = Color(0xFFFFFFFF);
   static const Color darkOverlay = Color(0x99000000);
+  static const Color textSecondary = Color(0xFF757575);
+  static const Color border = Color(0xFFE0E0E0);
+  static const Color buttonDark = Color(0xFF1E1E1E);
 }

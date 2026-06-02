@@ -1,10 +1,12 @@
 import 'package:apartment/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_sizes.dart';
+import '../../../../core/routes/app_router.dart';
 import '../../../../core/widgets/custom_button.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -81,7 +83,7 @@ class WelcomeScreen extends StatelessWidget {
                   CustomButton(
                     text: l10n.startNow,
                     onPressed: () {
-                      // TODO: Navigate to next screen
+                      context.push(AppRouter.auth);
                     },
                   ),
                   

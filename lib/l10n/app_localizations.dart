@@ -107,7 +107,7 @@ abstract class AppLocalizations {
   /// No description provided for @welcomeSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Own a core-and-shell apartment and finish it to your taste'**
+  /// **'Build your private space.. from core-and-shell to luxury'**
   String get welcomeSubtitle;
 
   /// No description provided for @startNow.
@@ -121,6 +121,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Explore as a host'**
   String get exploreAsHost;
+
+  /// No description provided for @login.
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get login;
+
+  /// No description provided for @createAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Account'**
+  String get createAccount;
+
+  /// No description provided for @mobileNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Mobile number'**
+  String get mobileNumber;
+
+  /// No description provided for @next.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get next;
+
+  /// No description provided for @orVia.
+  ///
+  /// In en, this message translates to:
+  /// **'Or via'**
+  String get orVia;
+
+  /// No description provided for @termsAndConditions.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms and Conditions'**
+  String get termsAndConditions;
+
+  /// No description provided for @privacyPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get privacyPolicy;
+
+  /// No description provided for @registerAgreement.
+  ///
+  /// In en, this message translates to:
+  /// **'By registering, you agree to the'**
+  String get registerAgreement;
+
+  /// No description provided for @and.
+  ///
+  /// In en, this message translates to:
+  /// **'and'**
+  String get and;
 }
 
 class _AppLocalizationsDelegate

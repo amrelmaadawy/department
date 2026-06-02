@@ -1,7 +1,16 @@
 {
   "@@locale": "ar",
   "welcomeTitle": "شطبها بكيفك",
-  "welcomeSubtitle": "امتلك شقة عظم وشطبها على ذوقك",
+  "welcomeSubtitle": "ابنِ مساحتك الخاصة.. من العظم إلى الفخامة",
   "startNow": "ابدأ الآن",
-  "exploreAsHost": "استكشف كمضيف"
+  "exploreAsHost": "استكشف كمضيف",
+  "login": "تسجيل دخول",
+  "createAccount": "إنشاء حساب",
+  "mobileNumber": "رقم الجوال",
+  "next": "التالي",
+  "orVia": "أو عبر",
+  "termsAndConditions": "الشروط والأحكام",
+  "privacyPolicy": "سياسة الخصوصية",
+  "registerAgreement": "بالتسجيل، أنت توافق على",
+  "and": "و"
 }

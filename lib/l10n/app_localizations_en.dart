@@ -13,11 +13,38 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get welcomeSubtitle =>
-      'Own a core-and-shell apartment and finish it to your taste';
+      'Build your private space.. from core-and-shell to luxury';
 
   @override
   String get startNow => 'Start Now';
 
   @override
   String get exploreAsHost => 'Explore as a host';
+
+  @override
+  String get login => 'Login';
+
+  @override
+  String get createAccount => 'Create Account';
+
+  @override
+  String get mobileNumber => 'Mobile number';
+
+  @override
+  String get next => 'Next';
+
+  @override
+  String get orVia => 'Or via';
+
+  @override
+  String get termsAndConditions => 'Terms and Conditions';
+
+  @override
+  String get privacyPolicy => 'Privacy Policy';
+
+  @override
+  String get registerAgreement => 'By registering, you agree to the';
+
+  @override
+  String get and => 'and';
 }
