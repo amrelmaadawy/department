@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:math';
 import 'custom_finishing_state.dart';
 import '../../domain/entities/material_category.dart';
 import '../../domain/entities/material_entity.dart';
@@ -164,6 +165,23 @@ class CustomFinishingCubit extends Cubit<CustomFinishingState> {
         workmanshipCost: workmanship,
         vatAmount: vat,
         totalEstimatedCost: total,
+      ),
+    );
+  }
+
+  Future<void> confirmBooking() async {
+    emit(state.copyWith(bookingStatus: BookingStatus.loading));
+
+    // Simulate API call delay
+    await Future.delayed(const Duration(seconds: 2));
+
+    // Generate Mock Order ID
+    final mockOrderId = 'ORD-${Random().nextInt(90000) + 10000}';
+
+    emit(
+      state.copyWith(
+        bookingStatus: BookingStatus.success,
+        orderId: mockOrderId,
       ),
     );
   }

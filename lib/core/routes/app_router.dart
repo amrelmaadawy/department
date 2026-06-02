@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:apartment/features/custom_finishing/presentation/screens/custom_finishing_screen.dart';
+import 'package:apartment/features/custom_finishing/presentation/screens/booking_success_screen.dart';
 
 import '../../../features/app_startup/presentation/screens/welcome_screen.dart';
 import '../../../features/auth/presentation/screens/auth_screen.dart';
@@ -11,6 +13,8 @@ import '../../../features/projects/presentation/screens/unit_details_screen.dart
 import '../../../features/packages/presentation/screens/packages_screen.dart';
 import '../../../features/home/domain/entities/project_entity.dart';
 import '../../../features/home/domain/entities/project_unit_entity.dart';
+import '../di/injection_container.dart';
+import '../../features/custom_finishing/presentation/cubit/custom_finishing_cubit.dart';
 
 class AppRouter {
   static const String initial = '/';
@@ -20,6 +24,7 @@ class AppRouter {
   static const String unitDetails = '/unit-details';
   static const String packages = '/packages';
   static const String customFinishing = '/custom-finishing';
+  static const String bookingSuccess = '/booking-success';
 
   static final router = GoRouter(
     initialLocation: initial,
@@ -119,7 +124,10 @@ class AppRouter {
         pageBuilder: (context, state) {
           return CustomTransitionPage(
             key: state.pageKey,
-            child: const CustomFinishingScreen(),
+            child: BlocProvider(
+              create: (context) => sl<CustomFinishingCubit>()..loadMaterials(),
+              child: const CustomFinishingScreen(),
+            ),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
                   const begin = Offset(1.0, 0.0);
@@ -136,6 +144,21 @@ class AppRouter {
                     position: offsetAnimation,
                     child: child,
                   );
+                },
+          );
+        },
+      ),
+      GoRoute(
+        path: bookingSuccess,
+        pageBuilder: (context, state) {
+          final orderId = state.extra as String? ?? 'ORD-00000';
+          return CustomTransitionPage(
+            key: state.pageKey,
+            transitionDuration: const Duration(milliseconds: 500),
+            child: BookingSuccessScreen(orderId: orderId),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+                  return FadeTransition(opacity: animation, child: child);
                 },
           );
         },

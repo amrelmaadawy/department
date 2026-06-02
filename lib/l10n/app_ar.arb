@@ -108,5 +108,12 @@
   "totalAmount": "المبلغ الإجمالي",
   "confirmBookingBtn": "تأكيد ومتابعة الحجز",
   "editSelectionsBtn": "تعديل الاختيارات",
-  "termsAgreementText": "بالضغط على تأكيد، أنت توافق على الشروط والأحكام"
+  "termsAgreementText": "بالضغط على تأكيد، أنت توافق على الشروط والأحكام",
+  "bookingSuccessTitle": "تم تأكيد حجزك بنجاح!",
+  "bookingSuccessSubtitle": "لقد بدأت رحلة تشطيب منزلك. سيقوم مهندسنا بالتواصل معك خلال 24 ساعة.",
+  "orderNumber": "رقم الطلب",
+  "expectedVisitDate": "التاريخ المتوقع للزيارة",
+  "trackExecutionBtn": "متابعة التنفيذ",
+  "returnToHomeBtn": "العودة للرئيسية",
+  "finishItYourWay": "شطبها بكيفك"
 }

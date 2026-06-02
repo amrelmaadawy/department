@@ -709,6 +709,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'By clicking confirm, you agree to the Terms and Conditions'**
   String get termsAgreementText;
+
+  /// No description provided for @bookingSuccessTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Booking confirmed successfully!'**
+  String get bookingSuccessTitle;
+
+  /// No description provided for @bookingSuccessSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You have started your home finishing journey. Our engineer will contact you within 24 hours.'**
+  String get bookingSuccessSubtitle;
+
+  /// No description provided for @orderNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Order Number'**
+  String get orderNumber;
+
+  /// No description provided for @expectedVisitDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Expected Visit Date'**
+  String get expectedVisitDate;
+
+  /// No description provided for @trackExecutionBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Track Execution'**
+  String get trackExecutionBtn;
+
+  /// No description provided for @returnToHomeBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Return to Home'**
+  String get returnToHomeBtn;
+
+  /// No description provided for @finishItYourWay.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish It Your Way'**
+  String get finishItYourWay;
 }
 
 class _AppLocalizationsDelegate

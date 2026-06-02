@@ -110,5 +110,12 @@
   "totalAmount": "Total Amount",
   "confirmBookingBtn": "Confirm & Continue Booking",
   "editSelectionsBtn": "Edit Selections",
-  "termsAgreementText": "By clicking confirm, you agree to the Terms and Conditions"
+  "termsAgreementText": "By clicking confirm, you agree to the Terms and Conditions",
+  "bookingSuccessTitle": "Booking confirmed successfully!",
+  "bookingSuccessSubtitle": "You have started your home finishing journey. Our engineer will contact you within 24 hours.",
+  "orderNumber": "Order Number",
+  "expectedVisitDate": "Expected Visit Date",
+  "trackExecutionBtn": "Track Execution",
+  "returnToHomeBtn": "Return to Home",
+  "finishItYourWay": "Finish It Your Way"
 }

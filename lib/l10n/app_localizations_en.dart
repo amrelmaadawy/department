@@ -324,4 +324,26 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get termsAgreementText =>
       'By clicking confirm, you agree to the Terms and Conditions';
+
+  @override
+  String get bookingSuccessTitle => 'Booking confirmed successfully!';
+
+  @override
+  String get bookingSuccessSubtitle =>
+      'You have started your home finishing journey. Our engineer will contact you within 24 hours.';
+
+  @override
+  String get orderNumber => 'Order Number';
+
+  @override
+  String get expectedVisitDate => 'Expected Visit Date';
+
+  @override
+  String get trackExecutionBtn => 'Track Execution';
+
+  @override
+  String get returnToHomeBtn => 'Return to Home';
+
+  @override
+  String get finishItYourWay => 'Finish It Your Way';
 }

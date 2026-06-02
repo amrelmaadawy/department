@@ -2,6 +2,8 @@ import 'package:equatable/equatable.dart';
 import '../../domain/entities/material_category.dart';
 import '../../domain/entities/material_entity.dart';
 
+enum BookingStatus { initial, loading, success, failure }
+
 class CustomFinishingState extends Equatable {
   final MaterialCategory currentCategory;
   final Map<MaterialCategory, List<MaterialEntity>> availableMaterials;
@@ -10,6 +12,8 @@ class CustomFinishingState extends Equatable {
   final double workmanshipCost;
   final double vatAmount;
   final double totalEstimatedCost;
+  final BookingStatus bookingStatus;
+  final String? orderId;
   final bool isLoading;
 
   const CustomFinishingState({
@@ -20,6 +24,8 @@ class CustomFinishingState extends Equatable {
     this.workmanshipCost = 65000.0,
     this.vatAmount = 0.0,
     this.totalEstimatedCost = 0.0,
+    this.bookingStatus = BookingStatus.initial,
+    this.orderId,
     this.isLoading = true,
   });
 
@@ -31,6 +37,8 @@ class CustomFinishingState extends Equatable {
     double? workmanshipCost,
     double? vatAmount,
     double? totalEstimatedCost,
+    BookingStatus? bookingStatus,
+    String? orderId,
     bool? isLoading,
   }) {
     return CustomFinishingState(
@@ -41,6 +49,8 @@ class CustomFinishingState extends Equatable {
       workmanshipCost: workmanshipCost ?? this.workmanshipCost,
       vatAmount: vatAmount ?? this.vatAmount,
       totalEstimatedCost: totalEstimatedCost ?? this.totalEstimatedCost,
+      bookingStatus: bookingStatus ?? this.bookingStatus,
+      orderId: orderId ?? this.orderId,
       isLoading: isLoading ?? this.isLoading,
     );
   }
@@ -54,6 +64,8 @@ class CustomFinishingState extends Equatable {
     workmanshipCost,
     vatAmount,
     totalEstimatedCost,
+    bookingStatus,
+    orderId,
     isLoading,
   ];
 }

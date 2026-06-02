@@ -323,4 +323,26 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get termsAgreementText =>
       'بالضغط على تأكيد، أنت توافق على الشروط والأحكام';
+
+  @override
+  String get bookingSuccessTitle => 'تم تأكيد حجزك بنجاح!';
+
+  @override
+  String get bookingSuccessSubtitle =>
+      'لقد بدأت رحلة تشطيب منزلك. سيقوم مهندسنا بالتواصل معك خلال 24 ساعة.';
+
+  @override
+  String get orderNumber => 'رقم الطلب';
+
+  @override
+  String get expectedVisitDate => 'التاريخ المتوقع للزيارة';
+
+  @override
+  String get trackExecutionBtn => 'متابعة التنفيذ';
+
+  @override
+  String get returnToHomeBtn => 'العودة للرئيسية';
+
+  @override
+  String get finishItYourWay => 'شطبها بكيفك';
 }

@@ -118,26 +118,39 @@ class CustomFinishingReviewView extends StatelessWidget {
                 color: Colors.transparent,
                 child: InkWell(
                   borderRadius: BorderRadius.circular(AppRadius.lg),
-                  onTap: () {
-                    // Confirm action logic here
-                  },
+                  onTap: state.bookingStatus == BookingStatus.loading
+                      ? null
+                      : () {
+                          context.read<CustomFinishingCubit>().confirmBooking();
+                        },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        l10n.confirmBookingBtn,
-                        style: const TextStyle(
-                          fontSize: AppFonts.headlineSmall,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.white,
-                        ),
-                      ),
-                      const SizedBox(width: AppSpacing.sm),
-                      const Icon(
-                        FluentIcons.checkmark_24_filled,
-                        color: AppColors.white,
-                      ),
-                    ],
+                    children: state.bookingStatus == BookingStatus.loading
+                        ? const [
+                            SizedBox(
+                              width: 24,
+                              height: 24,
+                              child: CircularProgressIndicator(
+                                color: AppColors.white,
+                                strokeWidth: 2,
+                              ),
+                            ),
+                          ]
+                        : [
+                            Text(
+                              l10n.confirmBookingBtn,
+                              style: const TextStyle(
+                                fontSize: AppFonts.headlineSmall,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.white,
+                              ),
+                            ),
+                            const SizedBox(width: AppSpacing.sm),
+                            const Icon(
+                              FluentIcons.checkmark_24_filled,
+                              color: AppColors.white,
+                            ),
+                          ],
                   ),
                 ),
               ),
