@@ -58,5 +58,17 @@
   "executionSupervision": "الإشراف على التنفيذ",
   "executionSupervisionDesc": "فريق من المهندسين الخبراء لمتابعة سير العمل في الموقع، لضمان تطابق التنفيذ مع التصاميم بأعلى معايير الجودة.",
   "materialSelection": "اختيار الخامات",
-  "materialSelectionDesc": "مساعدتك في انتقاء أجود الخامات والمواد الأولية من أفضل الموردين، بما يتوافق مع الميزانية والتصميم المعتمد."
+  "serviceMaterialsDesc": "مساعدتك في انتقاء أجود الخامات والمواد الأولية من أفضل الموردين، بما يتوافق مع الميزانية والتصميم المعتمد.",
+  "filterAll": "الكل",
+  "filterApartment": "شقق",
+  "filterVilla": "فيلات",
+  "filterDuplex": "دوبلكس",
+  "unitArea": "المساحة",
+  "unitBeds": "غرف",
+  "unitBaths": "حمامات",
+  "unitStartsFrom": "يبدأ من",
+  "unitAvailable": "متاح",
+  "unitSoldOut": "مباع",
+  "unitSqMeter": "متر",
+  "sar": "ر.س"
 }

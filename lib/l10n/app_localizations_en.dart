@@ -169,6 +169,36 @@ class AppLocalizationsEn extends AppLocalizations {
   String get materialSelection => 'Material Selection';
 
   @override
-  String get materialSelectionDesc =>
+  String get serviceMaterialsDesc =>
       'Assisting you in selecting the finest materials from top suppliers, aligning with your budget and approved design.';
+
+  @override
+  String get filterApartment => 'Apartments';
+
+  @override
+  String get filterVilla => 'Villas';
+
+  @override
+  String get filterDuplex => 'Duplex';
+
+  @override
+  String get unitArea => 'Area';
+
+  @override
+  String get unitBeds => 'Beds';
+
+  @override
+  String get unitBaths => 'Baths';
+
+  @override
+  String get unitStartsFrom => 'Starts from';
+
+  @override
+  String get unitAvailable => 'Available';
+
+  @override
+  String get unitSoldOut => 'Sold Out';
+
+  @override
+  String get unitSqMeter => 'sqm';
 }

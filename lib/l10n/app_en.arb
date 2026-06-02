@@ -58,5 +58,17 @@
   "executionSupervision": "Execution Supervision",
   "executionSupervisionDesc": "A team of expert engineers to monitor progress on-site, ensuring execution perfectly matches designs with top quality.",
   "materialSelection": "Material Selection",
-  "materialSelectionDesc": "Assisting you in selecting the finest materials from top suppliers, aligning with your budget and approved design."
+  "serviceMaterialsDesc": "Assisting you in selecting the finest materials from top suppliers, aligning with your budget and approved design.",
+  "filterAll": "All",
+  "filterApartment": "Apartments",
+  "filterVilla": "Villas",
+  "filterDuplex": "Duplex",
+  "unitArea": "Area",
+  "unitBeds": "Beds",
+  "unitBaths": "Baths",
+  "unitStartsFrom": "Starts from",
+  "unitAvailable": "Available",
+  "unitSoldOut": "Sold Out",
+  "unitSqMeter": "sqm",
+  "sar": "SAR"
 }

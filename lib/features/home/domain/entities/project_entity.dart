@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 import 'project_service_entity.dart';
+import 'project_unit_entity.dart';
 
 class ProjectEntity extends Equatable {
   final String id;
@@ -15,6 +16,7 @@ class ProjectEntity extends Equatable {
   final String deliveryDate;
   final String finishingType;
   final List<ProjectServiceEntity> services;
+  final List<ProjectUnitEntity> units;
 
   const ProjectEntity({
     required this.id,
@@ -29,6 +31,7 @@ class ProjectEntity extends Equatable {
     this.deliveryDate = '',
     this.finishingType = '',
     this.services = const [],
+    this.units = const [],
   });
 
   @override
@@ -45,5 +48,6 @@ class ProjectEntity extends Equatable {
     deliveryDate,
     finishingType,
     services,
+    units,
   ];
 }

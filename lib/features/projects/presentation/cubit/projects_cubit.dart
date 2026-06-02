@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import '../../../home/domain/entities/project_entity.dart';
 import '../../../home/domain/entities/project_service_entity.dart';
+import '../../../home/domain/entities/project_unit_entity.dart';
 
 part 'projects_state.dart';
 
@@ -57,6 +58,52 @@ class ProjectsCubit extends Cubit<ProjectsState> {
         icon: FluentIcons.layer_24_regular,
       ),
     ];
+    final List<ProjectUnitEntity> mockUnits = [
+      const ProjectUnitEntity(
+        id: '101',
+        title: 'شقة فاخرة A1',
+        type: UnitType.apartment,
+        area: 150,
+        bedrooms: 3,
+        bathrooms: 2,
+        price: 650000,
+        status: UnitStatus.available,
+        imagePath: 'assets/images/unit_apartment.png',
+      ),
+      const ProjectUnitEntity(
+        id: '102',
+        title: 'فيلا رويال',
+        type: UnitType.villa,
+        area: 450,
+        bedrooms: 5,
+        bathrooms: 4,
+        price: 2500000,
+        status: UnitStatus.available,
+        imagePath: 'assets/images/unit_villa.png',
+      ),
+      const ProjectUnitEntity(
+        id: '103',
+        title: 'دوبلكس بانوراما',
+        type: UnitType.duplex,
+        area: 280,
+        bedrooms: 4,
+        bathrooms: 3,
+        price: 1200000,
+        status: UnitStatus.sold,
+        imagePath: 'assets/images/unit_duplex.png',
+      ),
+      const ProjectUnitEntity(
+        id: '104',
+        title: 'شقة بحديقة B2',
+        type: UnitType.apartment,
+        area: 180,
+        bedrooms: 3,
+        bathrooms: 3,
+        price: 850000,
+        status: UnitStatus.available,
+        imagePath: 'assets/images/unit_apartment.png',
+      ),
+    ];
 
     _allProjects = [
       ProjectEntity(
@@ -72,6 +119,7 @@ class ProjectsCubit extends Cubit<ProjectsState> {
         deliveryDate: '٢٠٢٥',
         finishingType: 'نصف تشطيب',
         services: mockServices,
+        units: mockUnits,
       ),
       ProjectEntity(
         id: '2',
@@ -86,6 +134,7 @@ class ProjectsCubit extends Cubit<ProjectsState> {
         deliveryDate: '٢٠٢٤',
         finishingType: 'تشطيب كامل',
         services: mockServices,
+        units: mockUnits,
       ),
       ProjectEntity(
         id: '3',
@@ -100,6 +149,7 @@ class ProjectsCubit extends Cubit<ProjectsState> {
         deliveryDate: '٢٠٢٦',
         finishingType: 'عظم',
         services: mockServices,
+        units: mockUnits,
       ),
       ProjectEntity(
         id: '4',
@@ -114,6 +164,7 @@ class ProjectsCubit extends Cubit<ProjectsState> {
         deliveryDate: '٢٠٢٥',
         finishingType: 'نصف تشطيب',
         services: mockServices,
+        units: mockUnits,
       ),
     ];
 

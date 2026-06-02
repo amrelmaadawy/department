@@ -168,6 +168,36 @@ class AppLocalizationsAr extends AppLocalizations {
   String get materialSelection => 'اختيار الخامات';
 
   @override
-  String get materialSelectionDesc =>
+  String get serviceMaterialsDesc =>
       'مساعدتك في انتقاء أجود الخامات والمواد الأولية من أفضل الموردين، بما يتوافق مع الميزانية والتصميم المعتمد.';
+
+  @override
+  String get filterApartment => 'شقق';
+
+  @override
+  String get filterVilla => 'فيلات';
+
+  @override
+  String get filterDuplex => 'دوبلكس';
+
+  @override
+  String get unitArea => 'المساحة';
+
+  @override
+  String get unitBeds => 'غرف';
+
+  @override
+  String get unitBaths => 'حمامات';
+
+  @override
+  String get unitStartsFrom => 'يبدأ من';
+
+  @override
+  String get unitAvailable => 'متاح';
+
+  @override
+  String get unitSoldOut => 'مباع';
+
+  @override
+  String get unitSqMeter => 'متر';
 }

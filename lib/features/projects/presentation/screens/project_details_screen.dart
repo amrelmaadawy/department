@@ -3,6 +3,7 @@ import 'package:apartment/features/projects/presentation/widgets/details/project
 import 'package:apartment/features/projects/presentation/widgets/details/project_info_section.dart';
 import 'package:apartment/features/projects/presentation/widgets/details/project_overview_tab.dart';
 import 'package:apartment/features/projects/presentation/widgets/details/project_services_tab.dart';
+import 'package:apartment/features/projects/presentation/widgets/details/project_units_tab.dart';
 import 'package:apartment/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
@@ -102,12 +103,9 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen>
             SingleChildScrollView(
               child: ProjectOverviewTab(project: widget.project),
             ),
-            // Placeholder Units
-            Center(
-              child: Text(
-                l10n.tabUnits,
-                style: const TextStyle(color: AppColors.textSecondary),
-              ),
+            // Units Tab
+            SingleChildScrollView(
+              child: ProjectUnitsTab(units: widget.project.units),
             ),
             // Services Tab
             SingleChildScrollView(

@@ -404,11 +404,71 @@ abstract class AppLocalizations {
   /// **'Material Selection'**
   String get materialSelection;
 
-  /// No description provided for @materialSelectionDesc.
+  /// No description provided for @serviceMaterialsDesc.
   ///
   /// In en, this message translates to:
   /// **'Assisting you in selecting the finest materials from top suppliers, aligning with your budget and approved design.'**
-  String get materialSelectionDesc;
+  String get serviceMaterialsDesc;
+
+  /// No description provided for @filterApartment.
+  ///
+  /// In en, this message translates to:
+  /// **'Apartments'**
+  String get filterApartment;
+
+  /// No description provided for @filterVilla.
+  ///
+  /// In en, this message translates to:
+  /// **'Villas'**
+  String get filterVilla;
+
+  /// No description provided for @filterDuplex.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplex'**
+  String get filterDuplex;
+
+  /// No description provided for @unitArea.
+  ///
+  /// In en, this message translates to:
+  /// **'Area'**
+  String get unitArea;
+
+  /// No description provided for @unitBeds.
+  ///
+  /// In en, this message translates to:
+  /// **'Beds'**
+  String get unitBeds;
+
+  /// No description provided for @unitBaths.
+  ///
+  /// In en, this message translates to:
+  /// **'Baths'**
+  String get unitBaths;
+
+  /// No description provided for @unitStartsFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'Starts from'**
+  String get unitStartsFrom;
+
+  /// No description provided for @unitAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Available'**
+  String get unitAvailable;
+
+  /// No description provided for @unitSoldOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Sold Out'**
+  String get unitSoldOut;
+
+  /// No description provided for @unitSqMeter.
+  ///
+  /// In en, this message translates to:
+  /// **'sqm'**
+  String get unitSqMeter;
 }
 
 class _AppLocalizationsDelegate
