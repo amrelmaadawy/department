@@ -240,4 +240,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get startFinishingBtn => 'Start Finishing Yourself';
+
+  @override
+  String get readyPackagesScreenTitle => 'Ready Packages';
+
+  @override
+  String get readyPackagesSubtitle =>
+      'Choose the suitable package and modify it freely.. We designed multiple options to suit all needs and budgets.';
+
+  @override
+  String get pricePerSqm => 'SAR / sqm';
+
+  @override
+  String get signature => 'Signature';
 }

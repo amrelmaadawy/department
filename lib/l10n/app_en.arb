@@ -83,5 +83,9 @@
   "basedOnLuxuryPackage": "Based on luxury package",
   "totalExpectedCost": "Total Expected Cost",
   "readyPackagesBtn": "Ready Packages",
-  "startFinishingBtn": "Start Finishing Yourself"
+  "startFinishingBtn": "Start Finishing Yourself",
+  "readyPackagesScreenTitle": "Ready Packages",
+  "readyPackagesSubtitle": "Choose the suitable package and modify it freely.. We designed multiple options to suit all needs and budgets.",
+  "pricePerSqm": "SAR / sqm",
+  "signature": "Signature"
 }

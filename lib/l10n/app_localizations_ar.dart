@@ -239,4 +239,17 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get startFinishingBtn => 'ابدأ التشطيب بنفسك';
+
+  @override
+  String get readyPackagesScreenTitle => 'الباقات الجاهزة';
+
+  @override
+  String get readyPackagesSubtitle =>
+      'اختر الباقة المناسبة وبدل فيها براحتك.. صممنالك خيارات متعددة تناسب كل الاحتياجات والميزانيات.';
+
+  @override
+  String get pricePerSqm => 'ر.س / متر';
+
+  @override
+  String get signature => 'Signature';
 }

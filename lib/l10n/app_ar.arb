@@ -81,5 +81,9 @@
   "basedOnLuxuryPackage": "بناءً على الباقة الفاخرة",
   "totalExpectedCost": "إجمالي التكلفة المتوقعة",
   "readyPackagesBtn": "الباقات الجاهزة",
-  "startFinishingBtn": "ابدأ التشطيب بنفسك"
+  "startFinishingBtn": "ابدأ التشطيب بنفسك",
+  "readyPackagesScreenTitle": "الباقات الجاهزة",
+  "readyPackagesSubtitle": "اختر الباقة المناسبة وبدل فيها براحتك.. صممنالك خيارات متعددة تناسب كل الاحتياجات والميزانيات.",
+  "pricePerSqm": "ر.س / متر",
+  "signature": "Signature"
 }

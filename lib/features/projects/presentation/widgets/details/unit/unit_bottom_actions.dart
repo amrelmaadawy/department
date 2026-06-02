@@ -6,7 +6,9 @@ import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/core/widgets/custom_button.dart';
+import 'package:apartment/core/routes/app_router.dart';
 import 'package:apartment/l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
 
 class UnitBottomActions extends StatelessWidget {
   const UnitBottomActions({super.key});
@@ -36,7 +38,9 @@ class UnitBottomActions extends StatelessWidget {
               width: double.infinity,
               height: 48,
               child: OutlinedButton.icon(
-                onPressed: () {},
+                onPressed: () {
+                  context.push(AppRouter.packages);
+                },
                 icon: const Icon(
                   FluentIcons.apps_24_regular,
                   size: 20,
@@ -61,10 +65,7 @@ class UnitBottomActions extends StatelessWidget {
             const SizedBox(height: AppSpacing.md),
 
             // Solid Button
-            CustomButton(
-              text: l10n.startFinishingBtn,
-              onPressed: () {},
-            ),
+            CustomButton(text: l10n.startFinishingBtn, onPressed: () {}),
           ],
         ),
       ),

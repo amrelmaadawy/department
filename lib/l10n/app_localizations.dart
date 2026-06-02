@@ -547,6 +547,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Start Finishing Yourself'**
   String get startFinishingBtn;
+
+  /// No description provided for @readyPackagesScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready Packages'**
+  String get readyPackagesScreenTitle;
+
+  /// No description provided for @readyPackagesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the suitable package and modify it freely.. We designed multiple options to suit all needs and budgets.'**
+  String get readyPackagesSubtitle;
+
+  /// No description provided for @pricePerSqm.
+  ///
+  /// In en, this message translates to:
+  /// **'SAR / sqm'**
+  String get pricePerSqm;
+
+  /// No description provided for @signature.
+  ///
+  /// In en, this message translates to:
+  /// **'Signature'**
+  String get signature;
 }
 
 class _AppLocalizationsDelegate

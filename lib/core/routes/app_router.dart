@@ -6,6 +6,7 @@ import '../../../features/auth/presentation/screens/auth_screen.dart';
 import '../../../features/layout/presentation/screens/layout_screen.dart';
 import '../../../features/projects/presentation/screens/project_details_screen.dart';
 import '../../../features/projects/presentation/screens/unit_details_screen.dart';
+import '../../../features/packages/presentation/screens/packages_screen.dart';
 import '../../../features/home/domain/entities/project_entity.dart';
 import '../../../features/home/domain/entities/project_unit_entity.dart';
 
@@ -15,6 +16,7 @@ class AppRouter {
   static const String layout = '/layout';
   static const String projectDetails = '/project-details';
   static const String unitDetails = '/unit-details';
+  static const String packages = '/packages';
 
   static final router = GoRouter(
     initialLocation: initial,
@@ -77,6 +79,30 @@ class AppRouter {
                     end: end,
                   ).chain(CurveTween(curve: curve));
 
+                  return SlideTransition(
+                    position: animation.drive(tween),
+                    child: child,
+                  );
+                },
+          );
+        },
+      ),
+      GoRoute(
+        path: packages,
+        pageBuilder: (context, state) {
+          return CustomTransitionPage(
+            key: state.pageKey,
+            transitionDuration: const Duration(milliseconds: 400),
+            child: const PackagesScreen(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+                  const begin = Offset(1.0, 0.0); // Slide from right
+                  const end = Offset.zero;
+                  const curve = Curves.easeOutCubic;
+                  var tween = Tween(
+                    begin: begin,
+                    end: end,
+                  ).chain(CurveTween(curve: curve));
                   return SlideTransition(
                     position: animation.drive(tween),
                     child: child,
