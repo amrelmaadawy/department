@@ -32,5 +32,20 @@
   "featuredProjects": "المشاريع المميزة",
   "viewAll": "عرض الكل",
   "startsFrom": "يبدأ من",
-  "sar": "ر.س"
+  "sar": "ر.س",
+  "searchProject": "ابحث عن مشروع أو موقع",
+  "filterAll": "الكل",
+  "filterJeddah": "جدة",
+  "filterEastern": "الشرقية",
+  "noProjectsFound": "لم يتم العثور على مشاريع",
+  "tabOverview": "نظرة عامة",
+  "tabUnits": "الوحدات",
+  "tabServices": "الخدمات",
+  "aboutProject": "عن المشروع",
+  "totalArea": "المساحة الإجمالية",
+  "unitTypes": "أنواع الوحدات",
+  "deliveryDate": "تاريخ التسليم",
+  "finishingType": "التشطيب",
+  "chooseUnit": "اختار وحدتك",
+  "million": "مليون"
 }

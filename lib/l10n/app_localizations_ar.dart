@@ -87,4 +87,49 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get sar => 'ر.س';
+
+  @override
+  String get searchProject => 'ابحث عن مشروع أو موقع';
+
+  @override
+  String get filterAll => 'الكل';
+
+  @override
+  String get filterJeddah => 'جدة';
+
+  @override
+  String get filterEastern => 'الشرقية';
+
+  @override
+  String get noProjectsFound => 'لم يتم العثور على مشاريع';
+
+  @override
+  String get tabOverview => 'نظرة عامة';
+
+  @override
+  String get tabUnits => 'الوحدات';
+
+  @override
+  String get tabServices => 'الخدمات';
+
+  @override
+  String get aboutProject => 'عن المشروع';
+
+  @override
+  String get totalArea => 'المساحة الإجمالية';
+
+  @override
+  String get unitTypes => 'أنواع الوحدات';
+
+  @override
+  String get deliveryDate => 'تاريخ التسليم';
+
+  @override
+  String get finishingType => 'التشطيب';
+
+  @override
+  String get chooseUnit => 'اختار وحدتك';
+
+  @override
+  String get million => 'مليون';
 }

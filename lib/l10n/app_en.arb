@@ -32,5 +32,20 @@
   "featuredProjects": "Featured Projects",
   "viewAll": "View All",
   "startsFrom": "Starts from",
-  "sar": "SAR"
+  "sar": "SAR",
+  "searchProject": "Search for a project or location",
+  "filterAll": "All",
+  "filterJeddah": "Jeddah",
+  "filterEastern": "Eastern Prov.",
+  "noProjectsFound": "No projects found",
+  "tabOverview": "Overview",
+  "tabUnits": "Units",
+  "tabServices": "Services",
+  "aboutProject": "About Project",
+  "totalArea": "Total Area",
+  "unitTypes": "Unit Types",
+  "deliveryDate": "Delivery Date",
+  "finishingType": "Finishing",
+  "chooseUnit": "Choose Your Unit",
+  "million": "Million"
 }

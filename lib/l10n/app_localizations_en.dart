@@ -88,4 +88,49 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sar => 'SAR';
+
+  @override
+  String get searchProject => 'Search for a project or location';
+
+  @override
+  String get filterAll => 'All';
+
+  @override
+  String get filterJeddah => 'Jeddah';
+
+  @override
+  String get filterEastern => 'Eastern Prov.';
+
+  @override
+  String get noProjectsFound => 'No projects found';
+
+  @override
+  String get tabOverview => 'Overview';
+
+  @override
+  String get tabUnits => 'Units';
+
+  @override
+  String get tabServices => 'Services';
+
+  @override
+  String get aboutProject => 'About Project';
+
+  @override
+  String get totalArea => 'Total Area';
+
+  @override
+  String get unitTypes => 'Unit Types';
+
+  @override
+  String get deliveryDate => 'Delivery Date';
+
+  @override
+  String get finishingType => 'Finishing';
+
+  @override
+  String get chooseUnit => 'Choose Your Unit';
+
+  @override
+  String get million => 'Million';
 }

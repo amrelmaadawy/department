@@ -253,6 +253,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'SAR'**
   String get sar;
+
+  /// No description provided for @searchProject.
+  ///
+  /// In en, this message translates to:
+  /// **'Search for a project or location'**
+  String get searchProject;
+
+  /// No description provided for @filterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get filterAll;
+
+  /// No description provided for @filterJeddah.
+  ///
+  /// In en, this message translates to:
+  /// **'Jeddah'**
+  String get filterJeddah;
+
+  /// No description provided for @filterEastern.
+  ///
+  /// In en, this message translates to:
+  /// **'Eastern Prov.'**
+  String get filterEastern;
+
+  /// No description provided for @noProjectsFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No projects found'**
+  String get noProjectsFound;
+
+  /// No description provided for @tabOverview.
+  ///
+  /// In en, this message translates to:
+  /// **'Overview'**
+  String get tabOverview;
+
+  /// No description provided for @tabUnits.
+  ///
+  /// In en, this message translates to:
+  /// **'Units'**
+  String get tabUnits;
+
+  /// No description provided for @tabServices.
+  ///
+  /// In en, this message translates to:
+  /// **'Services'**
+  String get tabServices;
+
+  /// No description provided for @aboutProject.
+  ///
+  /// In en, this message translates to:
+  /// **'About Project'**
+  String get aboutProject;
+
+  /// No description provided for @totalArea.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Area'**
+  String get totalArea;
+
+  /// No description provided for @unitTypes.
+  ///
+  /// In en, this message translates to:
+  /// **'Unit Types'**
+  String get unitTypes;
+
+  /// No description provided for @deliveryDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery Date'**
+  String get deliveryDate;
+
+  /// No description provided for @finishingType.
+  ///
+  /// In en, this message translates to:
+  /// **'Finishing'**
+  String get finishingType;
+
+  /// No description provided for @chooseUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Your Unit'**
+  String get chooseUnit;
+
+  /// No description provided for @million.
+  ///
+  /// In en, this message translates to:
+  /// **'Million'**
+  String get million;
 }
 
 class _AppLocalizationsDelegate

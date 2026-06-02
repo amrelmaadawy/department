@@ -1,4 +1,5 @@
 import 'package:apartment/features/home/presentation/screens/home_screen.dart';
+import 'package:apartment/features/projects/presentation/screens/projects_screen.dart';
 import 'package:apartment/features/layout/presentation/widgets/custom_bottom_nav_bar.dart';
 import 'package:apartment/l10n/app_localizations.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
@@ -56,7 +57,7 @@ class LayoutView extends StatelessWidget {
     // Placeholder screens until actual features are built
     final List<Widget> screens = [
       const HomeScreen(),
-      Center(child: Text(l10n.navProjects)),
+      const ProjectsScreen(),
       Center(child: Text(l10n.navDesign)),
       Center(child: Text(l10n.navAccount)),
     ];

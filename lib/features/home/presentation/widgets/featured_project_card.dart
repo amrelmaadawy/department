@@ -1,5 +1,8 @@
 import 'package:apartment/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../../core/routes/app_router.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_fonts.dart';
@@ -24,7 +27,9 @@ class FeaturedProjectCard extends StatelessWidget {
           (Match m) => '${m[1]},',
         );
 
-    return Container(
+    return GestureDetector(
+      onTap: () => context.push(AppRouter.projectDetails, extra: {'project': project, 'heroTag': 'featured_project_${project.id}'}),
+      child: Container(
       width: 220,
       decoration: BoxDecoration(
         color: AppColors.white,
@@ -107,6 +112,6 @@ class FeaturedProjectCard extends StatelessWidget {
           ),
         ],
       ),
-    );
+    ));
   }
 }

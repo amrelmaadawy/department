@@ -31,6 +31,23 @@ class MyApp extends StatelessWidget {
       locale: const Locale('ar'),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
+      builder: (context, child) {
+        // Global Responsive Text Scaler
+        // This calculates the device width compared to a standard 390px phone screen.
+        final mediaQuery = MediaQuery.of(context);
+        final screenWidth = mediaQuery.size.width;
+        
+        // Scale factor: ensures text grows on tablets but doesn't get ridiculously large,
+        // and shrinks on extremely small phones so it doesn't overflow.
+        final double textScale = (screenWidth / 390.0).clamp(0.85, 1.4);
+
+        return MediaQuery(
+          data: mediaQuery.copyWith(
+            textScaler: TextScaler.linear(textScale),
+          ),
+          child: child!,
+        );
+      },
     );
   }
 }
