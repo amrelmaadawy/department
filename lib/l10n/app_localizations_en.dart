@@ -253,4 +253,43 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get signature => 'Signature';
+
+  @override
+  String get customFinishing => 'Custom Finishing';
+
+  @override
+  String get categoryFloors => 'Floors';
+
+  @override
+  String get categoryWalls => 'Walls';
+
+  @override
+  String get categoryCeilings => 'Ceilings';
+
+  @override
+  String get categoryDoors => 'Doors';
+
+  @override
+  String get categoryReview => 'Review';
+
+  @override
+  String get chooseFloorType => 'Choose Floor Type';
+
+  @override
+  String get chooseWallType => 'Choose Wall Type';
+
+  @override
+  String get chooseCeilingType => 'Choose Ceiling Type';
+
+  @override
+  String get chooseDoorType => 'Choose Door Type';
+
+  @override
+  String get reviewSelections => 'Review Your Selections';
+
+  @override
+  String get totalEstimatedCost => 'Total Estimated Cost';
+
+  @override
+  String get nextButton => 'Next';
 }

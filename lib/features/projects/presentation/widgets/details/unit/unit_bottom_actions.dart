@@ -65,7 +65,12 @@ class UnitBottomActions extends StatelessWidget {
             const SizedBox(height: AppSpacing.md),
 
             // Solid Button
-            CustomButton(text: l10n.startFinishingBtn, onPressed: () {}),
+            CustomButton(
+              text: l10n.startFinishingBtn,
+              onPressed: () {
+                context.push(AppRouter.customFinishing);
+              },
+            ),
           ],
         ),
       ),

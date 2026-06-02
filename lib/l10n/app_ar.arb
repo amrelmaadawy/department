@@ -85,5 +85,18 @@
   "readyPackagesScreenTitle": "الباقات الجاهزة",
   "readyPackagesSubtitle": "اختر الباقة المناسبة وبدل فيها براحتك.. صممنالك خيارات متعددة تناسب كل الاحتياجات والميزانيات.",
   "pricePerSqm": "ر.س / متر",
-  "signature": "Signature"
+  "signature": "Signature",
+  "customFinishing": "تخصيص التشطيب",
+  "categoryFloors": "الأرضيات",
+  "categoryWalls": "الحوائط",
+  "categoryCeilings": "الأسقف",
+  "categoryDoors": "الأبواب",
+  "categoryReview": "مراجعة",
+  "chooseFloorType": "اختار نوع الأرضية",
+  "chooseWallType": "اختار نوع الحوائط",
+  "chooseCeilingType": "اختار نوع الأسقف",
+  "chooseDoorType": "اختار نوع الأبواب",
+  "reviewSelections": "مراجعة اختياراتك",
+  "totalEstimatedCost": "التكلفة التقديرية الإجمالي",
+  "nextButton": "التالي"
 }

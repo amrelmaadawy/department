@@ -252,4 +252,43 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get signature => 'Signature';
+
+  @override
+  String get customFinishing => 'تخصيص التشطيب';
+
+  @override
+  String get categoryFloors => 'الأرضيات';
+
+  @override
+  String get categoryWalls => 'الحوائط';
+
+  @override
+  String get categoryCeilings => 'الأسقف';
+
+  @override
+  String get categoryDoors => 'الأبواب';
+
+  @override
+  String get categoryReview => 'مراجعة';
+
+  @override
+  String get chooseFloorType => 'اختار نوع الأرضية';
+
+  @override
+  String get chooseWallType => 'اختار نوع الحوائط';
+
+  @override
+  String get chooseCeilingType => 'اختار نوع الأسقف';
+
+  @override
+  String get chooseDoorType => 'اختار نوع الأبواب';
+
+  @override
+  String get reviewSelections => 'مراجعة اختياراتك';
+
+  @override
+  String get totalEstimatedCost => 'التكلفة التقديرية الإجمالي';
+
+  @override
+  String get nextButton => 'التالي';
 }

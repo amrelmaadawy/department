@@ -87,5 +87,18 @@
   "readyPackagesScreenTitle": "Ready Packages",
   "readyPackagesSubtitle": "Choose the suitable package and modify it freely.. We designed multiple options to suit all needs and budgets.",
   "pricePerSqm": "SAR / sqm",
-  "signature": "Signature"
+  "signature": "Signature",
+  "customFinishing": "Custom Finishing",
+  "categoryFloors": "Floors",
+  "categoryWalls": "Walls",
+  "categoryCeilings": "Ceilings",
+  "categoryDoors": "Doors",
+  "categoryReview": "Review",
+  "chooseFloorType": "Choose Floor Type",
+  "chooseWallType": "Choose Wall Type",
+  "chooseCeilingType": "Choose Ceiling Type",
+  "chooseDoorType": "Choose Door Type",
+  "reviewSelections": "Review Your Selections",
+  "totalEstimatedCost": "Total Estimated Cost",
+  "nextButton": "Next"
 }

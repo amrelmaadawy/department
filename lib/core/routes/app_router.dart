@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:apartment/features/custom_finishing/presentation/screens/custom_finishing_screen.dart';
+
 import '../../../features/app_startup/presentation/screens/welcome_screen.dart';
 import '../../../features/auth/presentation/screens/auth_screen.dart';
 import '../../../features/layout/presentation/screens/layout_screen.dart';
@@ -17,6 +19,7 @@ class AppRouter {
   static const String projectDetails = '/project-details';
   static const String unitDetails = '/unit-details';
   static const String packages = '/packages';
+  static const String customFinishing = '/custom-finishing';
 
   static final router = GoRouter(
     initialLocation: initial,
@@ -105,6 +108,32 @@ class AppRouter {
                   ).chain(CurveTween(curve: curve));
                   return SlideTransition(
                     position: animation.drive(tween),
+                    child: child,
+                  );
+                },
+          );
+        },
+      ),
+      GoRoute(
+        path: customFinishing,
+        pageBuilder: (context, state) {
+          return CustomTransitionPage(
+            key: state.pageKey,
+            child: const CustomFinishingScreen(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+                  const begin = Offset(1.0, 0.0);
+                  const end = Offset.zero;
+                  const curve = Curves.easeInOut;
+
+                  var tween = Tween(
+                    begin: begin,
+                    end: end,
+                  ).chain(CurveTween(curve: curve));
+                  var offsetAnimation = animation.drive(tween);
+
+                  return SlideTransition(
+                    position: offsetAnimation,
                     child: child,
                   );
                 },

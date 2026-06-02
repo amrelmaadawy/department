@@ -571,6 +571,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Signature'**
   String get signature;
+
+  /// No description provided for @customFinishing.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom Finishing'**
+  String get customFinishing;
+
+  /// No description provided for @categoryFloors.
+  ///
+  /// In en, this message translates to:
+  /// **'Floors'**
+  String get categoryFloors;
+
+  /// No description provided for @categoryWalls.
+  ///
+  /// In en, this message translates to:
+  /// **'Walls'**
+  String get categoryWalls;
+
+  /// No description provided for @categoryCeilings.
+  ///
+  /// In en, this message translates to:
+  /// **'Ceilings'**
+  String get categoryCeilings;
+
+  /// No description provided for @categoryDoors.
+  ///
+  /// In en, this message translates to:
+  /// **'Doors'**
+  String get categoryDoors;
+
+  /// No description provided for @categoryReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Review'**
+  String get categoryReview;
+
+  /// No description provided for @chooseFloorType.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Floor Type'**
+  String get chooseFloorType;
+
+  /// No description provided for @chooseWallType.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Wall Type'**
+  String get chooseWallType;
+
+  /// No description provided for @chooseCeilingType.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Ceiling Type'**
+  String get chooseCeilingType;
+
+  /// No description provided for @chooseDoorType.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Door Type'**
+  String get chooseDoorType;
+
+  /// No description provided for @reviewSelections.
+  ///
+  /// In en, this message translates to:
+  /// **'Review Your Selections'**
+  String get reviewSelections;
+
+  /// No description provided for @totalEstimatedCost.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Estimated Cost'**
+  String get totalEstimatedCost;
+
+  /// No description provided for @nextButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get nextButton;
 }
 
 class _AppLocalizationsDelegate
