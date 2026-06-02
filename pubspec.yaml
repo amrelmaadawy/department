@@ -22,6 +22,8 @@ dependencies:
   dartz: ^0.10.1
   flutter_localizations:
     sdk: flutter
+  fluentui_system_icons: ^1.1.273
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:

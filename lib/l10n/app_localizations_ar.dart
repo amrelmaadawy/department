@@ -61,4 +61,30 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get navAccount => 'حسابي';
+
+  @override
+  String helloUser(String name) {
+    return 'مرحباً، $name';
+  }
+
+  @override
+  String get riyadh => 'الرياض';
+
+  @override
+  String get promoTitle => 'ابنِ مساحتك..\nعلى ذوقك';
+
+  @override
+  String get exploreProjects => 'استكشف المشاريع';
+
+  @override
+  String get featuredProjects => 'المشاريع المميزة';
+
+  @override
+  String get viewAll => 'عرض الكل';
+
+  @override
+  String get startsFrom => 'يبدأ من';
+
+  @override
+  String get sar => 'ر.س';
 }

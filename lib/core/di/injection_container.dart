@@ -1,4 +1,5 @@
 import 'package:apartment/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:apartment/features/home/presentation/cubit/home_cubit.dart';
 import 'package:apartment/features/layout/presentation/cubit/layout_cubit.dart';
 import 'package:get_it/get_it.dart';
 
@@ -14,6 +15,9 @@ Future<void> init() async {
   
   // Features - Layout
   sl.registerFactory(() => LayoutCubit());
+  
+  // Features - Home
+  sl.registerFactory(() => HomeCubit());
   
   // Core Data
   final sharedPreferences = await SharedPreferences.getInstance();

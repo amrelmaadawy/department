@@ -62,4 +62,30 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get navAccount => 'Account';
+
+  @override
+  String helloUser(String name) {
+    return 'Hello, $name';
+  }
+
+  @override
+  String get riyadh => 'Riyadh';
+
+  @override
+  String get promoTitle => 'Build your space..\nTo your taste';
+
+  @override
+  String get exploreProjects => 'Explore Projects';
+
+  @override
+  String get featuredProjects => 'Featured Projects';
+
+  @override
+  String get viewAll => 'View All';
+
+  @override
+  String get startsFrom => 'Starts from';
+
+  @override
+  String get sar => 'SAR';
 }

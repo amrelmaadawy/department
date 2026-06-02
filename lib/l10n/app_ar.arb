@@ -17,5 +17,20 @@
   "navProjects": "المشاريع",
   "navDesign": "صمم شقتك",
   "navProposals": "المقترح",
-  "navAccount": "حسابي"
+  "navAccount": "حسابي",
+  "helloUser": "مرحباً، {name}",
+  "@helloUser": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "riyadh": "الرياض",
+  "promoTitle": "ابنِ مساحتك..\nعلى ذوقك",
+  "exploreProjects": "استكشف المشاريع",
+  "featuredProjects": "المشاريع المميزة",
+  "viewAll": "عرض الكل",
+  "startsFrom": "يبدأ من",
+  "sar": "ر.س"
 }

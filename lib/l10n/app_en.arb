@@ -17,5 +17,20 @@
   "navProjects": "Projects",
   "navDesign": "Design",
   "navProposals": "Proposals",
-  "navAccount": "Account"
+  "navAccount": "Account",
+  "helloUser": "Hello, {name}",
+  "@helloUser": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "riyadh": "Riyadh",
+  "promoTitle": "Build your space..\nTo your taste",
+  "exploreProjects": "Explore Projects",
+  "featuredProjects": "Featured Projects",
+  "viewAll": "View All",
+  "startsFrom": "Starts from",
+  "sar": "SAR"
 }

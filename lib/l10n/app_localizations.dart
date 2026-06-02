@@ -205,6 +205,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Account'**
   String get navAccount;
+
+  /// No description provided for @helloUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Hello, {name}'**
+  String helloUser(String name);
+
+  /// No description provided for @riyadh.
+  ///
+  /// In en, this message translates to:
+  /// **'Riyadh'**
+  String get riyadh;
+
+  /// No description provided for @promoTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Build your space..\nTo your taste'**
+  String get promoTitle;
+
+  /// No description provided for @exploreProjects.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore Projects'**
+  String get exploreProjects;
+
+  /// No description provided for @featuredProjects.
+  ///
+  /// In en, this message translates to:
+  /// **'Featured Projects'**
+  String get featuredProjects;
+
+  /// No description provided for @viewAll.
+  ///
+  /// In en, this message translates to:
+  /// **'View All'**
+  String get viewAll;
+
+  /// No description provided for @startsFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'Starts from'**
+  String get startsFrom;
+
+  /// No description provided for @sar.
+  ///
+  /// In en, this message translates to:
+  /// **'SAR'**
+  String get sar;
 }
 
 class _AppLocalizationsDelegate
