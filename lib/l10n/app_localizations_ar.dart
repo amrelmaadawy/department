@@ -200,4 +200,43 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get unitSqMeter => 'متر';
+
+  @override
+  String get unitDetailsTitle => 'تفاصيل الوحدة';
+
+  @override
+  String get floorLabel => 'الدور';
+
+  @override
+  String get roomsLabel => 'غرف';
+
+  @override
+  String get bathroomsLabel => 'حمام';
+
+  @override
+  String get overviewTitle => 'نظرة عامة';
+
+  @override
+  String get costEstimateTitle => 'تقدير التكلفة';
+
+  @override
+  String get basicUnitPrice => 'السعر الأساسي للوحدة';
+
+  @override
+  String get semiFinished => '(نصف تشطيب)';
+
+  @override
+  String get estimatedFinishingCost => 'التكلفة التقديرية للتشطيب';
+
+  @override
+  String get basedOnLuxuryPackage => 'بناءً على الباقة الفاخرة';
+
+  @override
+  String get totalExpectedCost => 'إجمالي التكلفة المتوقعة';
+
+  @override
+  String get readyPackagesBtn => 'الباقات الجاهزة';
+
+  @override
+  String get startFinishingBtn => 'ابدأ التشطيب بنفسك';
 }

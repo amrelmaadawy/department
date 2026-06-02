@@ -1,0 +1,79 @@
+import 'package:flutter/material.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+
+import 'package:apartment/core/theme/app_colors.dart';
+import 'package:apartment/core/theme/app_fonts.dart';
+import 'package:apartment/core/theme/app_radius.dart';
+import 'package:apartment/core/theme/app_spacing.dart';
+import 'package:apartment/features/home/domain/entities/project_unit_entity.dart';
+import 'package:apartment/l10n/app_localizations.dart';
+
+class UnitSpecsChips extends StatelessWidget {
+  final ProjectUnitEntity unit;
+
+  const UnitSpecsChips({super.key, required this.unit});
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+      child: Wrap(
+        spacing: AppSpacing.sm,
+        runSpacing: AppSpacing.sm,
+        alignment: WrapAlignment.center,
+        children: [
+          _buildChip(
+            '${unit.area} ${l10n.unitSqMeter}',
+            FluentIcons.slide_size_24_regular,
+          ),
+          _buildChip(
+            '${l10n.floorLabel} ${unit.floor}',
+            FluentIcons.layer_24_regular,
+          ),
+          _buildChip(
+            '${unit.bedrooms} ${l10n.roomsLabel}',
+            FluentIcons.bed_24_regular,
+          ),
+          _buildChip(
+            '${unit.bathrooms} ${l10n.bathroomsLabel}',
+            FluentIcons.drop_24_regular,
+          ),
+          ...unit.extras.map(
+            (extra) => _buildChip(extra, FluentIcons.star_24_regular),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildChip(String label, IconData icon) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.md,
+        vertical: AppSpacing.sm,
+      ),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(AppRadius.md),
+        border: Border.all(color: AppColors.border, width: 1),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: AppFonts.labelMedium,
+              fontWeight: FontWeight.w600,
+              color: AppColors.textPrimary,
+            ),
+          ),
+          const SizedBox(width: AppSpacing.xs),
+          Icon(icon, size: 16, color: AppColors.gold),
+        ],
+      ),
+    );
+  }
+}

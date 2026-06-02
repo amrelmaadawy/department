@@ -70,5 +70,18 @@
   "unitAvailable": "Available",
   "unitSoldOut": "Sold Out",
   "unitSqMeter": "sqm",
-  "sar": "SAR"
+  "sar": "SAR",
+  "unitDetailsTitle": "Unit Details",
+  "floorLabel": "Floor",
+  "roomsLabel": "Rooms",
+  "bathroomsLabel": "Baths",
+  "overviewTitle": "Overview",
+  "costEstimateTitle": "Cost Estimation",
+  "basicUnitPrice": "Basic Unit Price",
+  "semiFinished": "(Semi-finished)",
+  "estimatedFinishingCost": "Estimated Finishing Cost",
+  "basedOnLuxuryPackage": "Based on luxury package",
+  "totalExpectedCost": "Total Expected Cost",
+  "readyPackagesBtn": "Ready Packages",
+  "startFinishingBtn": "Start Finishing Yourself"
 }

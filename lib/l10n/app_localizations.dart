@@ -469,6 +469,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'sqm'**
   String get unitSqMeter;
+
+  /// No description provided for @unitDetailsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unit Details'**
+  String get unitDetailsTitle;
+
+  /// No description provided for @floorLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Floor'**
+  String get floorLabel;
+
+  /// No description provided for @roomsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Rooms'**
+  String get roomsLabel;
+
+  /// No description provided for @bathroomsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Baths'**
+  String get bathroomsLabel;
+
+  /// No description provided for @overviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Overview'**
+  String get overviewTitle;
+
+  /// No description provided for @costEstimateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cost Estimation'**
+  String get costEstimateTitle;
+
+  /// No description provided for @basicUnitPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Basic Unit Price'**
+  String get basicUnitPrice;
+
+  /// No description provided for @semiFinished.
+  ///
+  /// In en, this message translates to:
+  /// **'(Semi-finished)'**
+  String get semiFinished;
+
+  /// No description provided for @estimatedFinishingCost.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated Finishing Cost'**
+  String get estimatedFinishingCost;
+
+  /// No description provided for @basedOnLuxuryPackage.
+  ///
+  /// In en, this message translates to:
+  /// **'Based on luxury package'**
+  String get basedOnLuxuryPackage;
+
+  /// No description provided for @totalExpectedCost.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Expected Cost'**
+  String get totalExpectedCost;
+
+  /// No description provided for @readyPackagesBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready Packages'**
+  String get readyPackagesBtn;
+
+  /// No description provided for @startFinishingBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Finishing Yourself'**
+  String get startFinishingBtn;
 }
 
 class _AppLocalizationsDelegate

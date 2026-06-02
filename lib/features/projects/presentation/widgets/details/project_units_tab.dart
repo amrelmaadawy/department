@@ -3,6 +3,8 @@ import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/features/home/domain/entities/project_unit_entity.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:apartment/core/routes/app_router.dart';
 import 'package:apartment/l10n/app_localizations.dart';
 import 'project_unit_card.dart';
 
@@ -91,6 +93,18 @@ class _ProjectUnitsTabState extends State<ProjectUnitsTab> {
                           setState(() {
                             _selectedUnitId = unit.id;
                           });
+                          // Allow animation to finish or user to see selection
+                          Future.delayed(const Duration(milliseconds: 150), () {
+                            if (context.mounted) {
+                              context.push(
+                                AppRouter.unitDetails,
+                                extra: {
+                                  'unit': unit,
+                                  'heroTag': 'unit_${unit.id}',
+                                },
+                              );
+                            }
+                          });
                         },
                       );
                     },
@@ -112,6 +126,17 @@ class _ProjectUnitsTabState extends State<ProjectUnitsTab> {
                       onTap: () {
                         setState(() {
                           _selectedUnitId = unit.id;
+                        });
+                        Future.delayed(const Duration(milliseconds: 150), () {
+                          if (context.mounted) {
+                            context.push(
+                              AppRouter.unitDetails,
+                              extra: {
+                                'unit': unit,
+                                'heroTag': 'unit_${unit.id}',
+                              },
+                            );
+                          }
                         });
                       },
                     );

@@ -59,7 +59,6 @@
   "executionSupervisionDesc": "فريق من المهندسين الخبراء لمتابعة سير العمل في الموقع، لضمان تطابق التنفيذ مع التصاميم بأعلى معايير الجودة.",
   "materialSelection": "اختيار الخامات",
   "serviceMaterialsDesc": "مساعدتك في انتقاء أجود الخامات والمواد الأولية من أفضل الموردين، بما يتوافق مع الميزانية والتصميم المعتمد.",
-  "filterAll": "الكل",
   "filterApartment": "شقق",
   "filterVilla": "فيلات",
   "filterDuplex": "دوبلكس",
@@ -70,5 +69,17 @@
   "unitAvailable": "متاح",
   "unitSoldOut": "مباع",
   "unitSqMeter": "متر",
-  "sar": "ر.س"
+  "unitDetailsTitle": "تفاصيل الوحدة",
+  "floorLabel": "الدور",
+  "roomsLabel": "غرف",
+  "bathroomsLabel": "حمام",
+  "overviewTitle": "نظرة عامة",
+  "costEstimateTitle": "تقدير التكلفة",
+  "basicUnitPrice": "السعر الأساسي للوحدة",
+  "semiFinished": "(نصف تشطيب)",
+  "estimatedFinishingCost": "التكلفة التقديرية للتشطيب",
+  "basedOnLuxuryPackage": "بناءً على الباقة الفاخرة",
+  "totalExpectedCost": "إجمالي التكلفة المتوقعة",
+  "readyPackagesBtn": "الباقات الجاهزة",
+  "startFinishingBtn": "ابدأ التشطيب بنفسك"
 }

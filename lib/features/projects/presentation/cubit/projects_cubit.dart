@@ -69,6 +69,10 @@ class ProjectsCubit extends Cubit<ProjectsState> {
         price: 650000,
         status: UnitStatus.available,
         imagePath: 'assets/images/unit_apartment.png',
+        floor: 4,
+        extras: ['تراس إضافي', 'غرفة خادمة'],
+        description:
+            'وحدة سكنية فاخرة بتصميم عصري يتيح أقصى استفادة من المساحات الطبيعية. تتميز بتهوية ممتازة وإضاءة طبيعية تغطي كافة الغرف بفضل الواجهة البحرية.',
       ),
       const ProjectUnitEntity(
         id: '102',
@@ -80,6 +84,10 @@ class ProjectsCubit extends Cubit<ProjectsState> {
         price: 2500000,
         status: UnitStatus.available,
         imagePath: 'assets/images/unit_villa.png',
+        floor: 1,
+        extras: ['مسبح خاص', 'حديقة واسعة'],
+        description:
+            'فيلا فخمة توفر لك ولعائلتك الخصوصية التامة مع مساحات خضراء شاسعة وتصميم كلاسيكي حديث.',
       ),
       const ProjectUnitEntity(
         id: '103',
@@ -91,6 +99,10 @@ class ProjectsCubit extends Cubit<ProjectsState> {
         price: 1200000,
         status: UnitStatus.sold,
         imagePath: 'assets/images/unit_duplex.png',
+        floor: 5,
+        extras: ['روف جاردن'],
+        description:
+            'دوبلكس بإطلالة بانورامية رائعة، يوفر مساحات مفتوحة ومرونة عالية في تقسيم الغرف والديكور.',
       ),
       const ProjectUnitEntity(
         id: '104',
@@ -102,6 +114,10 @@ class ProjectsCubit extends Cubit<ProjectsState> {
         price: 850000,
         status: UnitStatus.available,
         imagePath: 'assets/images/unit_apartment.png',
+        floor: 2,
+        extras: ['حديقة خاصة'],
+        description:
+            'شقة أرضية ملحق بها حديقة خاصة توفر متنفساً طبيعياً، تصميم حديث يستغل كل متر بحرفية.',
       ),
     ];
 

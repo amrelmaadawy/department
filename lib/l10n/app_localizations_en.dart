@@ -201,4 +201,43 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get unitSqMeter => 'sqm';
+
+  @override
+  String get unitDetailsTitle => 'Unit Details';
+
+  @override
+  String get floorLabel => 'Floor';
+
+  @override
+  String get roomsLabel => 'Rooms';
+
+  @override
+  String get bathroomsLabel => 'Baths';
+
+  @override
+  String get overviewTitle => 'Overview';
+
+  @override
+  String get costEstimateTitle => 'Cost Estimation';
+
+  @override
+  String get basicUnitPrice => 'Basic Unit Price';
+
+  @override
+  String get semiFinished => '(Semi-finished)';
+
+  @override
+  String get estimatedFinishingCost => 'Estimated Finishing Cost';
+
+  @override
+  String get basedOnLuxuryPackage => 'Based on luxury package';
+
+  @override
+  String get totalExpectedCost => 'Total Expected Cost';
+
+  @override
+  String get readyPackagesBtn => 'Ready Packages';
+
+  @override
+  String get startFinishingBtn => 'Start Finishing Yourself';
 }
