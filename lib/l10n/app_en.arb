@@ -117,5 +117,15 @@
   "expectedVisitDate": "Expected Visit Date",
   "trackExecutionBtn": "Track Execution",
   "returnToHomeBtn": "Return to Home",
-  "finishItYourWay": "Finish It Your Way"
+  "finishItYourWay": "Finish It Your Way",
+  "profileTitle": "My Account",
+  "premiumCustomer": "Premium Customer",
+  "myUnits": "My Units",
+  "myContracts": "My Contracts",
+  "myDesigns": "My Designs",
+  "accountSettings": "Account Settings",
+  "appLanguage": "App Language",
+  "notifications": "Notifications",
+  "techSupport": "Technical Support",
+  "logout": "Log out"
 }

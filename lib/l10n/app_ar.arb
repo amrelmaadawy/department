@@ -115,5 +115,15 @@
   "expectedVisitDate": "التاريخ المتوقع للزيارة",
   "trackExecutionBtn": "متابعة التنفيذ",
   "returnToHomeBtn": "العودة للرئيسية",
-  "finishItYourWay": "شطبها بكيفك"
+  "finishItYourWay": "شطبها بكيفك",
+  "profileTitle": "حسابي",
+  "premiumCustomer": "عميل بريميوم",
+  "myUnits": "وحداتي",
+  "myContracts": "عقودي",
+  "myDesigns": "تصاميمي",
+  "accountSettings": "إعدادات الحساب",
+  "appLanguage": "لغة التطبيق",
+  "notifications": "الإشعارات",
+  "techSupport": "الدعم الفني والمساعدة",
+  "logout": "تسجيل الخروج"
 }

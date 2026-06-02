@@ -346,4 +346,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get finishItYourWay => 'Finish It Your Way';
+
+  @override
+  String get profileTitle => 'My Account';
+
+  @override
+  String get premiumCustomer => 'Premium Customer';
+
+  @override
+  String get myUnits => 'My Units';
+
+  @override
+  String get myContracts => 'My Contracts';
+
+  @override
+  String get myDesigns => 'My Designs';
+
+  @override
+  String get accountSettings => 'Account Settings';
+
+  @override
+  String get appLanguage => 'App Language';
+
+  @override
+  String get notifications => 'Notifications';
+
+  @override
+  String get techSupport => 'Technical Support';
+
+  @override
+  String get logout => 'Log out';
 }

@@ -345,4 +345,34 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get finishItYourWay => 'شطبها بكيفك';
+
+  @override
+  String get profileTitle => 'حسابي';
+
+  @override
+  String get premiumCustomer => 'عميل بريميوم';
+
+  @override
+  String get myUnits => 'وحداتي';
+
+  @override
+  String get myContracts => 'عقودي';
+
+  @override
+  String get myDesigns => 'تصاميمي';
+
+  @override
+  String get accountSettings => 'إعدادات الحساب';
+
+  @override
+  String get appLanguage => 'لغة التطبيق';
+
+  @override
+  String get notifications => 'الإشعارات';
+
+  @override
+  String get techSupport => 'الدعم الفني والمساعدة';
+
+  @override
+  String get logout => 'تسجيل الخروج';
 }

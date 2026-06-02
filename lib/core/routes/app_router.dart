@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:apartment/features/custom_finishing/presentation/screens/custom_finishing_screen.dart';
 import 'package:apartment/features/custom_finishing/presentation/screens/booking_success_screen.dart';
+import 'package:apartment/features/profile/presentation/screens/profile_screen.dart';
 
 import '../../../features/app_startup/presentation/screens/welcome_screen.dart';
 import '../../../features/auth/presentation/screens/auth_screen.dart';
@@ -25,6 +26,7 @@ class AppRouter {
   static const String packages = '/packages';
   static const String customFinishing = '/custom-finishing';
   static const String bookingSuccess = '/booking-success';
+  static const String profile = '/profile';
 
   static final router = GoRouter(
     initialLocation: initial,
@@ -162,6 +164,10 @@ class AppRouter {
                 },
           );
         },
+      ),
+      GoRoute(
+        path: profile,
+        builder: (context, state) => const ProfileScreen(),
       ),
     ],
   );

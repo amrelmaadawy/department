@@ -751,6 +751,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Finish It Your Way'**
   String get finishItYourWay;
+
+  /// No description provided for @profileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My Account'**
+  String get profileTitle;
+
+  /// No description provided for @premiumCustomer.
+  ///
+  /// In en, this message translates to:
+  /// **'Premium Customer'**
+  String get premiumCustomer;
+
+  /// No description provided for @myUnits.
+  ///
+  /// In en, this message translates to:
+  /// **'My Units'**
+  String get myUnits;
+
+  /// No description provided for @myContracts.
+  ///
+  /// In en, this message translates to:
+  /// **'My Contracts'**
+  String get myContracts;
+
+  /// No description provided for @myDesigns.
+  ///
+  /// In en, this message translates to:
+  /// **'My Designs'**
+  String get myDesigns;
+
+  /// No description provided for @accountSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Account Settings'**
+  String get accountSettings;
+
+  /// No description provided for @appLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'App Language'**
+  String get appLanguage;
+
+  /// No description provided for @notifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notifications;
+
+  /// No description provided for @techSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Technical Support'**
+  String get techSupport;
+
+  /// No description provided for @logout.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out'**
+  String get logout;
 }
 
 class _AppLocalizationsDelegate

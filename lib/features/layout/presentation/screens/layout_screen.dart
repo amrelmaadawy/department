@@ -1,5 +1,6 @@
 import 'package:apartment/features/home/presentation/screens/home_screen.dart';
 import 'package:apartment/features/projects/presentation/screens/projects_screen.dart';
+import 'package:apartment/features/profile/presentation/screens/profile_screen.dart';
 import 'package:apartment/features/layout/presentation/widgets/custom_bottom_nav_bar.dart';
 import 'package:apartment/l10n/app_localizations.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
@@ -59,7 +60,7 @@ class LayoutView extends StatelessWidget {
       const HomeScreen(),
       const ProjectsScreen(),
       Center(child: Text(l10n.navDesign)),
-      Center(child: Text(l10n.navAccount)),
+      const ProfileScreen(),
     ];
 
     return BlocBuilder<LayoutCubit, int>(
