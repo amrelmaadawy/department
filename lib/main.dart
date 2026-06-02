@@ -1,5 +1,8 @@
 import 'package:apartment/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'core/utils/app_bloc_observer.dart';
 
 import 'core/constants/app_constants.dart';
 import 'core/di/injection_container.dart' as di;
@@ -9,6 +12,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
   await di.init();
+  
+  Bloc.observer = AppBlocObserver();
   
   runApp(const MyApp());
 }
