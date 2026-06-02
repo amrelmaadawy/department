@@ -153,8 +153,18 @@ class CustomFinishingCubit extends Cubit<CustomFinishingState> {
       materialsCost += (material.pricePerSqm * baseUnitAreaSqm);
     }
 
-    final total = baseFinishingCost + materialsCost;
+    final double workmanship = 65000.0;
+    final double subtotal = materialsCost + workmanship;
+    final double vat = subtotal * 0.14; // 14% VAT
+    final double total = subtotal + vat;
 
-    emit(state.copyWith(totalEstimatedCost: total));
+    emit(
+      state.copyWith(
+        materialsCost: materialsCost,
+        workmanshipCost: workmanship,
+        vatAmount: vat,
+        totalEstimatedCost: total,
+      ),
+    );
   }
 }

@@ -100,5 +100,15 @@
   "chooseDoorType": "Choose Door Type",
   "reviewSelections": "Review Your Selections",
   "totalEstimatedCost": "Total Estimated Cost",
-  "nextButton": "Next"
+  "nextButton": "Next",
+  "selectionsSummary": "Selections Summary",
+  "reviewNote": "Note: Displayed prices are estimated based on a standard area (100 sqm). Final measurements will be reviewed by the specialized engineer.",
+  "costDetails": "Cost Details",
+  "totalMaterials": "Total Materials",
+  "totalWorkmanship": "Total Workmanship",
+  "vatAmount": "VAT (14%)",
+  "totalAmount": "Total Amount",
+  "confirmBookingBtn": "Confirm & Continue Booking",
+  "editSelectionsBtn": "Edit Selections",
+  "termsAgreementText": "By clicking confirm, you agree to the Terms and Conditions"
 }

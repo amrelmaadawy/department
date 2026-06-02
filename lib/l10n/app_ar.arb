@@ -98,5 +98,15 @@
   "chooseDoorType": "اختار نوع الأبواب",
   "reviewSelections": "مراجعة اختياراتك",
   "totalEstimatedCost": "التكلفة التقديرية الإجمالي",
-  "nextButton": "التالي"
+  "nextButton": "التالي",
+  "selectionsSummary": "ملخص الاختيارات",
+  "reviewNote": "ملاحظة: الأسعار المعروضة هي أسعار تقديرية بناءً على المساحة القياسية (100 متر مربع). سيتم مراجعة المقاسات النهائية من قبل المهندس المختص.",
+  "costDetails": "تفاصيل التكلفة",
+  "totalMaterials": "إجمالي الخامات",
+  "totalWorkmanship": "إجمالي المصنعية",
+  "vatAmount": "ضريبة القيمة المضافة (14%)",
+  "totalAmount": "المبلغ الإجمالي",
+  "confirmBookingBtn": "تأكيد ومتابعة الحجز",
+  "editSelectionsBtn": "تعديل الاختيارات",
+  "termsAgreementText": "بالضغط على تأكيد، أنت توافق على الشروط والأحكام"
 }

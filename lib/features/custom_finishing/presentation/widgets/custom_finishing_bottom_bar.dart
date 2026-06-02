@@ -129,7 +129,8 @@ class CustomFinishingBottomBar extends StatelessWidget {
                         ),
                         const SizedBox(width: AppSpacing.sm),
                         const Icon(
-                          FluentIcons.arrow_right_20_filled, // Points other way based on request
+                          FluentIcons
+                              .arrow_right_20_filled, // Points other way based on request
                           color: AppColors.white,
                           size: 20,
                         ),

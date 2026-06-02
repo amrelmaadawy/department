@@ -13,6 +13,7 @@ import '../cubit/custom_finishing_state.dart';
 import '../widgets/finishing_category_tabs.dart';
 import '../widgets/material_card.dart';
 import '../widgets/custom_finishing_bottom_bar.dart';
+import '../widgets/review/custom_finishing_review_view.dart';
 
 class CustomFinishingScreen extends StatelessWidget {
   const CustomFinishingScreen({super.key});
@@ -49,7 +50,8 @@ class CustomFinishingView extends StatelessWidget {
         ),
         leading: IconButton(
           icon: const Icon(
-            FluentIcons.arrow_left_24_filled, // Pointing opposite way as requested
+            FluentIcons
+                .arrow_left_24_filled, // Pointing opposite way as requested
             color: AppColors.primary,
           ),
           onPressed: () => context.pop(),
@@ -75,11 +77,7 @@ class CustomFinishingView extends StatelessWidget {
                 }
 
                 if (state.currentCategory == MaterialCategory.review) {
-                  return const Center(
-                    child: Text(
-                      'Review Screen Placeholder',
-                    ), // Will implement full review later
-                  );
+                  return const CustomFinishingReviewView();
                 }
 
                 final currentMaterials =
@@ -141,8 +139,17 @@ class CustomFinishingView extends StatelessWidget {
             ),
           ),
 
-          // Sticky Bottom Bar
-          const CustomFinishingBottomBar(),
+          // Sticky Bottom Bar - Only show if not in review
+          BlocBuilder<CustomFinishingCubit, CustomFinishingState>(
+            buildWhen: (previous, current) =>
+                previous.currentCategory != current.currentCategory,
+            builder: (context, state) {
+              if (state.currentCategory == MaterialCategory.review) {
+                return const SizedBox.shrink();
+              }
+              return const CustomFinishingBottomBar();
+            },
+          ),
         ],
       ),
     );

@@ -6,6 +6,9 @@ class CustomFinishingState extends Equatable {
   final MaterialCategory currentCategory;
   final Map<MaterialCategory, List<MaterialEntity>> availableMaterials;
   final Map<MaterialCategory, MaterialEntity> selectedMaterials;
+  final double materialsCost;
+  final double workmanshipCost;
+  final double vatAmount;
   final double totalEstimatedCost;
   final bool isLoading;
 
@@ -13,7 +16,10 @@ class CustomFinishingState extends Equatable {
     this.currentCategory = MaterialCategory.floors,
     this.availableMaterials = const {},
     this.selectedMaterials = const {},
-    this.totalEstimatedCost = 144000.0, // Base starting cost mock
+    this.materialsCost = 0.0,
+    this.workmanshipCost = 65000.0,
+    this.vatAmount = 0.0,
+    this.totalEstimatedCost = 0.0,
     this.isLoading = true,
   });
 
@@ -21,6 +27,9 @@ class CustomFinishingState extends Equatable {
     MaterialCategory? currentCategory,
     Map<MaterialCategory, List<MaterialEntity>>? availableMaterials,
     Map<MaterialCategory, MaterialEntity>? selectedMaterials,
+    double? materialsCost,
+    double? workmanshipCost,
+    double? vatAmount,
     double? totalEstimatedCost,
     bool? isLoading,
   }) {
@@ -28,6 +37,9 @@ class CustomFinishingState extends Equatable {
       currentCategory: currentCategory ?? this.currentCategory,
       availableMaterials: availableMaterials ?? this.availableMaterials,
       selectedMaterials: selectedMaterials ?? this.selectedMaterials,
+      materialsCost: materialsCost ?? this.materialsCost,
+      workmanshipCost: workmanshipCost ?? this.workmanshipCost,
+      vatAmount: vatAmount ?? this.vatAmount,
       totalEstimatedCost: totalEstimatedCost ?? this.totalEstimatedCost,
       isLoading: isLoading ?? this.isLoading,
     );
@@ -38,6 +50,9 @@ class CustomFinishingState extends Equatable {
     currentCategory,
     availableMaterials,
     selectedMaterials,
+    materialsCost,
+    workmanshipCost,
+    vatAmount,
     totalEstimatedCost,
     isLoading,
   ];

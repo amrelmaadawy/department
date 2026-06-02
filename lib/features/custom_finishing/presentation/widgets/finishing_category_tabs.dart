@@ -42,7 +42,9 @@ class FinishingCategoryTabs extends StatelessWidget {
                     vertical: 12,
                   ),
                   decoration: BoxDecoration(
-                    color: isSelected ? AppColors.primary : AppColors.background,
+                    color: isSelected
+                        ? AppColors.primary
+                        : AppColors.background,
                     borderRadius: BorderRadius.circular(30),
                     border: Border.all(
                       color: isSelected ? AppColors.gold : AppColors.border,

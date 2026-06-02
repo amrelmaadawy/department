@@ -292,4 +292,36 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get nextButton => 'Next';
+
+  @override
+  String get selectionsSummary => 'Selections Summary';
+
+  @override
+  String get reviewNote =>
+      'Note: Displayed prices are estimated based on a standard area (100 sqm). Final measurements will be reviewed by the specialized engineer.';
+
+  @override
+  String get costDetails => 'Cost Details';
+
+  @override
+  String get totalMaterials => 'Total Materials';
+
+  @override
+  String get totalWorkmanship => 'Total Workmanship';
+
+  @override
+  String get vatAmount => 'VAT (14%)';
+
+  @override
+  String get totalAmount => 'Total Amount';
+
+  @override
+  String get confirmBookingBtn => 'Confirm & Continue Booking';
+
+  @override
+  String get editSelectionsBtn => 'Edit Selections';
+
+  @override
+  String get termsAgreementText =>
+      'By clicking confirm, you agree to the Terms and Conditions';
 }

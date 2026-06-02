@@ -291,4 +291,36 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get nextButton => 'التالي';
+
+  @override
+  String get selectionsSummary => 'ملخص الاختيارات';
+
+  @override
+  String get reviewNote =>
+      'ملاحظة: الأسعار المعروضة هي أسعار تقديرية بناءً على المساحة القياسية (100 متر مربع). سيتم مراجعة المقاسات النهائية من قبل المهندس المختص.';
+
+  @override
+  String get costDetails => 'تفاصيل التكلفة';
+
+  @override
+  String get totalMaterials => 'إجمالي الخامات';
+
+  @override
+  String get totalWorkmanship => 'إجمالي المصنعية';
+
+  @override
+  String get vatAmount => 'ضريبة القيمة المضافة (14%)';
+
+  @override
+  String get totalAmount => 'المبلغ الإجمالي';
+
+  @override
+  String get confirmBookingBtn => 'تأكيد ومتابعة الحجز';
+
+  @override
+  String get editSelectionsBtn => 'تعديل الاختيارات';
+
+  @override
+  String get termsAgreementText =>
+      'بالضغط على تأكيد، أنت توافق على الشروط والأحكام';
 }

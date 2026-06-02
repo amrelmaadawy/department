@@ -649,6 +649,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Next'**
   String get nextButton;
+
+  /// No description provided for @selectionsSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Selections Summary'**
+  String get selectionsSummary;
+
+  /// No description provided for @reviewNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note: Displayed prices are estimated based on a standard area (100 sqm). Final measurements will be reviewed by the specialized engineer.'**
+  String get reviewNote;
+
+  /// No description provided for @costDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Cost Details'**
+  String get costDetails;
+
+  /// No description provided for @totalMaterials.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Materials'**
+  String get totalMaterials;
+
+  /// No description provided for @totalWorkmanship.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Workmanship'**
+  String get totalWorkmanship;
+
+  /// No description provided for @vatAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'VAT (14%)'**
+  String get vatAmount;
+
+  /// No description provided for @totalAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Amount'**
+  String get totalAmount;
+
+  /// No description provided for @confirmBookingBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm & Continue Booking'**
+  String get confirmBookingBtn;
+
+  /// No description provided for @editSelectionsBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Selections'**
+  String get editSelectionsBtn;
+
+  /// No description provided for @termsAgreementText.
+  ///
+  /// In en, this message translates to:
+  /// **'By clicking confirm, you agree to the Terms and Conditions'**
+  String get termsAgreementText;
 }
 
 class _AppLocalizationsDelegate
