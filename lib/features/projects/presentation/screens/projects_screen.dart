@@ -53,7 +53,12 @@ class _ProjectsViewState extends State<ProjectsView> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final filterOptions = [l10n.filterAll, l10n.riyadh, l10n.filterJeddah, l10n.filterEastern];
+    final filterOptions = [
+      l10n.filterAll,
+      l10n.riyadh,
+      l10n.filterJeddah,
+      l10n.filterEastern,
+    ];
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -90,10 +95,13 @@ class _ProjectsViewState extends State<ProjectsView> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: AppSpacing.lg,
+                            ),
                             child: CustomSearchBar(
                               hintText: l10n.searchProject,
-                              onChanged: (query) => _onSearchChanged(context, query),
+                              onChanged: (query) =>
+                                  _onSearchChanged(context, query),
                             ),
                           ),
                           const SizedBox(height: AppSpacing.md),
@@ -101,7 +109,9 @@ class _ProjectsViewState extends State<ProjectsView> {
                             FilterChipsRow(
                               filters: filterOptions,
                               selectedFilter: state.selectedFilter,
-                              onFilterSelected: (city) => context.read<ProjectsCubit>().filterByCity(city),
+                              onFilterSelected: (city) => context
+                                  .read<ProjectsCubit>()
+                                  .filterByCity(city),
                             ),
                           const SizedBox(height: AppSpacing.sm),
                         ],
@@ -132,21 +142,23 @@ class _ProjectsViewState extends State<ProjectsView> {
                           ),
                         )
                       : SliverList(
-                          delegate: SliverChildBuilderDelegate(
-                            (context, index) {
-                              return ProjectListCard(
-                                project: state.filteredProjects[index],
-                              );
-                            },
-                            childCount: state.filteredProjects.length,
-                          ),
+                          delegate: SliverChildBuilderDelegate((
+                            context,
+                            index,
+                          ) {
+                            return ProjectListCard(
+                              project: state.filteredProjects[index],
+                            );
+                          }, childCount: state.filteredProjects.length),
                         )
                 else if (state is ProjectsError)
                   SliverFillRemaining(
                     child: Center(child: Text(state.message)),
                   ),
-                  
-                const SliverToBoxAdapter(child: SizedBox(height: 100)), // Bottom padding
+
+                const SliverToBoxAdapter(
+                  child: SizedBox(height: 100),
+                ), // Bottom padding
               ],
             );
           },
@@ -166,14 +178,17 @@ class _ProjectsViewState extends State<ProjectsView> {
           highlightColor: Colors.grey[100]!,
           child: Container(
             height: cardHeight,
-            margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.sm),
+            margin: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.lg,
+              vertical: AppSpacing.sm,
+            ),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(AppRadius.md),
             ),
           ),
         );
-      }
+      },
     );
   }
 }
@@ -184,7 +199,11 @@ class _StickyHeaderDelegate extends SliverPersistentHeaderDelegate {
   _StickyHeaderDelegate({required this.child});
 
   @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
     return child;
   }
 

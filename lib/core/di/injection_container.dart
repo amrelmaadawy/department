@@ -13,21 +13,21 @@ final sl = GetIt.instance;
 Future<void> init() async {
   // Features - Auth
   sl.registerFactory(() => AuthCubit());
-  
+
   // Features - Layout
   sl.registerFactory(() => LayoutCubit());
-  
+
   // Features - Home
   sl.registerFactory(() => HomeCubit());
-  
+
   // Features - Projects
   sl.registerFactory(() => ProjectsCubit());
-  
+
   // Core Data
   final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton(() => sharedPreferences);
   sl.registerLazySingleton(() => const FlutterSecureStorage());
-  
+
   // Network
   sl.registerLazySingleton(() => Dio());
 

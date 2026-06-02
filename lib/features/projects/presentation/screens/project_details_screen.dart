@@ -2,6 +2,7 @@ import 'package:apartment/features/projects/presentation/widgets/details/project
 import 'package:apartment/features/projects/presentation/widgets/details/project_details_header.dart';
 import 'package:apartment/features/projects/presentation/widgets/details/project_info_section.dart';
 import 'package:apartment/features/projects/presentation/widgets/details/project_overview_tab.dart';
+import 'package:apartment/features/projects/presentation/widgets/details/project_services_tab.dart';
 import 'package:apartment/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
@@ -15,13 +16,18 @@ class ProjectDetailsScreen extends StatefulWidget {
   final ProjectEntity project;
   final String heroTag;
 
-  const ProjectDetailsScreen({super.key, required this.project, required this.heroTag});
+  const ProjectDetailsScreen({
+    super.key,
+    required this.project,
+    required this.heroTag,
+  });
 
   @override
   State<ProjectDetailsScreen> createState() => _ProjectDetailsScreenState();
 }
 
-class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> with SingleTickerProviderStateMixin {
+class _ProjectDetailsScreenState extends State<ProjectDetailsScreen>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -45,13 +51,16 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> with Single
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
           // 1. Hero Header
-          ProjectDetailsHeader(project: widget.project, heroTag: widget.heroTag),
-          
+          ProjectDetailsHeader(
+            project: widget.project,
+            heroTag: widget.heroTag,
+          ),
+
           // 2. Title & Info
           SliverToBoxAdapter(
             child: ProjectInfoSection(project: widget.project),
           ),
-          
+
           // 3. Amenities
           SliverToBoxAdapter(
             child: ProjectAmenitiesRow(amenities: widget.project.amenities),
@@ -67,8 +76,16 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> with Single
                 unselectedLabelColor: AppColors.textSecondary,
                 indicatorColor: AppColors.gold,
                 indicatorWeight: 3,
-                labelStyle: const TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Cairo', fontSize: AppFonts.bodyMedium),
-                unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.normal, fontFamily: 'Cairo', fontSize: AppFonts.bodyMedium),
+                labelStyle: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Cairo',
+                  fontSize: AppFonts.bodyMedium,
+                ),
+                unselectedLabelStyle: const TextStyle(
+                  fontWeight: FontWeight.normal,
+                  fontFamily: 'Cairo',
+                  fontSize: AppFonts.bodyMedium,
+                ),
                 tabs: [
                   Tab(text: l10n.tabOverview),
                   Tab(text: l10n.tabUnits),
@@ -86,15 +103,25 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> with Single
               child: ProjectOverviewTab(project: widget.project),
             ),
             // Placeholder Units
-            Center(child: Text(l10n.tabUnits, style: const TextStyle(color: AppColors.textSecondary))),
-            // Placeholder Services
-            Center(child: Text(l10n.tabServices, style: const TextStyle(color: AppColors.textSecondary))),
+            Center(
+              child: Text(
+                l10n.tabUnits,
+                style: const TextStyle(color: AppColors.textSecondary),
+              ),
+            ),
+            // Services Tab
+            SingleChildScrollView(
+              child: ProjectServicesTab(services: widget.project.services),
+            ),
           ],
         ),
       ),
       bottomNavigationBar: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.sm),
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.lg,
+            vertical: AppSpacing.sm,
+          ),
           child: CustomButton(
             text: l10n.chooseUnit,
             onPressed: () {},
@@ -119,11 +146,12 @@ class _StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
   double get maxExtent => _tabBar.preferredSize.height;
 
   @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Container(
-      color: AppColors.background,
-      child: _tabBar,
-    );
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
+    return Container(color: AppColors.background, child: _tabBar);
   }
 
   @override

@@ -133,4 +133,42 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get million => 'Million';
+
+  @override
+  String get ourServices => 'Our Services';
+
+  @override
+  String get ourServicesDesc =>
+      'We offer a comprehensive range of luxury finishing and decoration services, turning your space into a masterpiece that meets the highest expectations.';
+
+  @override
+  String get details => 'Details';
+
+  @override
+  String get smartVisualization => 'Smart Visualization';
+
+  @override
+  String get smartVisualizationDesc =>
+      'Visualize your space before execution using AI and ultra-realistic 3D designs to ensure the perfect choice.';
+
+  @override
+  String get interiorDesignPackages => 'Interior Design Packages';
+
+  @override
+  String get interiorDesignPackagesDesc =>
+      'Customized packages designed to suit your taste, from initial layouts to the finest technical details.';
+
+  @override
+  String get executionSupervision => 'Execution Supervision';
+
+  @override
+  String get executionSupervisionDesc =>
+      'A team of expert engineers to monitor progress on-site, ensuring execution perfectly matches designs with top quality.';
+
+  @override
+  String get materialSelection => 'Material Selection';
+
+  @override
+  String get materialSelectionDesc =>
+      'Assisting you in selecting the finest materials from top suppliers, aligning with your budget and approved design.';
 }

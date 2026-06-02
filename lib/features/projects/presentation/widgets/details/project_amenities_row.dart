@@ -14,7 +14,8 @@ class ProjectAmenitiesRow extends StatelessWidget {
     if (amenity.contains('مسبح')) return FluentIcons.sim_24_regular;
     if (amenity.contains('جيم')) return FluentIcons.dumbbell_24_regular;
     if (amenity.contains('أمن')) return FluentIcons.shield_24_regular;
-    if (amenity.contains('جراج')) return FluentIcons.vehicle_car_parking_16_regular;
+    if (amenity.contains('جراج'))
+      return FluentIcons.vehicle_car_parking_16_regular;
     return FluentIcons.star_24_regular; // Fallback
   }
 
@@ -23,7 +24,10 @@ class ProjectAmenitiesRow extends StatelessWidget {
     if (amenities.isEmpty) return const SizedBox.shrink();
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: AppSpacing.xl, horizontal: AppSpacing.lg),
+      padding: const EdgeInsets.symmetric(
+        vertical: AppSpacing.xl,
+        horizontal: AppSpacing.lg,
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: amenities.map((amenity) {

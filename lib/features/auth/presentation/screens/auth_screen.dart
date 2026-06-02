@@ -44,15 +44,15 @@ class AuthView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: AppSpacing.xxl),
-              
+
               // Logo
               Image.asset(
                 'assets/images/auth_logo.png',
                 height: AppSizes.logoMedium,
               ),
-              
+
               const SizedBox(height: AppSpacing.lg),
-              
+
               // Title
               Text(
                 l10n.welcomeTitle,
@@ -63,9 +63,9 @@ class AuthView extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              
+
               const SizedBox(height: AppSpacing.xs),
-              
+
               // Subtitle
               Text(
                 l10n.welcomeSubtitle,
@@ -75,37 +75,40 @@ class AuthView extends StatelessWidget {
                   fontSize: AppFonts.bodyMedium,
                 ),
               ),
-              
+
               const SizedBox(height: AppSpacing.xxl),
-              
+
               // Tabs
               const AuthTabs(),
-              
+
               const SizedBox(height: AppSpacing.xxl),
-              
+
               // Phone Input
               const PhoneInputField(),
-              
+
               const SizedBox(height: AppSpacing.xl),
-              
+
               // Next Button
               CustomButton(
                 text: l10n.next,
-                backgroundColor: AppColors.primary, // Using primary brand color instead of black
+                backgroundColor: AppColors
+                    .primary, // Using primary brand color instead of black
                 textColor: AppColors.white,
                 onPressed: () {
                   context.go(AppRouter.layout);
                 },
               ),
-              
+
               const SizedBox(height: AppSpacing.xxl),
-              
+
               // Divider
               Row(
                 children: [
                   const Expanded(child: Divider(color: AppColors.border)),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppSpacing.md,
+                    ),
                     child: Text(
                       l10n.orVia,
                       style: const TextStyle(
@@ -117,9 +120,9 @@ class AuthView extends StatelessWidget {
                   const Expanded(child: Divider(color: AppColors.border)),
                 ],
               ),
-              
+
               const SizedBox(height: AppSpacing.xl),
-              
+
               // Social Logins
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -135,9 +138,9 @@ class AuthView extends StatelessWidget {
                   ),
                 ],
               ),
-              
+
               const SizedBox(height: AppSpacing.xxl * 1.5),
-              
+
               // Footer Terms
               Text.rich(
                 TextSpan(

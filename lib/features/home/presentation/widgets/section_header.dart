@@ -9,18 +9,17 @@ class SectionHeader extends StatelessWidget {
   final String title;
   final VoidCallback? onViewAll;
 
-  const SectionHeader({
-    super.key,
-    required this.title,
-    this.onViewAll,
-  });
+  const SectionHeader({super.key, required this.title, this.onViewAll});
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.lg,
+        vertical: AppSpacing.md,
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

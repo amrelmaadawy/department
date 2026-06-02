@@ -47,5 +47,16 @@
   "deliveryDate": "Delivery Date",
   "finishingType": "Finishing",
   "chooseUnit": "Choose Your Unit",
-  "million": "Million"
+  "million": "Million",
+  "ourServices": "Our Services",
+  "ourServicesDesc": "We offer a comprehensive range of luxury finishing and decoration services, turning your space into a masterpiece that meets the highest expectations.",
+  "details": "Details",
+  "smartVisualization": "Smart Visualization",
+  "smartVisualizationDesc": "Visualize your space before execution using AI and ultra-realistic 3D designs to ensure the perfect choice.",
+  "interiorDesignPackages": "Interior Design Packages",
+  "interiorDesignPackagesDesc": "Customized packages designed to suit your taste, from initial layouts to the finest technical details.",
+  "executionSupervision": "Execution Supervision",
+  "executionSupervisionDesc": "A team of expert engineers to monitor progress on-site, ensuring execution perfectly matches designs with top quality.",
+  "materialSelection": "Material Selection",
+  "materialSelectionDesc": "Assisting you in selecting the finest materials from top suppliers, aligning with your budget and approved design."
 }

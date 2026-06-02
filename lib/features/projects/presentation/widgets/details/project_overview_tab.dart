@@ -39,7 +39,7 @@ class ProjectOverviewTab extends StatelessWidget {
             ),
           ),
           const SizedBox(height: AppSpacing.xl),
-          
+
           // Details Grid
           GridView.count(
             crossAxisCount: 2,
@@ -62,7 +62,10 @@ class ProjectOverviewTab extends StatelessWidget {
 
   Widget _buildDetailCard(String title, String value) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.md,
+        vertical: AppSpacing.sm,
+      ),
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.circular(AppRadius.md),

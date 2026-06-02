@@ -11,7 +11,11 @@ class ProjectDetailsHeader extends StatelessWidget {
   final ProjectEntity project;
   final String heroTag;
 
-  const ProjectDetailsHeader({super.key, required this.project, required this.heroTag});
+  const ProjectDetailsHeader({
+    super.key,
+    required this.project,
+    required this.heroTag,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +33,10 @@ class ProjectDetailsHeader extends StatelessWidget {
       leading: GestureDetector(
         onTap: () => context.pop(),
         child: Container(
-          margin: const EdgeInsets.only(left: AppSpacing.md, right: AppSpacing.md),
+          margin: const EdgeInsets.only(
+            left: AppSpacing.md,
+            right: AppSpacing.md,
+          ),
           decoration: BoxDecoration(
             color: AppColors.white.withOpacity(0.85),
             shape: BoxShape.circle,
@@ -50,7 +57,10 @@ class ProjectDetailsHeader extends StatelessWidget {
               shape: BoxShape.circle,
             ),
             child: const Center(
-              child: Icon(FluentIcons.share_24_regular, color: AppColors.textPrimary),
+              child: Icon(
+                FluentIcons.share_24_regular,
+                color: AppColors.textPrimary,
+              ),
             ),
           ),
         ),
@@ -65,7 +75,10 @@ class ProjectDetailsHeader extends StatelessWidget {
               shape: BoxShape.circle,
             ),
             child: const Center(
-              child: Icon(FluentIcons.heart_24_regular, color: AppColors.textPrimary),
+              child: Icon(
+                FluentIcons.heart_24_regular,
+                color: AppColors.textPrimary,
+              ),
             ),
           ),
         ),
@@ -77,10 +90,7 @@ class ProjectDetailsHeader extends StatelessWidget {
           children: [
             Hero(
               tag: heroTag,
-              child: Image.asset(
-                project.imagePath,
-                fit: BoxFit.cover,
-              ),
+              child: Image.asset(project.imagePath, fit: BoxFit.cover),
             ),
             // Gradient to ensure buttons are visible
             Positioned(
@@ -93,10 +103,7 @@ class ProjectDetailsHeader extends StatelessWidget {
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
-                    colors: [
-                      Colors.black.withOpacity(0.4),
-                      Colors.transparent,
-                    ],
+                    colors: [Colors.black.withOpacity(0.4), Colors.transparent],
                   ),
                 ),
               ),
@@ -110,7 +117,9 @@ class ProjectDetailsHeader extends StatelessWidget {
                 height: 30,
                 decoration: const BoxDecoration(
                   color: AppColors.background,
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(AppRadius.xl)),
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(AppRadius.xl),
+                  ),
                 ),
               ),
             ),

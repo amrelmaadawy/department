@@ -31,7 +31,7 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    
+
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -40,15 +40,11 @@ class HomeView extends StatelessWidget {
             return CustomScrollView(
               slivers: [
                 // Collapsable Header
-                const SliverToBoxAdapter(
-                  child: HomeHeader(),
-                ),
-                
+                const SliverToBoxAdapter(child: HomeHeader()),
+
                 // Content based on state
                 if (state is HomeLoading || state is HomeInitial)
-                  SliverToBoxAdapter(
-                    child: _buildShimmerLoading(),
-                  )
+                  SliverToBoxAdapter(child: _buildShimmerLoading())
                 else if (state is HomeLoaded)
                   SliverList(
                     delegate: SliverChildListDelegate([
@@ -61,9 +57,12 @@ class HomeView extends StatelessWidget {
                         height: 280,
                         child: ListView.separated(
                           scrollDirection: Axis.horizontal,
-                          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: AppSpacing.lg,
+                          ),
                           itemCount: state.featuredProjects.length,
-                          separatorBuilder: (context, index) => const SizedBox(width: AppSpacing.lg),
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(width: AppSpacing.lg),
                           itemBuilder: (context, index) {
                             return FeaturedProjectCard(
                               project: state.featuredProjects[index],
@@ -124,7 +123,8 @@ class HomeView extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
               itemCount: 3,
-              separatorBuilder: (context, index) => const SizedBox(width: AppSpacing.lg),
+              separatorBuilder: (context, index) =>
+                  const SizedBox(width: AppSpacing.lg),
               itemBuilder: (context, index) {
                 return Container(
                   width: 220,

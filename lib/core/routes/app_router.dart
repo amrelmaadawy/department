@@ -20,14 +20,8 @@ class AppRouter {
         path: initial,
         builder: (context, state) => const WelcomeScreen(),
       ),
-      GoRoute(
-        path: auth,
-        builder: (context, state) => const AuthScreen(),
-      ),
-      GoRoute(
-        path: layout,
-        builder: (context, state) => const LayoutScreen(),
-      ),
+      GoRoute(path: auth, builder: (context, state) => const AuthScreen()),
+      GoRoute(path: layout, builder: (context, state) => const LayoutScreen()),
       GoRoute(
         path: projectDetails,
         pageBuilder: (context, state) {
@@ -39,18 +33,22 @@ class AppRouter {
               project: extra['project'] as ProjectEntity,
               heroTag: extra['heroTag'] as String,
             ),
-            transitionsBuilder: (context, animation, secondaryAnimation, child) {
-              const begin = Offset(0.0, 1.0); // Slide up from bottom
-              const end = Offset.zero;
-              const curve = Curves.easeOutCubic;
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+                  const begin = Offset(0.0, 1.0); // Slide up from bottom
+                  const end = Offset.zero;
+                  const curve = Curves.easeOutCubic;
 
-              var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                  var tween = Tween(
+                    begin: begin,
+                    end: end,
+                  ).chain(CurveTween(curve: curve));
 
-              return SlideTransition(
-                position: animation.drive(tween),
-                child: child,
-              );
-            },
+                  return SlideTransition(
+                    position: animation.drive(tween),
+                    child: child,
+                  );
+                },
           );
         },
       ),

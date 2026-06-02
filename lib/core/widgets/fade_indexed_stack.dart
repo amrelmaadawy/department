@@ -16,7 +16,8 @@ class FadeIndexedStack extends StatefulWidget {
   State<FadeIndexedStack> createState() => _FadeIndexedStackState();
 }
 
-class _FadeIndexedStackState extends State<FadeIndexedStack> with SingleTickerProviderStateMixin {
+class _FadeIndexedStackState extends State<FadeIndexedStack>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
   @override
@@ -44,10 +45,7 @@ class _FadeIndexedStackState extends State<FadeIndexedStack> with SingleTickerPr
   Widget build(BuildContext context) {
     return FadeTransition(
       opacity: _controller,
-      child: IndexedStack(
-        index: widget.index,
-        children: widget.children,
-      ),
+      child: IndexedStack(index: widget.index, children: widget.children),
     );
   }
 }

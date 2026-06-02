@@ -47,7 +47,7 @@ class PromoBannerCard extends StatelessWidget {
               ),
             ),
           ),
-          
+
           // Content
           Positioned(
             right: AppSpacing.lg,
@@ -76,7 +76,10 @@ class PromoBannerCard extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(AppRadius.md),
                     ),
-                    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.sm),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppSpacing.lg,
+                      vertical: AppSpacing.sm,
+                    ),
                   ),
                   child: Text(
                     l10n.exploreProjects,

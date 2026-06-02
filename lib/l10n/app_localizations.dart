@@ -343,6 +343,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Million'**
   String get million;
+
+  /// No description provided for @ourServices.
+  ///
+  /// In en, this message translates to:
+  /// **'Our Services'**
+  String get ourServices;
+
+  /// No description provided for @ourServicesDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'We offer a comprehensive range of luxury finishing and decoration services, turning your space into a masterpiece that meets the highest expectations.'**
+  String get ourServicesDesc;
+
+  /// No description provided for @details.
+  ///
+  /// In en, this message translates to:
+  /// **'Details'**
+  String get details;
+
+  /// No description provided for @smartVisualization.
+  ///
+  /// In en, this message translates to:
+  /// **'Smart Visualization'**
+  String get smartVisualization;
+
+  /// No description provided for @smartVisualizationDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Visualize your space before execution using AI and ultra-realistic 3D designs to ensure the perfect choice.'**
+  String get smartVisualizationDesc;
+
+  /// No description provided for @interiorDesignPackages.
+  ///
+  /// In en, this message translates to:
+  /// **'Interior Design Packages'**
+  String get interiorDesignPackages;
+
+  /// No description provided for @interiorDesignPackagesDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Customized packages designed to suit your taste, from initial layouts to the finest technical details.'**
+  String get interiorDesignPackagesDesc;
+
+  /// No description provided for @executionSupervision.
+  ///
+  /// In en, this message translates to:
+  /// **'Execution Supervision'**
+  String get executionSupervision;
+
+  /// No description provided for @executionSupervisionDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'A team of expert engineers to monitor progress on-site, ensuring execution perfectly matches designs with top quality.'**
+  String get executionSupervisionDesc;
+
+  /// No description provided for @materialSelection.
+  ///
+  /// In en, this message translates to:
+  /// **'Material Selection'**
+  String get materialSelection;
+
+  /// No description provided for @materialSelectionDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Assisting you in selecting the finest materials from top suppliers, aligning with your budget and approved design.'**
+  String get materialSelectionDesc;
 }
 
 class _AppLocalizationsDelegate

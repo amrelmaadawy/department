@@ -1,7 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import '../../../home/domain/entities/project_entity.dart';
+import '../../../home/domain/entities/project_service_entity.dart';
 
 part 'projects_state.dart';
 
@@ -14,12 +16,47 @@ class ProjectsCubit extends Cubit<ProjectsState> {
 
   void loadProjects() async {
     emit(ProjectsLoading());
-    
+
     // Simulate API delay
     await Future.delayed(const Duration(milliseconds: 1500));
 
-    final String mockDesc = 'يعد هذا المشروع من أرقى المشاريع السكنية، حيث يجمع بين التصميم العصري الفاخر والمساحات الخضراء الشاسعة. يوفر المشروع أسلوب حياة متكامل مع خدمات استثنائية تلبي كافة احتياجات العائلة العصرية. تم تصميم الوحدات بعناية فائقة لتوفير أقصى درجات الخصوصية والراحة.';
+    final String mockDesc =
+        'يعد هذا المشروع من أرقى المشاريع السكنية، حيث يجمع بين التصميم العصري الفاخر والمساحات الخضراء الشاسعة. يوفر المشروع أسلوب حياة متكامل مع خدمات استثنائية تلبي كافة احتياجات العائلة العصرية. تم تصميم الوحدات بعناية فائقة لتوفير أقصى درجات الخصوصية والراحة.';
     final List<String> mockAmenities = ['مسبح', 'جيم', 'أمن', 'جراج'];
+    final List<ProjectServiceEntity> mockServices = [
+      const ProjectServiceEntity(
+        id: '1',
+        title: 'التصور الذكي',
+        description:
+            'شاهد مساحتك قبل التنفيذ عبر تقنيات الذكاء الاصطناعي والتصاميم ثلاثية الأبعاد الواقعية جداً، لضمان دقة الاختيار.',
+        imagePath: 'assets/images/service_1.png',
+        icon: FluentIcons.brain_circuit_24_regular,
+      ),
+      const ProjectServiceEntity(
+        id: '2',
+        title: 'باقات التصميم الداخلي',
+        description:
+            'باقات مصممة خصيصاً لتناسب ذوقك وتلبي احتياجاتك، من المخططات الأولية وحتى اختيار أدق التفاصيل الفنية.',
+        imagePath: 'assets/images/service_2.png',
+        icon: FluentIcons.color_24_regular,
+      ),
+      const ProjectServiceEntity(
+        id: '3',
+        title: 'الإشراف على التنفيذ',
+        description:
+            'فريق من المهندسين الخبراء لمتابعة سير العمل في الموقع، لضمان تطابق التنفيذ مع التصاميم بأعلى معايير الجودة.',
+        imagePath: 'assets/images/service_3.png',
+        icon: FluentIcons.people_24_regular,
+      ),
+      const ProjectServiceEntity(
+        id: '4',
+        title: 'اختيار الخامات',
+        description:
+            'مساعدتك في انتقاء أجود الخامات والمواد الأولية من أفضل الموردين، بما يتوافق مع الميزانية والتصميم المعتمد.',
+        imagePath: 'assets/images/service_4.png',
+        icon: FluentIcons.layer_24_regular,
+      ),
+    ];
 
     _allProjects = [
       ProjectEntity(
@@ -34,6 +71,7 @@ class ProjectsCubit extends Cubit<ProjectsState> {
         unitTypes: 'شقق، فيلات، دوبلكس',
         deliveryDate: '٢٠٢٥',
         finishingType: 'نصف تشطيب',
+        services: mockServices,
       ),
       ProjectEntity(
         id: '2',
@@ -47,6 +85,7 @@ class ProjectsCubit extends Cubit<ProjectsState> {
         unitTypes: 'شقق، بنتهاوس',
         deliveryDate: '٢٠٢٤',
         finishingType: 'تشطيب كامل',
+        services: mockServices,
       ),
       ProjectEntity(
         id: '3',
@@ -60,6 +99,7 @@ class ProjectsCubit extends Cubit<ProjectsState> {
         unitTypes: 'شقق فاخرة',
         deliveryDate: '٢٠٢٦',
         finishingType: 'عظم',
+        services: mockServices,
       ),
       ProjectEntity(
         id: '4',
@@ -73,14 +113,17 @@ class ProjectsCubit extends Cubit<ProjectsState> {
         unitTypes: 'فيلات مستقلة',
         deliveryDate: '٢٠٢٥',
         finishingType: 'نصف تشطيب',
+        services: mockServices,
       ),
     ];
 
-    emit(ProjectsLoaded(
-      allProjects: _allProjects,
-      filteredProjects: _allProjects,
-      selectedFilter: _currentFilter,
-    ));
+    emit(
+      ProjectsLoaded(
+        allProjects: _allProjects,
+        filteredProjects: _allProjects,
+        selectedFilter: _currentFilter,
+      ),
+    );
   }
 
   void filterByCity(String city) {
@@ -100,21 +143,25 @@ class ProjectsCubit extends Cubit<ProjectsState> {
 
     // Apply city filter
     if (_currentFilter != 'الكل') {
-      filtered = filtered.where((p) => p.location.contains(_currentFilter)).toList();
+      filtered = filtered
+          .where((p) => p.location.contains(_currentFilter))
+          .toList();
     }
 
     // Apply search query
     if (_currentSearchQuery.isNotEmpty) {
       filtered = filtered.where((p) {
-        return p.name.toLowerCase().contains(_currentSearchQuery) || 
-               p.location.toLowerCase().contains(_currentSearchQuery);
+        return p.name.toLowerCase().contains(_currentSearchQuery) ||
+            p.location.toLowerCase().contains(_currentSearchQuery);
       }).toList();
     }
 
-    emit(ProjectsLoaded(
-      allProjects: _allProjects,
-      filteredProjects: filtered,
-      selectedFilter: _currentFilter,
-    ));
+    emit(
+      ProjectsLoaded(
+        allProjects: _allProjects,
+        filteredProjects: filtered,
+        selectedFilter: _currentFilter,
+      ),
+    );
   }
 }

@@ -66,10 +66,7 @@ class LayoutView extends StatelessWidget {
       builder: (context, currentIndex) {
         return Scaffold(
           backgroundColor: AppColors.background,
-          body: FadeIndexedStack(
-            index: currentIndex, 
-            children: screens,
-          ),
+          body: FadeIndexedStack(index: currentIndex, children: screens),
           bottomNavigationBar: CustomBottomNavBar(
             currentIndex: currentIndex,
             items: navItems,

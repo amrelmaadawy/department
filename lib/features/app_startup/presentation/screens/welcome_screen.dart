@@ -15,7 +15,7 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    
+
     return Scaffold(
       body: Stack(
         children: [
@@ -26,14 +26,10 @@ class WelcomeScreen extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
-          
+
           // Dark Overlay
-          Positioned.fill(
-            child: Container(
-              color: AppColors.darkOverlay,
-            ),
-          ),
-          
+          Positioned.fill(child: Container(color: AppColors.darkOverlay)),
+
           // Content
           SafeArea(
             child: Padding(
@@ -45,15 +41,15 @@ class WelcomeScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Spacer(),
-                  
+
                   // Logo
                   Image.asset(
                     'assets/images/welcome_logo.png',
                     height: AppSizes.logoMedium,
                   ),
-                  
+
                   const SizedBox(height: AppSpacing.xl),
-                  
+
                   // Title
                   Text(
                     l10n.welcomeTitle,
@@ -64,9 +60,9 @@ class WelcomeScreen extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  
+
                   const SizedBox(height: AppSpacing.sm),
-                  
+
                   // Subtitle
                   Text(
                     l10n.welcomeSubtitle,
@@ -76,9 +72,9 @@ class WelcomeScreen extends StatelessWidget {
                       fontSize: AppFonts.bodyLarge,
                     ),
                   ),
-                  
+
                   const Spacer(),
-                  
+
                   // Primary Button
                   CustomButton(
                     text: l10n.startNow,
@@ -86,9 +82,9 @@ class WelcomeScreen extends StatelessWidget {
                       context.push(AppRouter.auth);
                     },
                   ),
-                  
+
                   const SizedBox(height: AppSpacing.md),
-                  
+
                   // Secondary Button
                   TextButton(
                     onPressed: () {
@@ -103,7 +99,7 @@ class WelcomeScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  
+
                   const SizedBox(height: AppSpacing.xl),
                 ],
               ),

@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import 'project_service_entity.dart';
+
 class ProjectEntity extends Equatable {
   final String id;
   final String name;
@@ -12,6 +14,7 @@ class ProjectEntity extends Equatable {
   final String unitTypes;
   final String deliveryDate;
   final String finishingType;
+  final List<ProjectServiceEntity> services;
 
   const ProjectEntity({
     required this.id,
@@ -25,20 +28,22 @@ class ProjectEntity extends Equatable {
     this.unitTypes = '',
     this.deliveryDate = '',
     this.finishingType = '',
+    this.services = const [],
   });
 
   @override
   List<Object> get props => [
-        id,
-        name,
-        location,
-        startingPrice,
-        imagePath,
-        description,
-        amenities,
-        totalArea,
-        unitTypes,
-        deliveryDate,
-        finishingType,
-      ];
+    id,
+    name,
+    location,
+    startingPrice,
+    imagePath,
+    description,
+    amenities,
+    totalArea,
+    unitTypes,
+    deliveryDate,
+    finishingType,
+    services,
+  ];
 }

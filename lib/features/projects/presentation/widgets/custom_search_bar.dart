@@ -10,11 +10,7 @@ class CustomSearchBar extends StatelessWidget {
   final String hintText;
   final ValueChanged<String>? onChanged;
 
-  const CustomSearchBar({
-    super.key,
-    required this.hintText,
-    this.onChanged,
-  });
+  const CustomSearchBar({super.key, required this.hintText, this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +38,10 @@ class CustomSearchBar extends StatelessWidget {
             size: 20,
           ),
           border: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: 14),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.md,
+            vertical: 14,
+          ),
         ),
       ),
     );

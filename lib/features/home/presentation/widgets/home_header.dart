@@ -14,7 +14,10 @@ class HomeHeader extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.lg,
+        vertical: AppSpacing.md,
+      ),
       child: Row(
         children: [
           // Start Edge: Avatar & User Info
@@ -37,7 +40,11 @@ class HomeHeader extends StatelessWidget {
               ),
               Row(
                 children: [
-                  const Icon(FluentIcons.location_12_regular, color: AppColors.gold, size: 14),
+                  const Icon(
+                    FluentIcons.location_12_regular,
+                    color: AppColors.gold,
+                    size: 14,
+                  ),
                   const SizedBox(width: 4),
                   Text(
                     l10n.riyadh,
@@ -50,7 +57,7 @@ class HomeHeader extends StatelessWidget {
               ),
             ],
           ),
-          
+
           const Spacer(),
 
           // End Edge: Location & Notification
@@ -63,7 +70,10 @@ class HomeHeader extends StatelessWidget {
             ),
           ),
           const SizedBox(width: AppSpacing.md),
-          const Icon(FluentIcons.alert_24_regular, color: AppColors.textPrimary),
+          const Icon(
+            FluentIcons.alert_24_regular,
+            color: AppColors.textPrimary,
+          ),
         ],
       ),
     );

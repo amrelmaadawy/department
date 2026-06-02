@@ -32,10 +32,7 @@ class SocialLoginButton extends StatelessWidget {
           ],
         ),
         padding: const EdgeInsets.all(16),
-        child: SvgPicture.asset(
-          iconPath,
-          fit: BoxFit.contain,
-        ),
+        child: SvgPicture.asset(iconPath, fit: BoxFit.contain),
       ),
     );
   }

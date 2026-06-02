@@ -26,7 +26,8 @@ class PhoneInputField extends StatelessWidget {
             child: TextFormField(
               keyboardType: TextInputType.phone,
               textDirection: TextDirection.ltr, // Phone numbers are LTR
-              textAlign: TextAlign.right, // Align text to the right where the hint is
+              textAlign:
+                  TextAlign.right, // Align text to the right where the hint is
               decoration: InputDecoration(
                 hintText: l10n.mobileNumber,
                 hintStyle: const TextStyle(
@@ -34,26 +35,32 @@ class PhoneInputField extends StatelessWidget {
                   fontSize: AppFonts.bodyMedium,
                 ),
                 border: InputBorder.none,
-                contentPadding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.md,
+                ),
               ),
             ),
           ),
-          
+
           // Vertical Separator
-          Container(
-            width: 1,
-            height: 30,
-            color: AppColors.border,
-          ),
-          
+          Container(width: 1, height: 30, color: AppColors.border),
+
           // Country Code Prefix (Renders on the left in RTL)
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.md,
+              vertical: AppSpacing.sm,
+            ),
             child: Directionality(
-              textDirection: TextDirection.ltr, // Force LTR for prefix so icon stays on the far left
+              textDirection: TextDirection
+                  .ltr, // Force LTR for prefix so icon stays on the far left
               child: Row(
                 children: [
-                  const Icon(Icons.phone_outlined, color: AppColors.textSecondary, size: 20),
+                  const Icon(
+                    Icons.phone_outlined,
+                    color: AppColors.textSecondary,
+                    size: 20,
+                  ),
                   const SizedBox(width: AppSpacing.sm),
                   const Text(
                     '+966',
@@ -64,7 +71,11 @@ class PhoneInputField extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: AppSpacing.xs),
-                  const Icon(Icons.keyboard_arrow_down, color: AppColors.textSecondary, size: 20),
+                  const Icon(
+                    Icons.keyboard_arrow_down,
+                    color: AppColors.textSecondary,
+                    size: 20,
+                  ),
                 ],
               ),
             ),

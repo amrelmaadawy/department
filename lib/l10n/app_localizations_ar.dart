@@ -132,4 +132,42 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get million => 'مليون';
+
+  @override
+  String get ourServices => 'خدماتنا';
+
+  @override
+  String get ourServicesDesc =>
+      'نقدم لك مجموعة متكاملة من خدمات التشطيب والديكور الفاخر، لنحول مساحتك إلى تحفة فنية تلبي أرقى التطلعات.';
+
+  @override
+  String get details => 'التفاصيل';
+
+  @override
+  String get smartVisualization => 'التصور الذكي';
+
+  @override
+  String get smartVisualizationDesc =>
+      'شاهد مساحتك قبل التنفيذ عبر تقنيات الذكاء الاصطناعي والتصاميم ثلاثية الأبعاد الواقعية جداً، لضمان دقة الاختيار.';
+
+  @override
+  String get interiorDesignPackages => 'باقات التصميم الداخلي';
+
+  @override
+  String get interiorDesignPackagesDesc =>
+      'باقات مصممة خصيصاً لتناسب ذوقك وتلبي احتياجاتك، من المخططات الأولية وحتى اختيار أدق التفاصيل الفنية.';
+
+  @override
+  String get executionSupervision => 'الإشراف على التنفيذ';
+
+  @override
+  String get executionSupervisionDesc =>
+      'فريق من المهندسين الخبراء لمتابعة سير العمل في الموقع، لضمان تطابق التنفيذ مع التصاميم بأعلى معايير الجودة.';
+
+  @override
+  String get materialSelection => 'اختيار الخامات';
+
+  @override
+  String get materialSelectionDesc =>
+      'مساعدتك في انتقاء أجود الخامات والمواد الأولية من أفضل الموردين، بما يتوافق مع الميزانية والتصميم المعتمد.';
 }

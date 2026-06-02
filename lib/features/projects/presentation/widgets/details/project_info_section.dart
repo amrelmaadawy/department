@@ -15,14 +15,16 @@ class ProjectInfoSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    
+
     // Format price beautifully
     String formattedPrice = '';
     if (project.startingPrice >= 1000000) {
       double millions = project.startingPrice / 1000000;
       formattedPrice = '${millions.toStringAsFixed(1)} ${l10n.million}';
     } else {
-      formattedPrice = project.startingPrice.toStringAsFixed(0).replaceAllMapped(
+      formattedPrice = project.startingPrice
+          .toStringAsFixed(0)
+          .replaceAllMapped(
             RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
             (Match m) => '${m[1]},',
           );
@@ -46,7 +48,11 @@ class ProjectInfoSection extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(FluentIcons.location_16_regular, color: AppColors.textSecondary, size: 18),
+              const Icon(
+                FluentIcons.location_16_regular,
+                color: AppColors.textSecondary,
+                size: 18,
+              ),
               const SizedBox(width: AppSpacing.xs),
               Text(
                 project.location,

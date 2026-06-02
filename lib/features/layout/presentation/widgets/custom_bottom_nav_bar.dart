@@ -75,7 +75,11 @@ class _NavBarIcon extends StatelessWidget {
             AnimatedContainer(
               duration: const Duration(milliseconds: 400),
               curve: Curves.easeOutBack, // Gives a nice bouncy effect
-              transform: Matrix4.translationValues(0, isSelected ? -6.0 : 0.0, 0),
+              transform: Matrix4.translationValues(
+                0,
+                isSelected ? -6.0 : 0.0,
+                0,
+              ),
               child: AnimatedScale(
                 scale: isSelected ? 1.15 : 1.0,
                 duration: const Duration(milliseconds: 400),
