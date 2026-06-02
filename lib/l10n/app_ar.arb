@@ -12,5 +12,10 @@
   "termsAndConditions": "الشروط والأحكام",
   "privacyPolicy": "سياسة الخصوصية",
   "registerAgreement": "بالتسجيل، أنت توافق على",
-  "and": "و"
+  "and": "و",
+  "navHome": "الرئيسية",
+  "navProjects": "المشاريع",
+  "navDesign": "صمم شقتك",
+  "navProposals": "المقترح",
+  "navAccount": "حسابي"
 }

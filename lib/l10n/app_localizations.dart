@@ -175,6 +175,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'and'**
   String get and;
+
+  /// No description provided for @navHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get navHome;
+
+  /// No description provided for @navProjects.
+  ///
+  /// In en, this message translates to:
+  /// **'Projects'**
+  String get navProjects;
+
+  /// No description provided for @navDesign.
+  ///
+  /// In en, this message translates to:
+  /// **'Design'**
+  String get navDesign;
+
+  /// No description provided for @navProposals.
+  ///
+  /// In en, this message translates to:
+  /// **'Proposals'**
+  String get navProposals;
+
+  /// No description provided for @navAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get navAccount;
 }
 
 class _AppLocalizationsDelegate

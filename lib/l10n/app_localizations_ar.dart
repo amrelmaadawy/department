@@ -46,4 +46,19 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get and => 'و';
+
+  @override
+  String get navHome => 'الرئيسية';
+
+  @override
+  String get navProjects => 'المشاريع';
+
+  @override
+  String get navDesign => 'صمم شقتك';
+
+  @override
+  String get navProposals => 'المقترح';
+
+  @override
+  String get navAccount => 'حسابي';
 }

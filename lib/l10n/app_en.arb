@@ -12,5 +12,10 @@
   "termsAndConditions": "Terms and Conditions",
   "privacyPolicy": "Privacy Policy",
   "registerAgreement": "By registering, you agree to the",
-  "and": "and"
+  "and": "and",
+  "navHome": "Home",
+  "navProjects": "Projects",
+  "navDesign": "Design",
+  "navProposals": "Proposals",
+  "navAccount": "Account"
 }
