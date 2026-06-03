@@ -376,4 +376,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get logout => 'Log out';
+
+  @override
+  String get supportTitle => 'Support & Help';
+
+  @override
+  String get faqTitle => 'FAQ';
+
+  @override
+  String get faqSubtitle => 'Browse categories for quick solutions';
+
+  @override
+  String get onlineNow => 'Online Now';
+
+  @override
+  String get liveBadge => 'LIVE';
+
+  @override
+  String get today => 'Today';
+
+  @override
+  String get whatsappBtn => 'Continue via WhatsApp';
+
+  @override
+  String get typeMessageHint => 'Type your message here...';
 }

@@ -811,6 +811,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Log out'**
   String get logout;
+
+  /// No description provided for @supportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Support & Help'**
+  String get supportTitle;
+
+  /// No description provided for @faqTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'FAQ'**
+  String get faqTitle;
+
+  /// No description provided for @faqSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse categories for quick solutions'**
+  String get faqSubtitle;
+
+  /// No description provided for @onlineNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Online Now'**
+  String get onlineNow;
+
+  /// No description provided for @liveBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'LIVE'**
+  String get liveBadge;
+
+  /// No description provided for @today.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get today;
+
+  /// No description provided for @whatsappBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue via WhatsApp'**
+  String get whatsappBtn;
+
+  /// No description provided for @typeMessageHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Type your message here...'**
+  String get typeMessageHint;
 }
 
 class _AppLocalizationsDelegate

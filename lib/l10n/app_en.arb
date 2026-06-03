@@ -127,5 +127,13 @@
   "appLanguage": "App Language",
   "notifications": "Notifications",
   "techSupport": "Technical Support",
-  "logout": "Log out"
+  "logout": "Log out",
+  "supportTitle": "Support & Help",
+  "faqTitle": "FAQ",
+  "faqSubtitle": "Browse categories for quick solutions",
+  "onlineNow": "Online Now",
+  "liveBadge": "LIVE",
+  "today": "Today",
+  "whatsappBtn": "Continue via WhatsApp",
+  "typeMessageHint": "Type your message here..."
 }

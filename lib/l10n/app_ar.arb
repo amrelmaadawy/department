@@ -125,5 +125,13 @@
   "appLanguage": "لغة التطبيق",
   "notifications": "الإشعارات",
   "techSupport": "الدعم الفني والمساعدة",
-  "logout": "تسجيل الخروج"
+  "logout": "تسجيل الخروج",
+  "supportTitle": "الدعم والمساعدة",
+  "faqTitle": "الأسئلة الشائعة",
+  "faqSubtitle": "تصفح الفئات المختلفة للحلول السريعة",
+  "onlineNow": "متصل الآن",
+  "liveBadge": "LIVE",
+  "today": "اليوم",
+  "whatsappBtn": "متابعة المحادثة عبر واتساب",
+  "typeMessageHint": "اكتب رسالتك هنا..."
 }

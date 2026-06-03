@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radius.dart';
@@ -162,7 +163,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                           icon: FluentIcons.headset_24_regular,
                           title: l10n.techSupport,
                           showDivider: false,
-                          onTap: () {},
+                          onTap: () => context.push('/support'),
                         ),
                       ]),
 

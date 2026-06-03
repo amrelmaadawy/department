@@ -12,6 +12,7 @@ import '../../../features/layout/presentation/screens/layout_screen.dart';
 import '../../../features/projects/presentation/screens/project_details_screen.dart';
 import '../../../features/projects/presentation/screens/unit_details_screen.dart';
 import '../../../features/packages/presentation/screens/packages_screen.dart';
+import '../../../features/support/presentation/screens/support_screen.dart';
 import '../../../features/home/domain/entities/project_entity.dart';
 import '../../../features/home/domain/entities/project_unit_entity.dart';
 import '../di/injection_container.dart';
@@ -27,6 +28,7 @@ class AppRouter {
   static const String customFinishing = '/custom-finishing';
   static const String bookingSuccess = '/booking-success';
   static const String profile = '/profile';
+  static const String support = '/support';
 
   static final router = GoRouter(
     initialLocation: initial,
@@ -168,6 +170,10 @@ class AppRouter {
       GoRoute(
         path: profile,
         builder: (context, state) => const ProfileScreen(),
+      ),
+      GoRoute(
+        path: support,
+        builder: (context, state) => const SupportScreen(),
       ),
     ],
   );

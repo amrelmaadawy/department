@@ -375,4 +375,28 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get logout => 'تسجيل الخروج';
+
+  @override
+  String get supportTitle => 'الدعم والمساعدة';
+
+  @override
+  String get faqTitle => 'الأسئلة الشائعة';
+
+  @override
+  String get faqSubtitle => 'تصفح الفئات المختلفة للحلول السريعة';
+
+  @override
+  String get onlineNow => 'متصل الآن';
+
+  @override
+  String get liveBadge => 'LIVE';
+
+  @override
+  String get today => 'اليوم';
+
+  @override
+  String get whatsappBtn => 'متابعة المحادثة عبر واتساب';
+
+  @override
+  String get typeMessageHint => 'اكتب رسالتك هنا...';
 }
