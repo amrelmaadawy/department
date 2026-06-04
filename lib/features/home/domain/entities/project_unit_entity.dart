@@ -17,6 +17,7 @@ class ProjectUnitEntity extends Equatable {
   final int floor;
   final List<String> extras;
   final String description;
+  final List<String> images;
 
   const ProjectUnitEntity({
     required this.id,
@@ -31,6 +32,7 @@ class ProjectUnitEntity extends Equatable {
     required this.floor,
     required this.extras,
     required this.description,
+    required this.images,
   });
 
   @override
@@ -47,5 +49,6 @@ class ProjectUnitEntity extends Equatable {
     floor,
     extras,
     description,
+    images,
   ];
 }

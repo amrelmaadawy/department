@@ -70,6 +70,10 @@ class HomeCubit extends Cubit<HomeState> {
         extras: ['تراس إضافي', 'غرفة خادمة'],
         description:
             'وحدة سكنية فاخرة بتصميم عصري يتيح أقصى استفادة من المساحات الطبيعية. تتميز بتهوية ممتازة وإضاءة طبيعية تغطي كافة الغرف بفضل الواجهة البحرية.',
+        images: const [
+          'assets/images/unit_apartment.png',
+          'assets/images/floor_plan.png',
+        ],
       ),
       const ProjectUnitEntity(
         id: '102',
@@ -85,6 +89,10 @@ class HomeCubit extends Cubit<HomeState> {
         extras: ['مسبح خاص', 'حديقة واسعة'],
         description:
             'فيلا فخمة توفر لك ولعائلتك الخصوصية التامة مع مساحات خضراء شاسعة وتصميم كلاسيكي حديث.',
+        images: const [
+          'assets/images/unit_villa.png',
+          'assets/images/floor_plan.png',
+        ],
       ),
       const ProjectUnitEntity(
         id: '103',
@@ -100,6 +108,10 @@ class HomeCubit extends Cubit<HomeState> {
         extras: ['روف جاردن'],
         description:
             'دوبلكس بإطلالة بانورامية رائعة، يوفر مساحات مفتوحة ومرونة عالية في تقسيم الغرف والديكور.',
+        images: const [
+          'assets/images/unit_duplex.png',
+          'assets/images/floor_plan.png',
+        ],
       ),
     ];
 

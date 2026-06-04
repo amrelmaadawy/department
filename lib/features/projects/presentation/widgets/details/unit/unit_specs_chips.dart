@@ -51,13 +51,16 @@ class UnitSpecsChips extends StatelessWidget {
   Widget _buildChip(String label, IconData icon) {
     return Container(
       padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.md,
-        vertical: AppSpacing.sm,
+        horizontal: AppSpacing.md + 4,
+        vertical: AppSpacing.sm + 2,
       ),
       decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(AppRadius.md),
-        border: Border.all(color: AppColors.border, width: 1),
+        color: AppColors.primary.withValues(alpha: 0.05),
+        borderRadius: BorderRadius.circular(AppRadius.lg),
+        border: Border.all(
+          color: AppColors.primary.withValues(alpha: 0.1), 
+          width: 1,
+        ),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -70,8 +73,8 @@ class UnitSpecsChips extends StatelessWidget {
               color: AppColors.textPrimary,
             ),
           ),
-          const SizedBox(width: AppSpacing.xs),
-          Icon(icon, size: 16, color: AppColors.gold),
+          const SizedBox(width: AppSpacing.sm),
+          Icon(icon, size: 18, color: AppColors.gold),
         ],
       ),
     );

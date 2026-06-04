@@ -44,14 +44,14 @@ class UnitDetailsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            UnitFloorPlanViewer(heroTag: heroTag),
+            UnitFloorPlanViewer(unit: unit, heroTag: heroTag),
             UnitSpecsChips(unit: unit),
             UnitOverviewCard(unit: unit),
             const SizedBox(height: 24),
           ],
         ),
       ),
-      bottomNavigationBar: const UnitBottomActions(),
+      bottomNavigationBar: UnitBottomActions(unit: unit),
     );
   }
 }
