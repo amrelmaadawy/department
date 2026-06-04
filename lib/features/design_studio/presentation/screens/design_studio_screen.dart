@@ -1,9 +1,17 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_fonts.dart';
+import '../../../../core/theme/app_radius.dart';
+import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/routes/app_router.dart';
+import '../cubit/design_context_cubit.dart';
+import '../cubit/design_context_state.dart';
+import '../widgets/unit_selection_bottom_sheet.dart';
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
@@ -14,12 +22,14 @@ class DesignStudioScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      body: CustomScrollView(
-        slivers: [
-          _buildHeroHeader(context),
-          SliverToBoxAdapter(
+    return BlocBuilder<DesignContextCubit, DesignContextState>(
+      builder: (context, state) {
+        return Scaffold(
+          backgroundColor: AppColors.background,
+          body: CustomScrollView(
+            slivers: [
+              _buildHeroHeader(context, state),
+              SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
               child: Column(
@@ -54,13 +64,15 @@ class DesignStudioScreen extends StatelessWidget {
                 ],
               ),
             ),
-          ),
-        ],
-      ),
+            ),
+          ],
+        ),
+        );
+      },
     );
   }
 
-  Widget _buildHeroHeader(BuildContext context) {
+  Widget _buildHeroHeader(BuildContext context, DesignContextState state) {
     return SliverAppBar(
       expandedHeight: 300,
       pinned: true,
@@ -138,7 +150,7 @@ class DesignStudioScreen extends StatelessWidget {
                       letterSpacing: -0.5,
                     ),
                   ),
-                  const SizedBox(height: AppSpacing.xs),
+                  const SizedBox(height: AppSpacing.sm),
                   Text(
                     'دعنا نبني منزل أحلامك بأحدث تقنيات التصميم.',
                     style: TextStyle(
@@ -146,10 +158,67 @@ class DesignStudioScreen extends StatelessWidget {
                       fontSize: AppFonts.bodyLarge,
                     ),
                   ),
+                  const SizedBox(height: AppSpacing.lg),
+                  _buildContextSelectorBar(context, state),
                 ],
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildContextSelectorBar(BuildContext context, DesignContextState state) {
+    final isCustom = state.isCustomArea;
+    final title = isCustom ? 'مساحة تقديرية (${state.baseArea} م²)' : 'وحدة: ${state.selectedUnit?.title.split(' ')[0]}';
+
+    return GestureDetector(
+      onTap: () {
+        final cubit = context.read<DesignContextCubit>();
+        showModalBottomSheet(
+          context: context,
+          isScrollControlled: true,
+          backgroundColor: Colors.transparent,
+          builder: (context) => BlocProvider.value(
+            value: cubit,
+            child: const UnitSelectionBottomSheet(),
+          ),
+        );
+      },
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
+            decoration: BoxDecoration(
+              color: AppColors.white.withValues(alpha: 0.1),
+              border: Border.all(color: AppColors.white.withValues(alpha: 0.3)),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  isCustom ? FluentIcons.ruler_16_regular : FluentIcons.building_16_regular,
+                  color: AppColors.white,
+                  size: 18,
+                ),
+                const SizedBox(width: AppSpacing.sm),
+                Text(
+                  'التصميم لـ: $title',
+                  style: const TextStyle(
+                    color: AppColors.white,
+                    fontSize: AppFonts.bodyMedium,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(width: AppSpacing.sm),
+                const Icon(FluentIcons.chevron_down_16_regular, color: AppColors.white, size: 16),
+              ],
+            ),
+          ),
         ),
       ),
     );

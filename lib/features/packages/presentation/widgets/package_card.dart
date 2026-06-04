@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-
 import 'package:apartment/core/theme/app_colors.dart';
 import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
-import 'package:apartment/core/widgets/custom_button.dart';
 import 'package:apartment/l10n/app_localizations.dart';
 import 'package:apartment/features/packages/domain/entities/finishing_package_entity.dart';
 import 'package_card_header.dart';

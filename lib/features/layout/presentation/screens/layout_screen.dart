@@ -1,6 +1,7 @@
 import 'package:apartment/features/home/presentation/screens/home_screen.dart';
 import 'package:apartment/features/projects/presentation/screens/projects_screen.dart';
 import 'package:apartment/features/design_studio/presentation/screens/design_studio_screen.dart';
+import 'package:apartment/features/design_studio/presentation/cubit/design_context_cubit.dart';
 import 'package:apartment/features/profile/presentation/screens/profile_screen.dart';
 import 'package:apartment/features/layout/presentation/widgets/custom_bottom_nav_bar.dart';
 import 'package:apartment/l10n/app_localizations.dart';
@@ -60,7 +61,10 @@ class LayoutView extends StatelessWidget {
     final List<Widget> screens = [
       const HomeScreen(),
       const ProjectsScreen(),
-      const DesignStudioScreen(), // Replaced PackagesScreen with DesignStudioScreen
+      BlocProvider.value(
+        value: sl<DesignContextCubit>(),
+        child: const DesignStudioScreen(),
+      ),
       const ProfileScreen(),
     ];
 

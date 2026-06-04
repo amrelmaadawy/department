@@ -3,6 +3,7 @@ import 'package:apartment/features/home/presentation/cubit/home_cubit.dart';
 import 'package:apartment/features/layout/presentation/cubit/layout_cubit.dart';
 import 'package:apartment/features/projects/presentation/cubit/projects_cubit.dart';
 import 'package:get_it/get_it.dart';
+import 'package:apartment/features/design_studio/presentation/cubit/design_context_cubit.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -22,6 +23,9 @@ Future<void> init() async {
 
   // Features - Projects
   sl.registerFactory(() => ProjectsCubit());
+
+  // Features - Design Studio (Singleton to preserve context across flow)
+  sl.registerLazySingleton(() => DesignContextCubit());
 
   // Core Data
   final sharedPreferences = await SharedPreferences.getInstance();
