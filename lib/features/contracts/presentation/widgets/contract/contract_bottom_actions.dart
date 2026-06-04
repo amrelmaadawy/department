@@ -8,6 +8,7 @@ import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/core/widgets/custom_button.dart';
 import 'package:apartment/core/routes/app_router.dart';
 import 'package:apartment/l10n/app_localizations.dart';
+import 'package:apartment/core/widgets/app_toast.dart';
 
 class ContractBottomActions extends StatelessWidget {
   final bool isAgreed;
@@ -61,13 +62,9 @@ class ContractBottomActions extends StatelessWidget {
                     }
                   : () {
                       if (!isAgreed) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('يرجى الموافقة على الشروط والأحكام أولاً.')),
-                        );
+                        AppToast.showError(context, 'يرجى الموافقة على الشروط والأحكام أولاً.');
                       } else if (signatureController.isEmpty) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('يرجى رسم توقيعك في المربع المخصص.')),
-                        );
+                        AppToast.showError(context, 'يرجى رسم توقيعك في المربع المخصص.');
                       }
                     }, 
               backgroundColor: isFormValid ? AppColors.primary : AppColors.border,

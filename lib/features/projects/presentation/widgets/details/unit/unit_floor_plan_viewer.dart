@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 
 import 'package:apartment/core/theme/app_colors.dart';
@@ -26,7 +27,10 @@ class _UnitFloorPlanViewerState extends State<UnitFloorPlanViewer> {
   @override
   void initState() {
     super.initState();
-    final imagesCount = widget.unit.images.isNotEmpty ? widget.unit.images.length : 1;
+    
+    int imagesCount = widget.unit.images.where((e) => e.isNotEmpty).length;
+    if (imagesCount == 0) imagesCount = 1;
+    
     _transformationControllers = List.generate(
       imagesCount,
       (index) {
@@ -81,7 +85,10 @@ class _UnitFloorPlanViewerState extends State<UnitFloorPlanViewer> {
 
   @override
   Widget build(BuildContext context) {
-    final images = widget.unit.images.isNotEmpty ? widget.unit.images : [widget.unit.imagePath];
+    List<String> images = widget.unit.images.where((e) => e.isNotEmpty).toList();
+    if (images.isEmpty && widget.unit.imagePath.isNotEmpty) {
+      images.add(widget.unit.imagePath);
+    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -131,19 +138,25 @@ class _UnitFloorPlanViewerState extends State<UnitFloorPlanViewer> {
                       _isZoomedIn = _transformationControllers[index].value.getMaxScaleOnAxis() > 1.01;
                     });
                   },
-                  itemCount: images.length,
+                  itemCount: images.isEmpty ? 1 : images.length,
                   itemBuilder: (context, index) {
                     final isCurrentPage = index == _currentIndex;
+                    final hasImage = images.isNotEmpty;
+                    
                     Widget imageWidget = InteractiveViewer(
                       transformationController: _transformationControllers[index],
                       panEnabled: isCurrentPage,
                       scaleEnabled: isCurrentPage,
                       minScale: 1.0,
                       maxScale: 4.0,
-                      child: Image.asset(
-                        images[index],
-                        fit: BoxFit.contain,
-                      ),
+                      child: hasImage
+                          ? Image.asset(
+                              images[index],
+                              fit: BoxFit.contain,
+                            )
+                          : const Center(
+                              child: Icon(FluentIcons.image_off_24_regular, size: 48, color: AppColors.textSecondary),
+                            ),
                     );
                     
                     // Only apply Hero to the first image to match the tag from previous screen

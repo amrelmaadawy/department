@@ -38,7 +38,7 @@ class ProjectDetailsHeader extends StatelessWidget {
             right: AppSpacing.md,
           ),
           decoration: BoxDecoration(
-            color: AppColors.white.withOpacity(0.85),
+            color: AppColors.white.withValues(alpha: 0.85),
             shape: BoxShape.circle,
           ),
           child: Center(
@@ -53,7 +53,7 @@ class ProjectDetailsHeader extends StatelessWidget {
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              color: AppColors.white.withOpacity(0.85),
+              color: AppColors.white.withValues(alpha: 0.85),
               shape: BoxShape.circle,
             ),
             child: const Center(
@@ -71,7 +71,7 @@ class ProjectDetailsHeader extends StatelessWidget {
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              color: AppColors.white.withOpacity(0.85),
+              color: AppColors.white.withValues(alpha: 0.85),
               shape: BoxShape.circle,
             ),
             child: const Center(
@@ -90,7 +90,18 @@ class ProjectDetailsHeader extends StatelessWidget {
           children: [
             Hero(
               tag: heroTag,
-              child: Image.asset(project.imagePath, fit: BoxFit.cover),
+              child: project.imagePath.isNotEmpty
+                  ? Image.asset(project.imagePath, fit: BoxFit.cover)
+                  : Container(
+                      color: AppColors.border,
+                      child: const Center(
+                        child: Icon(
+                          FluentIcons.image_off_24_regular,
+                          size: 48,
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
+                    ),
             ),
             // Gradient to ensure buttons are visible
             Positioned(
@@ -103,7 +114,7 @@ class ProjectDetailsHeader extends StatelessWidget {
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
-                    colors: [Colors.black.withOpacity(0.4), Colors.transparent],
+                    colors: [Colors.black.withValues(alpha: 0.4), Colors.transparent],
                   ),
                 ),
               ),

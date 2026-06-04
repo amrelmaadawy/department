@@ -82,7 +82,15 @@ class ProjectUnitCard extends StatelessWidget {
                   // Image
                   SizedBox(
                     width: 120,
-                    child: Image.asset(unit.imagePath, fit: BoxFit.cover),
+                    child: unit.imagePath.isNotEmpty
+                        ? Image.asset(unit.imagePath, fit: BoxFit.cover)
+                        : const Center(
+                            child: Icon(
+                              FluentIcons.image_off_24_regular,
+                              size: 32,
+                              color: AppColors.textSecondary,
+                            ),
+                          ),
                   ),
 
                   // Details
