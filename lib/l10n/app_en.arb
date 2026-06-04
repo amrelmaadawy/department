@@ -32,9 +32,7 @@
   "featuredProjects": "Featured Projects",
   "viewAll": "View All",
   "startsFrom": "Starts from",
-  "sar": "SAR",
   "searchProject": "Search for a project or location",
-  "filterAll": "All",
   "filterJeddah": "Jeddah",
   "filterEastern": "Eastern Prov.",
   "noProjectsFound": "No projects found",
@@ -135,5 +133,12 @@
   "liveBadge": "LIVE",
   "today": "Today",
   "whatsappBtn": "Continue via WhatsApp",
-  "typeMessageHint": "Type your message here..."
+  "typeMessageHint": "Type your message here...",
+  "bookUnitBtn": "Book Unit",
+  "contractTermsTitle": "Contract Terms & Conditions",
+  "iAgreeToTerms": "I agree to the terms and conditions",
+  "unitSummaryTitle": "Unit Summary",
+  "priceTitle": "Total Price",
+  "confirmBookingAndProceed": "Confirm Booking & Proceed",
+  "contractScreenTitle": "Unit Booking"
 }

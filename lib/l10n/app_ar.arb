@@ -85,7 +85,7 @@
   "readyPackagesScreenTitle": "الباقات الجاهزة",
   "readyPackagesSubtitle": "اختر الباقة المناسبة وبدل فيها براحتك.. صممنالك خيارات متعددة تناسب كل الاحتياجات والميزانيات.",
   "pricePerSqm": "ر.س / متر",
-  "signature": "Signature",
+  "signature": "التوقيع",
   "customFinishing": "تخصيص التشطيب",
   "categoryFloors": "الأرضيات",
   "categoryWalls": "الحوائط",
@@ -133,5 +133,12 @@
   "liveBadge": "LIVE",
   "today": "اليوم",
   "whatsappBtn": "متابعة المحادثة عبر واتساب",
-  "typeMessageHint": "اكتب رسالتك هنا..."
+  "typeMessageHint": "اكتب رسالتك هنا...",
+  "bookUnitBtn": "حجز الوحدة",
+  "contractTermsTitle": "بنود وشروط العقد",
+  "iAgreeToTerms": "أوافق على الشروط والأحكام",
+  "unitSummaryTitle": "ملخص بيانات الوحدة",
+  "priceTitle": "السعر الإجمالي",
+  "confirmBookingAndProceed": "تأكيد الحجز والمتابعة",
+  "contractScreenTitle": "حجز الوحدة"
 }

@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,6 +12,8 @@ import '../../../features/auth/presentation/screens/auth_screen.dart';
 import '../../../features/layout/presentation/screens/layout_screen.dart';
 import '../../../features/projects/presentation/screens/project_details_screen.dart';
 import '../../../features/projects/presentation/screens/unit_details_screen.dart';
+import '../../../features/projects/presentation/screens/unit_contract_screen.dart';
+import '../../../features/projects/presentation/screens/contract_preview_screen.dart';
 import '../../../features/packages/presentation/screens/packages_screen.dart';
 import '../../../features/support/presentation/screens/support_screen.dart';
 import '../../../features/home/domain/entities/project_entity.dart';
@@ -24,6 +27,8 @@ class AppRouter {
   static const String layout = '/layout';
   static const String projectDetails = '/project-details';
   static const String unitDetails = '/unit-details';
+  static const String unitContract = '/unit-contract';
+  static const String contractPreview = '/contract-preview';
   static const String packages = '/packages';
   static const String customFinishing = '/custom-finishing';
   static const String bookingSuccess = '/booking-success';
@@ -97,6 +102,40 @@ class AppRouter {
                   );
                 },
           );
+        },
+      ),
+      GoRoute(
+        path: unitContract,
+        pageBuilder: (context, state) {
+          // You can extract unit entity from extra later if needed
+          return CustomTransitionPage(
+            key: state.pageKey,
+            transitionDuration: const Duration(milliseconds: 600),
+            child: const UnitContractScreen(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+                  const begin = Offset(1.0, 0.0); // Slide from right
+                  const end = Offset.zero;
+                  const curve = Curves.easeOutCubic;
+
+                  var tween = Tween(
+                    begin: begin,
+                    end: end,
+                  ).chain(CurveTween(curve: curve));
+
+                  return SlideTransition(
+                    position: animation.drive(tween),
+                    child: child,
+                  );
+                },
+          );
+        },
+      ),
+      GoRoute(
+        path: contractPreview,
+        builder: (context, state) {
+          final signatureImage = state.extra as Uint8List;
+          return ContractPreviewScreen(signatureImage: signatureImage);
         },
       ),
       GoRoute(

@@ -86,13 +86,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get startsFrom => 'يبدأ من';
 
   @override
-  String get sar => 'ر.س';
-
-  @override
   String get searchProject => 'ابحث عن مشروع أو موقع';
-
-  @override
-  String get filterAll => 'الكل';
 
   @override
   String get filterJeddah => 'جدة';
@@ -172,6 +166,9 @@ class AppLocalizationsAr extends AppLocalizations {
       'مساعدتك في انتقاء أجود الخامات والمواد الأولية من أفضل الموردين، بما يتوافق مع الميزانية والتصميم المعتمد.';
 
   @override
+  String get filterAll => 'الكل';
+
+  @override
   String get filterApartment => 'شقق';
 
   @override
@@ -200,6 +197,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get unitSqMeter => 'متر';
+
+  @override
+  String get sar => 'ر.س';
 
   @override
   String get unitDetailsTitle => 'تفاصيل الوحدة';
@@ -251,7 +251,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pricePerSqm => 'ر.س / متر';
 
   @override
-  String get signature => 'Signature';
+  String get signature => 'التوقيع';
 
   @override
   String get customFinishing => 'تخصيص التشطيب';
@@ -399,4 +399,25 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get typeMessageHint => 'اكتب رسالتك هنا...';
+
+  @override
+  String get bookUnitBtn => 'حجز الوحدة';
+
+  @override
+  String get contractTermsTitle => 'بنود وشروط العقد';
+
+  @override
+  String get iAgreeToTerms => 'أوافق على الشروط والأحكام';
+
+  @override
+  String get unitSummaryTitle => 'ملخص بيانات الوحدة';
+
+  @override
+  String get priceTitle => 'السعر الإجمالي';
+
+  @override
+  String get confirmBookingAndProceed => 'تأكيد الحجز والمتابعة';
+
+  @override
+  String get contractScreenTitle => 'حجز الوحدة';
 }

@@ -248,23 +248,11 @@ abstract class AppLocalizations {
   /// **'Starts from'**
   String get startsFrom;
 
-  /// No description provided for @sar.
-  ///
-  /// In en, this message translates to:
-  /// **'SAR'**
-  String get sar;
-
   /// No description provided for @searchProject.
   ///
   /// In en, this message translates to:
   /// **'Search for a project or location'**
   String get searchProject;
-
-  /// No description provided for @filterAll.
-  ///
-  /// In en, this message translates to:
-  /// **'All'**
-  String get filterAll;
 
   /// No description provided for @filterJeddah.
   ///
@@ -410,6 +398,12 @@ abstract class AppLocalizations {
   /// **'Assisting you in selecting the finest materials from top suppliers, aligning with your budget and approved design.'**
   String get serviceMaterialsDesc;
 
+  /// No description provided for @filterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get filterAll;
+
   /// No description provided for @filterApartment.
   ///
   /// In en, this message translates to:
@@ -469,6 +463,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'sqm'**
   String get unitSqMeter;
+
+  /// No description provided for @sar.
+  ///
+  /// In en, this message translates to:
+  /// **'SAR'**
+  String get sar;
 
   /// No description provided for @unitDetailsTitle.
   ///
@@ -859,6 +859,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Type your message here...'**
   String get typeMessageHint;
+
+  /// No description provided for @bookUnitBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Book Unit'**
+  String get bookUnitBtn;
+
+  /// No description provided for @contractTermsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Contract Terms & Conditions'**
+  String get contractTermsTitle;
+
+  /// No description provided for @iAgreeToTerms.
+  ///
+  /// In en, this message translates to:
+  /// **'I agree to the terms and conditions'**
+  String get iAgreeToTerms;
+
+  /// No description provided for @unitSummaryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unit Summary'**
+  String get unitSummaryTitle;
+
+  /// No description provided for @priceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Price'**
+  String get priceTitle;
+
+  /// No description provided for @confirmBookingAndProceed.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Booking & Proceed'**
+  String get confirmBookingAndProceed;
+
+  /// No description provided for @contractScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unit Booking'**
+  String get contractScreenTitle;
 }
 
 class _AppLocalizationsDelegate

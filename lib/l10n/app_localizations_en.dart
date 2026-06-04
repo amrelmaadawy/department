@@ -87,13 +87,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get startsFrom => 'Starts from';
 
   @override
-  String get sar => 'SAR';
-
-  @override
   String get searchProject => 'Search for a project or location';
-
-  @override
-  String get filterAll => 'All';
 
   @override
   String get filterJeddah => 'Jeddah';
@@ -173,6 +167,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'Assisting you in selecting the finest materials from top suppliers, aligning with your budget and approved design.';
 
   @override
+  String get filterAll => 'All';
+
+  @override
   String get filterApartment => 'Apartments';
 
   @override
@@ -201,6 +198,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get unitSqMeter => 'sqm';
+
+  @override
+  String get sar => 'SAR';
 
   @override
   String get unitDetailsTitle => 'Unit Details';
@@ -400,4 +400,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get typeMessageHint => 'Type your message here...';
+
+  @override
+  String get bookUnitBtn => 'Book Unit';
+
+  @override
+  String get contractTermsTitle => 'Contract Terms & Conditions';
+
+  @override
+  String get iAgreeToTerms => 'I agree to the terms and conditions';
+
+  @override
+  String get unitSummaryTitle => 'Unit Summary';
+
+  @override
+  String get priceTitle => 'Total Price';
+
+  @override
+  String get confirmBookingAndProceed => 'Confirm Booking & Proceed';
+
+  @override
+  String get contractScreenTitle => 'Unit Booking';
 }
