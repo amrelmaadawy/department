@@ -1,7 +1,8 @@
 {
   "@@locale": "ar",
   "welcomeTitle": "شطبها بكيفك",
-  "welcomeSubtitle": "ابنِ مساحتك الخاصة.. من العظم إلى الفخامة",
+  "welcomeSubtitle": "نصنع من مساحتك تحفة معمارية تعكس شخصيتك.",
+  "splashTagline": "مساحتك.. ببصمتك الخاصة",
   "startNow": "ابدأ الآن",
   "exploreAsHost": "استكشف كمضيف",
   "login": "تسجيل دخول",

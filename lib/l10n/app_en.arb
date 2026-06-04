@@ -1,7 +1,8 @@
 {
   "@@locale": "en",
   "welcomeTitle": "Finish it your way",
-  "welcomeSubtitle": "Build your private space.. from core-and-shell to luxury",
+  "welcomeSubtitle": "We craft your space into an architectural masterpiece that reflects your personality.",
+  "splashTagline": "Your Signature Space",
   "startNow": "Start Now",
   "exploreAsHost": "Explore as a host",
   "login": "Login",

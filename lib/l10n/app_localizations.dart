@@ -107,8 +107,14 @@ abstract class AppLocalizations {
   /// No description provided for @welcomeSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Build your private space.. from core-and-shell to luxury'**
+  /// **'We craft your space into an architectural masterpiece that reflects your personality.'**
   String get welcomeSubtitle;
+
+  /// No description provided for @splashTagline.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Signature Space'**
+  String get splashTagline;
 
   /// No description provided for @startNow.
   ///

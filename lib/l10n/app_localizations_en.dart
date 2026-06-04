@@ -13,7 +13,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get welcomeSubtitle =>
-      'Build your private space.. from core-and-shell to luxury';
+      'We craft your space into an architectural masterpiece that reflects your personality.';
+
+  @override
+  String get splashTagline => 'Your Signature Space';
 
   @override
   String get startNow => 'Start Now';

@@ -12,7 +12,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get welcomeTitle => 'شطبها بكيفك';
 
   @override
-  String get welcomeSubtitle => 'ابنِ مساحتك الخاصة.. من العظم إلى الفخامة';
+  String get welcomeSubtitle => 'نصنع من مساحتك تحفة معمارية تعكس شخصيتك.';
+
+  @override
+  String get splashTagline => 'مساحتك.. ببصمتك الخاصة';
 
   @override
   String get startNow => 'ابدأ الآن';
