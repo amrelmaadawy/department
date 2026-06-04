@@ -116,6 +116,48 @@ abstract class AppLocalizations {
   /// **'Your Signature Space'**
   String get splashTagline;
 
+  /// No description provided for @onboardingTitle1.
+  ///
+  /// In en, this message translates to:
+  /// **'Discover your ideal space'**
+  String get onboardingTitle1;
+
+  /// No description provided for @onboardingSubtitle1.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore an exclusive collection of luxury properties tailored to your refined taste.'**
+  String get onboardingSubtitle1;
+
+  /// No description provided for @onboardingTitle2.
+  ///
+  /// In en, this message translates to:
+  /// **'Design your home smoothly'**
+  String get onboardingTitle2;
+
+  /// No description provided for @onboardingSubtitle2.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose materials, modify designs, and get instant costs in a unique interactive experience.'**
+  String get onboardingSubtitle2;
+
+  /// No description provided for @onboardingTitle3.
+  ///
+  /// In en, this message translates to:
+  /// **'Hotel standard execution'**
+  String get onboardingTitle3;
+
+  /// No description provided for @onboardingSubtitle3.
+  ///
+  /// In en, this message translates to:
+  /// **'Relax while we transform your plans into an architectural masterpiece with the highest quality standards.'**
+  String get onboardingSubtitle3;
+
+  /// No description provided for @skip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get skip;
+
   /// No description provided for @startNow.
   ///
   /// In en, this message translates to:

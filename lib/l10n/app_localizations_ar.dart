@@ -18,6 +18,30 @@ class AppLocalizationsAr extends AppLocalizations {
   String get splashTagline => 'مساحتك.. ببصمتك الخاصة';
 
   @override
+  String get onboardingTitle1 => 'اكتشف مساحتك المثالية';
+
+  @override
+  String get onboardingSubtitle1 =>
+      'استعرض مجموعة حصرية من العقارات الفاخرة المصممة لتناسب ذوقك الرفيع.';
+
+  @override
+  String get onboardingTitle2 => 'صمم منزلك بخطوات بسيطة';
+
+  @override
+  String get onboardingSubtitle2 =>
+      'اختر خاماتك، عدل التصميمات، وتعرف على التكلفة الفورية في تجربة تفاعلية فريدة.';
+
+  @override
+  String get onboardingTitle3 => 'تنفيذ بمعايير فندقية';
+
+  @override
+  String get onboardingSubtitle3 =>
+      'استرح بينما نقوم بتحويل مخططاتك إلى تحفة معمارية تنبض بالحياة بأعلى معايير الجودة.';
+
+  @override
+  String get skip => 'تخطي';
+
+  @override
   String get startNow => 'ابدأ الآن';
 
   @override

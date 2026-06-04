@@ -74,7 +74,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
       if (status == AnimationStatus.completed) {
         Future.delayed(const Duration(milliseconds: 400), () {
           if (mounted) {
-            context.go(AppRouter.auth);
+            context.go(AppRouter.onboarding);
           }
         });
       }

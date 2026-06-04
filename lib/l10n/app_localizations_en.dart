@@ -19,6 +19,30 @@ class AppLocalizationsEn extends AppLocalizations {
   String get splashTagline => 'Your Signature Space';
 
   @override
+  String get onboardingTitle1 => 'Discover your ideal space';
+
+  @override
+  String get onboardingSubtitle1 =>
+      'Explore an exclusive collection of luxury properties tailored to your refined taste.';
+
+  @override
+  String get onboardingTitle2 => 'Design your home smoothly';
+
+  @override
+  String get onboardingSubtitle2 =>
+      'Choose materials, modify designs, and get instant costs in a unique interactive experience.';
+
+  @override
+  String get onboardingTitle3 => 'Hotel standard execution';
+
+  @override
+  String get onboardingSubtitle3 =>
+      'Relax while we transform your plans into an architectural masterpiece with the highest quality standards.';
+
+  @override
+  String get skip => 'Skip';
+
+  @override
   String get startNow => 'Start Now';
 
   @override

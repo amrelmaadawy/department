@@ -8,6 +8,7 @@ import 'package:apartment/features/custom_finishing/presentation/screens/contrac
 import 'package:apartment/features/profile/presentation/screens/profile_screen.dart';
 
 import '../../../features/app_startup/presentation/screens/welcome_screen.dart';
+import '../../../features/onboarding/presentation/screens/onboarding_screen.dart';
 import '../../../features/auth/presentation/screens/auth_screen.dart';
 import '../../../features/layout/presentation/screens/layout_screen.dart';
 import '../../../features/projects/presentation/screens/project_details_screen.dart';
@@ -26,6 +27,7 @@ import 'app_router_transitions.dart';
 
 class AppRouter {
   static const String initial = '/';
+  static const String onboarding = '/onboarding';
   static const String auth = '/auth';
   static const String layout = '/layout';
   static const String projectDetails = '/project-details';
@@ -45,6 +47,10 @@ class AppRouter {
       GoRoute(
         path: initial,
         builder: (context, state) => const WelcomeScreen(),
+      ),
+      GoRoute(
+        path: onboarding,
+        builder: (context, state) => const OnboardingScreen(),
       ),
       GoRoute(path: auth, builder: (context, state) => const AuthScreen()),
       GoRoute(path: layout, builder: (context, state) => const LayoutScreen()),
