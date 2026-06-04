@@ -42,19 +42,26 @@ class FinishingCategoryTabs extends StatelessWidget {
                     vertical: 12,
                   ),
                   decoration: BoxDecoration(
-                    color: isSelected
-                        ? AppColors.primary
-                        : AppColors.background,
+                    gradient: isSelected
+                        ? const LinearGradient(
+                            colors: [AppColors.gold, Color(0xFFE5B962)],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          )
+                        : null,
+                    color: !isSelected ? AppColors.white : null,
                     borderRadius: BorderRadius.circular(30),
                     border: Border.all(
-                      color: isSelected ? AppColors.gold : AppColors.border,
-                      width: isSelected ? 1.5 : 1,
+                      color: isSelected
+                          ? Colors.transparent
+                          : AppColors.border.withValues(alpha: 0.3),
+                      width: 1,
                     ),
                     boxShadow: isSelected
                         ? [
                             BoxShadow(
-                              color: AppColors.gold.withValues(alpha: 0.2),
-                              blurRadius: 10,
+                              color: AppColors.gold.withValues(alpha: 0.3),
+                              blurRadius: 12,
                               offset: const Offset(0, 4),
                             ),
                           ]
@@ -64,9 +71,7 @@ class FinishingCategoryTabs extends StatelessWidget {
                     _getCategoryName(category, l10n),
                     style: TextStyle(
                       fontSize: AppFonts.bodyLarge,
-                      fontWeight: isSelected
-                          ? FontWeight.bold
-                          : FontWeight.w600,
+                      fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
                       color: isSelected
                           ? AppColors.white
                           : AppColors.textPrimary.withValues(alpha: 0.6),

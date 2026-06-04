@@ -8,7 +8,6 @@ import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/core/widgets/custom_button.dart';
 import 'package:apartment/core/routes/app_router.dart';
 import 'package:apartment/l10n/app_localizations.dart';
-import 'package:apartment/features/projects/domain/services/contract_pdf_generator.dart';
 
 class ContractBottomActions extends StatelessWidget {
   final bool isAgreed;

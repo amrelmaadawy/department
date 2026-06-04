@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:apartment/core/theme/app_colors.dart';
 import 'package:apartment/core/theme/app_fonts.dart';
@@ -38,7 +39,10 @@ class PackageCardAction extends StatelessWidget {
                 ],
               ),
               child: OutlinedButton(
-                onPressed: () {},
+                onPressed: () {
+                  // Custom package might have a different flow later, but for now navigate to custom finishing
+                  context.push('/custom-finishing');
+                },
                 style: OutlinedButton.styleFrom(
                   side: const BorderSide(
                     color: AppColors.gold,
@@ -66,7 +70,9 @@ class PackageCardAction extends StatelessWidget {
             )
           : CustomButton(
               text: package.buttonText,
-              onPressed: () {},
+              onPressed: () {
+                context.push('/custom-finishing');
+              },
               backgroundColor: isDark
                   ? const Color(0xFF8B6914) // Vibrant dark gold
                   : AppColors.gold,

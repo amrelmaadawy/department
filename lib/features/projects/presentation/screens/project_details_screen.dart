@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_spacing.dart';
-import '../../../../core/widgets/custom_button.dart';
 import '../../../home/domain/entities/project_entity.dart';
 
 class ProjectDetailsScreen extends StatefulWidget {
@@ -112,21 +111,6 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen>
               child: ProjectServicesTab(services: widget.project.services),
             ),
           ],
-        ),
-      ),
-      bottomNavigationBar: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.lg,
-            vertical: AppSpacing.sm,
-          ),
-          child: CustomButton(
-            text: l10n.chooseUnit,
-            onPressed: () {},
-            // Use standard primary if buttonDark isn't fully defined for this style, but gold fits best
-            backgroundColor: AppColors.gold,
-            textColor: AppColors.white,
-          ),
         ),
       ),
     );

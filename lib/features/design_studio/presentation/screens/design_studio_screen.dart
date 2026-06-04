@@ -1,0 +1,395 @@
+import 'dart:ui';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_fonts.dart';
+import '../../../../core/theme/app_radius.dart';
+import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/routes/app_router.dart';
+
+class DesignStudioScreen extends StatelessWidget {
+  const DesignStudioScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.background,
+      body: CustomScrollView(
+        slivers: [
+          _buildHeroHeader(context),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: AppSpacing.xl),
+                  _buildSectionTitle('المسارات المتاحة'),
+                  const SizedBox(height: AppSpacing.md),
+                  _buildAiCard(context),
+                  const SizedBox(height: AppSpacing.lg),
+                  _buildSecondaryCard(
+                    context: context,
+                    title: 'تصفح باقات التشطيب',
+                    subtitle: 'استكشف الباقات الجاهزة والمصممة بعناية لتناسب احتياجاتك.',
+                    icon: FluentIcons.box_24_regular,
+                    onTap: () => context.push(AppRouter.packages),
+                  ),
+                  const SizedBox(height: AppSpacing.md),
+                  _buildSecondaryCard(
+                    context: context,
+                    title: 'تصميماتي المحفوظة',
+                    subtitle: 'العودة لمشاهدة التصاميم التي حفظتها مسبقاً.',
+                    icon: FluentIcons.folder_24_regular,
+                    onTap: () {
+                      // Placeholder
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('سيتم إضافة هذه الميزة قريباً!')),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: AppSpacing.xxxl),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHeroHeader(BuildContext context) {
+    return SliverAppBar(
+      expandedHeight: 300,
+      pinned: true,
+      backgroundColor: AppColors.background, // Match background
+      elevation: 0,
+      scrolledUnderElevation: 0, // Removes the scroll shadow
+      flexibleSpace: FlexibleSpaceBar(
+        background: Stack(
+          fit: StackFit.expand,
+          children: [
+            Image.asset(
+              'assets/images/design_studio_hero_bright.png',
+              fit: BoxFit.cover,
+            ),
+            // Gradient Overlay
+            Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.black.withValues(alpha: 0.1),
+                    Colors.black.withValues(alpha: 0.7),
+                  ],
+                ),
+              ),
+            ),
+            // Text Content
+            Positioned(
+              bottom: AppSpacing.xl,
+              left: AppSpacing.lg,
+              right: AppSpacing.lg,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: AppColors.white.withValues(alpha: 0.15),
+                          border: Border.all(
+                            color: AppColors.white.withValues(alpha: 0.3),
+                            width: 1,
+                          ),
+                        ),
+                        child: const Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(FluentIcons.sparkle_16_filled, color: AppColors.gold, size: 16),
+                            SizedBox(width: 6),
+                            Text(
+                              'معمل التصميم',
+                              style: TextStyle(
+                                color: AppColors.white,
+                                fontSize: AppFonts.bodySmall,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 0.5,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.md),
+                  const Text(
+                    'استوديو التصميم',
+                    style: TextStyle(
+                      color: AppColors.white,
+                      fontSize: AppFonts.displayMedium,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: -0.5,
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.xs),
+                  Text(
+                    'دعنا نبني منزل أحلامك بأحدث تقنيات التصميم.',
+                    style: TextStyle(
+                      color: AppColors.white.withValues(alpha: 0.8),
+                      fontSize: AppFonts.bodyLarge,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSectionTitle(String title) {
+    return Text(
+      title,
+      style: const TextStyle(
+        fontSize: AppFonts.headlineSmall,
+        fontWeight: FontWeight.bold,
+        color: AppColors.primary,
+      ),
+    );
+  }
+
+  Widget _buildAiCard(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (context) => _buildComingSoonDialog(context),
+        );
+      },
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(AppSpacing.xl),
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            colors: [AppColors.primary, Color(0xFF1E2A40)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(AppRadius.xl),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.primary.withValues(alpha: 0.2),
+              blurRadius: 20,
+              offset: const Offset(0, 10),
+            ),
+          ],
+        ),
+        child: Stack(
+          children: [
+            Positioned(
+              right: -20,
+              top: -20,
+              child: Icon(
+                FluentIcons.sparkle_24_filled,
+                size: 100,
+                color: AppColors.white.withValues(alpha: 0.05),
+              ),
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: AppColors.gold.withValues(alpha: 0.2),
+                    borderRadius: BorderRadius.circular(AppRadius.lg),
+                  ),
+                  child: const Icon(
+                    FluentIcons.sparkle_24_filled,
+                    color: AppColors.gold,
+                    size: 28,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.lg),
+                const Text(
+                  'اكتشف نمطك بالذكاء الاصطناعي',
+                  style: TextStyle(
+                    color: AppColors.white,
+                    fontSize: AppFonts.headlineMedium,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.xs),
+                Text(
+                  'أجب على بعض الأسئلة وسنقوم بتوليد تصميم داخلي متكامل مخصص لذوقك.',
+                  style: TextStyle(
+                    color: AppColors.white.withValues(alpha: 0.7),
+                    fontSize: AppFonts.bodyMedium,
+                    height: 1.5,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.lg),
+                Row(
+                  children: [
+                    const Text(
+                      'ابدأ التجربة',
+                      style: TextStyle(
+                        color: AppColors.gold,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(width: AppSpacing.xs),
+                    const Icon(
+                      Icons.arrow_forward_ios,
+                      color: AppColors.gold,
+                      size: 14,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSecondaryCard({
+    required BuildContext context,
+    required String title,
+    required String subtitle,
+    required IconData icon,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(AppSpacing.lg),
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(AppRadius.xl),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.03),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: AppColors.background,
+                borderRadius: BorderRadius.circular(AppRadius.lg),
+              ),
+              child: Icon(icon, color: AppColors.primary, size: 24),
+            ),
+            const SizedBox(width: AppSpacing.md),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: AppFonts.headlineSmall,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.primary,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    subtitle,
+                    style: const TextStyle(
+                      fontSize: AppFonts.bodySmall,
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Icon(
+              Icons.arrow_forward_ios,
+              color: AppColors.textSecondary,
+              size: 14,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildComingSoonDialog(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      backgroundColor: AppColors.white,
+      child: Padding(
+        padding: const EdgeInsets.all(AppSpacing.xxl),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: AppColors.gold.withValues(alpha: 0.1),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(FluentIcons.sparkle_24_filled, color: AppColors.gold, size: 40),
+            ),
+            const SizedBox(height: AppSpacing.xl),
+            const Text(
+              'مساعد الذكاء الاصطناعي',
+              style: TextStyle(
+                fontSize: AppFonts.headlineMedium,
+                fontWeight: FontWeight.bold,
+                color: AppColors.primary,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: AppSpacing.md),
+            const Text(
+              'هذه الميزة تحت التطوير حالياً.\nقريباً ستتمكن من تصميم شقتك ورؤيتها بالواقع الافتراضي قبل التنفيذ!',
+              style: TextStyle(
+                fontSize: AppFonts.bodyMedium,
+                color: AppColors.textSecondary,
+                height: 1.5,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: AppSpacing.xl),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () => Navigator.pop(context),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: const Text(
+                  'حسناً، بانتظار ذلك',
+                  style: TextStyle(
+                    color: AppColors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
