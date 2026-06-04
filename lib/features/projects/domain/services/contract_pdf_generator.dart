@@ -143,7 +143,16 @@ class ContractPdfGenerator {
                 borderRadius: const pw.BorderRadius.all(pw.Radius.circular(8)),
               ),
               child: pw.Center(
-                child: pw.Image(pw.MemoryImage(signatureImage)),
+                child: signatureImage.isNotEmpty
+                    ? pw.Image(pw.MemoryImage(signatureImage))
+                    : pw.Text(
+                        'مُعتمد إلكترونياً',
+                        style: pw.TextStyle(
+                          font: ttfBold,
+                          fontSize: 16,
+                          color: PdfColors.green700,
+                        ),
+                      ),
               ),
             ),
             pw.SizedBox(height: 8),

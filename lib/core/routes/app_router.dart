@@ -9,6 +9,9 @@ import 'package:apartment/features/profile/presentation/screens/profile_screen.d
 
 import '../../../features/app_startup/presentation/screens/welcome_screen.dart';
 import '../../../features/onboarding/presentation/screens/onboarding_screen.dart';
+import '../../../features/profile/presentation/screens/my_units_screen.dart';
+import '../../../features/profile/presentation/screens/unit_contract_screen.dart';
+import '../../../features/profile/presentation/screens/unit_progress_screen.dart';
 import '../../../features/auth/presentation/screens/auth_screen.dart';
 import '../../../features/layout/presentation/screens/layout_screen.dart';
 import '../../../features/projects/presentation/screens/project_details_screen.dart';
@@ -39,6 +42,9 @@ class AppRouter {
   static const String bookingSuccess = '/booking-success';
   static const String contractsReview = '/contracts-review';
   static const String profile = '/profile';
+  static const String myUnits = '/my-units';
+  static const String unitProgress = '/unit-progress';
+  static const String unitContract = '/unit-contract';
   static const String support = '/support';
 
   static final router = GoRouter(
@@ -160,6 +166,18 @@ class AppRouter {
       GoRoute(
         path: profile,
         builder: (context, state) => const ProfileScreen(),
+      ),
+      GoRoute(
+        path: myUnits,
+        builder: (context, state) => const MyUnitsScreen(),
+      ),
+      GoRoute(
+        path: unitProgress,
+        builder: (context, state) => const UnitProgressScreen(),
+      ),
+      GoRoute(
+        path: unitContract,
+        builder: (context, state) => const UnitContractScreen(),
       ),
       GoRoute(
         path: support,
