@@ -79,7 +79,7 @@ class CostBreakdownCard extends StatelessWidget {
                           (Match m) => '${m[1]},',
                         ),
                     style: const TextStyle(
-                      fontSize: 28,
+                      fontSize: AppFonts.displayMedium,
                       fontWeight: FontWeight.w900,
                       color: AppColors.gold,
                     ),

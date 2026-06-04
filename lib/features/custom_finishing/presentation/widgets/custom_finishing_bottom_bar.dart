@@ -68,7 +68,7 @@ class CustomFinishingBottomBar extends StatelessWidget {
                                   (Match m) => '${m[1]},',
                                 ),
                             style: const TextStyle(
-                              fontSize: 28, // Massive display text
+                              fontSize: AppFonts.displayMedium,
                               fontWeight: FontWeight.w900,
                               color: AppColors.primary,
                               letterSpacing: -1,

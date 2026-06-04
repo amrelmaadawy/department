@@ -43,7 +43,7 @@ class UnitBottomActions extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'السعر الإجمالي', // Ideally from l10n, using hardcoded Arabic for now as l10n might not have it
+                    l10n.priceTitle,
                     style: TextStyle(
                       fontSize: AppFonts.labelMedium,
                       color: AppColors.textSecondary,

@@ -7,6 +7,8 @@ import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/features/home/domain/entities/project_unit_entity.dart';
+import 'unit_image_thumbnails.dart';
+import 'unit_zoom_controls.dart';
 
 class UnitFloorPlanViewer extends StatefulWidget {
   final ProjectUnitEntity unit;
@@ -185,32 +187,9 @@ class _UnitFloorPlanViewerState extends State<UnitFloorPlanViewer> {
               Positioned(
                 bottom: AppSpacing.md,
                 left: AppSpacing.md,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(AppRadius.md),
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: AppSpacing.sm,
-                        vertical: AppSpacing.xs,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.white.withValues(alpha: 0.7),
-                        borderRadius: BorderRadius.circular(AppRadius.md),
-                        border: Border.all(
-                          color: AppColors.white.withValues(alpha: 0.5),
-                          width: 1,
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          _buildIconButton(FluentIcons.zoom_out_24_regular, _zoomOut),
-                          const SizedBox(width: AppSpacing.xs),
-                          _buildIconButton(FluentIcons.zoom_in_24_regular, _zoomIn),
-                        ],
-                      ),
-                    ),
-                  ),
+                child: UnitZoomControls(
+                  onZoomIn: _zoomIn,
+                  onZoomOut: _zoomOut,
                 ),
               ),
             ],
@@ -219,71 +198,18 @@ class _UnitFloorPlanViewerState extends State<UnitFloorPlanViewer> {
         
         // Thumbnails
         if (images.length > 1)
-          SizedBox(
-            height: 64,
-            child: ListView.separated(
-              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-              scrollDirection: Axis.horizontal,
-              itemCount: images.length,
-              separatorBuilder: (context, index) => const SizedBox(width: AppSpacing.md),
-              itemBuilder: (context, index) {
-                final isSelected = index == _currentIndex;
-                return GestureDetector(
-                  onTap: () {
-                    _pageController.animateToPage(
-                      index,
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeInOut,
-                    );
-                  },
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
-                    width: 64,
-                    height: 64,
-                    decoration: BoxDecoration(
-                      color: AppColors.white,
-                      borderRadius: BorderRadius.circular(AppRadius.md),
-                      border: Border.all(
-                        color: isSelected ? AppColors.primary : AppColors.border,
-                        width: isSelected ? 2 : 1,
-                      ),
-                      boxShadow: isSelected 
-                        ? [
-                            BoxShadow(
-                              color: AppColors.primary.withValues(alpha: 0.2),
-                              blurRadius: 8,
-                              offset: const Offset(0, 2),
-                            )
-                          ] 
-                        : [],
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(AppRadius.md - 2),
-                      child: Image.asset(
-                        images[index],
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
+          UnitImageThumbnails(
+            images: images,
+            currentIndex: _currentIndex,
+            onThumbnailTap: (index) {
+              _pageController.animateToPage(
+                index,
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeInOut,
+              );
+            },
           ),
       ],
-    );
-  }
-
-  Widget _buildIconButton(IconData icon, VoidCallback onTap) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(AppRadius.sm),
-        child: Padding(
-          padding: const EdgeInsets.all(6.0),
-          child: Icon(icon, size: 20, color: AppColors.primary),
-        ),
-      ),
     );
   }
 }

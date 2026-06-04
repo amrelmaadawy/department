@@ -5,9 +5,11 @@ import 'package:flutter/services.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_fonts.dart';
-import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../l10n/app_localizations.dart';
+import 'widgets/booking_success_icon.dart';
+import 'widgets/booking_order_details.dart';
+import 'widgets/booking_success_actions.dart';
 
 class BookingSuccessScreen extends StatefulWidget {
   final String orderId;
@@ -82,11 +84,6 @@ class _BookingSuccessScreenState extends State<BookingSuccessScreen>
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    // Format expected date (Mock: 48 hours from now)
-    final expectedDate = DateTime.now().add(const Duration(hours: 48));
-    final expectedDateStr =
-        '${expectedDate.day} / ${expectedDate.month} / ${expectedDate.year}';
-
     return Scaffold(
       backgroundColor: AppColors.background,
       body: Stack(
@@ -140,54 +137,9 @@ class _BookingSuccessScreenState extends State<BookingSuccessScreen>
                   const Spacer(flex: 2),
 
                   // Animated Success Icon with pulsing glow
-                  ScaleTransition(
-                    scale: _scaleAnimation,
-                    child: Center(
-                      child: ScaleTransition(
-                        scale: _pulseAnimation,
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            // Outer glowing ring
-                            Container(
-                              width: 150,
-                              height: 150,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: AppColors.gold.withValues(alpha: 0.1),
-                              ),
-                            ),
-                            Container(
-                              width: 120,
-                              height: 120,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                gradient: const LinearGradient(
-                                  colors: [AppColors.gold, Color(0xFFE5B962)],
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: AppColors.gold.withValues(
-                                      alpha: 0.5,
-                                    ),
-                                    blurRadius: 40,
-                                    spreadRadius: 5,
-                                    offset: const Offset(0, 10),
-                                  ),
-                                ],
-                              ),
-                              child: const Icon(
-                                FluentIcons.checkmark_48_filled,
-                                color: AppColors.white,
-                                size: 55,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                  BookingSuccessIcon(
+                    scaleAnimation: _scaleAnimation,
+                    pulseAnimation: _pulseAnimation,
                   ),
 
                   const Spacer(flex: 1),
@@ -225,113 +177,7 @@ class _BookingSuccessScreenState extends State<BookingSuccessScreen>
                   // Order Details Card
                   FadeTransition(
                     opacity: _opacityAnimation,
-                    child: Container(
-                      padding: const EdgeInsets.all(AppSpacing.xxl),
-                      decoration: BoxDecoration(
-                        color: AppColors.white.withValues(alpha: 0.9),
-                        borderRadius: BorderRadius.circular(AppRadius.xl),
-                        border: Border.all(
-                          color: AppColors.gold.withValues(alpha: 0.2),
-                          width: 1.5,
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.gold.withValues(alpha: 0.05),
-                            blurRadius: 30,
-                            offset: const Offset(0, 15),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                l10n.orderNumber,
-                                style: TextStyle(
-                                  fontSize: AppFonts.bodyMedium,
-                                  color: AppColors.textPrimary.withValues(
-                                    alpha: 0.7,
-                                  ),
-                                ),
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                    widget.orderId,
-                                    style: const TextStyle(
-                                      fontSize: AppFonts.headlineSmall,
-                                      fontWeight: FontWeight.bold,
-                                      color: AppColors.primary,
-                                    ),
-                                  ),
-                                  const SizedBox(width: AppSpacing.sm),
-                                  InkWell(
-                                    onTap: () => _copyOrderId(context),
-                                    borderRadius: BorderRadius.circular(
-                                      AppRadius.sm,
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(4.0),
-                                      child: Icon(
-                                        FluentIcons.copy_20_regular,
-                                        color: AppColors.gold,
-                                        size: 20,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: AppSpacing.xl,
-                            ),
-                            child: Row(
-                              children: List.generate(
-                                150 ~/ 4,
-                                (index) => Expanded(
-                                  child: Container(
-                                    color: index % 2 == 0
-                                        ? AppColors.border.withValues(
-                                            alpha: 0.5,
-                                          )
-                                        : Colors.transparent,
-                                    height: 1.5,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                l10n.expectedVisitDate,
-                                style: TextStyle(
-                                  fontSize: AppFonts.bodyMedium,
-                                  color: AppColors.textPrimary.withValues(
-                                    alpha: 0.7,
-                                  ),
-                                ),
-                              ),
-                              Text(
-                                expectedDateStr,
-                                style: const TextStyle(
-                                  fontSize: AppFonts.headlineSmall,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.primary,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
+                    child: BookingOrderDetails(orderId: widget.orderId),
                   ),
 
                   const Spacer(flex: 2),
@@ -339,83 +185,7 @@ class _BookingSuccessScreenState extends State<BookingSuccessScreen>
                   // Action Buttons
                   FadeTransition(
                     opacity: _opacityAnimation,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Container(
-                          height: 60,
-                          decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              colors: [AppColors.gold, Color(0xFFC99B40)],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
-                            borderRadius: BorderRadius.circular(AppRadius.xl),
-                            boxShadow: [
-                              BoxShadow(
-                                color: AppColors.gold.withValues(alpha: 0.3),
-                                blurRadius: 20,
-                                offset: const Offset(0, 10),
-                              ),
-                            ],
-                          ),
-                          child: Material(
-                            color: Colors.transparent,
-                            child: InkWell(
-                              borderRadius: BorderRadius.circular(AppRadius.xl),
-                              onTap: () {
-                                // Logic to navigate to tracking screen later
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    l10n.trackExecutionBtn,
-                                    style: const TextStyle(
-                                      fontSize: AppFonts.headlineSmall,
-                                      fontWeight: FontWeight.bold,
-                                      color: AppColors.white,
-                                      letterSpacing: 0.5,
-                                    ),
-                                  ),
-                                  const SizedBox(width: AppSpacing.sm),
-                                  const Icon(
-                                    FluentIcons.chevron_left_24_regular,
-                                    color: AppColors.white,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-
-                        const SizedBox(height: AppSpacing.lg),
-
-                        OutlinedButton(
-                          onPressed: () {
-                            context.go('/'); // Clear stack and go to root
-                          },
-                          style: OutlinedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(vertical: 18),
-                            side: BorderSide(
-                              color: AppColors.primary.withValues(alpha: 0.2),
-                              width: 1.5,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(AppRadius.xl),
-                            ),
-                          ),
-                          child: Text(
-                            l10n.returnToHomeBtn,
-                            style: const TextStyle(
-                              fontSize: AppFonts.headlineSmall,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.primary,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                    child: const BookingSuccessActions(),
                   ),
 
                   const SizedBox(height: AppSpacing.xxl),

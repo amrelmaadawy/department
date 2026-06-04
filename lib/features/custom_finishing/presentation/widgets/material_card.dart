@@ -200,7 +200,7 @@ class MaterialCard extends StatelessWidget {
                             Text(
                               material.pricePerSqm.toStringAsFixed(0),
                               style: const TextStyle(
-                                fontSize: 24, // Display size
+                                fontSize: AppFonts.displaySmall, // Display size
                                 fontWeight: FontWeight.w900,
                                 color: AppColors.primary,
                                 letterSpacing: -1,

@@ -20,6 +20,7 @@ import '../../../features/home/domain/entities/project_entity.dart';
 import '../../../features/home/domain/entities/project_unit_entity.dart';
 import '../di/injection_container.dart';
 import '../../features/custom_finishing/presentation/cubit/custom_finishing_cubit.dart';
+import 'app_router_transitions.dart';
 
 class AppRouter {
   static const String initial = '/';
@@ -55,22 +56,7 @@ class AppRouter {
               project: extra['project'] as ProjectEntity,
               heroTag: extra['heroTag'] as String,
             ),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-                  const begin = Offset(0.0, 1.0); // Slide up from bottom
-                  const end = Offset.zero;
-                  const curve = Curves.easeOutCubic;
-
-                  var tween = Tween(
-                    begin: begin,
-                    end: end,
-                  ).chain(CurveTween(curve: curve));
-
-                  return SlideTransition(
-                    position: animation.drive(tween),
-                    child: child,
-                  );
-                },
+            transitionsBuilder: AppRouterTransitions.slideUpFromBottom,
           );
         },
       ),
@@ -85,22 +71,7 @@ class AppRouter {
               unit: extra['unit'] as ProjectUnitEntity,
               heroTag: extra['heroTag'] as String,
             ),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-                  const begin = Offset(0.0, 1.0); // Slide up from bottom
-                  const end = Offset.zero;
-                  const curve = Curves.easeOutCubic;
-
-                  var tween = Tween(
-                    begin: begin,
-                    end: end,
-                  ).chain(CurveTween(curve: curve));
-
-                  return SlideTransition(
-                    position: animation.drive(tween),
-                    child: child,
-                  );
-                },
+            transitionsBuilder: AppRouterTransitions.slideUpFromBottom,
           );
         },
       ),
@@ -112,22 +83,7 @@ class AppRouter {
             key: state.pageKey,
             transitionDuration: const Duration(milliseconds: 600),
             child: const UnitContractScreen(),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-                  const begin = Offset(1.0, 0.0); // Slide from right
-                  const end = Offset.zero;
-                  const curve = Curves.easeOutCubic;
-
-                  var tween = Tween(
-                    begin: begin,
-                    end: end,
-                  ).chain(CurveTween(curve: curve));
-
-                  return SlideTransition(
-                    position: animation.drive(tween),
-                    child: child,
-                  );
-                },
+            transitionsBuilder: AppRouterTransitions.slideFromRight,
           );
         },
       ),
@@ -145,20 +101,7 @@ class AppRouter {
             key: state.pageKey,
             transitionDuration: const Duration(milliseconds: 400),
             child: const PackagesScreen(),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-                  const begin = Offset(1.0, 0.0); // Slide from right
-                  const end = Offset.zero;
-                  const curve = Curves.easeOutCubic;
-                  var tween = Tween(
-                    begin: begin,
-                    end: end,
-                  ).chain(CurveTween(curve: curve));
-                  return SlideTransition(
-                    position: animation.drive(tween),
-                    child: child,
-                  );
-                },
+            transitionsBuilder: AppRouterTransitions.slideFromRight,
           );
         },
       ),
@@ -171,23 +114,7 @@ class AppRouter {
               create: (context) => sl<CustomFinishingCubit>()..loadMaterials(),
               child: const CustomFinishingScreen(),
             ),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-                  const begin = Offset(1.0, 0.0);
-                  const end = Offset.zero;
-                  const curve = Curves.easeInOut;
-
-                  var tween = Tween(
-                    begin: begin,
-                    end: end,
-                  ).chain(CurveTween(curve: curve));
-                  var offsetAnimation = animation.drive(tween);
-
-                  return SlideTransition(
-                    position: offsetAnimation,
-                    child: child,
-                  );
-                },
+            transitionsBuilder: AppRouterTransitions.slideFromRight,
           );
         },
       ),
@@ -199,10 +126,7 @@ class AppRouter {
             key: state.pageKey,
             transitionDuration: const Duration(milliseconds: 500),
             child: BookingSuccessScreen(orderId: orderId),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-                  return FadeTransition(opacity: animation, child: child);
-                },
+            transitionsBuilder: AppRouterTransitions.fadeTransition,
           );
         },
       ),
