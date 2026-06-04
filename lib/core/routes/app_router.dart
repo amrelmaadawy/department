@@ -9,6 +9,9 @@ import 'package:apartment/features/profile/presentation/screens/profile_screen.d
 
 import '../../../features/app_startup/presentation/screens/welcome_screen.dart';
 import '../../../features/onboarding/presentation/screens/onboarding_screen.dart';
+import '../../../features/profile/presentation/screens/app_settings_screen.dart';
+import '../../../features/profile/presentation/screens/edit_profile_screen.dart';
+import '../../../features/profile/presentation/screens/security_screen.dart';
 import '../../../features/profile/presentation/screens/my_units_screen.dart';
 import '../../../features/profile/presentation/screens/unit_contract_screen.dart';
 import '../../../features/profile/presentation/screens/unit_progress_screen.dart';
@@ -45,6 +48,9 @@ class AppRouter {
   static const String myUnits = '/my-units';
   static const String unitProgress = '/unit-progress';
   static const String unitContract = '/unit-contract';
+  static const String editProfile = '/edit-profile';
+  static const String security = '/security';
+  static const String appSettings = '/app-settings';
   static const String support = '/support';
 
   static final router = GoRouter(
@@ -178,6 +184,18 @@ class AppRouter {
       GoRoute(
         path: unitContract,
         builder: (context, state) => const UnitContractScreen(),
+      ),
+      GoRoute(
+        path: editProfile,
+        builder: (context, state) => const EditProfileScreen(),
+      ),
+      GoRoute(
+        path: security,
+        builder: (context, state) => const SecurityScreen(),
+      ),
+      GoRoute(
+        path: appSettings,
+        builder: (context, state) => const AppSettingsScreen(),
       ),
       GoRoute(
         path: support,

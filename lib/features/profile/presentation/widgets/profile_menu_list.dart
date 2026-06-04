@@ -53,13 +53,13 @@ class ProfileMenuList extends StatelessWidget {
                 ProfileMenuItem(
                   icon: FluentIcons.person_edit_24_regular,
                   title: 'تعديل البيانات الشخصية',
-                  onTap: () {},
+                  onTap: () => context.push('/edit-profile'),
                 ),
                 ProfileMenuItem(
                   icon: FluentIcons.shield_keyhole_24_regular,
                   title: 'الأمان وكلمة المرور',
                   showDivider: false,
-                  onTap: () {},
+                  onTap: () => context.push('/security'),
                 ),
               ]),
 
@@ -69,22 +69,10 @@ class ProfileMenuList extends StatelessWidget {
               _buildSectionTitle('إعدادات التطبيق'),
               _buildMenuGroup([
                 ProfileMenuItem(
-                  icon: FluentIcons.globe_24_regular,
-                  title: l10n.appLanguage,
-                  trailingText: 'العربية',
-                  onTap: () {},
-                ),
-                ProfileMenuItem(
-                  icon: FluentIcons.alert_24_regular,
-                  title: l10n.notifications,
-                  onTap: () {},
-                ),
-                ProfileMenuItem(
-                  icon: FluentIcons.weather_moon_24_regular,
-                  title: 'الوضع الداكن',
-                  trailingText: 'إيقاف',
+                  icon: FluentIcons.settings_24_regular,
+                  title: 'إعدادات التطبيق',
                   showDivider: false,
-                  onTap: () {},
+                  onTap: () => context.push('/app-settings'),
                 ),
               ]),
 
