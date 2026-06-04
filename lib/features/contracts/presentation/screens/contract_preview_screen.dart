@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
 
-import 'package:apartment/core/routes/app_router.dart';
 import 'package:apartment/core/theme/app_colors.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/core/widgets/custom_button.dart';

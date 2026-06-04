@@ -6,7 +6,6 @@ import '../../../../../core/theme/app_radius.dart';
 import '../../../../../core/theme/app_spacing.dart';
 import '../../../../../l10n/app_localizations.dart';
 import '../../cubit/custom_finishing_state.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/di/injection_container.dart';
 import '../../../../design_studio/presentation/cubit/design_context_cubit.dart';
 

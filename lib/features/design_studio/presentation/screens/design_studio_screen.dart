@@ -12,10 +12,6 @@ import '../../../../core/routes/app_router.dart';
 import '../cubit/design_context_cubit.dart';
 import '../cubit/design_context_state.dart';
 import '../widgets/unit_selection_bottom_sheet.dart';
-import '../../../../core/theme/app_fonts.dart';
-import '../../../../core/theme/app_radius.dart';
-import '../../../../core/theme/app_spacing.dart';
-import '../../../../core/routes/app_router.dart';
 
 class DesignStudioScreen extends StatelessWidget {
   const DesignStudioScreen({super.key});

@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_fonts.dart';
-import '../../../../core/theme/app_spacing.dart';
 import '../../../home/domain/entities/project_entity.dart';
 
 class ProjectDetailsScreen extends StatefulWidget {

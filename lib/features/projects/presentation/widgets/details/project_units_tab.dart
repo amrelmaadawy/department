@@ -28,12 +28,15 @@ class _ProjectUnitsTabState extends State<ProjectUnitsTab> {
     // Filter units
     final filteredUnits = widget.units.where((unit) {
       if (_selectedFilter == 'all') return true;
-      if (_selectedFilter == 'apartment' && unit.type == UnitType.apartment)
+      if (_selectedFilter == 'apartment' && unit.type == UnitType.apartment) {
         return true;
-      if (_selectedFilter == 'villa' && unit.type == UnitType.villa)
+      }
+      if (_selectedFilter == 'villa' && unit.type == UnitType.villa) {
         return true;
-      if (_selectedFilter == 'duplex' && unit.type == UnitType.duplex)
+      }
+      if (_selectedFilter == 'duplex' && unit.type == UnitType.duplex) {
         return true;
+      }
       return false;
     }).toList();
 

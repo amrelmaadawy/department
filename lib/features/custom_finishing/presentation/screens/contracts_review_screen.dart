@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
@@ -10,7 +9,6 @@ import '../../../../core/theme/app_radius.dart';
 import '../../../../core/di/injection_container.dart';
 import '../../../../core/routes/app_router.dart';
 import '../../../../core/widgets/custom_button.dart';
-import '../../../../l10n/app_localizations.dart';
 import '../../../../features/design_studio/presentation/cubit/design_context_cubit.dart';
 import '../../../contracts/domain/entities/contract_type.dart';
 import '../cubit/custom_finishing_state.dart';

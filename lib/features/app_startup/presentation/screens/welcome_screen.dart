@@ -8,7 +8,6 @@ import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_sizes.dart';
 import '../../../../core/routes/app_router.dart';
-import '../../../../core/widgets/custom_button.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -25,7 +24,6 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   late Animation<double> _glassOpacity;
   late Animation<double> _contentOpacity;
   late Animation<double> _taglineOpacity;
-  late Animation<double> _buttonsOpacity;
 
   @override
   void initState() {
@@ -69,15 +67,18 @@ class _WelcomeScreenState extends State<WelcomeScreen>
       ),
     );
 
-    // 5. Buttons fade in
-    _buttonsOpacity = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.8, 1.0, curve: Curves.easeIn),
-      ),
-    );
-
     _controller.forward();
+
+    // Automatically navigate after animation finishes
+    _controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        Future.delayed(const Duration(milliseconds: 400), () {
+          if (mounted) {
+            context.go(AppRouter.auth);
+          }
+        });
+      }
+    });
   }
 
   @override
@@ -119,7 +120,6 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Spacer(),
 
                       // Cinematic Glass Panel
                       Opacity(
@@ -188,42 +188,6 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                         ),
                       ),
 
-                      const Spacer(),
-
-                      // Buttons
-                      Opacity(
-                        opacity: _buttonsOpacity.value,
-                        child: Column(
-                          children: [
-                            // Primary Button
-                            CustomButton(
-                              text: l10n.startNow,
-                              onPressed: () {
-                                context.push(AppRouter.auth);
-                              },
-                            ),
-
-                            const SizedBox(height: AppSpacing.md),
-
-                            // Secondary Button
-                            TextButton(
-                              onPressed: () {
-                                // TODO: Explore as host
-                              },
-                              child: Text(
-                                l10n.exploreAsHost,
-                                style: const TextStyle(
-                                  color: AppColors.white,
-                                  fontSize: AppFonts.bodyLarge,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      const SizedBox(height: AppSpacing.xl),
                     ],
                   ),
                 ),
