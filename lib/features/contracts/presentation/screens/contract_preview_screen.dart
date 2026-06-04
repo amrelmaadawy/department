@@ -139,11 +139,11 @@ class ContractPreviewScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   CustomButton(
-                    text: 'تأكيد الحجز والمتابعة للتصميم',
+                    text: 'تأكيد والرجوع لمراجعة العقود',
                     backgroundColor: AppColors.primary,
                     textColor: AppColors.white,
                     onPressed: () {
-                      context.push(AppRouter.packages);
+                      context.pop(true);
                     },
                   ),
                 ],

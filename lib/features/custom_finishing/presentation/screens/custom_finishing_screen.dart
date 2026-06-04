@@ -27,7 +27,7 @@ class CustomFinishingScreen extends StatelessWidget {
             previous.bookingStatus != current.bookingStatus,
         listener: (context, state) {
           if (state.bookingStatus == BookingStatus.success) {
-            context.push('/booking-success', extra: state.orderId);
+            context.push('/contracts-review', extra: state);
           }
         },
         child: const CustomFinishingView(),

@@ -138,7 +138,7 @@ class CustomFinishingReviewView extends StatelessWidget {
                           ]
                         : [
                             Text(
-                              l10n.confirmBookingBtn,
+                              'تأكيد واستخراج العقود',
                               style: const TextStyle(
                                 fontSize: AppFonts.headlineSmall,
                                 fontWeight: FontWeight.bold,

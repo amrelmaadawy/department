@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:apartment/features/custom_finishing/presentation/screens/custom_finishing_screen.dart';
 import 'package:apartment/features/custom_finishing/presentation/screens/booking_success_screen.dart';
+import 'package:apartment/features/custom_finishing/presentation/screens/contracts_review_screen.dart';
 import 'package:apartment/features/profile/presentation/screens/profile_screen.dart';
 
 import '../../../features/app_startup/presentation/screens/welcome_screen.dart';
@@ -11,14 +12,16 @@ import '../../../features/auth/presentation/screens/auth_screen.dart';
 import '../../../features/layout/presentation/screens/layout_screen.dart';
 import '../../../features/projects/presentation/screens/project_details_screen.dart';
 import '../../../features/projects/presentation/screens/unit_details_screen.dart';
-import '../../../features/projects/presentation/screens/unit_contract_screen.dart';
-import '../../../features/projects/presentation/screens/contract_preview_screen.dart';
+import '../../../features/contracts/presentation/screens/contract_signing_screen.dart';
+import '../../../features/contracts/presentation/screens/contract_preview_screen.dart';
+import '../../../features/contracts/domain/entities/contract_type.dart';
 import '../../../features/packages/presentation/screens/packages_screen.dart';
 import '../../../features/support/presentation/screens/support_screen.dart';
 import '../../../features/home/domain/entities/project_entity.dart';
 import '../../../features/home/domain/entities/project_unit_entity.dart';
 import '../di/injection_container.dart';
 import '../../features/custom_finishing/presentation/cubit/custom_finishing_cubit.dart';
+import '../../features/custom_finishing/presentation/cubit/custom_finishing_state.dart';
 import 'app_router_transitions.dart';
 
 class AppRouter {
@@ -27,11 +30,12 @@ class AppRouter {
   static const String layout = '/layout';
   static const String projectDetails = '/project-details';
   static const String unitDetails = '/unit-details';
-  static const String unitContract = '/unit-contract';
+  static const String contractSigning = '/contract-signing';
   static const String contractPreview = '/contract-preview';
   static const String packages = '/packages';
   static const String customFinishing = '/custom-finishing';
   static const String bookingSuccess = '/booking-success';
+  static const String contractsReview = '/contracts-review';
   static const String profile = '/profile';
   static const String support = '/support';
 
@@ -75,13 +79,19 @@ class AppRouter {
         },
       ),
       GoRoute(
-        path: unitContract,
+        path: contractSigning,
         pageBuilder: (context, state) {
-          // You can extract unit entity from extra later if needed
+          final args = state.extra as Map<String, dynamic>? ?? {};
+          final contractType = args['type'] as ContractType? ?? ContractType.unit;
+          final finishingTotal = args['finishingTotal'] as double?;
+          
           return CustomTransitionPage(
             key: state.pageKey,
             transitionDuration: const Duration(milliseconds: 600),
-            child: const UnitContractScreen(),
+            child: ContractSigningScreen(
+              contractType: contractType,
+              finishingTotal: finishingTotal,
+            ),
             transitionsBuilder: AppRouterTransitions.slideFromRight,
           );
         },
@@ -113,6 +123,18 @@ class AppRouter {
               create: (context) => sl<CustomFinishingCubit>()..loadMaterials(),
               child: const CustomFinishingScreen(),
             ),
+            transitionsBuilder: AppRouterTransitions.slideFromRight,
+          );
+        },
+      ),
+      GoRoute(
+        path: contractsReview,
+        pageBuilder: (context, state) {
+          final finishingState = state.extra as CustomFinishingState;
+          return CustomTransitionPage(
+            key: state.pageKey,
+            transitionDuration: const Duration(milliseconds: 600),
+            child: ContractsReviewScreen(finishingState: finishingState),
             transitionsBuilder: AppRouterTransitions.slideFromRight,
           );
         },

@@ -5,19 +5,27 @@ import 'package:apartment/l10n/app_localizations.dart';
 
 import 'package:signature/signature.dart';
 
-import '../widgets/details/contract/contract_bottom_actions.dart';
-import '../widgets/details/contract/contract_signature_card.dart';
-import '../widgets/details/contract/contract_summary_card.dart';
-import '../widgets/details/contract/contract_terms_card.dart';
+import '../widgets/contract/contract_bottom_actions.dart';
+import '../widgets/contract/contract_signature_card.dart';
+import '../widgets/contract/contract_summary_card.dart';
+import '../widgets/contract/contract_terms_card.dart';
+import '../../domain/entities/contract_type.dart';
 
-class UnitContractScreen extends StatefulWidget {
-  const UnitContractScreen({super.key});
+class ContractSigningScreen extends StatefulWidget {
+  final ContractType contractType;
+  final double? finishingTotal;
+  
+  const ContractSigningScreen({
+    super.key, 
+    required this.contractType,
+    this.finishingTotal,
+  });
 
   @override
-  State<UnitContractScreen> createState() => _UnitContractScreenState();
+  State<ContractSigningScreen> createState() => _ContractSigningScreenState();
 }
 
-class _UnitContractScreenState extends State<UnitContractScreen> {
+class _ContractSigningScreenState extends State<ContractSigningScreen> {
   bool _isAgreed = false;
   late SignatureController _signatureController;
 
@@ -53,7 +61,9 @@ class _UnitContractScreenState extends State<UnitContractScreen> {
       backgroundColor: AppColors.background,
       appBar: AppBar(
         title: Text(
-          l10n.contractScreenTitle,
+          widget.contractType == ContractType.unit
+              ? l10n.contractScreenTitle
+              : 'عقد مقاولة تشطيب',
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             color: AppColors.primary,
@@ -69,8 +79,12 @@ class _UnitContractScreenState extends State<UnitContractScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const ContractSummaryCard(),
+            ContractSummaryCard(
+              contractType: widget.contractType,
+              finishingTotal: widget.finishingTotal,
+            ),
             ContractTermsCard(
+              contractType: widget.contractType,
               isAgreed: _isAgreed,
               onChanged: _toggleAgreement,
             ),

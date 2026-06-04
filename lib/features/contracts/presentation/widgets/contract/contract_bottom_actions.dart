@@ -49,9 +49,13 @@ class ContractBottomActions extends StatelessWidget {
                       final signatureImage = await signatureController.toPngBytes();
                       
                       if (signatureImage != null) {
-                        // 2. Navigate to PDF Preview Screen
+                        // 2. Navigate to PDF Preview Screen and await result
                         if (context.mounted) {
-                          context.push(AppRouter.contractPreview, extra: signatureImage);
+                          final result = await context.push(AppRouter.contractPreview, extra: signatureImage);
+                          if (result == true && context.mounted) {
+                            // If user confirmed in preview screen, pop back to review screen
+                            context.pop(true);
+                          }
                         }
                       }
                     }

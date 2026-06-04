@@ -64,32 +64,41 @@ class BookingOrderDetails extends StatelessWidget {
                   ),
                 ),
               ),
-              Row(
-                children: [
-                  Text(
-                    orderId,
-                    style: const TextStyle(
-                      fontSize: AppFonts.headlineSmall,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.primary,
-                    ),
-                  ),
-                  const SizedBox(width: AppSpacing.sm),
-                  InkWell(
-                    onTap: () => _copyOrderId(context),
-                    borderRadius: BorderRadius.circular(
-                      AppRadius.sm,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Icon(
-                        FluentIcons.copy_20_regular,
-                        color: AppColors.gold,
-                        size: 20,
+              const SizedBox(width: AppSpacing.md),
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Flexible(
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          orderId,
+                          style: const TextStyle(
+                            fontSize: AppFonts.headlineSmall,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.primary,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                    const SizedBox(width: AppSpacing.sm),
+                    InkWell(
+                      onTap: () => _copyOrderId(context),
+                      borderRadius: BorderRadius.circular(
+                        AppRadius.sm,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Icon(
+                          FluentIcons.copy_20_regular,
+                          color: AppColors.gold,
+                          size: 20,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

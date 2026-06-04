@@ -6,6 +6,9 @@ import '../../../../../core/theme/app_radius.dart';
 import '../../../../../core/theme/app_spacing.dart';
 import '../../../../../l10n/app_localizations.dart';
 import '../../cubit/custom_finishing_state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../../core/di/injection_container.dart';
+import '../../../../design_studio/presentation/cubit/design_context_cubit.dart';
 
 class CostBreakdownCard extends StatelessWidget {
   final CustomFinishingState state;
@@ -15,6 +18,11 @@ class CostBreakdownCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final designContext = sl<DesignContextCubit>().state;
+    final unit = designContext.selectedUnit;
+    final unitPrice = unit?.price ?? 0.0;
+    final finishingCost = state.totalEstimatedCost;
+    final grandTotal = unitPrice > 0 ? unitPrice + finishingCost : finishingCost;
 
     return Container(
       padding: const EdgeInsets.all(AppSpacing.xl),
@@ -39,19 +47,27 @@ class CostBreakdownCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: AppSpacing.xl),
+          if (unit != null) ...[
+            _buildCostRow('سعر الوحدة (${unit.title})', unitPrice, isTotal: false),
+            const SizedBox(height: AppSpacing.md),
+          ],
           _buildCostRow(
             l10n.totalMaterials,
             state.materialsCost,
             isTotal: false,
+            isFaded: true,
           ),
-          const SizedBox(height: AppSpacing.md),
+          const SizedBox(height: AppSpacing.xs),
           _buildCostRow(
             l10n.totalWorkmanship,
             state.workmanshipCost,
             isTotal: false,
+            isFaded: true,
           ),
+          const SizedBox(height: AppSpacing.xs),
+          _buildCostRow(l10n.vatAmount, state.vatAmount, isTotal: false, isFaded: true),
           const SizedBox(height: AppSpacing.md),
-          _buildCostRow(l10n.vatAmount, state.vatAmount, isTotal: false),
+          _buildCostRow('إجمالي تكلفة التشطيب', finishingCost, isTotal: false),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
             child: Divider(color: AppColors.border.withValues(alpha: 0.5)),
@@ -72,7 +88,7 @@ class CostBreakdownCard extends StatelessWidget {
                 textBaseline: TextBaseline.alphabetic,
                 children: [
                   Text(
-                    state.totalEstimatedCost
+                    grandTotal
                         .toStringAsFixed(0)
                         .replaceAllMapped(
                           RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),

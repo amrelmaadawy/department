@@ -7,12 +7,16 @@ import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/l10n/app_localizations.dart';
 
+import '../../../domain/entities/contract_type.dart';
+
 class ContractTermsCard extends StatelessWidget {
+  final ContractType contractType;
   final bool isAgreed;
   final ValueChanged<bool?> onChanged;
 
   const ContractTermsCard({
     super.key,
+    required this.contractType,
     required this.isAgreed,
     required this.onChanged,
   });
@@ -63,15 +67,22 @@ class ContractTermsCard extends StatelessWidget {
               color: AppColors.background,
               borderRadius: BorderRadius.circular(AppRadius.md),
             ),
-            child: const SingleChildScrollView(
+            child: SingleChildScrollView(
               child: Text(
-                '''1. الحجز المبدئي يخضع للموافقة النهائية من قبل المطور.
+                contractType == ContractType.unit 
+                ? '''1. الحجز المبدئي يخضع للموافقة النهائية من قبل المطور.
 2. الأسعار المذكورة هي تقديرات أولية وقد تتغير بناءً على القياسات النهائية.
 3. عربون الحجز غير مسترد بعد مرور 14 يومًا من هذا الاتفاق.
 4. يلتزم المشتري باستكمال الدفعة المقدمة خلال الجدول الزمني المحدد.
 5. تعتبر جميع المخططات والمواصفات المرفقة جزءًا لا يتجزأ من هذا العقد.
+... [المزيد من البنود القانونية]'''
+                : '''1. يتعهد المقاول بتنفيذ أعمال التشطيب وفقاً للمواصفات المعتمدة.
+2. الأسعار المذكورة تشمل توريد الخامات والمصنعية معاً.
+3. يلتزم العميل بدفع الدفعات المالية حسب نسب الإنجاز المتفق عليها.
+4. يضمن المقاول جودة الأعمال المنفذة لمدة عام كامل من تاريخ الاستلام.
+5. أي تعديلات على التصميم بعد بدء التنفيذ تخضع لتسعير منفصل.
 ... [المزيد من البنود القانونية]''',
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: AppFonts.bodySmall,
                   color: AppColors.textSecondary,
                   height: 1.5,

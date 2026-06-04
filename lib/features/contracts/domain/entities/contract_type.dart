@@ -1,0 +1,1 @@
+enum ContractType { unit, finishing }

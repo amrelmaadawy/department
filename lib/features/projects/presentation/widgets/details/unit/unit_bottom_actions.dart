@@ -8,6 +8,8 @@ import 'package:apartment/core/routes/app_router.dart';
 import 'package:apartment/l10n/app_localizations.dart';
 import 'package:apartment/features/home/domain/entities/project_unit_entity.dart';
 import 'package:go_router/go_router.dart';
+import 'package:apartment/core/di/injection_container.dart';
+import 'package:apartment/features/design_studio/presentation/cubit/design_context_cubit.dart';
 
 class UnitBottomActions extends StatelessWidget {
   final ProjectUnitEntity unit;
@@ -63,9 +65,10 @@ class UnitBottomActions extends StatelessWidget {
             const SizedBox(width: AppSpacing.md),
             Expanded(
               child: CustomButton(
-                text: l10n.bookUnitBtn,
+                text: 'صمم واحجز وحدتك',
                 onPressed: () {
-                  context.push(AppRouter.unitContract);
+                  sl<DesignContextCubit>().selectUnit(unit);
+                  context.push(AppRouter.customFinishing);
                 },
               ),
             ),
