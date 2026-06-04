@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:go_router/go_router.dart';
@@ -70,7 +71,7 @@ class _ProfileScreenState extends State<ProfileScreen>
     // Mock Data
     const userName = 'أحمد محمد';
     final userType = l10n.premiumCustomer;
-    const avatarUrl = 'https://i.pravatar.cc/300';
+    const avatarUrl = 'assets/images/user_avatar.png';
     const designsCount = 12;
     const contractsCount = 5;
     const unitsCount = 3;
@@ -134,17 +135,17 @@ class _ProfileScreenState extends State<ProfileScreen>
                   ),
                   child: Column(
                     children: [
-                      // Group 1: Settings & Language
+                      // Section: My Real Estate
+                      _buildSectionTitle('إدارة العقارات'),
                       _buildMenuGroup([
                         ProfileMenuItem(
-                          icon: FluentIcons.settings_24_regular,
-                          title: l10n.accountSettings,
+                          icon: FluentIcons.building_24_regular,
+                          title: 'الوحدات المحجوزة',
                           onTap: () {},
                         ),
                         ProfileMenuItem(
-                          icon: FluentIcons.globe_24_regular,
-                          title: l10n.appLanguage,
-                          trailingText: 'العربية',
+                          icon: FluentIcons.money_24_regular,
+                          title: 'جدول الأقساط والمدفوعات',
                           showDivider: false,
                           onTap: () {},
                         ),
@@ -152,24 +153,68 @@ class _ProfileScreenState extends State<ProfileScreen>
 
                       const SizedBox(height: AppSpacing.xl),
 
-                      // Group 2: Notifications & Support
+                      // Section: Account Settings
+                      _buildSectionTitle('إعدادات الحساب'),
                       _buildMenuGroup([
+                        ProfileMenuItem(
+                          icon: FluentIcons.person_edit_24_regular,
+                          title: 'تعديل البيانات الشخصية',
+                          onTap: () {},
+                        ),
+                        ProfileMenuItem(
+                          icon: FluentIcons.shield_keyhole_24_regular,
+                          title: 'الأمان وكلمة المرور',
+                          showDivider: false,
+                          onTap: () {},
+                        ),
+                      ]),
+
+                      const SizedBox(height: AppSpacing.xl),
+
+                      // Section: App Settings
+                      _buildSectionTitle('إعدادات التطبيق'),
+                      _buildMenuGroup([
+                        ProfileMenuItem(
+                          icon: FluentIcons.globe_24_regular,
+                          title: l10n.appLanguage,
+                          trailingText: 'العربية',
+                          onTap: () {},
+                        ),
                         ProfileMenuItem(
                           icon: FluentIcons.alert_24_regular,
                           title: l10n.notifications,
                           onTap: () {},
                         ),
                         ProfileMenuItem(
-                          icon: FluentIcons.headset_24_regular,
-                          title: l10n.techSupport,
+                          icon: FluentIcons.weather_moon_24_regular,
+                          title: 'الوضع الداكن',
+                          trailingText: 'إيقاف',
                           showDivider: false,
-                          onTap: () => context.push('/support'),
+                          onTap: () {},
                         ),
                       ]),
 
                       const SizedBox(height: AppSpacing.xl),
 
-                      // Group 3: Logout
+                      // Section: Support
+                      _buildSectionTitle('الدعم والمساعدة'),
+                      _buildMenuGroup([
+                        ProfileMenuItem(
+                          icon: FluentIcons.headset_24_regular,
+                          title: 'مركز المساعدة',
+                          onTap: () => context.push('/support'),
+                        ),
+                        ProfileMenuItem(
+                          icon: FluentIcons.chat_bubbles_question_24_regular,
+                          title: 'تواصل مع المبيعات',
+                          showDivider: false,
+                          onTap: () {},
+                        ),
+                      ]),
+
+                      const SizedBox(height: AppSpacing.xl),
+
+                      // Section: Logout
                       _buildMenuGroup([
                         ProfileMenuItem(
                           icon: FluentIcons.sign_out_24_regular,
@@ -189,6 +234,26 @@ class _ProfileScreenState extends State<ProfileScreen>
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSectionTitle(String title) {
+    return Padding(
+      padding: const EdgeInsets.only(
+        right: AppSpacing.sm,
+        bottom: AppSpacing.sm,
+      ),
+      child: Align(
+        alignment: AlignmentDirectional.centerStart,
+        child: Text(
+          title,
+          style: TextStyle(
+            fontSize: AppFonts.bodyLarge,
+            fontWeight: FontWeight.bold,
+            color: AppColors.textPrimary.withValues(alpha: 0.6),
+          ),
         ),
       ),
     );

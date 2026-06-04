@@ -117,7 +117,9 @@ class ProfileHeader extends StatelessWidget {
                     radius: 50,
                     backgroundColor: AppColors.white,
                     backgroundImage: avatarUrl.isNotEmpty
-                        ? NetworkImage(avatarUrl)
+                        ? (avatarUrl.startsWith('http')
+                            ? NetworkImage(avatarUrl) as ImageProvider
+                            : AssetImage(avatarUrl))
                         : null,
                     child: avatarUrl.isEmpty
                         ? const Icon(
