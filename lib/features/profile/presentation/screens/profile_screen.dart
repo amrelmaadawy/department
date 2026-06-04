@@ -71,7 +71,7 @@ class _ProfileScreenState extends State<ProfileScreen>
     // Mock Data
     const userName = 'أحمد محمد';
     final userType = l10n.premiumCustomer;
-    const avatarUrl = 'assets/images/user_avatar.png';
+    const avatarUrl = 'assets/images/profile_avatar.png';
     const designsCount = 12;
     const contractsCount = 5;
     const unitsCount = 3;
