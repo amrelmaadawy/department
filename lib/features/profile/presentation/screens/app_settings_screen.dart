@@ -7,6 +7,9 @@ import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../../../core/localization/cubit/locale_cubit.dart';
+import '../../../../core/localization/cubit/locale_state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AppSettingsScreen extends StatefulWidget {
   const AppSettingsScreen({super.key});
@@ -30,9 +33,9 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
         backgroundColor: AppColors.white,
         elevation: 0,
         scrolledUnderElevation: 0.0,
-        title: const Text(
-          'إعدادات التطبيق',
-          style: TextStyle(
+        title: Text(
+          l10n.profileSectionApp,
+          style: const TextStyle(
             color: AppColors.textPrimary,
             fontSize: AppFonts.headlineSmall,
             fontWeight: FontWeight.bold,
@@ -52,23 +55,28 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
           children: [
             // Section: Language
             _buildSectionTitle(l10n.appLanguage),
-            _buildSettingsCard(
-              children: [
-                _buildLanguageRow('العربية', true),
-                const Divider(color: AppColors.border, height: 1),
-                _buildLanguageRow('English', false),
-              ],
+            BlocBuilder<LocaleCubit, LocaleState>(
+              builder: (context, state) {
+                final currentLang = state.locale.languageCode;
+                return _buildSettingsCard(
+                  children: [
+                    _buildLanguageRow(l10n.arabicLang, currentLang == 'ar', 'ar', context),
+                    const Divider(color: AppColors.border, height: 1),
+                    _buildLanguageRow('English', currentLang == 'en', 'en', context),
+                  ],
+                );
+              },
             ),
             const SizedBox(height: AppSpacing.xxl),
 
             // Section: Appearance
-            _buildSectionTitle('المظهر'),
+            _buildSectionTitle(l10n.appearance),
             _buildSettingsCard(
               children: [
                 _buildToggleRow(
                   icon: FluentIcons.weather_moon_24_regular,
-                  title: 'الوضع الداكن',
-                  subtitle: 'تغيير ألوان التطبيق لتقليل إجهاد العين',
+                  title: l10n.darkMode,
+                  subtitle: l10n.darkModeDesc,
                   value: _isDarkMode,
                   onChanged: (val) => setState(() => _isDarkMode = val),
                 ),
@@ -82,16 +90,16 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
               children: [
                 _buildToggleRow(
                   icon: FluentIcons.alert_24_regular,
-                  title: 'إشعارات التطبيق',
-                  subtitle: 'تنبيهات حول حالة الوحدة والأقساط',
+                  title: l10n.appNotifications,
+                  subtitle: l10n.appNotificationsDesc,
                   value: _pushNotifications,
                   onChanged: (val) => setState(() => _pushNotifications = val),
                 ),
                 const Divider(color: AppColors.border, height: 1),
                 _buildToggleRow(
                   icon: FluentIcons.mail_24_regular,
-                  title: 'النشرة البريدية',
-                  subtitle: 'تحديثات المشاريع الجديدة والعروض',
+                  title: l10n.newsletter,
+                  subtitle: l10n.newsletterDesc,
                   value: _emailNotifications,
                   onChanged: (val) => setState(() => _emailNotifications = val),
                 ),
@@ -131,9 +139,11 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
     );
   }
 
-  Widget _buildLanguageRow(String label, bool isSelected) {
+  Widget _buildLanguageRow(String label, bool isSelected, String languageCode, BuildContext context) {
     return InkWell(
-      onTap: () {}, // Handled by localization provider in a real app
+      onTap: () {
+        context.read<LocaleCubit>().changeLanguage(languageCode);
+      },
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.lg),
         child: Row(

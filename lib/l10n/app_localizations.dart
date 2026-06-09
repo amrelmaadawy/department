@@ -365,7 +365,7 @@ abstract class AppLocalizations {
   /// No description provided for @finishingType.
   ///
   /// In en, this message translates to:
-  /// **'Finishing'**
+  /// **'Finishing Type'**
   String get finishingType;
 
   /// No description provided for @chooseUnit.
@@ -947,8 +947,422 @@ abstract class AppLocalizations {
   /// No description provided for @contractScreenTitle.
   ///
   /// In en, this message translates to:
-  /// **'Unit Booking'**
+  /// **'Book Unit'**
   String get contractScreenTitle;
+
+  /// No description provided for @profileSectionRealEstate.
+  ///
+  /// In en, this message translates to:
+  /// **'Real Estate Management'**
+  String get profileSectionRealEstate;
+
+  /// No description provided for @profileMenuMyUnits.
+  ///
+  /// In en, this message translates to:
+  /// **'Reserved Units'**
+  String get profileMenuMyUnits;
+
+  /// No description provided for @profileMenuInstallments.
+  ///
+  /// In en, this message translates to:
+  /// **'Installments & Payments'**
+  String get profileMenuInstallments;
+
+  /// No description provided for @profileSectionAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Account Settings'**
+  String get profileSectionAccount;
+
+  /// No description provided for @profileMenuEditProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Personal Data'**
+  String get profileMenuEditProfile;
+
+  /// No description provided for @profileMenuSecurity.
+  ///
+  /// In en, this message translates to:
+  /// **'Security & Password'**
+  String get profileMenuSecurity;
+
+  /// No description provided for @profileSectionApp.
+  ///
+  /// In en, this message translates to:
+  /// **'App Settings'**
+  String get profileSectionApp;
+
+  /// No description provided for @profileSectionSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Support & Help'**
+  String get profileSectionSupport;
+
+  /// No description provided for @profileMenuHelpCenter.
+  ///
+  /// In en, this message translates to:
+  /// **'Help Center'**
+  String get profileMenuHelpCenter;
+
+  /// No description provided for @profileMenuContactSales.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Sales'**
+  String get profileMenuContactSales;
+
+  /// No description provided for @mockUnitName.
+  ///
+  /// In en, this message translates to:
+  /// **'Villa 402 - Sea View'**
+  String get mockUnitName;
+
+  /// No description provided for @mockContractDate.
+  ///
+  /// In en, this message translates to:
+  /// **'October 12, 2026'**
+  String get mockContractDate;
+
+  /// No description provided for @mockOwnerName.
+  ///
+  /// In en, this message translates to:
+  /// **'Ahmed Mahmoud Al-Attar'**
+  String get mockOwnerName;
+
+  /// No description provided for @contractStatusVerified.
+  ///
+  /// In en, this message translates to:
+  /// **'Verified & Approved'**
+  String get contractStatusVerified;
+
+  /// No description provided for @contractDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Contract Details'**
+  String get contractDetails;
+
+  /// No description provided for @generatingPdf.
+  ///
+  /// In en, this message translates to:
+  /// **'Preparing file...'**
+  String get generatingPdf;
+
+  /// No description provided for @downloadPdf.
+  ///
+  /// In en, this message translates to:
+  /// **'Download PDF'**
+  String get downloadPdf;
+
+  /// No description provided for @changePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Password'**
+  String get changePassword;
+
+  /// No description provided for @currentPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Password'**
+  String get currentPassword;
+
+  /// No description provided for @newPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'New Password'**
+  String get newPassword;
+
+  /// No description provided for @confirmNewPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm New Password'**
+  String get confirmNewPassword;
+
+  /// No description provided for @biometricLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Biometric Login'**
+  String get biometricLogin;
+
+  /// No description provided for @biometricLoginDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Use fingerprint or face to login quickly'**
+  String get biometricLoginDesc;
+
+  /// No description provided for @updateData.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Data'**
+  String get updateData;
+
+  /// No description provided for @fullName.
+  ///
+  /// In en, this message translates to:
+  /// **'Full Name'**
+  String get fullName;
+
+  /// No description provided for @email.
+  ///
+  /// In en, this message translates to:
+  /// **'Email Address'**
+  String get email;
+
+  /// No description provided for @phoneNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone Number'**
+  String get phoneNumber;
+
+  /// No description provided for @saveChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Changes'**
+  String get saveChanges;
+
+  /// No description provided for @arabicLang.
+  ///
+  /// In en, this message translates to:
+  /// **'Arabic'**
+  String get arabicLang;
+
+  /// No description provided for @appearance.
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance'**
+  String get appearance;
+
+  /// No description provided for @darkMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark Mode'**
+  String get darkMode;
+
+  /// No description provided for @darkModeDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Change app colors to reduce eye strain'**
+  String get darkModeDesc;
+
+  /// No description provided for @appNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'App Notifications'**
+  String get appNotifications;
+
+  /// No description provided for @appNotificationsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Alerts about unit status and installments'**
+  String get appNotificationsDesc;
+
+  /// No description provided for @newsletter.
+  ///
+  /// In en, this message translates to:
+  /// **'Newsletter'**
+  String get newsletter;
+
+  /// No description provided for @newsletterDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Updates on new projects and offers'**
+  String get newsletterDesc;
+
+  /// No description provided for @inProgressNow.
+  ///
+  /// In en, this message translates to:
+  /// **'In Progress'**
+  String get inProgressNow;
+
+  /// No description provided for @statusFinishing.
+  ///
+  /// In en, this message translates to:
+  /// **'Finishing'**
+  String get statusFinishing;
+
+  /// No description provided for @mockUnitDuplex.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplex Apartment - 201'**
+  String get mockUnitDuplex;
+
+  /// No description provided for @statusDelivered.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivered'**
+  String get statusDelivered;
+
+  /// No description provided for @trackFinishing.
+  ///
+  /// In en, this message translates to:
+  /// **'Track Finishing'**
+  String get trackFinishing;
+
+  /// No description provided for @contractBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Contract'**
+  String get contractBtn;
+
+  /// No description provided for @agentRole.
+  ///
+  /// In en, this message translates to:
+  /// **'Senior Support Engineer'**
+  String get agentRole;
+
+  /// No description provided for @supportAgentName.
+  ///
+  /// In en, this message translates to:
+  /// **'Sarah'**
+  String get supportAgentName;
+
+  /// No description provided for @mockMessage1.
+  ///
+  /// In en, this message translates to:
+  /// **'Certainly, I\'m checking the schedule for your unit with the supervising engineer. One moment please.'**
+  String get mockMessage1;
+
+  /// No description provided for @mockTime1.
+  ///
+  /// In en, this message translates to:
+  /// **'10:06 AM'**
+  String get mockTime1;
+
+  /// No description provided for @mockMessage2.
+  ///
+  /// In en, this message translates to:
+  /// **'Hello Sarah, I would like to inquire about the delivery date for the gypsum board phase in my unit.'**
+  String get mockMessage2;
+
+  /// No description provided for @mockTime2.
+  ///
+  /// In en, this message translates to:
+  /// **'10:05 AM'**
+  String get mockTime2;
+
+  /// No description provided for @mockMessage3.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to Luxury Finishing Customer Service.\nHow can I help you today with your project?'**
+  String get mockMessage3;
+
+  /// No description provided for @mockTime3.
+  ///
+  /// In en, this message translates to:
+  /// **'10:00 AM'**
+  String get mockTime3;
+
+  /// No description provided for @whatsapp.
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp'**
+  String get whatsapp;
+
+  /// No description provided for @finishingContractSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Finishing Contract Summary'**
+  String get finishingContractSummary;
+
+  /// No description provided for @project.
+  ///
+  /// In en, this message translates to:
+  /// **'Project'**
+  String get project;
+
+  /// No description provided for @mockProjectRiyadh.
+  ///
+  /// In en, this message translates to:
+  /// **'Riyadh Pearl'**
+  String get mockProjectRiyadh;
+
+  /// No description provided for @unitType.
+  ///
+  /// In en, this message translates to:
+  /// **'Unit Type'**
+  String get unitType;
+
+  /// No description provided for @unitTypeDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Unit {title} - {area} sqm'**
+  String unitTypeDesc(String title, String area);
+
+  /// No description provided for @floor.
+  ///
+  /// In en, this message translates to:
+  /// **'Floor'**
+  String get floor;
+
+  /// No description provided for @floorDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Floor {floorVal}'**
+  String floorDesc(String floorVal);
+
+  /// No description provided for @loadingStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading...'**
+  String get loadingStatus;
+
+  /// No description provided for @fullCustomFinishing.
+  ///
+  /// In en, this message translates to:
+  /// **'Full Custom Finishing'**
+  String get fullCustomFinishing;
+
+  /// No description provided for @totalFinishingCost.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Finishing Cost'**
+  String get totalFinishingCost;
+
+  /// No description provided for @clearSignature.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear Signature'**
+  String get clearSignature;
+
+  /// No description provided for @signAbove.
+  ///
+  /// In en, this message translates to:
+  /// **'Please sign inside the box above'**
+  String get signAbove;
+
+  /// No description provided for @errAgreeTerms.
+  ///
+  /// In en, this message translates to:
+  /// **'Please agree to the terms and conditions first.'**
+  String get errAgreeTerms;
+
+  /// No description provided for @errSignBox.
+  ///
+  /// In en, this message translates to:
+  /// **'Please draw your signature in the designated box.'**
+  String get errSignBox;
+
+  /// No description provided for @finishingContract.
+  ///
+  /// In en, this message translates to:
+  /// **'Finishing Contract'**
+  String get finishingContract;
+
+  /// No description provided for @finalApproval.
+  ///
+  /// In en, this message translates to:
+  /// **'Final Approval'**
+  String get finalApproval;
+
+  /// No description provided for @contractGeneratedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Contract generated successfully and verified with your electronic signature. You can save a copy or proceed.'**
+  String get contractGeneratedSuccess;
+
+  /// No description provided for @confirmReturnContracts.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm & Return to Contracts'**
+  String get confirmReturnContracts;
 }
 
 class _AppLocalizationsDelegate

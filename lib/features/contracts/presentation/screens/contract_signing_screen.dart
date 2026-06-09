@@ -63,7 +63,7 @@ class _ContractSigningScreenState extends State<ContractSigningScreen> {
         title: Text(
           widget.contractType == ContractType.unit
               ? l10n.contractScreenTitle
-              : 'عقد مقاولة تشطيب',
+              : l10n.finishingContract,
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             color: AppColors.primary,

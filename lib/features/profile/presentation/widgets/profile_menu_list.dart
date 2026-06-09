@@ -30,16 +30,16 @@ class ProfileMenuList extends StatelessWidget {
           child: Column(
             children: [
               // Section: My Real Estate
-              _buildSectionTitle('إدارة العقارات'),
+              _buildSectionTitle(l10n.profileSectionRealEstate),
               _buildMenuGroup([
                 ProfileMenuItem(
                   icon: FluentIcons.building_24_regular,
-                  title: 'الوحدات المحجوزة',
+                  title: l10n.profileMenuMyUnits,
                   onTap: () => context.push('/my-units'),
                 ),
                 ProfileMenuItem(
                   icon: FluentIcons.money_24_regular,
-                  title: 'جدول الأقساط والمدفوعات',
+                  title: l10n.profileMenuInstallments,
                   showDivider: false,
                   onTap: () {},
                 ),
@@ -48,16 +48,16 @@ class ProfileMenuList extends StatelessWidget {
               const SizedBox(height: AppSpacing.xl),
 
               // Section: Account Settings
-              _buildSectionTitle('إعدادات الحساب'),
+              _buildSectionTitle(l10n.profileSectionAccount),
               _buildMenuGroup([
                 ProfileMenuItem(
                   icon: FluentIcons.person_edit_24_regular,
-                  title: 'تعديل البيانات الشخصية',
+                  title: l10n.profileMenuEditProfile,
                   onTap: () => context.push('/edit-profile'),
                 ),
                 ProfileMenuItem(
                   icon: FluentIcons.shield_keyhole_24_regular,
-                  title: 'الأمان وكلمة المرور',
+                  title: l10n.profileMenuSecurity,
                   showDivider: false,
                   onTap: () => context.push('/security'),
                 ),
@@ -66,11 +66,11 @@ class ProfileMenuList extends StatelessWidget {
               const SizedBox(height: AppSpacing.xl),
 
               // Section: App Settings
-              _buildSectionTitle('إعدادات التطبيق'),
+              _buildSectionTitle(l10n.profileSectionApp),
               _buildMenuGroup([
                 ProfileMenuItem(
                   icon: FluentIcons.settings_24_regular,
-                  title: 'إعدادات التطبيق',
+                  title: l10n.profileSectionApp,
                   showDivider: false,
                   onTap: () => context.push('/app-settings'),
                 ),
@@ -79,16 +79,16 @@ class ProfileMenuList extends StatelessWidget {
               const SizedBox(height: AppSpacing.xl),
 
               // Section: Support
-              _buildSectionTitle('الدعم والمساعدة'),
+              _buildSectionTitle(l10n.profileSectionSupport),
               _buildMenuGroup([
                 ProfileMenuItem(
                   icon: FluentIcons.headset_24_regular,
-                  title: 'مركز المساعدة',
+                  title: l10n.profileMenuHelpCenter,
                   onTap: () => context.push('/support'),
                 ),
                 ProfileMenuItem(
                   icon: FluentIcons.chat_bubbles_question_24_regular,
-                  title: 'تواصل مع المبيعات',
+                  title: l10n.profileMenuContactSales,
                   showDivider: false,
                   onTap: () {},
                 ),

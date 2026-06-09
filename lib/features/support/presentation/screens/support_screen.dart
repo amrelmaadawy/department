@@ -20,7 +20,7 @@ class SupportScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     // Mock Data
-    const agentName = 'سارة';
+    final agentName = l10n.supportAgentName;
     const agentAvatar = 'https://i.pravatar.cc/150?img=1';
 
     return Scaffold(
@@ -82,27 +82,24 @@ class SupportScreen extends StatelessWidget {
                 const TypingIndicator(avatarUrl: agentAvatar),
 
                 // Agent Reply
-                const ChatBubble(
-                  text:
-                      'بالتأكيد، جاري التحقق من الجدول الزمني الخاص بوحدتك مع المهندس المشرف. لحظات من فضلك.',
-                  time: '10:06 ص',
+                ChatBubble(
+                  text: l10n.mockMessage1,
+                  time: l10n.mockTime1,
                   isUser: false,
                   avatarUrl: agentAvatar,
                 ),
 
                 // User Reply
-                const ChatBubble(
-                  text:
-                      'مرحباً سارة، أود الاستفسار عن موعد تسليم مرحلة الجبس بورد في وحدتي.',
-                  time: '10:05 ص',
+                ChatBubble(
+                  text: l10n.mockMessage2,
+                  time: l10n.mockTime2,
                   isUser: true,
                 ),
 
                 // Agent Welcome
-                const ChatBubble(
-                  text:
-                      'أهلاً بك في خدمة عملاء التشطيبات الفاخرة.\nكيف يمكنني مساعدتك اليوم في مشروعك؟',
-                  time: '10:00 ص',
+                ChatBubble(
+                  text: l10n.mockMessage3,
+                  time: l10n.mockTime3,
                   isUser: false,
                   avatarUrl: agentAvatar,
                 ),
@@ -145,9 +142,9 @@ class SupportScreen extends StatelessWidget {
           backgroundColor: const Color(0xFF25D366), // WhatsApp Green
           elevation: 4,
           icon: const Icon(FluentIcons.chat_24_regular, color: AppColors.white),
-          label: const Text(
-            'واتساب',
-            style: TextStyle(
+          label: Text(
+            l10n.whatsapp,
+            style: const TextStyle(
               fontSize: AppFonts.bodyMedium,
               fontWeight: FontWeight.bold,
               color: AppColors.white,

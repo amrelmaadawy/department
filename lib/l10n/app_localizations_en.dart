@@ -147,7 +147,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deliveryDate => 'Delivery Date';
 
   @override
-  String get finishingType => 'Finishing';
+  String get finishingType => 'Finishing Type';
 
   @override
   String get chooseUnit => 'Choose Your Unit';
@@ -447,5 +447,221 @@ class AppLocalizationsEn extends AppLocalizations {
   String get confirmBookingAndProceed => 'Confirm Booking & Proceed';
 
   @override
-  String get contractScreenTitle => 'Unit Booking';
+  String get contractScreenTitle => 'Book Unit';
+
+  @override
+  String get profileSectionRealEstate => 'Real Estate Management';
+
+  @override
+  String get profileMenuMyUnits => 'Reserved Units';
+
+  @override
+  String get profileMenuInstallments => 'Installments & Payments';
+
+  @override
+  String get profileSectionAccount => 'Account Settings';
+
+  @override
+  String get profileMenuEditProfile => 'Edit Personal Data';
+
+  @override
+  String get profileMenuSecurity => 'Security & Password';
+
+  @override
+  String get profileSectionApp => 'App Settings';
+
+  @override
+  String get profileSectionSupport => 'Support & Help';
+
+  @override
+  String get profileMenuHelpCenter => 'Help Center';
+
+  @override
+  String get profileMenuContactSales => 'Contact Sales';
+
+  @override
+  String get mockUnitName => 'Villa 402 - Sea View';
+
+  @override
+  String get mockContractDate => 'October 12, 2026';
+
+  @override
+  String get mockOwnerName => 'Ahmed Mahmoud Al-Attar';
+
+  @override
+  String get contractStatusVerified => 'Verified & Approved';
+
+  @override
+  String get contractDetails => 'Contract Details';
+
+  @override
+  String get generatingPdf => 'Preparing file...';
+
+  @override
+  String get downloadPdf => 'Download PDF';
+
+  @override
+  String get changePassword => 'Change Password';
+
+  @override
+  String get currentPassword => 'Current Password';
+
+  @override
+  String get newPassword => 'New Password';
+
+  @override
+  String get confirmNewPassword => 'Confirm New Password';
+
+  @override
+  String get biometricLogin => 'Biometric Login';
+
+  @override
+  String get biometricLoginDesc => 'Use fingerprint or face to login quickly';
+
+  @override
+  String get updateData => 'Update Data';
+
+  @override
+  String get fullName => 'Full Name';
+
+  @override
+  String get email => 'Email Address';
+
+  @override
+  String get phoneNumber => 'Phone Number';
+
+  @override
+  String get saveChanges => 'Save Changes';
+
+  @override
+  String get arabicLang => 'Arabic';
+
+  @override
+  String get appearance => 'Appearance';
+
+  @override
+  String get darkMode => 'Dark Mode';
+
+  @override
+  String get darkModeDesc => 'Change app colors to reduce eye strain';
+
+  @override
+  String get appNotifications => 'App Notifications';
+
+  @override
+  String get appNotificationsDesc =>
+      'Alerts about unit status and installments';
+
+  @override
+  String get newsletter => 'Newsletter';
+
+  @override
+  String get newsletterDesc => 'Updates on new projects and offers';
+
+  @override
+  String get inProgressNow => 'In Progress';
+
+  @override
+  String get statusFinishing => 'Finishing';
+
+  @override
+  String get mockUnitDuplex => 'Duplex Apartment - 201';
+
+  @override
+  String get statusDelivered => 'Delivered';
+
+  @override
+  String get trackFinishing => 'Track Finishing';
+
+  @override
+  String get contractBtn => 'Contract';
+
+  @override
+  String get agentRole => 'Senior Support Engineer';
+
+  @override
+  String get supportAgentName => 'Sarah';
+
+  @override
+  String get mockMessage1 =>
+      'Certainly, I\'m checking the schedule for your unit with the supervising engineer. One moment please.';
+
+  @override
+  String get mockTime1 => '10:06 AM';
+
+  @override
+  String get mockMessage2 =>
+      'Hello Sarah, I would like to inquire about the delivery date for the gypsum board phase in my unit.';
+
+  @override
+  String get mockTime2 => '10:05 AM';
+
+  @override
+  String get mockMessage3 =>
+      'Welcome to Luxury Finishing Customer Service.\nHow can I help you today with your project?';
+
+  @override
+  String get mockTime3 => '10:00 AM';
+
+  @override
+  String get whatsapp => 'WhatsApp';
+
+  @override
+  String get finishingContractSummary => 'Finishing Contract Summary';
+
+  @override
+  String get project => 'Project';
+
+  @override
+  String get mockProjectRiyadh => 'Riyadh Pearl';
+
+  @override
+  String get unitType => 'Unit Type';
+
+  @override
+  String unitTypeDesc(String title, String area) {
+    return 'Unit $title - $area sqm';
+  }
+
+  @override
+  String get floor => 'Floor';
+
+  @override
+  String floorDesc(String floorVal) {
+    return 'Floor $floorVal';
+  }
+
+  @override
+  String get loadingStatus => 'Loading...';
+
+  @override
+  String get fullCustomFinishing => 'Full Custom Finishing';
+
+  @override
+  String get totalFinishingCost => 'Total Finishing Cost';
+
+  @override
+  String get clearSignature => 'Clear Signature';
+
+  @override
+  String get signAbove => 'Please sign inside the box above';
+
+  @override
+  String get errAgreeTerms => 'Please agree to the terms and conditions first.';
+
+  @override
+  String get errSignBox => 'Please draw your signature in the designated box.';
+
+  @override
+  String get finishingContract => 'Finishing Contract';
+
+  @override
+  String get finalApproval => 'Final Approval';
+
+  @override
+  String get contractGeneratedSuccess =>
+      'Contract generated successfully and verified with your electronic signature. You can save a copy or proceed.';
+
+  @override
+  String get confirmReturnContracts => 'Confirm & Return to Contracts';
 }

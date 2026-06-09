@@ -39,9 +39,9 @@ class ContractPreviewScreen extends StatelessWidget {
             ],
           ),
           child: AppBar(
-            title: const Text(
-              'الاعتماد النهائي',
-              style: TextStyle(
+            title: Text(
+              l10n.finalApproval,
+              style: const TextStyle(
                 color: AppColors.primary,
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
@@ -124,10 +124,10 @@ class ContractPreviewScreen extends StatelessWidget {
                         child: const Icon(Icons.verified_user_rounded, color: AppColors.gold, size: 24),
                       ),
                       const SizedBox(width: 15),
-                      const Expanded(
+                      Expanded(
                         child: Text(
-                          'تم إنشاء العقد بنجاح وموثق بتوقيعك الإلكتروني. يمكنك حفظ نسخة أو المتابعة.',
-                          style: TextStyle(
+                          l10n.contractGeneratedSuccess,
+                          style: const TextStyle(
                             fontSize: 12,
                             color: AppColors.textSecondary,
                             height: 1.5,
@@ -138,7 +138,7 @@ class ContractPreviewScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   CustomButton(
-                    text: 'تأكيد والرجوع لمراجعة العقود',
+                    text: l10n.confirmReturnContracts,
                     backgroundColor: AppColors.primary,
                     textColor: AppColors.white,
                     onPressed: () {

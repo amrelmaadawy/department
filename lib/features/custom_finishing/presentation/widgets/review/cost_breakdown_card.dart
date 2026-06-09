@@ -101,7 +101,7 @@ class CostBreakdownCard extends StatelessWidget {
                   ),
                   const SizedBox(width: 4),
                   const Text(
-                    'ج.م',
+                    'ر.س',
                     style: TextStyle(
                       fontSize: AppFonts.bodyMedium,
                       fontWeight: FontWeight.bold,
@@ -137,7 +137,7 @@ class CostBreakdownCard extends StatelessWidget {
           ),
         ),
         Text(
-          '${amount.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')} ج.م',
+          '${amount.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')} ر.س',
           style: TextStyle(
             fontSize: isTotal ? AppFonts.headlineMedium : AppFonts.bodyLarge,
             fontWeight: isTotal ? FontWeight.bold : FontWeight.w600,

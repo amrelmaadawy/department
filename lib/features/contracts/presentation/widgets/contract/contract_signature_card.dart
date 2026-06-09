@@ -59,9 +59,9 @@ class ContractSignatureCard extends StatelessWidget {
               TextButton.icon(
                 onPressed: () => controller.clear(),
                 icon: const Icon(FluentIcons.delete_24_regular, size: 16, color: AppColors.error),
-                label: const Text(
-                  'مسح التوقيع', // Ideally localized
-                  style: TextStyle(color: AppColors.error),
+                label: Text(
+                  l10n.clearSignature,
+                  style: const TextStyle(color: AppColors.error),
                 ),
               ),
             ],
@@ -86,10 +86,10 @@ class ContractSignatureCard extends StatelessWidget {
           ),
           
           const SizedBox(height: AppSpacing.sm),
-          const Center(
+          Center(
             child: Text(
-              'يرجى التوقيع داخل المربع أعلاه', // Ideally localized
-              style: TextStyle(
+              l10n.signAbove,
+              style: const TextStyle(
                 fontSize: AppFonts.bodySmall,
                 color: AppColors.textSecondary,
               ),

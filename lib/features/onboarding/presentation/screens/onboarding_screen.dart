@@ -67,6 +67,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         children: [
           // Background Images PageView
           PageView.builder(
+            reverse: true,
             controller: _pageController,
             onPageChanged: (index) {
               setState(() {
@@ -103,7 +104,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           // Skip Button
           SafeArea(
             child: Align(
-              alignment: Alignment.topRight,
+              alignment: AlignmentDirectional.topEnd,
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: AppSpacing.lg,
@@ -209,27 +210,29 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           const SizedBox(height: AppSpacing.xl),
 
                           // Bottom Row: Indicators and Next Button
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              // Dot Indicators
-                              Row(
-                                children: List.generate(
-                                  onboardingData.length,
-                                  (index) => AnimatedContainer(
-                                    duration: const Duration(milliseconds: 300),
-                                    margin: const EdgeInsets.only(right: 8),
-                                    height: 8,
-                                    width: _currentIndex == index ? 24 : 8,
-                                    decoration: BoxDecoration(
-                                      color: _currentIndex == index
-                                          ? AppColors.gold
-                                          : Colors.white.withValues(alpha: 0.3),
-                                      borderRadius: BorderRadius.circular(4),
+                          Directionality(
+                            textDirection: TextDirection.ltr,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                // Dot Indicators
+                                Row(
+                                  children: List.generate(
+                                    onboardingData.length,
+                                    (index) => AnimatedContainer(
+                                      duration: const Duration(milliseconds: 300),
+                                      margin: const EdgeInsetsDirectional.only(end: 8),
+                                      height: 8,
+                                      width: _currentIndex == index ? 24 : 8,
+                                      decoration: BoxDecoration(
+                                        color: _currentIndex == index
+                                            ? AppColors.gold
+                                            : Colors.white.withValues(alpha: 0.3),
+                                        borderRadius: BorderRadius.circular(4),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
 
                               // Next / Start Button
                               GestureDetector(
@@ -260,7 +263,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                   ),
                                 ),
                               ),
-                            ],
+                        ])
                           ),
                         ],
                       ),

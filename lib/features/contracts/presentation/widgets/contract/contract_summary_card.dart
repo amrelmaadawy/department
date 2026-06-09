@@ -28,7 +28,7 @@ class ContractSummaryCard extends StatelessWidget {
     
     final title = contractType == ContractType.unit 
         ? l10n.unitSummaryTitle 
-        : 'ملخص مقاولة التشطيب';
+        : l10n.finishingContractSummary;
         
     final icon = contractType == ContractType.unit 
         ? FluentIcons.building_retail_24_regular 
@@ -73,20 +73,20 @@ class ContractSummaryCard extends StatelessWidget {
           const SizedBox(height: AppSpacing.md),
           
           if (unit != null) ...[
-            _buildInfoRow('المشروع', 'لؤلؤة الرياض', FluentIcons.location_24_regular),
+            _buildInfoRow(l10n.project, l10n.mockProjectRiyadh, FluentIcons.location_24_regular),
             const SizedBox(height: AppSpacing.sm),
-            _buildInfoRow('نوع الوحدة', 'وحدة ${unit.title} - ${unit.area} متر مربع', FluentIcons.home_24_regular),
+            _buildInfoRow(l10n.unitType, l10n.unitTypeDesc(unit.title, unit.area.toString()), FluentIcons.home_24_regular),
             const SizedBox(height: AppSpacing.sm),
-            _buildInfoRow('الدور', 'الدور ${unit.floor}', FluentIcons.layer_24_regular),
+            _buildInfoRow(l10n.floor, l10n.floorDesc(unit.floor.toString()), FluentIcons.layer_24_regular),
           ] else ...[
-            _buildInfoRow('المشروع', 'لؤلؤة الرياض', FluentIcons.location_24_regular),
+            _buildInfoRow(l10n.project, l10n.mockProjectRiyadh, FluentIcons.location_24_regular),
             const SizedBox(height: AppSpacing.sm),
-            _buildInfoRow('التفاصيل', 'قيد التحميل...', FluentIcons.info_24_regular),
+            _buildInfoRow(l10n.details, l10n.loadingStatus, FluentIcons.info_24_regular),
           ],
           
           if (contractType == ContractType.finishing) ...[
             const SizedBox(height: AppSpacing.sm),
-            _buildInfoRow('نوع التشطيب', 'تشطيب مخصص كامل', FluentIcons.color_24_regular),
+            _buildInfoRow(l10n.finishingType, l10n.fullCustomFinishing, FluentIcons.color_24_regular),
           ],
           
           const SizedBox(height: AppSpacing.md),
@@ -100,7 +100,7 @@ class ContractSummaryCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  contractType == ContractType.unit ? l10n.priceTitle : 'إجمالي التشطيب',
+                  contractType == ContractType.unit ? l10n.priceTitle : l10n.totalFinishingCost,
                   style: const TextStyle(
                     fontSize: AppFonts.bodyMedium,
                     color: AppColors.textSecondary,

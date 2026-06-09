@@ -96,7 +96,7 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
                     ),
                     const SizedBox(width: 8),
                     const Text(
-                      'ج.م',
+                      'ر.س',
                       style: TextStyle(
                         fontSize: AppFonts.headlineMedium,
                         fontWeight: FontWeight.bold,

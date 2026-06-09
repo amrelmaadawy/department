@@ -146,7 +146,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get deliveryDate => 'تاريخ التسليم';
 
   @override
-  String get finishingType => 'التشطيب';
+  String get finishingType => 'نوع التشطيب';
 
   @override
   String get chooseUnit => 'اختار وحدتك';
@@ -447,4 +447,220 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get contractScreenTitle => 'حجز الوحدة';
+
+  @override
+  String get profileSectionRealEstate => 'إدارة العقارات';
+
+  @override
+  String get profileMenuMyUnits => 'الوحدات المحجوزة';
+
+  @override
+  String get profileMenuInstallments => 'جدول الأقساط والمدفوعات';
+
+  @override
+  String get profileSectionAccount => 'إعدادات الحساب';
+
+  @override
+  String get profileMenuEditProfile => 'تعديل البيانات الشخصية';
+
+  @override
+  String get profileMenuSecurity => 'الأمان وكلمة المرور';
+
+  @override
+  String get profileSectionApp => 'إعدادات التطبيق';
+
+  @override
+  String get profileSectionSupport => 'الدعم والمساعدة';
+
+  @override
+  String get profileMenuHelpCenter => 'مركز المساعدة';
+
+  @override
+  String get profileMenuContactSales => 'تواصل مع المبيعات';
+
+  @override
+  String get mockUnitName => 'فيلا 402 - إطلالة بحرية';
+
+  @override
+  String get mockContractDate => '12 أكتوبر 2026';
+
+  @override
+  String get mockOwnerName => 'أحمد محمود العطار';
+
+  @override
+  String get contractStatusVerified => 'موثق ومعتمد';
+
+  @override
+  String get contractDetails => 'تفاصيل العقد';
+
+  @override
+  String get generatingPdf => 'جاري تجهيز الملف...';
+
+  @override
+  String get downloadPdf => 'تحميل نسخة PDF';
+
+  @override
+  String get changePassword => 'تغيير كلمة المرور';
+
+  @override
+  String get currentPassword => 'كلمة المرور الحالية';
+
+  @override
+  String get newPassword => 'كلمة المرور الجديدة';
+
+  @override
+  String get confirmNewPassword => 'تأكيد كلمة المرور الجديدة';
+
+  @override
+  String get biometricLogin => 'تسجيل الدخول بالبصمة';
+
+  @override
+  String get biometricLoginDesc =>
+      'استخدم بصمة الإصبع أو الوجه لتسجيل الدخول السريع';
+
+  @override
+  String get updateData => 'تحديث البيانات';
+
+  @override
+  String get fullName => 'الاسم بالكامل';
+
+  @override
+  String get email => 'البريد الإلكتروني';
+
+  @override
+  String get phoneNumber => 'رقم الهاتف';
+
+  @override
+  String get saveChanges => 'حفظ التعديلات';
+
+  @override
+  String get arabicLang => 'العربية';
+
+  @override
+  String get appearance => 'المظهر';
+
+  @override
+  String get darkMode => 'الوضع الداكن';
+
+  @override
+  String get darkModeDesc => 'تغيير ألوان التطبيق لتقليل إجهاد العين';
+
+  @override
+  String get appNotifications => 'إشعارات التطبيق';
+
+  @override
+  String get appNotificationsDesc => 'تنبيهات حول حالة الوحدة والأقساط';
+
+  @override
+  String get newsletter => 'النشرة البريدية';
+
+  @override
+  String get newsletterDesc => 'تحديثات المشاريع الجديدة والعروض';
+
+  @override
+  String get inProgressNow => 'جاري الآن';
+
+  @override
+  String get statusFinishing => 'جاري التشطيب';
+
+  @override
+  String get mockUnitDuplex => 'شقة دوبلكس - 201';
+
+  @override
+  String get statusDelivered => 'تم التسليم';
+
+  @override
+  String get trackFinishing => 'متابعة التشطيب';
+
+  @override
+  String get contractBtn => 'العقد';
+
+  @override
+  String get agentRole => 'مهندس دعم أول';
+
+  @override
+  String get supportAgentName => 'سارة';
+
+  @override
+  String get mockMessage1 =>
+      'بالتأكيد، جاري التحقق من الجدول الزمني الخاص بوحدتك مع المهندس المشرف. لحظات من فضلك.';
+
+  @override
+  String get mockTime1 => '10:06 ص';
+
+  @override
+  String get mockMessage2 =>
+      'مرحباً سارة، أود الاستفسار عن موعد تسليم مرحلة الجبس بورد في وحدتي.';
+
+  @override
+  String get mockTime2 => '10:05 ص';
+
+  @override
+  String get mockMessage3 =>
+      'أهلاً بك في خدمة عملاء التشطيبات الفاخرة.\nكيف يمكنني مساعدتك اليوم في مشروعك؟';
+
+  @override
+  String get mockTime3 => '10:00 ص';
+
+  @override
+  String get whatsapp => 'واتساب';
+
+  @override
+  String get finishingContractSummary => 'ملخص مقاولة التشطيب';
+
+  @override
+  String get project => 'المشروع';
+
+  @override
+  String get mockProjectRiyadh => 'لؤلؤة الرياض';
+
+  @override
+  String get unitType => 'نوع الوحدة';
+
+  @override
+  String unitTypeDesc(String title, String area) {
+    return 'وحدة $title - $area متر مربع';
+  }
+
+  @override
+  String get floor => 'الدور';
+
+  @override
+  String floorDesc(String floorVal) {
+    return 'الدور $floorVal';
+  }
+
+  @override
+  String get loadingStatus => 'قيد التحميل...';
+
+  @override
+  String get fullCustomFinishing => 'تشطيب مخصص كامل';
+
+  @override
+  String get totalFinishingCost => 'إجمالي التشطيب';
+
+  @override
+  String get clearSignature => 'مسح التوقيع';
+
+  @override
+  String get signAbove => 'يرجى التوقيع داخل المربع أعلاه';
+
+  @override
+  String get errAgreeTerms => 'يرجى الموافقة على الشروط والأحكام أولاً.';
+
+  @override
+  String get errSignBox => 'يرجى رسم توقيعك في المربع المخصص.';
+
+  @override
+  String get finishingContract => 'عقد مقاولة تشطيب';
+
+  @override
+  String get finalApproval => 'الاعتماد النهائي';
+
+  @override
+  String get contractGeneratedSuccess =>
+      'تم إنشاء العقد بنجاح وموثق بتوقيعك الإلكتروني. يمكنك حفظ نسخة أو المتابعة.';
+
+  @override
+  String get confirmReturnContracts => 'تأكيد والرجوع لمراجعة العقود';
 }

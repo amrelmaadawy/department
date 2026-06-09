@@ -5,6 +5,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class ProgressTimelineTile extends StatelessWidget {
   final bool isFirst;
@@ -24,6 +25,7 @@ class ProgressTimelineTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final List<String> images = List<String>.from(phase['images'] ?? []);
     final Color indicatorColor = isCompleted
         ? AppColors.success
@@ -115,9 +117,9 @@ class ProgressTimelineTile extends StatelessWidget {
                               color: AppColors.gold.withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(AppRadius.md),
                             ),
-                            child: const Text(
-                              'جاري الآن',
-                              style: TextStyle(
+                            child: Text(
+                              l10n.inProgressNow,
+                              style: const TextStyle(
                                 fontSize: 10,
                                 color: AppColors.gold,
                                 fontWeight: FontWeight.bold,

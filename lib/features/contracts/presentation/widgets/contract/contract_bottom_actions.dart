@@ -62,9 +62,9 @@ class ContractBottomActions extends StatelessWidget {
                     }
                   : () {
                       if (!isAgreed) {
-                        AppToast.showError(context, 'يرجى الموافقة على الشروط والأحكام أولاً.');
+                        AppToast.showError(context, l10n.errAgreeTerms);
                       } else if (signatureController.isEmpty) {
-                        AppToast.showError(context, 'يرجى رسم توقيعك في المربع المخصص.');
+                        AppToast.showError(context, l10n.errSignBox);
                       }
                     }, 
               backgroundColor: isFormValid ? AppColors.primary : AppColors.border,

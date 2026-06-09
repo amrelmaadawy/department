@@ -19,7 +19,7 @@ class UnitBottomActions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final formatter = NumberFormat.currency(symbol: 'EGP ', decimalDigits: 0);
+    final formatter = NumberFormat.currency(symbol: 'ر.س ', decimalDigits: 0);
 
     return Container(
       padding: const EdgeInsets.symmetric(

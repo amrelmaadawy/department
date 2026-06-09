@@ -7,24 +7,28 @@ import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 
+import '../../../../l10n/app_localizations.dart';
+
 class MyUnitsScreen extends StatelessWidget {
   const MyUnitsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     // Mock Data for VIP Units
     final List<Map<String, dynamic>> myUnits = [
       {
         'projectName': 'The Pearl Resort',
-        'unitName': 'فيلا 402 - إطلالة بحرية',
-        'status': 'جاري التشطيب',
+        'unitName': l10n.mockUnitName,
+        'status': l10n.statusFinishing,
         'progress': 0.65, // 65% completed
         'image': 'assets/images/unit_villa.png',
       },
       {
         'projectName': 'Downtown Heights',
-        'unitName': 'شقة دوبلكس - 201',
-        'status': 'تم التسليم',
+        'unitName': l10n.mockUnitDuplex,
+        'status': l10n.statusDelivered,
         'progress': 1.0,
         'image': 'assets/images/unit_duplex.png',
       },
@@ -36,9 +40,9 @@ class MyUnitsScreen extends StatelessWidget {
         backgroundColor: AppColors.white,
         elevation: 0,
         scrolledUnderElevation: 0.0,
-        title: const Text(
-          'الوحدات المحجوزة',
-          style: TextStyle(
+        title: Text(
+          l10n.profileMenuMyUnits,
+          style: const TextStyle(
             color: AppColors.textPrimary,
             fontSize: AppFonts.headlineSmall,
             fontWeight: FontWeight.bold,
@@ -56,13 +60,13 @@ class MyUnitsScreen extends StatelessWidget {
         separatorBuilder: (context, index) => const SizedBox(height: AppSpacing.lg),
         itemBuilder: (context, index) {
           final unit = myUnits[index];
-          return _buildUnitCard(context, unit);
+          return _buildUnitCard(context, unit, l10n);
         },
       ),
     );
   }
 
-  Widget _buildUnitCard(BuildContext context, Map<String, dynamic> unit) {
+  Widget _buildUnitCard(BuildContext context, Map<String, dynamic> unit, AppLocalizations l10n) {
     final bool isCompleted = unit['progress'] == 1.0;
 
     return Container(
@@ -167,7 +171,7 @@ class MyUnitsScreen extends StatelessWidget {
                           isCompleted ? FluentIcons.checkmark_24_regular : FluentIcons.data_trending_24_regular,
                           size: 20,
                         ),
-                        label: Text(isCompleted ? 'تم التسليم' : 'متابعة التشطيب'),
+                        label: Text(isCompleted ? l10n.statusDelivered : l10n.trackFinishing),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: isCompleted ? AppColors.success : AppColors.primary,
                           foregroundColor: AppColors.white,
@@ -185,7 +189,7 @@ class MyUnitsScreen extends StatelessWidget {
                         context.push('/unit-contract');
                       },
                       icon: const Icon(FluentIcons.document_pdf_24_regular, size: 20),
-                      label: const Text('العقد'),
+                      label: Text(l10n.contractBtn),
                       style: OutlinedButton.styleFrom(
                         foregroundColor: AppColors.textPrimary,
                         side: const BorderSide(color: AppColors.border),

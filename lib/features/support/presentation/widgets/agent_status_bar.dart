@@ -118,7 +118,7 @@ class _AgentStatusBarState extends State<AgentStatusBar>
                     ),
                   ),
                   Text(
-                    'مهندس دعم أول', // Professional role
+                    l10n.agentRole, // Professional role
                     style: TextStyle(
                       fontSize: AppFonts.labelSmall,
                       color: AppColors.textSecondary.withValues(alpha: 0.8),

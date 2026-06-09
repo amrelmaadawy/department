@@ -7,21 +7,24 @@ import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/widgets/custom_button.dart';
 import '../../../../core/widgets/custom_text_field.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class EditProfileScreen extends StatelessWidget {
   const EditProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
         backgroundColor: AppColors.white,
         elevation: 0,
         scrolledUnderElevation: 0.0,
-        title: const Text(
-          'تعديل البيانات الشخصية',
-          style: TextStyle(
+        title: Text(
+          l10n.profileMenuEditProfile,
+          style: const TextStyle(
             color: AppColors.textPrimary,
             fontSize: AppFonts.headlineSmall,
             fontWeight: FontWeight.bold,
@@ -70,23 +73,23 @@ class EditProfileScreen extends StatelessWidget {
             const SizedBox(height: AppSpacing.xxxl),
 
             // Form Fields
-            const CustomTextField(
-              label: 'الاسم بالكامل',
-              hint: 'أحمد محمود العطار',
+            CustomTextField(
+              label: l10n.fullName,
+              hint: l10n.mockOwnerName,
               icon: FluentIcons.person_24_regular,
             ),
             const SizedBox(height: AppSpacing.xl),
             
-            const CustomTextField(
-              label: 'البريد الإلكتروني',
+            CustomTextField(
+              label: l10n.email,
               hint: 'ahmed.alattar@example.com',
               icon: FluentIcons.mail_24_regular,
               keyboardType: TextInputType.emailAddress,
             ),
             const SizedBox(height: AppSpacing.xl),
             
-            const CustomTextField(
-              label: 'رقم الهاتف',
+            CustomTextField(
+              label: l10n.phoneNumber,
               hint: '+20 100 123 4567',
               icon: FluentIcons.phone_24_regular,
               keyboardType: TextInputType.phone,
@@ -96,7 +99,7 @@ class EditProfileScreen extends StatelessWidget {
 
             // Save Button
             CustomButton(
-              text: 'حفظ التعديلات',
+              text: l10n.saveChanges,
               onPressed: () {
                 context.pop();
               },

@@ -8,6 +8,7 @@ import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/widgets/custom_button.dart';
 import '../../../../core/widgets/custom_text_field.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class SecurityScreen extends StatefulWidget {
   const SecurityScreen({super.key});
@@ -21,15 +22,17 @@ class _SecurityScreenState extends State<SecurityScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
         backgroundColor: AppColors.white,
         elevation: 0,
         scrolledUnderElevation: 0.0,
-        title: const Text(
-          'الأمان وكلمة المرور',
-          style: TextStyle(
+        title: Text(
+          l10n.profileMenuSecurity,
+          style: const TextStyle(
             color: AppColors.textPrimary,
             fontSize: AppFonts.headlineSmall,
             fontWeight: FontWeight.bold,
@@ -47,9 +50,9 @@ class _SecurityScreenState extends State<SecurityScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'تغيير كلمة المرور',
-              style: TextStyle(
+            Text(
+              l10n.changePassword,
+              style: const TextStyle(
                 fontSize: AppFonts.bodyLarge,
                 fontWeight: FontWeight.bold,
                 color: AppColors.primary,
@@ -57,24 +60,24 @@ class _SecurityScreenState extends State<SecurityScreen> {
             ),
             const SizedBox(height: AppSpacing.lg),
             
-            const CustomTextField(
-              label: 'كلمة المرور الحالية',
+            CustomTextField(
+              label: l10n.currentPassword,
               hint: '••••••••',
               icon: FluentIcons.password_24_regular,
               isPassword: true,
             ),
             const SizedBox(height: AppSpacing.xl),
             
-            const CustomTextField(
-              label: 'كلمة المرور الجديدة',
+            CustomTextField(
+              label: l10n.newPassword,
               hint: '••••••••',
               icon: FluentIcons.key_24_regular,
               isPassword: true,
             ),
             const SizedBox(height: AppSpacing.xl),
             
-            const CustomTextField(
-              label: 'تأكيد كلمة المرور الجديدة',
+            CustomTextField(
+              label: l10n.confirmNewPassword,
               hint: '••••••••',
               icon: FluentIcons.key_24_regular,
               isPassword: true,
@@ -103,22 +106,22 @@ class _SecurityScreenState extends State<SecurityScreen> {
                     child: const Icon(FluentIcons.fingerprint_24_regular, color: AppColors.gold),
                   ),
                   const SizedBox(width: AppSpacing.md),
-                  const Expanded(
+                  Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'تسجيل الدخول بالبصمة',
-                          style: TextStyle(
+                          l10n.biometricLogin,
+                          style: const TextStyle(
                             fontSize: AppFonts.bodyLarge,
                             fontWeight: FontWeight.bold,
                             color: AppColors.textPrimary,
                           ),
                         ),
-                        SizedBox(height: AppSpacing.xs),
+                        const SizedBox(height: AppSpacing.xs),
                         Text(
-                          'استخدم بصمة الإصبع أو الوجه لتسجيل الدخول السريع',
-                          style: TextStyle(
+                          l10n.biometricLoginDesc,
+                          style: const TextStyle(
                             fontSize: AppFonts.bodySmall,
                             color: AppColors.textSecondary,
                           ),
@@ -143,7 +146,7 @@ class _SecurityScreenState extends State<SecurityScreen> {
 
             // Save Button
             CustomButton(
-              text: 'تحديث البيانات',
+              text: l10n.updateData,
               onPressed: () {
                 context.pop();
               },

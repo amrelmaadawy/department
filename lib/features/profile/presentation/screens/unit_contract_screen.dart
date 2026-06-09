@@ -12,6 +12,7 @@ import '../../../../core/widgets/custom_button.dart';
 import '../../../projects/domain/services/contract_pdf_generator.dart';
 import '../widgets/contract_details_card.dart';
 import '../widgets/contract_financial_card.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class UnitContractScreen extends StatefulWidget {
   const UnitContractScreen({super.key});
@@ -21,17 +22,7 @@ class UnitContractScreen extends StatefulWidget {
 }
 
 class _UnitContractScreenState extends State<UnitContractScreen> {
-  // Mock Data
-  final Map<String, dynamic> _contractData = {
-    'projectName': 'The Pearl Resort',
-    'unitName': 'فيلا 402 - إطلالة بحرية',
-    'contractDate': '12 أكتوبر 2026',
-    'ownerName': 'أحمد محمود العطار',
-    'totalPrice': '12,500,000 ج.م',
-    'paidAmount': '2,500,000 ج.م',
-    'remainingAmount': '10,000,000 ج.م',
-    'status': 'موثق ومعتمد',
-  };
+
 
   bool _isGeneratingPdf = false;
 
@@ -55,15 +46,29 @@ class _UnitContractScreenState extends State<UnitContractScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
+    // Mock Data
+    final Map<String, dynamic> contractData = {
+      'projectName': 'The Pearl Resort',
+      'unitName': l10n.mockUnitName,
+      'contractDate': l10n.mockContractDate,
+      'ownerName': l10n.mockOwnerName,
+      'totalPrice': '12,500,000 ر.س',
+      'paidAmount': '2,500,000 ر.س',
+      'remainingAmount': '10,000,000 ر.س',
+      'status': l10n.contractStatusVerified,
+    };
+
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
         backgroundColor: AppColors.white,
         elevation: 0,
         scrolledUnderElevation: 0,
-        title: const Text(
-          'تفاصيل العقد',
-          style: TextStyle(
+        title: Text(
+          l10n.contractDetails,
+          style: const TextStyle(
             color: AppColors.textPrimary,
             fontSize: AppFonts.headlineSmall,
             fontWeight: FontWeight.bold,
@@ -87,7 +92,7 @@ class _UnitContractScreenState extends State<UnitContractScreen> {
                 const Icon(FluentIcons.shield_checkmark_24_filled, color: AppColors.success, size: 28),
                 const SizedBox(width: AppSpacing.sm),
                 Text(
-                  _contractData['status'],
+                  contractData['status'],
                   style: const TextStyle(
                     fontSize: AppFonts.bodyLarge,
                     color: AppColors.success,
@@ -99,11 +104,11 @@ class _UnitContractScreenState extends State<UnitContractScreen> {
             const SizedBox(height: AppSpacing.xxl),
             
             // Details Card
-            ContractDetailsCard(unitData: _contractData),
+            ContractDetailsCard(unitData: contractData),
             const SizedBox(height: AppSpacing.xl),
             
             // Financial Card
-            ContractFinancialCard(financialData: _contractData),
+            ContractFinancialCard(financialData: contractData),
             const SizedBox(height: AppSpacing.xxxl),
           ],
         ),
@@ -112,7 +117,7 @@ class _UnitContractScreenState extends State<UnitContractScreen> {
         child: Padding(
           padding: const EdgeInsets.all(AppSpacing.xl),
           child: CustomButton(
-            text: _isGeneratingPdf ? 'جاري تجهيز الملف...' : 'تحميل نسخة PDF',
+            text: _isGeneratingPdf ? l10n.generatingPdf : l10n.downloadPdf,
             backgroundColor: AppColors.primary,
             textColor: AppColors.white,
             onPressed: _isGeneratingPdf ? null : _downloadPdf,
