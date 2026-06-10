@@ -65,7 +65,7 @@ class UnitCostEstimationCard extends StatelessWidget {
                   style: TextStyle(
                     fontSize: AppFonts.headlineSmall,
                     fontWeight: FontWeight.bold,
-                    color: context.colors.primary,
+                    color: context.colors.textPrimary,
                   ),
                 ),
               ],

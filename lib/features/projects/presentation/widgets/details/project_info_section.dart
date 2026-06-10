@@ -41,7 +41,7 @@ class ProjectInfoSection extends StatelessWidget {
             style: TextStyle(
               fontSize: AppFonts.displaySmall,
               fontWeight: FontWeight.bold,
-              color: context.colors.primary,
+              color: context.colors.textPrimary,
             ),
             textAlign: TextAlign.center,
           ),

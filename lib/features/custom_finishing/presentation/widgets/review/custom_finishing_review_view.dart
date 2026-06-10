@@ -48,7 +48,7 @@ class CustomFinishingReviewView extends StatelessWidget {
                 style: TextStyle(
                   fontSize: AppFonts.displaySmall,
                   fontWeight: FontWeight.w900,
-                  color: context.colors.primary,
+                  color: context.colors.textPrimary,
                   letterSpacing: -0.5,
                 ),
               ),

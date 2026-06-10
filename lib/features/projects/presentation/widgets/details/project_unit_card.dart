@@ -109,7 +109,7 @@ class ProjectUnitCard extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: AppFonts.bodyLarge,
                                     fontWeight: FontWeight.bold,
-                                    color: context.colors.primary,
+                                    color: context.colors.textPrimary,
                                   ),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,

@@ -29,14 +29,14 @@ class UnitDetailsScreen extends StatelessWidget {
           l10n.unitDetailsTitle,
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            color: context.colors.primary,
+            color: context.colors.textPrimary,
           ),
         ),
         backgroundColor: context.colors.background,
         elevation: 0,
         scrolledUnderElevation: 0,
         centerTitle: true,
-        iconTheme: IconThemeData(color: context.colors.primary),
+        iconTheme: IconThemeData(color: context.colors.textPrimary),
         actions: [
           IconButton(icon: Icon(Icons.bookmark_border), onPressed: () {}),
         ],

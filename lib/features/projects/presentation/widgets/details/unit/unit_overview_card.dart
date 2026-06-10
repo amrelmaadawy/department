@@ -43,7 +43,7 @@ class UnitOverviewCard extends StatelessWidget {
                 width: 4,
                 height: 24,
                 decoration: BoxDecoration(
-                  color: context.colors.primary,
+                  color: context.colors.textPrimary,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -53,7 +53,7 @@ class UnitOverviewCard extends StatelessWidget {
                 style: TextStyle(
                   fontSize: AppFonts.headlineSmall,
                   fontWeight: FontWeight.bold,
-                  color: context.colors.primary,
+                  color: context.colors.textPrimary,
                 ),
               ),
             ],

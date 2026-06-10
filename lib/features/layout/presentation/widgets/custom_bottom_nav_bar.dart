@@ -95,7 +95,7 @@ class _NavBarIcon extends StatelessWidget {
             AnimatedDefaultTextStyle(
               duration: const Duration(milliseconds: 300),
               style: TextStyle(
-                color: isSelected ? context.colors.primary : context.colors.textSecondary,
+                color: isSelected ? context.colors.textPrimary : context.colors.textSecondary,
                 fontSize: AppFonts.bodySmall,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                 fontFamily: 'Cairo', // Preserve your app's font
