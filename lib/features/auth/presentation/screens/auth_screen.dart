@@ -91,7 +91,9 @@ class AuthView extends StatelessWidget {
               // Next Button
               CustomButton(
                 text: l10n.next,
-                backgroundColor: context.colors.primary,
+                backgroundColor: Theme.of(context).brightness == Brightness.dark 
+                    ? context.colors.gold 
+                    : context.colors.primary,
                 textColor: Colors.white,
                 onPressed: () {
                   context.go(AppRouter.layout);

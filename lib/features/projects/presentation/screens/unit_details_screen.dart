@@ -8,8 +8,7 @@ import '../widgets/details/unit/unit_overview_card.dart';
 import '../widgets/details/unit/unit_specs_chips.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 
-
-class UnitDetailsScreen extends StatelessWidget {
+class UnitDetailsScreen extends StatefulWidget {
   final ProjectUnitEntity unit;
   final String heroTag;
 
@@ -18,6 +17,13 @@ class UnitDetailsScreen extends StatelessWidget {
     required this.unit,
     required this.heroTag,
   });
+
+  @override
+  State<UnitDetailsScreen> createState() => _UnitDetailsScreenState();
+}
+
+class _UnitDetailsScreenState extends State<UnitDetailsScreen> {
+  bool _isImageZoomed = false;
 
   @override
   Widget build(BuildContext context) {
@@ -42,17 +48,26 @@ class UnitDetailsScreen extends StatelessWidget {
         ],
       ),
       body: SingleChildScrollView(
+        physics: _isImageZoomed ? const NeverScrollableScrollPhysics() : null,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            UnitFloorPlanViewer(unit: unit, heroTag: heroTag),
-            UnitSpecsChips(unit: unit),
-            UnitOverviewCard(unit: unit),
+            UnitFloorPlanViewer(
+              unit: widget.unit,
+              heroTag: widget.heroTag,
+              onZoomChanged: (isZoomed) {
+                setState(() {
+                  _isImageZoomed = isZoomed;
+                });
+              },
+            ),
+            UnitSpecsChips(unit: widget.unit),
+            UnitOverviewCard(unit: widget.unit),
             SizedBox(height: 24),
           ],
         ),
       ),
-      bottomNavigationBar: UnitBottomActions(unit: unit),
+      bottomNavigationBar: UnitBottomActions(unit: widget.unit),
     );
   }
 }

@@ -12,7 +12,9 @@ class UnitFloorPlanViewer extends StatefulWidget {
   final ProjectUnitEntity unit;
   final String heroTag;
 
-  const UnitFloorPlanViewer({super.key, required this.unit, required this.heroTag});
+  final ValueChanged<bool>? onZoomChanged;
+
+  const UnitFloorPlanViewer({super.key, required this.unit, required this.heroTag, this.onZoomChanged});
 
   @override
   State<UnitFloorPlanViewer> createState() => _UnitFloorPlanViewerState();
@@ -136,6 +138,7 @@ class _UnitFloorPlanViewerState extends State<UnitFloorPlanViewer> {
                         }
                       }
                       _isZoomedIn = _transformationControllers[index].value.getMaxScaleOnAxis() > 1.01;
+                      widget.onZoomChanged?.call(_isZoomedIn);
                     });
                   },
                   itemCount: images.isEmpty ? 1 : images.length,
