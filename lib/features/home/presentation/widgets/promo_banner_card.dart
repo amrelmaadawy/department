@@ -1,7 +1,7 @@
 import 'package:apartment/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/theme_extension.dart';
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
@@ -16,7 +16,7 @@ class PromoBannerCard extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: 200,
-      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+      margin: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppRadius.lg),
         image: const DecorationImage(
@@ -25,7 +25,7 @@ class PromoBannerCard extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: AppColors.darkOverlay.withOpacity(0.1),
+            color: context.colors.darkOverlay.withValues(alpha: 0.1),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -41,7 +41,7 @@ class PromoBannerCard extends StatelessWidget {
                 begin: Alignment.centerRight,
                 end: Alignment.centerLeft,
                 colors: [
-                  AppColors.primary.withOpacity(0.8),
+                  context.colors.primary.withValues(alpha: 0.8),
                   Colors.transparent,
                 ],
               ),
@@ -59,8 +59,8 @@ class PromoBannerCard extends StatelessWidget {
               children: [
                 Text(
                   l10n.promoTitle,
-                  style: const TextStyle(
-                    color: AppColors.white,
+                  style: TextStyle(
+                    color: Colors.white,
                     fontSize: AppFonts.headlineSmall,
                     fontWeight: FontWeight.bold,
                     height: 1.2,
@@ -70,13 +70,13 @@ class PromoBannerCard extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.gold,
-                    foregroundColor: AppColors.primary,
+                    backgroundColor: context.colors.gold,
+                    foregroundColor: Colors.white,
                     elevation: 0,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(AppRadius.md),
                     ),
-                    padding: const EdgeInsets.symmetric(
+                    padding: EdgeInsets.symmetric(
                       horizontal: AppSpacing.lg,
                       vertical: AppSpacing.sm,
                     ),

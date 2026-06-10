@@ -1,4 +1,4 @@
-import 'package:apartment/core/theme/app_colors.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
 import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
@@ -51,14 +51,14 @@ class ProjectUnitCard extends StatelessWidget {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
-        margin: const EdgeInsets.only(bottom: AppSpacing.md),
+        margin: EdgeInsets.only(bottom: AppSpacing.md),
         decoration: BoxDecoration(
           color: isSelected
-              ? AppColors.gold.withValues(alpha: 0.05)
-              : AppColors.white,
+              ? context.colors.gold.withValues(alpha: 0.05)
+              : context.colors.white,
           borderRadius: BorderRadius.circular(AppRadius.md),
           border: Border.all(
-            color: isSelected ? AppColors.gold : AppColors.border,
+            color: isSelected ? context.colors.gold : context.colors.border,
             width: isSelected ? 2 : 1,
           ),
           boxShadow: [
@@ -84,11 +84,11 @@ class ProjectUnitCard extends StatelessWidget {
                     width: 120,
                     child: unit.imagePath.isNotEmpty
                         ? Image.asset(unit.imagePath, fit: BoxFit.cover)
-                        : const Center(
+                        : Center(
                             child: Icon(
                               FluentIcons.image_off_24_regular,
                               size: 32,
-                              color: AppColors.textSecondary,
+                              color: context.colors.textSecondary,
                             ),
                           ),
                   ),
@@ -96,7 +96,7 @@ class ProjectUnitCard extends StatelessWidget {
                   // Details
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.all(AppSpacing.sm),
+                      padding: EdgeInsets.all(AppSpacing.sm),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -106,10 +106,10 @@ class ProjectUnitCard extends StatelessWidget {
                               Expanded(
                                 child: Text(
                                   unit.title,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: AppFonts.bodyLarge,
                                     fontWeight: FontWeight.bold,
-                                    color: AppColors.primary,
+                                    color: context.colors.primary,
                                   ),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
@@ -117,13 +117,13 @@ class ProjectUnitCard extends StatelessWidget {
                               ),
                               // Status Badge
                               Container(
-                                padding: const EdgeInsets.symmetric(
+                                padding: EdgeInsets.symmetric(
                                   horizontal: AppSpacing.xs,
                                   vertical: 2,
                                 ),
                                 decoration: BoxDecoration(
                                   color: isSold
-                                      ? AppColors.textSecondary.withValues(
+                                      ? context.colors.textSecondary.withValues(
                                           alpha: 0.1,
                                         )
                                       : Colors.green.withValues(alpha: 0.1),
@@ -138,7 +138,7 @@ class ProjectUnitCard extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: AppFonts.labelSmall,
                                     color: isSold
-                                        ? AppColors.textSecondary
+                                        ? context.colors.textSecondary
                                         : Colors.green.shade700,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -146,28 +146,31 @@ class ProjectUnitCard extends StatelessWidget {
                               ),
                             ],
                           ),
-                          const SizedBox(height: AppSpacing.xs),
+                          SizedBox(height: AppSpacing.xs),
 
                           // Specs
                           Row(
                             children: [
                               _buildSpecItem(
+                                context,
                                 FluentIcons.slide_size_24_regular,
                                 '${unit.area} ${l10n.unitSqMeter}',
                               ),
-                              const SizedBox(width: AppSpacing.sm),
+                              SizedBox(width: AppSpacing.sm),
                               _buildSpecItem(
+                                context,
                                 FluentIcons.bed_24_regular,
                                 '${unit.bedrooms}',
                               ),
-                              const SizedBox(width: AppSpacing.sm),
+                              SizedBox(width: AppSpacing.sm),
                               _buildSpecItem(
+                                context,
                                 FluentIcons.drop_24_regular,
                                 '${unit.bathrooms}',
                               ),
                             ],
                           ),
-                          const Spacer(),
+                          Spacer(),
 
                           // Price
                           Wrap(
@@ -175,17 +178,17 @@ class ProjectUnitCard extends StatelessWidget {
                             children: [
                               Text(
                                 '${l10n.unitStartsFrom} ',
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: AppFonts.labelMedium,
-                                  color: AppColors.textSecondary,
+                                  color: context.colors.textSecondary,
                                 ),
                               ),
                               Text(
                                 '${_formatPrice(unit.price)} ${l10n.sar}',
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: AppFonts.bodyLarge,
                                   fontWeight: FontWeight.bold,
-                                  color: AppColors.gold,
+                                  color: context.colors.gold,
                                 ),
                               ),
                             ],
@@ -203,17 +206,17 @@ class ProjectUnitCard extends StatelessWidget {
     );
   }
 
-  Widget _buildSpecItem(IconData icon, String text) {
+  Widget _buildSpecItem(BuildContext context, IconData icon, String text) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(icon, size: 14, color: AppColors.textSecondary),
-        const SizedBox(width: 4),
+        Icon(icon, size: 14, color: context.colors.textSecondary),
+        SizedBox(width: 4),
         Text(
           text,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: AppFonts.labelMedium,
-            color: AppColors.textSecondary,
+            color: context.colors.textSecondary,
           ),
         ),
       ],

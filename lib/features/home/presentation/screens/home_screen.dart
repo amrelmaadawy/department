@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../../core/di/injection_container.dart';
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/theme_extension.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../cubit/home_cubit.dart';
@@ -33,7 +33,7 @@ class HomeView extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.colors.background,
       body: SafeArea(
         child: BlocBuilder<HomeCubit, HomeState>(
           builder: (context, state) {
@@ -44,7 +44,7 @@ class HomeView extends StatelessWidget {
 
                 // Content based on state
                 if (state is HomeLoading || state is HomeInitial)
-                  SliverToBoxAdapter(child: _buildShimmerLoading())
+                  SliverToBoxAdapter(child: _buildShimmerLoading(context))
                 else if (state is HomeLoaded)
                   SliverList(
                     delegate: SliverChildListDelegate([
@@ -57,7 +57,7 @@ class HomeView extends StatelessWidget {
                         height: 280,
                         child: ListView.separated(
                           scrollDirection: Axis.horizontal,
-                          padding: const EdgeInsets.symmetric(
+                          padding: EdgeInsets.symmetric(
                             horizontal: AppSpacing.lg,
                           ),
                           itemCount: state.featuredProjects.length,
@@ -85,10 +85,11 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  Widget _buildShimmerLoading() {
+  Widget _buildShimmerLoading(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Shimmer.fromColors(
-      baseColor: Colors.grey[300]!,
-      highlightColor: Colors.grey[100]!,
+      baseColor: isDark ? Colors.grey[800]! : Colors.grey[300]!,
+      highlightColor: isDark ? Colors.grey[700]! : Colors.grey[100]!,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -96,7 +97,7 @@ class HomeView extends StatelessWidget {
           Container(
             width: double.infinity,
             height: 200,
-            margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+            margin: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(AppRadius.lg),
@@ -105,7 +106,7 @@ class HomeView extends StatelessWidget {
           const SizedBox(height: AppSpacing.xl),
           // Section Title Shimmer
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+            padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
             child: Container(
               width: 150,
               height: 24,
@@ -121,7 +122,7 @@ class HomeView extends StatelessWidget {
             height: 280,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+              padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
               itemCount: 3,
               separatorBuilder: (context, index) =>
                   const SizedBox(width: AppSpacing.lg),

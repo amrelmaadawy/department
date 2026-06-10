@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
-import 'package:apartment/core/theme/app_colors.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
 import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/features/home/domain/entities/project_unit_entity.dart';
 import 'package:apartment/l10n/app_localizations.dart';
+
 
 class UnitCostEstimationCard extends StatelessWidget {
   final ProjectUnitEntity unit;
@@ -31,61 +32,63 @@ class UnitCostEstimationCard extends StatelessWidget {
     final double totalCost = unit.price + finishingCost;
 
     return Container(
-      margin: const EdgeInsets.symmetric(
+      margin: EdgeInsets.symmetric(
         horizontal: AppSpacing.lg,
         vertical: AppSpacing.sm,
       ),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: context.colors.white,
         borderRadius: BorderRadius.circular(AppRadius.lg),
-        border: Border.all(color: AppColors.border, width: 1),
+        border: Border.all(color: context.colors.border, width: 1),
       ),
       child: Column(
         children: [
           // Header
           Padding(
-            padding: const EdgeInsets.all(AppSpacing.lg),
+            padding: EdgeInsets.all(AppSpacing.lg),
             child: Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(AppSpacing.sm),
+                  padding: EdgeInsets.all(AppSpacing.sm),
                   decoration: BoxDecoration(
-                    color: AppColors.gold.withValues(alpha: 0.1),
+                    color: context.colors.gold.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(AppRadius.sm),
                   ),
-                  child: const Icon(
+                  child: Icon(
                     FluentIcons.receipt_money_24_regular,
-                    color: AppColors.gold,
+                    color: context.colors.gold,
                   ),
                 ),
-                const SizedBox(width: AppSpacing.sm),
+                SizedBox(width: AppSpacing.sm),
                 Text(
                   l10n.costEstimateTitle,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: AppFonts.headlineSmall,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.primary,
+                    color: context.colors.primary,
                   ),
                 ),
               ],
             ),
           ),
 
-          const Divider(height: 1, color: AppColors.border),
+          Divider(height: 1, color: context.colors.border),
 
           // Cost Breakdown
           Padding(
-            padding: const EdgeInsets.all(AppSpacing.lg),
+            padding: EdgeInsets.all(AppSpacing.lg),
             child: Column(
               children: [
                 _buildCostRow(
+                  context: context,
                   title: l10n.basicUnitPrice,
                   subtitle: l10n.semiFinished,
                   amount: _formatPrice(unit.price),
                   currency: l10n.sar,
                 ),
-                const SizedBox(height: AppSpacing.md),
+                SizedBox(height: AppSpacing.md),
                 _buildCostRow(
+                  context: context,
                   title: l10n.estimatedFinishingCost,
                   subtitle: l10n.basedOnLuxuryPackage,
                   amount: _formatPrice(finishingCost),
@@ -98,9 +101,9 @@ class UnitCostEstimationCard extends StatelessWidget {
 
           // Total
           Container(
-            padding: const EdgeInsets.all(AppSpacing.lg),
+            padding: EdgeInsets.all(AppSpacing.lg),
             decoration: BoxDecoration(
-              color: AppColors.background.withValues(alpha: 0.5),
+              color: context.colors.background.withValues(alpha: 0.5),
               borderRadius: const BorderRadius.vertical(
                 bottom: Radius.circular(AppRadius.lg),
               ),
@@ -110,9 +113,9 @@ class UnitCostEstimationCard extends StatelessWidget {
               children: [
                 Text(
                   l10n.totalExpectedCost,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: AppFonts.bodyMedium,
-                    color: AppColors.textSecondary,
+                    color: context.colors.textSecondary,
                   ),
                 ),
                 Row(
@@ -121,19 +124,19 @@ class UnitCostEstimationCard extends StatelessWidget {
                   children: [
                     Text(
                       _formatPrice(totalCost),
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: AppFonts.headlineSmall,
                         fontWeight: FontWeight.bold,
-                        color: AppColors.gold,
+                        color: context.colors.gold,
                       ),
                     ),
-                    const SizedBox(width: 4),
+                    SizedBox(width: 4),
                     Text(
                       l10n.sar,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: AppFonts.bodyMedium,
                         fontWeight: FontWeight.bold,
-                        color: AppColors.gold,
+                        color: context.colors.gold,
                       ),
                     ),
                   ],
@@ -147,6 +150,7 @@ class UnitCostEstimationCard extends StatelessWidget {
   }
 
   Widget _buildCostRow({
+    required BuildContext context,
     required String title,
     required String subtitle,
     required String amount,
@@ -164,25 +168,25 @@ class UnitCostEstimationCard extends StatelessWidget {
               Row(
                 children: [
                   if (icon != null) ...[
-                    Icon(icon, size: 16, color: AppColors.gold),
-                    const SizedBox(width: 4),
+                    Icon(icon, size: 16, color: context.colors.gold),
+                    SizedBox(width: 4),
                   ],
                   Text(
                     title,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: AppFonts.bodyMedium,
                       fontWeight: FontWeight.bold,
-                      color: AppColors.primary,
+                      color: context.colors.primary,
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 2),
+              SizedBox(height: 2),
               Text(
                 subtitle,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: AppFonts.labelMedium,
-                  color: AppColors.textSecondary,
+                  color: context.colors.textSecondary,
                 ),
               ),
             ],
@@ -194,18 +198,18 @@ class UnitCostEstimationCard extends StatelessWidget {
           children: [
             Text(
               amount,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: AppFonts.bodyLarge,
                 fontWeight: FontWeight.bold,
-                color: AppColors.primary,
+                color: context.colors.primary,
               ),
             ),
-            const SizedBox(width: 4),
+            SizedBox(width: 4),
             Text(
               currency,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: AppFonts.labelMedium,
-                color: AppColors.textSecondary,
+                color: context.colors.textSecondary,
               ),
             ),
           ],

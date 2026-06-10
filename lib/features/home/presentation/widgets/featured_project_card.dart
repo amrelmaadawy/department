@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/routes/app_router.dart';
 
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/theme_extension.dart';
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
@@ -37,12 +37,12 @@ class FeaturedProjectCard extends StatelessWidget {
       child: Container(
         width: 220,
         decoration: BoxDecoration(
-          color: AppColors.white,
+          color: context.colors.white,
           borderRadius: BorderRadius.circular(AppRadius.md),
-          border: Border.all(color: AppColors.border),
+          border: Border.all(color: context.colors.border),
           boxShadow: [
             BoxShadow(
-              color: AppColors.darkOverlay.withOpacity(0.03),
+              color: context.colors.darkOverlay.withValues(alpha: 0.03),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
@@ -70,14 +70,14 @@ class FeaturedProjectCard extends StatelessWidget {
 
             // Details
             Padding(
-              padding: const EdgeInsets.all(AppSpacing.md),
+              padding: EdgeInsets.all(AppSpacing.md),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     project.name,
-                    style: const TextStyle(
-                      color: AppColors.textPrimary,
+                    style: TextStyle(
+                      color: context.colors.textPrimary,
                       fontSize: AppFonts.bodyMedium,
                       fontWeight: FontWeight.bold,
                     ),
@@ -87,8 +87,8 @@ class FeaturedProjectCard extends StatelessWidget {
                   const SizedBox(height: AppSpacing.xs),
                   Text(
                     project.location,
-                    style: const TextStyle(
-                      color: AppColors.textSecondary,
+                    style: TextStyle(
+                      color: context.colors.textSecondary,
                       fontSize: AppFonts.bodySmall,
                     ),
                     maxLines: 1,
@@ -99,15 +99,15 @@ class FeaturedProjectCard extends StatelessWidget {
                     children: [
                       Text(
                         '${l10n.startsFrom} ',
-                        style: const TextStyle(
-                          color: AppColors.textSecondary,
+                        style: TextStyle(
+                          color: context.colors.textSecondary,
                           fontSize: AppFonts.bodySmall,
                         ),
                       ),
                       Text(
                         '$formattedPrice ${l10n.sar}',
-                        style: const TextStyle(
-                          color: AppColors.gold,
+                        style: TextStyle(
+                          color: context.colors.gold,
                           fontSize: AppFonts.bodyMedium,
                           fontWeight: FontWeight.bold,
                         ),

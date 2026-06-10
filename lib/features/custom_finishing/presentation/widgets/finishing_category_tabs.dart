@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/material_category.dart';
 import '../cubit/custom_finishing_cubit.dart';
 import '../cubit/custom_finishing_state.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
 
 class FinishingCategoryTabs extends StatelessWidget {
   const FinishingCategoryTabs({super.key});
@@ -22,7 +22,7 @@ class FinishingCategoryTabs extends StatelessWidget {
       builder: (context, state) {
         return SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.symmetric(
+          padding: EdgeInsets.symmetric(
             horizontal: AppSpacing.md,
             vertical: AppSpacing.sm,
           ),
@@ -36,31 +36,31 @@ class FinishingCategoryTabs extends StatelessWidget {
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.easeOutCubic,
-                  margin: const EdgeInsets.only(right: AppSpacing.sm),
-                  padding: const EdgeInsets.symmetric(
+                  margin: EdgeInsets.only(right: AppSpacing.sm),
+                  padding: EdgeInsets.symmetric(
                     horizontal: AppSpacing.lg,
                     vertical: 12,
                   ),
                   decoration: BoxDecoration(
                     gradient: isSelected
-                        ? const LinearGradient(
-                            colors: [AppColors.gold, Color(0xFFE5B962)],
+                        ? LinearGradient(
+                            colors: [context.colors.gold, Color(0xFFE5B962)],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                           )
                         : null,
-                    color: !isSelected ? AppColors.white : null,
+                    color: !isSelected ? context.colors.white : null,
                     borderRadius: BorderRadius.circular(30),
                     border: Border.all(
                       color: isSelected
                           ? Colors.transparent
-                          : AppColors.border.withValues(alpha: 0.3),
+                          : context.colors.border.withValues(alpha: 0.3),
                       width: 1,
                     ),
                     boxShadow: isSelected
                         ? [
                             BoxShadow(
-                              color: AppColors.gold.withValues(alpha: 0.3),
+                              color: context.colors.gold.withValues(alpha: 0.3),
                               blurRadius: 12,
                               offset: const Offset(0, 4),
                             ),
@@ -73,8 +73,8 @@ class FinishingCategoryTabs extends StatelessWidget {
                       fontSize: AppFonts.bodyLarge,
                       fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
                       color: isSelected
-                          ? AppColors.white
-                          : AppColors.textPrimary.withValues(alpha: 0.6),
+                          ? Colors.white
+                          : context.colors.textPrimary.withValues(alpha: 0.6),
                       letterSpacing: -0.2,
                     ),
                   ),

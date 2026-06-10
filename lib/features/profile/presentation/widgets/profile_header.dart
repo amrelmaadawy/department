@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
+
 
 class ProfileHeader extends StatelessWidget {
   final String userName;
@@ -22,15 +23,15 @@ class ProfileHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.only(
+      padding: EdgeInsets.only(
         top: AppSpacing.xxxl * 1.5,
         bottom: AppSpacing.xxxl * 1.5, // Extra space for the floating card
       ),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            AppColors.primary,
-            AppColors.primary.withValues(alpha: 0.85),
+            context.colors.primary,
+            context.colors.primary.withValues(alpha: 0.85),
             const Color(0xFF1E242B), // Very dark slate
           ],
           begin: Alignment.topCenter,
@@ -54,10 +55,10 @@ class ProfileHeader extends StatelessWidget {
               height: 150,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: AppColors.gold.withValues(alpha: 0.15),
+                color: context.colors.gold.withValues(alpha: 0.15),
                 boxShadow: [
                   BoxShadow(
-                    color: AppColors.gold.withValues(alpha: 0.15),
+                    color: context.colors.gold.withValues(alpha: 0.15),
                     blurRadius: 60,
                     spreadRadius: 20,
                   ),
@@ -91,78 +92,78 @@ class ProfileHeader extends StatelessWidget {
             children: [
               // Avatar with glowing golden border
               Container(
-                padding: const EdgeInsets.all(3), // Border width
+                padding: EdgeInsets.all(3), // Border width
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  gradient: const LinearGradient(
-                    colors: [AppColors.gold, Color(0xFFE5B962)],
+                  gradient: LinearGradient(
+                    colors: [context.colors.gold, Color(0xFFE5B962)],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.gold.withValues(alpha: 0.3),
+                      color: context.colors.gold.withValues(alpha: 0.3),
                       blurRadius: 20,
                       spreadRadius: 2,
                     ),
                   ],
                 ),
                 child: Container(
-                  padding: const EdgeInsets.all(2), // Inner gap
-                  decoration: const BoxDecoration(
+                  padding: EdgeInsets.all(2), // Inner gap
+                  decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: AppColors.primary,
+                    color: context.colors.primary,
                   ),
                   child: CircleAvatar(
                     radius: 50,
-                    backgroundColor: AppColors.white,
+                    backgroundColor: context.colors.white,
                     backgroundImage: avatarUrl.isNotEmpty
                         ? (avatarUrl.startsWith('http')
                             ? NetworkImage(avatarUrl) as ImageProvider
                             : AssetImage(avatarUrl))
                         : null,
                     child: avatarUrl.isEmpty
-                        ? const Icon(
+                        ? Icon(
                             Icons.person,
                             size: 50,
-                            color: AppColors.textSecondary,
+                            color: context.colors.textSecondary,
                           )
                         : null,
                   ),
                 ),
               ),
 
-              const SizedBox(height: AppSpacing.md),
+              SizedBox(height: AppSpacing.md),
 
               // User Name
               Text(
                 userName,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: AppFonts.headlineMedium,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.white,
+                  color: context.colors.white,
                   letterSpacing: 0.5,
                 ),
               ),
 
-              const SizedBox(height: AppSpacing.sm),
+              SizedBox(height: AppSpacing.sm),
 
               // Premium Badge
               Container(
-                padding: const EdgeInsets.symmetric(
+                padding: EdgeInsets.symmetric(
                   horizontal: AppSpacing.xl,
                   vertical: 6,
                 ),
                 decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [AppColors.gold, Color(0xFFC99B40)],
+                  gradient: LinearGradient(
+                    colors: [context.colors.gold, Color(0xFFC99B40)],
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,
                   ),
                   borderRadius: BorderRadius.circular(AppRadius.xl),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.gold.withValues(alpha: 0.3),
+                      color: context.colors.gold.withValues(alpha: 0.3),
                       blurRadius: 12,
                       offset: const Offset(0, 4),
                     ),
@@ -171,18 +172,18 @@ class ProfileHeader extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(
+                    Icon(
                       FluentIcons.premium_24_filled,
-                      color: AppColors.white,
+                      color: context.colors.white,
                       size: 16,
                     ),
-                    const SizedBox(width: AppSpacing.xs),
+                    SizedBox(width: AppSpacing.xs),
                     Text(
                       userType,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: AppFonts.labelMedium,
                         fontWeight: FontWeight.bold,
-                        color: AppColors.white,
+                        color: context.colors.white,
                       ),
                     ),
                   ],

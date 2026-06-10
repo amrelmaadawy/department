@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
-import 'package:apartment/core/theme/app_colors.dart';
+
 import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
@@ -10,6 +10,7 @@ import 'package:apartment/l10n/app_localizations.dart';
 import '../../../domain/entities/contract_type.dart';
 import '../../../../design_studio/presentation/cubit/design_context_cubit.dart';
 import '../../../../../core/di/injection_container.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
 
 class ContractSummaryCard extends StatelessWidget {
   final ContractType contractType;
@@ -38,14 +39,14 @@ class ContractSummaryCard extends StatelessWidget {
         ? (unit?.price ?? 0.0) 
         : (finishingTotal ?? 0.0);
     return Container(
-      margin: const EdgeInsets.all(AppSpacing.md),
-      padding: const EdgeInsets.all(AppSpacing.lg),
+      margin: EdgeInsets.all(AppSpacing.md),
+      padding: EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: context.colors.white,
         borderRadius: BorderRadius.circular(AppRadius.lg),
         boxShadow: [
           BoxShadow(
-            color: AppColors.border.withValues(alpha: 0.1),
+            color: context.colors.border.withValues(alpha: 0.1),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -56,44 +57,44 @@ class ContractSummaryCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(icon, color: AppColors.primary),
-              const SizedBox(width: AppSpacing.sm),
+              Icon(icon, color: context.colors.primary),
+              SizedBox(width: AppSpacing.sm),
               Text(
                 title,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: AppFonts.headlineSmall,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.primary,
+                  color: context.colors.primary,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: AppSpacing.md),
-          const Divider(color: AppColors.background),
-          const SizedBox(height: AppSpacing.md),
+          SizedBox(height: AppSpacing.md),
+          Divider(color: context.colors.background),
+          SizedBox(height: AppSpacing.md),
           
           if (unit != null) ...[
-            _buildInfoRow(l10n.project, l10n.mockProjectRiyadh, FluentIcons.location_24_regular),
-            const SizedBox(height: AppSpacing.sm),
-            _buildInfoRow(l10n.unitType, l10n.unitTypeDesc(unit.title, unit.area.toString()), FluentIcons.home_24_regular),
-            const SizedBox(height: AppSpacing.sm),
-            _buildInfoRow(l10n.floor, l10n.floorDesc(unit.floor.toString()), FluentIcons.layer_24_regular),
+            _buildInfoRow(context, l10n.project, l10n.mockProjectRiyadh, FluentIcons.location_24_regular),
+            SizedBox(height: AppSpacing.sm),
+            _buildInfoRow(context, l10n.unitType, l10n.unitTypeDesc(unit.title, unit.area.toString()), FluentIcons.home_24_regular),
+            SizedBox(height: AppSpacing.sm),
+            _buildInfoRow(context, l10n.floor, l10n.floorDesc(unit.floor.toString()), FluentIcons.layer_24_regular),
           ] else ...[
-            _buildInfoRow(l10n.project, l10n.mockProjectRiyadh, FluentIcons.location_24_regular),
-            const SizedBox(height: AppSpacing.sm),
-            _buildInfoRow(l10n.details, l10n.loadingStatus, FluentIcons.info_24_regular),
+            _buildInfoRow(context, l10n.project, l10n.mockProjectRiyadh, FluentIcons.location_24_regular),
+            SizedBox(height: AppSpacing.sm),
+            _buildInfoRow(context, l10n.details, l10n.loadingStatus, FluentIcons.info_24_regular),
           ],
           
           if (contractType == ContractType.finishing) ...[
-            const SizedBox(height: AppSpacing.sm),
-            _buildInfoRow(l10n.finishingType, l10n.fullCustomFinishing, FluentIcons.color_24_regular),
+            SizedBox(height: AppSpacing.sm),
+            _buildInfoRow(context, l10n.finishingType, l10n.fullCustomFinishing, FluentIcons.color_24_regular),
           ],
           
-          const SizedBox(height: AppSpacing.md),
+          SizedBox(height: AppSpacing.md),
           Container(
-            padding: const EdgeInsets.all(AppSpacing.md),
+            padding: EdgeInsets.all(AppSpacing.md),
             decoration: BoxDecoration(
-              color: AppColors.background,
+              color: context.colors.background,
               borderRadius: BorderRadius.circular(AppRadius.md),
             ),
             child: Row(
@@ -101,17 +102,17 @@ class ContractSummaryCard extends StatelessWidget {
               children: [
                 Text(
                   contractType == ContractType.unit ? l10n.priceTitle : l10n.totalFinishingCost,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: AppFonts.bodyMedium,
-                    color: AppColors.textSecondary,
+                    color: context.colors.textSecondary,
                   ),
                 ),
                 Text(
                   '${price.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')} ${l10n.sar}',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: AppFonts.headlineSmall,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.gold,
+                    color: context.colors.gold,
                   ),
                 ),
               ],
@@ -122,26 +123,26 @@ class ContractSummaryCard extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoRow(String label, String value, IconData icon) {
+  Widget _buildInfoRow(BuildContext context, String label, String value, IconData icon) {
     return Row(
       children: [
-        Icon(icon, size: 20, color: AppColors.textSecondary),
-        const SizedBox(width: AppSpacing.sm),
+        Icon(icon, size: 20, color: context.colors.textSecondary),
+        SizedBox(width: AppSpacing.sm),
         Expanded(
           child: Text(
             label,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: AppFonts.bodyMedium,
-              color: AppColors.textSecondary,
+              color: context.colors.textSecondary,
             ),
           ),
         ),
         Text(
           value,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: AppFonts.bodyMedium,
             fontWeight: FontWeight.bold,
-            color: AppColors.textPrimary,
+            color: context.colors.textPrimary,
           ),
         ),
       ],

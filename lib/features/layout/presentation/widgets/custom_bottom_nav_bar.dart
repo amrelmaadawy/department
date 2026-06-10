@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/theme_extension.dart';
 import '../../../../core/theme/app_fonts.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
@@ -18,16 +18,16 @@ class CustomBottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 12),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: context.colors.white,
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(24),
           topRight: Radius.circular(24),
         ),
         boxShadow: [
           BoxShadow(
-            color: AppColors.darkOverlay.withOpacity(0.05),
+            color: context.colors.darkOverlay.withValues(alpha: 0.05),
             blurRadius: 20,
             offset: const Offset(0, -5),
           ),
@@ -68,7 +68,7 @@ class _NavBarIcon extends StatelessWidget {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -86,7 +86,7 @@ class _NavBarIcon extends StatelessWidget {
                 curve: Curves.easeOutBack,
                 child: Icon(
                   isSelected ? item.activeIcon : item.icon,
-                  color: isSelected ? AppColors.gold : AppColors.textSecondary,
+                  color: isSelected ? context.colors.gold : context.colors.textSecondary,
                   size: 26,
                 ),
               ),
@@ -95,7 +95,7 @@ class _NavBarIcon extends StatelessWidget {
             AnimatedDefaultTextStyle(
               duration: const Duration(milliseconds: 300),
               style: TextStyle(
-                color: isSelected ? AppColors.primary : AppColors.textSecondary,
+                color: isSelected ? context.colors.primary : context.colors.textSecondary,
                 fontSize: AppFonts.bodySmall,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                 fontFamily: 'Cairo', // Preserve your app's font

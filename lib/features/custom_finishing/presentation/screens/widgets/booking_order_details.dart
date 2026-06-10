@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
-import 'package:apartment/core/theme/app_colors.dart';
 import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/l10n/app_localizations.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
+
 
 class BookingOrderDetails extends StatelessWidget {
   final String orderId;
@@ -16,9 +17,9 @@ class BookingOrderDetails extends StatelessWidget {
   void _copyOrderId(BuildContext context) {
     Clipboard.setData(ClipboardData(text: orderId));
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
+      SnackBar(
         content: Text('تم نسخ رقم الطلب بنجاح'),
-        backgroundColor: AppColors.primary,
+        backgroundColor: context.colors.primary,
         duration: Duration(seconds: 2),
       ),
     );
@@ -34,17 +35,17 @@ class BookingOrderDetails extends StatelessWidget {
         '${expectedDate.day} / ${expectedDate.month} / ${expectedDate.year}';
 
     return Container(
-      padding: const EdgeInsets.all(AppSpacing.xxl),
+      padding: EdgeInsets.all(AppSpacing.xxl),
       decoration: BoxDecoration(
-        color: AppColors.white.withValues(alpha: 0.9),
+        color: context.colors.white.withValues(alpha: 0.9),
         borderRadius: BorderRadius.circular(AppRadius.xl),
         border: Border.all(
-          color: AppColors.gold.withValues(alpha: 0.2),
+          color: context.colors.gold.withValues(alpha: 0.2),
           width: 1.5,
         ),
         boxShadow: [
           BoxShadow(
-            color: AppColors.gold.withValues(alpha: 0.05),
+            color: context.colors.gold.withValues(alpha: 0.05),
             blurRadius: 30,
             offset: const Offset(0, 15),
           ),
@@ -59,12 +60,12 @@ class BookingOrderDetails extends StatelessWidget {
                 l10n.orderNumber,
                 style: TextStyle(
                   fontSize: AppFonts.bodyMedium,
-                  color: AppColors.textPrimary.withValues(
+                  color: context.colors.textPrimary.withValues(
                     alpha: 0.7,
                   ),
                 ),
               ),
-              const SizedBox(width: AppSpacing.md),
+              SizedBox(width: AppSpacing.md),
               Expanded(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -74,25 +75,25 @@ class BookingOrderDetails extends StatelessWidget {
                         fit: BoxFit.scaleDown,
                         child: Text(
                           orderId,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: AppFonts.headlineSmall,
                             fontWeight: FontWeight.bold,
-                            color: AppColors.primary,
+                            color: context.colors.primary,
                           ),
                         ),
                       ),
                     ),
-                    const SizedBox(width: AppSpacing.sm),
+                    SizedBox(width: AppSpacing.sm),
                     InkWell(
                       onTap: () => _copyOrderId(context),
                       borderRadius: BorderRadius.circular(
                         AppRadius.sm,
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.all(4.0),
+                        padding: EdgeInsets.all(4.0),
                         child: Icon(
                           FluentIcons.copy_20_regular,
-                          color: AppColors.gold,
+                          color: context.colors.gold,
                           size: 20,
                         ),
                       ),
@@ -104,7 +105,7 @@ class BookingOrderDetails extends StatelessWidget {
           ),
 
           Padding(
-            padding: const EdgeInsets.symmetric(
+            padding: EdgeInsets.symmetric(
               vertical: AppSpacing.xl,
             ),
             child: Row(
@@ -113,7 +114,7 @@ class BookingOrderDetails extends StatelessWidget {
                 (index) => Expanded(
                   child: Container(
                     color: index % 2 == 0
-                        ? AppColors.border.withValues(
+                        ? context.colors.border.withValues(
                             alpha: 0.5,
                           )
                         : Colors.transparent,
@@ -127,21 +128,24 @@ class BookingOrderDetails extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                l10n.expectedVisitDate,
-                style: TextStyle(
-                  fontSize: AppFonts.bodyMedium,
-                  color: AppColors.textPrimary.withValues(
-                    alpha: 0.7,
+              Expanded(
+                child: Text(
+                  l10n.expectedVisitDate,
+                  style: TextStyle(
+                    fontSize: AppFonts.bodyMedium,
+                    color: context.colors.textPrimary.withValues(
+                      alpha: 0.7,
+                    ),
                   ),
                 ),
               ),
+              SizedBox(width: AppSpacing.sm),
               Text(
                 expectedDateStr,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: AppFonts.headlineSmall,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.primary,
+                  color: context.colors.primary,
                 ),
               ),
             ],

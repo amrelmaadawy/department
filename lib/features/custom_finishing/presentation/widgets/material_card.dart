@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/material_entity.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
+
 
 class MaterialCard extends StatelessWidget {
   final MaterialEntity material;
@@ -29,20 +30,20 @@ class MaterialCard extends StatelessWidget {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeOutCubic,
-        margin: const EdgeInsets.only(bottom: AppSpacing.xl),
+        margin: EdgeInsets.only(bottom: AppSpacing.xl),
         decoration: BoxDecoration(
-          color: AppColors.white,
+          color: context.colors.white,
           borderRadius: BorderRadius.circular(AppRadius.xl),
           border: Border.all(
             color: isSelected
-                ? AppColors.gold
-                : AppColors.border.withValues(alpha: 0.5),
+                ? context.colors.gold
+                : context.colors.border.withValues(alpha: 0.5),
             width: isSelected ? 2 : 1,
           ),
           boxShadow: [
             BoxShadow(
               color: isSelected
-                  ? AppColors.gold.withValues(alpha: 0.15)
+                  ? context.colors.gold.withValues(alpha: 0.15)
                   : Colors.black.withValues(alpha: 0.03),
               blurRadius: isSelected ? 20 : 10,
               offset: Offset(0, isSelected ? 8 : 4),
@@ -64,9 +65,9 @@ class MaterialCard extends StatelessWidget {
                           material.imageUrl,
                           fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) =>
-                              Container(color: AppColors.background),
+                              Container(color: context.colors.background),
                         )
-                      : Container(color: AppColors.background), // Fallback
+                      : Container(color: context.colors.background), // Fallback
                 ),
                 // Inner bottom gradient for smooth transition
                 Positioned.fill(
@@ -79,7 +80,7 @@ class MaterialCard extends StatelessWidget {
                           Colors.transparent,
                           Colors.black.withValues(alpha: 0.4),
                         ],
-                        stops: const [0.6, 1.0],
+                        stops: [0.6, 1.0],
                       ),
                     ),
                   ),
@@ -89,7 +90,7 @@ class MaterialCard extends StatelessWidget {
                   bottom: AppSpacing.md,
                   right: AppSpacing.md,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(
+                    padding: EdgeInsets.symmetric(
                       horizontal: 12,
                       vertical: 6,
                     ),
@@ -97,14 +98,14 @@ class MaterialCard extends StatelessWidget {
                       color: Colors.black.withValues(alpha: 0.6),
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(
-                        color: AppColors.white.withValues(alpha: 0.2),
+                        color: Colors.white.withValues(alpha: 0.2),
                       ),
                     ),
                     child: Text(
                       material.tag,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: AppFonts.labelSmall,
-                        color: AppColors.white,
+                        color: Colors.white,
                         fontWeight: FontWeight.w600,
                         letterSpacing: 0.5,
                       ),
@@ -121,25 +122,25 @@ class MaterialCard extends StatelessWidget {
                       duration: const Duration(milliseconds: 300),
                       curve: Curves.elasticOut,
                       child: Container(
-                        padding: const EdgeInsets.all(6),
+                        padding: EdgeInsets.all(6),
                         decoration: BoxDecoration(
-                          gradient: const LinearGradient(
-                            colors: [AppColors.gold, Color(0xFFE5B962)],
+                          gradient: LinearGradient(
+                            colors: [context.colors.gold, Color(0xFFE5B962)],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                           ),
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
-                              color: AppColors.gold.withValues(alpha: 0.4),
+                              color: context.colors.gold.withValues(alpha: 0.4),
                               blurRadius: 8,
                               offset: const Offset(0, 3),
                             ),
                           ],
                         ),
-                        child: const Icon(
+                        child: Icon(
                           FluentIcons.checkmark_16_filled,
-                          color: AppColors.white,
+                          color: Colors.white,
                           size: 18,
                         ),
                       ),
@@ -150,36 +151,36 @@ class MaterialCard extends StatelessWidget {
 
             // Content
             Padding(
-              padding: const EdgeInsets.all(AppSpacing.lg),
+              padding: EdgeInsets.all(AppSpacing.lg),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     material.name,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: AppFonts.headlineSmall,
                       fontWeight: FontWeight.bold,
-                      color: AppColors.primary,
+                      color: context.colors.primary,
                       letterSpacing: -0.5,
                     ),
                   ),
-                  const SizedBox(height: AppSpacing.sm),
+                  SizedBox(height: AppSpacing.sm),
                   Text(
                     material.description,
                     style: TextStyle(
                       fontSize: AppFonts.bodyMedium,
-                      color: AppColors.textPrimary.withValues(alpha: 0.6),
+                      color: context.colors.textPrimary.withValues(alpha: 0.6),
                       height: 1.5,
                     ),
                   ),
-                  const SizedBox(height: AppSpacing.lg),
+                  SizedBox(height: AppSpacing.lg),
                   Container(
-                    padding: const EdgeInsets.all(AppSpacing.md),
+                    padding: EdgeInsets.all(AppSpacing.md),
                     decoration: BoxDecoration(
-                      color: AppColors.background,
+                      color: context.colors.background,
                       borderRadius: BorderRadius.circular(AppRadius.lg),
                       border: Border.all(
-                        color: AppColors.border.withValues(alpha: 0.3),
+                        color: context.colors.border.withValues(alpha: 0.3),
                       ),
                     ),
                     child: Row(
@@ -189,7 +190,7 @@ class MaterialCard extends StatelessWidget {
                           l10n.pricePerSqm,
                           style: TextStyle(
                             fontSize: AppFonts.bodyLarge,
-                            color: AppColors.textPrimary.withValues(alpha: 0.5),
+                            color: context.colors.textPrimary.withValues(alpha: 0.5),
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -199,20 +200,20 @@ class MaterialCard extends StatelessWidget {
                           children: [
                             Text(
                               material.pricePerSqm.toStringAsFixed(0),
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: AppFonts.displaySmall, // Display size
                                 fontWeight: FontWeight.w900,
-                                color: AppColors.primary,
+                                color: context.colors.primary,
                                 letterSpacing: -1,
                               ),
                             ),
-                            const SizedBox(width: 4),
+                            SizedBox(width: 4),
                             Text(
                               l10n.pricePerSqm.split(' ')[0],
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: AppFonts.bodyMedium,
                                 fontWeight: FontWeight.w600,
-                                color: AppColors.gold,
+                                color: context.colors.gold,
                               ),
                             ),
                           ],

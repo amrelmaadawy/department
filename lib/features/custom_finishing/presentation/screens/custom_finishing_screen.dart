@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../l10n/app_localizations.dart';
@@ -14,6 +13,8 @@ import '../widgets/finishing_category_tabs.dart';
 import '../widgets/material_card.dart';
 import '../widgets/custom_finishing_bottom_bar.dart';
 import '../widgets/review/custom_finishing_review_view.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
+
 
 class CustomFinishingScreen extends StatelessWidget {
   const CustomFinishingScreen({super.key});
@@ -44,24 +45,24 @@ class CustomFinishingView extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.colors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.white,
+        backgroundColor: context.colors.white,
         scrolledUnderElevation: 0,
         centerTitle: true,
         title: Text(
           l10n.customFinishing,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: AppFonts.headlineMedium,
             fontWeight: FontWeight.bold,
-            color: AppColors.primary,
+            color: context.colors.primary,
           ),
         ),
         leading: IconButton(
-          icon: const Icon(
+          icon: Icon(
             FluentIcons
                 .arrow_left_24_filled, // Pointing opposite way as requested
-            color: AppColors.primary,
+            color: context.colors.primary,
           ),
           onPressed: () => context.pop(),
         ),
@@ -71,8 +72,8 @@ class CustomFinishingView extends StatelessWidget {
         children: [
           // Sticky Tabs
           Container(
-            color: AppColors.white,
-            padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+            color: context.colors.white,
+            padding: EdgeInsets.only(bottom: AppSpacing.sm),
             child: const FinishingCategoryTabs(),
           ),
 
@@ -80,8 +81,8 @@ class CustomFinishingView extends StatelessWidget {
             child: BlocBuilder<CustomFinishingCubit, CustomFinishingState>(
               builder: (context, state) {
                 if (state.isLoading) {
-                  return const Center(
-                    child: CircularProgressIndicator(color: AppColors.gold),
+                  return Center(
+                    child: CircularProgressIndicator(color: context.colors.gold),
                   );
                 }
 
@@ -110,22 +111,22 @@ class CustomFinishingView extends StatelessWidget {
                   },
                   child: ListView(
                     key: ValueKey<MaterialCategory>(state.currentCategory),
-                    padding: const EdgeInsets.symmetric(
+                    padding: EdgeInsets.symmetric(
                       vertical: AppSpacing.xl,
                       horizontal: AppSpacing.md,
                     ),
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(
+                        padding: EdgeInsets.only(
                           bottom: AppSpacing.lg,
                           right: AppSpacing.sm,
                         ),
                         child: Text(
                           _getStepTitle(state.currentCategory, l10n),
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: AppFonts.headlineMedium,
                             fontWeight: FontWeight.bold,
-                            color: AppColors.primary,
+                            color: context.colors.primary,
                           ),
                         ),
                       ),

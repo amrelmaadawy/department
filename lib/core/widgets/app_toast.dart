@@ -1,7 +1,7 @@
+import 'package:apartment/core/theme/theme_extension.dart';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-import '../theme/app_colors.dart';
 import '../theme/app_fonts.dart';
 import '../theme/app_radius.dart';
 import '../theme/app_spacing.dart';
@@ -103,7 +103,7 @@ class _ToastWidgetState extends State<_ToastWidget>
 
   @override
   Widget build(BuildContext context) {
-    final color = widget.isError ? AppColors.error : AppColors.success;
+    final color = widget.isError ? context.colors.error : context.colors.success;
     final icon = widget.isError
         ? FluentIcons.error_circle_24_filled
         : FluentIcons.checkmark_circle_24_filled;
@@ -126,12 +126,12 @@ class _ToastWidgetState extends State<_ToastWidget>
                 child: BackdropFilter(
                   filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                   child: Container(
-                    padding: const EdgeInsets.symmetric(
+                    padding: EdgeInsets.symmetric(
                       horizontal: AppSpacing.lg,
                       vertical: AppSpacing.md,
                     ),
                     decoration: BoxDecoration(
-                      color: AppColors.white.withValues(alpha: 0.85),
+                      color: context.colors.white.withValues(alpha: 0.85),
                       borderRadius: BorderRadius.circular(AppRadius.lg),
                       border: Border.all(
                         color: color.withValues(alpha: 0.3),
@@ -166,9 +166,9 @@ class _ToastWidgetState extends State<_ToastWidget>
                               const SizedBox(height: 2),
                               Text(
                                 widget.message,
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: AppFonts.bodySmall,
-                                  color: AppColors.textPrimary,
+                                  color: context.colors.textPrimary,
                                   height: 1.4,
                                 ),
                               ),

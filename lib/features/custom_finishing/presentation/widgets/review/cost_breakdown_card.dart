@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/theme/app_fonts.dart';
 import '../../../../../core/theme/app_radius.dart';
 import '../../../../../core/theme/app_spacing.dart';
@@ -8,6 +7,7 @@ import '../../../../../l10n/app_localizations.dart';
 import '../../cubit/custom_finishing_state.dart';
 import '../../../../../core/di/injection_container.dart';
 import '../../../../design_studio/presentation/cubit/design_context_cubit.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
 
 class CostBreakdownCard extends StatelessWidget {
   final CustomFinishingState state;
@@ -24,13 +24,11 @@ class CostBreakdownCard extends StatelessWidget {
     final grandTotal = unitPrice > 0 ? unitPrice + finishingCost : finishingCost;
 
     return Container(
-      padding: const EdgeInsets.all(AppSpacing.xl),
+      padding: EdgeInsets.all(AppSpacing.xl),
       decoration: BoxDecoration(
-        color: const Color(
-          0xFFFBF9F1,
-        ), // Very light premium beige background from reference
+        color: context.colors.white, // Maps to dark elevated color in dark mode, white in light mode
         borderRadius: BorderRadius.circular(AppRadius.lg),
-        border: Border.all(color: AppColors.gold.withValues(alpha: 0.2)),
+        border: Border.all(color: context.colors.gold.withValues(alpha: 0.2)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,48 +36,52 @@ class CostBreakdownCard extends StatelessWidget {
           Center(
             child: Text(
               l10n.costDetails,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: AppFonts.headlineMedium,
                 fontWeight: FontWeight.bold,
-                color: AppColors.gold,
+                color: context.colors.gold,
               ),
             ),
           ),
-          const SizedBox(height: AppSpacing.xl),
+          SizedBox(height: AppSpacing.xl),
           if (unit != null) ...[
-            _buildCostRow('سعر الوحدة (${unit.title})', unitPrice, isTotal: false),
-            const SizedBox(height: AppSpacing.md),
+            _buildCostRow(context, 'سعر الوحدة (${unit.title})', unitPrice, isTotal: false),
+            SizedBox(height: AppSpacing.md),
           ],
           _buildCostRow(
+            context,
             l10n.totalMaterials,
             state.materialsCost,
             isTotal: false,
             isFaded: true,
           ),
-          const SizedBox(height: AppSpacing.xs),
+          SizedBox(height: AppSpacing.xs),
           _buildCostRow(
+            context,
             l10n.totalWorkmanship,
             state.workmanshipCost,
             isTotal: false,
             isFaded: true,
           ),
-          const SizedBox(height: AppSpacing.xs),
-          _buildCostRow(l10n.vatAmount, state.vatAmount, isTotal: false, isFaded: true),
-          const SizedBox(height: AppSpacing.md),
-          _buildCostRow('إجمالي تكلفة التشطيب', finishingCost, isTotal: false),
+          SizedBox(height: AppSpacing.xs),
+          _buildCostRow(context, l10n.vatAmount, state.vatAmount, isTotal: false, isFaded: true),
+          SizedBox(height: AppSpacing.md),
+          _buildCostRow(context, 'إجمالي تكلفة التشطيب', finishingCost, isTotal: false),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
-            child: Divider(color: AppColors.border.withValues(alpha: 0.5)),
+            padding: EdgeInsets.symmetric(vertical: AppSpacing.lg),
+            child: Divider(color: context.colors.border.withValues(alpha: 0.5)),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                l10n.totalAmount,
-                style: const TextStyle(
-                  fontSize: AppFonts.headlineSmall,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.gold,
+              Expanded(
+                child: Text(
+                  l10n.totalAmount,
+                  style: TextStyle(
+                    fontSize: AppFonts.headlineSmall,
+                    fontWeight: FontWeight.bold,
+                    color: context.colors.gold,
+                  ),
                 ),
               ),
               Row(
@@ -93,19 +95,19 @@ class CostBreakdownCard extends StatelessWidget {
                           RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
                           (Match m) => '${m[1]},',
                         ),
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: AppFonts.displayMedium,
                       fontWeight: FontWeight.w900,
-                      color: AppColors.gold,
+                      color: context.colors.gold,
                     ),
                   ),
-                  const SizedBox(width: 4),
-                  const Text(
+                  SizedBox(width: 4),
+                  Text(
                     'ر.س',
                     style: TextStyle(
                       fontSize: AppFonts.bodyMedium,
                       fontWeight: FontWeight.bold,
-                      color: AppColors.gold,
+                      color: context.colors.gold,
                     ),
                   ),
                 ],
@@ -118,6 +120,7 @@ class CostBreakdownCard extends StatelessWidget {
   }
 
   Widget _buildCostRow(
+    BuildContext context,
     String title,
     double amount, {
     required bool isTotal,
@@ -126,24 +129,27 @@ class CostBreakdownCard extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          title,
-          style: TextStyle(
-            fontSize: isTotal ? AppFonts.headlineSmall : AppFonts.bodyLarge,
-            fontWeight: isTotal ? FontWeight.bold : FontWeight.w500,
-            color: isTotal
-                ? AppColors.primary
-                : AppColors.textPrimary.withValues(alpha: isFaded ? 0.5 : 0.7),
+        Expanded(
+          child: Text(
+            title,
+            style: TextStyle(
+              fontSize: isTotal ? AppFonts.headlineSmall : AppFonts.bodyLarge,
+              fontWeight: isTotal ? FontWeight.bold : FontWeight.w500,
+              color: isTotal
+                  ? context.colors.primary
+                  : context.colors.textPrimary.withValues(alpha: isFaded ? 0.5 : 0.7),
+            ),
           ),
         ),
+        SizedBox(width: AppSpacing.sm),
         Text(
           '${amount.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')} ر.س',
           style: TextStyle(
             fontSize: isTotal ? AppFonts.headlineMedium : AppFonts.bodyLarge,
             fontWeight: isTotal ? FontWeight.bold : FontWeight.w600,
             color: isTotal
-                ? AppColors.primary
-                : AppColors.textPrimary.withValues(alpha: isFaded ? 0.5 : 1.0),
+                ? context.colors.primary
+                : context.colors.textPrimary.withValues(alpha: isFaded ? 0.5 : 1.0),
           ),
         ),
       ],

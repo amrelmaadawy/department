@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/di/injection_container.dart';
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/theme_extension.dart';
 import '../../../../core/widgets/fade_indexed_stack.dart';
 import '../cubit/layout_cubit.dart';
 
@@ -71,7 +71,7 @@ class LayoutView extends StatelessWidget {
     return BlocBuilder<LayoutCubit, int>(
       builder: (context, currentIndex) {
         return Scaffold(
-          backgroundColor: AppColors.background,
+          backgroundColor: context.colors.background,
           body: FadeIndexedStack(index: currentIndex, children: screens),
           bottomNavigationBar: CustomBottomNavBar(
             currentIndex: currentIndex,

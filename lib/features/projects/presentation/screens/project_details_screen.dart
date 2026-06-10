@@ -7,9 +7,10 @@ import 'package:apartment/features/projects/presentation/widgets/details/project
 import 'package:apartment/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_fonts.dart';
 import '../../../home/domain/entities/project_entity.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
+
 
 class ProjectDetailsScreen extends StatefulWidget {
   final ProjectEntity project;
@@ -46,7 +47,7 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen>
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.colors.background,
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
           // 1. Hero Header
@@ -71,16 +72,16 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen>
             delegate: _StickyTabBarDelegate(
               TabBar(
                 controller: _tabController,
-                labelColor: AppColors.gold,
-                unselectedLabelColor: AppColors.textSecondary,
-                indicatorColor: AppColors.gold,
+                labelColor: context.colors.gold,
+                unselectedLabelColor: context.colors.textSecondary,
+                indicatorColor: context.colors.gold,
                 indicatorWeight: 3,
-                labelStyle: const TextStyle(
+                labelStyle: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontFamily: 'Cairo',
                   fontSize: AppFonts.bodyMedium,
                 ),
-                unselectedLabelStyle: const TextStyle(
+                unselectedLabelStyle: TextStyle(
                   fontWeight: FontWeight.normal,
                   fontFamily: 'Cairo',
                   fontSize: AppFonts.bodyMedium,
@@ -132,7 +133,7 @@ class _StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
     double shrinkOffset,
     bool overlapsContent,
   ) {
-    return Container(color: AppColors.background, child: _tabBar);
+    return Container(color: context.colors.background, child: _tabBar);
   }
 
   @override

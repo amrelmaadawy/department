@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:apartment/core/theme/app_colors.dart';
 import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/core/widgets/custom_button.dart';
@@ -10,6 +9,8 @@ import 'package:apartment/features/home/domain/entities/project_unit_entity.dart
 import 'package:go_router/go_router.dart';
 import 'package:apartment/core/di/injection_container.dart';
 import 'package:apartment/features/design_studio/presentation/cubit/design_context_cubit.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
+
 
 class UnitBottomActions extends StatelessWidget {
   final ProjectUnitEntity unit;
@@ -22,12 +23,12 @@ class UnitBottomActions extends StatelessWidget {
     final formatter = NumberFormat.currency(symbol: 'ر.س ', decimalDigits: 0);
 
     return Container(
-      padding: const EdgeInsets.symmetric(
+      padding: EdgeInsets.symmetric(
         horizontal: AppSpacing.lg,
         vertical: AppSpacing.md,
       ),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: context.colors.white,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.05),
@@ -48,21 +49,21 @@ class UnitBottomActions extends StatelessWidget {
                     l10n.priceTitle,
                     style: TextStyle(
                       fontSize: AppFonts.labelMedium,
-                      color: AppColors.textSecondary,
+                      color: context.colors.textSecondary,
                     ),
                   ),
                   Text(
                     formatter.format(unit.price),
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: AppFonts.headlineSmall,
                       fontWeight: FontWeight.bold,
-                      color: AppColors.primary,
+                      color: context.colors.primary,
                     ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(width: AppSpacing.md),
+            SizedBox(width: AppSpacing.md),
             Expanded(
               child: CustomButton(
                 text: 'صمم واحجز وحدتك',

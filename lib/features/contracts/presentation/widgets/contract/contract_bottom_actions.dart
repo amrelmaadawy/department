@@ -3,12 +3,13 @@ import 'package:go_router/go_router.dart';
 
 import 'package:signature/signature.dart';
 
-import 'package:apartment/core/theme/app_colors.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/core/widgets/custom_button.dart';
 import 'package:apartment/core/routes/app_router.dart';
 import 'package:apartment/l10n/app_localizations.dart';
 import 'package:apartment/core/widgets/app_toast.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
+
 
 class ContractBottomActions extends StatelessWidget {
   final bool isAgreed;
@@ -27,9 +28,9 @@ class ContractBottomActions extends StatelessWidget {
     final isFormValid = isAgreed && signatureController.isNotEmpty;
 
     return Container(
-      padding: const EdgeInsets.all(AppSpacing.lg),
+      padding: EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: context.colors.white,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.05),
@@ -67,8 +68,8 @@ class ContractBottomActions extends StatelessWidget {
                         AppToast.showError(context, l10n.errSignBox);
                       }
                     }, 
-              backgroundColor: isFormValid ? AppColors.primary : AppColors.border,
-              textColor: AppColors.white,
+              backgroundColor: isFormValid ? context.colors.primary : context.colors.border,
+              textColor: Colors.white,
             ),
           ],
         ),

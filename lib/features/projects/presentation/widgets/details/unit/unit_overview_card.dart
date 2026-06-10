@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'package:apartment/core/theme/app_colors.dart';
 import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/features/home/domain/entities/project_unit_entity.dart';
 import 'package:apartment/l10n/app_localizations.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
+
 
 class UnitOverviewCard extends StatelessWidget {
   final ProjectUnitEntity unit;
@@ -17,13 +18,13 @@ class UnitOverviewCard extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Container(
-      margin: const EdgeInsets.symmetric(
+      margin: EdgeInsets.symmetric(
         horizontal: AppSpacing.lg,
         vertical: AppSpacing.md,
       ),
-      padding: const EdgeInsets.all(AppSpacing.lg),
+      padding: EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: context.colors.white,
         borderRadius: BorderRadius.circular(AppRadius.lg),
         boxShadow: [
           BoxShadow(
@@ -42,27 +43,27 @@ class UnitOverviewCard extends StatelessWidget {
                 width: 4,
                 height: 24,
                 decoration: BoxDecoration(
-                  color: AppColors.primary,
+                  color: context.colors.primary,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
-              const SizedBox(width: AppSpacing.sm),
+              SizedBox(width: AppSpacing.sm),
               Text(
                 l10n.overviewTitle,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: AppFonts.headlineSmall,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.primary,
+                  color: context.colors.primary,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: AppSpacing.md),
+          SizedBox(height: AppSpacing.md),
           Text(
             unit.description,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: AppFonts.bodyMedium,
-              color: AppColors.textSecondary,
+              color: context.colors.textSecondary,
               height: 1.6,
             ),
           ),

@@ -5,6 +5,7 @@ import 'package:apartment/features/projects/presentation/cubit/projects_cubit.da
 import 'package:get_it/get_it.dart';
 import 'package:apartment/features/design_studio/presentation/cubit/design_context_cubit.dart';
 import 'package:apartment/core/localization/cubit/locale_cubit.dart';
+import 'package:apartment/core/theme/cubit/theme_cubit.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -38,6 +39,9 @@ Future<void> init() async {
 
   // Locale
   sl.registerLazySingleton(() => LocaleCubit(sharedPreferences: sl()));
+
+  // Theme
+  sl.registerLazySingleton(() => ThemeCubit(sharedPreferences: sl()));
 
   // Features (Blocs, UseCases, Repos, DataSources)
   // ...

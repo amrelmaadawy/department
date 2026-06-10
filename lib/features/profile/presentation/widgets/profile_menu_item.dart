@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_spacing.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
+
 
 class ProfileMenuItem extends StatelessWidget {
   final IconData icon;
@@ -27,10 +28,10 @@ class ProfileMenuItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final color = isDestructive
         ? const Color(0xFFE53935)
-        : AppColors.textPrimary;
+        : context.colors.textPrimary;
     final iconBgColor = isDestructive
         ? const Color(0xFFE53935).withValues(alpha: 0.1)
-        : AppColors.primary.withValues(alpha: 0.05);
+        : context.colors.primary.withValues(alpha: 0.05);
 
     return Column(
       children: [
@@ -40,17 +41,17 @@ class ProfileMenuItem extends StatelessWidget {
             onTap: onTap,
             splashColor: isDestructive
                 ? const Color(0xFFE53935).withValues(alpha: 0.1)
-                : AppColors.gold.withValues(alpha: 0.1),
+                : context.colors.gold.withValues(alpha: 0.1),
             highlightColor: Colors.transparent,
             child: Padding(
-              padding: const EdgeInsets.symmetric(
+              padding: EdgeInsets.symmetric(
                 horizontal: AppSpacing.lg,
                 vertical: AppSpacing.md, // slightly tighter vertical padding
               ),
               child: Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(10),
+                    padding: EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       color: iconBgColor,
                       shape: BoxShape.circle,
@@ -59,11 +60,11 @@ class ProfileMenuItem extends StatelessWidget {
                       icon,
                       color: isDestructive
                           ? const Color(0xFFE53935)
-                          : AppColors.primary,
+                          : context.colors.primary,
                       size: 24,
                     ),
                   ),
-                  const SizedBox(width: AppSpacing.md),
+                  SizedBox(width: AppSpacing.md),
                   Expanded(
                     child: Text(
                       title,
@@ -80,15 +81,15 @@ class ProfileMenuItem extends StatelessWidget {
                       style: TextStyle(
                         fontSize: AppFonts.bodyMedium,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.textSecondary.withValues(alpha: 0.8),
+                        color: context.colors.textSecondary.withValues(alpha: 0.8),
                       ),
                     ),
-                    const SizedBox(width: AppSpacing.sm),
+                    SizedBox(width: AppSpacing.sm),
                   ],
                   if (!isDestructive)
                     Icon(
                       FluentIcons.chevron_left_20_regular, // RTL assumed
-                      color: AppColors.textSecondary.withValues(alpha: 0.4),
+                      color: context.colors.textSecondary.withValues(alpha: 0.4),
                       size: 20,
                     ),
                 ],
@@ -98,13 +99,13 @@ class ProfileMenuItem extends StatelessWidget {
         ),
         if (showDivider)
           Padding(
-            padding: const EdgeInsets.only(
+            padding: EdgeInsets.only(
               left: AppSpacing.xxxl * 1.5,
               right: AppSpacing.lg,
             ), // offset divider
             child: Divider(
               height: 1,
-              color: AppColors.border.withValues(alpha: 0.3),
+              color: context.colors.border.withValues(alpha: 0.3),
             ),
           ),
       ],

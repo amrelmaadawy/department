@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:apartment/l10n/app_localizations.dart';
 
-import 'package:apartment/core/theme/app_colors.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
 import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
@@ -17,24 +17,24 @@ class ProjectOverviewTab extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Padding(
-      padding: const EdgeInsets.all(AppSpacing.lg),
+      padding: EdgeInsets.all(AppSpacing.lg),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             l10n.aboutProject,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: AppFonts.headlineSmall,
               fontWeight: FontWeight.bold,
-              color: AppColors.primary,
+              color: context.colors.primary,
             ),
           ),
           const SizedBox(height: AppSpacing.md),
           Text(
             project.description,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: AppFonts.bodyMedium,
-              color: AppColors.textSecondary,
+              color: context.colors.textSecondary,
               height: 1.6,
             ),
           ),
@@ -49,10 +49,10 @@ class ProjectOverviewTab extends StatelessWidget {
             crossAxisSpacing: AppSpacing.md,
             childAspectRatio: 2.0,
             children: [
-              _buildDetailCard(l10n.totalArea, project.totalArea),
-              _buildDetailCard(l10n.unitTypes, project.unitTypes),
-              _buildDetailCard(l10n.deliveryDate, project.deliveryDate),
-              _buildDetailCard(l10n.finishingType, project.finishingType),
+              _buildDetailCard(context, l10n.totalArea, project.totalArea),
+              _buildDetailCard(context, l10n.unitTypes, project.unitTypes),
+              _buildDetailCard(context, l10n.deliveryDate, project.deliveryDate),
+              _buildDetailCard(context, l10n.finishingType, project.finishingType),
             ],
           ),
         ],
@@ -60,16 +60,16 @@ class ProjectOverviewTab extends StatelessWidget {
     );
   }
 
-  Widget _buildDetailCard(String title, String value) {
+  Widget _buildDetailCard(BuildContext context, String title, String value) {
     return Container(
-      padding: const EdgeInsets.symmetric(
+      padding: EdgeInsets.symmetric(
         horizontal: AppSpacing.md,
         vertical: AppSpacing.sm,
       ),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: context.colors.white,
         borderRadius: BorderRadius.circular(AppRadius.md),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: context.colors.border),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -77,19 +77,19 @@ class ProjectOverviewTab extends StatelessWidget {
         children: [
           Text(
             title,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: AppFonts.labelMedium,
-              color: AppColors.textSecondary,
+              color: context.colors.textSecondary,
             ),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 4),
           Text(
             value,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: AppFonts.bodyMedium,
               fontWeight: FontWeight.bold,
-              color: AppColors.textPrimary,
+              color: context.colors.textPrimary,
             ),
             textAlign: TextAlign.center,
             maxLines: 1,

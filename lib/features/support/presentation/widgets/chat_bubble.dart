@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
+
 
 class ChatBubble extends StatelessWidget {
   final String text;
@@ -38,7 +39,7 @@ class ChatBubble extends StatelessWidget {
         );
       },
       child: Padding(
-        padding: const EdgeInsets.symmetric(
+        padding: EdgeInsets.symmetric(
           horizontal: AppSpacing.md,
           vertical: AppSpacing.sm,
         ),
@@ -49,23 +50,23 @@ class ChatBubble extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             if (isUser)
-              const SizedBox(width: AppSpacing.xxxl * 2), // Margin for user
+              SizedBox(width: AppSpacing.xxxl * 2), // Margin for user
 
             if (!isUser && avatarUrl != null) ...[
               CircleAvatar(
                 radius: 16,
                 backgroundImage: NetworkImage(avatarUrl!),
               ),
-              const SizedBox(width: AppSpacing.sm),
+              SizedBox(width: AppSpacing.sm),
             ],
 
             Expanded(
               child: Container(
-                padding: const EdgeInsets.all(AppSpacing.lg),
+                padding: EdgeInsets.all(AppSpacing.lg),
                 decoration: BoxDecoration(
                   color: isUser
-                      ? AppColors.primary
-                      : AppColors.white, // Professional Navy Blue for user
+                      ? context.colors.primary
+                      : context.colors.white, // Professional Navy Blue for user
                   borderRadius: BorderRadius.only(
                     topLeft: const Radius.circular(AppRadius.xl),
                     topRight: const Radius.circular(AppRadius.xl),
@@ -79,12 +80,12 @@ class ChatBubble extends StatelessWidget {
                   border: isUser
                       ? null
                       : Border.all(
-                          color: AppColors.border.withValues(alpha: 0.5),
+                          color: context.colors.border.withValues(alpha: 0.5),
                         ),
                   boxShadow: [
                     BoxShadow(
                       color: isUser
-                          ? AppColors.primary.withValues(alpha: 0.2)
+                          ? context.colors.primary.withValues(alpha: 0.2)
                           : Colors.black.withValues(alpha: 0.04),
                       blurRadius: 8,
                       offset: const Offset(0, 3),
@@ -99,13 +100,13 @@ class ChatBubble extends StatelessWidget {
                       style: TextStyle(
                         fontSize: AppFonts.bodyLarge,
                         height: 1.5,
-                        color: isUser ? AppColors.white : AppColors.textPrimary,
+                        color: isUser ? context.colors.white : context.colors.textPrimary,
                         fontWeight: isUser
                             ? FontWeight.w600
                             : FontWeight.normal,
                       ),
                     ),
-                    const SizedBox(height: AppSpacing.xs),
+                    SizedBox(height: AppSpacing.xs),
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -115,24 +116,24 @@ class ChatBubble extends StatelessWidget {
                             fontSize: AppFonts.labelSmall,
                             fontWeight: FontWeight.w600,
                             color: isUser
-                                ? AppColors.white.withValues(alpha: 0.7)
-                                : AppColors.textSecondary.withValues(
+                                ? context.colors.white.withValues(alpha: 0.7)
+                                : context.colors.textSecondary.withValues(
                                     alpha: 0.6,
                                   ),
                           ),
                         ),
                         if (isUser) ...[
-                          const SizedBox(width: 4),
+                          SizedBox(width: 4),
                           Icon(
                             FluentIcons
                                 .checkmark_12_filled, // Simulate read receipt
-                            color: AppColors.white.withValues(alpha: 0.7),
+                            color: context.colors.white.withValues(alpha: 0.7),
                             size: 14,
                           ),
                           Icon(
                             FluentIcons
                                 .checkmark_12_filled, // Simulate read receipt
-                            color: AppColors.white.withValues(alpha: 0.7),
+                            color: context.colors.white.withValues(alpha: 0.7),
                             size: 14,
                           ),
                         ],
@@ -144,7 +145,7 @@ class ChatBubble extends StatelessWidget {
             ),
 
             if (!isUser)
-              const SizedBox(width: AppSpacing.xxxl * 2), // Margin for agent
+              SizedBox(width: AppSpacing.xxxl * 2), // Margin for agent
           ],
         ),
       ),

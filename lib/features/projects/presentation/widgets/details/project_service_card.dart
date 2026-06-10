@@ -1,4 +1,3 @@
-import 'package:apartment/core/theme/app_colors.dart';
 import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
@@ -6,6 +5,8 @@ import 'package:apartment/core/widgets/custom_button.dart';
 import 'package:apartment/features/home/domain/entities/project_service_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:apartment/l10n/app_localizations.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
+
 
 class ProjectServiceCard extends StatelessWidget {
   final ProjectServiceEntity service;
@@ -32,10 +33,10 @@ class ProjectServiceCard extends StatelessWidget {
         );
       },
       child: Container(
-        margin: const EdgeInsets.only(bottom: AppSpacing.lg),
+        margin: EdgeInsets.only(bottom: AppSpacing.lg),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(AppRadius.lg),
-          border: Border.all(color: AppColors.border),
+          border: Border.all(color: context.colors.border),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.05),
@@ -45,7 +46,7 @@ class ProjectServiceCard extends StatelessWidget {
           ],
         ),
         child: Material(
-          color: AppColors.white,
+          color: context.colors.white,
           borderRadius: BorderRadius.circular(AppRadius.lg),
           clipBehavior: Clip.antiAlias,
           child: InkWell(
@@ -83,9 +84,9 @@ class ProjectServiceCard extends StatelessWidget {
                         width: 40,
                         height: 40,
                         decoration: BoxDecoration(
-                          color: AppColors.white,
+                          color: context.colors.white,
                           shape: BoxShape.circle,
-                          border: Border.all(color: AppColors.border),
+                          border: Border.all(color: context.colors.border),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black.withValues(alpha: 0.1),
@@ -98,7 +99,7 @@ class ProjectServiceCard extends StatelessWidget {
                           child: Icon(
                             service.icon,
                             size: 20,
-                            color: AppColors.gold,
+                            color: context.colors.gold,
                           ),
                         ),
                       ),
@@ -108,31 +109,31 @@ class ProjectServiceCard extends StatelessWidget {
 
                 // Content
                 Padding(
-                  padding: const EdgeInsets.all(AppSpacing.lg),
+                  padding: EdgeInsets.all(AppSpacing.lg),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(
+                      SizedBox(
                         height: AppSpacing.sm,
                       ), // Space for the overlapping badge
                       Text(
                         service.title,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: AppFonts.headlineSmall,
                           fontWeight: FontWeight.bold,
-                          color: AppColors.primary,
+                          color: context.colors.primary,
                         ),
                       ),
-                      const SizedBox(height: AppSpacing.sm),
+                      SizedBox(height: AppSpacing.sm),
                       Text(
                         service.description,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: AppFonts.bodyMedium,
-                          color: AppColors.textSecondary,
+                          color: context.colors.textSecondary,
                           height: 1.5,
                         ),
                       ),
-                      const SizedBox(height: AppSpacing.lg),
+                      SizedBox(height: AppSpacing.lg),
 
                       // Action Button
                       CustomButton(
@@ -140,8 +141,8 @@ class ProjectServiceCard extends StatelessWidget {
                         onPressed: () {
                           // Empty action for now as requested
                         },
-                        backgroundColor: AppColors.gold,
-                        textColor: AppColors.white,
+                        backgroundColor: context.colors.gold,
+                        textColor: Colors.white,
                       ),
                     ],
                   ),

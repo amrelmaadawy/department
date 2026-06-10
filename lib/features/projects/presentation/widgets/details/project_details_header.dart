@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
-import 'package:apartment/core/theme/app_colors.dart';
 import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/features/home/domain/entities/project_entity.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
+
 
 class ProjectDetailsHeader extends StatelessWidget {
   final ProjectEntity project;
@@ -26,23 +27,23 @@ class ProjectDetailsHeader extends StatelessWidget {
     return SliverAppBar(
       expandedHeight: 320,
       pinned: true,
-      backgroundColor: AppColors.background,
+      backgroundColor: context.colors.background,
       elevation: 0,
       scrolledUnderElevation: 0, // Removes Material 3 scrolling tint/shadow
       leadingWidth: 64,
       leading: GestureDetector(
         onTap: () => context.pop(),
         child: Container(
-          margin: const EdgeInsets.only(
+          margin: EdgeInsets.only(
             left: AppSpacing.md,
             right: AppSpacing.md,
           ),
           decoration: BoxDecoration(
-            color: AppColors.white.withValues(alpha: 0.85),
+            color: context.colors.white.withValues(alpha: 0.85),
             shape: BoxShape.circle,
           ),
           child: Center(
-            child: Icon(backIcon, size: 20, color: AppColors.textPrimary),
+            child: Icon(backIcon, size: 20, color: context.colors.textPrimary),
           ),
         ),
       ),
@@ -53,36 +54,36 @@ class ProjectDetailsHeader extends StatelessWidget {
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              color: AppColors.white.withValues(alpha: 0.85),
+              color: context.colors.white.withValues(alpha: 0.85),
               shape: BoxShape.circle,
             ),
-            child: const Center(
+            child: Center(
               child: Icon(
                 FluentIcons.share_24_regular,
-                color: AppColors.textPrimary,
+                color: context.colors.textPrimary,
               ),
             ),
           ),
         ),
-        const SizedBox(width: AppSpacing.sm),
+        SizedBox(width: AppSpacing.sm),
         GestureDetector(
           onTap: () {},
           child: Container(
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              color: AppColors.white.withValues(alpha: 0.85),
+              color: context.colors.white.withValues(alpha: 0.85),
               shape: BoxShape.circle,
             ),
-            child: const Center(
+            child: Center(
               child: Icon(
                 FluentIcons.heart_24_regular,
-                color: AppColors.textPrimary,
+                color: context.colors.textPrimary,
               ),
             ),
           ),
         ),
-        const SizedBox(width: AppSpacing.lg),
+        SizedBox(width: AppSpacing.lg),
       ],
       flexibleSpace: FlexibleSpaceBar(
         background: Stack(
@@ -93,12 +94,12 @@ class ProjectDetailsHeader extends StatelessWidget {
               child: project.imagePath.isNotEmpty
                   ? Image.asset(project.imagePath, fit: BoxFit.cover)
                   : Container(
-                      color: AppColors.border,
-                      child: const Center(
+                      color: context.colors.border,
+                      child: Center(
                         child: Icon(
                           FluentIcons.image_off_24_regular,
                           size: 48,
-                          color: AppColors.textSecondary,
+                          color: context.colors.textSecondary,
                         ),
                       ),
                     ),
@@ -126,8 +127,8 @@ class ProjectDetailsHeader extends StatelessWidget {
               right: 0,
               child: Container(
                 height: 30,
-                decoration: const BoxDecoration(
-                  color: AppColors.background,
+                decoration: BoxDecoration(
+                  color: context.colors.background,
                   borderRadius: BorderRadius.vertical(
                     top: Radius.circular(AppRadius.xl),
                   ),

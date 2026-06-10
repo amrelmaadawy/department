@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
-import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/theme/app_fonts.dart';
 import '../../../../../core/theme/app_radius.dart';
 import '../../../../../core/theme/app_spacing.dart';
 import '../../../../../l10n/app_localizations.dart';
 import '../../../domain/entities/material_entity.dart';
 import '../../../domain/entities/material_category.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
+
 
 class ReviewSelectionCard extends StatelessWidget {
   final MaterialEntity material;
@@ -19,12 +20,12 @@ class ReviewSelectionCard extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Container(
-      margin: const EdgeInsets.only(bottom: AppSpacing.lg),
-      padding: const EdgeInsets.all(AppSpacing.md),
+      margin: EdgeInsets.only(bottom: AppSpacing.lg),
+      padding: EdgeInsets.all(AppSpacing.md),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: context.colors.white,
         borderRadius: BorderRadius.circular(AppRadius.xl),
-        border: Border.all(color: AppColors.border.withValues(alpha: 0.3)),
+        border: Border.all(color: context.colors.border.withValues(alpha: 0.3)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.04),
@@ -38,12 +39,12 @@ class ReviewSelectionCard extends StatelessWidget {
         children: [
           // Elegant Icon Container
           Container(
-            padding: const EdgeInsets.all(12),
+            padding: EdgeInsets.all(12),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  AppColors.gold.withValues(alpha: 0.15),
-                  AppColors.gold.withValues(alpha: 0.05),
+                  context.colors.gold.withValues(alpha: 0.15),
+                  context.colors.gold.withValues(alpha: 0.05),
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -52,11 +53,11 @@ class ReviewSelectionCard extends StatelessWidget {
             ),
             child: Icon(
               _getCategoryIcon(material.category),
-              color: AppColors.gold,
+              color: context.colors.gold,
               size: 20,
             ),
           ),
-          const SizedBox(width: AppSpacing.md),
+          SizedBox(width: AppSpacing.md),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,24 +68,24 @@ class ReviewSelectionCard extends StatelessWidget {
                     fontSize: AppFonts.labelSmall,
                     fontWeight: FontWeight.w600,
                     letterSpacing: 0.5,
-                    color: AppColors.gold,
+                    color: context.colors.gold,
                   ),
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: 4),
                 Text(
                   material.name,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: AppFonts.headlineSmall,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.primary,
+                    color: context.colors.primary,
                   ),
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: 4),
                 Text(
                   '${material.pricePerSqm.toStringAsFixed(0)} ${l10n.pricePerSqm.split(' ')[0]}',
                   style: TextStyle(
                     fontSize: AppFonts.bodyMedium,
-                    color: AppColors.textPrimary.withValues(alpha: 0.7),
+                    color: context.colors.textPrimary.withValues(alpha: 0.7),
                   ),
                 ),
               ],

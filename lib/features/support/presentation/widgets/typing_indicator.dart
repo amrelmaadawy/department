@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
+
 
 class TypingIndicator extends StatefulWidget {
   final String avatarUrl;
@@ -35,7 +36,7 @@ class _TypingIndicatorState extends State<TypingIndicator>
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(
+      padding: EdgeInsets.symmetric(
         horizontal: AppSpacing.md,
         vertical: AppSpacing.sm,
       ),
@@ -46,14 +47,14 @@ class _TypingIndicatorState extends State<TypingIndicator>
             radius: 16,
             backgroundImage: NetworkImage(widget.avatarUrl),
           ),
-          const SizedBox(width: AppSpacing.sm),
+          SizedBox(width: AppSpacing.sm),
           Container(
-            padding: const EdgeInsets.symmetric(
+            padding: EdgeInsets.symmetric(
               horizontal: AppSpacing.md,
               vertical: 12,
             ),
             decoration: BoxDecoration(
-              color: AppColors.border.withValues(alpha: 0.3),
+              color: context.colors.border.withValues(alpha: 0.3),
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(AppRadius.lg),
                 topRight: Radius.circular(AppRadius.lg),
@@ -75,11 +76,11 @@ class _TypingIndicatorState extends State<TypingIndicator>
                     return Transform.translate(
                       offset: Offset(0, offset),
                       child: Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 2),
+                        margin: EdgeInsets.symmetric(horizontal: 2),
                         width: 6,
                         height: 6,
                         decoration: BoxDecoration(
-                          color: AppColors.textSecondary.withValues(alpha: 0.5),
+                          color: context.colors.textSecondary.withValues(alpha: 0.5),
                           shape: BoxShape.circle,
                         ),
                       ),

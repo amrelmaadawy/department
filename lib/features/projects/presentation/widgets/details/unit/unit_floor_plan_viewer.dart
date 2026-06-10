@@ -1,12 +1,12 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 
-import 'package:apartment/core/theme/app_colors.dart';
 import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/features/home/domain/entities/project_unit_entity.dart';
 import 'unit_image_thumbnails.dart';
 import 'unit_zoom_controls.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
 
 class UnitFloorPlanViewer extends StatefulWidget {
   final ProjectUnitEntity unit;
@@ -103,13 +103,13 @@ class _UnitFloorPlanViewerState extends State<UnitFloorPlanViewer> {
           decoration: BoxDecoration(
             gradient: RadialGradient(
               colors: [
-                AppColors.white,
-                AppColors.primary.withValues(alpha: 0.05),
+                context.colors.white,
+                context.colors.primary.withValues(alpha: 0.05),
               ],
               radius: 1.5,
             ),
             borderRadius: BorderRadius.circular(AppRadius.lg),
-            border: Border.all(color: AppColors.primary.withValues(alpha: 0.1), width: 1),
+            border: Border.all(color: context.colors.primary.withValues(alpha: 0.1), width: 1),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.03),
@@ -154,8 +154,8 @@ class _UnitFloorPlanViewerState extends State<UnitFloorPlanViewer> {
                               images[index],
                               fit: BoxFit.contain,
                             )
-                          : const Center(
-                              child: Icon(FluentIcons.image_off_24_regular, size: 48, color: AppColors.textSecondary),
+                          : Center(
+                              child: Icon(FluentIcons.image_off_24_regular, size: 48, color: context.colors.textSecondary),
                             ),
                     );
                     
@@ -185,8 +185,8 @@ class _UnitFloorPlanViewerState extends State<UnitFloorPlanViewer> {
                         height: 8,
                         decoration: BoxDecoration(
                           color: _currentIndex == index 
-                              ? AppColors.primary 
-                              : AppColors.border,
+                              ? context.colors.primary 
+                              : context.colors.border,
                           borderRadius: BorderRadius.circular(AppRadius.sm),
                         ),
                       ),

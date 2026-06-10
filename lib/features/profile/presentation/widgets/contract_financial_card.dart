@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/theme/app_colors.dart';
+
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
+
 
 class ContractFinancialCard extends StatelessWidget {
   final Map<String, dynamic> financialData;
@@ -14,42 +16,42 @@ class ContractFinancialCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.primary,
+        color: context.colors.primary,
         borderRadius: BorderRadius.circular(AppRadius.xl),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withValues(alpha: 0.2),
+            color: context.colors.primary.withValues(alpha: 0.2),
             blurRadius: 20,
             offset: const Offset(0, 10),
           ),
         ],
       ),
-      padding: const EdgeInsets.all(AppSpacing.xl),
+      padding: EdgeInsets.all(AppSpacing.xl),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             'الملخص المالي',
             style: TextStyle(
               fontSize: AppFonts.bodyLarge,
               fontWeight: FontWeight.bold,
-              color: AppColors.gold,
+              color: context.colors.gold,
             ),
           ),
-          const SizedBox(height: AppSpacing.lg),
-          _buildFinancialRow('إجمالي قيمة التعاقد', financialData['totalPrice']),
-          const SizedBox(height: AppSpacing.md),
-          const Divider(color: AppColors.white, height: 1, thickness: 0.2),
-          const SizedBox(height: AppSpacing.md),
-          _buildFinancialRow('المدفوع (مقدم + أقساط)', financialData['paidAmount']),
-          const SizedBox(height: AppSpacing.md),
-          _buildFinancialRow('المتبقي', financialData['remainingAmount'], isHighlight: true),
+          SizedBox(height: AppSpacing.lg),
+          _buildFinancialRow(context, 'إجمالي قيمة التعاقد', financialData['totalPrice']),
+          SizedBox(height: AppSpacing.md),
+          Divider(color: context.colors.white, height: 1, thickness: 0.2),
+          SizedBox(height: AppSpacing.md),
+          _buildFinancialRow(context, 'المدفوع (مقدم + أقساط)', financialData['paidAmount']),
+          SizedBox(height: AppSpacing.md),
+          _buildFinancialRow(context, 'المتبقي', financialData['remainingAmount'], isHighlight: true),
         ],
       ),
     );
   }
 
-  Widget _buildFinancialRow(String label, String value, {bool isHighlight = false}) {
+  Widget _buildFinancialRow(BuildContext context, String label, String value, {bool isHighlight = false}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -57,7 +59,7 @@ class ContractFinancialCard extends StatelessWidget {
           label,
           style: TextStyle(
             fontSize: AppFonts.bodyMedium,
-            color: AppColors.white.withValues(alpha: 0.8),
+            color: context.colors.white.withValues(alpha: 0.8),
           ),
         ),
         Text(
@@ -65,7 +67,7 @@ class ContractFinancialCard extends StatelessWidget {
           style: TextStyle(
             fontSize: isHighlight ? AppFonts.headlineSmall : AppFonts.bodyLarge,
             fontWeight: FontWeight.bold,
-            color: isHighlight ? AppColors.gold : AppColors.white,
+            color: isHighlight ? context.colors.gold : context.colors.white,
           ),
         ),
       ],

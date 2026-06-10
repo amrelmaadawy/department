@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../../core/theme/app_colors.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
 
 class SocialLoginButton extends StatelessWidget {
   final String iconPath;
@@ -21,11 +21,11 @@ class SocialLoginButton extends StatelessWidget {
         width: 60,
         height: 60,
         decoration: BoxDecoration(
-          color: AppColors.white,
+          color: context.colors.white,
           shape: BoxShape.circle,
           boxShadow: [
             BoxShadow(
-              color: AppColors.darkOverlay.withOpacity(0.05),
+              color: context.colors.darkOverlay.withOpacity(0.05),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),

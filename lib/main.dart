@@ -9,6 +9,9 @@ import 'core/di/injection_container.dart' as di;
 import 'core/routes/app_router.dart';
 import 'core/localization/cubit/locale_cubit.dart';
 import 'core/localization/cubit/locale_state.dart';
+import 'core/theme/app_theme.dart';
+import 'core/theme/cubit/theme_cubit.dart';
+import 'core/theme/cubit/theme_state.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,31 +28,40 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => di.sl<LocaleCubit>(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => di.sl<LocaleCubit>()),
+        BlocProvider(create: (context) => di.sl<ThemeCubit>()),
+      ],
       child: BlocBuilder<LocaleCubit, LocaleState>(
         builder: (context, localeState) {
-          return MaterialApp.router(
-            title: AppConstants.appName,
-            debugShowCheckedModeBanner: false,
-            theme: ThemeData(fontFamily: 'Cairo'),
-            routerConfig: AppRouter.router,
-            locale: localeState.locale,
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            supportedLocales: AppLocalizations.supportedLocales,
-            builder: (context, child) {
-              // Global Responsive Text Scaler
-              // This calculates the device width compared to a standard 390px phone screen.
-              final mediaQuery = MediaQuery.of(context);
-              final screenWidth = mediaQuery.size.width;
+          return BlocBuilder<ThemeCubit, ThemeState>(
+            builder: (context, themeState) {
+              return MaterialApp.router(
+                title: AppConstants.appName,
+                debugShowCheckedModeBanner: false,
+                theme: AppTheme.lightTheme,
+                darkTheme: AppTheme.darkTheme,
+                themeMode: themeState.themeMode,
+                routerConfig: AppRouter.router,
+                locale: localeState.locale,
+                localizationsDelegates: AppLocalizations.localizationsDelegates,
+                supportedLocales: AppLocalizations.supportedLocales,
+                builder: (context, child) {
+                  // Global Responsive Text Scaler
+                  // This calculates the device width compared to a standard 390px phone screen.
+                  final mediaQuery = MediaQuery.of(context);
+                  final screenWidth = mediaQuery.size.width;
 
-              // Scale factor: ensures text grows on tablets but doesn't get ridiculously large,
-              // and shrinks on extremely small phones so it doesn't overflow.
-              final double textScale = (screenWidth / 390.0).clamp(0.85, 1.4);
+                  // Scale factor: ensures text grows on tablets but doesn't get ridiculously large,
+                  // and shrinks on extremely small phones so it doesn't overflow.
+                  final double textScale = (screenWidth / 390.0).clamp(0.85, 1.4);
 
-              return MediaQuery(
-                data: mediaQuery.copyWith(textScaler: TextScaler.linear(textScale)),
-                child: child!,
+                  return MediaQuery(
+                    data: mediaQuery.copyWith(textScaler: TextScaler.linear(textScale)),
+                    child: child!,
+                  );
+                },
               );
             },
           );

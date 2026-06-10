@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
@@ -21,7 +22,7 @@ class DesignStudioScreen extends StatelessWidget {
     return BlocBuilder<DesignContextCubit, DesignContextState>(
       builder: (context, state) {
         return Scaffold(
-          backgroundColor: AppColors.background,
+          backgroundColor: context.colors.background,
           body: CustomScrollView(
             slivers: [
               _buildHeroHeader(context, state),
@@ -32,7 +33,7 @@ class DesignStudioScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: AppSpacing.xl),
-                  _buildSectionTitle('المسارات المتاحة'),
+                  _buildSectionTitle(context, 'المسارات المتاحة'),
                   const SizedBox(height: AppSpacing.md),
                   _buildAiCard(context),
                   const SizedBox(height: AppSpacing.lg),
@@ -72,7 +73,7 @@ class DesignStudioScreen extends StatelessWidget {
     return SliverAppBar(
       expandedHeight: 300,
       pinned: true,
-      backgroundColor: AppColors.background, // Match background
+      backgroundColor: context.colors.background, // Match background
       elevation: 0,
       scrolledUnderElevation: 0, // Removes the scroll shadow
       flexibleSpace: FlexibleSpaceBar(
@@ -220,13 +221,13 @@ class DesignStudioScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSectionTitle(String title) {
+  Widget _buildSectionTitle(BuildContext context, String title) {
     return Text(
       title,
-      style: const TextStyle(
+      style: TextStyle(
         fontSize: AppFonts.headlineSmall,
         fontWeight: FontWeight.bold,
-        color: AppColors.primary,
+        color: context.colors.primary,
       ),
     );
   }
@@ -339,7 +340,7 @@ class DesignStudioScreen extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(AppSpacing.lg),
         decoration: BoxDecoration(
-          color: AppColors.white,
+          color: context.colors.white,
           borderRadius: BorderRadius.circular(AppRadius.xl),
           boxShadow: [
             BoxShadow(
@@ -354,10 +355,10 @@ class DesignStudioScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: AppColors.background,
+                color: context.colors.background,
                 borderRadius: BorderRadius.circular(AppRadius.lg),
               ),
-              child: Icon(icon, color: AppColors.primary, size: 24),
+              child: Icon(icon, color: context.colors.primary, size: 24),
             ),
             const SizedBox(width: AppSpacing.md),
             Expanded(
@@ -366,26 +367,26 @@ class DesignStudioScreen extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: AppFonts.headlineSmall,
                       fontWeight: FontWeight.bold,
-                      color: AppColors.primary,
+                      color: context.colors.primary,
                     ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     subtitle,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: AppFonts.bodySmall,
-                      color: AppColors.textSecondary,
+                      color: context.colors.textSecondary,
                     ),
                   ),
                 ],
               ),
             ),
-            const Icon(
+            Icon(
               Icons.arrow_forward_ios,
-              color: AppColors.textSecondary,
+              color: context.colors.textSecondary,
               size: 14,
             ),
           ],
@@ -397,7 +398,7 @@ class DesignStudioScreen extends StatelessWidget {
   Widget _buildComingSoonDialog(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      backgroundColor: AppColors.white,
+      backgroundColor: context.colors.background,
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.xxl),
         child: Column(

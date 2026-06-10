@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../l10n/app_localizations.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
+
 
 class ChatInputBar extends StatelessWidget {
   const ChatInputBar({super.key});
@@ -22,10 +23,10 @@ class ChatInputBar extends StatelessWidget {
         bottom: MediaQuery.of(context).padding.bottom + AppSpacing.md,
       ),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: context.colors.white,
         border: Border(
           top: BorderSide(
-            color: AppColors.border.withValues(alpha: 0.5),
+            color: context.colors.border.withValues(alpha: 0.5),
             width: 1,
           ),
         ),
@@ -35,14 +36,14 @@ class ChatInputBar extends StatelessWidget {
         children: [
           // Input field
           Container(
-            padding: const EdgeInsets.symmetric(
+            padding: EdgeInsets.symmetric(
               horizontal: AppSpacing.sm,
               vertical: 4,
             ),
             decoration: BoxDecoration(
-              color: AppColors.white,
+              color: context.colors.white,
               border: Border.all(
-                color: AppColors.border.withValues(alpha: 0.5),
+                color: context.colors.border.withValues(alpha: 0.5),
               ),
               borderRadius: BorderRadius.circular(AppRadius.round),
               boxShadow: [
@@ -57,18 +58,18 @@ class ChatInputBar extends StatelessWidget {
               children: [
                 // Send Button (Left side in RTL)
                 Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: const BoxDecoration(
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: AppColors.primary, // Professional primary color
+                    color: context.colors.primary, // Professional primary color
                   ),
-                  child: const Icon(
+                  child: Icon(
                     FluentIcons.send_24_filled,
-                    color: AppColors.white,
+                    color: context.colors.white,
                     size: 20,
                   ),
                 ),
-                const SizedBox(width: AppSpacing.md),
+                SizedBox(width: AppSpacing.md),
 
                 // Text Field
                 Expanded(
@@ -76,7 +77,7 @@ class ChatInputBar extends StatelessWidget {
                     decoration: InputDecoration(
                       hintText: l10n.typeMessageHint,
                       hintStyle: TextStyle(
-                        color: AppColors.textSecondary.withValues(alpha: 0.5),
+                        color: context.colors.textSecondary.withValues(alpha: 0.5),
                         fontSize: AppFonts.bodyMedium,
                       ),
                       border: InputBorder.none,
@@ -90,7 +91,7 @@ class ChatInputBar extends StatelessWidget {
                 IconButton(
                   icon: Icon(
                     FluentIcons.attach_24_regular,
-                    color: AppColors.textSecondary.withValues(alpha: 0.7),
+                    color: context.colors.textSecondary.withValues(alpha: 0.7),
                   ),
                   onPressed: () {},
                 ),

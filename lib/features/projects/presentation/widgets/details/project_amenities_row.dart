@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
-import 'package:apartment/core/theme/app_colors.dart';
 import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
+
 
 class ProjectAmenitiesRow extends StatelessWidget {
   final List<String> amenities;
@@ -25,7 +26,7 @@ class ProjectAmenitiesRow extends StatelessWidget {
     if (amenities.isEmpty) return const SizedBox.shrink();
 
     return Padding(
-      padding: const EdgeInsets.symmetric(
+      padding: EdgeInsets.symmetric(
         vertical: AppSpacing.xl,
         horizontal: AppSpacing.lg,
       ),
@@ -37,20 +38,20 @@ class ProjectAmenitiesRow extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 26,
-                backgroundColor: AppColors.gold.withOpacity(0.15),
+                backgroundColor: context.colors.gold.withValues(alpha: 0.15),
                 child: Icon(
                   _getIconForAmenity(amenity),
-                  color: AppColors.gold,
+                  color: context.colors.gold,
                   size: 24,
                 ),
               ),
-              const SizedBox(height: AppSpacing.sm),
+              SizedBox(height: AppSpacing.sm),
               Text(
                 amenity,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: AppFonts.bodySmall,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.textPrimary,
+                  color: context.colors.textPrimary,
                 ),
               ),
             ],

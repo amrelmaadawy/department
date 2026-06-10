@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:signature/signature.dart';
 
-import 'package:apartment/core/theme/app_colors.dart';
 import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/l10n/app_localizations.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
+
 
 class ContractSignatureCard extends StatelessWidget {
   final SignatureController controller;
@@ -23,14 +24,14 @@ class ContractSignatureCard extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-      padding: const EdgeInsets.all(AppSpacing.lg),
+      margin: EdgeInsets.symmetric(horizontal: AppSpacing.md),
+      padding: EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: context.colors.white,
         borderRadius: BorderRadius.circular(AppRadius.lg),
         boxShadow: [
           BoxShadow(
-            color: AppColors.border.withValues(alpha: 0.1),
+            color: context.colors.border.withValues(alpha: 0.1),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -44,35 +45,35 @@ class ContractSignatureCard extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  const Icon(FluentIcons.pen_24_regular, color: AppColors.primary),
-                  const SizedBox(width: AppSpacing.sm),
+                  Icon(FluentIcons.pen_24_regular, color: context.colors.primary),
+                  SizedBox(width: AppSpacing.sm),
                   Text(
                     l10n.signature, // Make sure this exists in ARB
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: AppFonts.headlineSmall,
                       fontWeight: FontWeight.bold,
-                      color: AppColors.primary,
+                      color: context.colors.primary,
                     ),
                   ),
                 ],
               ),
               TextButton.icon(
                 onPressed: () => controller.clear(),
-                icon: const Icon(FluentIcons.delete_24_regular, size: 16, color: AppColors.error),
+                icon: Icon(FluentIcons.delete_24_regular, size: 16, color: context.colors.error),
                 label: Text(
                   l10n.clearSignature,
-                  style: const TextStyle(color: AppColors.error),
+                  style: TextStyle(color: context.colors.error),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: AppSpacing.md),
-          const Divider(color: AppColors.background),
-          const SizedBox(height: AppSpacing.md),
+          SizedBox(height: AppSpacing.md),
+          Divider(color: context.colors.background),
+          SizedBox(height: AppSpacing.md),
           
           Container(
             decoration: BoxDecoration(
-              border: Border.all(color: AppColors.border),
+              border: Border.all(color: context.colors.border),
               borderRadius: BorderRadius.circular(AppRadius.md),
             ),
             child: ClipRRect(
@@ -80,18 +81,18 @@ class ContractSignatureCard extends StatelessWidget {
               child: Signature(
                 controller: controller,
                 height: 150,
-                backgroundColor: AppColors.background,
+                backgroundColor: context.colors.background,
               ),
             ),
           ),
           
-          const SizedBox(height: AppSpacing.sm),
+          SizedBox(height: AppSpacing.sm),
           Center(
             child: Text(
               l10n.signAbove,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: AppFonts.bodySmall,
-                color: AppColors.textSecondary,
+                color: context.colors.textSecondary,
               ),
             ),
           ),

@@ -4,11 +4,12 @@ import 'package:go_router/go_router.dart';
 import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
 
-import 'package:apartment/core/theme/app_colors.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/core/widgets/custom_button.dart';
 import 'package:apartment/features/projects/domain/services/contract_pdf_generator.dart';
 import 'package:apartment/l10n/app_localizations.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
+
 
 class ContractPreviewScreen extends StatelessWidget {
   final Uint8List signatureImage;
@@ -24,12 +25,12 @@ class ContractPreviewScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.colors.background,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
         child: Container(
           decoration: BoxDecoration(
-            color: AppColors.white,
+            color: context.colors.white,
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.03),
@@ -41,8 +42,8 @@ class ContractPreviewScreen extends StatelessWidget {
           child: AppBar(
             title: Text(
               l10n.finalApproval,
-              style: const TextStyle(
-                color: AppColors.primary,
+              style: TextStyle(
+                color: context.colors.primary,
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
               ),
@@ -53,7 +54,7 @@ class ContractPreviewScreen extends StatelessWidget {
             centerTitle: true,
             actions: [
               IconButton(
-                icon: const Icon(Icons.share_outlined, color: AppColors.primary, size: 22),
+                icon: Icon(Icons.share_outlined, color: context.colors.primary, size: 22),
                 onPressed: () async {
                   final bytes = await ContractPdfGenerator.generateContractBytes(
                     PdfPageFormat.a4,
@@ -65,10 +66,10 @@ class ContractPreviewScreen extends StatelessWidget {
                   );
                 },
               ),
-              const SizedBox(width: 10),
+              SizedBox(width: 10),
             ],
             leading: IconButton(
-              icon: const Icon(Icons.arrow_back_ios, color: AppColors.primary, size: 20),
+              icon: Icon(Icons.arrow_back_ios, color: context.colors.primary, size: 20),
               onPressed: () => context.pop(),
             ),
           ),
@@ -79,8 +80,8 @@ class ContractPreviewScreen extends StatelessWidget {
           Expanded(
             child: Theme(
               data: Theme.of(context).copyWith(
-                primaryColor: AppColors.primary,
-                scaffoldBackgroundColor: AppColors.background,
+                primaryColor: context.colors.primary,
+                scaffoldBackgroundColor: context.colors.background,
               ),
               child: PdfPreview(
                 build: (format) => ContractPdfGenerator.generateContractBytes(
@@ -90,16 +91,16 @@ class ContractPreviewScreen extends StatelessWidget {
                 useActions: false, // Hides the big internal toolbar completely
                 canDebug: false,
                 pdfFileName: 'Unit_Booking_Contract.pdf',
-                scrollViewDecoration: const BoxDecoration(
-                  color: AppColors.background,
+                scrollViewDecoration: BoxDecoration(
+                  color: context.colors.background,
                 ),
               ),
             ),
           ),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.lg),
+            padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.lg),
             decoration: BoxDecoration(
-              color: AppColors.white,
+              color: context.colors.white,
               borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
               boxShadow: [
                 BoxShadow(
@@ -116,31 +117,31 @@ class ContractPreviewScreen extends StatelessWidget {
                   Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.all(10),
+                        padding: EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                          color: AppColors.gold.withValues(alpha: 0.15),
+                          color: context.colors.gold.withValues(alpha: 0.15),
                           shape: BoxShape.circle,
                         ),
-                        child: const Icon(Icons.verified_user_rounded, color: AppColors.gold, size: 24),
+                        child: Icon(Icons.verified_user_rounded, color: context.colors.gold, size: 24),
                       ),
-                      const SizedBox(width: 15),
+                      SizedBox(width: 15),
                       Expanded(
                         child: Text(
                           l10n.contractGeneratedSuccess,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 12,
-                            color: AppColors.textSecondary,
+                            color: context.colors.textSecondary,
                             height: 1.5,
                           ),
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20),
                   CustomButton(
                     text: l10n.confirmReturnContracts,
-                    backgroundColor: AppColors.primary,
-                    textColor: AppColors.white,
+                    backgroundColor: context.colors.primary,
+                    textColor: Colors.white,
                     onPressed: () {
                       context.pop(true);
                     },

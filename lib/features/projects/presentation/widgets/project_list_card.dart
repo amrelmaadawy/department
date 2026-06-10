@@ -4,11 +4,12 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/routes/app_router.dart';
 
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../home/domain/entities/project_entity.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
+
 
 class ProjectListCard extends StatelessWidget {
   final ProjectEntity project;
@@ -39,17 +40,17 @@ class ProjectListCard extends StatelessWidget {
       ),
       child: Container(
         height: cardHeight,
-        margin: const EdgeInsets.symmetric(
+        margin: EdgeInsets.symmetric(
           horizontal: AppSpacing.lg,
           vertical: AppSpacing.sm,
         ),
         decoration: BoxDecoration(
-          color: AppColors.white,
+          color: context.colors.white,
           borderRadius: BorderRadius.circular(AppRadius.md),
-          border: Border.all(color: AppColors.border),
+          border: Border.all(color: context.colors.border),
           boxShadow: [
             BoxShadow(
-              color: AppColors.darkOverlay.withOpacity(0.02),
+              color: context.colors.darkOverlay.withValues(alpha: 0.02),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -76,46 +77,46 @@ class ProjectListCard extends StatelessWidget {
             // Details (Trailing edge)
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.all(AppSpacing.md),
+                padding: EdgeInsets.all(AppSpacing.md),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       project.name,
-                      style: const TextStyle(
-                        color: AppColors.textPrimary,
+                      style: TextStyle(
+                        color: context.colors.textPrimary,
                         fontSize: AppFonts.bodyMedium,
                         fontWeight: FontWeight.bold,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    const SizedBox(height: 4),
+                    SizedBox(height: 4),
                     Text(
                       project.location,
-                      style: const TextStyle(
-                        color: AppColors.textSecondary,
+                      style: TextStyle(
+                        color: context.colors.textSecondary,
                         fontSize: AppFonts.bodySmall,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    const Spacer(),
+                    Spacer(),
                     Row(
                       children: [
                         Text(
                           '${l10n.startsFrom} ',
-                          style: const TextStyle(
-                            color: AppColors.textSecondary,
+                          style: TextStyle(
+                            color: context.colors.textSecondary,
                             fontSize: AppFonts.bodySmall,
                           ),
                         ),
                         Expanded(
                           child: Text(
                             '$formattedPrice ${l10n.sar}',
-                            style: const TextStyle(
-                              color: AppColors.gold,
+                            style: TextStyle(
+                              color: context.colors.gold,
                               fontSize: AppFonts.bodyMedium,
                               fontWeight: FontWeight.bold,
                             ),

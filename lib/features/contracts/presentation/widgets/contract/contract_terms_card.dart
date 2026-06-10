@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
-import 'package:apartment/core/theme/app_colors.dart';
 import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/l10n/app_localizations.dart';
 
 import '../../../domain/entities/contract_type.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
+
 
 class ContractTermsCard extends StatelessWidget {
   final ContractType contractType;
@@ -26,14 +27,14 @@ class ContractTermsCard extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-      padding: const EdgeInsets.all(AppSpacing.lg),
+      margin: EdgeInsets.symmetric(horizontal: AppSpacing.md),
+      padding: EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: context.colors.white,
         borderRadius: BorderRadius.circular(AppRadius.lg),
         boxShadow: [
           BoxShadow(
-            color: AppColors.border.withValues(alpha: 0.1),
+            color: context.colors.border.withValues(alpha: 0.1),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -44,27 +45,27 @@ class ContractTermsCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Icon(FluentIcons.document_text_24_regular, color: AppColors.primary),
-              const SizedBox(width: AppSpacing.sm),
+              Icon(FluentIcons.document_text_24_regular, color: context.colors.primary),
+              SizedBox(width: AppSpacing.sm),
               Text(
                 l10n.contractTermsTitle,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: AppFonts.headlineSmall,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.primary,
+                  color: context.colors.primary,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: AppSpacing.md),
-          const Divider(color: AppColors.background),
-          const SizedBox(height: AppSpacing.md),
+          SizedBox(height: AppSpacing.md),
+          Divider(color: context.colors.background),
+          SizedBox(height: AppSpacing.md),
           
           Container(
             height: 150,
-            padding: const EdgeInsets.all(AppSpacing.sm),
+            padding: EdgeInsets.all(AppSpacing.sm),
             decoration: BoxDecoration(
-              color: AppColors.background,
+              color: context.colors.background,
               borderRadius: BorderRadius.circular(AppRadius.md),
             ),
             child: SingleChildScrollView(
@@ -82,23 +83,23 @@ class ContractTermsCard extends StatelessWidget {
 4. يضمن المقاول جودة الأعمال المنفذة لمدة عام كامل من تاريخ الاستلام.
 5. أي تعديلات على التصميم بعد بدء التنفيذ تخضع لتسعير منفصل.
 ... [المزيد من البنود القانونية]''',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: AppFonts.bodySmall,
-                  color: AppColors.textSecondary,
+                  color: context.colors.textSecondary,
                   height: 1.5,
                 ),
               ),
             ),
           ),
           
-          const SizedBox(height: AppSpacing.md),
+          SizedBox(height: AppSpacing.md),
           
           Row(
             children: [
               Checkbox(
                 value: isAgreed,
                 onChanged: onChanged,
-                activeColor: AppColors.primary,
+                activeColor: context.colors.primary,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(4),
                 ),
@@ -111,7 +112,7 @@ class ContractTermsCard extends StatelessWidget {
                     style: TextStyle(
                       fontSize: AppFonts.bodyMedium,
                       fontWeight: FontWeight.bold,
-                      color: isAgreed ? AppColors.primary : AppColors.textSecondary,
+                      color: isAgreed ? context.colors.primary : context.colors.textSecondary,
                     ),
                   ),
                 ),

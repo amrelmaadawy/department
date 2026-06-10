@@ -4,13 +4,14 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../core/localization/cubit/locale_cubit.dart';
 import '../../../../core/localization/cubit/locale_state.dart';
+import '../../../../core/theme/cubit/theme_cubit.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
 
 class AppSettingsScreen extends StatefulWidget {
   const AppSettingsScreen({super.key});
@@ -25,6 +26,12 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
   bool _emailNotifications = false;
 
   @override
+  void initState() {
+    super.initState();
+    _isDarkMode = context.read<ThemeCubit>().state.themeMode == ThemeMode.dark;
+  }
+
+  @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
@@ -33,13 +40,13 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
         children: [
           // Premium Background Gradient
           Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  Color(0xFFF9F6F0),
-                  Color(0xFFEFECE5),
+                  context.colors.background,
+                  context.colors.background,
                 ],
               ),
             ),
@@ -54,7 +61,7 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
               height: 300,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: AppColors.gold.withValues(alpha: 0.15),
+                color: context.colors.gold.withValues(alpha: 0.15),
               ),
             ),
           ),
@@ -66,7 +73,7 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
               height: 250,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: AppColors.primary.withValues(alpha: 0.05),
+                color: context.colors.primary.withValues(alpha: 0.05),
               ),
             ),
           ),
@@ -128,7 +135,10 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
                                 title: l10n.darkMode,
                                 subtitle: l10n.darkModeDesc,
                                 value: _isDarkMode,
-                                onChanged: (val) => setState(() => _isDarkMode = val),
+                                onChanged: (val) {
+                                  setState(() => _isDarkMode = val);
+                                  context.read<ThemeCubit>().changeTheme(val ? ThemeMode.dark : ThemeMode.light);
+                                },
                               ),
                             ],
                           ),
@@ -151,7 +161,7 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
                                 value: _pushNotifications,
                                 onChanged: (val) => setState(() => _pushNotifications = val),
                               ),
-                              Divider(color: AppColors.border.withValues(alpha: 0.5), height: 1),
+                              Divider(color: context.colors.border.withValues(alpha: 0.5), height: 1),
                               _buildPremiumToggleRow(
                                 icon: FluentIcons.mail_24_regular,
                                 title: l10n.newsletter,
@@ -185,18 +195,18 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
             icon: Container(
               padding: const EdgeInsets.all(AppSpacing.sm),
               decoration: BoxDecoration(
-                color: AppColors.white.withValues(alpha: 0.5),
+                color: context.colors.white.withValues(alpha: 0.5),
                 shape: BoxShape.circle,
-                border: Border.all(color: AppColors.white, width: 1.5),
+                border: Border.all(color: context.colors.white, width: 1.5),
               ),
-              child: const Icon(FluentIcons.ios_arrow_rtl_24_regular, color: AppColors.primary, size: 20),
+              child: Icon(FluentIcons.ios_arrow_rtl_24_regular, color: context.colors.primary, size: 20),
             ),
             onPressed: () => context.pop(),
           ),
           Text(
             l10n.profileSectionApp,
-            style: const TextStyle(
-              color: AppColors.primary,
+            style: TextStyle(
+              color: context.colors.primary,
               fontSize: AppFonts.headlineSmall,
               fontWeight: FontWeight.w900,
               letterSpacing: 0.5,
@@ -231,10 +241,10 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
       padding: const EdgeInsets.only(bottom: AppSpacing.md, right: AppSpacing.sm),
       child: Text(
         title,
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: AppFonts.bodyLarge,
           fontWeight: FontWeight.w900,
-          color: AppColors.primary,
+          color: context.colors.primary,
           letterSpacing: 0.3,
         ),
       ),
@@ -244,12 +254,12 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
   Widget _buildGlassCard({required List<Widget> children, EdgeInsetsGeometry? padding}) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.white.withValues(alpha: 0.6),
+        color: context.colors.white.withValues(alpha: 0.6),
         borderRadius: BorderRadius.circular(AppRadius.xl),
-        border: Border.all(color: AppColors.white.withValues(alpha: 0.8), width: 1.5),
+        border: Border.all(color: context.colors.white.withValues(alpha: 0.8), width: 1.5),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withValues(alpha: 0.04),
+            color: context.colors.primary.withValues(alpha: 0.04),
             blurRadius: 20,
             offset: const Offset(0, 10),
           ),
@@ -273,7 +283,7 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
     return Container(
       height: 50,
       decoration: BoxDecoration(
-        color: AppColors.border.withValues(alpha: 0.3),
+        color: context.colors.border.withValues(alpha: 0.3),
         borderRadius: BorderRadius.circular(AppRadius.lg),
       ),
       child: Stack(
@@ -287,11 +297,11 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
               child: Container(
                 margin: const EdgeInsets.all(4),
                 decoration: BoxDecoration(
-                  color: AppColors.white,
+                  color: context.colors.white,
                   borderRadius: BorderRadius.circular(AppRadius.md),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.primary.withValues(alpha: 0.1),
+                      color: context.colors.primary.withValues(alpha: 0.1),
                       blurRadius: 8,
                       offset: const Offset(0, 2),
                     ),
@@ -313,7 +323,7 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
                         fontFamily: 'Cairo',
                         fontSize: AppFonts.bodyLarge,
                         fontWeight: isAr ? FontWeight.w900 : FontWeight.w600,
-                        color: isAr ? AppColors.gold : AppColors.textSecondary,
+                        color: isAr ? context.colors.gold : context.colors.textSecondary,
                       ),
                       child: Text(l10n.arabicLang),
                     ),
@@ -331,7 +341,7 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
                         fontFamily: 'Cairo',
                         fontSize: AppFonts.bodyLarge,
                         fontWeight: !isAr ? FontWeight.w900 : FontWeight.w600,
-                        color: !isAr ? AppColors.gold : AppColors.textSecondary,
+                        color: !isAr ? context.colors.gold : context.colors.textSecondary,
                       ),
                       child: const Text('English'),
                     ),
@@ -359,17 +369,17 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
           Container(
             padding: const EdgeInsets.all(AppSpacing.md),
             decoration: BoxDecoration(
-              color: AppColors.white,
+              color: context.colors.white,
               borderRadius: BorderRadius.circular(AppRadius.lg),
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.primary.withValues(alpha: 0.05),
+                  color: context.colors.primary.withValues(alpha: 0.05),
                   blurRadius: 10,
                   offset: const Offset(0, 4),
                 ),
               ],
             ),
-            child: Icon(icon, color: AppColors.primary, size: 22),
+            child: Icon(icon, color: context.colors.primary, size: 22),
           ),
           const SizedBox(width: AppSpacing.lg),
           Expanded(
@@ -378,18 +388,18 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: AppFonts.bodyLarge,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.textPrimary,
+                    color: context.colors.textPrimary,
                   ),
                 ),
                 const SizedBox(height: 2),
                 Text(
                   subtitle,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: AppFonts.bodySmall,
-                    color: AppColors.textSecondary,
+                    color: context.colors.textSecondary,
                     height: 1.3,
                   ),
                 ),
@@ -405,12 +415,12 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
               height: 28,
               padding: const EdgeInsets.all(3),
               decoration: BoxDecoration(
-                color: value ? AppColors.gold : AppColors.border.withValues(alpha: 0.5),
+                color: value ? context.colors.gold : context.colors.border.withValues(alpha: 0.5),
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: value
                     ? [
                         BoxShadow(
-                          color: AppColors.gold.withValues(alpha: 0.4),
+                          color: context.colors.gold.withValues(alpha: 0.4),
                           blurRadius: 8,
                           offset: const Offset(0, 2),
                         ),
@@ -424,8 +434,8 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
                 child: Container(
                   width: 22,
                   height: 22,
-                  decoration: const BoxDecoration(
-                    color: AppColors.white,
+                  decoration: BoxDecoration(
+                    color: context.colors.white,
                     shape: BoxShape.circle,
                   ),
                 ),

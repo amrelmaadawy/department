@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:apartment/core/theme/app_colors.dart';
 import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
 
 class PackageCardFeatures extends StatelessWidget {
   final List<String> features;
@@ -23,18 +24,18 @@ class PackageCardFeatures extends StatelessWidget {
         horizontal: AppSpacing.xl,
         vertical: AppSpacing.xl,
       ),
-      decoration: BoxDecoration(
-        color: isDark ? Colors.transparent : Colors.white,
+      decoration: const BoxDecoration(
+        color: Colors.transparent,
       ),
       child: Column(
         children: features
-            .map((feature) => _buildFeatureRow(feature, isDark))
+            .map((feature) => _buildFeatureRow(context, feature, isDark))
             .toList(),
       ),
     );
   }
 
-  Widget _buildFeatureRow(String feature, bool isDark) {
+  Widget _buildFeatureRow(BuildContext context, String feature, bool isDark) {
     return Padding(
       padding: const EdgeInsets.only(
         bottom: AppSpacing.lg,
@@ -62,7 +63,7 @@ class PackageCardFeatures extends StatelessWidget {
                 fontWeight: FontWeight.w600,
                 color: isDark
                     ? Colors.white.withValues(alpha: 0.95)
-                    : AppColors.textPrimary.withValues(alpha: 0.85),
+                    : context.colors.textPrimary.withValues(alpha: 0.85),
                 height: 1.5,
               ),
             ),

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:apartment/core/theme/app_colors.dart';
 import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
+
 
 class UnitImageThumbnails extends StatelessWidget {
   final List<String> images;
@@ -22,10 +23,10 @@ class UnitImageThumbnails extends StatelessWidget {
     return SizedBox(
       height: 64,
       child: ListView.separated(
-        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+        padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
         scrollDirection: Axis.horizontal,
         itemCount: images.length,
-        separatorBuilder: (context, index) => const SizedBox(width: AppSpacing.md),
+        separatorBuilder: (context, index) => SizedBox(width: AppSpacing.md),
         itemBuilder: (context, index) {
           final isSelected = index == currentIndex;
           return GestureDetector(
@@ -35,16 +36,16 @@ class UnitImageThumbnails extends StatelessWidget {
               width: 64,
               height: 64,
               decoration: BoxDecoration(
-                color: AppColors.white,
+                color: context.colors.white,
                 borderRadius: BorderRadius.circular(AppRadius.md),
                 border: Border.all(
-                  color: isSelected ? AppColors.primary : AppColors.border,
+                  color: isSelected ? context.colors.primary : context.colors.border,
                   width: isSelected ? 2 : 1,
                 ),
                 boxShadow: isSelected 
                   ? [
                       BoxShadow(
-                        color: AppColors.primary.withValues(alpha: 0.2),
+                        color: context.colors.primary.withValues(alpha: 0.2),
                         blurRadius: 8,
                         offset: const Offset(0, 2),
                       )

@@ -1,4 +1,3 @@
-import 'package:apartment/core/theme/app_colors.dart';
 import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/features/home/domain/entities/project_service_entity.dart';
@@ -6,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:apartment/l10n/app_localizations.dart';
 
 import 'project_service_card.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
+
 
 class ProjectServicesTab extends StatelessWidget {
   final List<ProjectServiceEntity> services;
@@ -17,7 +18,7 @@ class ProjectServicesTab extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(
+      padding: EdgeInsets.symmetric(
         horizontal: AppSpacing.lg,
         vertical: AppSpacing.xl,
       ),
@@ -27,24 +28,24 @@ class ProjectServicesTab extends StatelessWidget {
           // Header Section
           Text(
             l10n.ourServices,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: AppFonts.headlineMedium,
               fontWeight: FontWeight.bold,
-              color: AppColors.gold,
+              color: context.colors.gold,
             ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: AppSpacing.md),
+          SizedBox(height: AppSpacing.md),
           Text(
             l10n.ourServicesDesc,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: AppFonts.bodyMedium,
-              color: AppColors.textSecondary,
+              color: context.colors.textSecondary,
               height: 1.5,
             ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: AppSpacing.xl),
+          SizedBox(height: AppSpacing.xl),
 
           // Services List
           LayoutBuilder(

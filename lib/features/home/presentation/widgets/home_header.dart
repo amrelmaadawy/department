@@ -2,7 +2,7 @@ import 'package:apartment/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/theme_extension.dart';
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_spacing.dart';
 
@@ -14,17 +14,17 @@ class HomeHeader extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(
+      padding: EdgeInsets.symmetric(
         horizontal: AppSpacing.lg,
         vertical: AppSpacing.md,
       ),
       child: Row(
         children: [
           // Start Edge: Avatar & User Info
-          const CircleAvatar(
+          CircleAvatar(
             radius: 22,
             backgroundImage: AssetImage('assets/images/user_avatar_mock.png'),
-            backgroundColor: AppColors.border,
+            backgroundColor: context.colors.border,
           ),
           const SizedBox(width: AppSpacing.md),
           Column(
@@ -32,24 +32,24 @@ class HomeHeader extends StatelessWidget {
             children: [
               Text(
                 l10n.helloUser('عبدالله'),
-                style: const TextStyle(
-                  color: AppColors.textPrimary,
+                style: TextStyle(
+                  color: context.colors.textPrimary,
                   fontSize: AppFonts.bodyMedium,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Row(
                 children: [
-                  const Icon(
+                  Icon(
                     FluentIcons.location_12_regular,
-                    color: AppColors.gold,
+                    color: context.colors.gold,
                     size: 14,
                   ),
                   const SizedBox(width: 4),
                   Text(
                     l10n.riyadh,
-                    style: const TextStyle(
-                      color: AppColors.textSecondary,
+                    style: TextStyle(
+                      color: context.colors.textSecondary,
                       fontSize: AppFonts.bodySmall,
                     ),
                   ),
@@ -63,16 +63,16 @@ class HomeHeader extends StatelessWidget {
           // End Edge: Location & Notification
           Text(
             l10n.riyadh,
-            style: const TextStyle(
-              color: AppColors.textPrimary,
+            style: TextStyle(
+              color: context.colors.textPrimary,
               fontSize: AppFonts.bodyMedium,
               fontWeight: FontWeight.bold,
             ),
           ),
           const SizedBox(width: AppSpacing.md),
-          const Icon(
+          Icon(
             FluentIcons.alert_24_regular,
-            color: AppColors.textPrimary,
+            color: context.colors.textPrimary,
           ),
         ],
       ),

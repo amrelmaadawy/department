@@ -68,6 +68,7 @@ class AppRouter {
       GoRoute(path: layout, builder: (context, state) => const LayoutScreen()),
       GoRoute(
         path: projectDetails,
+        redirect: (context, state) => state.extra == null ? layout : null,
         pageBuilder: (context, state) {
           final extra = state.extra as Map<String, dynamic>;
           return CustomTransitionPage(
@@ -83,6 +84,7 @@ class AppRouter {
       ),
       GoRoute(
         path: unitDetails,
+        redirect: (context, state) => state.extra == null ? layout : null,
         pageBuilder: (context, state) {
           final extra = state.extra as Map<String, dynamic>;
           return CustomTransitionPage(
@@ -116,6 +118,7 @@ class AppRouter {
       ),
       GoRoute(
         path: contractPreview,
+        redirect: (context, state) => state.extra == null ? contractSigning : null,
         builder: (context, state) {
           final signatureImage = state.extra as Uint8List;
           return ContractPreviewScreen(signatureImage: signatureImage);
@@ -147,6 +150,7 @@ class AppRouter {
       ),
       GoRoute(
         path: contractsReview,
+        redirect: (context, state) => state.extra == null ? customFinishing : null,
         pageBuilder: (context, state) {
           final finishingState = state.extra as CustomFinishingState;
           return CustomTransitionPage(

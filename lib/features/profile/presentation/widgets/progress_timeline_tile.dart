@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../l10n/app_localizations.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
+
 
 class ProgressTimelineTile extends StatelessWidget {
   final bool isFirst;
@@ -28,8 +29,8 @@ class ProgressTimelineTile extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     final List<String> images = List<String>.from(phase['images'] ?? []);
     final Color indicatorColor = isCompleted
-        ? AppColors.success
-        : (isActive ? AppColors.gold : AppColors.border);
+        ? context.colors.success
+        : (isActive ? context.colors.gold : context.colors.border);
 
     return IntrinsicHeight(
       child: Row(
@@ -44,57 +45,57 @@ class ProgressTimelineTile extends StatelessWidget {
                 Container(
                   width: 2,
                   height: 24,
-                  color: isFirst ? Colors.transparent : (isCompleted || isActive ? AppColors.success : AppColors.border),
+                  color: isFirst ? Colors.transparent : (isCompleted || isActive ? context.colors.success : context.colors.border),
                 ),
                 // Indicator Dot
                 Container(
                   width: 24,
                   height: 24,
                   decoration: BoxDecoration(
-                    color: isActive ? AppColors.white : indicatorColor,
+                    color: isActive ? context.colors.white : indicatorColor,
                     shape: BoxShape.circle,
-                    border: isActive ? Border.all(color: AppColors.gold, width: 4) : null,
+                    border: isActive ? Border.all(color: context.colors.gold, width: 4) : null,
                   ),
                   child: isCompleted
-                      ? const Icon(FluentIcons.checkmark_12_filled, color: AppColors.white, size: 14)
+                      ? Icon(FluentIcons.checkmark_12_filled, color: context.colors.white, size: 14)
                       : null,
                 ),
                 // Bottom line
                 Expanded(
                   child: Container(
                     width: 2,
-                    color: isLast ? Colors.transparent : (isCompleted ? AppColors.success : AppColors.border),
+                    color: isLast ? Colors.transparent : (isCompleted ? context.colors.success : context.colors.border),
                   ),
                 ),
               ],
             ),
           ),
-          const SizedBox(width: AppSpacing.sm),
+          SizedBox(width: AppSpacing.sm),
           
           // Content Card
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.only(bottom: AppSpacing.xl),
+              padding: EdgeInsets.only(bottom: AppSpacing.xl),
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 300),
                 decoration: BoxDecoration(
-                  color: AppColors.white,
+                  color: context.colors.white,
                   borderRadius: BorderRadius.circular(AppRadius.xl),
                   boxShadow: [
                     BoxShadow(
                       color: isActive 
-                          ? AppColors.gold.withValues(alpha: 0.15) 
+                          ? context.colors.gold.withValues(alpha: 0.15) 
                           : Colors.black.withValues(alpha: 0.03),
                       blurRadius: isActive ? 20 : 10,
                       offset: const Offset(0, 5),
                     ),
                   ],
                   border: Border.all(
-                    color: isActive ? AppColors.gold.withValues(alpha: 0.3) : AppColors.border.withValues(alpha: 0.2),
+                    color: isActive ? context.colors.gold.withValues(alpha: 0.3) : context.colors.border.withValues(alpha: 0.2),
                     width: isActive ? 1.5 : 1,
                   ),
                 ),
-                padding: const EdgeInsets.all(AppSpacing.lg),
+                padding: EdgeInsets.all(AppSpacing.lg),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -106,29 +107,29 @@ class ProgressTimelineTile extends StatelessWidget {
                           phase['date'],
                           style: TextStyle(
                             fontSize: AppFonts.bodySmall,
-                            color: isActive ? AppColors.gold : AppColors.primary,
+                            color: isActive ? context.colors.gold : context.colors.primary,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
                         if (isActive)
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                             decoration: BoxDecoration(
-                              color: AppColors.gold.withValues(alpha: 0.1),
+                              color: context.colors.gold.withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(AppRadius.md),
                             ),
                             child: Text(
                               l10n.inProgressNow,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 10,
-                                color: AppColors.gold,
+                                color: context.colors.gold,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
                       ],
                     ),
-                    const SizedBox(height: AppSpacing.sm),
+                    SizedBox(height: AppSpacing.sm),
                     
                     // Title
                     Text(
@@ -136,30 +137,30 @@ class ProgressTimelineTile extends StatelessWidget {
                       style: TextStyle(
                         fontSize: AppFonts.bodyLarge,
                         fontWeight: FontWeight.bold,
-                        color: isActive || isCompleted ? AppColors.textPrimary : AppColors.textSecondary,
+                        color: isActive || isCompleted ? context.colors.textPrimary : context.colors.textSecondary,
                       ),
                     ),
-                    const SizedBox(height: AppSpacing.xs),
+                    SizedBox(height: AppSpacing.xs),
                     
                     // Subtitle
                     Text(
                       phase['subtitle'],
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: AppFonts.bodyMedium,
-                        color: AppColors.textSecondary,
+                        color: context.colors.textSecondary,
                         height: 1.5,
                       ),
                     ),
                     
                     // Images Gallery
                     if (images.isNotEmpty && (isActive || isCompleted)) ...[
-                      const SizedBox(height: AppSpacing.md),
+                      SizedBox(height: AppSpacing.md),
                       SizedBox(
                         height: 90,
                         child: ListView.separated(
                           scrollDirection: Axis.horizontal,
                           itemCount: images.length,
-                          separatorBuilder: (context, index) => const SizedBox(width: AppSpacing.sm),
+                          separatorBuilder: (context, index) => SizedBox(width: AppSpacing.sm),
                           itemBuilder: (context, index) {
                             return ClipRRect(
                               borderRadius: BorderRadius.circular(AppRadius.md),
@@ -171,8 +172,8 @@ class ProgressTimelineTile extends StatelessWidget {
                                 errorBuilder: (context, error, stackTrace) => Container(
                                   width: 120,
                                   height: 90,
-                                  color: AppColors.border,
-                                  child: const Icon(FluentIcons.image_24_regular, color: AppColors.textSecondary),
+                                  color: context.colors.border,
+                                  child: Icon(FluentIcons.image_24_regular, color: context.colors.textSecondary),
                                 ),
                               ),
                             );

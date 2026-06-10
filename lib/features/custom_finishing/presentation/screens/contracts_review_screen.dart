@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_radius.dart';
@@ -12,6 +11,8 @@ import '../../../../core/widgets/custom_button.dart';
 import '../../../../features/design_studio/presentation/cubit/design_context_cubit.dart';
 import '../../../contracts/domain/entities/contract_type.dart';
 import '../cubit/custom_finishing_state.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
+
 
 class ContractsReviewScreen extends StatefulWidget {
   final CustomFinishingState finishingState;
@@ -31,36 +32,36 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
     final totalCost = (unit?.price ?? 0.0) + widget.finishingState.totalEstimatedCost;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.colors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.white,
+        backgroundColor: context.colors.white,
         scrolledUnderElevation: 0,
         centerTitle: true,
-        title: const Text(
+        title: Text(
           'مراجعة وتوقيع العقود',
           style: TextStyle(
             fontSize: AppFonts.headlineMedium,
             fontWeight: FontWeight.bold,
-            color: AppColors.primary,
+            color: context.colors.primary,
           ),
         ),
         leading: IconButton(
-          icon: const Icon(
+          icon: Icon(
             FluentIcons.arrow_left_24_filled,
-            color: AppColors.primary,
+            color: context.colors.primary,
           ),
           onPressed: () => context.pop(),
         ),
       ),
       body: ListView(
-        padding: const EdgeInsets.all(AppSpacing.xl),
+        padding: EdgeInsets.all(AppSpacing.xl),
         children: [
           // Total Amount Header
           Container(
-            padding: const EdgeInsets.all(AppSpacing.xl),
+            padding: EdgeInsets.all(AppSpacing.xl),
             decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [AppColors.primary, Color(0xFF1A1A1A)],
+              gradient: LinearGradient(
+                colors: [context.colors.primary, Color(0xFF1A1A1A)],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
@@ -68,14 +69,14 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
             ),
             child: Column(
               children: [
-                const Text(
+                Text(
                   'إجمالي التكلفة النهائية',
                   style: TextStyle(
                     fontSize: AppFonts.bodyMedium,
-                    color: AppColors.textSecondary,
+                    color: context.colors.textSecondary,
                   ),
                 ),
-                const SizedBox(height: AppSpacing.sm),
+                SizedBox(height: AppSpacing.sm),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.baseline,
@@ -88,19 +89,19 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
                             RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
                             (Match m) => '${m[1]},',
                           ),
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: AppFonts.displayLarge,
                         fontWeight: FontWeight.w900,
-                        color: AppColors.gold,
+                        color: context.colors.gold,
                       ),
                     ),
-                    const SizedBox(width: 8),
-                    const Text(
+                    SizedBox(width: 8),
+                    Text(
                       'ر.س',
                       style: TextStyle(
                         fontSize: AppFonts.headlineMedium,
                         fontWeight: FontWeight.bold,
-                        color: AppColors.gold,
+                        color: context.colors.gold,
                       ),
                     ),
                   ],
@@ -108,18 +109,18 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
               ],
             ),
           ),
-          const SizedBox(height: AppSpacing.xxl),
+          SizedBox(height: AppSpacing.xxl),
 
           // Contracts List
-          const Text(
+          Text(
             'العقود المطلوبة للتوقيع',
             style: TextStyle(
               fontSize: AppFonts.headlineMedium,
               fontWeight: FontWeight.bold,
-              color: AppColors.primary,
+              color: context.colors.primary,
             ),
           ),
-          const SizedBox(height: AppSpacing.lg),
+          SizedBox(height: AppSpacing.lg),
 
           _buildContractCard(
             title: 'عقد بيع وحدة عقارية',
@@ -137,7 +138,7 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
               }
             },
           ),
-          const SizedBox(height: AppSpacing.md),
+          SizedBox(height: AppSpacing.md),
           _buildContractCard(
             title: 'عقد مقاولة تشطيب',
             subtitle: 'تشطيب مخصص شامل الخامات والمصنعية',
@@ -156,7 +157,7 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
             },
           ),
 
-          const SizedBox(height: AppSpacing.xxxl),
+          SizedBox(height: AppSpacing.xxxl),
 
           CustomButton(
             text: 'إتمام الحجز والدفع',
@@ -167,7 +168,7 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
                     context.pushReplacement('/booking-success', extra: 'ORD-UNIFIED-12345');
                   },
           ),
-          const SizedBox(height: AppSpacing.xxl),
+          SizedBox(height: AppSpacing.xxl),
         ],
       ),
     );
@@ -180,68 +181,68 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
     required VoidCallback onSign,
   }) {
     return Container(
-      padding: const EdgeInsets.all(AppSpacing.lg),
+      padding: EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: context.colors.white,
         borderRadius: BorderRadius.circular(AppRadius.lg),
         border: Border.all(
-          color: isSigned ? AppColors.success : AppColors.border,
+          color: isSigned ? context.colors.success : context.colors.border,
           width: isSigned ? 2 : 1,
         ),
       ),
       child: Row(
         children: [
           Container(
-            padding: const EdgeInsets.all(12),
+            padding: EdgeInsets.all(12),
             decoration: BoxDecoration(
               color: isSigned
-                  ? AppColors.success.withValues(alpha: 0.1)
-                  : AppColors.primary.withValues(alpha: 0.05),
+                  ? context.colors.success.withValues(alpha: 0.1)
+                  : context.colors.primary.withValues(alpha: 0.05),
               shape: BoxShape.circle,
             ),
             child: Icon(
               isSigned ? FluentIcons.signature_24_filled : FluentIcons.document_24_regular,
-              color: isSigned ? AppColors.success : AppColors.primary,
+              color: isSigned ? context.colors.success : context.colors.primary,
               size: 24,
             ),
           ),
-          const SizedBox(width: AppSpacing.md),
+          SizedBox(width: AppSpacing.md),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: AppFonts.headlineSmall,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.textPrimary,
+                    color: context.colors.textPrimary,
                   ),
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: 4),
                 Text(
                   subtitle,
                   style: TextStyle(
                     fontSize: AppFonts.bodyMedium,
-                    color: AppColors.textPrimary.withValues(alpha: 0.6),
+                    color: context.colors.textPrimary.withValues(alpha: 0.6),
                   ),
                 ),
               ],
             ),
           ),
           if (isSigned)
-            const Icon(
+            Icon(
               FluentIcons.checkmark_circle_24_filled,
-              color: AppColors.success,
+              color: context.colors.success,
               size: 28,
             )
           else
             TextButton(
               onPressed: onSign,
               style: TextButton.styleFrom(
-                foregroundColor: AppColors.gold,
+                foregroundColor: context.colors.gold,
               ),
-              child: const Text(
+              child: Text(
                 'توقيع الآن',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,

@@ -1,7 +1,7 @@
 import 'package:apartment/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/theme_extension.dart';
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_spacing.dart';
 
@@ -16,7 +16,7 @@ class SectionHeader extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(
+      padding: EdgeInsets.symmetric(
         horizontal: AppSpacing.lg,
         vertical: AppSpacing.md,
       ),
@@ -25,8 +25,8 @@ class SectionHeader extends StatelessWidget {
         children: [
           Text(
             title,
-            style: const TextStyle(
-              color: AppColors.textPrimary,
+            style: TextStyle(
+              color: context.colors.textPrimary,
               fontSize: AppFonts.bodyLarge,
               fontWeight: FontWeight.bold,
             ),
@@ -36,8 +36,8 @@ class SectionHeader extends StatelessWidget {
               onTap: onViewAll,
               child: Text(
                 l10n.viewAll,
-                style: const TextStyle(
-                  color: AppColors.gold,
+                style: TextStyle(
+                  color: context.colors.gold,
                   fontSize: AppFonts.bodyMedium,
                   fontWeight: FontWeight.bold,
                 ),

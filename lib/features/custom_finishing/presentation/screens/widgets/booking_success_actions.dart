@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
-import 'package:apartment/core/theme/app_colors.dart';
 import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/l10n/app_localizations.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
+
 
 class BookingSuccessActions extends StatelessWidget {
   const BookingSuccessActions({super.key});
@@ -21,15 +22,15 @@ class BookingSuccessActions extends StatelessWidget {
         Container(
           height: 60,
           decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [AppColors.gold, Color(0xFFC99B40)],
+            gradient: LinearGradient(
+              colors: [context.colors.gold, Color(0xFFC99B40)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
             borderRadius: BorderRadius.circular(AppRadius.xl),
             boxShadow: [
               BoxShadow(
-                color: AppColors.gold.withValues(alpha: 0.3),
+                color: context.colors.gold.withValues(alpha: 0.3),
                 blurRadius: 20,
                 offset: const Offset(0, 10),
               ),
@@ -47,17 +48,17 @@ class BookingSuccessActions extends StatelessWidget {
                 children: [
                   Text(
                     l10n.trackExecutionBtn,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: AppFonts.headlineSmall,
                       fontWeight: FontWeight.bold,
-                      color: AppColors.white,
+                      color: Colors.white,
                       letterSpacing: 0.5,
                     ),
                   ),
-                  const SizedBox(width: AppSpacing.sm),
-                  const Icon(
+                  SizedBox(width: AppSpacing.sm),
+                  Icon(
                     FluentIcons.chevron_left_24_regular,
-                    color: AppColors.white,
+                    color: Colors.white,
                   ),
                 ],
               ),
@@ -65,16 +66,16 @@ class BookingSuccessActions extends StatelessWidget {
           ),
         ),
 
-        const SizedBox(height: AppSpacing.lg),
+        SizedBox(height: AppSpacing.lg),
 
         OutlinedButton(
           onPressed: () {
             context.go('/'); // Clear stack and go to root
           },
           style: OutlinedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(vertical: 18),
+            padding: EdgeInsets.symmetric(vertical: 18),
             side: BorderSide(
-              color: AppColors.primary.withValues(alpha: 0.2),
+              color: context.colors.primary.withValues(alpha: 0.2),
               width: 1.5,
             ),
             shape: RoundedRectangleBorder(
@@ -83,10 +84,10 @@ class BookingSuccessActions extends StatelessWidget {
           ),
           child: Text(
             l10n.returnToHomeBtn,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: AppFonts.headlineSmall,
               fontWeight: FontWeight.bold,
-              color: AppColors.primary,
+              color: context.colors.primary,
             ),
           ),
         ),

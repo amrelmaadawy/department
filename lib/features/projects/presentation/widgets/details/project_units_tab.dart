@@ -1,4 +1,3 @@
-import 'package:apartment/core/theme/app_colors.dart';
 import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/features/home/domain/entities/project_unit_entity.dart';
@@ -7,6 +6,8 @@ import 'package:go_router/go_router.dart';
 import 'package:apartment/core/routes/app_router.dart';
 import 'package:apartment/l10n/app_localizations.dart';
 import 'project_unit_card.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
+
 
 class ProjectUnitsTab extends StatefulWidget {
   final List<ProjectUnitEntity> units;
@@ -43,30 +44,30 @@ class _ProjectUnitsTabState extends State<ProjectUnitsTab> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const SizedBox(height: AppSpacing.md),
+        SizedBox(height: AppSpacing.md),
 
         // Horizontal Filter Chips
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+          padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
           child: Row(
             children: [
               _buildFilterChip(l10n.filterAll, 'all'),
-              const SizedBox(width: AppSpacing.sm),
+              SizedBox(width: AppSpacing.sm),
               _buildFilterChip(l10n.filterApartment, 'apartment'),
-              const SizedBox(width: AppSpacing.sm),
+              SizedBox(width: AppSpacing.sm),
               _buildFilterChip(l10n.filterVilla, 'villa'),
-              const SizedBox(width: AppSpacing.sm),
+              SizedBox(width: AppSpacing.sm),
               _buildFilterChip(l10n.filterDuplex, 'duplex'),
             ],
           ),
         ),
 
-        const SizedBox(height: AppSpacing.md),
+        SizedBox(height: AppSpacing.md),
 
         // Units List / Grid
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+          padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
           child: AnimatedSize(
             duration: const Duration(milliseconds: 400),
             curve: Curves.easeInOutCubic,
@@ -149,7 +150,7 @@ class _ProjectUnitsTabState extends State<ProjectUnitsTab> {
             ),
           ),
         ),
-        const SizedBox(height: AppSpacing.xl),
+        SizedBox(height: AppSpacing.xl),
       ],
     );
   }
@@ -166,16 +167,16 @@ class _ProjectUnitsTabState extends State<ProjectUnitsTab> {
           });
         }
       },
-      selectedColor: AppColors.gold,
-      backgroundColor: AppColors.background,
+      selectedColor: context.colors.gold,
+      backgroundColor: context.colors.background,
       labelStyle: TextStyle(
-        color: isSelected ? AppColors.white : AppColors.textPrimary,
+        color: isSelected ? Colors.white : context.colors.textPrimary,
         fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
         fontSize: AppFonts.bodyMedium,
       ),
       side: isSelected
           ? BorderSide.none
-          : const BorderSide(color: AppColors.border),
+          : BorderSide(color: context.colors.border),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(100), // Fully rounded pill shape
       ),

@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
-import '../../../../../core/theme/app_colors.dart';
-import '../../../../../core/theme/app_fonts.dart';
-import '../../../../../core/theme/app_radius.dart';
-import '../../../../../core/theme/app_spacing.dart';
-import '../../../../../l10n/app_localizations.dart';
-import '../../../domain/entities/material_category.dart';
+import 'package:apartment/core/theme/app_fonts.dart';
+import 'package:apartment/core/theme/app_radius.dart';
+import 'package:apartment/core/theme/app_spacing.dart';
+import 'package:apartment/core/routes/app_router.dart';
+import 'package:apartment/core/widgets/app_toast.dart';
+import 'package:apartment/l10n/app_localizations.dart';
 import '../../cubit/custom_finishing_cubit.dart';
 import '../../cubit/custom_finishing_state.dart';
-import 'review_selection_card.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
+
 import 'cost_breakdown_card.dart';
 
 class CustomFinishingReviewView extends StatelessWidget {
@@ -20,193 +22,176 @@ class CustomFinishingReviewView extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    return BlocBuilder<CustomFinishingCubit, CustomFinishingState>(
+    return BlocConsumer<CustomFinishingCubit, CustomFinishingState>(
+      listenWhen: (previous, current) =>
+          previous.bookingStatus != current.bookingStatus,
+      listener: (context, state) {
+        if (state.bookingStatus == BookingStatus.success) {
+          context.go(AppRouter.bookingSuccess);
+        } else if (state.bookingStatus == BookingStatus.failure) {
+          AppToast.show(
+            context,
+            message: 'حدث خطأ أثناء التأكيد، يرجى المحاولة مرة أخرى.',
+            isError: true,
+          );
+        }
+      },
       builder: (context, state) {
-        return ListView(
-          padding: const EdgeInsets.symmetric(
-            vertical: AppSpacing.xl,
-            horizontal: AppSpacing.md,
-          ),
-          children: [
-            Text(
-              l10n.selectionsSummary,
-              style: const TextStyle(
-                fontSize: AppFonts.headlineMedium,
-                fontWeight: FontWeight.bold,
-                color: AppColors.primary,
-              ),
-            ),
-            const SizedBox(height: AppSpacing.lg),
-
-            // Render selected materials
-            ...state.selectedMaterials.values.map((material) {
-              return ReviewSelectionCard(material: material);
-            }),
-
-            const SizedBox(height: AppSpacing.xl),
-
-            // Note
-            Container(
-              padding: const EdgeInsets.all(AppSpacing.lg),
-              decoration: BoxDecoration(
-                color: AppColors.gold.withValues(alpha: 0.05),
-                borderRadius: BorderRadius.circular(AppRadius.lg),
-                border: Border.all(
-                  color: AppColors.gold.withValues(alpha: 0.3),
-                  width: 1,
-                  style: BorderStyle
-                      .solid, // In a real app we might use a dashed border package here, but solid is safe.
+        return SingleChildScrollView(
+          padding: EdgeInsets.all(AppSpacing.lg),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Header
+              Text(
+                'مراجعة التخصيص النهائي', // Hardcoded since not in l10n yet
+                style: TextStyle(
+                  fontSize: AppFonts.displaySmall,
+                  fontWeight: FontWeight.w900,
+                  color: context.colors.primary,
+                  letterSpacing: -0.5,
                 ),
               ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              SizedBox(height: AppSpacing.sm),
+              Text(
+                'راجع اختياراتك وتأكد من تفاصيل التكلفة قبل اعتماد العقود لضمان مطابقة التنفيذ لرغباتك.',
+                style: TextStyle(
+                  fontSize: AppFonts.bodyLarge,
+                  color: context.colors.textPrimary.withValues(alpha: 0.6),
+                  height: 1.5,
+                ),
+              ),
+
+              SizedBox(height: AppSpacing.xxxl),
+
+              // Breakdown Card
+              CostBreakdownCard(state: state),
+
+              SizedBox(height: AppSpacing.xxxl),
+
+              // Action Buttons
+              Row(
                 children: [
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: AppColors.gold.withValues(alpha: 0.15),
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(
-                      FluentIcons.info_20_filled,
-                      color: AppColors.gold,
-                      size: 20,
+                  // Back Button (Secondary)
+                  Expanded(
+                    flex: 1,
+                    child: OutlinedButton(
+                      onPressed: state.bookingStatus ==
+                              BookingStatus.loading
+                          ? null
+                          : () {
+                              // If there was a previous category, we could go back.
+                              // For now, pop if possible
+                              if (context.canPop()) {
+                                context.pop();
+                              }
+                            },
+                      style: OutlinedButton.styleFrom(
+                        padding: EdgeInsets.symmetric(vertical: 20),
+                        side: BorderSide(
+                          color: context.colors.primary.withValues(alpha: 0.2),
+                          width: 1.5,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(AppRadius.xl),
+                        ),
+                      ),
+                      child: Icon(
+                        FluentIcons.arrow_right_24_regular,
+                        color: context.colors.primary,
+                      ),
                     ),
                   ),
-                  const SizedBox(width: AppSpacing.md),
+
+                  SizedBox(width: AppSpacing.md),
+
+                  // Confirm Button (Primary)
                   Expanded(
-                    child: Text(
-                      l10n.reviewNote,
-                      style: TextStyle(
-                        fontSize: AppFonts.bodyMedium,
-                        color: AppColors.textPrimary.withValues(alpha: 0.8),
-                        height: 1.6,
-                        fontWeight: FontWeight.w500,
+                    flex: 3,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [context.colors.gold, Color(0xFFC99B40)],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(AppRadius.xl),
+                        boxShadow: [
+                          BoxShadow(
+                            color: context.colors.gold.withValues(alpha: 0.3),
+                            blurRadius: 15,
+                            offset: const Offset(0, 8),
+                          ),
+                        ],
+                      ),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(AppRadius.xl),
+                          onTap: state.bookingStatus ==
+                                  BookingStatus.loading
+                              ? null
+                              : () {
+                                  context
+                                      .read<CustomFinishingCubit>()
+                                      .confirmBooking();
+                                },
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: state.bookingStatus ==
+                                      BookingStatus.loading
+                                  ? [
+                                      SizedBox(
+                                        width: 24,
+                                        height: 24,
+                                        child: CircularProgressIndicator(
+                                          color: Colors.white,
+                                          strokeWidth: 2,
+                                        ),
+                                      ),
+                                    ]
+                                  : [
+                                      Text(
+                                        'تأكيد واستخراج العقود',
+                                        style: TextStyle(
+                                          fontSize: AppFonts.headlineSmall,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      SizedBox(width: AppSpacing.sm),
+                                      Icon(
+                                        FluentIcons.checkmark_24_filled,
+                                        color: Colors.white,
+                                      ),
+                                    ],
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),
                 ],
               ),
-            ),
-
-            const SizedBox(height: AppSpacing.xl),
-
-            // Cost Breakdown
-            CostBreakdownCard(state: state),
-
-            const SizedBox(height: AppSpacing.xxl),
-
-            // Actions
-            Container(
-              height: 60,
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [AppColors.gold, Color(0xFFE5B962)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.circular(AppRadius.lg),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.gold.withValues(alpha: 0.4),
-                    blurRadius: 15,
-                    offset: const Offset(0, 8),
-                  ),
-                ],
-              ),
-              child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(AppRadius.lg),
-                  onTap: state.bookingStatus == BookingStatus.loading
-                      ? null
-                      : () {
-                          context.read<CustomFinishingCubit>().confirmBooking();
-                        },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: state.bookingStatus == BookingStatus.loading
-                        ? const [
-                            SizedBox(
-                              width: 24,
-                              height: 24,
-                              child: CircularProgressIndicator(
-                                color: AppColors.white,
-                                strokeWidth: 2,
-                              ),
-                            ),
-                          ]
-                        : [
-                            Text(
-                              'تأكيد واستخراج العقود',
-                              style: const TextStyle(
-                                fontSize: AppFonts.headlineSmall,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.white,
-                              ),
-                            ),
-                            const SizedBox(width: AppSpacing.sm),
-                            const Icon(
-                              FluentIcons.checkmark_24_filled,
-                              color: AppColors.white,
-                            ),
-                          ],
-                  ),
-                ),
-              ),
-            ),
-
-            const SizedBox(height: AppSpacing.lg),
-
-            OutlinedButton(
-              onPressed: () {
-                context.read<CustomFinishingCubit>().selectCategory(
-                  MaterialCategory.floors,
-                );
-              },
-              style: OutlinedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 18),
-                side: BorderSide(
-                  color: AppColors.border.withValues(alpha: 0.8),
-                  width: 1.5,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(AppRadius.lg),
-                ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(
-                    FluentIcons.edit_20_regular,
-                    color: AppColors.primary,
-                  ),
-                  const SizedBox(width: AppSpacing.sm),
-                  Text(
-                    l10n.editSelectionsBtn,
-                    style: const TextStyle(
-                      fontSize: AppFonts.headlineMedium,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.primary,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: AppSpacing.xl),
-
-            Center(
-              child: Text(
-                l10n.termsAgreementText,
+              
+              SizedBox(height: AppSpacing.xl),
+              
+              // Helper text
+              Text(
+                'بالضغط على زر التأكيد، سيتم إنشاء مسودة العقد النهائي للمراجعة النهائية قبل التوقيع.',
+                textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: AppFonts.labelSmall,
-                  color: AppColors.textPrimary.withValues(alpha: 0.5),
+                  fontSize: AppFonts.labelLarge,
+                  color: context.colors.textPrimary.withValues(alpha: 0.5),
+                  height: 1.5,
                 ),
               ),
-            ),
-            const SizedBox(height: AppSpacing.xxl),
-          ],
+              
+              SizedBox(height: AppSpacing.xxl),
+            ],
+          ),
         );
       },
     );

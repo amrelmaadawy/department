@@ -3,11 +3,11 @@ import 'package:apartment/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_sizes.dart';
 import '../../../../core/routes/app_router.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -113,7 +113,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
               // Content Layout
               SafeArea(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(
+                  padding: EdgeInsets.symmetric(
                     horizontal: AppSpacing.lg,
                     vertical: AppSpacing.xxl,
                   ),
@@ -129,7 +129,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                           child: BackdropFilter(
                             filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                             child: Container(
-                              padding: const EdgeInsets.symmetric(
+                              padding: EdgeInsets.symmetric(
                                 vertical: AppSpacing.xl,
                                 horizontal: AppSpacing.lg,
                               ),
@@ -162,8 +162,8 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                         Text(
                                           l10n.splashTagline,
                                           textAlign: TextAlign.center,
-                                          style: const TextStyle(
-                                            color: AppColors.gold,
+                                          style: TextStyle(
+                                            color: context.colors.gold,
                                             fontSize: AppFonts.bodyLarge,
                                             letterSpacing: 2.0,
                                             fontWeight: FontWeight.bold,
@@ -173,8 +173,8 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                         Text(
                                           l10n.welcomeSubtitle,
                                           textAlign: TextAlign.center,
-                                          style: const TextStyle(
-                                            color: AppColors.white,
+                                          style: TextStyle(
+                                            color: Colors.white,
                                             fontSize: AppFonts.bodyMedium,
                                           ),
                                         ),

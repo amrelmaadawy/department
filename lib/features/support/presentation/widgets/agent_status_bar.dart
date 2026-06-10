@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../l10n/app_localizations.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
+
 
 class AgentStatusBar extends StatefulWidget {
   final String agentName;
@@ -49,12 +50,12 @@ class _AgentStatusBarState extends State<AgentStatusBar>
     final l10n = AppLocalizations.of(context)!;
 
     return Container(
-      padding: const EdgeInsets.symmetric(
+      padding: EdgeInsets.symmetric(
         horizontal: AppSpacing.lg,
         vertical: AppSpacing.md,
       ),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: context.colors.white,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.03),
@@ -68,12 +69,12 @@ class _AgentStatusBarState extends State<AgentStatusBar>
         children: [
           // LIVE Badge
           Container(
-            padding: const EdgeInsets.symmetric(
+            padding: EdgeInsets.symmetric(
               horizontal: AppSpacing.md,
               vertical: AppSpacing.xs,
             ),
             decoration: BoxDecoration(
-              border: Border.all(color: AppColors.border),
+              border: Border.all(color: context.colors.border),
               borderRadius: BorderRadius.circular(AppRadius.xl),
             ),
             child: Row(
@@ -83,19 +84,19 @@ class _AgentStatusBarState extends State<AgentStatusBar>
                   child: Container(
                     width: 6,
                     height: 6,
-                    decoration: const BoxDecoration(
-                      color: AppColors.error,
+                    decoration: BoxDecoration(
+                      color: context.colors.error,
                       shape: BoxShape.circle,
                     ),
                   ),
                 ),
-                const SizedBox(width: AppSpacing.xs),
+                SizedBox(width: AppSpacing.xs),
                 Text(
                   l10n.liveBadge,
                   style: TextStyle(
                     fontSize: AppFonts.labelSmall,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.textSecondary.withValues(alpha: 0.8),
+                    color: context.colors.textSecondary.withValues(alpha: 0.8),
                     letterSpacing: 1,
                   ),
                 ),
@@ -111,39 +112,39 @@ class _AgentStatusBarState extends State<AgentStatusBar>
                 children: [
                   Text(
                     widget.agentName,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: AppFonts.headlineSmall,
                       fontWeight: FontWeight.bold,
-                      color: AppColors.textPrimary,
+                      color: context.colors.textPrimary,
                     ),
                   ),
                   Text(
                     l10n.agentRole, // Professional role
                     style: TextStyle(
                       fontSize: AppFonts.labelSmall,
-                      color: AppColors.textSecondary.withValues(alpha: 0.8),
+                      color: context.colors.textSecondary.withValues(alpha: 0.8),
                     ),
                   ),
-                  const SizedBox(height: 2),
+                  SizedBox(height: 2),
                   Row(
                     children: [
                       Text(
                         l10n.onlineNow,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: AppFonts.bodySmall,
-                          color: AppColors.gold,
+                          color: context.colors.gold,
                         ),
                       ),
-                      const SizedBox(width: 4),
+                      SizedBox(width: 4),
                       Container(
                         width: 6,
                         height: 6,
                         decoration: BoxDecoration(
-                          color: AppColors.success,
+                          color: context.colors.success,
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
-                              color: AppColors.success.withValues(alpha: 0.5),
+                              color: context.colors.success.withValues(alpha: 0.5),
                               blurRadius: 4,
                               spreadRadius: 1,
                             ),
@@ -154,10 +155,10 @@ class _AgentStatusBarState extends State<AgentStatusBar>
                   ),
                 ],
               ),
-              const SizedBox(width: AppSpacing.md),
+              SizedBox(width: AppSpacing.md),
               CircleAvatar(
                 radius: 22,
-                backgroundColor: AppColors.border,
+                backgroundColor: context.colors.border,
                 backgroundImage: NetworkImage(widget.agentAvatar),
               ),
             ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-import 'package:apartment/core/theme/app_colors.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
+
 
 class BookingSuccessIcon extends StatelessWidget {
   final Animation<double> scaleAnimation;
@@ -28,7 +29,7 @@ class BookingSuccessIcon extends StatelessWidget {
                 height: 150,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: AppColors.gold.withValues(alpha: 0.1),
+                  color: context.colors.gold.withValues(alpha: 0.1),
                 ),
               ),
               Container(
@@ -36,14 +37,14 @@ class BookingSuccessIcon extends StatelessWidget {
                 height: 120,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  gradient: const LinearGradient(
-                    colors: [AppColors.gold, Color(0xFFE5B962)],
+                  gradient: LinearGradient(
+                    colors: [context.colors.gold, Color(0xFFE5B962)],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.gold.withValues(
+                      color: context.colors.gold.withValues(
                         alpha: 0.5,
                       ),
                       blurRadius: 40,
@@ -52,9 +53,9 @@ class BookingSuccessIcon extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: const Icon(
+                child: Icon(
                   FluentIcons.checkmark_48_filled,
-                  color: AppColors.white,
+                  color: context.colors.white,
                   size: 55,
                 ),
               ),

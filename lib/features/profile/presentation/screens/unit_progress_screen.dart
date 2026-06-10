@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_fonts.dart';
 import '../widgets/progress_timeline_tile.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
+
 
 class UnitProgressScreen extends StatefulWidget {
   const UnitProgressScreen({super.key});
@@ -53,27 +54,27 @@ class _UnitProgressScreenState extends State<UnitProgressScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.colors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.white,
+        backgroundColor: context.colors.white,
         elevation: 0,
         scrolledUnderElevation: 0.0,
         title:  Text(
           'متابعة التشطيب',
           style: TextStyle(
-            color: AppColors.textPrimary,
+            color: context.colors.textPrimary,
             fontSize: AppFonts.headlineSmall,
             fontWeight: FontWeight.bold,
           ),
         ),
         centerTitle: true,
         leading: IconButton(
-          icon: const Icon(FluentIcons.ios_arrow_rtl_24_regular, color: AppColors.textPrimary),
+          icon: Icon(FluentIcons.ios_arrow_rtl_24_regular, color: context.colors.textPrimary),
           onPressed: () => context.pop(),
         ),
       ),
       body: ListView.builder(
-        padding: const EdgeInsets.only(top: 24, left: 16, right: 16, bottom: 40),
+        padding: EdgeInsets.only(top: 24, left: 16, right: 16, bottom: 40),
         physics: const BouncingScrollPhysics(),
         itemCount: _phases.length,
         itemBuilder: (context, index) {

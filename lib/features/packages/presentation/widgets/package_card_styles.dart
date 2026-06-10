@@ -1,28 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
-import 'package:apartment/core/theme/app_colors.dart';
 import 'package:apartment/features/packages/domain/entities/finishing_package_entity.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
+
 
 class PackageCardStyles {
-  static Color getBackgroundColor(PackageTier tier) {
+  static Color getBackgroundColor(BuildContext context, PackageTier tier) {
     switch (tier) {
       case PackageTier.luxury:
         return const Color(0xFF1E1E1E); // Rich dark grey
       case PackageTier.custom:
         return const Color(0xFF0A0A0A); // Pitch black
       default:
-        return AppColors.white;
+        return context.colors.white;
     }
   }
 
-  static Color getTitleColor(PackageTier tier) {
+  static Color getTitleColor(BuildContext context, PackageTier tier) {
     switch (tier) {
       case PackageTier.luxury:
       case PackageTier.custom:
-        return AppColors.gold;
+        return context.colors.gold;
       default:
-        return AppColors.primary;
+        return context.colors.primary;
     }
   }
 
@@ -36,24 +37,24 @@ class PackageCardStyles {
     }
   }
 
-  static LinearGradient getHeaderGradient(PackageTier tier) {
+  static LinearGradient getHeaderGradient(BuildContext context, PackageTier tier) {
     switch (tier) {
       case PackageTier.economic:
-        return const LinearGradient(
+        return LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            Color(0xFFFFFFFF),
-            Color(0xFFFBF4E6), // Warm goldish white
+            context.colors.white,
+            Color.lerp(context.colors.white, context.colors.gold, 0.05)!,
           ],
         );
       case PackageTier.standard:
-        return const LinearGradient(
+        return LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            Color(0xFFFFFFFF),
-            Color(0xFFE8F0F6), // Cool icy silver
+            context.colors.white,
+            Color.lerp(context.colors.white, context.colors.primary, 0.05)!,
           ],
         );
       case PackageTier.luxury:

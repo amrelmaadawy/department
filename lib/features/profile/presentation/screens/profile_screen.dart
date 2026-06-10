@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/theme/app_colors.dart';
 import '../../../../l10n/app_localizations.dart';
 
 import '../widgets/profile_header.dart';
 import '../widgets/profile_stats_card.dart';
 import '../widgets/profile_menu_list.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
+
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -72,7 +73,7 @@ class _ProfileScreenState extends State<ProfileScreen>
     const unitsCount = 3;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.colors.background,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -114,7 +115,7 @@ class _ProfileScreenState extends State<ProfileScreen>
             ),
 
             // Provide space for the overlapping card
-            const SizedBox(height: 60),
+            SizedBox(height: 60),
 
             // Menu Groups
             ProfileMenuList(listAnim: _listAnim),

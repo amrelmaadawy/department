@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/widgets/custom_button.dart';
 import '../../../../core/widgets/custom_text_field.dart';
 import '../../../../l10n/app_localizations.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
+
 
 class EditProfileScreen extends StatelessWidget {
   const EditProfileScreen({super.key});
@@ -17,28 +18,28 @@ class EditProfileScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.colors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.white,
+        backgroundColor: context.colors.white,
         elevation: 0,
         scrolledUnderElevation: 0.0,
         title: Text(
           l10n.profileMenuEditProfile,
-          style: const TextStyle(
-            color: AppColors.textPrimary,
+          style: TextStyle(
+            color: context.colors.textPrimary,
             fontSize: AppFonts.headlineSmall,
             fontWeight: FontWeight.bold,
           ),
         ),
         centerTitle: true,
         leading: IconButton(
-          icon: const Icon(FluentIcons.ios_arrow_rtl_24_regular, color: AppColors.textPrimary),
+          icon: Icon(FluentIcons.ios_arrow_rtl_24_regular, color: context.colors.textPrimary),
           onPressed: () => context.pop(),
         ),
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
-        padding: const EdgeInsets.all(AppSpacing.xl),
+        padding: EdgeInsets.all(AppSpacing.xl),
         child: Column(
           children: [
             // Avatar
@@ -51,7 +52,7 @@ class EditProfileScreen extends StatelessWidget {
                     height: 120,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      border: Border.all(color: AppColors.gold, width: 3),
+                      border: Border.all(color: context.colors.gold, width: 3),
                       image: const DecorationImage(
                         image: AssetImage('assets/images/user_avatar_mock.png'),
                         fit: BoxFit.cover,
@@ -59,18 +60,18 @@ class EditProfileScreen extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.all(AppSpacing.sm),
+                    padding: EdgeInsets.all(AppSpacing.sm),
                     decoration: BoxDecoration(
-                      color: AppColors.primary,
+                      color: context.colors.primary,
                       shape: BoxShape.circle,
-                      border: Border.all(color: AppColors.white, width: 2),
+                      border: Border.all(color: context.colors.white, width: 2),
                     ),
-                    child: const Icon(FluentIcons.camera_24_regular, color: AppColors.white, size: 20),
+                    child: Icon(FluentIcons.camera_24_regular, color: context.colors.white, size: 20),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: AppSpacing.xxxl),
+            SizedBox(height: AppSpacing.xxxl),
 
             // Form Fields
             CustomTextField(
@@ -78,7 +79,7 @@ class EditProfileScreen extends StatelessWidget {
               hint: l10n.mockOwnerName,
               icon: FluentIcons.person_24_regular,
             ),
-            const SizedBox(height: AppSpacing.xl),
+            SizedBox(height: AppSpacing.xl),
             
             CustomTextField(
               label: l10n.email,
@@ -86,7 +87,7 @@ class EditProfileScreen extends StatelessWidget {
               icon: FluentIcons.mail_24_regular,
               keyboardType: TextInputType.emailAddress,
             ),
-            const SizedBox(height: AppSpacing.xl),
+            SizedBox(height: AppSpacing.xl),
             
             CustomTextField(
               label: l10n.phoneNumber,
@@ -95,7 +96,7 @@ class EditProfileScreen extends StatelessWidget {
               keyboardType: TextInputType.phone,
             ),
             
-            const SizedBox(height: AppSpacing.xxxl * 1.5),
+            SizedBox(height: AppSpacing.xxxl * 1.5),
 
             // Save Button
             CustomButton(

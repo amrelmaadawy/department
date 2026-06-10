@@ -1,6 +1,6 @@
+import 'package:apartment/core/theme/theme_extension.dart';
 import 'package:flutter/material.dart';
 
-import '../theme/app_colors.dart';
 import '../theme/app_fonts.dart';
 import '../theme/app_radius.dart';
 import '../theme/app_spacing.dart';
@@ -30,18 +30,18 @@ class CustomTextField extends StatelessWidget {
       children: [
         Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: AppFonts.bodyMedium,
             fontWeight: FontWeight.bold,
-            color: AppColors.textPrimary,
+            color: context.colors.textPrimary,
           ),
         ),
         const SizedBox(height: AppSpacing.sm),
         Container(
           decoration: BoxDecoration(
-            color: AppColors.white,
+            color: context.colors.white,
             borderRadius: BorderRadius.circular(AppRadius.lg),
-            border: Border.all(color: AppColors.border),
+            border: Border.all(color: context.colors.border),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.02),
@@ -54,19 +54,19 @@ class CustomTextField extends StatelessWidget {
             controller: controller,
             obscureText: isPassword,
             keyboardType: keyboardType,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: AppFonts.bodyLarge,
-              color: AppColors.textPrimary,
+              color: context.colors.textPrimary,
             ),
             decoration: InputDecoration(
               hintText: hint,
-              hintStyle: const TextStyle(
+              hintStyle: TextStyle(
                 fontSize: AppFonts.bodyMedium,
-                color: AppColors.textSecondary,
+                color: context.colors.textSecondary,
               ),
-              prefixIcon: Icon(icon, color: AppColors.primary, size: 22),
+              prefixIcon: Icon(icon, color: context.colors.primary, size: 22),
               border: InputBorder.none,
-              contentPadding: const EdgeInsets.symmetric(
+              contentPadding: EdgeInsets.symmetric(
                 vertical: AppSpacing.md,
                 horizontal: AppSpacing.lg,
               ),

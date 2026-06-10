@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
 
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/widgets/custom_button.dart';
@@ -13,6 +12,8 @@ import '../../../projects/domain/services/contract_pdf_generator.dart';
 import '../widgets/contract_details_card.dart';
 import '../widgets/contract_financial_card.dart';
 import '../../../../l10n/app_localizations.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
+
 
 class UnitContractScreen extends StatefulWidget {
   const UnitContractScreen({super.key});
@@ -61,65 +62,65 @@ class _UnitContractScreenState extends State<UnitContractScreen> {
     };
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.colors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.white,
+        backgroundColor: context.colors.white,
         elevation: 0,
         scrolledUnderElevation: 0,
         title: Text(
           l10n.contractDetails,
-          style: const TextStyle(
-            color: AppColors.textPrimary,
+          style: TextStyle(
+            color: context.colors.textPrimary,
             fontSize: AppFonts.headlineSmall,
             fontWeight: FontWeight.bold,
           ),
         ),
         centerTitle: true,
         leading: IconButton(
-          icon: const Icon(FluentIcons.ios_arrow_rtl_24_regular, color: AppColors.textPrimary),
+          icon: Icon(FluentIcons.ios_arrow_rtl_24_regular, color: context.colors.textPrimary),
           onPressed: () => context.pop(),
         ),
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
-        padding: const EdgeInsets.all(AppSpacing.xl),
+        padding: EdgeInsets.all(AppSpacing.xl),
         child: Column(
           children: [
             // Status Header
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(FluentIcons.shield_checkmark_24_filled, color: AppColors.success, size: 28),
-                const SizedBox(width: AppSpacing.sm),
+                Icon(FluentIcons.shield_checkmark_24_filled, color: context.colors.success, size: 28),
+                SizedBox(width: AppSpacing.sm),
                 Text(
                   contractData['status'],
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: AppFonts.bodyLarge,
-                    color: AppColors.success,
+                    color: context.colors.success,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: AppSpacing.xxl),
+            SizedBox(height: AppSpacing.xxl),
             
             // Details Card
             ContractDetailsCard(unitData: contractData),
-            const SizedBox(height: AppSpacing.xl),
+            SizedBox(height: AppSpacing.xl),
             
             // Financial Card
             ContractFinancialCard(financialData: contractData),
-            const SizedBox(height: AppSpacing.xxxl),
+            SizedBox(height: AppSpacing.xxxl),
           ],
         ),
       ),
       bottomNavigationBar: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(AppSpacing.xl),
+          padding: EdgeInsets.all(AppSpacing.xl),
           child: CustomButton(
             text: _isGeneratingPdf ? l10n.generatingPdf : l10n.downloadPdf,
-            backgroundColor: AppColors.primary,
-            textColor: AppColors.white,
+            backgroundColor: context.colors.primary,
+            textColor: Colors.white,
             onPressed: _isGeneratingPdf ? null : _downloadPdf,
           ),
         ),

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/app_fonts.dart';
-import '../../../../core/theme/app_radius.dart';
-import '../../../../core/theme/app_spacing.dart';
+import 'package:apartment/core/theme/app_fonts.dart';
+import 'package:apartment/core/theme/app_radius.dart';
+import 'package:apartment/core/theme/app_spacing.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
 
 class ContractDetailsCard extends StatelessWidget {
   final Map<String, dynamic> unitData;
@@ -14,57 +14,54 @@ class ContractDetailsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(AppRadius.xl),
+        color: context.colors.white,
+        borderRadius: BorderRadius.circular(AppRadius.lg),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.03),
-            blurRadius: 15,
-            offset: const Offset(0, 5),
+            color: context.colors.border.withValues(alpha: 0.1),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
           ),
         ],
-        border: Border.all(
-          color: AppColors.border.withValues(alpha: 0.5),
-        ),
       ),
-      padding: const EdgeInsets.all(AppSpacing.lg),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             'تفاصيل الوحدة والمشروع',
             style: TextStyle(
               fontSize: AppFonts.bodyLarge,
               fontWeight: FontWeight.bold,
-              color: AppColors.primary,
+              color: context.colors.primary,
             ),
           ),
           const SizedBox(height: AppSpacing.md),
-          const Divider(color: AppColors.border, height: 1),
+          Divider(color: context.colors.border, height: 1),
           const SizedBox(height: AppSpacing.md),
-          _buildInfoRow(FluentIcons.building_24_regular, 'المشروع', unitData['projectName']),
+          _buildInfoRow(context, FluentIcons.building_24_regular, 'المشروع', unitData['projectName']),
           const SizedBox(height: AppSpacing.md),
-          _buildInfoRow(FluentIcons.home_24_regular, 'الوحدة', unitData['unitName']),
+          _buildInfoRow(context, FluentIcons.home_24_regular, 'الوحدة', unitData['unitName']),
           const SizedBox(height: AppSpacing.md),
-          _buildInfoRow(FluentIcons.calendar_ltr_24_regular, 'تاريخ التعاقد', unitData['contractDate']),
+          _buildInfoRow(context, FluentIcons.calendar_ltr_24_regular, 'تاريخ التعاقد', unitData['contractDate']),
           const SizedBox(height: AppSpacing.md),
-          _buildInfoRow(FluentIcons.person_24_regular, 'اسم المالك', unitData['ownerName']),
+          _buildInfoRow(context, FluentIcons.person_24_regular, 'اسم المالك', unitData['ownerName']),
         ],
       ),
     );
   }
 
-  Widget _buildInfoRow(IconData icon, String label, String value) {
+  Widget _buildInfoRow(BuildContext context, IconData icon, String label, String value) {
     return Row(
       children: [
         Container(
           padding: const EdgeInsets.all(AppSpacing.sm),
           decoration: BoxDecoration(
-            color: AppColors.background,
+            color: context.colors.background,
             borderRadius: BorderRadius.circular(AppRadius.md),
           ),
-          child: Icon(icon, size: 20, color: AppColors.gold),
+          child: Icon(icon, size: 20, color: context.colors.gold),
         ),
         const SizedBox(width: AppSpacing.md),
         Expanded(
@@ -73,18 +70,18 @@ class ContractDetailsCard extends StatelessWidget {
             children: [
               Text(
                 label,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: AppFonts.bodySmall,
-                  color: AppColors.textSecondary,
+                  color: context.colors.textSecondary,
                 ),
               ),
               const SizedBox(height: 2), // Minor spacing, no const needed from AppSpacing
               Text(
                 value,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: AppFonts.bodyMedium,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.textPrimary,
+                  color: context.colors.textPrimary,
                 ),
               ),
             ],

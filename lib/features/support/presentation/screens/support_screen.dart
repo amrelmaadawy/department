@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../l10n/app_localizations.dart';
@@ -11,6 +10,8 @@ import '../widgets/agent_status_bar.dart';
 import '../widgets/chat_bubble.dart';
 import '../widgets/chat_input_bar.dart';
 import '../widgets/typing_indicator.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
+
 
 class SupportScreen extends StatelessWidget {
   const SupportScreen({super.key});
@@ -24,44 +25,44 @@ class SupportScreen extends StatelessWidget {
     const agentAvatar = 'https://i.pravatar.cc/150?img=1';
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.colors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.white,
+        backgroundColor: context.colors.white,
         elevation: 0,
         scrolledUnderElevation: 0,
         centerTitle: true,
         leading: IconButton(
-          icon: const Icon(
+          icon: Icon(
             FluentIcons.chevron_right_24_regular,
-            color: AppColors.textPrimary,
+            color: context.colors.textPrimary,
           ),
           onPressed: () => context.pop(),
         ),
         title: Text(
           l10n.supportTitle,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: AppFonts.headlineSmall,
             fontWeight: FontWeight.bold,
-            color: AppColors.textPrimary,
+            color: context.colors.textPrimary,
           ),
         ),
         actions: [
           IconButton(
-            icon: const Icon(
+            icon: Icon(
               FluentIcons.document_question_mark_24_regular,
-              color: AppColors.textSecondary,
+              color: context.colors.textSecondary,
             ),
             tooltip: l10n.faqTitle,
             onPressed: () {}, // Will open FAQ
           ),
           IconButton(
-            icon: const Icon(
+            icon: Icon(
               FluentIcons.call_24_regular,
-              color: AppColors.gold,
+              color: context.colors.gold,
             ),
             onPressed: () {},
           ),
-          const SizedBox(width: AppSpacing.sm),
+          SizedBox(width: AppSpacing.sm),
         ],
       ),
       body: Column(
@@ -73,10 +74,10 @@ class SupportScreen extends StatelessWidget {
               physics: const BouncingScrollPhysics(),
               reverse:
                   true, // Latest message at the bottom, auto-adjusts with keyboard
-              padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+              padding: EdgeInsets.symmetric(vertical: AppSpacing.md),
               children: [
                 // Extra space so the FAB doesn't hide the last message
-                const SizedBox(height: 80),
+                SizedBox(height: 80),
 
                 // Typing Indicator
                 const TypingIndicator(avatarUrl: agentAvatar),
@@ -107,20 +108,20 @@ class SupportScreen extends StatelessWidget {
                 // Date Separator
                 Center(
                   child: Container(
-                    margin: const EdgeInsets.symmetric(vertical: AppSpacing.md),
-                    padding: const EdgeInsets.symmetric(
+                    margin: EdgeInsets.symmetric(vertical: AppSpacing.md),
+                    padding: EdgeInsets.symmetric(
                       horizontal: AppSpacing.lg,
                       vertical: 4,
                     ),
                     decoration: BoxDecoration(
-                      color: AppColors.border.withValues(alpha: 0.3),
+                      color: context.colors.border.withValues(alpha: 0.3),
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Text(
                       l10n.today,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: AppFonts.labelSmall,
-                        color: AppColors.textSecondary,
+                        color: context.colors.textSecondary,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -134,20 +135,20 @@ class SupportScreen extends StatelessWidget {
         ],
       ),
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(
+        padding: EdgeInsets.only(
           bottom: 70.0,
         ), // Push FAB above the ChatInputBar
         child: FloatingActionButton.extended(
           onPressed: () {},
           backgroundColor: const Color(0xFF25D366), // WhatsApp Green
           elevation: 4,
-          icon: const Icon(FluentIcons.chat_24_regular, color: AppColors.white),
+          icon: Icon(FluentIcons.chat_24_regular, color: context.colors.white),
           label: Text(
             l10n.whatsapp,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: AppFonts.bodyMedium,
               fontWeight: FontWeight.bold,
-              color: AppColors.white,
+              color: context.colors.white,
             ),
           ),
         ),

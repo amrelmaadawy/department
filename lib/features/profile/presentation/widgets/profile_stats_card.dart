@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/theme_extension.dart';
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
+
 
 class ProfileStatsCard extends StatelessWidget {
   final int designsCount;
@@ -27,10 +28,10 @@ class ProfileStatsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.xl),
-      padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
+      margin: EdgeInsets.symmetric(horizontal: AppSpacing.xl),
+      padding: EdgeInsets.symmetric(vertical: AppSpacing.lg),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: context.colors.white,
         borderRadius: BorderRadius.circular(AppRadius.xl),
         boxShadow: [
           BoxShadow(
@@ -44,36 +45,36 @@ class ProfileStatsCard extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _buildStatItem(unitsCount, unitsLabel),
-          _buildDivider(),
-          _buildStatItem(contractsCount, contractsLabel),
-          _buildDivider(),
-          _buildStatItem(designsCount, designsLabel),
+          _buildStatItem(context, unitsCount, unitsLabel),
+          _buildDivider(context),
+          _buildStatItem(context, contractsCount, contractsLabel),
+          _buildDivider(context),
+          _buildStatItem(context, designsCount, designsLabel),
         ],
       ),
     );
   }
 
-  Widget _buildStatItem(int count, String label) {
+  Widget _buildStatItem(BuildContext context, int count, String label) {
     return Expanded(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             count.toString(),
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: AppFonts.headlineMedium,
               fontWeight: FontWeight.w800,
-              color: AppColors.gold,
+              color: context.colors.gold,
             ),
           ),
-          const SizedBox(height: AppSpacing.xs),
+          SizedBox(height: AppSpacing.xs),
           Text(
             label,
             style: TextStyle(
               fontSize: AppFonts.bodyMedium,
               fontWeight: FontWeight.w600,
-              color: AppColors.textPrimary.withValues(alpha: 0.8),
+              color: context.colors.textPrimary.withValues(alpha: 0.8),
             ),
           ),
         ],
@@ -81,11 +82,11 @@ class ProfileStatsCard extends StatelessWidget {
     );
   }
 
-  Widget _buildDivider() {
+  Widget _buildDivider(BuildContext context) {
     return Container(
       height: 40,
       width: 1,
-      color: AppColors.border.withValues(alpha: 0.5),
+      color: context.colors.border.withValues(alpha: 0.5),
     );
   }
 }

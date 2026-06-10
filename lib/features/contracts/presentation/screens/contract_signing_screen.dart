@@ -1,6 +1,5 @@
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:flutter/material.dart';
-import 'package:apartment/core/theme/app_colors.dart';
 import 'package:apartment/l10n/app_localizations.dart';
 
 import 'package:signature/signature.dart';
@@ -10,6 +9,8 @@ import '../widgets/contract/contract_signature_card.dart';
 import '../widgets/contract/contract_summary_card.dart';
 import '../widgets/contract/contract_terms_card.dart';
 import '../../domain/entities/contract_type.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
+
 
 class ContractSigningScreen extends StatefulWidget {
   final ContractType contractType;
@@ -58,22 +59,22 @@ class _ContractSigningScreenState extends State<ContractSigningScreen> {
     final l10n = AppLocalizations.of(context)!;
     
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.colors.background,
       appBar: AppBar(
         title: Text(
           widget.contractType == ContractType.unit
               ? l10n.contractScreenTitle
               : l10n.finishingContract,
-          style: const TextStyle(
+          style: TextStyle(
             fontWeight: FontWeight.bold,
-            color: AppColors.primary,
+            color: context.colors.primary,
           ),
         ),
-        backgroundColor: AppColors.background,
+        backgroundColor: context.colors.background,
         elevation: 0,
         scrolledUnderElevation: 0,
         centerTitle: true,
-        iconTheme: const IconThemeData(color: AppColors.primary),
+        iconTheme: IconThemeData(color: context.colors.primary),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -88,9 +89,9 @@ class _ContractSigningScreenState extends State<ContractSigningScreen> {
               isAgreed: _isAgreed,
               onChanged: _toggleAgreement,
             ),
-            const SizedBox(height: AppSpacing.md),
+            SizedBox(height: AppSpacing.md),
             ContractSignatureCard(controller: _signatureController),
-            const SizedBox(height: 24),
+            SizedBox(height: 24),
           ],
         ),
       ),

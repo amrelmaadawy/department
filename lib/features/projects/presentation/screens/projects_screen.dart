@@ -9,11 +9,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../../core/di/injection_container.dart';
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../cubit/projects_cubit.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
+
 
 class ProjectsScreen extends StatelessWidget {
   const ProjectsScreen({super.key});
@@ -61,7 +62,7 @@ class _ProjectsViewState extends State<ProjectsView> {
     ];
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.colors.background,
       body: SafeArea(
         child: BlocBuilder<ProjectsCubit, ProjectsState>(
           builder: (context, state) {
@@ -69,15 +70,15 @@ class _ProjectsViewState extends State<ProjectsView> {
               slivers: [
                 // Title
                 SliverPadding(
-                  padding: const EdgeInsets.all(AppSpacing.lg),
+                  padding: EdgeInsets.all(AppSpacing.lg),
                   sliver: SliverToBoxAdapter(
                     child: Center(
                       child: Text(
                         l10n.navProjects,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: AppFonts.headlineSmall,
                           fontWeight: FontWeight.bold,
-                          color: AppColors.textPrimary,
+                          color: context.colors.textPrimary,
                         ),
                       ),
                     ),
@@ -90,12 +91,12 @@ class _ProjectsViewState extends State<ProjectsView> {
                   floating: true,
                   delegate: _StickyHeaderDelegate(
                     child: Container(
-                      color: AppColors.background,
+                      color: context.colors.background,
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.symmetric(
+                            padding: EdgeInsets.symmetric(
                               horizontal: AppSpacing.lg,
                             ),
                             child: CustomSearchBar(
@@ -104,7 +105,7 @@ class _ProjectsViewState extends State<ProjectsView> {
                                   _onSearchChanged(context, query),
                             ),
                           ),
-                          const SizedBox(height: AppSpacing.md),
+                          SizedBox(height: AppSpacing.md),
                           if (state is ProjectsLoaded)
                             FilterChipsRow(
                               filters: filterOptions,
@@ -113,7 +114,7 @@ class _ProjectsViewState extends State<ProjectsView> {
                                   .read<ProjectsCubit>()
                                   .filterByCity(city),
                             ),
-                          const SizedBox(height: AppSpacing.sm),
+                          SizedBox(height: AppSpacing.sm),
                         ],
                       ),
                     ),
@@ -134,8 +135,8 @@ class _ProjectsViewState extends State<ProjectsView> {
                           child: Center(
                             child: Text(
                               l10n.noProjectsFound,
-                              style: const TextStyle(
-                                color: AppColors.textSecondary,
+                              style: TextStyle(
+                                color: context.colors.textSecondary,
                                 fontSize: AppFonts.bodyLarge,
                               ),
                             ),
@@ -173,12 +174,13 @@ class _ProjectsViewState extends State<ProjectsView> {
         final screenWidth = MediaQuery.of(context).size.width;
         final double cardHeight = (screenWidth * 0.3).clamp(110.0, 160.0);
 
+        final isDark = Theme.of(context).brightness == Brightness.dark;
         return Shimmer.fromColors(
-          baseColor: Colors.grey[300]!,
-          highlightColor: Colors.grey[100]!,
+          baseColor: isDark ? Colors.grey[800]! : Colors.grey[300]!,
+          highlightColor: isDark ? Colors.grey[700]! : Colors.grey[100]!,
           child: Container(
             height: cardHeight,
-            margin: const EdgeInsets.symmetric(
+            margin: EdgeInsets.symmetric(
               horizontal: AppSpacing.lg,
               vertical: AppSpacing.sm,
             ),

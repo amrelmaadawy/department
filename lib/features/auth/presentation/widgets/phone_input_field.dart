@@ -1,10 +1,10 @@
 import 'package:apartment/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
 
 class PhoneInputField extends StatelessWidget {
   const PhoneInputField({super.key});
@@ -15,9 +15,9 @@ class PhoneInputField extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: context.colors.border),
         borderRadius: BorderRadius.circular(AppRadius.md),
-        color: AppColors.white,
+        color: context.colors.white,
       ),
       child: Row(
         children: [
@@ -30,12 +30,12 @@ class PhoneInputField extends StatelessWidget {
                   TextAlign.right, // Align text to the right where the hint is
               decoration: InputDecoration(
                 hintText: l10n.mobileNumber,
-                hintStyle: const TextStyle(
-                  color: AppColors.textSecondary,
+                hintStyle: TextStyle(
+                  color: context.colors.textSecondary,
                   fontSize: AppFonts.bodyMedium,
                 ),
                 border: InputBorder.none,
-                contentPadding: const EdgeInsets.symmetric(
+                contentPadding: EdgeInsets.symmetric(
                   horizontal: AppSpacing.md,
                 ),
               ),
@@ -43,11 +43,11 @@ class PhoneInputField extends StatelessWidget {
           ),
 
           // Vertical Separator
-          Container(width: 1, height: 30, color: AppColors.border),
+          Container(width: 1, height: 30, color: context.colors.border),
 
           // Country Code Prefix (Renders on the left in RTL)
           Padding(
-            padding: const EdgeInsets.symmetric(
+            padding: EdgeInsets.symmetric(
               horizontal: AppSpacing.md,
               vertical: AppSpacing.sm,
             ),
@@ -56,24 +56,24 @@ class PhoneInputField extends StatelessWidget {
                   .ltr, // Force LTR for prefix so icon stays on the far left
               child: Row(
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.phone_outlined,
-                    color: AppColors.textSecondary,
+                    color: context.colors.textSecondary,
                     size: 20,
                   ),
                   const SizedBox(width: AppSpacing.sm),
-                  const Text(
+                  Text(
                     '+966',
                     style: TextStyle(
-                      color: AppColors.textPrimary,
+                      color: context.colors.textPrimary,
                       fontSize: AppFonts.bodyMedium,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   const SizedBox(width: AppSpacing.xs),
-                  const Icon(
+                  Icon(
                     Icons.keyboard_arrow_down,
-                    color: AppColors.textSecondary,
+                    color: context.colors.textSecondary,
                     size: 20,
                   ),
                 ],

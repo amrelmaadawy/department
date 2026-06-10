@@ -9,12 +9,12 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/di/injection_container.dart';
 import '../../../../core/routes/app_router.dart';
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_sizes.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/widgets/custom_button.dart';
 import '../cubit/auth_cubit.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
 
 class AuthScreen extends StatelessWidget {
   const AuthScreen({super.key});
@@ -36,10 +36,10 @@ class AuthView extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      backgroundColor: AppColors.white,
+      backgroundColor: context.colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(AppSpacing.lg),
+          padding: EdgeInsets.all(AppSpacing.lg),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -57,8 +57,8 @@ class AuthView extends StatelessWidget {
               Text(
                 l10n.welcomeTitle,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: AppColors.textPrimary,
+                style: TextStyle(
+                  color: context.colors.textPrimary,
                   fontSize: AppFonts.displaySmall,
                   fontWeight: FontWeight.bold,
                 ),
@@ -70,8 +70,8 @@ class AuthView extends StatelessWidget {
               Text(
                 l10n.welcomeSubtitle,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: AppColors.textSecondary,
+                style: TextStyle(
+                  color: context.colors.textSecondary,
                   fontSize: AppFonts.bodyMedium,
                 ),
               ),
@@ -91,9 +91,8 @@ class AuthView extends StatelessWidget {
               // Next Button
               CustomButton(
                 text: l10n.next,
-                backgroundColor: AppColors
-                    .primary, // Using primary brand color instead of black
-                textColor: AppColors.white,
+                backgroundColor: context.colors.primary,
+                textColor: Colors.white,
                 onPressed: () {
                   context.go(AppRouter.layout);
                 },
@@ -104,20 +103,20 @@ class AuthView extends StatelessWidget {
               // Divider
               Row(
                 children: [
-                  const Expanded(child: Divider(color: AppColors.border)),
+                  Expanded(child: Divider(color: context.colors.border)),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
+                    padding: EdgeInsets.symmetric(
                       horizontal: AppSpacing.md,
                     ),
                     child: Text(
                       l10n.orVia,
-                      style: const TextStyle(
-                        color: AppColors.textSecondary,
+                      style: TextStyle(
+                        color: context.colors.textSecondary,
                         fontSize: AppFonts.bodyMedium,
                       ),
                     ),
                   ),
-                  const Expanded(child: Divider(color: AppColors.border)),
+                  Expanded(child: Divider(color: context.colors.border)),
                 ],
               ),
 
@@ -145,16 +144,16 @@ class AuthView extends StatelessWidget {
               Text.rich(
                 TextSpan(
                   text: '${l10n.registerAgreement}\n',
-                  style: const TextStyle(
-                    color: AppColors.textSecondary,
+                  style: TextStyle(
+                    color: context.colors.textSecondary,
                     fontSize: AppFonts.bodyMedium,
                     height: 1.5,
                   ),
                   children: [
                     TextSpan(
                       text: l10n.termsAndConditions,
-                      style: const TextStyle(
-                        color: AppColors.gold,
+                      style: TextStyle(
+                        color: context.colors.gold,
                         fontWeight: FontWeight.bold,
                       ),
                       recognizer: TapGestureRecognizer()..onTap = () {},
@@ -162,8 +161,8 @@ class AuthView extends StatelessWidget {
                     TextSpan(text: ' ${l10n.and} '),
                     TextSpan(
                       text: l10n.privacyPolicy,
-                      style: const TextStyle(
-                        color: AppColors.gold,
+                      style: TextStyle(
+                        color: context.colors.gold,
                         fontWeight: FontWeight.bold,
                       ),
                       recognizer: TapGestureRecognizer()..onTap = () {},

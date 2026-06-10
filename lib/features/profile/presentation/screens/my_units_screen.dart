@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 
 import '../../../../l10n/app_localizations.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
+
 
 class MyUnitsScreen extends StatelessWidget {
   const MyUnitsScreen({super.key});
@@ -35,29 +36,29 @@ class MyUnitsScreen extends StatelessWidget {
     ];
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.colors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.white,
+        backgroundColor: context.colors.white,
         elevation: 0,
         scrolledUnderElevation: 0.0,
         title: Text(
           l10n.profileMenuMyUnits,
-          style: const TextStyle(
-            color: AppColors.textPrimary,
+          style: TextStyle(
+            color: context.colors.textPrimary,
             fontSize: AppFonts.headlineSmall,
             fontWeight: FontWeight.bold,
           ),
         ),
         centerTitle: true,
         leading: IconButton(
-          icon: const Icon(FluentIcons.ios_arrow_rtl_24_regular, color: AppColors.textPrimary),
+          icon: Icon(FluentIcons.ios_arrow_rtl_24_regular, color: context.colors.textPrimary),
           onPressed: () => context.pop(),
         ),
       ),
       body: ListView.separated(
-        padding: const EdgeInsets.all(AppSpacing.xl),
+        padding: EdgeInsets.all(AppSpacing.xl),
         itemCount: myUnits.length,
-        separatorBuilder: (context, index) => const SizedBox(height: AppSpacing.lg),
+        separatorBuilder: (context, index) => SizedBox(height: AppSpacing.lg),
         itemBuilder: (context, index) {
           final unit = myUnits[index];
           return _buildUnitCard(context, unit, l10n);
@@ -71,7 +72,7 @@ class MyUnitsScreen extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: context.colors.white,
         borderRadius: BorderRadius.circular(AppRadius.xl),
         boxShadow: [
           BoxShadow(
@@ -93,14 +94,14 @@ class MyUnitsScreen extends StatelessWidget {
                 Container(
                   height: 160,
                   width: double.infinity,
-                  color: AppColors.border,
+                  color: context.colors.border,
                   child: Image.asset(
                     unit['image'],
                     fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) => const Icon(
+                    errorBuilder: (context, error, stackTrace) => Icon(
                       FluentIcons.building_24_regular,
                       size: 40,
-                      color: AppColors.textSecondary,
+                      color: context.colors.textSecondary,
                     ),
                   ),
                 ),
@@ -109,18 +110,18 @@ class MyUnitsScreen extends StatelessWidget {
                   top: AppSpacing.sm,
                   right: AppSpacing.sm,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(
+                    padding: EdgeInsets.symmetric(
                       horizontal: AppSpacing.md,
                       vertical: AppSpacing.xs,
                     ),
                     decoration: BoxDecoration(
-                      color: isCompleted ? AppColors.success.withValues(alpha: 0.9) : AppColors.gold.withValues(alpha: 0.9),
+                      color: isCompleted ? context.colors.success.withValues(alpha: 0.9) : context.colors.gold.withValues(alpha: 0.9),
                       borderRadius: BorderRadius.circular(AppRadius.round),
                     ),
                     child: Text(
                       unit['status'],
-                      style: const TextStyle(
-                        color: AppColors.white,
+                      style: TextStyle(
+                        color: context.colors.white,
                         fontSize: AppFonts.bodySmall,
                         fontWeight: FontWeight.bold,
                       ),
@@ -133,29 +134,29 @@ class MyUnitsScreen extends StatelessWidget {
           
           // Details
           Padding(
-            padding: const EdgeInsets.all(AppSpacing.lg),
+            padding: EdgeInsets.all(AppSpacing.lg),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   unit['projectName'],
-                  style: const TextStyle(
-                    color: AppColors.gold,
+                  style: TextStyle(
+                    color: context.colors.gold,
                     fontSize: AppFonts.bodyMedium,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                const SizedBox(height: AppSpacing.xs),
+                SizedBox(height: AppSpacing.xs),
                 Text(
                   unit['unitName'],
-                  style: const TextStyle(
-                    color: AppColors.textPrimary,
+                  style: TextStyle(
+                    color: context.colors.textPrimary,
                     fontSize: AppFonts.bodyLarge,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 
-                const SizedBox(height: AppSpacing.lg),
+                SizedBox(height: AppSpacing.lg),
                 
                 // Action Buttons
                 Row(
@@ -173,30 +174,30 @@ class MyUnitsScreen extends StatelessWidget {
                         ),
                         label: Text(isCompleted ? l10n.statusDelivered : l10n.trackFinishing),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: isCompleted ? AppColors.success : AppColors.primary,
-                          foregroundColor: AppColors.white,
+                          backgroundColor: isCompleted ? context.colors.success : context.colors.primary,
+                          foregroundColor: context.colors.white,
                           elevation: 0,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(AppRadius.lg),
                           ),
-                          padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+                          padding: EdgeInsets.symmetric(vertical: AppSpacing.md),
                         ),
                       ),
                     ),
-                    const SizedBox(width: AppSpacing.md),
+                    SizedBox(width: AppSpacing.md),
                     OutlinedButton.icon(
                       onPressed: () {
                         context.push('/unit-contract');
                       },
-                      icon: const Icon(FluentIcons.document_pdf_24_regular, size: 20),
+                      icon: Icon(FluentIcons.document_pdf_24_regular, size: 20),
                       label: Text(l10n.contractBtn),
                       style: OutlinedButton.styleFrom(
-                        foregroundColor: AppColors.textPrimary,
-                        side: const BorderSide(color: AppColors.border),
+                        foregroundColor: context.colors.textPrimary,
+                        side: BorderSide(color: context.colors.border),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(AppRadius.lg),
                         ),
-                        padding: const EdgeInsets.symmetric(vertical: AppSpacing.md, horizontal: AppSpacing.lg),
+                        padding: EdgeInsets.symmetric(vertical: AppSpacing.md, horizontal: AppSpacing.lg),
                       ),
                     ),
                   ],

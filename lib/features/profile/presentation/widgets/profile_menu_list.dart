@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/theme_extension.dart';
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
@@ -30,8 +30,8 @@ class ProfileMenuList extends StatelessWidget {
           child: Column(
             children: [
               // Section: My Real Estate
-              _buildSectionTitle(l10n.profileSectionRealEstate),
-              _buildMenuGroup([
+              _buildSectionTitle(context, l10n.profileSectionRealEstate),
+              _buildMenuGroup(context, [
                 ProfileMenuItem(
                   icon: FluentIcons.building_24_regular,
                   title: l10n.profileMenuMyUnits,
@@ -48,8 +48,8 @@ class ProfileMenuList extends StatelessWidget {
               const SizedBox(height: AppSpacing.xl),
 
               // Section: Account Settings
-              _buildSectionTitle(l10n.profileSectionAccount),
-              _buildMenuGroup([
+              _buildSectionTitle(context, l10n.profileSectionAccount),
+              _buildMenuGroup(context, [
                 ProfileMenuItem(
                   icon: FluentIcons.person_edit_24_regular,
                   title: l10n.profileMenuEditProfile,
@@ -66,8 +66,8 @@ class ProfileMenuList extends StatelessWidget {
               const SizedBox(height: AppSpacing.xl),
 
               // Section: App Settings
-              _buildSectionTitle(l10n.profileSectionApp),
-              _buildMenuGroup([
+              _buildSectionTitle(context, l10n.profileSectionApp),
+              _buildMenuGroup(context, [
                 ProfileMenuItem(
                   icon: FluentIcons.settings_24_regular,
                   title: l10n.profileSectionApp,
@@ -79,8 +79,8 @@ class ProfileMenuList extends StatelessWidget {
               const SizedBox(height: AppSpacing.xl),
 
               // Section: Support
-              _buildSectionTitle(l10n.profileSectionSupport),
-              _buildMenuGroup([
+              _buildSectionTitle(context, l10n.profileSectionSupport),
+              _buildMenuGroup(context, [
                 ProfileMenuItem(
                   icon: FluentIcons.headset_24_regular,
                   title: l10n.profileMenuHelpCenter,
@@ -97,7 +97,7 @@ class ProfileMenuList extends StatelessWidget {
               const SizedBox(height: AppSpacing.xl),
 
               // Section: Logout
-              _buildMenuGroup([
+              _buildMenuGroup(context, [
                 ProfileMenuItem(
                   icon: FluentIcons.sign_out_24_regular,
                   title: l10n.logout,
@@ -117,7 +117,7 @@ class ProfileMenuList extends StatelessWidget {
     );
   }
 
-  Widget _buildSectionTitle(String title) {
+  Widget _buildSectionTitle(BuildContext context, String title) {
     return Padding(
       padding: const EdgeInsets.only(
         right: AppSpacing.sm,
@@ -130,17 +130,17 @@ class ProfileMenuList extends StatelessWidget {
           style: TextStyle(
             fontSize: AppFonts.bodyLarge,
             fontWeight: FontWeight.bold,
-            color: AppColors.textPrimary.withValues(alpha: 0.6),
+            color: context.colors.textPrimary.withValues(alpha: 0.6),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildMenuGroup(List<Widget> children) {
+  Widget _buildMenuGroup(BuildContext context, List<Widget> children) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: context.colors.white,
         borderRadius: BorderRadius.circular(AppRadius.xl),
         boxShadow: [
           BoxShadow(
@@ -151,7 +151,7 @@ class ProfileMenuList extends StatelessWidget {
           ),
         ],
         border: Border.all(
-          color: AppColors.border.withValues(alpha: 0.2),
+          color: context.colors.border.withValues(alpha: 0.2),
           width: 1,
         ),
       ),

@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../features/home/domain/entities/project_unit_entity.dart';
 import '../cubit/design_context_cubit.dart';
 import '../cubit/design_context_state.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
+
 
 class UnitSelectionBottomSheet extends StatelessWidget {
   const UnitSelectionBottomSheet({super.key});
@@ -19,9 +20,9 @@ class UnitSelectionBottomSheet extends StatelessWidget {
     final units = cubit.getMockOwnedUnits();
 
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: AppSpacing.xl),
-      decoration: const BoxDecoration(
-        color: AppColors.background,
+      padding: EdgeInsets.symmetric(vertical: AppSpacing.xl),
+      decoration: BoxDecoration(
+        color: context.colors.background,
         borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
       ),
       child: Column(
@@ -34,50 +35,50 @@ class UnitSelectionBottomSheet extends StatelessWidget {
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: AppColors.border,
+                color: context.colors.border,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
           ),
-          const SizedBox(height: AppSpacing.xl),
+          SizedBox(height: AppSpacing.xl),
 
           // Title
-          const Padding(
+          Padding(
             padding: EdgeInsets.symmetric(horizontal: AppSpacing.xl),
             child: Text(
               'اختر الوحدة المراد تصميمها',
               style: TextStyle(
                 fontSize: AppFonts.headlineSmall,
                 fontWeight: FontWeight.bold,
-                color: AppColors.primary,
+                color: context.colors.primary,
               ),
             ),
           ),
-          const SizedBox(height: AppSpacing.lg),
+          SizedBox(height: AppSpacing.lg),
 
           // Units List
           Flexible(
             child: ListView.separated(
               shrinkWrap: true,
-              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl),
+              padding: EdgeInsets.symmetric(horizontal: AppSpacing.xl),
               itemCount: units.length,
-              separatorBuilder: (context, index) => const SizedBox(height: AppSpacing.md),
+              separatorBuilder: (context, index) => SizedBox(height: AppSpacing.md),
               itemBuilder: (context, index) {
                 return _buildUnitItem(context, units[index]);
               },
             ),
           ),
 
-          const SizedBox(height: AppSpacing.lg),
-          const Divider(color: AppColors.border),
-          const SizedBox(height: AppSpacing.sm),
+          SizedBox(height: AppSpacing.lg),
+          Divider(color: context.colors.border),
+          SizedBox(height: AppSpacing.sm),
 
           // Custom Area Option
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl),
+            padding: EdgeInsets.symmetric(horizontal: AppSpacing.xl),
             child: _buildCustomAreaItem(context),
           ),
-          const SizedBox(height: AppSpacing.xl),
+          SizedBox(height: AppSpacing.xl),
         ],
       ),
     );
@@ -95,12 +96,12 @@ class UnitSelectionBottomSheet extends StatelessWidget {
           },
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 300),
-            padding: const EdgeInsets.all(AppSpacing.md),
+            padding: EdgeInsets.all(AppSpacing.md),
             decoration: BoxDecoration(
-              color: isSelected ? AppColors.gold.withValues(alpha: 0.1) : AppColors.white,
+              color: isSelected ? context.colors.gold.withValues(alpha: 0.1) : context.colors.white,
               borderRadius: BorderRadius.circular(AppRadius.lg),
               border: Border.all(
-                color: isSelected ? AppColors.gold : AppColors.border.withValues(alpha: 0.5),
+                color: isSelected ? context.colors.gold : context.colors.border.withValues(alpha: 0.5),
                 width: isSelected ? 1.5 : 1,
               ),
             ),
@@ -111,7 +112,7 @@ class UnitSelectionBottomSheet extends StatelessWidget {
                   width: 50,
                   height: 50,
                   decoration: BoxDecoration(
-                    color: AppColors.background,
+                    color: context.colors.background,
                     borderRadius: BorderRadius.circular(AppRadius.md),
                     image: DecorationImage(
                       image: AssetImage(unit.imagePath),
@@ -119,7 +120,7 @@ class UnitSelectionBottomSheet extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(width: AppSpacing.md),
+                SizedBox(width: AppSpacing.md),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,22 +130,22 @@ class UnitSelectionBottomSheet extends StatelessWidget {
                         style: TextStyle(
                           fontSize: AppFonts.bodyLarge,
                           fontWeight: FontWeight.bold,
-                          color: isSelected ? AppColors.gold : AppColors.primary,
+                          color: isSelected ? context.colors.gold : context.colors.primary,
                         ),
                       ),
-                      const SizedBox(height: 2),
+                      SizedBox(height: 2),
                       Text(
                         'المساحة: ${unit.area} م²',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: AppFonts.bodySmall,
-                          color: AppColors.textSecondary,
+                          color: context.colors.textSecondary,
                         ),
                       ),
                     ],
                   ),
                 ),
                 if (isSelected)
-                  const Icon(FluentIcons.checkmark_circle_24_filled, color: AppColors.gold),
+                  Icon(FluentIcons.checkmark_circle_24_filled, color: context.colors.gold),
               ],
             ),
           ),
@@ -165,12 +166,12 @@ class UnitSelectionBottomSheet extends StatelessWidget {
           },
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 300),
-            padding: const EdgeInsets.all(AppSpacing.md),
+            padding: EdgeInsets.all(AppSpacing.md),
             decoration: BoxDecoration(
-              color: isSelected ? AppColors.primary.withValues(alpha: 0.05) : AppColors.white,
+              color: isSelected ? context.colors.primary.withValues(alpha: 0.05) : context.colors.white,
               borderRadius: BorderRadius.circular(AppRadius.lg),
               border: Border.all(
-                color: isSelected ? AppColors.primary : AppColors.border.withValues(alpha: 0.5),
+                color: isSelected ? context.colors.primary : context.colors.border.withValues(alpha: 0.5),
                 width: isSelected ? 1.5 : 1,
               ),
             ),
@@ -180,12 +181,12 @@ class UnitSelectionBottomSheet extends StatelessWidget {
                   width: 50,
                   height: 50,
                   decoration: BoxDecoration(
-                    color: AppColors.background,
+                    color: context.colors.background,
                     borderRadius: BorderRadius.circular(AppRadius.md),
                   ),
-                  child: const Icon(FluentIcons.ruler_24_regular, color: AppColors.primary),
+                  child: Icon(FluentIcons.ruler_24_regular, color: context.colors.primary),
                 ),
-                const SizedBox(width: AppSpacing.md),
+                SizedBox(width: AppSpacing.md),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -195,22 +196,22 @@ class UnitSelectionBottomSheet extends StatelessWidget {
                         style: TextStyle(
                           fontSize: AppFonts.bodyLarge,
                           fontWeight: FontWeight.bold,
-                          color: isSelected ? AppColors.primary : AppColors.textPrimary,
+                          color: isSelected ? context.colors.primary : context.colors.textPrimary,
                         ),
                       ),
-                      const SizedBox(height: 2),
-                      const Text(
+                      SizedBox(height: 2),
+                      Text(
                         'للحصول على تقدير تكلفة مبدئي فقط',
                         style: TextStyle(
                           fontSize: AppFonts.bodySmall,
-                          color: AppColors.textSecondary,
+                          color: context.colors.textSecondary,
                         ),
                       ),
                     ],
                   ),
                 ),
                 if (isSelected)
-                  const Icon(FluentIcons.checkmark_circle_24_filled, color: AppColors.primary),
+                  Icon(FluentIcons.checkmark_circle_24_filled, color: context.colors.primary),
               ],
             ),
           ),
