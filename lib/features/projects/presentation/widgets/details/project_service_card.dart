@@ -142,7 +142,7 @@ class ProjectServiceCard extends StatelessWidget {
                           // Empty action for now as requested
                         },
                         backgroundColor: context.colors.gold,
-                        textColor: Colors.white,
+                        textColor: context.colors.white,
                       ),
                     ],
                   ),

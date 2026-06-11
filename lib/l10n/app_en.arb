@@ -51,7 +51,7 @@
   "totalArea": "Total Area",
   "unitTypes": "Unit Types",
   "deliveryDate": "Delivery Date",
-  "finishingType": "Finishing",
+  "finishingType": "Finishing Type",
   "chooseUnit": "Choose Your Unit",
   "million": "Million",
   "ourServices": "Our Services",
@@ -207,23 +207,26 @@
   "unitTypeDesc": "Unit {title} - {area} sqm",
   "@unitTypeDesc": {
     "placeholders": {
-      "title": {"type": "String"},
-      "area": {"type": "String"}
+      "title": {
+        "type": "String"
+      },
+      "area": {
+        "type": "String"
+      }
     }
   },
   "floor": "Floor",
   "floorDesc": "Floor {floorVal}",
   "@floorDesc": {
     "placeholders": {
-      "floorVal": {"type": "String"}
+      "floorVal": {
+        "type": "String"
+      }
     }
   },
-  "details": "Details",
   "loadingStatus": "Loading...",
-  "finishingType": "Finishing Type",
   "fullCustomFinishing": "Full Custom Finishing",
   "totalFinishingCost": "Total Finishing Cost",
-  "signature": "Signature",
   "clearSignature": "Clear Signature",
   "signAbove": "Please sign inside the box above",
   "errAgreeTerms": "Please agree to the terms and conditions first.",
@@ -245,5 +248,109 @@
         "type": "String"
       }
     }
-  }
+  },
+  "unitContractTerms": "1. Initial booking is subject to developer's final approval.\n2. Prices are estimates and may change based on final measurements.\n3. Booking deposit is non-refundable after 14 days.\n4. Buyer commits to completing the down payment within the specified timeline.\n5. All attached plans and specifications are an integral part of this contract.\n... [More Legal Terms]",
+  "finishingContractTerms": "1. The contractor undertakes to execute finishing works according to approved specifications.\n2. Prices include supply of materials and labor.\n3. Client commits to paying installments based on agreed completion percentages.\n4. Contractor guarantees quality of work for one full year.\n5. Any design modifications after execution starts are subject to separate pricing.\n... [More Legal Terms]",
+  "orderNumberCopiedSuccessfully": "Order number copied successfully",
+  "reviewAndSignContracts": "Review & Sign Contracts",
+  "finalTotalCost": "Final Total Cost",
+  "contractsRequiredForSignature": "Contracts Required For Signature",
+  "propertySaleContract": "Property Sale Contract",
+  "unitDetailsDefault": "Unit Details",
+  "unitDetailsWithArea": "Unit {title} with area {area}m²",
+  "customFinishingComprehensive": "Custom finishing including materials and labor",
+  "completeBookingAndPayment": "Complete Booking & Payment",
+  "signNow": "Sign Now",
+  "italianMarble": "Italian Marble",
+  "italianMarbleDesc": "Provides a luxurious feel and cool touch. Ideal for open spaces.",
+  "luxuriousTag": "Luxurious",
+  "spanishPorcelain": "Spanish Porcelain",
+  "spanishPorcelainDesc": "High durability, variety in designs and colors, easy to clean.",
+  "practicalTag": "Practical",
+  "germanParquet": "German Parquet",
+  "germanParquetDesc": "Adds warmth and natural elegance to the space, suitable for bedrooms.",
+  "warmTag": "Warm",
+  "spcFlooring": "SPC Flooring",
+  "spcFlooringDesc": "Water and moisture resistant, practical and economical choice with a modern touch.",
+  "economicalTag": "Economical",
+  "jotunFenomasticPaint": "Jotun Fenomastic Paint",
+  "highQualityWashablePaint": "High-quality washable paint",
+  "frenchWallpaper": "French Wallpaper",
+  "luxuriousClassicDesigns": "Luxurious classic designs",
+  "flatGypsumBoard": "Flat Gypsum Board",
+  "flatCeilingWithHiddenLighting": "Flat ceiling with hidden lighting",
+  "modernTag": "Modern",
+  "beechWoodDoors": "Beech Wood Doors",
+  "durableDoorsClassicDesigns": "Durable doors with classic designs",
+  "classicTag": "Classic",
+  "@unitDetailsWithArea": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "area": {
+        "type": "String"
+      }
+    }
+  },
+  "selectUnitToDesign": "Select Unit to Design",
+  "areaSquareMeters": "Area: {area} m²",
+  "@areaSquareMeters": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    }
+  },
+  "estimatedAreaNoUnit": "Estimated Area (No Unit)",
+  "forInitialCostEstimateOnly": "For initial cost estimate only",
+  "availablePaths": "Available Paths",
+  "browseFinishingPackages": "Browse Finishing Packages",
+  "exploreTailoredPackages": "Explore ready-made and carefully tailored packages to suit your needs.",
+  "mySavedDesigns": "My Saved Designs",
+  "returnToSavedDesigns": "Return to view designs you've previously saved.",
+  "featureComingSoon": "This feature will be added soon!",
+  "designLab": "Design Lab",
+  "designStudio": "Design Studio",
+  "buildDreamHomeSubtitle": "Let's build your dream home with the latest design technologies.",
+  "estimatedAreaTitle": "Estimated Area ({area} m²)",
+  "@estimatedAreaTitle": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    }
+  },
+  "unitTitle": "Unit: {unit}",
+  "@unitTitle": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "designForTitle": "Design for: {title}",
+  "@designForTitle": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "discoverStyleAI": "Discover your style with AI",
+  "answerQuestionsForAI": "Answer a few questions and we'll generate a complete interior design customized to your taste.",
+  "startExperience": "Start Experience",
+  "aiAssistant": "AI Assistant",
+  "aiFeatureUnderDevelopment": "This feature is currently under development.\nSoon you will be able to design your apartment and see it in VR before execution!",
+  "okWaitingForIt": "OK, waiting for it",
+  "financialSummary": "Financial Summary",
+  "totalContractValue": "Total Contract Value",
+  "paidAmountLabel": "Paid (Down Payment + Installments)",
+  "remainingAmountLabel": "Remaining",
+  "unitAndProjectDetails": "Unit and Project Details",
+  "projectLabel": "Project",
+  "unitLabel": "Unit",
+  "contractDateLabel": "Contract Date",
+  "ownerNameLabel": "Owner Name",
+  "finishingProgressTitle": "Finishing Progress"
 }

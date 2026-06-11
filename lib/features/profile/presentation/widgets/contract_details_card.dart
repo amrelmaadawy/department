@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:apartment/l10n/app_localizations.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
 import 'package:apartment/core/theme/app_fonts.dart';
@@ -13,6 +14,7 @@ class ContractDetailsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
@@ -30,7 +32,7 @@ class ContractDetailsCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'تفاصيل الوحدة والمشروع',
+            l10n.unitAndProjectDetails,
             style: TextStyle(
               fontSize: AppFonts.bodyLarge,
               fontWeight: FontWeight.bold,
@@ -40,13 +42,13 @@ class ContractDetailsCard extends StatelessWidget {
           const SizedBox(height: AppSpacing.md),
           Divider(color: context.colors.border, height: 1),
           const SizedBox(height: AppSpacing.md),
-          _buildInfoRow(context, FluentIcons.building_24_regular, 'المشروع', unitData['projectName']),
+          _buildInfoRow(context, FluentIcons.building_24_regular, l10n.projectLabel, unitData['projectName']),
           const SizedBox(height: AppSpacing.md),
-          _buildInfoRow(context, FluentIcons.home_24_regular, 'الوحدة', unitData['unitName']),
+          _buildInfoRow(context, FluentIcons.home_24_regular, l10n.unitLabel, unitData['unitName']),
           const SizedBox(height: AppSpacing.md),
-          _buildInfoRow(context, FluentIcons.calendar_ltr_24_regular, 'تاريخ التعاقد', unitData['contractDate']),
+          _buildInfoRow(context, FluentIcons.calendar_ltr_24_regular, l10n.contractDateLabel, unitData['contractDate']),
           const SizedBox(height: AppSpacing.md),
-          _buildInfoRow(context, FluentIcons.person_24_regular, 'اسم المالك', unitData['ownerName']),
+          _buildInfoRow(context, FluentIcons.person_24_regular, l10n.ownerNameLabel, unitData['ownerName']),
         ],
       ),
     );

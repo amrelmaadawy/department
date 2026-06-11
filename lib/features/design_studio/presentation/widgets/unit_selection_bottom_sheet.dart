@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:apartment/l10n/app_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
@@ -16,6 +17,7 @@ class UnitSelectionBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final cubit = context.read<DesignContextCubit>();
     final units = cubit.getMockOwnedUnits();
 
@@ -46,7 +48,7 @@ class UnitSelectionBottomSheet extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: AppSpacing.xl),
             child: Text(
-              'اختر الوحدة المراد تصميمها',
+              l10n.selectUnitToDesign,
               style: TextStyle(
                 fontSize: AppFonts.headlineSmall,
                 fontWeight: FontWeight.bold,
@@ -85,6 +87,7 @@ class UnitSelectionBottomSheet extends StatelessWidget {
   }
 
   Widget _buildUnitItem(BuildContext context, ProjectUnitEntity unit) {
+    final l10n = AppLocalizations.of(context)!;
     return BlocBuilder<DesignContextCubit, DesignContextState>(
       builder: (context, state) {
         final isSelected = state.selectedUnit?.id == unit.id;
@@ -135,7 +138,7 @@ class UnitSelectionBottomSheet extends StatelessWidget {
                       ),
                       SizedBox(height: 2),
                       Text(
-                        'المساحة: ${unit.area} م²',
+                        l10n.areaSquareMeters(unit.area.toString()),
                         style: TextStyle(
                           fontSize: AppFonts.bodySmall,
                           color: context.colors.textSecondary,
@@ -155,6 +158,7 @@ class UnitSelectionBottomSheet extends StatelessWidget {
   }
 
   Widget _buildCustomAreaItem(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return BlocBuilder<DesignContextCubit, DesignContextState>(
       builder: (context, state) {
         final isSelected = state.selectedUnit == null;
@@ -192,7 +196,7 @@ class UnitSelectionBottomSheet extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'مساحة تقديرية (بدون وحدة)',
+                        l10n.estimatedAreaNoUnit,
                         style: TextStyle(
                           fontSize: AppFonts.bodyLarge,
                           fontWeight: FontWeight.bold,
@@ -201,7 +205,7 @@ class UnitSelectionBottomSheet extends StatelessWidget {
                       ),
                       SizedBox(height: 2),
                       Text(
-                        'للحصول على تقدير تكلفة مبدئي فقط',
+                        l10n.forInitialCostEstimateOnly,
                         style: TextStyle(
                           fontSize: AppFonts.bodySmall,
                           color: context.colors.textSecondary,

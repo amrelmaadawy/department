@@ -69,7 +69,7 @@ class ContractBottomActions extends StatelessWidget {
                       }
                     }, 
               backgroundColor: isFormValid ? context.colors.primary : context.colors.border,
-              textColor: Colors.white,
+              textColor: context.colors.white,
             ),
           ],
         ),

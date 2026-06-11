@@ -18,7 +18,7 @@ class BookingOrderDetails extends StatelessWidget {
     Clipboard.setData(ClipboardData(text: orderId));
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('تم نسخ رقم الطلب بنجاح'),
+        content: Text(AppLocalizations.of(context)!.orderNumberCopiedSuccessfully),
         backgroundColor: context.colors.primary,
         duration: Duration(seconds: 2),
       ),

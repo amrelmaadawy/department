@@ -141,7 +141,7 @@ class ContractPreviewScreen extends StatelessWidget {
                   CustomButton(
                     text: l10n.confirmReturnContracts,
                     backgroundColor: context.colors.primary,
-                    textColor: Colors.white,
+                    textColor: context.colors.white,
                     onPressed: () {
                       context.pop(true);
                     },

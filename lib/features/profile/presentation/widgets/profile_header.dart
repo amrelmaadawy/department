@@ -74,10 +74,10 @@ class ProfileHeader extends StatelessWidget {
               height: 120,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.white.withValues(alpha: 0.05),
+                color: context.colors.white.withValues(alpha: 0.05),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.white.withValues(alpha: 0.05),
+                    color: context.colors.white.withValues(alpha: 0.05),
                     blurRadius: 50,
                     spreadRadius: 10,
                   ),

@@ -185,7 +185,7 @@ class _ProjectsViewState extends State<ProjectsView> {
               vertical: AppSpacing.sm,
             ),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: context.colors.white,
               borderRadius: BorderRadius.circular(AppRadius.md),
             ),
           ),

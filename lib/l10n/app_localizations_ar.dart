@@ -688,4 +688,224 @@ class AppLocalizationsAr extends AppLocalizations {
   String unitPriceWithTitle(String title) {
     return 'سعر الوحدة ($title)';
   }
+
+  @override
+  String get unitContractTerms =>
+      '1. الحجز المبدئي يخضع للموافقة النهائية من قبل المطور.\n2. الأسعار المذكورة هي تقديرات أولية وقد تتغير بناءً على القياسات النهائية.\n3. عربون الحجز غير مسترد بعد مرور 14 يومًا من هذا الاتفاق.\n4. يلتزم المشتري باستكمال الدفعة المقدمة خلال الجدول الزمني المحدد.\n5. تعتبر جميع المخططات والمواصفات المرفقة جزءًا لا يتجزأ من هذا العقد.\n... [المزيد من البنود القانونية]';
+
+  @override
+  String get finishingContractTerms =>
+      '1. يتعهد المقاول بتنفيذ أعمال التشطيب وفقاً للمواصفات المعتمدة.\n2. الأسعار المذكورة تشمل توريد الخامات والمصنعية معاً.\n3. يلتزم العميل بدفع الدفعات المالية حسب نسب الإنجاز المتفق عليها.\n4. يضمن المقاول جودة الأعمال المنفذة لمدة عام كامل من تاريخ الاستلام.\n5. أي تعديلات على التصميم بعد بدء التنفيذ تخضع لتسعير منفصل.\n... [المزيد من البنود القانونية]';
+
+  @override
+  String get orderNumberCopiedSuccessfully => 'تم نسخ رقم الطلب بنجاح';
+
+  @override
+  String get reviewAndSignContracts => 'مراجعة وتوقيع العقود';
+
+  @override
+  String get finalTotalCost => 'إجمالي التكلفة النهائية';
+
+  @override
+  String get contractsRequiredForSignature => 'العقود المطلوبة للتوقيع';
+
+  @override
+  String get propertySaleContract => 'عقد بيع وحدة عقارية';
+
+  @override
+  String get unitDetailsDefault => 'تفاصيل الوحدة';
+
+  @override
+  String unitDetailsWithArea(String title, String area) {
+    return 'وحدة $title بمساحة $areaم²';
+  }
+
+  @override
+  String get customFinishingComprehensive =>
+      'تشطيب مخصص شامل الخامات والمصنعية';
+
+  @override
+  String get completeBookingAndPayment => 'إتمام الحجز والدفع';
+
+  @override
+  String get signNow => 'توقيع الآن';
+
+  @override
+  String get italianMarble => 'رخام إيطالي';
+
+  @override
+  String get italianMarbleDesc =>
+      'يعطي طابعاً فخماً وملمساً بارداً. مثالي للمساحات المفتوحة.';
+
+  @override
+  String get luxuriousTag => 'فاخر';
+
+  @override
+  String get spanishPorcelain => 'بورسلين إسباني';
+
+  @override
+  String get spanishPorcelainDesc =>
+      'متانة عالية وتنوع في التصاميم والألوان، سهل التنظيف.';
+
+  @override
+  String get practicalTag => 'عملي';
+
+  @override
+  String get germanParquet => 'باركيه ألماني';
+
+  @override
+  String get germanParquetDesc =>
+      'يضفي دفئاً ورونقاً طبيعياً للمكان، مناسب لغرف النوم.';
+
+  @override
+  String get warmTag => 'دافئ';
+
+  @override
+  String get spcFlooring => 'أرضيات SPC';
+
+  @override
+  String get spcFlooringDesc =>
+      'مقاوم للماء والرطوبة، خيار عملي واقتصادي بلمسة عصرية.';
+
+  @override
+  String get economicalTag => 'اقتصادي';
+
+  @override
+  String get jotunFenomasticPaint => 'دهان جوتن فينوماستيك';
+
+  @override
+  String get highQualityWashablePaint => 'دهان عالي الجودة قابل للغسيل';
+
+  @override
+  String get frenchWallpaper => 'ورق حائط فرنسي';
+
+  @override
+  String get luxuriousClassicDesigns => 'تصاميم كلاسيكية فاخرة';
+
+  @override
+  String get flatGypsumBoard => 'جبس بورد فلات';
+
+  @override
+  String get flatCeilingWithHiddenLighting => 'سقف مستوي مع إضاءة مخفية';
+
+  @override
+  String get modernTag => 'عصري';
+
+  @override
+  String get beechWoodDoors => 'أبواب خشب زان';
+
+  @override
+  String get durableDoorsClassicDesigns => 'أبواب متينة بتصاميم كلاسيكية';
+
+  @override
+  String get classicTag => 'كلاسيك';
+
+  @override
+  String get selectUnitToDesign => 'اختر الوحدة المراد تصميمها';
+
+  @override
+  String areaSquareMeters(String area) {
+    return 'المساحة: $area م²';
+  }
+
+  @override
+  String get estimatedAreaNoUnit => 'مساحة تقديرية (بدون وحدة)';
+
+  @override
+  String get forInitialCostEstimateOnly => 'للحصول على تقدير تكلفة مبدئي فقط';
+
+  @override
+  String get availablePaths => 'المسارات المتاحة';
+
+  @override
+  String get browseFinishingPackages => 'تصفح باقات التشطيب';
+
+  @override
+  String get exploreTailoredPackages =>
+      'استكشف الباقات الجاهزة والمصممة بعناية لتناسب احتياجاتك.';
+
+  @override
+  String get mySavedDesigns => 'تصميماتي المحفوظة';
+
+  @override
+  String get returnToSavedDesigns =>
+      'العودة لمشاهدة التصاميم التي حفظتها مسبقاً.';
+
+  @override
+  String get featureComingSoon => 'سيتم إضافة هذه الميزة قريباً!';
+
+  @override
+  String get designLab => 'معمل التصميم';
+
+  @override
+  String get designStudio => 'استوديو التصميم';
+
+  @override
+  String get buildDreamHomeSubtitle =>
+      'دعنا نبني منزل أحلامك بأحدث تقنيات التصميم.';
+
+  @override
+  String estimatedAreaTitle(String area) {
+    return 'مساحة تقديرية ($area م²)';
+  }
+
+  @override
+  String unitTitle(String unit) {
+    return 'وحدة: $unit';
+  }
+
+  @override
+  String designForTitle(String title) {
+    return 'التصميم لـ: $title';
+  }
+
+  @override
+  String get discoverStyleAI => 'اكتشف نمطك بالذكاء الاصطناعي';
+
+  @override
+  String get answerQuestionsForAI =>
+      'أجب على بعض الأسئلة وسنقوم بتوليد تصميم داخلي متكامل مخصص لذوقك.';
+
+  @override
+  String get startExperience => 'ابدأ التجربة';
+
+  @override
+  String get aiAssistant => 'مساعد الذكاء الاصطناعي';
+
+  @override
+  String get aiFeatureUnderDevelopment =>
+      'هذه الميزة تحت التطوير حالياً.\nقريباً ستتمكن من تصميم شقتك ورؤيتها بالواقع الافتراضي قبل التنفيذ!';
+
+  @override
+  String get okWaitingForIt => 'حسناً، بانتظار ذلك';
+
+  @override
+  String get financialSummary => 'الملخص المالي';
+
+  @override
+  String get totalContractValue => 'إجمالي قيمة التعاقد';
+
+  @override
+  String get paidAmountLabel => 'المدفوع (مقدم + أقساط)';
+
+  @override
+  String get remainingAmountLabel => 'المتبقي';
+
+  @override
+  String get unitAndProjectDetails => 'تفاصيل الوحدة والمشروع';
+
+  @override
+  String get projectLabel => 'المشروع';
+
+  @override
+  String get unitLabel => 'الوحدة';
+
+  @override
+  String get contractDateLabel => 'تاريخ التعاقد';
+
+  @override
+  String get ownerNameLabel => 'اسم المالك';
+
+  @override
+  String get finishingProgressTitle => 'متابعة التشطيب';
 }

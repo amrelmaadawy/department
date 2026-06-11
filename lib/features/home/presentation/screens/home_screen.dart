@@ -99,7 +99,7 @@ class HomeView extends StatelessWidget {
             height: 200,
             margin: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: context.colors.white,
               borderRadius: BorderRadius.circular(AppRadius.lg),
             ),
           ),
@@ -111,7 +111,7 @@ class HomeView extends StatelessWidget {
               width: 150,
               height: 24,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: context.colors.white,
                 borderRadius: BorderRadius.circular(AppRadius.sm),
               ),
             ),
@@ -130,7 +130,7 @@ class HomeView extends StatelessWidget {
                 return Container(
                   width: 220,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: context.colors.white,
                     borderRadius: BorderRadius.circular(AppRadius.md),
                   ),
                 );

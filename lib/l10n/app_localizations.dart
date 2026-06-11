@@ -1405,6 +1405,402 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unit Price ({title})'**
   String unitPriceWithTitle(String title);
+
+  /// No description provided for @unitContractTerms.
+  ///
+  /// In en, this message translates to:
+  /// **'1. Initial booking is subject to developer\'s final approval.\n2. Prices are estimates and may change based on final measurements.\n3. Booking deposit is non-refundable after 14 days.\n4. Buyer commits to completing the down payment within the specified timeline.\n5. All attached plans and specifications are an integral part of this contract.\n... [More Legal Terms]'**
+  String get unitContractTerms;
+
+  /// No description provided for @finishingContractTerms.
+  ///
+  /// In en, this message translates to:
+  /// **'1. The contractor undertakes to execute finishing works according to approved specifications.\n2. Prices include supply of materials and labor.\n3. Client commits to paying installments based on agreed completion percentages.\n4. Contractor guarantees quality of work for one full year.\n5. Any design modifications after execution starts are subject to separate pricing.\n... [More Legal Terms]'**
+  String get finishingContractTerms;
+
+  /// No description provided for @orderNumberCopiedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Order number copied successfully'**
+  String get orderNumberCopiedSuccessfully;
+
+  /// No description provided for @reviewAndSignContracts.
+  ///
+  /// In en, this message translates to:
+  /// **'Review & Sign Contracts'**
+  String get reviewAndSignContracts;
+
+  /// No description provided for @finalTotalCost.
+  ///
+  /// In en, this message translates to:
+  /// **'Final Total Cost'**
+  String get finalTotalCost;
+
+  /// No description provided for @contractsRequiredForSignature.
+  ///
+  /// In en, this message translates to:
+  /// **'Contracts Required For Signature'**
+  String get contractsRequiredForSignature;
+
+  /// No description provided for @propertySaleContract.
+  ///
+  /// In en, this message translates to:
+  /// **'Property Sale Contract'**
+  String get propertySaleContract;
+
+  /// No description provided for @unitDetailsDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'Unit Details'**
+  String get unitDetailsDefault;
+
+  /// No description provided for @unitDetailsWithArea.
+  ///
+  /// In en, this message translates to:
+  /// **'Unit {title} with area {area}m²'**
+  String unitDetailsWithArea(String title, String area);
+
+  /// No description provided for @customFinishingComprehensive.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom finishing including materials and labor'**
+  String get customFinishingComprehensive;
+
+  /// No description provided for @completeBookingAndPayment.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete Booking & Payment'**
+  String get completeBookingAndPayment;
+
+  /// No description provided for @signNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Now'**
+  String get signNow;
+
+  /// No description provided for @italianMarble.
+  ///
+  /// In en, this message translates to:
+  /// **'Italian Marble'**
+  String get italianMarble;
+
+  /// No description provided for @italianMarbleDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Provides a luxurious feel and cool touch. Ideal for open spaces.'**
+  String get italianMarbleDesc;
+
+  /// No description provided for @luxuriousTag.
+  ///
+  /// In en, this message translates to:
+  /// **'Luxurious'**
+  String get luxuriousTag;
+
+  /// No description provided for @spanishPorcelain.
+  ///
+  /// In en, this message translates to:
+  /// **'Spanish Porcelain'**
+  String get spanishPorcelain;
+
+  /// No description provided for @spanishPorcelainDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'High durability, variety in designs and colors, easy to clean.'**
+  String get spanishPorcelainDesc;
+
+  /// No description provided for @practicalTag.
+  ///
+  /// In en, this message translates to:
+  /// **'Practical'**
+  String get practicalTag;
+
+  /// No description provided for @germanParquet.
+  ///
+  /// In en, this message translates to:
+  /// **'German Parquet'**
+  String get germanParquet;
+
+  /// No description provided for @germanParquetDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Adds warmth and natural elegance to the space, suitable for bedrooms.'**
+  String get germanParquetDesc;
+
+  /// No description provided for @warmTag.
+  ///
+  /// In en, this message translates to:
+  /// **'Warm'**
+  String get warmTag;
+
+  /// No description provided for @spcFlooring.
+  ///
+  /// In en, this message translates to:
+  /// **'SPC Flooring'**
+  String get spcFlooring;
+
+  /// No description provided for @spcFlooringDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Water and moisture resistant, practical and economical choice with a modern touch.'**
+  String get spcFlooringDesc;
+
+  /// No description provided for @economicalTag.
+  ///
+  /// In en, this message translates to:
+  /// **'Economical'**
+  String get economicalTag;
+
+  /// No description provided for @jotunFenomasticPaint.
+  ///
+  /// In en, this message translates to:
+  /// **'Jotun Fenomastic Paint'**
+  String get jotunFenomasticPaint;
+
+  /// No description provided for @highQualityWashablePaint.
+  ///
+  /// In en, this message translates to:
+  /// **'High-quality washable paint'**
+  String get highQualityWashablePaint;
+
+  /// No description provided for @frenchWallpaper.
+  ///
+  /// In en, this message translates to:
+  /// **'French Wallpaper'**
+  String get frenchWallpaper;
+
+  /// No description provided for @luxuriousClassicDesigns.
+  ///
+  /// In en, this message translates to:
+  /// **'Luxurious classic designs'**
+  String get luxuriousClassicDesigns;
+
+  /// No description provided for @flatGypsumBoard.
+  ///
+  /// In en, this message translates to:
+  /// **'Flat Gypsum Board'**
+  String get flatGypsumBoard;
+
+  /// No description provided for @flatCeilingWithHiddenLighting.
+  ///
+  /// In en, this message translates to:
+  /// **'Flat ceiling with hidden lighting'**
+  String get flatCeilingWithHiddenLighting;
+
+  /// No description provided for @modernTag.
+  ///
+  /// In en, this message translates to:
+  /// **'Modern'**
+  String get modernTag;
+
+  /// No description provided for @beechWoodDoors.
+  ///
+  /// In en, this message translates to:
+  /// **'Beech Wood Doors'**
+  String get beechWoodDoors;
+
+  /// No description provided for @durableDoorsClassicDesigns.
+  ///
+  /// In en, this message translates to:
+  /// **'Durable doors with classic designs'**
+  String get durableDoorsClassicDesigns;
+
+  /// No description provided for @classicTag.
+  ///
+  /// In en, this message translates to:
+  /// **'Classic'**
+  String get classicTag;
+
+  /// No description provided for @selectUnitToDesign.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Unit to Design'**
+  String get selectUnitToDesign;
+
+  /// No description provided for @areaSquareMeters.
+  ///
+  /// In en, this message translates to:
+  /// **'Area: {area} m²'**
+  String areaSquareMeters(String area);
+
+  /// No description provided for @estimatedAreaNoUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated Area (No Unit)'**
+  String get estimatedAreaNoUnit;
+
+  /// No description provided for @forInitialCostEstimateOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'For initial cost estimate only'**
+  String get forInitialCostEstimateOnly;
+
+  /// No description provided for @availablePaths.
+  ///
+  /// In en, this message translates to:
+  /// **'Available Paths'**
+  String get availablePaths;
+
+  /// No description provided for @browseFinishingPackages.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse Finishing Packages'**
+  String get browseFinishingPackages;
+
+  /// No description provided for @exploreTailoredPackages.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore ready-made and carefully tailored packages to suit your needs.'**
+  String get exploreTailoredPackages;
+
+  /// No description provided for @mySavedDesigns.
+  ///
+  /// In en, this message translates to:
+  /// **'My Saved Designs'**
+  String get mySavedDesigns;
+
+  /// No description provided for @returnToSavedDesigns.
+  ///
+  /// In en, this message translates to:
+  /// **'Return to view designs you\'ve previously saved.'**
+  String get returnToSavedDesigns;
+
+  /// No description provided for @featureComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'This feature will be added soon!'**
+  String get featureComingSoon;
+
+  /// No description provided for @designLab.
+  ///
+  /// In en, this message translates to:
+  /// **'Design Lab'**
+  String get designLab;
+
+  /// No description provided for @designStudio.
+  ///
+  /// In en, this message translates to:
+  /// **'Design Studio'**
+  String get designStudio;
+
+  /// No description provided for @buildDreamHomeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Let\'s build your dream home with the latest design technologies.'**
+  String get buildDreamHomeSubtitle;
+
+  /// No description provided for @estimatedAreaTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated Area ({area} m²)'**
+  String estimatedAreaTitle(String area);
+
+  /// No description provided for @unitTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unit: {unit}'**
+  String unitTitle(String unit);
+
+  /// No description provided for @designForTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Design for: {title}'**
+  String designForTitle(String title);
+
+  /// No description provided for @discoverStyleAI.
+  ///
+  /// In en, this message translates to:
+  /// **'Discover your style with AI'**
+  String get discoverStyleAI;
+
+  /// No description provided for @answerQuestionsForAI.
+  ///
+  /// In en, this message translates to:
+  /// **'Answer a few questions and we\'ll generate a complete interior design customized to your taste.'**
+  String get answerQuestionsForAI;
+
+  /// No description provided for @startExperience.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Experience'**
+  String get startExperience;
+
+  /// No description provided for @aiAssistant.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Assistant'**
+  String get aiAssistant;
+
+  /// No description provided for @aiFeatureUnderDevelopment.
+  ///
+  /// In en, this message translates to:
+  /// **'This feature is currently under development.\nSoon you will be able to design your apartment and see it in VR before execution!'**
+  String get aiFeatureUnderDevelopment;
+
+  /// No description provided for @okWaitingForIt.
+  ///
+  /// In en, this message translates to:
+  /// **'OK, waiting for it'**
+  String get okWaitingForIt;
+
+  /// No description provided for @financialSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Financial Summary'**
+  String get financialSummary;
+
+  /// No description provided for @totalContractValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Contract Value'**
+  String get totalContractValue;
+
+  /// No description provided for @paidAmountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Paid (Down Payment + Installments)'**
+  String get paidAmountLabel;
+
+  /// No description provided for @remainingAmountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Remaining'**
+  String get remainingAmountLabel;
+
+  /// No description provided for @unitAndProjectDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Unit and Project Details'**
+  String get unitAndProjectDetails;
+
+  /// No description provided for @projectLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Project'**
+  String get projectLabel;
+
+  /// No description provided for @unitLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Unit'**
+  String get unitLabel;
+
+  /// No description provided for @contractDateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Contract Date'**
+  String get contractDateLabel;
+
+  /// No description provided for @ownerNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Owner Name'**
+  String get ownerNameLabel;
+
+  /// No description provided for @finishingProgressTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Finishing Progress'**
+  String get finishingProgressTitle;
 }
 
 class _AppLocalizationsDelegate

@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:apartment/l10n/app_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
@@ -19,6 +20,7 @@ class DesignStudioScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return BlocBuilder<DesignContextCubit, DesignContextState>(
       builder: (context, state) {
         return Scaffold(
@@ -33,27 +35,27 @@ class DesignStudioScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: AppSpacing.xl),
-                  _buildSectionTitle(context, 'المسارات المتاحة'),
+                  _buildSectionTitle(context, l10n.availablePaths),
                   const SizedBox(height: AppSpacing.md),
                   _buildAiCard(context),
                   const SizedBox(height: AppSpacing.lg),
                   _buildSecondaryCard(
                     context: context,
-                    title: 'تصفح باقات التشطيب',
-                    subtitle: 'استكشف الباقات الجاهزة والمصممة بعناية لتناسب احتياجاتك.',
+                    title: l10n.browseFinishingPackages,
+                    subtitle: l10n.exploreTailoredPackages,
                     icon: FluentIcons.box_24_regular,
                     onTap: () => context.push(AppRouter.packages),
                   ),
                   const SizedBox(height: AppSpacing.md),
                   _buildSecondaryCard(
                     context: context,
-                    title: 'تصميماتي المحفوظة',
-                    subtitle: 'العودة لمشاهدة التصاميم التي حفظتها مسبقاً.',
+                    title: l10n.mySavedDesigns,
+                    subtitle: l10n.returnToSavedDesigns,
                     icon: FluentIcons.folder_24_regular,
                     onTap: () {
                       // Placeholder
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('سيتم إضافة هذه الميزة قريباً!')),
+                        SnackBar(content: Text(l10n.featureComingSoon)),
                       );
                     },
                   ),
@@ -70,6 +72,7 @@ class DesignStudioScreen extends StatelessWidget {
   }
 
   Widget _buildHeroHeader(BuildContext context, DesignContextState state) {
+    final l10n = AppLocalizations.of(context)!;
     return SliverAppBar(
       expandedHeight: 300,
       pinned: true,
@@ -118,13 +121,13 @@ class DesignStudioScreen extends StatelessWidget {
                             width: 1,
                           ),
                         ),
-                        child: const Row(
+                        child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(FluentIcons.sparkle_16_filled, color: AppColors.gold, size: 16),
-                            SizedBox(width: 6),
+                            const Icon(FluentIcons.sparkle_16_filled, color: AppColors.gold, size: 16),
+                            const SizedBox(width: 6),
                             Text(
-                              'معمل التصميم',
+                              l10n.designLab,
                               style: TextStyle(
                                 color: AppColors.white,
                                 fontSize: AppFonts.bodySmall,
@@ -138,8 +141,8 @@ class DesignStudioScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: AppSpacing.md),
-                  const Text(
-                    'استوديو التصميم',
+                  Text(
+                    l10n.designStudio,
                     style: TextStyle(
                       color: AppColors.white,
                       fontSize: AppFonts.displayMedium,
@@ -149,7 +152,7 @@ class DesignStudioScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: AppSpacing.sm),
                   Text(
-                    'دعنا نبني منزل أحلامك بأحدث تقنيات التصميم.',
+                    l10n.buildDreamHomeSubtitle,
                     style: TextStyle(
                       color: AppColors.white.withValues(alpha: 0.8),
                       fontSize: AppFonts.bodyLarge,
@@ -167,8 +170,9 @@ class DesignStudioScreen extends StatelessWidget {
   }
 
   Widget _buildContextSelectorBar(BuildContext context, DesignContextState state) {
+    final l10n = AppLocalizations.of(context)!;
     final isCustom = state.isCustomArea;
-    final title = isCustom ? 'مساحة تقديرية (${state.baseArea} م²)' : 'وحدة: ${state.selectedUnit?.title.split(' ')[0]}';
+    final title = isCustom ? l10n.estimatedAreaTitle(state.baseArea.toString()) : l10n.unitTitle(state.selectedUnit?.title.split(' ')[0] ?? '');
 
     return GestureDetector(
       onTap: () {
@@ -204,7 +208,7 @@ class DesignStudioScreen extends StatelessWidget {
                 ),
                 const SizedBox(width: AppSpacing.sm),
                 Text(
-                  'التصميم لـ: $title',
+                  l10n.designForTitle(title),
                   style: const TextStyle(
                     color: AppColors.white,
                     fontSize: AppFonts.bodyMedium,
@@ -233,6 +237,7 @@ class DesignStudioScreen extends StatelessWidget {
   }
 
   Widget _buildAiCard(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return GestureDetector(
       onTap: () {
         showDialog(
@@ -285,8 +290,8 @@ class DesignStudioScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: AppSpacing.lg),
-                const Text(
-                  'اكتشف نمطك بالذكاء الاصطناعي',
+                Text(
+                  l10n.discoverStyleAI,
                   style: TextStyle(
                     color: AppColors.white,
                     fontSize: AppFonts.headlineMedium,
@@ -295,7 +300,7 @@ class DesignStudioScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: AppSpacing.xs),
                 Text(
-                  'أجب على بعض الأسئلة وسنقوم بتوليد تصميم داخلي متكامل مخصص لذوقك.',
+                  l10n.answerQuestionsForAI,
                   style: TextStyle(
                     color: AppColors.white.withValues(alpha: 0.7),
                     fontSize: AppFonts.bodyMedium,
@@ -305,8 +310,8 @@ class DesignStudioScreen extends StatelessWidget {
                 const SizedBox(height: AppSpacing.lg),
                 Row(
                   children: [
-                    const Text(
-                      'ابدأ التجربة',
+                    Text(
+                      l10n.startExperience,
                       style: TextStyle(
                         color: AppColors.gold,
                         fontWeight: FontWeight.bold,
@@ -396,6 +401,7 @@ class DesignStudioScreen extends StatelessWidget {
   }
 
   Widget _buildComingSoonDialog(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       backgroundColor: context.colors.background,
@@ -413,8 +419,8 @@ class DesignStudioScreen extends StatelessWidget {
               child: const Icon(FluentIcons.sparkle_24_filled, color: AppColors.gold, size: 40),
             ),
             const SizedBox(height: AppSpacing.xl),
-            const Text(
-              'مساعد الذكاء الاصطناعي',
+            Text(
+              l10n.aiAssistant,
               style: TextStyle(
                 fontSize: AppFonts.headlineMedium,
                 fontWeight: FontWeight.bold,
@@ -423,8 +429,8 @@ class DesignStudioScreen extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: AppSpacing.md),
-            const Text(
-              'هذه الميزة تحت التطوير حالياً.\nقريباً ستتمكن من تصميم شقتك ورؤيتها بالواقع الافتراضي قبل التنفيذ!',
+            Text(
+              l10n.aiFeatureUnderDevelopment,
               style: TextStyle(
                 fontSize: AppFonts.bodyMedium,
                 color: AppColors.textSecondary,
@@ -444,8 +450,8 @@ class DesignStudioScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                child: const Text(
-                  'حسناً، بانتظار ذلك',
+                child: Text(
+                  l10n.okWaitingForIt,
                   style: TextStyle(
                     color: AppColors.white,
                     fontWeight: FontWeight.bold,

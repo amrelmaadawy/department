@@ -62,7 +62,7 @@ class PackageCardFeatures extends StatelessWidget {
                 fontSize: AppFonts.headlineSmall,
                 fontWeight: FontWeight.w600,
                 color: isDark
-                    ? Colors.white.withValues(alpha: 0.95)
+                    ? context.colors.white.withValues(alpha: 0.95)
                     : context.colors.textPrimary.withValues(alpha: 0.85),
                 height: 1.5,
               ),

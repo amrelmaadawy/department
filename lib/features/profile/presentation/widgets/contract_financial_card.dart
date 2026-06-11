@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:apartment/l10n/app_localizations.dart';
 
 
 import '../../../../core/theme/app_fonts.dart';
@@ -14,6 +15,7 @@ class ContractFinancialCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       decoration: BoxDecoration(
         color: context.colors.primary,
@@ -31,7 +33,7 @@ class ContractFinancialCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'الملخص المالي',
+            l10n.financialSummary,
             style: TextStyle(
               fontSize: AppFonts.bodyLarge,
               fontWeight: FontWeight.bold,
@@ -39,13 +41,13 @@ class ContractFinancialCard extends StatelessWidget {
             ),
           ),
           SizedBox(height: AppSpacing.lg),
-          _buildFinancialRow(context, 'إجمالي قيمة التعاقد', financialData['totalPrice']),
+          _buildFinancialRow(context, l10n.totalContractValue, financialData['totalPrice']),
           SizedBox(height: AppSpacing.md),
           Divider(color: context.colors.white, height: 1, thickness: 0.2),
           SizedBox(height: AppSpacing.md),
-          _buildFinancialRow(context, 'المدفوع (مقدم + أقساط)', financialData['paidAmount']),
+          _buildFinancialRow(context, l10n.paidAmountLabel, financialData['paidAmount']),
           SizedBox(height: AppSpacing.md),
-          _buildFinancialRow(context, 'المتبقي', financialData['remainingAmount'], isHighlight: true),
+          _buildFinancialRow(context, l10n.remainingAmountLabel, financialData['remainingAmount'], isHighlight: true),
         ],
       ),
     );

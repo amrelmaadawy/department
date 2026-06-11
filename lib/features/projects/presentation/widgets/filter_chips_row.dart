@@ -47,7 +47,7 @@ class FilterChipsRow extends StatelessWidget {
               child: Text(
                 filter,
                 style: TextStyle(
-                  color: isSelected ? Colors.white : context.colors.textPrimary,
+                  color: isSelected ? context.colors.white : context.colors.textPrimary,
                   fontSize: AppFonts.bodySmall,
                   fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                 ),

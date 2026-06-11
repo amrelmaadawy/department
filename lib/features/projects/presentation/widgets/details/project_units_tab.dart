@@ -170,7 +170,7 @@ class _ProjectUnitsTabState extends State<ProjectUnitsTab> {
       selectedColor: context.colors.gold,
       backgroundColor: context.colors.background,
       labelStyle: TextStyle(
-        color: isSelected ? Colors.white : context.colors.textPrimary,
+        color: isSelected ? context.colors.white : context.colors.textPrimary,
         fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
         fontSize: AppFonts.bodyMedium,
       ),

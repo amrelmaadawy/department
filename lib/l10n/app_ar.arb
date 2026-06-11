@@ -53,7 +53,7 @@
   "totalArea": "المساحة الإجمالية",
   "unitTypes": "أنواع الوحدات",
   "deliveryDate": "تاريخ التسليم",
-  "finishingType": "التشطيب",
+  "finishingType": "نوع التشطيب",
   "chooseUnit": "اختار وحدتك",
   "million": "مليون",
   "ourServices": "خدماتنا",
@@ -207,23 +207,26 @@
   "unitTypeDesc": "وحدة {title} - {area} متر مربع",
   "@unitTypeDesc": {
     "placeholders": {
-      "title": {"type": "String"},
-      "area": {"type": "String"}
+      "title": {
+        "type": "String"
+      },
+      "area": {
+        "type": "String"
+      }
     }
   },
   "floor": "الدور",
   "floorDesc": "الدور {floorVal}",
   "@floorDesc": {
     "placeholders": {
-      "floorVal": {"type": "String"}
+      "floorVal": {
+        "type": "String"
+      }
     }
   },
-  "details": "التفاصيل",
   "loadingStatus": "قيد التحميل...",
-  "finishingType": "نوع التشطيب",
   "fullCustomFinishing": "تشطيب مخصص كامل",
   "totalFinishingCost": "إجمالي التشطيب",
-  "signature": "التوقيع",
   "clearSignature": "مسح التوقيع",
   "signAbove": "يرجى التوقيع داخل المربع أعلاه",
   "errAgreeTerms": "يرجى الموافقة على الشروط والأحكام أولاً.",
@@ -245,5 +248,109 @@
         "type": "String"
       }
     }
-  }
+  },
+  "unitContractTerms": "1. الحجز المبدئي يخضع للموافقة النهائية من قبل المطور.\n2. الأسعار المذكورة هي تقديرات أولية وقد تتغير بناءً على القياسات النهائية.\n3. عربون الحجز غير مسترد بعد مرور 14 يومًا من هذا الاتفاق.\n4. يلتزم المشتري باستكمال الدفعة المقدمة خلال الجدول الزمني المحدد.\n5. تعتبر جميع المخططات والمواصفات المرفقة جزءًا لا يتجزأ من هذا العقد.\n... [المزيد من البنود القانونية]",
+  "finishingContractTerms": "1. يتعهد المقاول بتنفيذ أعمال التشطيب وفقاً للمواصفات المعتمدة.\n2. الأسعار المذكورة تشمل توريد الخامات والمصنعية معاً.\n3. يلتزم العميل بدفع الدفعات المالية حسب نسب الإنجاز المتفق عليها.\n4. يضمن المقاول جودة الأعمال المنفذة لمدة عام كامل من تاريخ الاستلام.\n5. أي تعديلات على التصميم بعد بدء التنفيذ تخضع لتسعير منفصل.\n... [المزيد من البنود القانونية]",
+  "orderNumberCopiedSuccessfully": "تم نسخ رقم الطلب بنجاح",
+  "reviewAndSignContracts": "مراجعة وتوقيع العقود",
+  "finalTotalCost": "إجمالي التكلفة النهائية",
+  "contractsRequiredForSignature": "العقود المطلوبة للتوقيع",
+  "propertySaleContract": "عقد بيع وحدة عقارية",
+  "unitDetailsDefault": "تفاصيل الوحدة",
+  "unitDetailsWithArea": "وحدة {title} بمساحة {area}م²",
+  "customFinishingComprehensive": "تشطيب مخصص شامل الخامات والمصنعية",
+  "completeBookingAndPayment": "إتمام الحجز والدفع",
+  "signNow": "توقيع الآن",
+  "italianMarble": "رخام إيطالي",
+  "italianMarbleDesc": "يعطي طابعاً فخماً وملمساً بارداً. مثالي للمساحات المفتوحة.",
+  "luxuriousTag": "فاخر",
+  "spanishPorcelain": "بورسلين إسباني",
+  "spanishPorcelainDesc": "متانة عالية وتنوع في التصاميم والألوان، سهل التنظيف.",
+  "practicalTag": "عملي",
+  "germanParquet": "باركيه ألماني",
+  "germanParquetDesc": "يضفي دفئاً ورونقاً طبيعياً للمكان، مناسب لغرف النوم.",
+  "warmTag": "دافئ",
+  "spcFlooring": "أرضيات SPC",
+  "spcFlooringDesc": "مقاوم للماء والرطوبة، خيار عملي واقتصادي بلمسة عصرية.",
+  "economicalTag": "اقتصادي",
+  "jotunFenomasticPaint": "دهان جوتن فينوماستيك",
+  "highQualityWashablePaint": "دهان عالي الجودة قابل للغسيل",
+  "frenchWallpaper": "ورق حائط فرنسي",
+  "luxuriousClassicDesigns": "تصاميم كلاسيكية فاخرة",
+  "flatGypsumBoard": "جبس بورد فلات",
+  "flatCeilingWithHiddenLighting": "سقف مستوي مع إضاءة مخفية",
+  "modernTag": "عصري",
+  "beechWoodDoors": "أبواب خشب زان",
+  "durableDoorsClassicDesigns": "أبواب متينة بتصاميم كلاسيكية",
+  "classicTag": "كلاسيك",
+  "@unitDetailsWithArea": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "area": {
+        "type": "String"
+      }
+    }
+  },
+  "selectUnitToDesign": "اختر الوحدة المراد تصميمها",
+  "areaSquareMeters": "المساحة: {area} م²",
+  "@areaSquareMeters": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    }
+  },
+  "estimatedAreaNoUnit": "مساحة تقديرية (بدون وحدة)",
+  "forInitialCostEstimateOnly": "للحصول على تقدير تكلفة مبدئي فقط",
+  "availablePaths": "المسارات المتاحة",
+  "browseFinishingPackages": "تصفح باقات التشطيب",
+  "exploreTailoredPackages": "استكشف الباقات الجاهزة والمصممة بعناية لتناسب احتياجاتك.",
+  "mySavedDesigns": "تصميماتي المحفوظة",
+  "returnToSavedDesigns": "العودة لمشاهدة التصاميم التي حفظتها مسبقاً.",
+  "featureComingSoon": "سيتم إضافة هذه الميزة قريباً!",
+  "designLab": "معمل التصميم",
+  "designStudio": "استوديو التصميم",
+  "buildDreamHomeSubtitle": "دعنا نبني منزل أحلامك بأحدث تقنيات التصميم.",
+  "estimatedAreaTitle": "مساحة تقديرية ({area} م²)",
+  "@estimatedAreaTitle": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    }
+  },
+  "unitTitle": "وحدة: {unit}",
+  "@unitTitle": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "designForTitle": "التصميم لـ: {title}",
+  "@designForTitle": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "discoverStyleAI": "اكتشف نمطك بالذكاء الاصطناعي",
+  "answerQuestionsForAI": "أجب على بعض الأسئلة وسنقوم بتوليد تصميم داخلي متكامل مخصص لذوقك.",
+  "startExperience": "ابدأ التجربة",
+  "aiAssistant": "مساعد الذكاء الاصطناعي",
+  "aiFeatureUnderDevelopment": "هذه الميزة تحت التطوير حالياً.\nقريباً ستتمكن من تصميم شقتك ورؤيتها بالواقع الافتراضي قبل التنفيذ!",
+  "okWaitingForIt": "حسناً، بانتظار ذلك",
+  "financialSummary": "الملخص المالي",
+  "totalContractValue": "إجمالي قيمة التعاقد",
+  "paidAmountLabel": "المدفوع (مقدم + أقساط)",
+  "remainingAmountLabel": "المتبقي",
+  "unitAndProjectDetails": "تفاصيل الوحدة والمشروع",
+  "projectLabel": "المشروع",
+  "unitLabel": "الوحدة",
+  "contractDateLabel": "تاريخ التعاقد",
+  "ownerNameLabel": "اسم المالك",
+  "finishingProgressTitle": "متابعة التشطيب"
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:apartment/l10n/app_localizations.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:go_router/go_router.dart';
 
@@ -53,6 +54,7 @@ class _UnitProgressScreenState extends State<UnitProgressScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: context.colors.background,
       appBar: AppBar(
@@ -60,7 +62,7 @@ class _UnitProgressScreenState extends State<UnitProgressScreen> {
         elevation: 0,
         scrolledUnderElevation: 0.0,
         title:  Text(
-          'متابعة التشطيب',
+          l10n.finishingProgressTitle,
           style: TextStyle(
             color: context.colors.textPrimary,
             fontSize: AppFonts.headlineSmall,

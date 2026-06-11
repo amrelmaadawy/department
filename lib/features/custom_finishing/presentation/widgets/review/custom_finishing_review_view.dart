@@ -149,7 +149,7 @@ class CustomFinishingReviewView extends StatelessWidget {
                                         width: 24,
                                         height: 24,
                                         child: CircularProgressIndicator(
-                                          color: Colors.white,
+                                          color: context.colors.white,
                                           strokeWidth: 2,
                                         ),
                                       ),
@@ -163,7 +163,7 @@ class CustomFinishingReviewView extends StatelessWidget {
                                             style: TextStyle(
                                               fontSize: AppFonts.headlineSmall,
                                               fontWeight: FontWeight.bold,
-                                              color: Colors.white,
+                                              color: context.colors.white,
                                             ),
                                           ),
                                         ),
@@ -171,7 +171,7 @@ class CustomFinishingReviewView extends StatelessWidget {
                                       SizedBox(width: AppSpacing.sm),
                                       Icon(
                                         FluentIcons.checkmark_24_filled,
-                                        color: Colors.white,
+                                        color: context.colors.white,
                                       ),
                                     ],
                             ),

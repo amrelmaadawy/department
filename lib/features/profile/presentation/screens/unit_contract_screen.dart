@@ -120,7 +120,7 @@ class _UnitContractScreenState extends State<UnitContractScreen> {
           child: CustomButton(
             text: _isGeneratingPdf ? l10n.generatingPdf : l10n.downloadPdf,
             backgroundColor: context.colors.primary,
-            textColor: Colors.white,
+            textColor: context.colors.white,
             onPressed: _isGeneratingPdf ? null : _downloadPdf,
           ),
         ),

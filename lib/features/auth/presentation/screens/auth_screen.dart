@@ -94,7 +94,7 @@ class AuthView extends StatelessWidget {
                 backgroundColor: Theme.of(context).brightness == Brightness.dark 
                     ? context.colors.gold 
                     : context.colors.primary,
-                textColor: Colors.white,
+                textColor: context.colors.white,
                 onPressed: () {
                   context.go(AppRouter.layout);
                 },

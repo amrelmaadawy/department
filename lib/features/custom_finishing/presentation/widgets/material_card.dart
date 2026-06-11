@@ -98,14 +98,14 @@ class MaterialCard extends StatelessWidget {
                       color: Colors.black.withValues(alpha: 0.6),
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(
-                        color: Colors.white.withValues(alpha: 0.2),
+                        color: context.colors.white.withValues(alpha: 0.2),
                       ),
                     ),
                     child: Text(
                       material.tag,
                       style: TextStyle(
                         fontSize: AppFonts.labelSmall,
-                        color: Colors.white,
+                        color: context.colors.white,
                         fontWeight: FontWeight.w600,
                         letterSpacing: 0.5,
                       ),
@@ -140,7 +140,7 @@ class MaterialCard extends StatelessWidget {
                         ),
                         child: Icon(
                           FluentIcons.checkmark_16_filled,
-                          color: Colors.white,
+                          color: context.colors.white,
                           size: 18,
                         ),
                       ),

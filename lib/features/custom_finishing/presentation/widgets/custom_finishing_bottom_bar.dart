@@ -125,14 +125,14 @@ class CustomFinishingBottomBar extends StatelessWidget {
                           style: TextStyle(
                             fontSize: AppFonts.headlineSmall,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                            color: context.colors.white,
                           ),
                         ),
                         SizedBox(width: AppSpacing.sm),
                         Icon(
                           FluentIcons
                               .arrow_right_20_filled, // Points other way based on request
-                          color: Colors.white,
+                          color: context.colors.white,
                           size: 20,
                         ),
                       ],

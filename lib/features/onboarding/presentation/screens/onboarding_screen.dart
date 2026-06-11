@@ -250,7 +250,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                         ? Text(
                                             l10n.startNow,
                                             style: TextStyle(
-                                              color: Colors.white,
+                                              color: context.colors.white,
                                               fontSize: AppFonts.bodyMedium,
                                               fontWeight: FontWeight.bold,
                                             ),

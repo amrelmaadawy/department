@@ -73,7 +73,7 @@ class FinishingCategoryTabs extends StatelessWidget {
                       fontSize: AppFonts.bodyLarge,
                       fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
                       color: isSelected
-                          ? Colors.white
+                          ? context.colors.white
                           : context.colors.textPrimary.withValues(alpha: 0.6),
                       letterSpacing: -0.2,
                     ),

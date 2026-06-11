@@ -6,6 +6,7 @@ import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/l10n/app_localizations.dart';
 import 'package:apartment/features/packages/domain/entities/finishing_package_entity.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
 
 class PackageCardHeader extends StatelessWidget {
   final FinishingPackageEntity package;
@@ -42,7 +43,7 @@ class PackageCardHeader extends StatelessWidget {
             border: Border(
               bottom: BorderSide(
                 color: isDark
-                    ? Colors.white.withValues(alpha: 0.1)
+                    ? context.colors.white.withValues(alpha: 0.1)
                     : Colors.black.withValues(alpha: 0.05),
                 width: 1,
               ),

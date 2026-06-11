@@ -690,4 +690,227 @@ class AppLocalizationsEn extends AppLocalizations {
   String unitPriceWithTitle(String title) {
     return 'Unit Price ($title)';
   }
+
+  @override
+  String get unitContractTerms =>
+      '1. Initial booking is subject to developer\'s final approval.\n2. Prices are estimates and may change based on final measurements.\n3. Booking deposit is non-refundable after 14 days.\n4. Buyer commits to completing the down payment within the specified timeline.\n5. All attached plans and specifications are an integral part of this contract.\n... [More Legal Terms]';
+
+  @override
+  String get finishingContractTerms =>
+      '1. The contractor undertakes to execute finishing works according to approved specifications.\n2. Prices include supply of materials and labor.\n3. Client commits to paying installments based on agreed completion percentages.\n4. Contractor guarantees quality of work for one full year.\n5. Any design modifications after execution starts are subject to separate pricing.\n... [More Legal Terms]';
+
+  @override
+  String get orderNumberCopiedSuccessfully =>
+      'Order number copied successfully';
+
+  @override
+  String get reviewAndSignContracts => 'Review & Sign Contracts';
+
+  @override
+  String get finalTotalCost => 'Final Total Cost';
+
+  @override
+  String get contractsRequiredForSignature =>
+      'Contracts Required For Signature';
+
+  @override
+  String get propertySaleContract => 'Property Sale Contract';
+
+  @override
+  String get unitDetailsDefault => 'Unit Details';
+
+  @override
+  String unitDetailsWithArea(String title, String area) {
+    return 'Unit $title with area ${area}m²';
+  }
+
+  @override
+  String get customFinishingComprehensive =>
+      'Custom finishing including materials and labor';
+
+  @override
+  String get completeBookingAndPayment => 'Complete Booking & Payment';
+
+  @override
+  String get signNow => 'Sign Now';
+
+  @override
+  String get italianMarble => 'Italian Marble';
+
+  @override
+  String get italianMarbleDesc =>
+      'Provides a luxurious feel and cool touch. Ideal for open spaces.';
+
+  @override
+  String get luxuriousTag => 'Luxurious';
+
+  @override
+  String get spanishPorcelain => 'Spanish Porcelain';
+
+  @override
+  String get spanishPorcelainDesc =>
+      'High durability, variety in designs and colors, easy to clean.';
+
+  @override
+  String get practicalTag => 'Practical';
+
+  @override
+  String get germanParquet => 'German Parquet';
+
+  @override
+  String get germanParquetDesc =>
+      'Adds warmth and natural elegance to the space, suitable for bedrooms.';
+
+  @override
+  String get warmTag => 'Warm';
+
+  @override
+  String get spcFlooring => 'SPC Flooring';
+
+  @override
+  String get spcFlooringDesc =>
+      'Water and moisture resistant, practical and economical choice with a modern touch.';
+
+  @override
+  String get economicalTag => 'Economical';
+
+  @override
+  String get jotunFenomasticPaint => 'Jotun Fenomastic Paint';
+
+  @override
+  String get highQualityWashablePaint => 'High-quality washable paint';
+
+  @override
+  String get frenchWallpaper => 'French Wallpaper';
+
+  @override
+  String get luxuriousClassicDesigns => 'Luxurious classic designs';
+
+  @override
+  String get flatGypsumBoard => 'Flat Gypsum Board';
+
+  @override
+  String get flatCeilingWithHiddenLighting =>
+      'Flat ceiling with hidden lighting';
+
+  @override
+  String get modernTag => 'Modern';
+
+  @override
+  String get beechWoodDoors => 'Beech Wood Doors';
+
+  @override
+  String get durableDoorsClassicDesigns => 'Durable doors with classic designs';
+
+  @override
+  String get classicTag => 'Classic';
+
+  @override
+  String get selectUnitToDesign => 'Select Unit to Design';
+
+  @override
+  String areaSquareMeters(String area) {
+    return 'Area: $area m²';
+  }
+
+  @override
+  String get estimatedAreaNoUnit => 'Estimated Area (No Unit)';
+
+  @override
+  String get forInitialCostEstimateOnly => 'For initial cost estimate only';
+
+  @override
+  String get availablePaths => 'Available Paths';
+
+  @override
+  String get browseFinishingPackages => 'Browse Finishing Packages';
+
+  @override
+  String get exploreTailoredPackages =>
+      'Explore ready-made and carefully tailored packages to suit your needs.';
+
+  @override
+  String get mySavedDesigns => 'My Saved Designs';
+
+  @override
+  String get returnToSavedDesigns =>
+      'Return to view designs you\'ve previously saved.';
+
+  @override
+  String get featureComingSoon => 'This feature will be added soon!';
+
+  @override
+  String get designLab => 'Design Lab';
+
+  @override
+  String get designStudio => 'Design Studio';
+
+  @override
+  String get buildDreamHomeSubtitle =>
+      'Let\'s build your dream home with the latest design technologies.';
+
+  @override
+  String estimatedAreaTitle(String area) {
+    return 'Estimated Area ($area m²)';
+  }
+
+  @override
+  String unitTitle(String unit) {
+    return 'Unit: $unit';
+  }
+
+  @override
+  String designForTitle(String title) {
+    return 'Design for: $title';
+  }
+
+  @override
+  String get discoverStyleAI => 'Discover your style with AI';
+
+  @override
+  String get answerQuestionsForAI =>
+      'Answer a few questions and we\'ll generate a complete interior design customized to your taste.';
+
+  @override
+  String get startExperience => 'Start Experience';
+
+  @override
+  String get aiAssistant => 'AI Assistant';
+
+  @override
+  String get aiFeatureUnderDevelopment =>
+      'This feature is currently under development.\nSoon you will be able to design your apartment and see it in VR before execution!';
+
+  @override
+  String get okWaitingForIt => 'OK, waiting for it';
+
+  @override
+  String get financialSummary => 'Financial Summary';
+
+  @override
+  String get totalContractValue => 'Total Contract Value';
+
+  @override
+  String get paidAmountLabel => 'Paid (Down Payment + Installments)';
+
+  @override
+  String get remainingAmountLabel => 'Remaining';
+
+  @override
+  String get unitAndProjectDetails => 'Unit and Project Details';
+
+  @override
+  String get projectLabel => 'Project';
+
+  @override
+  String get unitLabel => 'Unit';
+
+  @override
+  String get contractDateLabel => 'Contract Date';
+
+  @override
+  String get ownerNameLabel => 'Owner Name';
+
+  @override
+  String get finishingProgressTitle => 'Finishing Progress';
 }

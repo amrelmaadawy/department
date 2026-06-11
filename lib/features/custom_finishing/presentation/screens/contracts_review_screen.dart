@@ -12,6 +12,7 @@ import '../../../../features/design_studio/presentation/cubit/design_context_cub
 import '../../../contracts/domain/entities/contract_type.dart';
 import '../cubit/custom_finishing_state.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
+import '../../../../l10n/app_localizations.dart';
 
 
 class ContractsReviewScreen extends StatefulWidget {
@@ -28,6 +29,7 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final unit = sl<DesignContextCubit>().state.selectedUnit;
     final totalCost = (unit?.price ?? 0.0) + widget.finishingState.totalEstimatedCost;
 
@@ -38,7 +40,7 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
         scrolledUnderElevation: 0,
         centerTitle: true,
         title: Text(
-          'مراجعة وتوقيع العقود',
+          l10n.reviewAndSignContracts,
           style: TextStyle(
             fontSize: AppFonts.headlineMedium,
             fontWeight: FontWeight.bold,
@@ -70,7 +72,7 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
             child: Column(
               children: [
                 Text(
-                  'إجمالي التكلفة النهائية',
+                  l10n.finalTotalCost,
                   style: TextStyle(
                     fontSize: AppFonts.bodyMedium,
                     color: context.colors.textSecondary,
@@ -97,7 +99,7 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
                     ),
                     SizedBox(width: 8),
                     Text(
-                      'ر.س',
+                      l10n.sar,
                       style: TextStyle(
                         fontSize: AppFonts.headlineMedium,
                         fontWeight: FontWeight.bold,
@@ -113,7 +115,7 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
 
           // Contracts List
           Text(
-            'العقود المطلوبة للتوقيع',
+            l10n.contractsRequiredForSignature,
             style: TextStyle(
               fontSize: AppFonts.headlineMedium,
               fontWeight: FontWeight.bold,
@@ -123,8 +125,9 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
           SizedBox(height: AppSpacing.lg),
 
           _buildContractCard(
-            title: 'عقد بيع وحدة عقارية',
-            subtitle: unit != null ? 'وحدة ${unit.title} بمساحة ${unit.area}م²' : 'تفاصيل الوحدة',
+            context: context,
+            title: l10n.propertySaleContract,
+            subtitle: unit != null ? l10n.unitDetailsWithArea(unit.title, unit.area.toString()) : l10n.unitDetailsDefault,
             isSigned: _isUnitContractSigned,
             onSign: () async {
               final result = await context.push(
@@ -140,8 +143,9 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
           ),
           SizedBox(height: AppSpacing.md),
           _buildContractCard(
-            title: 'عقد مقاولة تشطيب',
-            subtitle: 'تشطيب مخصص شامل الخامات والمصنعية',
+            context: context,
+            title: l10n.finishingContract,
+            subtitle: l10n.customFinishingComprehensive,
             isSigned: _isFinishingContractSigned,
             onSign: () async {
               final result = await context.push(
@@ -160,7 +164,7 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
           SizedBox(height: AppSpacing.xxxl),
 
           CustomButton(
-            text: 'إتمام الحجز والدفع',
+            text: l10n.completeBookingAndPayment,
             onPressed: (!_isUnitContractSigned || !_isFinishingContractSigned)
                 ? null
                 : () {
@@ -175,11 +179,13 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
   }
 
   Widget _buildContractCard({
+    required BuildContext context,
     required String title,
     required String subtitle,
     required bool isSigned,
     required VoidCallback onSign,
   }) {
+    final l10nCard = AppLocalizations.of(context)!;
     return Container(
       padding: EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
@@ -243,7 +249,7 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
                 foregroundColor: context.colors.gold,
               ),
               child: Text(
-                'توقيع الآن',
+                l10nCard.signNow,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: AppFonts.bodyLarge,

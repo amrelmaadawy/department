@@ -51,14 +51,14 @@ class BookingSuccessActions extends StatelessWidget {
                     style: TextStyle(
                       fontSize: AppFonts.headlineSmall,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: context.colors.white,
                       letterSpacing: 0.5,
                     ),
                   ),
                   SizedBox(width: AppSpacing.sm),
                   Icon(
                     FluentIcons.chevron_left_24_regular,
-                    color: Colors.white,
+                    color: context.colors.white,
                   ),
                 ],
               ),
