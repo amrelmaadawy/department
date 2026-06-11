@@ -231,5 +231,19 @@
   "finishingContract": "عقد مقاولة تشطيب",
   "finalApproval": "الاعتماد النهائي",
   "contractGeneratedSuccess": "تم إنشاء العقد بنجاح وموثق بتوقيعك الإلكتروني. يمكنك حفظ نسخة أو المتابعة.",
-  "confirmReturnContracts": "تأكيد والرجوع لمراجعة العقود"
+  "confirmReturnContracts": "تأكيد والرجوع لمراجعة العقود",
+  "designAndBookUnit": "صمم واحجز وحدتك",
+  "finalCustomizationReview": "مراجعة التخصيص النهائي",
+  "reviewSelectionsAndConfirm": "راجع اختياراتك وتأكد من تفاصيل التكلفة قبل اعتماد العقود لضمان مطابقة التنفيذ لرغباتك.",
+  "bookingError": "حدث خطأ أثناء التأكيد، يرجى المحاولة مرة أخرى.",
+  "confirmAndGenerateContracts": "تأكيد واستخراج العقود",
+  "confirmContractDraftNote": "بالضغط على زر التأكيد، سيتم إنشاء مسودة العقد النهائي للمراجعة النهائية قبل التوقيع.",
+  "unitPriceWithTitle": "سعر الوحدة ({title})",
+  "@unitPriceWithTitle": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  }
 }

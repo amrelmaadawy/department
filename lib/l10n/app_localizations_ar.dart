@@ -663,4 +663,29 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get confirmReturnContracts => 'تأكيد والرجوع لمراجعة العقود';
+
+  @override
+  String get designAndBookUnit => 'صمم واحجز وحدتك';
+
+  @override
+  String get finalCustomizationReview => 'مراجعة التخصيص النهائي';
+
+  @override
+  String get reviewSelectionsAndConfirm =>
+      'راجع اختياراتك وتأكد من تفاصيل التكلفة قبل اعتماد العقود لضمان مطابقة التنفيذ لرغباتك.';
+
+  @override
+  String get bookingError => 'حدث خطأ أثناء التأكيد، يرجى المحاولة مرة أخرى.';
+
+  @override
+  String get confirmAndGenerateContracts => 'تأكيد واستخراج العقود';
+
+  @override
+  String get confirmContractDraftNote =>
+      'بالضغط على زر التأكيد، سيتم إنشاء مسودة العقد النهائي للمراجعة النهائية قبل التوقيع.';
+
+  @override
+  String unitPriceWithTitle(String title) {
+    return 'سعر الوحدة ($title)';
+  }
 }

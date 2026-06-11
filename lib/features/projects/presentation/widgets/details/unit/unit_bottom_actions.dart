@@ -20,7 +20,7 @@ class UnitBottomActions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final formatter = NumberFormat.currency(symbol: 'ر.س ', decimalDigits: 0);
+    final formatter = NumberFormat.currency(symbol: '', decimalDigits: 0);
 
     return Container(
       padding: EdgeInsets.symmetric(
@@ -40,33 +40,31 @@ class UnitBottomActions extends StatelessWidget {
       child: SafeArea(
         child: Row(
           children: [
-            Expanded(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    l10n.priceTitle,
-                    style: TextStyle(
-                      fontSize: AppFonts.labelMedium,
-                      color: context.colors.textSecondary,
-                    ),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  l10n.priceTitle,
+                  style: TextStyle(
+                    fontSize: AppFonts.labelMedium,
+                    color: context.colors.textSecondary,
                   ),
-                  Text(
-                    formatter.format(unit.price),
-                    style: TextStyle(
-                      fontSize: AppFonts.headlineSmall,
-                      fontWeight: FontWeight.bold,
-                      color: context.colors.textPrimary,
-                    ),
+                ),
+                Text(
+                  '${formatter.format(unit.price).trim()} ${l10n.sar}',
+                  style: TextStyle(
+                    fontSize: AppFonts.headlineSmall,
+                    fontWeight: FontWeight.bold,
+                    color: context.colors.textPrimary,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
             SizedBox(width: AppSpacing.md),
             Expanded(
               child: CustomButton(
-                text: 'صمم واحجز وحدتك',
+                text: l10n.designAndBookUnit,
                 onPressed: () {
                   sl<DesignContextCubit>().selectUnit(unit);
                   context.push(AppRouter.customFinishing);

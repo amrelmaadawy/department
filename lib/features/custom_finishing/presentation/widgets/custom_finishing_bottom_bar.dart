@@ -77,7 +77,7 @@ class CustomFinishingBottomBar extends StatelessWidget {
                           ),
                           SizedBox(width: 4),
                           Text(
-                            'ر.س',
+                            l10n.sar,
                             style: TextStyle(
                               fontSize: AppFonts.headlineSmall,
                               fontWeight: FontWeight.bold,

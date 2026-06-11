@@ -31,7 +31,7 @@ class CustomFinishingReviewView extends StatelessWidget {
         } else if (state.bookingStatus == BookingStatus.failure) {
           AppToast.show(
             context,
-            message: 'حدث خطأ أثناء التأكيد، يرجى المحاولة مرة أخرى.',
+            message: l10n.bookingError,
             isError: true,
           );
         }
@@ -44,7 +44,7 @@ class CustomFinishingReviewView extends StatelessWidget {
             children: [
               // Header
               Text(
-                'مراجعة التخصيص النهائي', // Hardcoded since not in l10n yet
+                l10n.finalCustomizationReview,
                 style: TextStyle(
                   fontSize: AppFonts.displaySmall,
                   fontWeight: FontWeight.w900,
@@ -54,7 +54,7 @@ class CustomFinishingReviewView extends StatelessWidget {
               ),
               SizedBox(height: AppSpacing.sm),
               Text(
-                'راجع اختياراتك وتأكد من تفاصيل التكلفة قبل اعتماد العقود لضمان مطابقة التنفيذ لرغباتك.',
+                l10n.reviewSelectionsAndConfirm,
                 style: TextStyle(
                   fontSize: AppFonts.bodyLarge,
                   color: context.colors.textPrimary.withValues(alpha: 0.6),
@@ -73,8 +73,8 @@ class CustomFinishingReviewView extends StatelessWidget {
               Row(
                 children: [
                   // Back Button (Secondary)
-                  Expanded(
-                    flex: 1,
+                  SizedBox(
+                    width: 72,
                     child: OutlinedButton(
                       onPressed: state.bookingStatus ==
                               BookingStatus.loading
@@ -107,7 +107,6 @@ class CustomFinishingReviewView extends StatelessWidget {
 
                   // Confirm Button (Primary)
                   Expanded(
-                    flex: 3,
                     child: Container(
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
@@ -137,7 +136,10 @@ class CustomFinishingReviewView extends StatelessWidget {
                                       .confirmBooking();
                                 },
                           child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 20),
+                            padding: EdgeInsets.symmetric(
+                              vertical: 20,
+                              horizontal: AppSpacing.sm,
+                            ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: state.bookingStatus ==
@@ -153,12 +155,17 @@ class CustomFinishingReviewView extends StatelessWidget {
                                       ),
                                     ]
                                   : [
-                                      Text(
-                                        'تأكيد واستخراج العقود',
-                                        style: TextStyle(
-                                          fontSize: AppFonts.headlineSmall,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white,
+                                      Flexible(
+                                        child: FittedBox(
+                                          fit: BoxFit.scaleDown,
+                                          child: Text(
+                                            l10n.confirmAndGenerateContracts,
+                                            style: TextStyle(
+                                              fontSize: AppFonts.headlineSmall,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white,
+                                            ),
+                                          ),
                                         ),
                                       ),
                                       SizedBox(width: AppSpacing.sm),
@@ -180,7 +187,7 @@ class CustomFinishingReviewView extends StatelessWidget {
               
               // Helper text
               Text(
-                'بالضغط على زر التأكيد، سيتم إنشاء مسودة العقد النهائي للمراجعة النهائية قبل التوقيع.',
+                l10n.confirmContractDraftNote,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: AppFonts.labelLarge,

@@ -7,7 +7,7 @@ void main() {
     dir.createSync(recursive: true);
   }
 
-  File(path + '/settings_premium_app_bar.dart').writeAsStringSync('''
+  File('$path/settings_premium_app_bar.dart').writeAsStringSync('''
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:go_router/go_router.dart';
@@ -57,7 +57,7 @@ class SettingsPremiumAppBar extends StatelessWidget {
 }
 ''');
 
-  File(path + '/settings_animated_item.dart').writeAsStringSync('''
+  File('$path/settings_animated_item.dart').writeAsStringSync('''
 import 'package:flutter/material.dart';
 
 class SettingsAnimatedItem extends StatelessWidget {
@@ -87,7 +87,7 @@ class SettingsAnimatedItem extends StatelessWidget {
 }
 ''');
 
-  File(path + '/settings_section_title.dart').writeAsStringSync('''
+  File('$path/settings_section_title.dart').writeAsStringSync('''
 import 'package:flutter/material.dart';
 import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
@@ -116,7 +116,7 @@ class SettingsSectionTitle extends StatelessWidget {
 }
 ''');
 
-  File(path + '/settings_glass_card.dart').writeAsStringSync('''
+  File('$path/settings_glass_card.dart').writeAsStringSync('''
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:apartment/core/theme/app_radius.dart';
@@ -158,7 +158,7 @@ class SettingsGlassCard extends StatelessWidget {
 }
 ''');
 
-  File(path + '/settings_language_toggle.dart').writeAsStringSync('''
+  File('$path/settings_language_toggle.dart').writeAsStringSync('''
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:apartment/core/localization/cubit/locale_cubit.dart';
@@ -257,7 +257,7 @@ class SettingsLanguageToggle extends StatelessWidget {
 }
 ''');
 
-  File(path + '/settings_premium_toggle_row.dart').writeAsStringSync('''
+  File('$path/settings_premium_toggle_row.dart').writeAsStringSync('''
 import 'package:flutter/material.dart';
 import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_radius.dart';

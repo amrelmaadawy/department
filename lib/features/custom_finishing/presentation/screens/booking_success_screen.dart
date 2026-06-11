@@ -116,11 +116,19 @@ class _BookingSuccessScreenState extends State<BookingSuccessScreen>
             ),
           ),
           SafeArea(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: AppSpacing.xl),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: constraints.maxHeight,
+                    ),
+                    child: IntrinsicHeight(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: AppSpacing.xl),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Spacer(flex: 2),
 
@@ -198,6 +206,11 @@ class _BookingSuccessScreenState extends State<BookingSuccessScreen>
               ),
             ),
           ),
+        ),
+      );
+    },
+  ),
+),
         ],
       ),
     );

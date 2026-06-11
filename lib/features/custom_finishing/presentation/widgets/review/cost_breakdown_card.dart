@@ -45,7 +45,7 @@ class CostBreakdownCard extends StatelessWidget {
           ),
           SizedBox(height: AppSpacing.xl),
           if (unit != null) ...[
-            _buildCostRow(context, 'سعر الوحدة (${unit.title})', unitPrice, isTotal: false),
+            _buildCostRow(context, l10n.unitPriceWithTitle(unit.title), unitPrice, isTotal: false),
             SizedBox(height: AppSpacing.md),
           ],
           _buildCostRow(
@@ -66,7 +66,7 @@ class CostBreakdownCard extends StatelessWidget {
           SizedBox(height: AppSpacing.xs),
           _buildCostRow(context, l10n.vatAmount, state.vatAmount, isTotal: false, isFaded: true),
           SizedBox(height: AppSpacing.md),
-          _buildCostRow(context, 'إجمالي تكلفة التشطيب', finishingCost, isTotal: false),
+          _buildCostRow(context, l10n.totalFinishingCost, finishingCost, isTotal: false),
           Padding(
             padding: EdgeInsets.symmetric(vertical: AppSpacing.lg),
             child: Divider(color: context.colors.border.withValues(alpha: 0.5)),
@@ -103,7 +103,7 @@ class CostBreakdownCard extends StatelessWidget {
                   ),
                   SizedBox(width: 4),
                   Text(
-                    'ر.س',
+                  l10n.sar,
                     style: TextStyle(
                       fontSize: AppFonts.bodyMedium,
                       fontWeight: FontWeight.bold,
@@ -126,12 +126,15 @@ class CostBreakdownCard extends StatelessWidget {
     required bool isTotal,
     bool isFaded = false,
   }) {
+    final l10n = AppLocalizations.of(context)!;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
           child: Text(
             title,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontSize: isTotal ? AppFonts.headlineSmall : AppFonts.bodyLarge,
               fontWeight: isTotal ? FontWeight.bold : FontWeight.w500,
@@ -143,7 +146,7 @@ class CostBreakdownCard extends StatelessWidget {
         ),
         SizedBox(width: AppSpacing.sm),
         Text(
-          '${amount.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')} ر.س',
+          '${amount.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')} ${l10n.sar}',
           style: TextStyle(
             fontSize: isTotal ? AppFonts.headlineMedium : AppFonts.bodyLarge,
             fontWeight: isTotal ? FontWeight.bold : FontWeight.w600,

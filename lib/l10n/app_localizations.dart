@@ -1363,6 +1363,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Confirm & Return to Contracts'**
   String get confirmReturnContracts;
+
+  /// No description provided for @designAndBookUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'Design and Book Your Unit'**
+  String get designAndBookUnit;
+
+  /// No description provided for @finalCustomizationReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Final Customization Review'**
+  String get finalCustomizationReview;
+
+  /// No description provided for @reviewSelectionsAndConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Review your selections and confirm cost details before approving the contracts to ensure execution matches your desires.'**
+  String get reviewSelectionsAndConfirm;
+
+  /// No description provided for @bookingError.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred during confirmation, please try again.'**
+  String get bookingError;
+
+  /// No description provided for @confirmAndGenerateContracts.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm & Generate Contracts'**
+  String get confirmAndGenerateContracts;
+
+  /// No description provided for @confirmContractDraftNote.
+  ///
+  /// In en, this message translates to:
+  /// **'By clicking confirm, a final contract draft will be generated for final review before signing.'**
+  String get confirmContractDraftNote;
+
+  /// No description provided for @unitPriceWithTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unit Price ({title})'**
+  String unitPriceWithTitle(String title);
 }
 
 class _AppLocalizationsDelegate

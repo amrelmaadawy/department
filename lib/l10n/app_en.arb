@@ -231,5 +231,19 @@
   "finishingContract": "Finishing Contract",
   "finalApproval": "Final Approval",
   "contractGeneratedSuccess": "Contract generated successfully and verified with your electronic signature. You can save a copy or proceed.",
-  "confirmReturnContracts": "Confirm & Return to Contracts"
+  "confirmReturnContracts": "Confirm & Return to Contracts",
+  "designAndBookUnit": "Design and Book Your Unit",
+  "finalCustomizationReview": "Final Customization Review",
+  "reviewSelectionsAndConfirm": "Review your selections and confirm cost details before approving the contracts to ensure execution matches your desires.",
+  "bookingError": "An error occurred during confirmation, please try again.",
+  "confirmAndGenerateContracts": "Confirm & Generate Contracts",
+  "confirmContractDraftNote": "By clicking confirm, a final contract draft will be generated for final review before signing.",
+  "unitPriceWithTitle": "Unit Price ({title})",
+  "@unitPriceWithTitle": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  }
 }

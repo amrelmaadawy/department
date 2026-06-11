@@ -664,4 +664,30 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get confirmReturnContracts => 'Confirm & Return to Contracts';
+
+  @override
+  String get designAndBookUnit => 'Design and Book Your Unit';
+
+  @override
+  String get finalCustomizationReview => 'Final Customization Review';
+
+  @override
+  String get reviewSelectionsAndConfirm =>
+      'Review your selections and confirm cost details before approving the contracts to ensure execution matches your desires.';
+
+  @override
+  String get bookingError =>
+      'An error occurred during confirmation, please try again.';
+
+  @override
+  String get confirmAndGenerateContracts => 'Confirm & Generate Contracts';
+
+  @override
+  String get confirmContractDraftNote =>
+      'By clicking confirm, a final contract draft will be generated for final review before signing.';
+
+  @override
+  String unitPriceWithTitle(String title) {
+    return 'Unit Price ($title)';
+  }
 }
