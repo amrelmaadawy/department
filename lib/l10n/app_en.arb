@@ -352,5 +352,11 @@
   "unitLabel": "Unit",
   "contractDateLabel": "Contract Date",
   "ownerNameLabel": "Owner Name",
-  "finishingProgressTitle": "Finishing Progress"
+  "finishingProgressTitle": "Finishing Progress",
+  "password": "Password",
+  "confirmPassword": "Confirm Password",
+  "requiredField": "This field is required",
+  "invalidEmail": "Invalid email address",
+  "passwordTooShort": "Password must be at least 6 characters",
+  "passwordsDoNotMatch": "Passwords do not match"
 }

@@ -908,4 +908,22 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get finishingProgressTitle => 'متابعة التشطيب';
+
+  @override
+  String get password => 'كلمة المرور';
+
+  @override
+  String get confirmPassword => 'تأكيد كلمة المرور';
+
+  @override
+  String get requiredField => 'هذا الحقل مطلوب';
+
+  @override
+  String get invalidEmail => 'البريد الإلكتروني غير صالح';
+
+  @override
+  String get passwordTooShort => 'يجب أن تكون كلمة المرور 6 أحرف على الأقل';
+
+  @override
+  String get passwordsDoNotMatch => 'كلمتا المرور غير متطابقتين';
 }

@@ -913,4 +913,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get finishingProgressTitle => 'Finishing Progress';
+
+  @override
+  String get password => 'Password';
+
+  @override
+  String get confirmPassword => 'Confirm Password';
+
+  @override
+  String get requiredField => 'This field is required';
+
+  @override
+  String get invalidEmail => 'Invalid email address';
+
+  @override
+  String get passwordTooShort => 'Password must be at least 6 characters';
+
+  @override
+  String get passwordsDoNotMatch => 'Passwords do not match';
 }

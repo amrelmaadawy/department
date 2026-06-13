@@ -6,8 +6,6 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
-import 'package:apartment/core/routes/app_router.dart';
-import 'package:apartment/core/widgets/app_toast.dart';
 import 'package:apartment/l10n/app_localizations.dart';
 import '../../cubit/custom_finishing_cubit.dart';
 import '../../cubit/custom_finishing_state.dart';

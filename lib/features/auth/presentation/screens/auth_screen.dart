@@ -1,5 +1,6 @@
 import 'package:apartment/features/auth/presentation/widgets/auth_tabs.dart';
-import 'package:apartment/features/auth/presentation/widgets/phone_input_field.dart';
+import 'package:apartment/features/auth/presentation/widgets/login_form.dart';
+import 'package:apartment/features/auth/presentation/widgets/register_form.dart';
 import 'package:apartment/features/auth/presentation/widgets/social_login_button.dart';
 import 'package:apartment/l10n/app_localizations.dart';
 import 'package:flutter/gestures.dart';
@@ -12,6 +13,7 @@ import '../../../../core/routes/app_router.dart';
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_sizes.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/widgets/app_toast.dart';
 import '../../../../core/widgets/custom_button.dart';
 import '../cubit/auth_cubit.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
@@ -28,8 +30,37 @@ class AuthScreen extends StatelessWidget {
   }
 }
 
-class AuthView extends StatelessWidget {
+class AuthView extends StatefulWidget {
   const AuthView({super.key});
+
+  @override
+  State<AuthView> createState() => _AuthViewState();
+}
+
+class _AuthViewState extends State<AuthView> {
+  final _loginFormKey = GlobalKey<FormState>();
+  final _registerFormKey = GlobalKey<FormState>();
+  
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  
+  final _regNameController = TextEditingController();
+  final _regEmailController = TextEditingController();
+  final _regPhoneController = TextEditingController();
+  final _regPasswordController = TextEditingController();
+  final _regConfirmPasswordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    _regNameController.dispose();
+    _regEmailController.dispose();
+    _regPhoneController.dispose();
+    _regPasswordController.dispose();
+    _regConfirmPasswordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,20 +114,86 @@ class AuthView extends StatelessWidget {
 
               const SizedBox(height: AppSpacing.xxl),
 
-              // Phone Input
-              const PhoneInputField(),
+              // Forms
+              BlocBuilder<AuthCubit, AuthState>(
+                builder: (context, state) {
+                  return AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 300),
+                    child: state.isLoginTab
+                        ? LoginForm(
+                            key: const ValueKey('login'),
+                            formKey: _loginFormKey,
+                            emailController: _emailController,
+                            passwordController: _passwordController,
+                          )
+                        : RegisterForm(
+                            key: const ValueKey('register'),
+                            formKey: _registerFormKey,
+                            nameController: _regNameController,
+                            emailController: _regEmailController,
+                            phoneController: _regPhoneController,
+                            passwordController: _regPasswordController,
+                            confirmPasswordController: _regConfirmPasswordController,
+                          ),
+                  );
+                },
+              ),
 
               const SizedBox(height: AppSpacing.xl),
 
-              // Next Button
-              CustomButton(
-                text: l10n.next,
-                backgroundColor: Theme.of(context).brightness == Brightness.dark 
-                    ? context.colors.gold 
-                    : context.colors.primary,
-                textColor: context.colors.white,
-                onPressed: () {
-                  context.go(AppRouter.layout);
+              // Action Button
+              BlocConsumer<AuthCubit, AuthState>(
+                listener: (context, state) {
+                  if (state.status == AuthStatus.failure) {
+                    AppToast.show(
+                      context,
+                      message: state.errorMessage ?? l10n.bookingError,
+                      isError: true,
+                    );
+                  } else if (state.status == AuthStatus.success) {
+                    AppToast.show(
+                      context,
+                      message: 'Account Created Successfully!', // Add to l10n later
+                      isError: false,
+                    );
+                    context.go(AppRouter.layout);
+                  }
+                },
+                builder: (context, state) {
+                  return CustomButton(
+                    text: state.status == AuthStatus.loading 
+                        ? '...' // Or you can keep text and add isLoading inside CustomButton if supported
+                        : (state.isLoginTab ? l10n.login : l10n.createAccount),
+                    backgroundColor: Theme.of(context).brightness == Brightness.dark 
+                        ? context.colors.gold 
+                        : context.colors.primary,
+                    textColor: context.colors.white,
+                    onPressed: state.status == AuthStatus.loading 
+                        ? null 
+                        : () {
+                      bool isValid = false;
+                      if (state.isLoginTab) {
+                        isValid = _loginFormKey.currentState?.validate() ?? false;
+                      } else {
+                        isValid = _registerFormKey.currentState?.validate() ?? false;
+                      }
+                      
+                      if (isValid) {
+                        if (!state.isLoginTab) {
+                          context.read<AuthCubit>().register(
+                            name: _regNameController.text.trim(),
+                            email: _regEmailController.text.trim(),
+                            phone: _regPhoneController.text.trim(),
+                            password: _regPasswordController.text,
+                            passwordConfirmation: _regConfirmPasswordController.text,
+                          );
+                        } else {
+                          // TODO: Implement Login
+                          context.go(AppRouter.layout);
+                        }
+                      }
+                    },
+                  );
                 },
               ),
 
