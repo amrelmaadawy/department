@@ -20,8 +20,9 @@ class FinishingCategoryTabs extends StatelessWidget {
       buildWhen: (previous, current) =>
           previous.currentCategory != current.currentCategory,
       builder: (context, state) {
-        return SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
+        return Center(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
           padding: EdgeInsets.symmetric(
             horizontal: AppSpacing.md,
             vertical: AppSpacing.sm,
@@ -76,13 +77,14 @@ class FinishingCategoryTabs extends StatelessWidget {
                           : FontWeight.w600,
                       color: isSelected
                           ? Colors.white
-                          : Colors.white.withValues(alpha: 0.6),
+                          : context.colors.textPrimary.withValues(alpha: 0.6),
                       letterSpacing: -0.2,
                     ),
                   ),
                 ),
               );
             }).toList(),
+            ),
           ),
         );
       },

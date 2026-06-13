@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -70,7 +71,14 @@ class AppRouter {
         path: projectDetails,
         redirect: (context, state) => state.extra == null ? layout : null,
         pageBuilder: (context, state) {
-          final extra = state.extra as Map<String, dynamic>;
+          final extra = state.extra as Map<String, dynamic>?;
+          if (extra == null) {
+            return CustomTransitionPage(
+              key: state.pageKey,
+              child: const _RedirectFallback(route: layout),
+              transitionsBuilder: AppRouterTransitions.fadeTransition,
+            );
+          }
           return CustomTransitionPage(
             key: state.pageKey,
             transitionDuration: const Duration(milliseconds: 600),
@@ -86,7 +94,14 @@ class AppRouter {
         path: unitDetails,
         redirect: (context, state) => state.extra == null ? layout : null,
         pageBuilder: (context, state) {
-          final extra = state.extra as Map<String, dynamic>;
+          final extra = state.extra as Map<String, dynamic>?;
+          if (extra == null) {
+            return CustomTransitionPage(
+              key: state.pageKey,
+              child: const _RedirectFallback(route: layout),
+              transitionsBuilder: AppRouterTransitions.fadeTransition,
+            );
+          }
           return CustomTransitionPage(
             key: state.pageKey,
             transitionDuration: const Duration(milliseconds: 600),
@@ -120,7 +135,8 @@ class AppRouter {
         path: contractPreview,
         redirect: (context, state) => state.extra == null ? contractSigning : null,
         builder: (context, state) {
-          final signatureImage = state.extra as Uint8List;
+          final signatureImage = state.extra as Uint8List?;
+          if (signatureImage == null) return const _RedirectFallback(route: contractSigning);
           return ContractPreviewScreen(signatureImage: signatureImage);
         },
       ),
@@ -152,7 +168,14 @@ class AppRouter {
         path: contractsReview,
         redirect: (context, state) => state.extra == null ? customFinishing : null,
         pageBuilder: (context, state) {
-          final finishingState = state.extra as CustomFinishingState;
+          final finishingState = state.extra as CustomFinishingState?;
+          if (finishingState == null) {
+            return CustomTransitionPage(
+              key: state.pageKey,
+              child: const _RedirectFallback(route: customFinishing),
+              transitionsBuilder: AppRouterTransitions.fadeTransition,
+            );
+          }
           return CustomTransitionPage(
             key: state.pageKey,
             transitionDuration: const Duration(milliseconds: 600),
@@ -207,4 +230,33 @@ class AppRouter {
       ),
     ],
   );
+}
+
+class _RedirectFallback extends StatefulWidget {
+  final String route;
+  const _RedirectFallback({required this.route});
+
+  @override
+  State<_RedirectFallback> createState() => _RedirectFallbackState();
+}
+
+class _RedirectFallbackState extends State<_RedirectFallback> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context.go(widget.route);
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+  }
 }

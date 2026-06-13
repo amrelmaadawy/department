@@ -22,16 +22,7 @@ class CustomFinishingReviewView extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    return BlocConsumer<CustomFinishingCubit, CustomFinishingState>(
-      listenWhen: (previous, current) =>
-          previous.bookingStatus != current.bookingStatus,
-      listener: (context, state) {
-        if (state.bookingStatus == BookingStatus.success) {
-          context.go(AppRouter.bookingSuccess);
-        } else if (state.bookingStatus == BookingStatus.failure) {
-          AppToast.show(context, message: l10n.bookingError, isError: true);
-        }
-      },
+    return BlocBuilder<CustomFinishingCubit, CustomFinishingState>(
       builder: (context, state) {
         return SingleChildScrollView(
           padding: EdgeInsets.all(AppSpacing.lg),

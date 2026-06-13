@@ -156,7 +156,7 @@ class MaterialCard extends StatelessWidget {
                     style: TextStyle(
                       fontSize: AppFonts.headlineSmall,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: context.colors.textPrimary,
                       letterSpacing: -0.5,
                     ),
                   ),
@@ -165,7 +165,7 @@ class MaterialCard extends StatelessWidget {
                     material.description,
                     style: TextStyle(
                       fontSize: AppFonts.bodyMedium,
-                      color: Colors.white.withValues(alpha: 0.6),
+                      color: context.colors.textPrimary.withValues(alpha: 0.6),
                       height: 1.5,
                     ),
                   ),
@@ -186,7 +186,7 @@ class MaterialCard extends StatelessWidget {
                           l10n.pricePerSqm,
                           style: TextStyle(
                             fontSize: AppFonts.bodyLarge,
-                            color: Colors.white.withValues(alpha: 0.5),
+                            color: context.colors.textPrimary.withValues(alpha: 0.5),
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -199,7 +199,7 @@ class MaterialCard extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: AppFonts.displaySmall, // Display size
                                 fontWeight: FontWeight.w900,
-                                color: Colors.white,
+                                color: context.colors.textPrimary,
                                 letterSpacing: -1,
                               ),
                             ),

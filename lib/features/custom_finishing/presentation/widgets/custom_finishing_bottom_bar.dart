@@ -46,7 +46,7 @@ class CustomFinishingBottomBar extends StatelessWidget {
                     l10n.totalEstimatedCost,
                     style: TextStyle(
                       fontSize: AppFonts.bodyMedium,
-                      color: Colors.white.withValues(alpha: 0.6),
+                      color: context.colors.textPrimary.withValues(alpha: 0.6),
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -70,7 +70,7 @@ class CustomFinishingBottomBar extends StatelessWidget {
                             style: TextStyle(
                               fontSize: AppFonts.displayMedium,
                               fontWeight: FontWeight.w900,
-                              color: Colors.white,
+                              color: context.colors.textPrimary,
                               letterSpacing: -1,
                             ),
                           ),

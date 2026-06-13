@@ -12,6 +12,7 @@ import '../cubit/custom_finishing_state.dart';
 import '../widgets/finishing_category_tabs.dart';
 import '../widgets/material_card.dart';
 import '../widgets/custom_finishing_bottom_bar.dart';
+import '../../../../core/widgets/app_toast.dart';
 import '../widgets/review/custom_finishing_review_view.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 
@@ -28,6 +29,9 @@ class CustomFinishingScreen extends StatelessWidget {
         listener: (context, state) {
           if (state.bookingStatus == BookingStatus.success) {
             context.push('/contracts-review', extra: state);
+          } else if (state.bookingStatus == BookingStatus.failure) {
+            final l10n = AppLocalizations.of(context)!;
+            AppToast.show(context, message: l10n.bookingError, isError: true);
           }
         },
         child: const CustomFinishingView(),
@@ -54,14 +58,14 @@ class CustomFinishingView extends StatelessWidget {
           style: TextStyle(
             fontSize: AppFonts.headlineMedium,
             fontWeight: FontWeight.bold,
-            color: Colors.white,
+            color: context.colors.textPrimary,
           ),
         ),
         leading: IconButton(
           icon: Icon(
             FluentIcons
                 .arrow_left_24_filled, // Pointing opposite way as requested
-            color: Colors.white,
+            color: context.colors.textPrimary,
           ),
           onPressed: () => context.pop(),
         ),
@@ -71,6 +75,7 @@ class CustomFinishingView extends StatelessWidget {
         children: [
           // Sticky Tabs
           Container(
+            width: double.infinity,
             color: context.colors.white,
             padding: EdgeInsets.only(bottom: AppSpacing.sm),
             child: const FinishingCategoryTabs(),
@@ -127,7 +132,7 @@ class CustomFinishingView extends StatelessWidget {
                           style: TextStyle(
                             fontSize: AppFonts.headlineMedium,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                            color: context.colors.textPrimary,
                           ),
                         ),
                       ),
