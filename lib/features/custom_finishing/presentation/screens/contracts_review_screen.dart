@@ -14,7 +14,6 @@ import '../cubit/custom_finishing_state.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 import '../../../../l10n/app_localizations.dart';
 
-
 class ContractsReviewScreen extends StatefulWidget {
   final CustomFinishingState finishingState;
   const ContractsReviewScreen({super.key, required this.finishingState});
@@ -31,7 +30,8 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final unit = sl<DesignContextCubit>().state.selectedUnit;
-    final totalCost = (unit?.price ?? 0.0) + widget.finishingState.totalEstimatedCost;
+    final totalCost =
+        (unit?.price ?? 0.0) + widget.finishingState.totalEstimatedCost;
 
     return Scaffold(
       backgroundColor: context.colors.background,
@@ -127,14 +127,14 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
           _buildContractCard(
             context: context,
             title: l10n.propertySaleContract,
-            subtitle: unit != null ? l10n.unitDetailsWithArea(unit.title, unit.area.toString()) : l10n.unitDetailsDefault,
+            subtitle: unit != null
+                ? l10n.unitDetailsWithArea(unit.title, unit.area.toString())
+                : l10n.unitDetailsDefault,
             isSigned: _isUnitContractSigned,
             onSign: () async {
               final result = await context.push(
                 AppRouter.contractSigning,
-                extra: {
-                  'type': ContractType.unit,
-                },
+                extra: {'type': ContractType.unit},
               );
               if (result == true) {
                 setState(() => _isUnitContractSigned = true);
@@ -169,7 +169,10 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
                 ? null
                 : () {
                     // Proceed to success screen
-                    context.pushReplacement('/booking-success', extra: 'ORD-UNIFIED-12345');
+                    context.pushReplacement(
+                      '/booking-success',
+                      extra: 'ORD-UNIFIED-12345',
+                    );
                   },
           ),
           SizedBox(height: AppSpacing.xxl),
@@ -207,7 +210,9 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
               shape: BoxShape.circle,
             ),
             child: Icon(
-              isSigned ? FluentIcons.signature_24_filled : FluentIcons.document_24_regular,
+              isSigned
+                  ? FluentIcons.signature_24_filled
+                  : FluentIcons.document_24_regular,
               color: isSigned ? context.colors.success : context.colors.primary,
               size: 24,
             ),
@@ -245,9 +250,7 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
           else
             TextButton(
               onPressed: onSign,
-              style: TextButton.styleFrom(
-                foregroundColor: context.colors.gold,
-              ),
+              style: TextButton.styleFrom(foregroundColor: context.colors.gold),
               child: Text(
                 l10nCard.signNow,
                 style: TextStyle(

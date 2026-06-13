@@ -8,7 +8,6 @@ import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/l10n/app_localizations.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 
-
 class BookingOrderDetails extends StatelessWidget {
   final String orderId;
 
@@ -18,7 +17,9 @@ class BookingOrderDetails extends StatelessWidget {
     Clipboard.setData(ClipboardData(text: orderId));
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(AppLocalizations.of(context)!.orderNumberCopiedSuccessfully),
+        content: Text(
+          AppLocalizations.of(context)!.orderNumberCopiedSuccessfully,
+        ),
         backgroundColor: context.colors.primary,
         duration: Duration(seconds: 2),
       ),
@@ -28,7 +29,7 @@ class BookingOrderDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    
+
     // Format expected date (Mock: 48 hours from now)
     final expectedDate = DateTime.now().add(const Duration(hours: 48));
     final expectedDateStr =
@@ -60,9 +61,7 @@ class BookingOrderDetails extends StatelessWidget {
                 l10n.orderNumber,
                 style: TextStyle(
                   fontSize: AppFonts.bodyMedium,
-                  color: context.colors.textPrimary.withValues(
-                    alpha: 0.7,
-                  ),
+                  color: context.colors.textPrimary.withValues(alpha: 0.7),
                 ),
               ),
               SizedBox(width: AppSpacing.md),
@@ -86,9 +85,7 @@ class BookingOrderDetails extends StatelessWidget {
                     SizedBox(width: AppSpacing.sm),
                     InkWell(
                       onTap: () => _copyOrderId(context),
-                      borderRadius: BorderRadius.circular(
-                        AppRadius.sm,
-                      ),
+                      borderRadius: BorderRadius.circular(AppRadius.sm),
                       child: Padding(
                         padding: EdgeInsets.all(4.0),
                         child: Icon(
@@ -105,18 +102,14 @@ class BookingOrderDetails extends StatelessWidget {
           ),
 
           Padding(
-            padding: EdgeInsets.symmetric(
-              vertical: AppSpacing.xl,
-            ),
+            padding: EdgeInsets.symmetric(vertical: AppSpacing.xl),
             child: Row(
               children: List.generate(
                 150 ~/ 4,
                 (index) => Expanded(
                   child: Container(
                     color: index % 2 == 0
-                        ? context.colors.border.withValues(
-                            alpha: 0.5,
-                          )
+                        ? context.colors.border.withValues(alpha: 0.5)
                         : Colors.transparent,
                     height: 1.5,
                   ),
@@ -133,9 +126,7 @@ class BookingOrderDetails extends StatelessWidget {
                   l10n.expectedVisitDate,
                   style: TextStyle(
                     fontSize: AppFonts.bodyMedium,
-                    color: context.colors.textPrimary.withValues(
-                      alpha: 0.7,
-                    ),
+                    color: context.colors.textPrimary.withValues(alpha: 0.7),
                   ),
                 ),
               ),

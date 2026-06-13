@@ -8,7 +8,6 @@ import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/l10n/app_localizations.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 
-
 class BookingSuccessActions extends StatelessWidget {
   const BookingSuccessActions({super.key});
 

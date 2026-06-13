@@ -57,15 +57,18 @@ class SettingsPremiumToggleRow extends StatelessWidget {
                 SizedBox(height: 2),
                 Text(
                   subtitle,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: AppFonts.bodySmall,
                     color: context.colors.textSecondary,
-                    height: 1.3,
+                    height: 1.4,
                   ),
                 ),
               ],
             ),
           ),
+          SizedBox(width: AppSpacing.lg),
           GestureDetector(
             onTap: () => onChanged(!value),
             child: AnimatedContainer(

@@ -8,7 +8,6 @@ import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/material_entity.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 
-
 class MaterialCard extends StatelessWidget {
   final MaterialEntity material;
   final bool isSelected;
@@ -90,22 +89,19 @@ class MaterialCard extends StatelessWidget {
                   bottom: AppSpacing.md,
                   right: AppSpacing.md,
                   child: Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 6,
-                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     decoration: BoxDecoration(
                       color: Colors.black.withValues(alpha: 0.6),
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(
-                        color: context.colors.white.withValues(alpha: 0.2),
+                        color: Colors.white.withValues(alpha: 0.2),
                       ),
                     ),
                     child: Text(
                       material.tag,
                       style: TextStyle(
                         fontSize: AppFonts.labelSmall,
-                        color: context.colors.white,
+                        color: Colors.white,
                         fontWeight: FontWeight.w600,
                         letterSpacing: 0.5,
                       ),
@@ -140,7 +136,7 @@ class MaterialCard extends StatelessWidget {
                         ),
                         child: Icon(
                           FluentIcons.checkmark_16_filled,
-                          color: context.colors.white,
+                          color: Colors.white,
                           size: 18,
                         ),
                       ),
@@ -160,7 +156,7 @@ class MaterialCard extends StatelessWidget {
                     style: TextStyle(
                       fontSize: AppFonts.headlineSmall,
                       fontWeight: FontWeight.bold,
-                      color: context.colors.primary,
+                      color: Colors.white,
                       letterSpacing: -0.5,
                     ),
                   ),
@@ -169,7 +165,7 @@ class MaterialCard extends StatelessWidget {
                     material.description,
                     style: TextStyle(
                       fontSize: AppFonts.bodyMedium,
-                      color: context.colors.textPrimary.withValues(alpha: 0.6),
+                      color: Colors.white.withValues(alpha: 0.6),
                       height: 1.5,
                     ),
                   ),
@@ -190,7 +186,7 @@ class MaterialCard extends StatelessWidget {
                           l10n.pricePerSqm,
                           style: TextStyle(
                             fontSize: AppFonts.bodyLarge,
-                            color: context.colors.textPrimary.withValues(alpha: 0.5),
+                            color: Colors.white.withValues(alpha: 0.5),
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -203,7 +199,7 @@ class MaterialCard extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: AppFonts.displaySmall, // Display size
                                 fontWeight: FontWeight.w900,
-                                color: context.colors.primary,
+                                color: Colors.white,
                                 letterSpacing: -1,
                               ),
                             ),

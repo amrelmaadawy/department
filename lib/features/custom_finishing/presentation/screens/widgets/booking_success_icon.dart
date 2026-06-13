@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 
-
 class BookingSuccessIcon extends StatelessWidget {
   final Animation<double> scaleAnimation;
   final Animation<double> pulseAnimation;
@@ -44,9 +43,7 @@ class BookingSuccessIcon extends StatelessWidget {
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: context.colors.gold.withValues(
-                        alpha: 0.5,
-                      ),
+                      color: context.colors.gold.withValues(alpha: 0.5),
                       blurRadius: 40,
                       spreadRadius: 5,
                       offset: const Offset(0, 10),

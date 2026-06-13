@@ -9,7 +9,6 @@ import '../../../domain/entities/material_entity.dart';
 import '../../../domain/entities/material_category.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 
-
 class ReviewSelectionCard extends StatelessWidget {
   final MaterialEntity material;
 

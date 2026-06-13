@@ -10,7 +10,6 @@ import '../cubit/custom_finishing_cubit.dart';
 import '../cubit/custom_finishing_state.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 
-
 class CustomFinishingBottomBar extends StatelessWidget {
   const CustomFinishingBottomBar({super.key});
 
@@ -47,7 +46,7 @@ class CustomFinishingBottomBar extends StatelessWidget {
                     l10n.totalEstimatedCost,
                     style: TextStyle(
                       fontSize: AppFonts.bodyMedium,
-                      color: context.colors.textPrimary.withValues(alpha: 0.6),
+                      color: Colors.white.withValues(alpha: 0.6),
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -71,7 +70,7 @@ class CustomFinishingBottomBar extends StatelessWidget {
                             style: TextStyle(
                               fontSize: AppFonts.displayMedium,
                               fontWeight: FontWeight.w900,
-                              color: context.colors.primary,
+                              color: Colors.white,
                               letterSpacing: -1,
                             ),
                           ),
@@ -125,14 +124,14 @@ class CustomFinishingBottomBar extends StatelessWidget {
                           style: TextStyle(
                             fontSize: AppFonts.headlineSmall,
                             fontWeight: FontWeight.bold,
-                            color: context.colors.white,
+                            color: Colors.white,
                           ),
                         ),
                         SizedBox(width: AppSpacing.sm),
                         Icon(
                           FluentIcons
                               .arrow_right_20_filled, // Points other way based on request
-                          color: context.colors.white,
+                          color: Colors.white,
                           size: 20,
                         ),
                       ],

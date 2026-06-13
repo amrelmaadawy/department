@@ -15,7 +15,6 @@ import '../widgets/custom_finishing_bottom_bar.dart';
 import '../widgets/review/custom_finishing_review_view.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 
-
 class CustomFinishingScreen extends StatelessWidget {
   const CustomFinishingScreen({super.key});
 
@@ -55,14 +54,14 @@ class CustomFinishingView extends StatelessWidget {
           style: TextStyle(
             fontSize: AppFonts.headlineMedium,
             fontWeight: FontWeight.bold,
-            color: context.colors.primary,
+            color: Colors.white,
           ),
         ),
         leading: IconButton(
           icon: Icon(
             FluentIcons
                 .arrow_left_24_filled, // Pointing opposite way as requested
-            color: context.colors.primary,
+            color: Colors.white,
           ),
           onPressed: () => context.pop(),
         ),
@@ -82,7 +81,9 @@ class CustomFinishingView extends StatelessWidget {
               builder: (context, state) {
                 if (state.isLoading) {
                   return Center(
-                    child: CircularProgressIndicator(color: context.colors.gold),
+                    child: CircularProgressIndicator(
+                      color: context.colors.gold,
+                    ),
                   );
                 }
 
@@ -126,7 +127,7 @@ class CustomFinishingView extends StatelessWidget {
                           style: TextStyle(
                             fontSize: AppFonts.headlineMedium,
                             fontWeight: FontWeight.bold,
-                            color: context.colors.primary,
+                            color: Colors.white,
                           ),
                         ),
                       ),

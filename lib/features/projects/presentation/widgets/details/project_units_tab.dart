@@ -8,7 +8,6 @@ import 'package:apartment/l10n/app_localizations.dart';
 import 'project_unit_card.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 
-
 class ProjectUnitsTab extends StatefulWidget {
   final List<ProjectUnitEntity> units;
 
@@ -158,7 +157,15 @@ class _ProjectUnitsTabState extends State<ProjectUnitsTab> {
   Widget _buildFilterChip(String label, String filterValue) {
     final isSelected = _selectedFilter == filterValue;
     return ChoiceChip(
-      label: Text(label),
+      label: Text(
+        label,
+        style: TextStyle(
+          color: isSelected ? Colors.white : context.colors.textPrimary,
+          fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+          fontSize: AppFonts.bodyMedium,
+        ),
+      ),
+      checkmarkColor: Colors.white,
       selected: isSelected,
       onSelected: (selected) {
         if (selected) {
@@ -170,7 +177,7 @@ class _ProjectUnitsTabState extends State<ProjectUnitsTab> {
       selectedColor: context.colors.gold,
       backgroundColor: context.colors.background,
       labelStyle: TextStyle(
-        color: isSelected ? context.colors.white : context.colors.textPrimary,
+        color: isSelected ? Colors.white : context.colors.textPrimary,
         fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
         fontSize: AppFonts.bodyMedium,
       ),

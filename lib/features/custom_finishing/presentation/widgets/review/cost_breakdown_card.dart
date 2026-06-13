@@ -21,12 +21,16 @@ class CostBreakdownCard extends StatelessWidget {
     final unit = designContext.selectedUnit;
     final unitPrice = unit?.price ?? 0.0;
     final finishingCost = state.totalEstimatedCost;
-    final grandTotal = unitPrice > 0 ? unitPrice + finishingCost : finishingCost;
+    final grandTotal = unitPrice > 0
+        ? unitPrice + finishingCost
+        : finishingCost;
 
     return Container(
       padding: EdgeInsets.all(AppSpacing.xl),
       decoration: BoxDecoration(
-        color: context.colors.white, // Maps to dark elevated color in dark mode, white in light mode
+        color: context
+            .colors
+            .white, // Maps to dark elevated color in dark mode, white in light mode
         borderRadius: BorderRadius.circular(AppRadius.lg),
         border: Border.all(color: context.colors.gold.withValues(alpha: 0.2)),
       ),
@@ -45,7 +49,12 @@ class CostBreakdownCard extends StatelessWidget {
           ),
           SizedBox(height: AppSpacing.xl),
           if (unit != null) ...[
-            _buildCostRow(context, l10n.unitPriceWithTitle(unit.title), unitPrice, isTotal: false),
+            _buildCostRow(
+              context,
+              l10n.unitPriceWithTitle(unit.title),
+              unitPrice,
+              isTotal: false,
+            ),
             SizedBox(height: AppSpacing.md),
           ],
           _buildCostRow(
@@ -64,9 +73,20 @@ class CostBreakdownCard extends StatelessWidget {
             isFaded: true,
           ),
           SizedBox(height: AppSpacing.xs),
-          _buildCostRow(context, l10n.vatAmount, state.vatAmount, isTotal: false, isFaded: true),
+          _buildCostRow(
+            context,
+            l10n.vatAmount,
+            state.vatAmount,
+            isTotal: false,
+            isFaded: true,
+          ),
           SizedBox(height: AppSpacing.md),
-          _buildCostRow(context, l10n.totalFinishingCost, finishingCost, isTotal: false),
+          _buildCostRow(
+            context,
+            l10n.totalFinishingCost,
+            finishingCost,
+            isTotal: false,
+          ),
           Padding(
             padding: EdgeInsets.symmetric(vertical: AppSpacing.lg),
             child: Divider(color: context.colors.border.withValues(alpha: 0.5)),
@@ -103,7 +123,7 @@ class CostBreakdownCard extends StatelessWidget {
                   ),
                   SizedBox(width: 4),
                   Text(
-                  l10n.sar,
+                    l10n.sar,
                     style: TextStyle(
                       fontSize: AppFonts.bodyMedium,
                       fontWeight: FontWeight.bold,
@@ -140,7 +160,9 @@ class CostBreakdownCard extends StatelessWidget {
               fontWeight: isTotal ? FontWeight.bold : FontWeight.w500,
               color: isTotal
                   ? context.colors.primary
-                  : context.colors.textPrimary.withValues(alpha: isFaded ? 0.5 : 0.7),
+                  : context.colors.textPrimary.withValues(
+                      alpha: isFaded ? 0.5 : 0.7,
+                    ),
             ),
           ),
         ),
@@ -152,7 +174,9 @@ class CostBreakdownCard extends StatelessWidget {
             fontWeight: isTotal ? FontWeight.bold : FontWeight.w600,
             color: isTotal
                 ? context.colors.primary
-                : context.colors.textPrimary.withValues(alpha: isFaded ? 0.5 : 1.0),
+                : context.colors.textPrimary.withValues(
+                    alpha: isFaded ? 0.5 : 1.0,
+                  ),
           ),
         ),
       ],

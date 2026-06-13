@@ -8,7 +8,6 @@ import 'widgets/booking_order_details.dart';
 import 'widgets/booking_success_actions.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 
-
 class BookingSuccessScreen extends StatefulWidget {
   final String orderId;
 
@@ -67,7 +66,6 @@ class _BookingSuccessScreenState extends State<BookingSuccessScreen>
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -125,92 +123,98 @@ class _BookingSuccessScreenState extends State<BookingSuccessScreen>
                     ),
                     child: IntrinsicHeight(
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: AppSpacing.xl),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: AppSpacing.xl,
+                        ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Spacer(flex: 2),
+                          children: [
+                            Spacer(flex: 2),
 
-                  // Animated Success Icon with pulsing glow
-                  BookingSuccessIcon(
-                    scaleAnimation: _scaleAnimation,
-                    pulseAnimation: _pulseAnimation,
-                  ),
+                            // Animated Success Icon with pulsing glow
+                            BookingSuccessIcon(
+                              scaleAnimation: _scaleAnimation,
+                              pulseAnimation: _pulseAnimation,
+                            ),
 
-                  Spacer(flex: 1),
+                            Spacer(flex: 1),
 
-                  // Text Content
-                  FadeTransition(
-                    opacity: _opacityAnimation,
-                    child: Column(
-                      children: [
-                        Text(
-                          l10n.bookingSuccessTitle,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: AppFonts.displaySmall,
-                            fontWeight: FontWeight.w900,
-                            color: context.colors.gold,
-                          ),
-                        ),
-                        SizedBox(height: AppSpacing.lg),
-                        Text(
-                          l10n.bookingSuccessSubtitle,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: AppFonts.bodyLarge,
-                            color: context.colors.textPrimary.withValues(alpha: 0.7),
-                            height: 1.5,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                            // Text Content
+                            FadeTransition(
+                              opacity: _opacityAnimation,
+                              child: Column(
+                                children: [
+                                  Text(
+                                    l10n.bookingSuccessTitle,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: AppFonts.displaySmall,
+                                      fontWeight: FontWeight.w900,
+                                      color: context.colors.gold,
+                                    ),
+                                  ),
+                                  SizedBox(height: AppSpacing.lg),
+                                  Text(
+                                    l10n.bookingSuccessSubtitle,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: AppFonts.bodyLarge,
+                                      color: context.colors.textPrimary
+                                          .withValues(alpha: 0.7),
+                                      height: 1.5,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
 
-                  SizedBox(height: AppSpacing.xxl),
+                            SizedBox(height: AppSpacing.xxl),
 
-                  // Order Details Card
-                  FadeTransition(
-                    opacity: _opacityAnimation,
-                    child: BookingOrderDetails(orderId: widget.orderId),
-                  ),
+                            // Order Details Card
+                            FadeTransition(
+                              opacity: _opacityAnimation,
+                              child: BookingOrderDetails(
+                                orderId: widget.orderId,
+                              ),
+                            ),
 
-                  Spacer(flex: 2),
+                            Spacer(flex: 2),
 
-                  // Action Buttons
-                  FadeTransition(
-                    opacity: _opacityAnimation,
-                    child: const BookingSuccessActions(),
-                  ),
+                            // Action Buttons
+                            FadeTransition(
+                              opacity: _opacityAnimation,
+                              child: const BookingSuccessActions(),
+                            ),
 
-                  SizedBox(height: AppSpacing.xxl),
+                            SizedBox(height: AppSpacing.xxl),
 
-                  // Watermark
-                  FadeTransition(
-                    opacity: _opacityAnimation,
-                    child: Center(
-                      child: Text(
-                        l10n.finishItYourWay,
-                        style: TextStyle(
-                          fontSize: AppFonts.labelSmall,
-                          fontWeight: FontWeight.bold,
-                          color: context.colors.textPrimary.withValues(alpha: 0.2),
-                          letterSpacing: 1.5,
+                            // Watermark
+                            FadeTransition(
+                              opacity: _opacityAnimation,
+                              child: Center(
+                                child: Text(
+                                  l10n.finishItYourWay,
+                                  style: TextStyle(
+                                    fontSize: AppFonts.labelSmall,
+                                    fontWeight: FontWeight.bold,
+                                    color: context.colors.textPrimary
+                                        .withValues(alpha: 0.2),
+                                    letterSpacing: 1.5,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: AppSpacing.xl),
+                          ],
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(height: AppSpacing.xl),
-                ],
-              ),
+                );
+              },
             ),
           ),
-        ),
-      );
-    },
-  ),
-),
         ],
       ),
     );

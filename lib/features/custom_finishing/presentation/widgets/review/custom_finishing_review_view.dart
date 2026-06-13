@@ -29,11 +29,7 @@ class CustomFinishingReviewView extends StatelessWidget {
         if (state.bookingStatus == BookingStatus.success) {
           context.go(AppRouter.bookingSuccess);
         } else if (state.bookingStatus == BookingStatus.failure) {
-          AppToast.show(
-            context,
-            message: l10n.bookingError,
-            isError: true,
-          );
+          AppToast.show(context, message: l10n.bookingError, isError: true);
         }
       },
       builder: (context, state) {
@@ -76,8 +72,7 @@ class CustomFinishingReviewView extends StatelessWidget {
                   SizedBox(
                     width: 72,
                     child: OutlinedButton(
-                      onPressed: state.bookingStatus ==
-                              BookingStatus.loading
+                      onPressed: state.bookingStatus == BookingStatus.loading
                           ? null
                           : () {
                               // If there was a previous category, we could go back.
@@ -127,8 +122,7 @@ class CustomFinishingReviewView extends StatelessWidget {
                         color: Colors.transparent,
                         child: InkWell(
                           borderRadius: BorderRadius.circular(AppRadius.xl),
-                          onTap: state.bookingStatus ==
-                                  BookingStatus.loading
+                          onTap: state.bookingStatus == BookingStatus.loading
                               ? null
                               : () {
                                   context
@@ -142,14 +136,14 @@ class CustomFinishingReviewView extends StatelessWidget {
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: state.bookingStatus ==
-                                      BookingStatus.loading
+                              children:
+                                  state.bookingStatus == BookingStatus.loading
                                   ? [
                                       SizedBox(
                                         width: 24,
                                         height: 24,
                                         child: CircularProgressIndicator(
-                                          color: context.colors.white,
+                                          color: Colors.white,
                                           strokeWidth: 2,
                                         ),
                                       ),
@@ -163,7 +157,7 @@ class CustomFinishingReviewView extends StatelessWidget {
                                             style: TextStyle(
                                               fontSize: AppFonts.headlineSmall,
                                               fontWeight: FontWeight.bold,
-                                              color: context.colors.white,
+                                              color: Colors.white,
                                             ),
                                           ),
                                         ),
@@ -171,7 +165,7 @@ class CustomFinishingReviewView extends StatelessWidget {
                                       SizedBox(width: AppSpacing.sm),
                                       Icon(
                                         FluentIcons.checkmark_24_filled,
-                                        color: context.colors.white,
+                                        color: Colors.white,
                                       ),
                                     ],
                             ),
@@ -182,9 +176,9 @@ class CustomFinishingReviewView extends StatelessWidget {
                   ),
                 ],
               ),
-              
+
               SizedBox(height: AppSpacing.xl),
-              
+
               // Helper text
               Text(
                 l10n.confirmContractDraftNote,
@@ -195,7 +189,7 @@ class CustomFinishingReviewView extends StatelessWidget {
                   height: 1.5,
                 ),
               ),
-              
+
               SizedBox(height: AppSpacing.xxl),
             ],
           ),
