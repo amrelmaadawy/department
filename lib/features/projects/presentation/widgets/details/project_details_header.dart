@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
@@ -7,7 +8,7 @@ import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/features/home/domain/entities/project_entity.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 
-class ProjectDetailsHeader extends StatelessWidget {
+class ProjectDetailsHeader extends StatefulWidget {
   final ProjectEntity project;
   final String heroTag;
 
@@ -18,17 +19,65 @@ class ProjectDetailsHeader extends StatelessWidget {
   });
 
   @override
+  State<ProjectDetailsHeader> createState() => _ProjectDetailsHeaderState();
+}
+
+class _ProjectDetailsHeaderState extends State<ProjectDetailsHeader> {
+  late PageController _pageController;
+  int _currentPage = 0;
+  Timer? _autoPlayTimer;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController();
+    if (widget.project.images.length > 1) {
+      _startAutoPlay();
+    }
+  }
+
+  void _startAutoPlay() {
+    _autoPlayTimer = Timer.periodic(const Duration(seconds: 4), (timer) {
+      if (_pageController.hasClients) {
+        int nextPage = _currentPage + 1;
+        if (nextPage >= widget.project.images.length) {
+          nextPage = 0;
+        }
+        _pageController.animateToPage(
+          nextPage,
+          duration: const Duration(milliseconds: 600),
+          curve: Curves.easeInOut,
+        );
+      }
+    });
+  }
+
+  void _onUserInteraction() {
+    // Reset timer when user manually swipes
+    _autoPlayTimer?.cancel();
+    _startAutoPlay();
+  }
+
+  @override
+  void dispose() {
+    _autoPlayTimer?.cancel();
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     // Determine back arrow direction based on RTL
     final isRTL = Directionality.of(context) == TextDirection.rtl;
     final backIcon = isRTL ? Icons.arrow_forward_ios : Icons.arrow_back_ios_new;
+    final images = widget.project.images.isNotEmpty ? widget.project.images : ['']; // Fallback to empty string for error builder
 
     return SliverAppBar(
       expandedHeight: 320,
       pinned: true,
       backgroundColor: context.colors.background,
       elevation: 0,
-      scrolledUnderElevation: 0, // Removes Material 3 scrolling tint/shadow
+      scrolledUnderElevation: 0,
       leadingWidth: 64,
       leading: GestureDetector(
         onTap: () => context.pop(),
@@ -50,38 +99,43 @@ class ProjectDetailsHeader extends StatelessWidget {
         background: Stack(
           fit: StackFit.expand,
           children: [
+            // Images PageView
             Hero(
-              tag: heroTag,
-              child: project.imagePath.isNotEmpty
-                  ? (project.imagePath.startsWith('http')
-                      ? Image.network(
-                          project.imagePath,
+              tag: widget.heroTag,
+              child: GestureDetector(
+                onPanDown: (_) => _autoPlayTimer?.cancel(),
+                onPanCancel: _onUserInteraction,
+                onPanEnd: (_) => _onUserInteraction,
+                child: PageView.builder(
+                  controller: _pageController,
+                  itemCount: images.length,
+                  onPageChanged: (index) {
+                    setState(() {
+                      _currentPage = index;
+                    });
+                  },
+                  itemBuilder: (context, index) {
+                    final imagePath = images[index];
+                    if (imagePath.isNotEmpty) {
+                      if (imagePath.startsWith('http')) {
+                        return Image.network(
+                          imagePath,
                           fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) =>
-                              Container(
-                            color: context.colors.border,
-                            child: Center(
-                              child: Icon(
-                                FluentIcons.image_off_24_regular,
-                                size: 48,
-                                color: context.colors.textSecondary,
-                              ),
-                            ),
-                          ),
-                        )
-                      : Image.asset(project.imagePath, fit: BoxFit.cover))
-                  : Container(
-                      color: context.colors.border,
-                      child: Center(
-                        child: Icon(
-                          FluentIcons.image_off_24_regular,
-                          size: 48,
-                          color: context.colors.textSecondary,
-                        ),
-                      ),
-                    ),
+                              _buildErrorImage(context),
+                        );
+                      } else {
+                        return Image.asset(imagePath, fit: BoxFit.cover);
+                      }
+                    } else {
+                      return _buildErrorImage(context);
+                    }
+                  },
+                ),
+              ),
             ),
-            // Gradient to ensure buttons are visible
+            
+            // Top Gradient to ensure buttons are visible
             Positioned(
               top: 0,
               left: 0,
@@ -97,6 +151,52 @@ class ProjectDetailsHeader extends StatelessWidget {
                 ),
               ),
             ),
+            
+            // Bottom Gradient to ensure dots are visible
+            if (images.length > 1)
+              Positioned(
+                bottom: 20,
+                left: 0,
+                right: 0,
+                height: 80,
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                      colors: [Colors.black.withValues(alpha: 0.5), Colors.transparent],
+                    ),
+                  ),
+                ),
+              ),
+
+            // Dots Indicator
+            if (images.length > 1)
+              Positioned(
+                bottom: 40,
+                left: 0,
+                right: 0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(
+                    images.length,
+                    (index) {
+                      final isActive = _currentPage == index;
+                      return AnimatedContainer(
+                        duration: const Duration(milliseconds: 300),
+                        margin: const EdgeInsets.symmetric(horizontal: 4),
+                        height: 8,
+                        width: isActive ? 24 : 8,
+                        decoration: BoxDecoration(
+                          color: isActive ? context.colors.gold : Colors.white.withValues(alpha: 0.5),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+
             // White overlapping rounded corners
             Positioned(
               bottom: -1, // -1 to prevent rendering gap pixel
@@ -113,6 +213,19 @@ class ProjectDetailsHeader extends StatelessWidget {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildErrorImage(BuildContext context) {
+    return Container(
+      color: context.colors.border,
+      child: Center(
+        child: Icon(
+          FluentIcons.image_off_24_regular,
+          size: 48,
+          color: context.colors.textSecondary,
         ),
       ),
     );

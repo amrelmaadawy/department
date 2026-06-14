@@ -48,34 +48,73 @@ class ProjectListCard extends StatelessWidget {
         child: Row(
           children: [
             // Image (Leading edge - RTL compliant)
-            ClipRRect(
-              borderRadius: const BorderRadius.horizontal(
-                right: Radius.circular(AppRadius.md),
-              ),
-              child: Hero(
-                tag: 'list_project_${project.id}',
-                child: project.imagePath.startsWith('http')
-                    ? Image.network(
-                        project.imagePath,
-                        width: imageWidth,
-                        height: double.infinity,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) =>
-                            Container(
-                          width: imageWidth,
-                          height: double.infinity,
-                          color: context.colors.primary.withValues(alpha: 0.1),
-                          child: Icon(Icons.broken_image,
-                              color: context.colors.textSecondary),
-                        ),
-                      )
-                    : Image.asset(
-                        project.imagePath,
-                        width: imageWidth,
-                        height: double.infinity,
-                        fit: BoxFit.cover,
+            Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: const BorderRadius.horizontal(
+                    right: Radius.circular(AppRadius.md),
+                  ),
+                  child: Hero(
+                    tag: 'list_project_${project.id}',
+                    child: project.imagePath.startsWith('http')
+                        ? Image.network(
+                            project.imagePath,
+                            width: imageWidth,
+                            height: double.infinity,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) =>
+                                Container(
+                              width: imageWidth,
+                              height: double.infinity,
+                              color: context.colors.primary.withValues(alpha: 0.1),
+                              child: Icon(Icons.broken_image,
+                                  color: context.colors.textSecondary),
+                            ),
+                          )
+                        : Image.asset(
+                            project.imagePath,
+                            width: imageWidth,
+                            height: double.infinity,
+                            fit: BoxFit.cover,
+                          ),
+                  ),
+                ),
+                if (project.images.length > 1)
+                  Positioned(
+                    top: AppSpacing.sm,
+                    right: AppSpacing.sm,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 6,
+                        vertical: 2,
                       ),
-              ),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withValues(alpha: 0.6),
+                        borderRadius: BorderRadius.circular(AppRadius.sm),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(
+                            Icons.photo_library_outlined,
+                            color: Colors.white,
+                            size: 12,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            '${project.images.length}',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textDirection: TextDirection.ltr,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+              ],
             ),
 
             // Details (Trailing edge)

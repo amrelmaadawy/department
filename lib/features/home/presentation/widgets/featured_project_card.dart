@@ -43,32 +43,72 @@ class FeaturedProjectCard extends StatelessWidget {
           children: [
             // Image
             Expanded(
-              child: ClipRRect(
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(AppRadius.md),
-                ),
-                child: Hero(
-                  tag: 'project_image_${project.id}',
-                  child: project.imagePath.startsWith('http')
-                      ? Image.network(
-                          project.imagePath,
-                          width: double.infinity,
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) =>
-                              Container(
-                            width: double.infinity,
-                            color:
-                                context.colors.primary.withValues(alpha: 0.1),
-                            child: Icon(Icons.broken_image,
-                                color: context.colors.textSecondary),
-                          ),
-                        )
-                      : Image.asset(
-                          project.imagePath,
-                          width: double.infinity,
-                          fit: BoxFit.cover,
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  ClipRRect(
+                    borderRadius: const BorderRadius.vertical(
+                      top: Radius.circular(AppRadius.md),
+                    ),
+                    child: Hero(
+                      tag: 'project_image_${project.id}',
+                      child: project.imagePath.startsWith('http')
+                          ? Image.network(
+                              project.imagePath,
+                              width: double.infinity,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) =>
+                                  Container(
+                                width: double.infinity,
+                                color:
+                                    context.colors.primary.withValues(alpha: 0.1),
+                                child: Icon(Icons.broken_image,
+                                    color: context.colors.textSecondary),
+                              ),
+                            )
+                          : Image.asset(
+                              project.imagePath,
+                              width: double.infinity,
+                              fit: BoxFit.cover,
+                            ),
+                    ),
+                  ),
+                  if (project.images.length > 1)
+                    Positioned(
+                      top: AppSpacing.sm,
+                      right: AppSpacing.sm,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
                         ),
-                ),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withValues(alpha: 0.6),
+                          borderRadius: BorderRadius.circular(AppRadius.sm),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              Icons.photo_library_outlined,
+                              color: Colors.white,
+                              size: 14,
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              '${project.images.length}',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textDirection: TextDirection.ltr,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                ],
               ),
             ),
 

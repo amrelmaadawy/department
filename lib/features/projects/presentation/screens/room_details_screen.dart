@@ -1,4 +1,6 @@
+import 'package:apartment/core/theme/app_radius.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_spacing.dart';
@@ -60,9 +62,8 @@ class _RoomDetailsScreenState extends State<RoomDetailsScreen> {
                   RoomOverviewCard(room: room),
                   SizedBox(height: AppSpacing.xl),
                   
-                  AnimatedSize(
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.easeInOut,
+                  AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 400),
                     child: _buildBody(state, context),
                   ),
                   
@@ -78,12 +79,7 @@ class _RoomDetailsScreenState extends State<RoomDetailsScreen> {
 
   Widget _buildBody(RoomDetailsState state, BuildContext context) {
     if (state is RoomDetailsLoading || state is RoomDetailsInitial) {
-      return Padding(
-        padding: const EdgeInsets.all(48.0),
-        child: Center(
-          child: CircularProgressIndicator(color: context.colors.gold),
-        ),
-      );
+      return _buildShimmer(context);
     } else if (state is RoomDetailsError) {
       return Padding(
         padding: const EdgeInsets.all(24.0),
@@ -105,5 +101,68 @@ class _RoomDetailsScreenState extends State<RoomDetailsScreen> {
       return FinishingOptionsSection(options: state.roomDetails.finishingOptions);
     }
     return const SizedBox.shrink();
+  }
+
+  Widget _buildShimmer(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final baseColor = isDark ? Colors.grey[800]! : Colors.grey[300]!;
+    final highlightColor = isDark ? Colors.grey[700]! : Colors.grey[100]!;
+
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 4,
+                height: 24,
+                decoration: BoxDecoration(
+                  color: baseColor,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              SizedBox(width: AppSpacing.sm),
+              Shimmer.fromColors(
+                baseColor: baseColor,
+                highlightColor: highlightColor,
+                child: Container(
+                  width: 180,
+                  height: 20,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: AppSpacing.md),
+          Shimmer.fromColors(
+            baseColor: baseColor,
+            highlightColor: highlightColor,
+            child: ListView.separated(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: 3,
+              separatorBuilder: (context, index) => SizedBox(height: AppSpacing.md),
+              itemBuilder: (context, index) {
+                return Container(
+                  height: 60,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(AppRadius.md),
+                    border: Border.all(
+                      color: Colors.white,
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

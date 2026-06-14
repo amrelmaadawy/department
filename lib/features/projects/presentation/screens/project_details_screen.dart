@@ -113,7 +113,9 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
 
                 // 5. Units Content (Filters & List)
                 SliverToBoxAdapter(
-                  child: ProjectUnitsTab(units: displayProject.units),
+                  child: isLoading
+                      ? _buildUnitsShimmer(context)
+                      : ProjectUnitsTab(units: displayProject.units),
                 ),
 
                 // Bottom Padding
@@ -172,6 +174,35 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
               ),
             );
           }),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildUnitsShimmer(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final baseColor = isDark ? Colors.grey[800]! : Colors.grey[300]!;
+    final highlightColor = isDark ? Colors.grey[700]! : Colors.grey[100]!;
+
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+      child: Shimmer.fromColors(
+        baseColor: baseColor,
+        highlightColor: highlightColor,
+        child: ListView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: 3,
+          itemBuilder: (context, index) {
+            return Container(
+              height: 140, // Approximate height of a unit card
+              margin: const EdgeInsets.only(bottom: AppSpacing.md),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(AppRadius.md),
+              ),
+            );
+          },
         ),
       ),
     );

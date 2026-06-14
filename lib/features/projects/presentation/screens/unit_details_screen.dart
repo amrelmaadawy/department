@@ -1,6 +1,9 @@
+import 'package:apartment/core/theme/app_radius.dart';
+import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:apartment/features/home/domain/entities/project_unit_entity.dart';
 import 'package:apartment/l10n/app_localizations.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../widgets/details/unit/unit_bottom_actions.dart';
 import '../widgets/details/unit/unit_floor_plan_viewer.dart';
@@ -104,14 +107,7 @@ class _UnitDetailsScreenContentState extends State<_UnitDetailsScreenContent> {
                   duration: const Duration(milliseconds: 400),
                   curve: Curves.easeInOut,
                   child: state is UnitDetailsLoading && state.unit?.rooms.isEmpty == true
-                      ? Padding(
-                          padding: const EdgeInsets.all(24.0),
-                          child: Center(
-                            child: CircularProgressIndicator(
-                              color: context.colors.gold,
-                            ),
-                          ),
-                        )
+                      ? _buildRoomsShimmer(context)
                       : UnitRoomsSection(rooms: currentUnit.rooms),
                 ),
                 
@@ -122,6 +118,117 @@ class _UnitDetailsScreenContentState extends State<_UnitDetailsScreenContent> {
           bottomNavigationBar: UnitBottomActions(unit: currentUnit),
         );
       },
+    );
+  }
+
+  Widget _buildRoomsShimmer(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final baseColor = isDark ? Colors.grey[800]! : Colors.grey[300]!;
+    final highlightColor = isDark ? Colors.grey[700]! : Colors.grey[100]!;
+
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: AppSpacing.lg),
+          Row(
+            children: [
+              Container(
+                width: 4,
+                height: 24,
+                decoration: BoxDecoration(
+                  color: baseColor,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              SizedBox(width: AppSpacing.sm),
+              Shimmer.fromColors(
+                baseColor: baseColor,
+                highlightColor: highlightColor,
+                child: Container(
+                  width: 150,
+                  height: 20,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: AppSpacing.md),
+          Shimmer.fromColors(
+            baseColor: baseColor,
+            highlightColor: highlightColor,
+            child: ListView.separated(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: 3,
+              separatorBuilder: (context, index) => SizedBox(height: AppSpacing.sm),
+              itemBuilder: (context, index) {
+                return Container(
+                  padding: EdgeInsets.all(AppSpacing.md),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(AppRadius.md),
+                    border: Border.all(
+                      color: Colors.white,
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 40,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                      SizedBox(width: AppSpacing.md),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: 100,
+                              height: 14,
+                              color: Colors.white,
+                            ),
+                            SizedBox(height: 8),
+                            Container(
+                              width: 60,
+                              height: 10,
+                              color: Colors.white,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Container(
+                            width: 50,
+                            height: 14,
+                            color: Colors.white,
+                          ),
+                          SizedBox(height: 8),
+                          Container(
+                            width: 40,
+                            height: 10,
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
