@@ -17,6 +17,10 @@ class UnitOverviewCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
+    if (unit.description.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
     return Container(
       margin: EdgeInsets.symmetric(
         horizontal: AppSpacing.lg,

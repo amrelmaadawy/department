@@ -7,6 +7,15 @@ enum UnitStatus { available, sold }
 class ProjectUnitEntity extends Equatable {
   final String id;
   final String title;
+  
+  // New API Fields
+  final String unitNumber;
+  final int buildingNumber;
+  final String locationType;
+  final String locationTypeLabel;
+  final int roomsCount;
+
+  // Existing Fields
   final UnitType type;
   final double area;
   final int bedrooms;
@@ -22,6 +31,11 @@ class ProjectUnitEntity extends Equatable {
   const ProjectUnitEntity({
     required this.id,
     required this.title,
+    this.unitNumber = '',
+    this.buildingNumber = 1,
+    this.locationType = '',
+    this.locationTypeLabel = '',
+    this.roomsCount = 0,
     required this.type,
     required this.area,
     required this.bedrooms,
@@ -39,6 +53,11 @@ class ProjectUnitEntity extends Equatable {
   List<Object> get props => [
     id,
     title,
+    unitNumber,
+    buildingNumber,
+    locationType,
+    locationTypeLabel,
+    roomsCount,
     type,
     area,
     bedrooms,

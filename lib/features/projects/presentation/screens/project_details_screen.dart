@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:apartment/l10n/app_localizations.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../../core/di/injection_container.dart';
 import '../../../../core/theme/app_fonts.dart';
+import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/theme_extension.dart';
 import '../../../home/domain/entities/project_entity.dart';
@@ -77,14 +79,7 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
                 // 3. Amenities or Loading Indicator
                 SliverToBoxAdapter(
                   child: isLoading
-                      ? Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: CircularProgressIndicator(
-                              color: context.colors.gold,
-                            ),
-                          ),
-                        )
+                      ? _buildAmenitiesShimmer(context)
                       : ProjectAmenitiesRow(amenities: amenities),
                 ),
 
@@ -120,6 +115,55 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
               ],
             );
           },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAmenitiesShimmer(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final baseColor = isDark ? Colors.grey[800]! : Colors.grey[300]!;
+    final highlightColor = isDark ? Colors.grey[700]! : Colors.grey[100]!;
+
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        vertical: AppSpacing.md,
+        horizontal: AppSpacing.lg,
+      ),
+      child: Shimmer.fromColors(
+        baseColor: baseColor,
+        highlightColor: highlightColor,
+        child: Wrap(
+          spacing: AppSpacing.xl,
+          runSpacing: AppSpacing.lg,
+          alignment: WrapAlignment.center,
+          children: List.generate(5, (index) {
+            return SizedBox(
+              width: 75,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    width: 52, // 26 * 2 (radius)
+                    height: 52,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                  SizedBox(height: AppSpacing.sm),
+                  Container(
+                    width: 50,
+                    height: 12,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(AppRadius.sm),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }),
         ),
       ),
     );

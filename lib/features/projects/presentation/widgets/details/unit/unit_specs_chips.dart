@@ -37,14 +37,15 @@ class UnitSpecsChips extends StatelessWidget {
           ),
           _buildChip(
             context,
-            '${unit.bedrooms} ${l10n.roomsLabel}',
-            FluentIcons.bed_24_regular,
+            '${unit.roomsCount} ${l10n.roomsLabel}',
+            FluentIcons.conference_room_24_regular,
           ),
-          _buildChip(
-            context,
-            '${unit.bathrooms} ${l10n.bathroomsLabel}',
-            FluentIcons.drop_24_regular,
-          ),
+          if (unit.locationTypeLabel.isNotEmpty)
+            _buildChip(
+              context,
+              unit.locationTypeLabel,
+              FluentIcons.location_16_regular,
+            ),
           ...unit.extras.map(
             (extra) => _buildChip(context, extra, FluentIcons.star_24_regular),
           ),

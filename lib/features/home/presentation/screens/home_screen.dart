@@ -51,7 +51,6 @@ class HomeView extends StatelessWidget {
                       const PromoBannerCard(),
                       SectionHeader(
                         title: l10n.featuredProjects,
-                        onViewAll: () {},
                       ),
                       SizedBox(
                         height: 280,

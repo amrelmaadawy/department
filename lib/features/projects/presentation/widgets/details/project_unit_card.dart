@@ -83,14 +83,15 @@ class ProjectUnitCard extends StatelessWidget {
                   SizedBox(
                     width: 120,
                     child: unit.imagePath.isNotEmpty
-                        ? Image.asset(unit.imagePath, fit: BoxFit.cover)
-                        : Center(
-                            child: Icon(
-                              FluentIcons.image_off_24_regular,
-                              size: 32,
-                              color: context.colors.textSecondary,
-                            ),
-                          ),
+                        ? (unit.imagePath.startsWith('http')
+                            ? Image.network(
+                                unit.imagePath,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) =>
+                                    _buildImagePlaceholder(context),
+                              )
+                            : Image.asset(unit.imagePath, fit: BoxFit.cover))
+                        : _buildImagePlaceholder(context),
                   ),
 
                   // Details
@@ -149,25 +150,27 @@ class ProjectUnitCard extends StatelessWidget {
                           SizedBox(height: AppSpacing.xs),
 
                           // Specs
-                          Row(
+                          Wrap(
+                            spacing: AppSpacing.sm,
+                            runSpacing: AppSpacing.xs,
+                            crossAxisAlignment: WrapCrossAlignment.center,
                             children: [
                               _buildSpecItem(
                                 context,
                                 FluentIcons.slide_size_24_regular,
                                 '${unit.area} ${l10n.unitSqMeter}',
                               ),
-                              SizedBox(width: AppSpacing.sm),
                               _buildSpecItem(
                                 context,
-                                FluentIcons.bed_24_regular,
-                                '${unit.bedrooms}',
+                                FluentIcons.conference_room_24_regular,
+                                '${unit.roomsCount} ${l10n.unitBeds}',
                               ),
-                              SizedBox(width: AppSpacing.sm),
-                              _buildSpecItem(
-                                context,
-                                FluentIcons.drop_24_regular,
-                                '${unit.bathrooms}',
-                              ),
+                              if (unit.locationTypeLabel.isNotEmpty)
+                                _buildSpecItem(
+                                  context,
+                                  FluentIcons.location_16_regular,
+                                  unit.locationTypeLabel,
+                                ),
                             ],
                           ),
                           Spacer(),
@@ -220,6 +223,16 @@ class ProjectUnitCard extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildImagePlaceholder(BuildContext context) {
+    return Center(
+      child: Icon(
+        FluentIcons.image_off_24_regular,
+        size: 32,
+        color: context.colors.textSecondary,
+      ),
     );
   }
 }

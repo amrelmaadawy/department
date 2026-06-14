@@ -1,10 +1,12 @@
 import '../../../../core/network/api_client.dart';
 import '../../../../core/network/api_endpoints.dart';
+import '../../../home/data/models/project_unit_model.dart';
 import '../models/project_model.dart';
 
 abstract class ProjectRemoteDataSource {
   Future<List<ProjectModel>> getProjects();
   Future<ProjectModel> getProjectDetails(int id);
+  Future<List<ProjectUnitModel>> getProjectUnits(int id);
 }
 
 class ProjectRemoteDataSourceImpl implements ProjectRemoteDataSource {
@@ -33,6 +35,19 @@ class ProjectRemoteDataSourceImpl implements ProjectRemoteDataSource {
       return ProjectModel.fromJson(response['data']);
     } else {
       throw Exception('Failed to load project details');
+    }
+  }
+
+  @override
+  Future<List<ProjectUnitModel>> getProjectUnits(int id) async {
+    final response = await apiClient.get('${ApiEndpoints.projects}/$id/apartments');
+    
+    if (response != null && response['data'] != null && response['data'] is List) {
+      return (response['data'] as List)
+          .map((item) => ProjectUnitModel.fromJson(item))
+          .toList();
+    } else {
+      throw Exception('Failed to load project units');
     }
   }
 }

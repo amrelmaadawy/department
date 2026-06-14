@@ -12,6 +12,7 @@ import 'package:apartment/features/projects/data/repositories/project_repository
 import 'package:apartment/features/projects/domain/repositories/project_repository.dart';
 import 'package:apartment/features/projects/domain/usecases/get_projects_usecase.dart';
 import 'package:apartment/features/projects/domain/usecases/get_project_details_usecase.dart';
+import 'package:apartment/features/projects/domain/usecases/get_project_units_usecase.dart';
 import 'package:apartment/features/projects/presentation/cubit/project_details_cubit.dart';
 import 'package:apartment/features/projects/presentation/cubit/projects_cubit.dart';
 import 'package:apartment/features/profile/data/datasources/profile_remote_data_source.dart';
@@ -73,9 +74,15 @@ Future<void> init() async {
 
   // Features - Projects
   sl.registerFactory(() => ProjectsCubit(getProjectsUseCase: sl()));
-  sl.registerFactory(() => ProjectDetailsCubit(getProjectDetailsUseCase: sl()));
+  sl.registerFactory(
+    () => ProjectDetailsCubit(
+      getProjectDetailsUseCase: sl(),
+      getProjectUnitsUseCase: sl(),
+    ),
+  );
   sl.registerLazySingleton(() => GetProjectsUseCase(sl()));
   sl.registerLazySingleton(() => GetProjectDetailsUseCase(sl()));
+  sl.registerLazySingleton(() => GetProjectUnitsUseCase(sl()));
   sl.registerLazySingleton<ProjectRepository>(
     () => ProjectRepositoryImpl(remoteDataSource: sl()),
   );
