@@ -114,7 +114,22 @@ class ApiClient {
         
         String message = 'Server Error';
         if (responseData is Map<String, dynamic>) {
-          if (responseData.containsKey('message')) {
+          if (responseData.containsKey('errors') && responseData['errors'] is Map) {
+            final Map<String, dynamic> errors = responseData['errors'];
+            final List<String> errorMessages = [];
+            for (var key in errors.keys) {
+              if (errors[key] is List) {
+                errorMessages.addAll(List<String>.from(errors[key]));
+              } else if (errors[key] is String) {
+                errorMessages.add(errors[key]);
+              }
+            }
+            if (errorMessages.isNotEmpty) {
+              message = errorMessages.join('\n');
+            } else if (responseData.containsKey('message')) {
+              message = responseData['message'];
+            }
+          } else if (responseData.containsKey('message')) {
             message = responseData['message'];
           } else if (responseData.containsKey('error')) {
             message = responseData['error'];

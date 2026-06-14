@@ -21,13 +21,11 @@ class NetworkException implements Exception {
 }
 
 /// Exception thrown when authentication fails or token is invalid/expired.
-class UnauthorizedException implements Exception {
-  final String message;
-  const UnauthorizedException({this.message = 'Unauthorized access'});
+class UnauthorizedException extends ServerException {
+  const UnauthorizedException({super.message = 'Unauthorized access'});
 }
 
 /// Exception thrown for bad requests (e.g. invalid parameters)
-class BadRequestException implements Exception {
-  final String message;
-  const BadRequestException({required this.message});
+class BadRequestException extends ServerException {
+  const BadRequestException({required super.message});
 }
