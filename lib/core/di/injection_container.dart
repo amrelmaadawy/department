@@ -13,8 +13,10 @@ import 'package:apartment/features/projects/domain/repositories/project_reposito
 import 'package:apartment/features/projects/domain/usecases/get_projects_usecase.dart';
 import 'package:apartment/features/projects/domain/usecases/get_project_details_usecase.dart';
 import 'package:apartment/features/projects/domain/usecases/get_project_units_usecase.dart';
+import 'package:apartment/features/projects/domain/usecases/get_unit_details_usecase.dart';
 import 'package:apartment/features/projects/presentation/cubit/project_details_cubit.dart';
 import 'package:apartment/features/projects/presentation/cubit/projects_cubit.dart';
+import 'package:apartment/features/projects/presentation/cubit/unit_details_cubit.dart';
 import 'package:apartment/features/profile/data/datasources/profile_remote_data_source.dart';
 import 'package:apartment/features/profile/data/repositories/profile_repository_impl.dart';
 import 'package:apartment/features/profile/domain/repositories/profile_repository.dart';
@@ -80,9 +82,15 @@ Future<void> init() async {
       getProjectUnitsUseCase: sl(),
     ),
   );
+  sl.registerFactory(
+    () => UnitDetailsCubit(
+      getUnitDetailsUseCase: sl(),
+    ),
+  );
   sl.registerLazySingleton(() => GetProjectsUseCase(sl()));
   sl.registerLazySingleton(() => GetProjectDetailsUseCase(sl()));
   sl.registerLazySingleton(() => GetProjectUnitsUseCase(sl()));
+  sl.registerLazySingleton(() => GetUnitDetailsUseCase(sl()));
   sl.registerLazySingleton<ProjectRepository>(
     () => ProjectRepositoryImpl(remoteDataSource: sl()),
   );

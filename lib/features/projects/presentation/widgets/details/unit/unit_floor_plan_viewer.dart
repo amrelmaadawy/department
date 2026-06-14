@@ -153,10 +153,7 @@ class _UnitFloorPlanViewerState extends State<UnitFloorPlanViewer> {
                       minScale: 1.0,
                       maxScale: 4.0,
                       child: hasImage
-                          ? Image.asset(
-                              images[index],
-                              fit: BoxFit.contain,
-                            )
+                          ? (images[index].startsWith('http') ? Image.network(images[index], fit: BoxFit.contain) : Image.asset(images[index], fit: BoxFit.contain))
                           : Center(
                               child: Icon(FluentIcons.image_off_24_regular, size: 48, color: context.colors.textSecondary),
                             ),

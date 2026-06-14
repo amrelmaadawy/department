@@ -7,4 +7,5 @@ abstract class ProjectRepository {
   Future<Either<Failure, List<ProjectEntity>>> getProjects();
   Future<Either<Failure, ProjectEntity>> getProjectDetails(int id);
   Future<Either<Failure, List<ProjectUnitEntity>>> getProjectUnits(int id);
+  Future<Either<Failure, ProjectUnitEntity>> getUnitDetails(int id);
 }

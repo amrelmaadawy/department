@@ -54,10 +54,7 @@ class UnitImageThumbnails extends StatelessWidget {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(AppRadius.md - 2),
-                child: Image.asset(
-                  images[index],
-                  fit: BoxFit.cover,
-                ),
+                child: (images[index].startsWith('http') ? Image.network(images[index], fit: BoxFit.cover) : Image.asset(images[index], fit: BoxFit.cover)),
               ),
             ),
           );

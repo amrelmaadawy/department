@@ -7,6 +7,7 @@ abstract class ProjectRemoteDataSource {
   Future<List<ProjectModel>> getProjects();
   Future<ProjectModel> getProjectDetails(int id);
   Future<List<ProjectUnitModel>> getProjectUnits(int id);
+  Future<ProjectUnitModel> getUnitDetails(int id);
 }
 
 class ProjectRemoteDataSourceImpl implements ProjectRemoteDataSource {
@@ -48,6 +49,17 @@ class ProjectRemoteDataSourceImpl implements ProjectRemoteDataSource {
           .toList();
     } else {
       throw Exception('Failed to load project units');
+    }
+  }
+
+  @override
+  Future<ProjectUnitModel> getUnitDetails(int id) async {
+    final response = await apiClient.get('${ApiEndpoints.apartments}/$id');
+    
+    if (response != null && response['data'] != null && response['data']['apartment'] != null) {
+      return ProjectUnitModel.fromJson(response['data']['apartment']);
+    } else {
+      throw Exception('Failed to load unit details');
     }
   }
 }

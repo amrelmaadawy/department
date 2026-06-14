@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'unit_room_entity.dart';
 
 enum UnitType { apartment, villa, duplex }
 
@@ -27,6 +28,7 @@ class ProjectUnitEntity extends Equatable {
   final List<String> extras;
   final String description;
   final List<String> images;
+  final List<UnitRoomEntity> rooms;
 
   const ProjectUnitEntity({
     required this.id,
@@ -47,6 +49,7 @@ class ProjectUnitEntity extends Equatable {
     required this.extras,
     required this.description,
     required this.images,
+    this.rooms = const [],
   });
 
   @override
@@ -69,5 +72,6 @@ class ProjectUnitEntity extends Equatable {
     extras,
     description,
     images,
+    rooms,
   ];
 }

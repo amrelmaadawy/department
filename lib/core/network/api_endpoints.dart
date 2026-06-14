@@ -11,6 +11,7 @@ class ApiEndpoints {
 
   // Projects
   static const String projects = '/projects';
+  static const String apartments = '/apartments';
   
   // Future endpoints can be added here
 }

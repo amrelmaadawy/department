@@ -1,4 +1,5 @@
 import '../../domain/entities/project_unit_entity.dart';
+import 'unit_room_model.dart';
 
 class ProjectUnitModel extends ProjectUnitEntity {
   const ProjectUnitModel({
@@ -20,6 +21,7 @@ class ProjectUnitModel extends ProjectUnitEntity {
     required super.extras,
     required super.description,
     required super.images,
+    super.rooms,
   });
 
   factory ProjectUnitModel.fromJson(Map<String, dynamic> json) {
@@ -31,6 +33,14 @@ class ProjectUnitModel extends ProjectUnitEntity {
 
     // Default image if images array is empty
     String mainImage = imagesList.isNotEmpty ? imagesList.first : '';
+
+    // Parse rooms
+    List<UnitRoomModel> roomsList = [];
+    if (json['rooms'] != null) {
+      roomsList = (json['rooms'] as List)
+          .map((roomJson) => UnitRoomModel.fromJson(roomJson))
+          .toList();
+    }
 
     return ProjectUnitModel(
       id: json['id']?.toString() ?? '',
@@ -46,6 +56,7 @@ class ProjectUnitModel extends ProjectUnitEntity {
       status: json['status'] == 'sold' ? UnitStatus.sold : UnitStatus.available,
       imagePath: mainImage,
       images: imagesList,
+      rooms: roomsList,
       // Provide defaults for missing API fields
       type: UnitType.apartment,
       bedrooms: 0,

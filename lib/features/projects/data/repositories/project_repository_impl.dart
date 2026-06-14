@@ -46,4 +46,16 @@ class ProjectRepositoryImpl implements ProjectRepository {
       return Left(ServerFailure('An unexpected error occurred: ${e.toString()}'));
     }
   }
+
+  @override
+  Future<Either<Failure, ProjectUnitEntity>> getUnitDetails(int id) async {
+    try {
+      final unit = await remoteDataSource.getUnitDetails(id);
+      return Right(unit);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure('An unexpected error occurred: ${e.toString()}'));
+    }
+  }
 }
