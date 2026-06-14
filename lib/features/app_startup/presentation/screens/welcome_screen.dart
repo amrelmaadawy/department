@@ -153,7 +153,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                     ),
                                   ),
 
-                                  const SizedBox(height: AppSpacing.xl),
+                                  const SizedBox(height: AppSpacing.sm),
 
                                   // Tagline
                                   Opacity(
