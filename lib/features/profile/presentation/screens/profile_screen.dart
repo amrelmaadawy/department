@@ -9,17 +9,32 @@ import 'package:apartment/core/theme/theme_extension.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../../auth/presentation/cubit/auth_cubit.dart';
+import '../cubit/profile_cubit.dart';
+import '../cubit/profile_state.dart';
 import '../../../../core/widgets/app_toast.dart';
 import '../../../../core/routes/app_router.dart';
+import '../../../../core/di/injection_container.dart';
 
-class ProfileScreen extends StatefulWidget {
+class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => sl<ProfileCubit>()..getProfile(),
+      child: const ProfileView(),
+    );
+  }
 }
 
-class _ProfileScreenState extends State<ProfileScreen>
+class ProfileView extends StatefulWidget {
+  const ProfileView({super.key});
+
+  @override
+  State<ProfileView> createState() => _ProfileViewState();
+}
+
+class _ProfileViewState extends State<ProfileView>
     with SingleTickerProviderStateMixin {
   late AnimationController _animController;
   late Animation<double> _headerAnim;
@@ -68,10 +83,8 @@ class _ProfileScreenState extends State<ProfileScreen>
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    // Mock Data
-    const userName = 'أحمد محمد';
+    // Mock Data for stats
     final userType = l10n.premiumCustomer;
-    const avatarUrl = 'assets/images/profile_avatar.png';
     const designsCount = 12;
     const contractsCount = 5;
     const unitsCount = 3;
@@ -95,56 +108,76 @@ class _ProfileScreenState extends State<ProfileScreen>
             context.go(AppRouter.auth);
           }
         },
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              // Header with stacked stats card
-              Stack(
-                clipBehavior: Clip.none,
+        child: BlocConsumer<ProfileCubit, ProfileState>(
+          listener: (context, state) {
+            if (state is ProfileError) {
+              AppToast.show(context, message: state.message, isError: true);
+            }
+          },
+          builder: (context, profileState) {
+            String userName = '...';
+            String avatarUrl = 'assets/images/profile_avatar.png';
+
+            if (profileState is ProfileLoaded) {
+              userName = profileState.profile.name;
+              avatarUrl = profileState.profile.avatarUrl ?? avatarUrl;
+            } else if (profileState is ProfileError) {
+              userName = 'خطأ في التحميل';
+            } else if (profileState is ProfileLoading) {
+              userName = 'جاري التحميل...';
+            }
+
+            return SingleChildScrollView(
+              child: Column(
                 children: [
-                  FadeTransition(
-                    opacity: _headerAnim,
-                    child: SlideTransition(
-                      position: Tween<Offset>(
-                        begin: const Offset(0, -0.2),
-                        end: Offset.zero,
-                      ).animate(_headerAnim),
-                      child: ProfileHeader(
-                        userName: userName,
-                        userType: userType,
-                        avatarUrl: avatarUrl,
+                  // Header with stacked stats card
+                  Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      FadeTransition(
+                        opacity: _headerAnim,
+                        child: SlideTransition(
+                          position: Tween<Offset>(
+                            begin: const Offset(0, -0.2),
+                            end: Offset.zero,
+                          ).animate(_headerAnim),
+                          child: ProfileHeader(
+                            userName: userName,
+                            userType: userType,
+                            avatarUrl: avatarUrl,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: -40, // Half of the card height approximately
-                    left: 0,
-                    right: 0,
-                    child: ScaleTransition(
-                      scale: _cardAnim,
-                      child: ProfileStatsCard(
-                        designsCount: designsCount,
-                        contractsCount: contractsCount,
-                        unitsCount: unitsCount,
-                        designsLabel: l10n.myDesigns,
-                        contractsLabel: l10n.myContracts,
-                        unitsLabel: l10n.myUnits,
+                      Positioned(
+                        bottom: -40, // Half of the card height approximately
+                        left: 0,
+                        right: 0,
+                        child: ScaleTransition(
+                          scale: _cardAnim,
+                          child: ProfileStatsCard(
+                            designsCount: designsCount,
+                            contractsCount: contractsCount,
+                            unitsCount: unitsCount,
+                            designsLabel: l10n.myDesigns,
+                            contractsLabel: l10n.myContracts,
+                            unitsLabel: l10n.myUnits,
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
+
+                  // Provide space for the overlapping card
+                  const SizedBox(height: 60),
+
+                  // Menu Groups
+                  ProfileMenuList(listAnim: _listAnim),
                 ],
               ),
-
-              // Provide space for the overlapping card
-              const SizedBox(height: 60),
-
-              // Menu Groups
-              ProfileMenuList(listAnim: _listAnim),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );
   }
-
 }

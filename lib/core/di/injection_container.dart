@@ -8,6 +8,11 @@ import 'package:apartment/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:apartment/features/home/presentation/cubit/home_cubit.dart';
 import 'package:apartment/features/layout/presentation/cubit/layout_cubit.dart';
 import 'package:apartment/features/projects/presentation/cubit/projects_cubit.dart';
+import 'package:apartment/features/profile/data/datasources/profile_remote_data_source.dart';
+import 'package:apartment/features/profile/data/repositories/profile_repository_impl.dart';
+import 'package:apartment/features/profile/domain/repositories/profile_repository.dart';
+import 'package:apartment/features/profile/domain/usecases/get_profile_usecase.dart';
+import 'package:apartment/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:apartment/features/design_studio/presentation/cubit/design_context_cubit.dart';
 import 'package:apartment/core/localization/cubit/locale_cubit.dart';
@@ -62,6 +67,16 @@ Future<void> init() async {
 
   // Features - Projects
   sl.registerFactory(() => ProjectsCubit());
+
+  // Features - Profile
+  sl.registerFactory(() => ProfileCubit(getProfileUseCase: sl()));
+  sl.registerLazySingleton(() => GetProfileUseCase(sl()));
+  sl.registerLazySingleton<ProfileRepository>(
+    () => ProfileRepositoryImpl(remoteDataSource: sl()),
+  );
+  sl.registerLazySingleton<ProfileRemoteDataSource>(
+    () => ProfileRemoteDataSourceImpl(apiClient: sl()),
+  );
 
   // Features - Design Studio (Singleton to preserve context across flow)
   sl.registerLazySingleton(() => DesignContextCubit());
