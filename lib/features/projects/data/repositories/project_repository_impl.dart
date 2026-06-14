@@ -3,6 +3,7 @@ import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failures.dart';
 import '../../../home/domain/entities/project_entity.dart';
 import '../../../home/domain/entities/project_unit_entity.dart';
+import '../../../home/domain/entities/room_details_entity.dart';
 import '../../domain/repositories/project_repository.dart';
 import '../datasources/project_remote_data_source.dart';
 
@@ -52,6 +53,18 @@ class ProjectRepositoryImpl implements ProjectRepository {
     try {
       final unit = await remoteDataSource.getUnitDetails(id);
       return Right(unit);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure('An unexpected error occurred: ${e.toString()}'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, RoomDetailsEntity>> getRoomDetails(int id) async {
+    try {
+      final roomDetails = await remoteDataSource.getRoomDetails(id);
+      return Right(roomDetails);
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     } catch (e) {

@@ -1,3 +1,5 @@
+import 'package:apartment/features/home/data/models/room_details_model.dart';
+
 import '../../../../core/network/api_client.dart';
 import '../../../../core/network/api_endpoints.dart';
 import '../../../home/data/models/project_unit_model.dart';
@@ -8,6 +10,7 @@ abstract class ProjectRemoteDataSource {
   Future<ProjectModel> getProjectDetails(int id);
   Future<List<ProjectUnitModel>> getProjectUnits(int id);
   Future<ProjectUnitModel> getUnitDetails(int id);
+  Future<RoomDetailsModel> getRoomDetails(int id);
 }
 
 class ProjectRemoteDataSourceImpl implements ProjectRemoteDataSource {
@@ -60,6 +63,17 @@ class ProjectRemoteDataSourceImpl implements ProjectRemoteDataSource {
       return ProjectUnitModel.fromJson(response['data']['apartment']);
     } else {
       throw Exception('Failed to load unit details');
+    }
+  }
+
+  @override
+  Future<RoomDetailsModel> getRoomDetails(int id) async {
+    final response = await apiClient.get('${ApiEndpoints.rooms}/$id');
+    
+    if (response != null && response['data'] != null) {
+      return RoomDetailsModel.fromJson(response['data']);
+    } else {
+      throw Exception('Failed to load room details');
     }
   }
 }

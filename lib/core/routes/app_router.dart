@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:apartment/features/home/domain/entities/unit_room_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,6 +22,7 @@ import '../../../features/auth/presentation/cubit/auth_cubit.dart';
 import '../../../features/layout/presentation/screens/layout_screen.dart';
 import '../../../features/projects/presentation/screens/project_details_screen.dart';
 import '../../../features/projects/presentation/screens/unit_details_screen.dart';
+import '../../../features/projects/presentation/screens/room_details_screen.dart';
 import '../../../features/contracts/presentation/screens/contract_signing_screen.dart';
 import '../../../features/contracts/presentation/screens/contract_preview_screen.dart';
 import '../../../features/contracts/domain/entities/contract_type.dart';
@@ -40,6 +42,7 @@ class AppRouter {
   static const String layout = '/layout';
   static const String projectDetails = '/project-details';
   static const String unitDetails = '/unit-details';
+  static const String roomDetails = '/room-details';
   static const String contractSigning = '/contract-signing';
   static const String contractPreview = '/contract-preview';
   static const String packages = '/packages';
@@ -111,6 +114,28 @@ class AppRouter {
               heroTag: extra['heroTag'] as String,
             ),
             transitionsBuilder: AppRouterTransitions.slideUpFromBottom,
+          );
+        },
+      ),
+      GoRoute(
+        path: roomDetails,
+        redirect: (context, state) => state.extra == null ? layout : null,
+        pageBuilder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          if (extra == null) {
+            return CustomTransitionPage(
+              key: state.pageKey,
+              child: const _RedirectFallback(route: layout),
+              transitionsBuilder: AppRouterTransitions.fadeTransition,
+            );
+          }
+          return CustomTransitionPage(
+            key: state.pageKey,
+            transitionDuration: const Duration(milliseconds: 400),
+            child: RoomDetailsScreen(
+              initialRoom: extra['room'] as UnitRoomEntity,
+            ),
+            transitionsBuilder: AppRouterTransitions.slideFromRight,
           );
         },
       ),

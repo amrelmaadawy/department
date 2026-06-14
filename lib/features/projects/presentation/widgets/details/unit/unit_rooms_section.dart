@@ -5,6 +5,8 @@ import 'package:apartment/core/theme/theme_extension.dart';
 import 'package:apartment/features/home/domain/entities/unit_room_entity.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:apartment/core/routes/app_router.dart';
 
 class UnitRoomsSection extends StatelessWidget {
   final List<UnitRoomEntity> rooms;
@@ -64,7 +66,6 @@ class UnitRoomsSection extends StatelessWidget {
 
   Widget _buildRoomItem(BuildContext context, UnitRoomEntity room) {
     return Container(
-      padding: EdgeInsets.all(AppSpacing.md),
       decoration: BoxDecoration(
         color: context.colors.white,
         borderRadius: BorderRadius.circular(AppRadius.md),
@@ -79,10 +80,19 @@ class UnitRoomsSection extends StatelessWidget {
           ),
         ],
       ),
-      child: Row(
-        children: [
-          Container(
-            padding: EdgeInsets.all(AppSpacing.sm),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () {
+            context.push(AppRouter.roomDetails, extra: {'room': room});
+          },
+          borderRadius: BorderRadius.circular(AppRadius.md),
+          child: Padding(
+            padding: EdgeInsets.all(AppSpacing.md),
+            child: Row(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(AppSpacing.sm),
             decoration: BoxDecoration(
               color: context.colors.primary.withValues(alpha: 0.05),
               shape: BoxShape.circle,
@@ -138,9 +148,12 @@ class UnitRoomsSection extends StatelessWidget {
                     color: context.colors.textSecondary,
                   ),
                 ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
-        ],
+        ),
       ),
     );
   }
