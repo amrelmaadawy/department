@@ -2,12 +2,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../home/domain/entities/project_entity.dart';
-import 'projects_mock_data.dart';
+import '../../domain/usecases/get_projects_usecase.dart';
 
 part 'projects_state.dart';
 
 class ProjectsCubit extends Cubit<ProjectsState> {
-  ProjectsCubit() : super(ProjectsInitial());
+  final GetProjectsUseCase getProjectsUseCase;
+
+  ProjectsCubit({required this.getProjectsUseCase}) : super(ProjectsInitial());
 
   List<ProjectEntity> _allProjects = [];
   String _currentFilter = 'الكل';
@@ -16,17 +18,20 @@ class ProjectsCubit extends Cubit<ProjectsState> {
   void loadProjects() async {
     emit(ProjectsLoading());
 
-    // Simulate API delay
-    await Future.delayed(const Duration(milliseconds: 1500));
+    final result = await getProjectsUseCase();
 
-    _allProjects = ProjectsMockData.getProjects();
-
-    emit(
-      ProjectsLoaded(
-        allProjects: _allProjects,
-        filteredProjects: _allProjects,
-        selectedFilter: _currentFilter,
-      ),
+    result.fold(
+      (failure) => emit(ProjectsError(message: failure.message)), // Needs ProjectsError in state
+      (projects) {
+        _allProjects = projects;
+        emit(
+          ProjectsLoaded(
+            allProjects: _allProjects,
+            filteredProjects: _allProjects,
+            selectedFilter: _currentFilter,
+          ),
+        );
+      },
     );
   }
 

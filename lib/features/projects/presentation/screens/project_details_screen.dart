@@ -1,16 +1,17 @@
-import 'package:apartment/features/projects/presentation/widgets/details/project_amenities_row.dart';
-import 'package:apartment/features/projects/presentation/widgets/details/project_details_header.dart';
-import 'package:apartment/features/projects/presentation/widgets/details/project_info_section.dart';
-import 'package:apartment/features/projects/presentation/widgets/details/project_overview_tab.dart';
-import 'package:apartment/features/projects/presentation/widgets/details/project_services_tab.dart';
-import 'package:apartment/features/projects/presentation/widgets/details/project_units_tab.dart';
-import 'package:apartment/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:apartment/l10n/app_localizations.dart';
 
+import '../../../../core/di/injection_container.dart';
 import '../../../../core/theme/app_fonts.dart';
+import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/theme/theme_extension.dart';
 import '../../../home/domain/entities/project_entity.dart';
-import 'package:apartment/core/theme/theme_extension.dart';
-
+import '../cubit/project_details_cubit.dart';
+import '../widgets/details/project_amenities_row.dart';
+import '../widgets/details/project_details_header.dart';
+import '../widgets/details/project_info_section.dart';
+import '../widgets/details/project_units_tab.dart';
 
 class ProjectDetailsScreen extends StatefulWidget {
   final ProjectEntity project;
@@ -26,19 +27,18 @@ class ProjectDetailsScreen extends StatefulWidget {
   State<ProjectDetailsScreen> createState() => _ProjectDetailsScreenState();
 }
 
-class _ProjectDetailsScreenState extends State<ProjectDetailsScreen>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
+class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
+  late ProjectDetailsCubit _cubit;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _cubit = sl<ProjectDetailsCubit>()..loadProjectDetails(widget.project.id);
   }
 
   @override
   void dispose() {
-    _tabController.dispose();
+    _cubit.close();
     super.dispose();
   }
 
@@ -46,98 +46,82 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen>
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    return Scaffold(
-      backgroundColor: context.colors.background,
-      body: NestedScrollView(
-        headerSliverBuilder: (context, innerBoxIsScrolled) => [
-          // 1. Hero Header
-          ProjectDetailsHeader(
-            project: widget.project,
-            heroTag: widget.heroTag,
-          ),
+    return BlocProvider.value(
+      value: _cubit,
+      child: Scaffold(
+        backgroundColor: context.colors.background,
+        body: BlocBuilder<ProjectDetailsCubit, ProjectDetailsState>(
+          builder: (context, state) {
+            ProjectEntity displayProject = widget.project;
+            List<String> amenities = [];
+            bool isLoading = state is ProjectDetailsLoading || state is ProjectDetailsInitial;
 
-          // 2. Title & Info
-          SliverToBoxAdapter(
-            child: ProjectInfoSection(project: widget.project),
-          ),
+            if (state is ProjectDetailsLoaded) {
+              displayProject = state.project;
+              amenities = state.parsedAmenities;
+            }
 
-          // 3. Amenities
-          SliverToBoxAdapter(
-            child: ProjectAmenitiesRow(amenities: widget.project.amenities),
-          ),
-
-          // 4. Sticky Tab Bar
-          SliverPersistentHeader(
-            pinned: true,
-            delegate: _StickyTabBarDelegate(
-              TabBar(
-                controller: _tabController,
-                labelColor: context.colors.gold,
-                unselectedLabelColor: context.colors.textSecondary,
-                indicatorColor: context.colors.gold,
-                indicatorWeight: 3,
-                labelStyle: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Cairo',
-                  fontSize: AppFonts.bodyMedium,
+            return CustomScrollView(
+              slivers: [
+                // 1. Hero Header
+                ProjectDetailsHeader(
+                  project: displayProject,
+                  heroTag: widget.heroTag,
                 ),
-                unselectedLabelStyle: TextStyle(
-                  fontWeight: FontWeight.normal,
-                  fontFamily: 'Cairo',
-                  fontSize: AppFonts.bodyMedium,
+
+                // 2. Title & Location
+                SliverToBoxAdapter(
+                  child: ProjectInfoSection(project: displayProject),
                 ),
-                tabs: [
-                  Tab(text: l10n.tabOverview),
-                  Tab(text: l10n.tabUnits),
-                  Tab(text: l10n.tabServices),
-                ],
-              ),
-            ),
-          ),
-        ],
-        body: TabBarView(
-          controller: _tabController,
-          children: [
-            // Overview Tab
-            SingleChildScrollView(
-              child: ProjectOverviewTab(project: widget.project),
-            ),
-            // Units Tab
-            SingleChildScrollView(
-              child: ProjectUnitsTab(units: widget.project.units),
-            ),
-            // Services Tab
-            SingleChildScrollView(
-              child: ProjectServicesTab(services: widget.project.services),
-            ),
-          ],
+
+                // 3. Amenities or Loading Indicator
+                SliverToBoxAdapter(
+                  child: isLoading
+                      ? Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: CircularProgressIndicator(
+                              color: context.colors.gold,
+                            ),
+                          ),
+                        )
+                      : ProjectAmenitiesRow(amenities: amenities),
+                ),
+
+                // 4. Units Section Title
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      left: AppSpacing.lg,
+                      right: AppSpacing.lg,
+                      top: AppSpacing.xl,
+                      bottom: AppSpacing.sm,
+                    ),
+                    child: Text(
+                      l10n.tabUnits, // Or "الوحدات المتاحة"
+                      style: TextStyle(
+                        fontSize: AppFonts.headlineSmall,
+                        fontWeight: FontWeight.bold,
+                        color: context.colors.textPrimary,
+                      ),
+                    ),
+                  ),
+                ),
+
+                // 5. Units Content (Filters & List)
+                SliverToBoxAdapter(
+                  child: ProjectUnitsTab(units: displayProject.units),
+                ),
+
+                // Bottom Padding
+                SliverToBoxAdapter(
+                  child: SizedBox(height: 40),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
-  }
-}
-
-class _StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
-  final TabBar _tabBar;
-
-  _StickyTabBarDelegate(this._tabBar);
-
-  @override
-  double get minExtent => _tabBar.preferredSize.height;
-  @override
-  double get maxExtent => _tabBar.preferredSize.height;
-
-  @override
-  Widget build(
-    BuildContext context,
-    double shrinkOffset,
-    bool overlapsContent,
-  ) {
-    return Container(color: context.colors.background, child: _tabBar);
-  }
-
-  @override
-  bool shouldRebuild(_StickyTabBarDelegate oldDelegate) {
-    return false;
   }
 }

@@ -1,15 +1,12 @@
-import 'package:apartment/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/routes/app_router.dart';
-
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../home/domain/entities/project_entity.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
-
 
 class ProjectListCard extends StatelessWidget {
   final ProjectEntity project;
@@ -18,14 +15,6 @@ class ProjectListCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    final formattedPrice = project.startingPrice
-        .toStringAsFixed(0)
-        .replaceAllMapped(
-          RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-          (Match m) => '${m[1]},',
-        );
-
     final screenWidth = MediaQuery.of(context).size.width;
     // Calculate responsive sizes instead of hardcoded values.
     // 30% of screen width keeps it proportional across devices.
@@ -65,12 +54,27 @@ class ProjectListCard extends StatelessWidget {
               ),
               child: Hero(
                 tag: 'list_project_${project.id}',
-                child: Image.asset(
-                  project.imagePath,
-                  width: imageWidth,
-                  height: double.infinity,
-                  fit: BoxFit.cover,
-                ),
+                child: project.imagePath.startsWith('http')
+                    ? Image.network(
+                        project.imagePath,
+                        width: imageWidth,
+                        height: double.infinity,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) =>
+                            Container(
+                          width: imageWidth,
+                          height: double.infinity,
+                          color: context.colors.primary.withValues(alpha: 0.1),
+                          child: Icon(Icons.broken_image,
+                              color: context.colors.textSecondary),
+                        ),
+                      )
+                    : Image.asset(
+                        project.imagePath,
+                        width: imageWidth,
+                        height: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
               ),
             ),
 
@@ -105,23 +109,17 @@ class ProjectListCard extends StatelessWidget {
                     Spacer(),
                     Row(
                       children: [
+                        Icon(
+                          Icons.apartment,
+                          size: 16,
+                          color: context.colors.textSecondary,
+                        ),
+                        SizedBox(width: 4),
                         Text(
-                          '${l10n.startsFrom} ',
+                          '${project.apartmentsCount} وحدات',
                           style: TextStyle(
                             color: context.colors.textSecondary,
                             fontSize: AppFonts.bodySmall,
-                          ),
-                        ),
-                        Expanded(
-                          child: Text(
-                            '$formattedPrice ${l10n.sar}',
-                            style: TextStyle(
-                              color: context.colors.gold,
-                              fontSize: AppFonts.bodyMedium,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ],

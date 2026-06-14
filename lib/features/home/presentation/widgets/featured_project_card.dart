@@ -1,4 +1,3 @@
-import 'package:apartment/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -17,15 +16,6 @@ class FeaturedProjectCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    // Format price with commas
-    final formattedPrice = project.startingPrice
-        .toStringAsFixed(0)
-        .replaceAllMapped(
-          RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-          (Match m) => '${m[1]},',
-        );
-
     return GestureDetector(
       onTap: () => context.push(
         AppRouter.projectDetails,
@@ -59,11 +49,25 @@ class FeaturedProjectCard extends StatelessWidget {
                 ),
                 child: Hero(
                   tag: 'project_image_${project.id}',
-                  child: Image.asset(
-                    project.imagePath,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
+                  child: project.imagePath.startsWith('http')
+                      ? Image.network(
+                          project.imagePath,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) =>
+                              Container(
+                            width: double.infinity,
+                            color:
+                                context.colors.primary.withValues(alpha: 0.1),
+                            child: Icon(Icons.broken_image,
+                                color: context.colors.textSecondary),
+                          ),
+                        )
+                      : Image.asset(
+                          project.imagePath,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                        ),
                 ),
               ),
             ),
@@ -97,19 +101,17 @@ class FeaturedProjectCard extends StatelessWidget {
                   const SizedBox(height: AppSpacing.sm),
                   Row(
                     children: [
+                      Icon(
+                        Icons.apartment,
+                        size: 16,
+                        color: context.colors.textSecondary,
+                      ),
+                      SizedBox(width: 4),
                       Text(
-                        '${l10n.startsFrom} ',
+                        '${project.apartmentsCount} وحدات',
                         style: TextStyle(
                           color: context.colors.textSecondary,
                           fontSize: AppFonts.bodySmall,
-                        ),
-                      ),
-                      Text(
-                        '$formattedPrice ${l10n.sar}',
-                        style: TextStyle(
-                          color: context.colors.gold,
-                          fontSize: AppFonts.bodyMedium,
-                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ],

@@ -4,12 +4,16 @@ import 'project_service_entity.dart';
 import 'project_unit_entity.dart';
 
 class ProjectEntity extends Equatable {
-  final String id;
+  final int id;
   final String name;
-  final String location;
-  final double startingPrice;
-  final String imagePath;
   final String description;
+  final String location;
+  final String status;
+  final List<String> images;
+  final int apartmentsCount;
+
+  // Legacy/Optional UI fields
+  final double startingPrice;
   final List<String> amenities;
   final String totalArea;
   final String unitTypes;
@@ -21,10 +25,12 @@ class ProjectEntity extends Equatable {
   const ProjectEntity({
     required this.id,
     required this.name,
-    required this.location,
-    required this.startingPrice,
-    required this.imagePath,
     this.description = '',
+    required this.location,
+    this.status = 'available',
+    this.images = const [],
+    this.apartmentsCount = 0,
+    this.startingPrice = 0.0,
     this.amenities = const [],
     this.totalArea = '',
     this.unitTypes = '',
@@ -34,14 +40,19 @@ class ProjectEntity extends Equatable {
     this.units = const [],
   });
 
+  // Getter for legacy imagePath support
+  String get imagePath => images.isNotEmpty ? images.first : '';
+
   @override
   List<Object> get props => [
     id,
     name,
-    location,
-    startingPrice,
-    imagePath,
     description,
+    location,
+    status,
+    images,
+    apartmentsCount,
+    startingPrice,
     amenities,
     totalArea,
     unitTypes,

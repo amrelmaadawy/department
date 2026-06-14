@@ -1,0 +1,25 @@
+import '../../../../features/home/domain/entities/project_entity.dart';
+
+class ProjectModel extends ProjectEntity {
+  const ProjectModel({
+    required super.id,
+    required super.name,
+    super.description,
+    required super.location,
+    required super.status,
+    required super.images,
+    required super.apartmentsCount,
+  });
+
+  factory ProjectModel.fromJson(Map<String, dynamic> json) {
+    return ProjectModel(
+      id: json['id'] is int ? json['id'] : int.tryParse(json['id'].toString()) ?? 0,
+      name: json['name'] ?? '',
+      description: json['description'] ?? '',
+      location: json['location'] ?? '',
+      status: json['status'] ?? 'available',
+      images: json['images'] != null ? List<String>.from(json['images']) : [],
+      apartmentsCount: json['apartments_count'] is int ? json['apartments_count'] : int.tryParse(json['apartments_count'].toString()) ?? 0,
+    );
+  }
+}

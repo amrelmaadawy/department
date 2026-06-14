@@ -7,6 +7,12 @@ import 'package:apartment/features/auth/domain/usecases/register_usecase.dart';
 import 'package:apartment/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:apartment/features/home/presentation/cubit/home_cubit.dart';
 import 'package:apartment/features/layout/presentation/cubit/layout_cubit.dart';
+import 'package:apartment/features/projects/data/datasources/project_remote_data_source.dart';
+import 'package:apartment/features/projects/data/repositories/project_repository_impl.dart';
+import 'package:apartment/features/projects/domain/repositories/project_repository.dart';
+import 'package:apartment/features/projects/domain/usecases/get_projects_usecase.dart';
+import 'package:apartment/features/projects/domain/usecases/get_project_details_usecase.dart';
+import 'package:apartment/features/projects/presentation/cubit/project_details_cubit.dart';
 import 'package:apartment/features/projects/presentation/cubit/projects_cubit.dart';
 import 'package:apartment/features/profile/data/datasources/profile_remote_data_source.dart';
 import 'package:apartment/features/profile/data/repositories/profile_repository_impl.dart';
@@ -63,10 +69,19 @@ Future<void> init() async {
   sl.registerFactory(() => LayoutCubit());
 
   // Features - Home
-  sl.registerFactory(() => HomeCubit());
+  sl.registerFactory(() => HomeCubit(getProjectsUseCase: sl()));
 
   // Features - Projects
-  sl.registerFactory(() => ProjectsCubit());
+  sl.registerFactory(() => ProjectsCubit(getProjectsUseCase: sl()));
+  sl.registerFactory(() => ProjectDetailsCubit(getProjectDetailsUseCase: sl()));
+  sl.registerLazySingleton(() => GetProjectsUseCase(sl()));
+  sl.registerLazySingleton(() => GetProjectDetailsUseCase(sl()));
+  sl.registerLazySingleton<ProjectRepository>(
+    () => ProjectRepositoryImpl(remoteDataSource: sl()),
+  );
+  sl.registerLazySingleton<ProjectRemoteDataSource>(
+    () => ProjectRemoteDataSourceImpl(apiClient: sl()),
+  );
 
   // Features - Profile
   sl.registerFactory(() => ProfileCubit(getProfileUseCase: sl()));

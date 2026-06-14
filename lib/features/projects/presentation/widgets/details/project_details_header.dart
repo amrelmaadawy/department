@@ -7,7 +7,6 @@ import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/features/home/domain/entities/project_entity.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 
-
 class ProjectDetailsHeader extends StatelessWidget {
   final ProjectEntity project;
   final String heroTag;
@@ -92,7 +91,23 @@ class ProjectDetailsHeader extends StatelessWidget {
             Hero(
               tag: heroTag,
               child: project.imagePath.isNotEmpty
-                  ? Image.asset(project.imagePath, fit: BoxFit.cover)
+                  ? (project.imagePath.startsWith('http')
+                      ? Image.network(
+                          project.imagePath,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) =>
+                              Container(
+                            color: context.colors.border,
+                            child: Center(
+                              child: Icon(
+                                FluentIcons.image_off_24_regular,
+                                size: 48,
+                                color: context.colors.textSecondary,
+                              ),
+                            ),
+                          ),
+                        )
+                      : Image.asset(project.imagePath, fit: BoxFit.cover))
                   : Container(
                       color: context.colors.border,
                       child: Center(

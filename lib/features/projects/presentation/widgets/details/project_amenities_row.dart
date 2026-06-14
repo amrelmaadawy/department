@@ -6,6 +6,7 @@ import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 
 
+
 class ProjectAmenitiesRow extends StatelessWidget {
   final List<String> amenities;
 
@@ -13,11 +14,16 @@ class ProjectAmenitiesRow extends StatelessWidget {
 
   IconData _getIconForAmenity(String amenity) {
     if (amenity.contains('مسبح')) return FluentIcons.sim_24_regular;
-    if (amenity.contains('جيم')) return FluentIcons.dumbbell_24_regular;
-    if (amenity.contains('أمن')) return FluentIcons.shield_24_regular;
-    if (amenity.contains('جراج')) {
-      return FluentIcons.vehicle_car_parking_16_regular;
-    }
+    if (amenity.contains('جيم') || amenity.contains('لياقة')) return FluentIcons.dumbbell_24_regular;
+    if (amenity.contains('أمن') || amenity.contains('حراسة') || amenity.contains('مراقبة')) return FluentIcons.shield_24_regular;
+    if (amenity.contains('جراج') || amenity.contains('مواقف') || amenity.contains('سيارات')) return FluentIcons.vehicle_car_parking_16_regular;
+    if (amenity.contains('مصعد')) return FluentIcons.building_24_regular;
+    if (amenity.contains('دش مركزي') || amenity.contains('ستالايت')) return FluentIcons.desktop_signal_24_regular;
+    if (amenity.contains('خزان') || amenity.contains('مياه')) return FluentIcons.drop_24_regular;
+    if (amenity.contains('إنارة') || amenity.contains('اضاءة') || amenity.contains('توهج')) return FluentIcons.lightbulb_24_regular;
+    if (amenity.contains('دهانات') || amenity.contains('تشطيب') || amenity.contains('ديكور')) return FluentIcons.color_24_regular;
+    if (amenity.contains('تكييف') || amenity.contains('مكيف')) return FluentIcons.weather_snowflake_24_regular;
+    
     return FluentIcons.star_24_regular; // Fallback
   }
 
@@ -27,34 +33,42 @@ class ProjectAmenitiesRow extends StatelessWidget {
 
     return Padding(
       padding: EdgeInsets.symmetric(
-        vertical: AppSpacing.xl,
+        vertical: AppSpacing.md,
         horizontal: AppSpacing.lg,
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      child: Wrap(
+        spacing: AppSpacing.xl,
+        runSpacing: AppSpacing.lg,
+        alignment: WrapAlignment.center,
         children: amenities.map((amenity) {
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CircleAvatar(
-                radius: 26,
-                backgroundColor: context.colors.gold.withValues(alpha: 0.15),
-                child: Icon(
-                  _getIconForAmenity(amenity),
-                  color: context.colors.gold,
-                  size: 24,
+          return SizedBox(
+            width: 75, // Fixed width for each item to keep it uniform
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircleAvatar(
+                  radius: 26,
+                  backgroundColor: context.colors.gold.withValues(alpha: 0.15),
+                  child: Icon(
+                    _getIconForAmenity(amenity),
+                    color: context.colors.gold,
+                    size: 24,
+                  ),
                 ),
-              ),
-              SizedBox(height: AppSpacing.sm),
-              Text(
-                amenity,
-                style: TextStyle(
-                  fontSize: AppFonts.bodySmall,
-                  fontWeight: FontWeight.bold,
-                  color: context.colors.textPrimary,
+                SizedBox(height: AppSpacing.sm),
+                Text(
+                  amenity,
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: AppFonts.bodySmall,
+                    fontWeight: FontWeight.bold,
+                    color: context.colors.textPrimary,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         }).toList(),
       ),

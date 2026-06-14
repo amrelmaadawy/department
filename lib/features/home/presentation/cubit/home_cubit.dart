@@ -5,17 +5,19 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import '../../domain/entities/project_entity.dart';
 import '../../domain/entities/project_service_entity.dart';
 import '../../domain/entities/project_unit_entity.dart';
+import '../../../../features/projects/domain/usecases/get_projects_usecase.dart';
 
 part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
-  HomeCubit() : super(HomeInitial());
+  final GetProjectsUseCase getProjectsUseCase;
+
+  HomeCubit({required this.getProjectsUseCase}) : super(HomeInitial());
 
   void loadHomeData() async {
     emit(HomeLoading());
 
-    // Simulate API delay for Shimmer effect
-    await Future.delayed(const Duration(seconds: 2));
+    final result = await getProjectsUseCase();
 
     // Dummy data using the generated AI images
     final String mockDesc =
@@ -115,39 +117,13 @@ class HomeCubit extends Cubit<HomeState> {
       ),
     ];
 
-    final projects = [
-      ProjectEntity(
-        id: '1',
-        name: 'أثير ريزيدنس',
-        location: 'الرياض - الياسمين',
-        startingPrice: 650000,
-        imagePath: 'assets/images/project_one_mock.png',
-        description: mockDesc,
-        amenities: mockAmenities,
-        totalArea: '٩٠٠ فدان',
-        unitTypes: 'شقق، فيلات، دوبلكس',
-        deliveryDate: '٢٠٢٥',
-        finishingType: 'نصف تشطيب',
-        services: mockServices,
-        units: mockUnits,
-      ),
-      ProjectEntity(
-        id: '2',
-        name: 'ريان هايتس',
-        location: 'الرياض - النرجس',
-        startingPrice: 720000,
-        imagePath: 'assets/images/project_two_mock.png',
-        description: mockDesc,
-        amenities: mockAmenities,
-        totalArea: '٥٠٠ فدان',
-        unitTypes: 'شقق، بنتهاوس',
-        deliveryDate: '٢٠٢٤',
-        finishingType: 'تشطيب كامل',
-        services: mockServices,
-        units: mockUnits,
-      ),
-    ];
-
-    emit(HomeLoaded(featuredProjects: projects));
+    result.fold(
+      (failure) => emit(HomeLoaded(featuredProjects: const [])), // Or handle error state appropriately
+      (projects) {
+        // Take the first 3 projects as "Featured" or any other logic you prefer
+        final featured = projects.take(3).toList();
+        emit(HomeLoaded(featuredProjects: featured));
+      },
+    );
   }
 }
