@@ -80,9 +80,7 @@ class _UnitDetailsScreenContentState extends State<_UnitDetailsScreenContent> {
             scrolledUnderElevation: 0,
             centerTitle: true,
             iconTheme: IconThemeData(color: context.colors.textPrimary),
-            actions: [
-              IconButton(icon: Icon(Icons.bookmark_border), onPressed: () {}),
-            ],
+           
           ),
           body: SingleChildScrollView(
             physics: _isImageZoomed ? const NeverScrollableScrollPhysics() : null,

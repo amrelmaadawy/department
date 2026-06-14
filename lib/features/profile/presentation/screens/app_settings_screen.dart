@@ -98,6 +98,7 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        /*
                         SettingsAnimatedItem(
                           delay: 100,
                           child: SettingsSectionTitle(title: l10n.appLanguage),
@@ -120,6 +121,7 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
                           },
                         ),
                         const SizedBox(height: AppSpacing.xxl),
+                        */
 
                         SettingsAnimatedItem(
                           delay: 300,
@@ -145,6 +147,7 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
                         ),
                         const SizedBox(height: AppSpacing.xxl),
 
+                        /*
                         SettingsAnimatedItem(
                           delay: 500,
                           child: SettingsSectionTitle(title: l10n.notifications),
@@ -176,6 +179,7 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
                             ],
                           ),
                         ),
+                        */
                         const SizedBox(height: AppSpacing.xxxl),
                       ],
                     ),

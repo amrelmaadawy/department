@@ -46,6 +46,25 @@ class ProjectInfoSection extends StatelessWidget {
               ),
             ],
           ),
+          SizedBox(height: AppSpacing.xs),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                FluentIcons.slide_size_20_regular,
+                color: context.colors.textSecondary,
+                size: 16,
+              ),
+              SizedBox(width: AppSpacing.xs),
+              Text(
+                'مساحة البناء: ${project.buildingArea.toStringAsFixed(0)} م²',
+                style: TextStyle(
+                  fontSize: AppFonts.bodyMedium,
+                  color: context.colors.textSecondary,
+                ),
+              ),
+            ],
+          ),
           SizedBox(height: AppSpacing.md),
         ],
       ),

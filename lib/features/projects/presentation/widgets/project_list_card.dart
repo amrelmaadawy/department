@@ -107,20 +107,46 @@ class ProjectListCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                     Spacer(),
-                    Row(
+                    Wrap(
+                      spacing: AppSpacing.sm,
+                      runSpacing: 4,
+                      crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
-                        Icon(
-                          Icons.apartment,
-                          size: 16,
-                          color: context.colors.textSecondary,
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.apartment,
+                              size: 16,
+                              color: context.colors.textSecondary,
+                            ),
+                            SizedBox(width: 4),
+                            Text(
+                              '${project.apartmentsCount} وحدات',
+                              style: TextStyle(
+                                color: context.colors.textSecondary,
+                                fontSize: AppFonts.bodySmall,
+                              ),
+                            ),
+                          ],
                         ),
-                        SizedBox(width: 4),
-                        Text(
-                          '${project.apartmentsCount} وحدات',
-                          style: TextStyle(
-                            color: context.colors.textSecondary,
-                            fontSize: AppFonts.bodySmall,
-                          ),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.straighten,
+                              size: 16,
+                              color: context.colors.textSecondary,
+                            ),
+                            SizedBox(width: 4),
+                            Text(
+                              '${project.buildingArea.toStringAsFixed(0)} م²',
+                              style: TextStyle(
+                                color: context.colors.textSecondary,
+                                fontSize: AppFonts.bodySmall,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),

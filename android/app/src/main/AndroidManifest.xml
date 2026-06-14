@@ -1,4 +1,27 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- ============================================== -->
+    <!-- APP PERMISSIONS REQUIRED FOR REAL DEVICES      -->
+    <!-- ============================================== -->
+
+    <!-- 1. Internet & Network (For API Calls & Images) -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+
+    <!-- 2. Biometric Authentication (Security / Login) -->
+    <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
+    <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
+
+    <!-- 3. Storage Permissions (For Downloading Contracts / Uploading Profile Pics) -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    
+    <!-- For Android 13+ (Granular media permissions) -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"/>
+
     <application
         android:label="apartment"
         android:name="${applicationName}"

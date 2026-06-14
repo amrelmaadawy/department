@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../l10n/app_localizations.dart';
@@ -148,6 +149,7 @@ class _ProfileViewState extends State<ProfileView>
                           ),
                         ),
                       ),
+/*
                       Positioned(
                         bottom: -40, // Half of the card height approximately
                         left: 0,
@@ -164,11 +166,13 @@ class _ProfileViewState extends State<ProfileView>
                           ),
                         ),
                       ),
+*/
                     ],
                   ),
 
                   // Provide space for the overlapping card
-                  const SizedBox(height: 60),
+                  // const SizedBox(height: 60),
+                  const SizedBox(height: AppSpacing.xxl),
 
                   // Menu Groups
                   ProfileMenuList(listAnim: _listAnim),

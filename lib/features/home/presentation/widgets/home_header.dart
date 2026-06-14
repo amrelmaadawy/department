@@ -70,10 +70,10 @@ class HomeHeader extends StatelessWidget {
             ),
           ),
           const SizedBox(width: AppSpacing.md),
-          Icon(
-            FluentIcons.alert_24_regular,
-            color: context.colors.textPrimary,
-          ),
+          // Icon(
+          //   FluentIcons.alert_24_regular,
+          //   color: context.colors.textPrimary,
+          // ),
         ],
       ),
     );

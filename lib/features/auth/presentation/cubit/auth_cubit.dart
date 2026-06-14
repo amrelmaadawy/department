@@ -19,7 +19,11 @@ class AuthCubit extends Cubit<AuthState> {
   }) : super(const AuthState());
 
   void toggleTab(bool isLogin) {
-    emit(state.copyWith(isLoginTab: isLogin, status: AuthStatus.initial, errorMessage: null));
+    emit(state.copyWith(
+      isLoginTab: isLogin, 
+      status: AuthStatus.initial, 
+      clearMessages: true,
+    ));
   }
 
   Future<void> register({
@@ -46,7 +50,10 @@ class AuthCubit extends Cubit<AuthState> {
         status: AuthStatus.failure,
         errorMessage: failure.message,
       )),
-      (user) => emit(state.copyWith(status: AuthStatus.success)),
+      (user) => emit(state.copyWith(
+        status: AuthStatus.success,
+        successMessage: "تم إنشاء الحساب بنجاح، يرجى الانتظار حتى يتم تفعيل حسابك من قبل الإدارة",
+      )),
     );
   }
 
@@ -68,7 +75,10 @@ class AuthCubit extends Cubit<AuthState> {
         status: AuthStatus.failure,
         errorMessage: failure.message,
       )),
-      (user) => emit(state.copyWith(status: AuthStatus.success)),
+      (user) => emit(state.copyWith(
+        status: AuthStatus.success,
+        clearMessages: true,
+      )),
     );
   }
 
@@ -82,7 +92,10 @@ class AuthCubit extends Cubit<AuthState> {
         status: AuthStatus.failure,
         errorMessage: failure.message,
       )),
-      (_) => emit(state.copyWith(status: AuthStatus.success)),
+      (_) => emit(state.copyWith(
+        status: AuthStatus.success,
+        clearMessages: true,
+      )),
     );
   }
 }

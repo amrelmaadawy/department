@@ -31,6 +31,9 @@ class ProfileMenuList extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl),
           child: Column(
             children: [
+
+
+              /*
               // Section: My Real Estate
               _buildSectionTitle(context, l10n.profileSectionRealEstate),
               _buildMenuGroup(context, [
@@ -66,6 +69,7 @@ class ProfileMenuList extends StatelessWidget {
               ]),
 
               const SizedBox(height: AppSpacing.xl),
+              */
 
               // Section: App Settings
               _buildSectionTitle(context, l10n.profileSectionApp),
@@ -80,6 +84,7 @@ class ProfileMenuList extends StatelessWidget {
 
               const SizedBox(height: AppSpacing.xl),
 
+              /*
               // Section: Support
               _buildSectionTitle(context, l10n.profileSectionSupport),
               _buildMenuGroup(context, [
@@ -97,6 +102,7 @@ class ProfileMenuList extends StatelessWidget {
               ]),
 
               const SizedBox(height: AppSpacing.xl),
+              */
 
               // Section: Logout
               _buildMenuGroup(context, [

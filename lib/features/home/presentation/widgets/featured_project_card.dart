@@ -116,6 +116,24 @@ class FeaturedProjectCard extends StatelessWidget {
                       ),
                     ],
                   ),
+                  const SizedBox(height: AppSpacing.xs),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.straighten,
+                        size: 16,
+                        color: context.colors.textSecondary,
+                      ),
+                      SizedBox(width: 4),
+                      Text(
+                        'مساحة البناء: ${project.buildingArea.toStringAsFixed(0)} م²',
+                        style: TextStyle(
+                          color: context.colors.textSecondary,
+                          fontSize: AppFonts.bodySmall,
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),

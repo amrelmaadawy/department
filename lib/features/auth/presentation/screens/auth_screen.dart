@@ -78,7 +78,7 @@ class _AuthViewState extends State<AuthView> {
 
               // Logo
               Image.asset(
-                'assets/images/auth_logo.png',
+                'assets/images/الشعارات-02.png',
                 height: AppSizes.logoMedium,
               ),
 
@@ -151,12 +151,17 @@ class _AuthViewState extends State<AuthView> {
                       isError: true,
                     );
                   } else if (state.status == AuthStatus.success) {
-                    AppToast.show(
-                      context,
-                      message: state.isLoginTab ? l10n.loginSuccess : l10n.registerSuccess,
-                      isError: false,
-                    );
-                    context.go(AppRouter.layout);
+                    if (state.successMessage != null) {
+                      AppToast.show(
+                        context,
+                        message: state.successMessage!,
+                        isError: false,
+                      );
+                      // Switch to login tab after successful registration
+                      context.read<AuthCubit>().toggleTab(true);
+                    } else {
+                      context.go(AppRouter.layout);
+                    }
                   }
                 },
                 builder: (context, state) {

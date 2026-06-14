@@ -74,7 +74,8 @@ class _WelcomeScreenState extends State<WelcomeScreen>
       if (status == AnimationStatus.completed) {
         Future.delayed(const Duration(milliseconds: 400), () {
           if (mounted) {
-            context.go(AppRouter.onboarding);
+            // context.go(AppRouter.onboarding);
+            context.go(AppRouter.auth);
           }
         });
       }
@@ -147,7 +148,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                   Opacity(
                                     opacity: _contentOpacity.value,
                                     child: Image.asset(
-                                      'assets/images/welcome_logo.png',
+                                      'assets/images/لين فخامة معتمد.png',
                                       height: AppSizes.logoMedium,
                                     ),
                                   ),
@@ -160,7 +161,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                     child: Column(
                                       children: [
                                         Text(
-                                          l10n.splashTagline,
+                                          "شطبها بكيفك",
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                             color: context.colors.gold,

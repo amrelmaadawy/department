@@ -37,7 +37,7 @@ class UnitSpecsChips extends StatelessWidget {
           ),
           _buildChip(
             context,
-            '${unit.roomsCount} ${l10n.roomsLabel}',
+            '${unit.rooms.isNotEmpty ? unit.rooms.length : unit.roomsCount} ${l10n.roomsLabel}',
             FluentIcons.conference_room_24_regular,
           ),
           if (unit.locationTypeLabel.isNotEmpty)

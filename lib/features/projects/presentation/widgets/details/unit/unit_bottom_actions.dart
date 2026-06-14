@@ -2,15 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
-import 'package:apartment/core/widgets/custom_button.dart';
-import 'package:apartment/core/routes/app_router.dart';
 import 'package:apartment/l10n/app_localizations.dart';
 import 'package:apartment/features/home/domain/entities/project_unit_entity.dart';
-import 'package:go_router/go_router.dart';
-import 'package:apartment/core/di/injection_container.dart';
-import 'package:apartment/features/design_studio/presentation/cubit/design_context_cubit.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
-
 
 class UnitBottomActions extends StatelessWidget {
   final ProjectUnitEntity unit;
@@ -38,40 +32,32 @@ class UnitBottomActions extends StatelessWidget {
         ],
       ),
       child: SafeArea(
-        child: Row(
-          children: [
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  l10n.priceTitle,
-                  style: TextStyle(
-                    fontSize: AppFonts.labelMedium,
-                    color: context.colors.textSecondary,
-                  ),
+        child: Container(
+          width: double.infinity,
+          padding: EdgeInsets.symmetric(vertical: AppSpacing.xs),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                l10n.priceTitle,
+                style: TextStyle(
+                  fontSize: AppFonts.bodyMedium,
+                  color: context.colors.textSecondary,
+                  fontWeight: FontWeight.w500,
                 ),
-                Text(
-                  '${formatter.format(unit.price).trim()} ${l10n.sar}',
-                  style: TextStyle(
-                    fontSize: AppFonts.headlineSmall,
-                    fontWeight: FontWeight.bold,
-                    color: context.colors.textPrimary,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(width: AppSpacing.md),
-            Expanded(
-              child: CustomButton(
-                text: l10n.designAndBookUnit,
-                onPressed: () {
-                  sl<DesignContextCubit>().selectUnit(unit);
-                  context.push(AppRouter.customFinishing);
-                },
               ),
-            ),
-          ],
+              const SizedBox(height: AppSpacing.xs),
+              Text(
+                '${formatter.format(unit.price).trim()} ${l10n.sar}',
+                style: TextStyle(
+                  fontSize: AppFonts.headlineLarge,
+                  fontWeight: FontWeight.bold,
+                  color: context.colors.gold,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

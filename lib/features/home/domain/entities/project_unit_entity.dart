@@ -15,6 +15,7 @@ class ProjectUnitEntity extends Equatable {
   final String locationType;
   final String locationTypeLabel;
   final int roomsCount;
+  final String statusLabel;
 
   // Existing Fields
   final UnitType type;
@@ -38,6 +39,7 @@ class ProjectUnitEntity extends Equatable {
     this.locationType = '',
     this.locationTypeLabel = '',
     this.roomsCount = 0,
+    this.statusLabel = '',
     required this.type,
     required this.area,
     required this.bedrooms,
@@ -61,6 +63,7 @@ class ProjectUnitEntity extends Equatable {
     locationType,
     locationTypeLabel,
     roomsCount,
+    statusLabel,
     type,
     area,
     bedrooms,

@@ -60,6 +60,14 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
 
             if (state is ProjectDetailsLoaded) {
               displayProject = state.project;
+              
+              // Fallback for fields that might be missing in the details API but present in the list API
+              displayProject = displayProject.copyWith(
+                buildingArea: displayProject.buildingArea == 0 ? widget.project.buildingArea : displayProject.buildingArea,
+                apartmentsCount: displayProject.apartmentsCount == 0 ? widget.project.apartmentsCount : displayProject.apartmentsCount,
+                images: displayProject.images.isEmpty ? widget.project.images : displayProject.images,
+              );
+
               amenities = state.parsedAmenities;
             }
 

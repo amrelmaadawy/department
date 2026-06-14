@@ -106,7 +106,9 @@ class ProjectUnitCard extends StatelessWidget {
                             children: [
                               Expanded(
                                 child: Text(
-                                  unit.title,
+                                  unit.unitNumber.isNotEmpty 
+                                      ? '${unit.title} - وحدة ${unit.unitNumber}'
+                                      : unit.title,
                                   style: TextStyle(
                                     fontSize: AppFonts.bodyLarge,
                                     fontWeight: FontWeight.bold,
@@ -133,9 +135,9 @@ class ProjectUnitCard extends StatelessWidget {
                                   ),
                                 ),
                                 child: Text(
-                                  isSold
-                                      ? l10n.unitSoldOut
-                                      : l10n.unitAvailable,
+                                  unit.statusLabel.isNotEmpty 
+                                      ? unit.statusLabel 
+                                      : (isSold ? l10n.unitSoldOut : l10n.unitAvailable),
                                   style: TextStyle(
                                     fontSize: AppFonts.labelSmall,
                                     color: isSold
@@ -171,6 +173,16 @@ class ProjectUnitCard extends StatelessWidget {
                                   FluentIcons.location_16_regular,
                                   unit.locationTypeLabel,
                                 ),
+                              _buildSpecItem(
+                                context,
+                                FluentIcons.building_24_regular,
+                                'عمارة ${unit.buildingNumber}',
+                              ),
+                              _buildSpecItem(
+                                context,
+                                FluentIcons.layer_24_regular,
+                                'الدور ${unit.floor}',
+                              ),
                             ],
                           ),
                           Spacer(),

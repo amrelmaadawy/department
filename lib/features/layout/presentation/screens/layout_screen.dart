@@ -46,11 +46,7 @@ class LayoutView extends StatelessWidget {
         icon: FluentIcons.building_24_regular, // Fluent UI Building icon
         activeIcon: FluentIcons.building_24_filled,
       ),
-      NavBarItem(
-        label: l10n.navDesign,
-        icon: FluentIcons.cube_24_regular, // Fluent UI 3D Cube for design
-        activeIcon: FluentIcons.cube_24_filled,
-      ),
+
       NavBarItem(
         label: l10n.navAccount,
         icon: FluentIcons.person_24_regular,
@@ -62,10 +58,7 @@ class LayoutView extends StatelessWidget {
     final List<Widget> screens = [
       const HomeScreen(),
       const ProjectsScreen(),
-      BlocProvider.value(
-        value: sl<DesignContextCubit>(),
-        child: const DesignStudioScreen(),
-      ),
+
       BlocProvider(
         create: (_) => sl<AuthCubit>(),
         child: const ProfileScreen(),
