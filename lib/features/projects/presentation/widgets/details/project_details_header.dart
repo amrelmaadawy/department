@@ -46,44 +46,6 @@ class ProjectDetailsHeader extends StatelessWidget {
           ),
         ),
       ),
-      actions: [
-        GestureDetector(
-          onTap: () {},
-          child: Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: context.colors.white.withValues(alpha: 0.85),
-              shape: BoxShape.circle,
-            ),
-            child: Center(
-              child: Icon(
-                FluentIcons.share_24_regular,
-                color: context.colors.textPrimary,
-              ),
-            ),
-          ),
-        ),
-        SizedBox(width: AppSpacing.sm),
-        GestureDetector(
-          onTap: () {},
-          child: Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: context.colors.white.withValues(alpha: 0.85),
-              shape: BoxShape.circle,
-            ),
-            child: Center(
-              child: Icon(
-                FluentIcons.heart_24_regular,
-                color: context.colors.textPrimary,
-              ),
-            ),
-          ),
-        ),
-        SizedBox(width: AppSpacing.lg),
-      ],
       flexibleSpace: FlexibleSpaceBar(
         background: Stack(
           fit: StackFit.expand,
