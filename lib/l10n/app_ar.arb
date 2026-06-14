@@ -359,4 +359,9 @@
   "invalidEmail": "البريد الإلكتروني غير صالح",
   "passwordTooShort": "يجب أن تكون كلمة المرور 6 أحرف على الأقل",
   "passwordsDoNotMatch": "كلمتا المرور غير متطابقتين"
+,
+  "loginSuccess": "تم تسجيل الدخول بنجاح!",
+  "registerSuccess": "تم إنشاء الحساب بنجاح!"
+,
+  "logoutSuccess": "تم تسجيل الخروج بنجاح!"
 }

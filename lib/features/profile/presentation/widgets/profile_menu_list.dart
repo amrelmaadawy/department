@@ -7,6 +7,8 @@ import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../l10n/app_localizations.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../auth/presentation/cubit/auth_cubit.dart';
 import 'profile_menu_item.dart';
 
 class ProfileMenuList extends StatelessWidget {
@@ -103,7 +105,9 @@ class ProfileMenuList extends StatelessWidget {
                   title: l10n.logout,
                   isDestructive: true,
                   showDivider: false,
-                  onTap: () {},
+                  onTap: () {
+                    context.read<AuthCubit>().logout();
+                  },
                 ),
               ]),
 

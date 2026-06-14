@@ -359,4 +359,9 @@
   "invalidEmail": "Invalid email address",
   "passwordTooShort": "Password must be at least 6 characters",
   "passwordsDoNotMatch": "Passwords do not match"
+,
+  "loginSuccess": "Logged in Successfully!",
+  "registerSuccess": "Account Created Successfully!"
+,
+  "logoutSuccess": "Logged out Successfully!"
 }

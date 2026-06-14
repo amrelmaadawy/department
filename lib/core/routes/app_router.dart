@@ -17,6 +17,7 @@ import '../../../features/profile/presentation/screens/my_units_screen.dart';
 import '../../../features/profile/presentation/screens/unit_contract_screen.dart';
 import '../../../features/profile/presentation/screens/unit_progress_screen.dart';
 import '../../../features/auth/presentation/screens/auth_screen.dart';
+import '../../../features/auth/presentation/cubit/auth_cubit.dart';
 import '../../../features/layout/presentation/screens/layout_screen.dart';
 import '../../../features/projects/presentation/screens/project_details_screen.dart';
 import '../../../features/projects/presentation/screens/unit_details_screen.dart';
@@ -198,7 +199,10 @@ class AppRouter {
       ),
       GoRoute(
         path: profile,
-        builder: (context, state) => const ProfileScreen(),
+        builder: (context, state) => BlocProvider(
+          create: (_) => sl<AuthCubit>(),
+          child: const ProfileScreen(),
+        ),
       ),
       GoRoute(
         path: myUnits,

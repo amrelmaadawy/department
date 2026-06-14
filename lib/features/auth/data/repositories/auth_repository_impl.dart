@@ -46,4 +46,45 @@ class AuthRepositoryImpl implements AuthRepository {
       return Left(ServerFailure('An unexpected error occurred: ${e.toString()}'));
     }
   }
+
+  @override
+  Future<Either<Failure, UserEntity>> login({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final user = await remoteDataSource.login(
+        email: email,
+        password: password,
+      );
+
+      // Save token if returned
+      if (user.token != null && user.token!.isNotEmpty) {
+        await secureStorage.write(key: 'auth_token', value: user.token);
+      }
+
+      return Right(user);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on NetworkException {
+      return const Left(NetworkFailure('Network connection failed'));
+    } catch (e) {
+      return Left(ServerFailure('An unexpected error occurred: ${e.toString()}'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> logout() async {
+    try {
+      await remoteDataSource.logout();
+      await secureStorage.delete(key: 'auth_token');
+      return const Right(null);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on NetworkException {
+      return const Left(NetworkFailure('Network connection failed'));
+    } catch (e) {
+      return Left(ServerFailure('An unexpected error occurred: ${e.toString()}'));
+    }
+  }
 }

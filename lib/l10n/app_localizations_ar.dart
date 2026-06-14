@@ -926,4 +926,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get passwordsDoNotMatch => 'كلمتا المرور غير متطابقتين';
+
+  @override
+  String get loginSuccess => 'تم تسجيل الدخول بنجاح!';
+
+  @override
+  String get registerSuccess => 'تم إنشاء الحساب بنجاح!';
+
+  @override
+  String get logoutSuccess => 'تم تسجيل الخروج بنجاح!';
 }

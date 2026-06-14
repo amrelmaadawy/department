@@ -1837,6 +1837,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Passwords do not match'**
   String get passwordsDoNotMatch;
+
+  /// No description provided for @loginSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Logged in Successfully!'**
+  String get loginSuccess;
+
+  /// No description provided for @registerSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Account Created Successfully!'**
+  String get registerSuccess;
+
+  /// No description provided for @logoutSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Logged out Successfully!'**
+  String get logoutSuccess;
 }
 
 class _AppLocalizationsDelegate

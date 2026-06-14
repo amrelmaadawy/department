@@ -153,7 +153,7 @@ class _AuthViewState extends State<AuthView> {
                   } else if (state.status == AuthStatus.success) {
                     AppToast.show(
                       context,
-                      message: 'Account Created Successfully!', // Add to l10n later
+                      message: state.isLoginTab ? l10n.loginSuccess : l10n.registerSuccess,
                       isError: false,
                     );
                     context.go(AppRouter.layout);
@@ -188,8 +188,10 @@ class _AuthViewState extends State<AuthView> {
                             passwordConfirmation: _regConfirmPasswordController.text,
                           );
                         } else {
-                          // TODO: Implement Login
-                          context.go(AppRouter.layout);
+                          context.read<AuthCubit>().login(
+                            email: _emailController.text.trim(),
+                            password: _passwordController.text,
+                          );
                         }
                       }
                     },

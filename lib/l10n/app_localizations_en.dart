@@ -931,4 +931,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get passwordsDoNotMatch => 'Passwords do not match';
+
+  @override
+  String get loginSuccess => 'Logged in Successfully!';
+
+  @override
+  String get registerSuccess => 'Account Created Successfully!';
+
+  @override
+  String get logoutSuccess => 'Logged out Successfully!';
 }

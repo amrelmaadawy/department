@@ -10,4 +10,11 @@ abstract class AuthRepository {
     required String password,
     required String passwordConfirmation,
   });
+
+  Future<Either<Failure, UserEntity>> login({
+    required String email,
+    required String password,
+  });
+
+  Future<Either<Failure, void>> logout();
 }

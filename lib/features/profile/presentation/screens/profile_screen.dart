@@ -6,7 +6,11 @@ import '../widgets/profile_header.dart';
 import '../widgets/profile_stats_card.dart';
 import '../widgets/profile_menu_list.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import '../../../auth/presentation/cubit/auth_cubit.dart';
+import '../../../../core/widgets/app_toast.dart';
+import '../../../../core/routes/app_router.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -74,52 +78,70 @@ class _ProfileScreenState extends State<ProfileScreen>
 
     return Scaffold(
       backgroundColor: context.colors.background,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            // Header with stacked stats card
-            Stack(
-              clipBehavior: Clip.none,
-              children: [
-                FadeTransition(
-                  opacity: _headerAnim,
-                  child: SlideTransition(
-                    position: Tween<Offset>(
-                      begin: const Offset(0, -0.2),
-                      end: Offset.zero,
-                    ).animate(_headerAnim),
-                    child: ProfileHeader(
-                      userName: userName,
-                      userType: userType,
-                      avatarUrl: avatarUrl,
+      body: BlocListener<AuthCubit, AuthState>(
+        listener: (context, state) {
+          if (state.status == AuthStatus.failure) {
+            AppToast.show(
+              context,
+              message: state.errorMessage ?? l10n.bookingError,
+              isError: true,
+            );
+          } else if (state.status == AuthStatus.success) {
+            AppToast.show(
+              context,
+              message: l10n.logoutSuccess,
+              isError: false,
+            );
+            context.go(AppRouter.auth);
+          }
+        },
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              // Header with stacked stats card
+              Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  FadeTransition(
+                    opacity: _headerAnim,
+                    child: SlideTransition(
+                      position: Tween<Offset>(
+                        begin: const Offset(0, -0.2),
+                        end: Offset.zero,
+                      ).animate(_headerAnim),
+                      child: ProfileHeader(
+                        userName: userName,
+                        userType: userType,
+                        avatarUrl: avatarUrl,
+                      ),
                     ),
                   ),
-                ),
-                Positioned(
-                  bottom: -40, // Half of the card height approximately
-                  left: 0,
-                  right: 0,
-                  child: ScaleTransition(
-                    scale: _cardAnim,
-                    child: ProfileStatsCard(
-                      designsCount: designsCount,
-                      contractsCount: contractsCount,
-                      unitsCount: unitsCount,
-                      designsLabel: l10n.myDesigns,
-                      contractsLabel: l10n.myContracts,
-                      unitsLabel: l10n.myUnits,
+                  Positioned(
+                    bottom: -40, // Half of the card height approximately
+                    left: 0,
+                    right: 0,
+                    child: ScaleTransition(
+                      scale: _cardAnim,
+                      child: ProfileStatsCard(
+                        designsCount: designsCount,
+                        contractsCount: contractsCount,
+                        unitsCount: unitsCount,
+                        designsLabel: l10n.myDesigns,
+                        contractsLabel: l10n.myContracts,
+                        unitsLabel: l10n.myUnits,
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
 
-            // Provide space for the overlapping card
-            SizedBox(height: 60),
+              // Provide space for the overlapping card
+              const SizedBox(height: 60),
 
-            // Menu Groups
-            ProfileMenuList(listAnim: _listAnim),
-          ],
+              // Menu Groups
+              ProfileMenuList(listAnim: _listAnim),
+            ],
+          ),
         ),
       ),
     );
