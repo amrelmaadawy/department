@@ -11,6 +11,8 @@ import 'package:apartment/features/projects/data/models/finishing_order_request_
 import 'package:apartment/features/projects/domain/entities/finishing_order_entity.dart';
 import 'package:apartment/features/projects/domain/entities/finishing_order_request_entity.dart';
 import 'package:apartment/features/projects/domain/entities/ai_renders_entity.dart';
+import 'package:apartment/features/projects/domain/entities/saved_design_entity.dart';
+import 'package:apartment/features/projects/data/models/save_design_request_model.dart';
 
 class ProjectRepositoryImpl implements ProjectRepository {
   final ProjectRemoteDataSource remoteDataSource;
@@ -94,6 +96,18 @@ class ProjectRepositoryImpl implements ProjectRepository {
   Future<Either<Failure, AiRendersEntity>> getAiRenders(int orderId) async {
     try {
       final response = await remoteDataSource.getAiRenders(orderId);
+      return Right(response);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure('An unexpected error occurred: ${e.toString()}'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, SavedDesignEntity>> saveDesign(SaveDesignRequestModel request) async {
+    try {
+      final response = await remoteDataSource.saveDesign(request);
       return Right(response);
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));

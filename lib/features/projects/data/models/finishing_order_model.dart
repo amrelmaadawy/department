@@ -30,8 +30,31 @@ class FinishingOrderModel extends FinishingOrderEntity {
       notes: json['notes'] ?? '',
       aiStatus: json['ai_status'] ?? '',
       aiStatusLabel: json['ai_status_label'] ?? '',
-      aiRenders: json['ai_renders'] != null ? List<String>.from(json['ai_renders']) : [],
+      aiRenders: json['ai_renders'] != null 
+          ? (json['ai_renders'] as List).map((item) {
+              if (item is String) return item;
+              if (item is Map) return item['url']?.toString() ?? '';
+              return '';
+            }).where((url) => url.isNotEmpty).toList()
+          : [],
       images: json['images'] != null ? List<String>.from(json['images']) : [],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'status': status,
+      'status_label': statusLabel,
+      'order_type': orderType,
+      'order_type_label': orderTypeLabel,
+      'style': style,
+      'total_cost': totalCost,
+      'notes': notes,
+      'ai_status': aiStatus,
+      'ai_status_label': aiStatusLabel,
+      'ai_renders': aiRenders,
+      'images': images,
+    };
   }
 }

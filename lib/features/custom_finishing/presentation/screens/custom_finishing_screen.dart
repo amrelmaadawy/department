@@ -15,6 +15,8 @@ import '../widgets/custom_finishing_bottom_bar.dart';
 import '../../../../core/widgets/app_toast.dart';
 import '../widgets/review/custom_finishing_review_view.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
+import '../../../../features/design_studio/presentation/cubit/design_context_cubit.dart';
+import '../../../../core/di/injection_container.dart';
 
 class CustomFinishingScreen extends StatelessWidget {
   const CustomFinishingScreen({super.key});
@@ -28,7 +30,10 @@ class CustomFinishingScreen extends StatelessWidget {
             previous.bookingStatus != current.bookingStatus,
         listener: (context, state) {
           if (state.bookingStatus == BookingStatus.success) {
-            context.push('/contracts-review', extra: state);
+            context.push('/contracts-review', extra: {
+              'totalFinishingCost': state.totalEstimatedCost,
+              'unit': sl<DesignContextCubit>().state.selectedUnit,
+            });
           } else if (state.bookingStatus == BookingStatus.failure) {
             final l10n = AppLocalizations.of(context)!;
             AppToast.show(context, message: l10n.bookingError, isError: true);

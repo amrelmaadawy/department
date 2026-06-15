@@ -102,7 +102,7 @@ class ApiClient {
       final data = response.data as Map<String, dynamic>;
       if (data['success'] == false) {
         throw ServerException(
-          message: data['message'] ?? 'حدث خطأ غير معروف',
+          message: data['message'] is String ? data['message'] : (data['message']?.toString() ?? 'حدث خطأ غير معروف'),
           data: data,
         );
       }
@@ -136,12 +136,12 @@ class ApiClient {
             if (errorMessages.isNotEmpty) {
               message = errorMessages.join('\n');
             } else if (responseData.containsKey('message')) {
-              message = responseData['message'];
+              message = responseData['message'] is String ? responseData['message'] : responseData['message'].toString();
             }
           } else if (responseData.containsKey('message')) {
-            message = responseData['message'];
+            message = responseData['message'] is String ? responseData['message'] : responseData['message'].toString();
           } else if (responseData.containsKey('error')) {
-            message = responseData['error'];
+            message = responseData['error'] is String ? responseData['error'] : responseData['error'].toString();
           }
         }
 

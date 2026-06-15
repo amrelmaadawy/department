@@ -14,11 +14,17 @@ import 'package:apartment/core/theme/theme_extension.dart';
 class ContractBottomActions extends StatelessWidget {
   final bool isAgreed;
   final SignatureController signatureController;
+  final dynamic contractType;
+  final double price;
+  final dynamic unit;
 
   const ContractBottomActions({
     super.key,
     required this.isAgreed,
     required this.signatureController,
+    required this.contractType,
+    required this.price,
+    this.unit,
   });
 
   @override
@@ -53,7 +59,7 @@ class ContractBottomActions extends StatelessWidget {
                       if (signatureImage != null) {
                         // 2. Navigate to PDF Preview Screen and await result
                         if (context.mounted) {
-                          final result = await context.push(AppRouter.contractPreview, extra: signatureImage);
+                          final result = await context.push(AppRouter.contractPreview, extra: {'signatureImage': signatureImage, 'contractType': contractType, 'price': price, 'unit': unit});
                           if (result == true && context.mounted) {
                             // If user confirmed in preview screen, pop back to review screen
                             context.pop(true);

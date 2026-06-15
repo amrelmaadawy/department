@@ -6,17 +6,18 @@ import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 
-
 class ProfileHeader extends StatelessWidget {
   final String userName;
   final String userType;
   final String avatarUrl;
+  final int aiCredits;
 
   const ProfileHeader({
     super.key,
     required this.userName,
     required this.userType,
     required this.avatarUrl,
+    this.aiCredits = 0,
   });
 
   @override
@@ -148,7 +149,7 @@ class ProfileHeader extends StatelessWidget {
 
               SizedBox(height: AppSpacing.sm),
 
-              // Premium Badge
+              // Premium Badge & AI Credits
               Container(
                 padding: EdgeInsets.symmetric(
                   horizontal: AppSpacing.xl,
@@ -186,6 +187,29 @@ class ProfileHeader extends StatelessWidget {
                         color: context.colors.white,
                       ),
                     ),
+                    if (aiCredits > 0) ...[
+                      SizedBox(width: AppSpacing.md),
+                      Container(
+                        width: 1,
+                        height: 16,
+                        color: context.colors.white.withValues(alpha: 0.3),
+                      ),
+                      SizedBox(width: AppSpacing.md),
+                      Icon(
+                        FluentIcons.sparkle_24_filled,
+                        color: context.colors.white,
+                        size: 16,
+                      ),
+                      SizedBox(width: AppSpacing.xs),
+                      Text(
+                        '$aiCredits رصيد AI',
+                        style: TextStyle(
+                          fontSize: AppFonts.labelMedium,
+                          fontWeight: FontWeight.bold,
+                          color: context.colors.white,
+                        ),
+                      ),
+                    ],
                   ],
                 ),
               ),

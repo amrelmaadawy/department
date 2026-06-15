@@ -7,6 +7,8 @@ import '../models/project_model.dart';
 import '../models/finishing_order_model.dart';
 import 'package:apartment/features/projects/data/models/finishing_order_request_model.dart';
 import 'package:apartment/features/projects/data/models/ai_renders_model.dart';
+import 'package:apartment/features/projects/data/models/save_design_request_model.dart';
+import 'package:apartment/features/projects/data/models/saved_design_model.dart';
 
 abstract class ProjectRemoteDataSource {
   Future<List<ProjectModel>> getProjects();
@@ -16,6 +18,7 @@ abstract class ProjectRemoteDataSource {
   Future<RoomDetailsModel> getRoomDetails(int id);
   Future<FinishingOrderModel> submitFinishingOrder(FinishingOrderRequestModel request);
   Future<AiRendersModel> getAiRenders(int orderId);
+  Future<SavedDesignModel> saveDesign(SaveDesignRequestModel request);
 }
 
 class ProjectRemoteDataSourceImpl implements ProjectRemoteDataSource {
@@ -104,6 +107,20 @@ class ProjectRemoteDataSourceImpl implements ProjectRemoteDataSource {
       return AiRendersModel.fromJson(response['data']);
     } else {
       throw Exception('Failed to load AI renders');
+    }
+  }
+
+  @override
+  Future<SavedDesignModel> saveDesign(SaveDesignRequestModel request) async {
+    final response = await apiClient.post(
+      ApiEndpoints.savedDesigns,
+      data: request.toJson(),
+    );
+
+    if (response != null && response['data'] != null && response['data']['saved_design'] != null) {
+      return SavedDesignModel.fromJson(response['data']['saved_design']);
+    } else {
+      throw Exception('Failed to save design');
     }
   }
 }

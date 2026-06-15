@@ -12,12 +12,10 @@ class FinishingOrderRequestModel extends FinishingOrderRequestEntity {
   });
 
   Map<String, dynamic> toJson() {
-    return {
+    final map = {
       'apartment_id': apartmentId,
       'type': type,
       'is_draft': isDraft,
-      'style': style,
-      'notes': notes,
       'expected_total_cost': expectedTotalCost,
       'selections': selections.map((selection) {
         return {
@@ -26,6 +24,15 @@ class FinishingOrderRequestModel extends FinishingOrderRequestEntity {
         };
       }).toList(),
     };
+
+    if (style.isNotEmpty) {
+      map['style'] = style;
+    }
+    if (notes.isNotEmpty) {
+      map['notes'] = notes;
+    }
+
+    return map;
   }
 
   factory FinishingOrderRequestModel.fromEntity(FinishingOrderRequestEntity entity) {

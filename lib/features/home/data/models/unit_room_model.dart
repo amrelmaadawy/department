@@ -22,4 +22,16 @@ class UnitRoomModel extends UnitRoomEntity {
       width: json['width'] != null ? (json['width'] as num).toDouble() : null,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'type': type,
+      'type_label': typeLabel,
+      'area': area,
+      'length': length,
+      'width': width,
+    };
+  }
 }

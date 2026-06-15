@@ -15,17 +15,19 @@ import 'package:apartment/core/theme/theme_extension.dart';
 class ContractSummaryCard extends StatelessWidget {
   final ContractType contractType;
   final double? finishingTotal;
+  final dynamic unit;
 
   const ContractSummaryCard({
     super.key, 
     required this.contractType,
     this.finishingTotal,
+    this.unit,
   });
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final unit = sl<DesignContextCubit>().state.selectedUnit;
+    final unit = this.unit ?? sl<DesignContextCubit>().state.selectedUnit;
     
     final title = contractType == ContractType.unit 
         ? l10n.unitSummaryTitle 

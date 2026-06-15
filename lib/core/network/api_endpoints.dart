@@ -17,4 +17,5 @@ class ApiEndpoints {
   static String getAiRenders(int orderId) => '/finishing-orders/$orderId/ai-renders';
   
   // Future endpoints can be added here
+  static const String savedDesigns = '/saved-designs';
 }

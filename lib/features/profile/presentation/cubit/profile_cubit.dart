@@ -17,4 +17,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       (profile) => emit(ProfileLoaded(profile: profile)),
     );
   }
+  void clearProfile() {
+    emit(ProfileInitial());
+  }
 }

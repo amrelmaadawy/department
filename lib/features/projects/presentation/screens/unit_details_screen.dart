@@ -118,7 +118,10 @@ class _UnitDetailsScreenContentState extends State<_UnitDetailsScreenContent> {
               ],
             ),
           ),
-          bottomNavigationBar: UnitBottomActions(unit: currentUnit),
+          bottomNavigationBar: UnitBottomActions(
+            unit: currentUnit,
+            finishingCost: state.totalFinishingCost,
+          ),
         );
       },
     );

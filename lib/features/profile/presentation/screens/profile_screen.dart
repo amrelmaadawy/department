@@ -15,6 +15,10 @@ import '../cubit/profile_state.dart';
 import '../../../../core/widgets/app_toast.dart';
 import '../../../../core/routes/app_router.dart';
 import '../../../../core/di/injection_container.dart';
+import '../../../projects/data/datasources/local/room_design_cache_service.dart';
+import '../../../design_studio/presentation/cubit/design_context_cubit.dart';
+import '../widgets/profile_recent_orders_section.dart';
+import '../../../projects/domain/entities/finishing_order_entity.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -83,12 +87,7 @@ class _ProfileViewState extends State<ProfileView>
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-
-    // Mock Data for stats
     final userType = l10n.premiumCustomer;
-    const designsCount = 12;
-    const contractsCount = 5;
-    const unitsCount = 3;
 
     return Scaffold(
       backgroundColor: context.colors.background,
@@ -106,6 +105,11 @@ class _ProfileViewState extends State<ProfileView>
               message: l10n.logoutSuccess,
               isError: false,
             );
+            
+            // Clear global states and caches on logout
+            sl<DesignContextCubit>().clearUnitSelection();
+            sl<ProfileCubit>().clearProfile();
+
             context.go(AppRouter.auth);
           }
         },
@@ -118,12 +122,22 @@ class _ProfileViewState extends State<ProfileView>
           builder: (context, profileState) {
             String userName = '...';
             String avatarUrl = 'assets/images/profile_avatar.png';
+            int designsCount = 0;
+            int contractsCount = 0;
+            int unitsCount = 0;
+            int aiCredits = 0;
+            List<FinishingOrderEntity> recentOrders = [];
 
             if (profileState is ProfileLoaded) {
-              userName = profileState.profile.name;
-              avatarUrl = profileState.profile.avatarUrl ?? avatarUrl;
+              userName = profileState.profile.user.name;
+              avatarUrl = profileState.profile.user.avatarUrl ?? avatarUrl;
+              designsCount = profileState.profile.statistics.totalSavedDesigns;
+              contractsCount = profileState.profile.statistics.totalOrders;
+              unitsCount = profileState.profile.statistics.totalApartments;
+              aiCredits = profileState.profile.user.aiCredits;
+              recentOrders = profileState.profile.recentOrders;
             } else if (profileState is ProfileError) {
-              userName = 'خطأ في التحميل';
+              userName = profileState.message;
             } else if (profileState is ProfileLoading) {
               userName = 'جاري التحميل...';
             }
@@ -146,10 +160,10 @@ class _ProfileViewState extends State<ProfileView>
                             userName: userName,
                             userType: userType,
                             avatarUrl: avatarUrl,
+                            aiCredits: aiCredits,
                           ),
                         ),
                       ),
-/*
                       Positioned(
                         bottom: -40, // Half of the card height approximately
                         left: 0,
@@ -160,19 +174,21 @@ class _ProfileViewState extends State<ProfileView>
                             designsCount: designsCount,
                             contractsCount: contractsCount,
                             unitsCount: unitsCount,
-                            designsLabel: l10n.myDesigns,
+                            designsLabel: 'تصميماتي', // Using local strings or l10n
                             contractsLabel: l10n.myContracts,
                             unitsLabel: l10n.myUnits,
                           ),
                         ),
                       ),
-*/
                     ],
                   ),
 
                   // Provide space for the overlapping card
-                  // const SizedBox(height: 60),
-                  const SizedBox(height: AppSpacing.xxl),
+                  const SizedBox(height: 60),
+                  const SizedBox(height: AppSpacing.md),
+
+                  // Recent Orders
+                  ProfileRecentOrdersSection(recentOrders: recentOrders),
 
                   // Menu Groups
                   ProfileMenuList(listAnim: _listAnim),

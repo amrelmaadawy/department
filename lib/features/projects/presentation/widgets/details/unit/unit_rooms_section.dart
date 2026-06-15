@@ -3,11 +3,12 @@ import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 import 'package:apartment/features/home/domain/entities/unit_room_entity.dart';
+import 'package:apartment/features/projects/presentation/cubit/unit_details_cubit.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:apartment/core/routes/app_router.dart';
-
 class UnitRoomsSection extends StatelessWidget {
   final List<UnitRoomEntity> rooms;
   final String apartmentId;
@@ -84,11 +85,14 @@ class UnitRoomsSection extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () {
-            context.push(AppRouter.roomDetails, extra: {
+          onTap: () async {
+            await context.push(AppRouter.roomDetails, extra: {
               'room': room,
               'apartmentId': int.parse(apartmentId),
             });
+            if (context.mounted) {
+              context.read<UnitDetailsCubit>().refreshFinishingCost();
+            }
           },
           borderRadius: BorderRadius.circular(AppRadius.md),
           child: Padding(

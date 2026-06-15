@@ -44,4 +44,13 @@ class RoomDesignCacheService {
     final key = _getKey(roomId);
     await sharedPreferences.remove(key);
   }
+
+  Future<void> clearAllRoomDesignProgress() async {
+    final keys = sharedPreferences.getKeys();
+    for (final k in keys) {
+      if (k.startsWith(_cachePrefix)) {
+        await sharedPreferences.remove(k);
+      }
+    }
+  }
 }

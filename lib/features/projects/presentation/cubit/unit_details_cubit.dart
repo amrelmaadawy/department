@@ -3,14 +3,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../home/domain/entities/project_unit_entity.dart';
 import '../../domain/usecases/get_unit_details_usecase.dart';
+import '../../data/datasources/local/room_design_cache_service.dart';
 
 part 'unit_details_state.dart';
 
 class UnitDetailsCubit extends Cubit<UnitDetailsState> {
   final GetUnitDetailsUseCase getUnitDetailsUseCase;
+  final RoomDesignCacheService cacheService;
 
   UnitDetailsCubit({
     required this.getUnitDetailsUseCase,
+    required this.cacheService,
   }) : super(UnitDetailsInitial());
 
   Future<void> loadUnitDetails(int id, {ProjectUnitEntity? initialUnit}) async {
@@ -24,7 +27,33 @@ class UnitDetailsCubit extends Cubit<UnitDetailsState> {
         message: failure.message,
         unit: initialUnit,
       )),
-      (unit) => emit(UnitDetailsLoaded(unit: unit)),
+      (unit) {
+        final totalFinishingCost = _calculateTotalFinishingCost(unit);
+        emit(UnitDetailsLoaded(unit: unit, totalFinishingCost: totalFinishingCost));
+      },
     );
+  }
+
+  double _calculateTotalFinishingCost(ProjectUnitEntity unit) {
+    double total = 0.0;
+    for (final room in unit.rooms) {
+      final cachedData = cacheService.getRoomDesignProgress(room.id);
+      if (cachedData != null) {
+        final roomCost = (cachedData['selectedMaterialsCost'] ?? 0.0).toDouble();
+        // Since roomCost already includes per-sqm multiplication when user selected in RoomDetailsScreen,
+        // we just sum the total cost of each room from cache.
+        total += roomCost;
+      }
+    }
+    return total;
+  }
+
+  void refreshFinishingCost() {
+    if (state.unit != null) {
+      final total = _calculateTotalFinishingCost(state.unit!);
+      if (state is UnitDetailsLoaded) {
+        emit(UnitDetailsLoaded(unit: state.unit!, totalFinishingCost: total));
+      }
+    }
   }
 }

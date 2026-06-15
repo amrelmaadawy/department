@@ -10,6 +10,8 @@ import '../../../../core/theme/theme_extension.dart';
 import '../../../../core/widgets/app_toast.dart';
 import '../cubit/ai_renders_cubit.dart';
 import '../cubit/ai_renders_state.dart';
+import '../cubit/save_design_cubit.dart';
+import '../cubit/save_design_state.dart';
 
 class AiRendersScreen extends StatelessWidget {
   final int orderId;
@@ -42,11 +44,28 @@ class AiRendersScreen extends StatelessWidget {
         body: BlocBuilder<AiRendersCubit, AiRendersState>(
           builder: (context, state) {
             if (state is AiRendersLoading) {
-              return const Center(child: CircularProgressIndicator());
+              return Center(
+                child: SizedBox(
+                  width: 48,
+                  height: 48,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 3,
+                    color: context.colors.primary,
+                    backgroundColor: context.colors.primary.withValues(alpha: 0.1),
+                    strokeCap: StrokeCap.round,
+                  ),
+                ),
+              );
             } else if (state is AiRendersPending) {
               return _AiPendingView(statusLabel: state.aiRenders.aiStatusLabel);
             } else if (state is AiRendersCompleted) {
-              return _AiCompletedView(renders: state.aiRenders.aiRenders);
+              return BlocProvider(
+                create: (context) => sl<SaveDesignCubit>(),
+                child: _AiCompletedView(
+                  renders: state.aiRenders.aiRenders,
+                  orderId: orderId,
+                ),
+              );
             } else if (state is AiRendersError) {
               return Center(
                 child: Padding(
@@ -131,7 +150,16 @@ class _AiPendingView extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: AppSpacing.xl),
-            const CircularProgressIndicator(),
+            SizedBox(
+              width: 48,
+              height: 48,
+              child: CircularProgressIndicator(
+                strokeWidth: 3,
+                color: context.colors.primary,
+                backgroundColor: context.colors.primary.withValues(alpha: 0.1),
+                strokeCap: StrokeCap.round,
+              ),
+            ),
           ],
         ),
       ),
@@ -141,8 +169,12 @@ class _AiPendingView extends StatelessWidget {
 
 class _AiCompletedView extends StatefulWidget {
   final List<String> renders;
+  final int orderId;
 
-  const _AiCompletedView({required this.renders});
+  const _AiCompletedView({
+    required this.renders,
+    required this.orderId,
+  });
 
   @override
   State<_AiCompletedView> createState() => _AiCompletedViewState();
@@ -151,6 +183,40 @@ class _AiCompletedView extends StatefulWidget {
 class _AiCompletedViewState extends State<_AiCompletedView> {
   final PageController _pageController = PageController();
   int _currentIndex = 0;
+  bool _isDownloading = false;
+
+  // Future<void> _downloadImage(String url) async {
+  //   if (_isDownloading) return;
+  //   setState(() => _isDownloading = true);
+
+  //   try {
+  //     final response = await Dio().get(
+  //       url,
+  //       options: Options(responseType: ResponseType.bytes),
+  //     );
+      
+  //     if (!await Gal.hasAccess()) {
+  //       await Gal.requestAccess();
+  //     }
+
+  //     await Gal.putImageBytes(
+  //       Uint8List.fromList(response.data),
+  //       name: "ai_design_${DateTime.now().millisecondsSinceEpoch}",
+  //     );
+
+  //     if (mounted) {
+  //       AppToast.showSuccess(context, 'تم تنزيل التصميم وحفظه في المعرض بنجاح!');
+  //     }
+  //   } catch (e) {
+  //     if (mounted) {
+  //       AppToast.showError(context, 'حدث خطأ في تحميل الصورة.');
+  //     }
+  //   } finally {
+  //     if (mounted) {
+  //       setState(() => _isDownloading = false);
+  //     }
+  //   }
+  // }
 
   @override
   void dispose() {
@@ -194,10 +260,18 @@ class _AiCompletedViewState extends State<_AiCompletedView> {
                           loadingBuilder: (context, child, loadingProgress) {
                             if (loadingProgress == null) return child;
                             return Center(
-                              child: CircularProgressIndicator(
-                                value: loadingProgress.expectedTotalBytes != null
-                                    ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
-                                    : null,
+                              child: SizedBox(
+                                width: 48,
+                                height: 48,
+                                child: CircularProgressIndicator(
+                                  value: loadingProgress.expectedTotalBytes != null
+                                      ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                                      : null,
+                                  strokeWidth: 3,
+                                  color: context.colors.primary,
+                                  backgroundColor: context.colors.primary.withValues(alpha: 0.1),
+                                  strokeCap: StrokeCap.round,
+                                ),
                               ),
                             );
                           },
@@ -252,36 +326,62 @@ class _AiCompletedViewState extends State<_AiCompletedView> {
             top: false,
             child: Row(
               children: [
-                Expanded(
+                /* Expanded(
                   child: OutlinedButton.icon(
-                    onPressed: () {
-                      AppToast.showSuccess(context, 'تم تنزيل التصميم بنجاح!');
-                    },
+                    onPressed: _isDownloading ? null : () => _downloadImage(widget.renders[_currentIndex]),
                     style: OutlinedButton.styleFrom(
                       foregroundColor: context.colors.primary,
                       side: BorderSide(color: context.colors.primary),
                       padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.lg)),
                     ),
-                    icon: const Icon(FluentIcons.arrow_download_24_regular),
-                    label: const Text('تحميل', style: TextStyle(fontWeight: FontWeight.bold)),
+                    icon: _isDownloading 
+                        ? SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: context.colors.primary))
+                        : const Icon(FluentIcons.arrow_download_24_regular),
+                    label: Text(_isDownloading ? 'جاري...' : 'تحميل', style: const TextStyle(fontWeight: FontWeight.bold)),
                   ),
                 ),
-                const SizedBox(width: AppSpacing.md),
+                const SizedBox(width: AppSpacing.md), */
                 Expanded(
-                  child: ElevatedButton.icon(
-                    onPressed: () {
-                      AppToast.showSuccess(context, 'تم حفظ التصميم في التطبيق!');
+                  child: BlocConsumer<SaveDesignCubit, SaveDesignState>(
+                    listener: (context, state) {
+                      if (state is SaveDesignSuccess) {
+                        AppToast.showSuccess(context, 'تم حفظ التصميم بنجاح.');
+                      } else if (state is SaveDesignError) {
+                        AppToast.showError(context, state.message);
+                      }
                     },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: context.colors.primary,
-                      foregroundColor: context.colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.lg)),
-                      elevation: 0,
-                    ),
-                    icon: const Icon(FluentIcons.save_24_regular),
-                    label: const Text('حفظ التصميم', style: TextStyle(fontWeight: FontWeight.bold)),
+                    builder: (context, state) {
+                      final isLoading = state is SaveDesignLoading;
+                      return ElevatedButton.icon(
+                        onPressed: isLoading
+                            ? null
+                            : () {
+                                context.read<SaveDesignCubit>().saveDesign(
+                                      widget.orderId,
+                                      widget.renders[_currentIndex],
+                                    );
+                              },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: context.colors.primary,
+                          foregroundColor: context.colors.white,
+                          padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.lg)),
+                          elevation: 0,
+                        ),
+                        icon: isLoading
+                            ? const SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                              )
+                            : const Icon(FluentIcons.save_24_regular),
+                        label: Text(
+                          isLoading ? 'جاري الحفظ...' : 'حفظ التصميم',
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      );
+                    },
                   ),
                 ),
               ],

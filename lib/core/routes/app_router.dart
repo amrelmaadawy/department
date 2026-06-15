@@ -12,6 +12,8 @@ import 'package:apartment/features/profile/presentation/screens/profile_screen.d
 import '../../../features/app_startup/presentation/screens/welcome_screen.dart';
 import '../../../features/onboarding/presentation/screens/onboarding_screen.dart';
 import '../../../features/profile/presentation/screens/app_settings_screen.dart';
+import '../../../features/profile/presentation/screens/ai_gallery_screen.dart';
+import '../../../features/profile/presentation/screens/saved_designs_screen.dart';
 import '../../../features/profile/presentation/screens/edit_profile_screen.dart';
 import '../../../features/profile/presentation/screens/security_screen.dart';
 import '../../../features/profile/presentation/screens/my_units_screen.dart';
@@ -33,7 +35,6 @@ import '../../../features/home/domain/entities/project_entity.dart';
 import '../../../features/home/domain/entities/project_unit_entity.dart';
 import '../di/injection_container.dart';
 import '../../features/custom_finishing/presentation/cubit/custom_finishing_cubit.dart';
-import '../../features/custom_finishing/presentation/cubit/custom_finishing_state.dart';
 import 'app_router_transitions.dart';
 
 class AppRouter {
@@ -58,6 +59,8 @@ class AppRouter {
   static const String security = '/security';
   static const String appSettings = '/app-settings';
   static const String support = '/support';
+  static const String aiGallery = '/ai-gallery';
+  static const String savedDesigns = '/saved-designs';
 
   static final router = GoRouter(
     initialLocation: initial,
@@ -147,6 +150,7 @@ class AppRouter {
           final args = state.extra as Map<String, dynamic>? ?? {};
           final contractType = args['type'] as ContractType? ?? ContractType.unit;
           final finishingTotal = args['finishingTotal'] as double?;
+          final unit = args['unit'];
           
           return CustomTransitionPage(
             key: state.pageKey,
@@ -154,6 +158,7 @@ class AppRouter {
             child: ContractSigningScreen(
               contractType: contractType,
               finishingTotal: finishingTotal,
+              unit: unit,
             ),
             transitionsBuilder: AppRouterTransitions.slideFromRight,
           );
@@ -163,9 +168,9 @@ class AppRouter {
         path: contractPreview,
         redirect: (context, state) => state.extra == null ? contractSigning : null,
         builder: (context, state) {
-          final signatureImage = state.extra as Uint8List?;
+          final args = state.extra as Map<String, dynamic>?; final signatureImage = args != null ? args['signatureImage'] as Uint8List? : null;
           if (signatureImage == null) return const _RedirectFallback(route: contractSigning);
-          return ContractPreviewScreen(signatureImage: signatureImage);
+          return ContractPreviewScreen(signatureImage: signatureImage, contractType: args?['contractType'], price: args?['price'], unit: args?['unit']);
         },
       ),
         GoRoute(
@@ -216,18 +221,23 @@ class AppRouter {
         path: contractsReview,
         redirect: (context, state) => state.extra == null ? customFinishing : null,
         pageBuilder: (context, state) {
-          final finishingState = state.extra as CustomFinishingState?;
-          if (finishingState == null) {
+          final extra = state.extra as Map<String, dynamic>?;
+          if (extra == null) {
             return CustomTransitionPage(
               key: state.pageKey,
               child: const _RedirectFallback(route: customFinishing),
               transitionsBuilder: AppRouterTransitions.fadeTransition,
             );
           }
+          final totalFinishingCost = extra['totalFinishingCost'] as double? ?? 0.0;
+          final unit = extra['unit'];
           return CustomTransitionPage(
             key: state.pageKey,
             transitionDuration: const Duration(milliseconds: 600),
-            child: ContractsReviewScreen(finishingState: finishingState),
+            child: ContractsReviewScreen(
+              totalFinishingCost: totalFinishingCost,
+              unit: unit,
+            ),
             transitionsBuilder: AppRouterTransitions.slideFromRight,
           );
         },
@@ -254,6 +264,28 @@ class AppRouter {
       GoRoute(
         path: myUnits,
         builder: (context, state) => const MyUnitsScreen(),
+      ),
+      GoRoute(
+        path: aiGallery,
+        pageBuilder: (context, state) {
+          return CustomTransitionPage(
+            key: state.pageKey,
+            transitionDuration: const Duration(milliseconds: 400),
+            child: const AiGalleryScreen(),
+            transitionsBuilder: AppRouterTransitions.slideFromRight,
+          );
+        },
+      ),
+      GoRoute(
+        path: savedDesigns,
+        pageBuilder: (context, state) {
+          return CustomTransitionPage(
+            key: state.pageKey,
+            transitionDuration: const Duration(milliseconds: 400),
+            child: const SavedDesignsScreen(),
+            transitionsBuilder: AppRouterTransitions.slideFromRight,
+          );
+        },
       ),
       GoRoute(
         path: unitProgress,

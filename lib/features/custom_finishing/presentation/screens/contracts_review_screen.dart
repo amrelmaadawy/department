@@ -8,15 +8,16 @@ import '../../../../core/theme/app_radius.dart';
 import '../../../../core/di/injection_container.dart';
 import '../../../../core/routes/app_router.dart';
 import '../../../../core/widgets/custom_button.dart';
+import '../../../../features/home/domain/entities/project_unit_entity.dart';
 import '../../../../features/design_studio/presentation/cubit/design_context_cubit.dart';
 import '../../../contracts/domain/entities/contract_type.dart';
-import '../cubit/custom_finishing_state.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 import '../../../../l10n/app_localizations.dart';
 
 class ContractsReviewScreen extends StatefulWidget {
-  final CustomFinishingState finishingState;
-  const ContractsReviewScreen({super.key, required this.finishingState});
+  final double totalFinishingCost;
+  final ProjectUnitEntity? unit;
+  const ContractsReviewScreen({super.key, required this.totalFinishingCost, this.unit});
 
   @override
   State<ContractsReviewScreen> createState() => _ContractsReviewScreenState();
@@ -29,9 +30,8 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final unit = sl<DesignContextCubit>().state.selectedUnit;
-    final totalCost =
-        (unit?.price ?? 0.0) + widget.finishingState.totalEstimatedCost;
+    final unit = widget.unit ?? sl<DesignContextCubit>().state.selectedUnit;
+    final totalCost = (unit?.price ?? 0.0) + widget.totalFinishingCost;
 
     return Scaffold(
       backgroundColor: context.colors.background,
@@ -134,7 +134,7 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
             onSign: () async {
               final result = await context.push(
                 AppRouter.contractSigning,
-                extra: {'type': ContractType.unit},
+                extra: {'type': ContractType.unit, 'unit': unit},
               );
               if (result == true) {
                 setState(() => _isUnitContractSigned = true);
@@ -152,7 +152,8 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
                 AppRouter.contractSigning,
                 extra: {
                   'type': ContractType.finishing,
-                  'finishingTotal': widget.finishingState.totalEstimatedCost,
+                  'finishingTotal': widget.totalFinishingCost,
+                  'unit': unit,
                 },
               );
               if (result == true) {

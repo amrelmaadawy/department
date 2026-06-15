@@ -8,6 +8,9 @@ import 'package:apartment/features/projects/domain/entities/finishing_order_enti
 import 'package:apartment/features/projects/domain/entities/finishing_order_request_entity.dart';
 import 'package:apartment/features/projects/domain/entities/ai_renders_entity.dart';
 
+import 'package:apartment/features/projects/domain/entities/saved_design_entity.dart';
+import 'package:apartment/features/projects/data/models/save_design_request_model.dart';
+
 abstract class ProjectRepository {
   Future<Either<Failure, List<ProjectEntity>>> getProjects();
   Future<Either<Failure, ProjectEntity>> getProjectDetails(int id);
@@ -16,4 +19,5 @@ abstract class ProjectRepository {
   Future<Either<Failure, RoomDetailsEntity>> getRoomDetails(int id);
   Future<Either<Failure, FinishingOrderEntity>> submitFinishingOrder(FinishingOrderRequestEntity request);
   Future<Either<Failure, AiRendersEntity>> getAiRenders(int orderId);
+  Future<Either<Failure, SavedDesignEntity>> saveDesign(SaveDesignRequestModel request);
 }

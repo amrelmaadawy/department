@@ -67,4 +67,23 @@ class ProjectUnitModel extends ProjectUnitEntity {
       description: '',
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': title,
+      'number': unitNumber,
+      'building_number': buildingNumber,
+      'location_type': locationType,
+      'location_type_label': locationTypeLabel,
+      'rooms_count': roomsCount,
+      'area': area,
+      'base_price': price,
+      'floor_number': floor,
+      'status': status == UnitStatus.sold ? 'sold' : 'available',
+      'status_label': statusLabel,
+      'images': images,
+      'rooms': rooms.map((e) => (e as UnitRoomModel).toJson()).toList(),
+    };
+  }
 }

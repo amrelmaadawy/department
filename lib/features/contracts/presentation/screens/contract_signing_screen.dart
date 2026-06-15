@@ -15,11 +15,13 @@ import 'package:apartment/core/theme/theme_extension.dart';
 class ContractSigningScreen extends StatefulWidget {
   final ContractType contractType;
   final double? finishingTotal;
+  final dynamic unit;
   
   const ContractSigningScreen({
     super.key, 
     required this.contractType,
     this.finishingTotal,
+    this.unit,
   });
 
   @override
@@ -83,6 +85,7 @@ class _ContractSigningScreenState extends State<ContractSigningScreen> {
             ContractSummaryCard(
               contractType: widget.contractType,
               finishingTotal: widget.finishingTotal,
+              unit: widget.unit,
             ),
             ContractTermsCard(
               contractType: widget.contractType,
@@ -101,6 +104,9 @@ class _ContractSigningScreenState extends State<ContractSigningScreen> {
           return ContractBottomActions(
             isAgreed: _isAgreed,
             signatureController: _signatureController,
+            contractType: widget.contractType,
+            price: widget.contractType == ContractType.unit ? (widget.unit?.price ?? 0.0) : (widget.finishingTotal ?? 0.0),
+            unit: widget.unit,
           );
         },
       ),

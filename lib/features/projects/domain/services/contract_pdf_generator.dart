@@ -3,10 +3,17 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
+import 'package:intl/intl.dart';
+import '../../../../features/home/domain/entities/project_unit_entity.dart';
+import '../../../contracts/domain/entities/contract_type.dart';
+
 class ContractPdfGenerator {
   static Future<Uint8List> generateContractBytes(
     PdfPageFormat format,
     Uint8List signatureImage,
+    ContractType type,
+    double price,
+    ProjectUnitEntity? unit,
   ) async {
     final pdf = pw.Document();
 
@@ -15,6 +22,11 @@ class ContractPdfGenerator {
     
     final ttf = pw.Font.ttf(fontData);
     final ttfBold = pw.Font.ttf(fontBoldData);
+
+    final isUnit = type == ContractType.unit;
+    final contractTitleStr = isUnit ? 'عقد حجز وحدة سكنية' : 'عقد مقاولة تشطيبات';
+    final formatter = NumberFormat.currency(symbol: '', decimalDigits: 0);
+    final priceStr = '${formatter.format(price).trim()} ر.س';
 
     pdf.addPage(
       pw.MultiPage(
@@ -32,7 +44,7 @@ class ContractPdfGenerator {
                 mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                 children: [
                   pw.SizedBox(), // مساحة فارغة لاسم أو شعار الشركة لاحقاً
-                  pw.Text('عقد حجز وحدة سكنية', style: pw.TextStyle(font: ttfBold, fontSize: 24, color: PdfColors.blueGrey900)),
+                  pw.Text(contractTitleStr, style: pw.TextStyle(font: ttfBold, fontSize: 24, color: PdfColors.blueGrey900)),
                 ],
               ),
               pw.SizedBox(height: 10),
@@ -64,7 +76,7 @@ class ContractPdfGenerator {
         build: (pw.Context context) {
           return [
             // 1. Summary Section
-            pw.Text('1. ملخص الوحدة', style: pw.TextStyle(fontSize: 16, font: ttfBold, color: PdfColors.blueGrey900)),
+            pw.Text(isUnit ? '1. ملخص الوحدة' : '1. ملخص التشطيبات', style: pw.TextStyle(fontSize: 16, font: ttfBold, color: PdfColors.blueGrey900)),
             pw.SizedBox(height: 8),
             pw.Container(
               padding: const pw.EdgeInsets.all(10),
@@ -83,7 +95,7 @@ class ContractPdfGenerator {
                 children: [
                   pw.TableRow(
                     children: [
-                      pw.Align(alignment: pw.Alignment.centerRight, child: pw.Text('الدور الثالث', style: pw.TextStyle(font: ttf, fontSize: 12))),
+                      pw.Align(alignment: pw.Alignment.centerRight, child: pw.Text(unit != null ? 'الدور ${unit.floor}' : '-', style: pw.TextStyle(font: ttf, fontSize: 12))),
                       pw.Align(alignment: pw.Alignment.centerRight, child: pw.Text('الدور:', style: pw.TextStyle(font: ttfBold, fontSize: 12))),
                       pw.Align(alignment: pw.Alignment.centerRight, child: pw.Text('لؤلؤة الرياض', style: pw.TextStyle(font: ttf, fontSize: 12))),
                       pw.Align(alignment: pw.Alignment.centerRight, child: pw.Text('المشروع:', style: pw.TextStyle(font: ttfBold, fontSize: 12))),
@@ -99,9 +111,9 @@ class ContractPdfGenerator {
                   ),
                   pw.TableRow(
                     children: [
-                      pw.Align(alignment: pw.Alignment.centerRight, child: pw.Text('1,250,000 ر.س', style: pw.TextStyle(font: ttfBold, fontSize: 12, color: PdfColors.amber700))),
-                      pw.Align(alignment: pw.Alignment.centerRight, child: pw.Text('السعر الإجمالي:', style: pw.TextStyle(font: ttfBold, fontSize: 12))),
-                      pw.Align(alignment: pw.Alignment.centerRight, child: pw.Text('شقة - 150 متر مربع', style: pw.TextStyle(font: ttf, fontSize: 12))),
+                      pw.Align(alignment: pw.Alignment.centerRight, child: pw.Text(priceStr, style: pw.TextStyle(font: ttfBold, fontSize: 12, color: PdfColors.amber700))),
+                      pw.Align(alignment: pw.Alignment.centerRight, child: pw.Text(isUnit ? 'سعر الوحدة:' : 'سعر التشطيب:', style: pw.TextStyle(font: ttfBold, fontSize: 12))),
+                      pw.Align(alignment: pw.Alignment.centerRight, child: pw.Text(unit != null ? '${unit.title} - ${unit.area} متر مربع' : '-', style: pw.TextStyle(font: ttf, fontSize: 12))),
                       pw.Align(alignment: pw.Alignment.centerRight, child: pw.Text('نوع الوحدة:', style: pw.TextStyle(font: ttfBold, fontSize: 12))),
                     ],
                   ),
@@ -109,7 +121,7 @@ class ContractPdfGenerator {
               ),
             ),
             pw.SizedBox(height: 15),
-
+            
             // 2. Terms Section
             pw.Text('2. الشروط والأحكام', style: pw.TextStyle(fontSize: 16, font: ttfBold, color: PdfColors.blueGrey900)),
             pw.SizedBox(height: 10),
