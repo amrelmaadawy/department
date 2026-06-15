@@ -15,7 +15,8 @@ class ProjectEntity extends Equatable {
 
   // Legacy/Optional UI fields
   final double startingPrice;
-  final List<String> amenities;
+  final List<String> features;
+  final bool isFeatured;
   final String totalArea;
   final String unitTypes;
   final String deliveryDate;
@@ -33,7 +34,8 @@ class ProjectEntity extends Equatable {
     this.apartmentsCount = 0,
     this.buildingArea = 0.0,
     this.startingPrice = 0.0,
-    this.amenities = const [],
+    this.features = const [],
+    this.isFeatured = false,
     this.totalArea = '',
     this.unitTypes = '',
     this.deliveryDate = '',
@@ -55,7 +57,8 @@ class ProjectEntity extends Equatable {
     int? apartmentsCount,
     double? buildingArea,
     double? startingPrice,
-    List<String>? amenities,
+    List<String>? features,
+    bool? isFeatured,
     String? totalArea,
     String? unitTypes,
     String? deliveryDate,
@@ -73,7 +76,8 @@ class ProjectEntity extends Equatable {
       apartmentsCount: apartmentsCount ?? this.apartmentsCount,
       buildingArea: buildingArea ?? this.buildingArea,
       startingPrice: startingPrice ?? this.startingPrice,
-      amenities: amenities ?? this.amenities,
+      features: features ?? this.features,
+      isFeatured: isFeatured ?? this.isFeatured,
       totalArea: totalArea ?? this.totalArea,
       unitTypes: unitTypes ?? this.unitTypes,
       deliveryDate: deliveryDate ?? this.deliveryDate,
@@ -94,7 +98,8 @@ class ProjectEntity extends Equatable {
     apartmentsCount,
     buildingArea,
     startingPrice,
-    amenities,
+    features,
+    isFeatured,
     totalArea,
     unitTypes,
     deliveryDate,

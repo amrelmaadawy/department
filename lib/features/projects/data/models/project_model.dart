@@ -10,6 +10,8 @@ class ProjectModel extends ProjectEntity {
     required super.images,
     required super.apartmentsCount,
     required super.buildingArea,
+    super.features,
+    super.isFeatured,
   });
 
   factory ProjectModel.fromJson(Map<String, dynamic> json) {
@@ -22,6 +24,8 @@ class ProjectModel extends ProjectEntity {
       images: json['images'] != null ? List<String>.from(json['images']) : [],
       apartmentsCount: json['apartments_count'] is int ? json['apartments_count'] : int.tryParse(json['apartments_count'].toString()) ?? 0,
       buildingArea: json['building_area'] is num ? (json['building_area'] as num).toDouble() : double.tryParse(json['building_area']?.toString() ?? '') ?? 0.0,
+      features: json['features'] != null ? List<String>.from(json['features']) : [],
+      isFeatured: json['is_featured'] ?? false,
     );
   }
 }

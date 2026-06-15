@@ -1,4 +1,5 @@
 import 'package:apartment/core/theme/app_spacing.dart';
+import 'package:apartment/features/layout/presentation/cubit/layout_cubit.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../l10n/app_localizations.dart';
@@ -15,7 +16,6 @@ import '../cubit/profile_state.dart';
 import '../../../../core/widgets/app_toast.dart';
 import '../../../../core/routes/app_router.dart';
 import '../../../../core/di/injection_container.dart';
-import '../../../projects/data/datasources/local/room_design_cache_service.dart';
 import '../../../design_studio/presentation/cubit/design_context_cubit.dart';
 import '../widgets/profile_recent_orders_section.dart';
 import '../../../projects/domain/entities/finishing_order_entity.dart';
@@ -91,28 +91,39 @@ class _ProfileViewState extends State<ProfileView>
 
     return Scaffold(
       backgroundColor: context.colors.background,
-      body: BlocListener<AuthCubit, AuthState>(
-        listener: (context, state) {
-          if (state.status == AuthStatus.failure) {
-            AppToast.show(
-              context,
-              message: state.errorMessage ?? l10n.bookingError,
-              isError: true,
-            );
-          } else if (state.status == AuthStatus.success) {
-            AppToast.show(
-              context,
-              message: l10n.logoutSuccess,
-              isError: false,
-            );
-            
-            // Clear global states and caches on logout
-            sl<DesignContextCubit>().clearUnitSelection();
-            sl<ProfileCubit>().clearProfile();
-
-            context.go(AppRouter.auth);
-          }
-        },
+      body: MultiBlocListener(
+        listeners: [
+          BlocListener<AuthCubit, AuthState>(
+            listener: (context, state) {
+              if (state.status == AuthStatus.failure) {
+                AppToast.show(
+                  context,
+                  message: state.errorMessage ?? l10n.bookingError,
+                  isError: true,
+                );
+              } else if (state.status == AuthStatus.success) {
+                AppToast.show(
+                  context,
+                  message: l10n.logoutSuccess,
+                  isError: false,
+                );
+                
+                // Clear global states and caches on logout
+                sl<DesignContextCubit>().clearUnitSelection();
+                
+                context.go(AppRouter.auth);
+              }
+            },
+          ),
+          BlocListener<LayoutCubit, int>(
+            listener: (context, index) {
+              // 2 is the index of Profile tab
+              if (index == 2) {
+                context.read<ProfileCubit>().getProfile();
+              }
+            },
+          ),
+        ],
         child: BlocConsumer<ProfileCubit, ProfileState>(
           listener: (context, state) {
             if (state is ProfileError) {

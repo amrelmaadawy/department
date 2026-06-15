@@ -6,7 +6,7 @@ import '../../../home/domain/entities/project_unit_entity.dart';
 class ProjectsMockData {
   static const String mockDesc =
       'يعد هذا المشروع من أرقى المشاريع السكنية، حيث يجمع بين التصميم العصري الفاخر والمساحات الخضراء الشاسعة. يوفر المشروع أسلوب حياة متكامل مع خدمات استثنائية تلبي كافة احتياجات العائلة العصرية. تم تصميم الوحدات بعناية فائقة لتوفير أقصى درجات الخصوصية والراحة.';
-  static const List<String> mockAmenities = ['مسبح', 'جيم', 'أمن', 'جراج'];
+  static const List<String> mockFeatures = ['مسبح', 'جيم', 'أمن', 'جراج'];
 
   static const List<ProjectServiceEntity> mockServices = [
     ProjectServiceEntity(
@@ -131,7 +131,8 @@ class ProjectsMockData {
         startingPrice: 650000,
         images: ['assets/images/projects/project3.png'],
         description: mockDesc,
-        amenities: mockAmenities,
+        features: mockFeatures,
+        isFeatured: true,
         totalArea: '٩٠٠ فدان',
         unitTypes: 'شقق، فيلات، دوبلكس',
         deliveryDate: '٢٠٢٥',
@@ -146,7 +147,8 @@ class ProjectsMockData {
         startingPrice: 950000,
         images: ['assets/images/projects/project4.png'],
         description: mockDesc,
-        amenities: mockAmenities,
+        features: mockFeatures,
+        isFeatured: false,
         totalArea: '٥٠٠ فدان',
         unitTypes: 'شقق، بنتهاوس',
         deliveryDate: '٢٠٢٤',
@@ -161,7 +163,8 @@ class ProjectsMockData {
         startingPrice: 1200000,
         images: ['assets/images/projects/project2.png'],
         description: mockDesc,
-        amenities: mockAmenities,
+        features: mockFeatures,
+        isFeatured: true,
         totalArea: '٣٠٠ فدان',
         unitTypes: 'شقق فاخرة',
         deliveryDate: '٢٠٢٦',
@@ -176,7 +179,8 @@ class ProjectsMockData {
         startingPrice: 850000,
         images: ['assets/images/projects/project1.png'],
         description: mockDesc,
-        amenities: mockAmenities,
+        features: mockFeatures,
+        isFeatured: false,
         totalArea: '٧٥٠ فدان',
         unitTypes: 'فيلات مستقلة',
         deliveryDate: '٢٠٢٥',

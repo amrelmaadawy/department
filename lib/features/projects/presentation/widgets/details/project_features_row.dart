@@ -7,29 +7,29 @@ import 'package:apartment/core/theme/theme_extension.dart';
 
 
 
-class ProjectAmenitiesRow extends StatelessWidget {
-  final List<String> amenities;
+class ProjectFeaturesRow extends StatelessWidget {
+  final List<String> features;
 
-  const ProjectAmenitiesRow({super.key, required this.amenities});
+  const ProjectFeaturesRow({super.key, required this.features});
 
-  IconData _getIconForAmenity(String amenity) {
-    if (amenity.contains('مسبح')) return FluentIcons.sim_24_regular;
-    if (amenity.contains('جيم') || amenity.contains('لياقة')) return FluentIcons.dumbbell_24_regular;
-    if (amenity.contains('أمن') || amenity.contains('حراسة') || amenity.contains('مراقبة')) return FluentIcons.shield_24_regular;
-    if (amenity.contains('جراج') || amenity.contains('مواقف') || amenity.contains('سيارات')) return FluentIcons.vehicle_car_parking_16_regular;
-    if (amenity.contains('مصعد')) return FluentIcons.building_24_regular;
-    if (amenity.contains('دش مركزي') || amenity.contains('ستالايت')) return FluentIcons.desktop_signal_24_regular;
-    if (amenity.contains('خزان') || amenity.contains('مياه')) return FluentIcons.drop_24_regular;
-    if (amenity.contains('إنارة') || amenity.contains('اضاءة') || amenity.contains('توهج')) return FluentIcons.lightbulb_24_regular;
-    if (amenity.contains('دهانات') || amenity.contains('تشطيب') || amenity.contains('ديكور')) return FluentIcons.color_24_regular;
-    if (amenity.contains('تكييف') || amenity.contains('مكيف')) return FluentIcons.weather_snowflake_24_regular;
+  IconData _getIconForFeature(String feature) {
+    if (feature.contains('مسبح')) return FluentIcons.sim_24_regular;
+    if (feature.contains('جيم') || feature.contains('لياقة')) return FluentIcons.dumbbell_24_regular;
+    if (feature.contains('أمن') || feature.contains('حراسة') || feature.contains('مراقبة')) return FluentIcons.shield_24_regular;
+    if (feature.contains('جراج') || feature.contains('مواقف') || feature.contains('سيارات')) return FluentIcons.vehicle_car_parking_16_regular;
+    if (feature.contains('مصعد')) return FluentIcons.building_24_regular;
+    if (feature.contains('دش مركزي') || feature.contains('ستالايت')) return FluentIcons.desktop_signal_24_regular;
+    if (feature.contains('خزان') || feature.contains('مياه')) return FluentIcons.drop_24_regular;
+    if (feature.contains('إنارة') || feature.contains('اضاءة') || feature.contains('توهج')) return FluentIcons.lightbulb_24_regular;
+    if (feature.contains('دهانات') || feature.contains('تشطيب') || feature.contains('ديكور')) return FluentIcons.color_24_regular;
+    if (feature.contains('تكييف') || feature.contains('مكيف')) return FluentIcons.weather_snowflake_24_regular;
     
     return FluentIcons.star_24_regular; // Fallback
   }
 
   @override
   Widget build(BuildContext context) {
-    if (amenities.isEmpty) return const SizedBox.shrink();
+    if (features.isEmpty) return const SizedBox.shrink();
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
@@ -40,9 +40,9 @@ class ProjectAmenitiesRow extends StatelessWidget {
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: amenities.asMap().entries.map((entry) {
+        children: features.asMap().entries.map((entry) {
           final index = entry.key;
-          final amenity = entry.value;
+          final feature = entry.value;
           return Padding(
             padding: EdgeInsets.only(
               right: index == 0 ? 0 : AppSpacing.xl,
@@ -56,14 +56,14 @@ class ProjectAmenitiesRow extends StatelessWidget {
                     radius: 26,
                     backgroundColor: context.colors.gold.withValues(alpha: 0.15),
                     child: Icon(
-                      _getIconForAmenity(amenity),
+                      _getIconForFeature(feature),
                       color: context.colors.gold,
                       size: 24,
                     ),
                   ),
                   SizedBox(height: AppSpacing.sm),
                   Text(
-                    amenity,
+                    feature,
                     textAlign: TextAlign.center,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,

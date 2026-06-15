@@ -10,7 +10,8 @@ import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/theme_extension.dart';
 import '../../../home/domain/entities/project_entity.dart';
 import '../cubit/project_details_cubit.dart';
-import '../widgets/details/project_amenities_row.dart';
+import '../widgets/details/project_features_row.dart';
+import '../widgets/details/project_description_section.dart';
 import '../widgets/details/project_details_header.dart';
 import '../widgets/details/project_info_section.dart';
 import '../widgets/details/project_units_tab.dart';
@@ -55,7 +56,7 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
         body: BlocBuilder<ProjectDetailsCubit, ProjectDetailsState>(
           builder: (context, state) {
             ProjectEntity displayProject = widget.project;
-            List<String> amenities = [];
+            List<String> features = [];
             bool isLoading = state is ProjectDetailsLoading || state is ProjectDetailsInitial;
 
             if (state is ProjectDetailsLoaded) {
@@ -68,7 +69,7 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
                 images: displayProject.images.isEmpty ? widget.project.images : displayProject.images,
               );
 
-              amenities = state.parsedAmenities;
+              features = state.features;
             }
 
             return CustomScrollView(
@@ -84,11 +85,16 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
                   child: ProjectInfoSection(project: displayProject),
                 ),
 
-                // 3. Amenities or Loading Indicator
+                // Description Section
+                SliverToBoxAdapter(
+                  child: ProjectDescriptionSection(project: displayProject),
+                ),
+
+                // 3. Features or Loading Indicator
                 SliverToBoxAdapter(
                   child: isLoading
-                      ? _buildAmenitiesShimmer(context)
-                      : ProjectAmenitiesRow(amenities: amenities),
+                      ? _buildFeaturesShimmer(context)
+                      : ProjectFeaturesRow(features: features),
                 ),
 
                 // 4. Units Section Title
@@ -130,7 +136,7 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
     );
   }
 
-  Widget _buildAmenitiesShimmer(BuildContext context) {
+  Widget _buildFeaturesShimmer(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final baseColor = isDark ? Colors.grey[800]! : Colors.grey[300]!;
     final highlightColor = isDark ? Colors.grey[700]! : Colors.grey[100]!;

@@ -13,6 +13,10 @@ class FinishingOrderEntity extends Equatable {
   final String aiStatusLabel;
   final List<String> aiRenders;
   final List<String> images;
+  final String projectName;
+  final String unitName;
+  final String createdAt;
+  final String imageUrl;
 
   const FinishingOrderEntity({
     required this.id,
@@ -27,6 +31,10 @@ class FinishingOrderEntity extends Equatable {
     required this.aiStatusLabel,
     required this.aiRenders,
     required this.images,
+    this.projectName = '',
+    this.unitName = '',
+    this.createdAt = '',
+    this.imageUrl = '',
   });
 
   @override
@@ -43,5 +51,9 @@ class FinishingOrderEntity extends Equatable {
         aiStatusLabel,
         aiRenders,
         images,
+        projectName,
+        unitName,
+        createdAt,
+        imageUrl,
       ];
 }

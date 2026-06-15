@@ -9,6 +9,10 @@ class SavedDesignModel extends SavedDesignEntity {
     required super.style,
     required super.totalCost,
     required super.imageUrls,
+    super.projectName,
+    super.unitName,
+    super.roomName,
+    super.createdAt,
   });
 
   factory SavedDesignModel.fromJson(Map<String, dynamic> json) {
@@ -22,8 +26,16 @@ class SavedDesignModel extends SavedDesignEntity {
           ? (json['total_cost'] as num).toDouble()
           : double.tryParse(json['total_cost']?.toString() ?? '') ?? 0.0,
       imageUrls: json['images'] != null
-          ? (json['images'] as List).map((image) => image['url']?.toString() ?? '').where((url) => url.isNotEmpty).toList()
+          ? (json['images'] as List).map((image) {
+              if (image is String) return image;
+              if (image is Map) return image['url']?.toString() ?? '';
+              return '';
+            }).where((url) => url.isNotEmpty).toList()
           : [],
+      projectName: json['project_name'] ?? (json['apartment'] != null ? (json['apartment']['project_name'] ?? '') : ''),
+      unitName: json['unit_name'] ?? (json['apartment'] != null ? (json['apartment']['name'] ?? '') : ''),
+      roomName: json['room_name'] ?? (json['selections'] != null && (json['selections'] as List).isNotEmpty ? 'غرفة #${json['selections'][0]['room_id']}' : ''),
+      createdAt: json['created_at'] != null ? DateTime.tryParse(json['created_at']) : null,
     );
   }
 
@@ -36,6 +48,10 @@ class SavedDesignModel extends SavedDesignEntity {
       'style': style,
       'total_cost': totalCost,
       'images': imageUrls.map((e) => {'url': e}).toList(),
+      'project_name': projectName,
+      'unit_name': unitName,
+      'room_name': roomName,
+      'created_at': createdAt?.toIso8601String(),
     };
   }
 }

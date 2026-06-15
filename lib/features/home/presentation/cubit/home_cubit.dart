@@ -22,7 +22,6 @@ class HomeCubit extends Cubit<HomeState> {
     // Dummy data using the generated AI images
     final String mockDesc =
         'يعد هذا المشروع من أرقى المشاريع السكنية، حيث يجمع بين التصميم العصري الفاخر والمساحات الخضراء الشاسعة. يوفر المشروع أسلوب حياة متكامل مع خدمات استثنائية تلبي كافة احتياجات العائلة العصرية. تم تصميم الوحدات بعناية فائقة لتوفير أقصى درجات الخصوصية والراحة.';
-    final List<String> mockAmenities = ['مسبح', 'جيم', 'أمن', 'جراج'];
     final List<ProjectServiceEntity> mockServices = [
       const ProjectServiceEntity(
         id: '1',

@@ -8,6 +8,10 @@ class SavedDesignEntity extends Equatable {
   final String style;
   final double totalCost;
   final List<String> imageUrls;
+  final String projectName;
+  final String unitName;
+  final String roomName;
+  final DateTime? createdAt;
 
   const SavedDesignEntity({
     required this.id,
@@ -17,6 +21,10 @@ class SavedDesignEntity extends Equatable {
     required this.style,
     required this.totalCost,
     required this.imageUrls,
+    this.projectName = '',
+    this.unitName = '',
+    this.roomName = '',
+    this.createdAt,
   });
 
   @override
@@ -28,5 +36,9 @@ class SavedDesignEntity extends Equatable {
         style,
         totalCost,
         imageUrls,
+        projectName,
+        unitName,
+        roomName,
+        createdAt,
       ];
 }

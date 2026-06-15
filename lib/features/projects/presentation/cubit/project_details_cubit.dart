@@ -56,22 +56,21 @@ class ProjectDetailsCubit extends Cubit<ProjectDetailsState> {
       status: project.status,
       images: project.images,
       apartmentsCount: project.apartmentsCount,
+      buildingArea: project.buildingArea,
+      startingPrice: project.startingPrice,
+      features: project.features,
+      isFeatured: project.isFeatured,
+      totalArea: project.totalArea,
+      unitTypes: project.unitTypes,
+      deliveryDate: project.deliveryDate,
+      finishingType: project.finishingType,
+      services: project.services,
       units: List.from(units),
     );
 
-    // Parse description into amenities based on line breaks
-    List<String> amenities = [];
-    if (projectWithUnits.description.isNotEmpty) {
-      amenities = projectWithUnits.description
-          .split(RegExp(r'\r\n|\n'))
-          .map((e) => e.trim())
-          .where((e) => e.isNotEmpty)
-          .toList();
-    }
-
     emit(ProjectDetailsLoaded(
       project: projectWithUnits,
-      parsedAmenities: amenities,
+      features: projectWithUnits.features,
     ));
   }
 }

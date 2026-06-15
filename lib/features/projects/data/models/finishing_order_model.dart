@@ -14,6 +14,10 @@ class FinishingOrderModel extends FinishingOrderEntity {
     required super.aiStatusLabel,
     required super.aiRenders,
     required super.images,
+    super.projectName,
+    super.unitName,
+    super.createdAt,
+    super.imageUrl,
   });
 
   factory FinishingOrderModel.fromJson(Map<String, dynamic> json) {
@@ -38,6 +42,10 @@ class FinishingOrderModel extends FinishingOrderEntity {
             }).where((url) => url.isNotEmpty).toList()
           : [],
       images: json['images'] != null ? List<String>.from(json['images']) : [],
+      projectName: json['apartment'] != null ? (json['apartment']['project_name'] ?? '') : '',
+      unitName: json['apartment'] != null ? (json['apartment']['name'] ?? '') : '',
+      createdAt: json['created_at'] ?? '',
+      imageUrl: json['image_url'] ?? (json['images'] != null && (json['images'] as List).isNotEmpty ? json['images'][0] : ''),
     );
   }
 
@@ -55,6 +63,10 @@ class FinishingOrderModel extends FinishingOrderEntity {
       'ai_status_label': aiStatusLabel,
       'ai_renders': aiRenders,
       'images': images,
+      'project_name': projectName,
+      'unit_name': unitName,
+      'created_at': createdAt,
+      'image_url': imageUrl,
     };
   }
 }

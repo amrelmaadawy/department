@@ -13,15 +13,15 @@ class ProjectDetailsLoading extends ProjectDetailsState {}
 
 class ProjectDetailsLoaded extends ProjectDetailsState {
   final ProjectEntity project;
-  final List<String> parsedAmenities;
+  final List<String> features;
 
   const ProjectDetailsLoaded({
     required this.project,
-    required this.parsedAmenities,
+    required this.features,
   });
 
   @override
-  List<Object?> get props => [project, parsedAmenities];
+  List<Object?> get props => [project, features];
 }
 
 class ProjectDetailsError extends ProjectDetailsState {
