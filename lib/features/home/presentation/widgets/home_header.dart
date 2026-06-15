@@ -1,81 +1,156 @@
 import 'package:apartment/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
+import '../../../../core/di/injection_container.dart';
 import '../../../../core/theme/theme_extension.dart';
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../profile/presentation/cubit/profile_cubit.dart';
+import '../../../profile/presentation/cubit/profile_state.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => sl<ProfileCubit>()..getProfile(),
+      child: const HomeHeaderView(),
+    );
+  }
+}
+
+class HomeHeaderView extends StatelessWidget {
+  const HomeHeaderView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: AppSpacing.lg,
-        vertical: AppSpacing.md,
-      ),
-      child: Row(
-        children: [
-          // Start Edge: Avatar & User Info
-          CircleAvatar(
-            radius: 22,
-            backgroundImage: AssetImage('assets/images/user_avatar_mock.png'),
-            backgroundColor: context.colors.border,
+    return BlocBuilder<ProfileCubit, ProfileState>(
+      builder: (context, state) {
+        String userName = '...';
+        String avatarUrl = 'assets/images/user_avatar_mock.png';
+        String? userCity;
+
+        if (state is ProfileLoaded) {
+          final fullName = state.profile.user.name;
+          // Extract first name for the greeting
+          userName = fullName.isNotEmpty ? fullName.split(' ').first : '...';
+          
+          if (state.profile.user.avatarUrl != null && state.profile.user.avatarUrl!.isNotEmpty) {
+            avatarUrl = state.profile.user.avatarUrl!;
+          }
+
+          if (state.profile.user.address != null && state.profile.user.address!.isNotEmpty) {
+            userCity = state.profile.user.address;
+          }
+        }
+
+        // Determine time-based greeting
+        final hour = DateTime.now().hour;
+        String greeting = 'مرحباً بك';
+        IconData timeIcon = FluentIcons.hand_wave_24_regular;
+        Color timeColor = context.colors.primary;
+
+        if (hour >= 5 && hour < 12) {
+          greeting = 'صباح الخير';
+          timeIcon = FluentIcons.weather_sunny_24_regular;
+          timeColor = const Color(0xFFFDB813); // Sun yellow/gold
+        } else {
+          greeting = 'مساء الخير';
+          timeIcon = FluentIcons.weather_moon_24_regular;
+          timeColor = const Color(0xFF7B68EE); // Moon purple/blue
+        }
+
+        return Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: AppSpacing.lg,
+            vertical: AppSpacing.md,
           ),
-          const SizedBox(width: AppSpacing.md),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Row(
             children: [
-              Text(
-                l10n.helloUser('عبدالله'),
-                style: TextStyle(
-                  color: context.colors.textPrimary,
-                  fontSize: AppFonts.bodyMedium,
-                  fontWeight: FontWeight.bold,
+              // Start Edge: Avatar
+              CircleAvatar(
+                radius: 26, // Slightly larger for premium feel
+                backgroundImage: avatarUrl.startsWith('http') 
+                  ? NetworkImage(avatarUrl) as ImageProvider
+                  : AssetImage(avatarUrl),
+                backgroundColor: context.colors.border,
+              ),
+              const SizedBox(width: AppSpacing.md),
+              
+              // User Info & Greeting
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Greeting Row
+                    Row(
+                      children: [
+                        Text(
+                          greeting,
+                          style: TextStyle(
+                            color: context.colors.textSecondary,
+                            fontSize: AppFonts.bodySmall,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        const SizedBox(width: 4),
+                        Icon(
+                          timeIcon,
+                          color: timeColor,
+                          size: 14,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 2),
+                    // User Name
+                    Text(
+                      userName,
+                      style: TextStyle(
+                        color: context.colors.textPrimary,
+                        fontSize: AppFonts.headlineSmall,
+                        fontWeight: FontWeight.bold,
+                        height: 1.1,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    // Location (if available)
+                    if (userCity != null) ...[
+                      const SizedBox(height: 4),
+                      Row(
+                        children: [
+                          Icon(
+                            FluentIcons.location_12_regular,
+                            color: context.colors.gold,
+                            size: 12,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            userCity,
+                            style: TextStyle(
+                              color: context.colors.textSecondary,
+                              fontSize: AppFonts.labelMedium,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ],
                 ),
               ),
-              Row(
-                children: [
-                  Icon(
-                    FluentIcons.location_12_regular,
-                    color: context.colors.gold,
-                    size: 14,
-                  ),
-                  const SizedBox(width: 4),
-                  Text(
-                    l10n.riyadh,
-                    style: TextStyle(
-                      color: context.colors.textSecondary,
-                      fontSize: AppFonts.bodySmall,
-                    ),
-                  ),
-                ],
-              ),
+
+              // End Edge: Empty for now or can add a notification bell later
             ],
           ),
-
-          const Spacer(),
-
-          // End Edge: Location & Notification
-          Text(
-            l10n.riyadh,
-            style: TextStyle(
-              color: context.colors.textPrimary,
-              fontSize: AppFonts.bodyMedium,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(width: AppSpacing.md),
-          // Icon(
-          //   FluentIcons.alert_24_regular,
-          //   color: context.colors.textPrimary,
-          // ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
