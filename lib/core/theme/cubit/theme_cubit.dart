@@ -8,7 +8,7 @@ class ThemeCubit extends Cubit<ThemeState> {
   final SharedPreferences sharedPreferences;
   static const String _themeKey = 'app_theme_mode';
 
-  ThemeCubit({required this.sharedPreferences}) : super(const ThemeState(ThemeMode.system)) {
+  ThemeCubit({required this.sharedPreferences}) : super(const ThemeState(ThemeMode.light)) {
     _loadTheme();
   }
 

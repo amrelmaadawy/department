@@ -41,6 +41,7 @@ flutter:
     - assets/images/
     - assets/images/onboarding/
     - assets/icons/
+    - shorebird.yaml
   fonts:
     - family: Cairo
       fonts:

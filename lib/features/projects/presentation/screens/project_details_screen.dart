@@ -97,7 +97,7 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
                     padding: const EdgeInsets.only(
                       left: AppSpacing.lg,
                       right: AppSpacing.lg,
-                      top: AppSpacing.xl,
+                      top: AppSpacing.md,
                       bottom: AppSpacing.sm,
                     ),
                     child: Text(
