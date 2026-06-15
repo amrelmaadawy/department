@@ -1,0 +1,47 @@
+import 'package:equatable/equatable.dart';
+
+class FinishingOrderEntity extends Equatable {
+  final int id;
+  final String status;
+  final String statusLabel;
+  final String orderType;
+  final String orderTypeLabel;
+  final String style;
+  final double totalCost;
+  final String notes;
+  final String aiStatus;
+  final String aiStatusLabel;
+  final List<String> aiRenders;
+  final List<String> images;
+
+  const FinishingOrderEntity({
+    required this.id,
+    required this.status,
+    required this.statusLabel,
+    required this.orderType,
+    required this.orderTypeLabel,
+    required this.style,
+    required this.totalCost,
+    required this.notes,
+    required this.aiStatus,
+    required this.aiStatusLabel,
+    required this.aiRenders,
+    required this.images,
+  });
+
+  @override
+  List<Object?> get props => [
+        id,
+        status,
+        statusLabel,
+        orderType,
+        orderTypeLabel,
+        style,
+        totalCost,
+        notes,
+        aiStatus,
+        aiStatusLabel,
+        aiRenders,
+        images,
+      ];
+}

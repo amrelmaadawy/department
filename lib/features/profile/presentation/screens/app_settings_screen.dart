@@ -5,14 +5,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../l10n/app_localizations.dart';
-import '../../../../core/localization/cubit/locale_cubit.dart';
-import '../../../../core/localization/cubit/locale_state.dart';
 import '../../../../core/theme/cubit/theme_cubit.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 
 import '../widgets/settings/settings_animated_item.dart';
 import '../widgets/settings/settings_glass_card.dart';
-import '../widgets/settings/settings_language_toggle.dart';
 import '../widgets/settings/settings_premium_app_bar.dart';
 import '../widgets/settings/settings_premium_toggle_row.dart';
 import '../widgets/settings/settings_section_title.dart';

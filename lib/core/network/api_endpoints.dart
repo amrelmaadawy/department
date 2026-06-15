@@ -13,6 +13,7 @@ class ApiEndpoints {
   static const String projects = '/projects';
   static const String apartments = '/apartments';
   static const String rooms = '/rooms';
+  static const String finishingOrders = '/finishing-orders';
   
   // Future endpoints can be added here
 }

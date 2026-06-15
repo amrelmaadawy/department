@@ -108,7 +108,10 @@ class _UnitDetailsScreenContentState extends State<_UnitDetailsScreenContent> {
                   curve: Curves.easeInOut,
                   child: state is UnitDetailsLoading && state.unit?.rooms.isEmpty == true
                       ? _buildRoomsShimmer(context)
-                      : UnitRoomsSection(rooms: currentUnit.rooms),
+                      : UnitRoomsSection(
+                          rooms: currentUnit.rooms,
+                          apartmentId: currentUnit.id,
+                        ),
                 ),
                 
                 SizedBox(height: 24),

@@ -1,3 +1,5 @@
+import 'package:apartment/features/projects/presentation/cubit/ai_room_design_cubit.dart';
+import 'package:apartment/features/projects/presentation/cubit/ai_room_design_state.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../../core/theme/app_fonts.dart';
@@ -5,6 +7,7 @@ import '../../../../../../core/theme/app_radius.dart';
 import '../../../../../../core/theme/app_spacing.dart';
 import '../../../../../../core/theme/theme_extension.dart';
 import '../../../../../home/domain/entities/finishing_category_entity.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'finishing_material_card.dart';
 
 class FinishingOptionsSection extends StatelessWidget {
@@ -197,7 +200,24 @@ class _PremiumAccordionState extends State<_PremiumAccordion> with SingleTickerP
                             ),
                           ),
                         ),
-                      ...subtype.materials.map((material) => FinishingMaterialCard(material: material)),
+                      ...subtype.materials.map((material) {
+                        return BlocBuilder<AiRoomDesignCubit, AiRoomDesignState>(
+                          builder: (context, state) {
+                            final isSelected = state.selectedMaterialIds.contains(material.id);
+                            return FinishingMaterialCard(
+                              material: material,
+                              isSelected: isSelected,
+                              onTap: () {
+                                final allCategoryMaterials = widget.category.subtypes.expand((s) => s.materials).toList();
+                                context.read<AiRoomDesignCubit>().toggleMaterial(
+                                  material,
+                                  allCategoryMaterials,
+                                );
+                              },
+                            );
+                          },
+                        );
+                      }),
                     ],
                   );
                 }).toList(),

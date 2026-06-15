@@ -1,9 +1,7 @@
 import 'package:apartment/features/auth/presentation/widgets/auth_tabs.dart';
 import 'package:apartment/features/auth/presentation/widgets/login_form.dart';
 import 'package:apartment/features/auth/presentation/widgets/register_form.dart';
-import 'package:apartment/features/auth/presentation/widgets/social_login_button.dart';
 import 'package:apartment/l10n/app_localizations.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';

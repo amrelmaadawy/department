@@ -7,6 +7,10 @@ import '../../../home/domain/entities/room_details_entity.dart';
 import '../../domain/repositories/project_repository.dart';
 import '../datasources/project_remote_data_source.dart';
 
+import 'package:apartment/features/projects/data/models/finishing_order_request_model.dart';
+import 'package:apartment/features/projects/domain/entities/finishing_order_entity.dart';
+import 'package:apartment/features/projects/domain/entities/finishing_order_request_entity.dart';
+
 class ProjectRepositoryImpl implements ProjectRepository {
   final ProjectRemoteDataSource remoteDataSource;
 
@@ -65,6 +69,19 @@ class ProjectRepositoryImpl implements ProjectRepository {
     try {
       final roomDetails = await remoteDataSource.getRoomDetails(id);
       return Right(roomDetails);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure('An unexpected error occurred: ${e.toString()}'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, FinishingOrderEntity>> submitFinishingOrder(FinishingOrderRequestEntity request) async {
+    try {
+      final requestModel = FinishingOrderRequestModel.fromEntity(request);
+      final response = await remoteDataSource.submitFinishingOrder(requestModel);
+      return Right(response);
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     } catch (e) {

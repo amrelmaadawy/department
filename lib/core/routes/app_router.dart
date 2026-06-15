@@ -134,6 +134,7 @@ class AppRouter {
             transitionDuration: const Duration(milliseconds: 400),
             child: RoomDetailsScreen(
               initialRoom: extra['room'] as UnitRoomEntity,
+              apartmentId: extra['apartmentId'] as int,
             ),
             transitionsBuilder: AppRouterTransitions.slideFromRight,
           );

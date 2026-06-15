@@ -2,26 +2,27 @@ import 'package:apartment/core/theme/app_radius.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/theme_extension.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/di/injection_container.dart';
-import '../../../home/domain/entities/finishing_category_entity.dart';
-import '../../../home/domain/entities/finishing_material_entity.dart';
-import '../../../home/domain/entities/finishing_subtype_entity.dart';
-import '../../../home/domain/entities/room_details_entity.dart';
+
 import '../../../home/domain/entities/unit_room_entity.dart';
 import '../cubit/room_details_cubit.dart';
 import '../cubit/room_details_state.dart';
 import '../widgets/details/room/finishing_options_section.dart';
 import '../widgets/details/room/room_overview_card.dart';
+import '../widgets/details/room/ai_design_settings_section.dart';
+import '../widgets/details/room/room_design_bottom_bar.dart';
+
+import 'package:apartment/features/projects/presentation/cubit/ai_room_design_cubit.dart';
 
 class RoomDetailsScreen extends StatefulWidget {
   final UnitRoomEntity initialRoom;
+  final int apartmentId;
 
-  const RoomDetailsScreen({super.key, required this.initialRoom});
+  const RoomDetailsScreen({super.key, required this.initialRoom, required this.apartmentId});
 
   @override
   State<RoomDetailsScreen> createState() => _RoomDetailsScreenState();
@@ -30,8 +31,20 @@ class RoomDetailsScreen extends StatefulWidget {
 class _RoomDetailsScreenState extends State<RoomDetailsScreen> {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => sl<RoomDetailsCubit>()..loadRoomDetails(widget.initialRoom),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => sl<RoomDetailsCubit>()..loadRoomDetails(widget.initialRoom),
+        ),
+        BlocProvider(
+          create: (context) => sl<AiRoomDesignCubit>()
+            ..init(
+              apartmentId: widget.apartmentId,
+              roomId: widget.initialRoom.id,
+              roomArea: widget.initialRoom.area,
+            ),
+        ),
+      ],
       child: Scaffold(
         backgroundColor: context.colors.background,
         appBar: AppBar(
@@ -73,6 +86,7 @@ class _RoomDetailsScreenState extends State<RoomDetailsScreen> {
             );
           },
         ),
+        bottomNavigationBar: const RoomDesignBottomBar(),
       ),
     );
   }
@@ -98,7 +112,13 @@ class _RoomDetailsScreenState extends State<RoomDetailsScreen> {
         ),
       );
     } else if (state is RoomDetailsLoaded) {
-      return FinishingOptionsSection(options: state.roomDetails.finishingOptions);
+      return Column(
+        children: [
+          FinishingOptionsSection(options: state.roomDetails.finishingOptions),
+          SizedBox(height: AppSpacing.xxl),
+          const AiDesignSettingsSection(),
+        ],
+      );
     }
     return const SizedBox.shrink();
   }

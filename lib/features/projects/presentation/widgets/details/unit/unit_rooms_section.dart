@@ -10,8 +10,9 @@ import 'package:apartment/core/routes/app_router.dart';
 
 class UnitRoomsSection extends StatelessWidget {
   final List<UnitRoomEntity> rooms;
+  final String apartmentId;
 
-  const UnitRoomsSection({super.key, required this.rooms});
+  const UnitRoomsSection({super.key, required this.rooms, required this.apartmentId});
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +85,10 @@ class UnitRoomsSection extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: () {
-            context.push(AppRouter.roomDetails, extra: {'room': room});
+            context.push(AppRouter.roomDetails, extra: {
+              'room': room,
+              'apartmentId': int.parse(apartmentId),
+            });
           },
           borderRadius: BorderRadius.circular(AppRadius.md),
           child: Padding(
