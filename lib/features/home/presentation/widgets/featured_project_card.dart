@@ -60,8 +60,8 @@ class FeaturedProjectCard extends StatelessWidget {
                                   color: context.colors.textSecondary, size: 40),
                             )
                           : project.imagePath.startsWith('http')
-                              ? Image.network(
-                                  project.imagePath,
+                            ? Image.network(
+                                Uri.encodeFull(project.imagePath),
                                   width: double.infinity,
                                   fit: BoxFit.cover,
                                   errorBuilder: (context, error, stackTrace) =>

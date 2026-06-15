@@ -1,128 +1,49 @@
 import 'dart:convert';
-import 'package:apartment/features/profile/data/models/profile_model.dart';
+import 'package:apartment/features/projects/data/models/project_model.dart';
 
 void main() {
   final jsonStr = '''{
     "success": true,
-    "message": "بيانات الحساب",
+    "message": "تفاصيل المشروع",
     "data": {
-        "user": {
-            "id": 26,
-            "name": "Customer Nam",
-            "email": "testamr@gmail.com",
-            "phone": "01146773221",
-            "address": null,
-            "bio": null,
-            "avatar_url": null,
-            "is_active": true,
-            "ai_credits": 48,
-            "member_since": "2026-06-15T15:54:08+00:00"
-        },
-        "statistics": {
-            "total_orders": 2,
-            "completed_orders": 2,
-            "pending_orders": 0,
-            "draft_orders": 0,
-            "total_saved_designs": 2,
-            "total_apartments": 0,
-            "total_ai_images": 2,
-            "total_spent": 48150
-        },
-        "apartments": [],
-        "recent_orders": [
-            {
-                "id": 33,
-                "status": "completed",
-                "status_label": "مكتمل",
-                "order_type": "manual",
-                "order_type_label": "اختيار يدوي",
-                "style": "modern",
-                "total_cost": 22500,
-                "notes": null,
-                "ai_status": "completed",
-                "ai_status_label": "جاهز",
-                "ai_renders": [
-                    {
-                        "room_id": 135,
-                        "room_name": "غرفة نوم رئيسية",
-                        "url": "https://moqlate.coderaeg.com/storage/ai_renders/order_33_room_135_1781542776.jpg"
-                    }
-                ],
-                "images": [
-                    "https://moqlate.coderaeg.com/storage/ai_renders/order_33_room_135_1781542776.jpg"
-                ],
-                "created_at": "2026-06-15T16:59:23+00:00",
-                "updated_at": "2026-06-15T16:59:36+00:00",
-                "apartment": {
-                    "id": 73,
-                    "number": "101",
-                    "name": "نموذج A",
-                    "area": 123,
-                    "project_name": "لين 1",
-                    "project_id": 6,
-                    "floor_number": 1
-                }
-            }
+        "id": 6,
+        "name": "لين 1",
+        "building_area": 300,
+        "description": "مشروع لين 1 هو مشروع ضخم جدا يهدف الي بيع وحدات سكنيه بشكل رائع",
+        "features": [
+            "تشطيبات فاخرة",
+            "كاميرات مراقبة",
+            "اسقف عالية وفندقية",
+            "مصعد فل اوتوماتيك",
+            "مدخل فندقي ومكيف",
+            "دش مركزي",
+            "دهانات حديثة",
+            "مواقف خاصة",
+            "خزانات مستقلة",
+            "إنارة مانعة للتوهج"
         ],
-        "saved_designs": [
-            {
-                "id": 11,
-                "name": "تصميم لشقة نموذج A",
-                "style": "japandi",
-                "style_label": "جاباندي",
-                "total_cost": 25650,
-                "selections": [
-                    {
-                        "room_id": 223,
-                        "material_ids": [
-                            4,
-                            6,
-                            7
-                        ]
-                    }
-                ],
-                "image_url": "https://moqlate.coderaeg.com/storage/ai_renders/order_4_room_223_1781502461.jpg",
-                "images": [
-                    "https://moqlate.coderaeg.com/storage/ai_renders/order_4_room_223_1781502461.jpg"
-                ],
-                "apartment": {
-                    "id": 75,
-                    "number": "201",
-                    "name": "نموذج A",
-                    "floor_number": 2,
-                    "building_number": 1,
-                    "location_type": "front_right",
-                    "location_type_label": "أمامي يمين",
-                    "area": 123,
-                    "status": "available",
-                    "status_label": "متاحة",
-                    "base_price": 470000,
-                    "images": [
-                        "https://moqlate.coderaeg.com/storage/projects/1781443851_نموذج_A.JPG"
-                    ]
-                },
-                "created_at": "2026-06-15T17:12:26+00:00",
-                "updated_at": "2026-06-15T17:12:26+00:00"
-            }
+        "is_featured": true,
+        "location": "جدة - حي التيسير - مخطط شمس العرو",
+        "status": "available",
+        "images": [
+            "https://moqlate.coderaeg.com/storage/projects/1781450435_WhatsApp_Image_2026-06-10_at_7.26.20_PM.jpeg",
+            "https://moqlate.coderaeg.com/storage/projects/1781450441_WhatsApp_Image_2026-06-10_at_10.16.48_PM.jpeg",
+            "https://moqlate.coderaeg.com/storage/projects/1781450441_WhatsApp_Image_2026-06-10_at_10.32.33_PM.jpeg",
+            "https://moqlate.coderaeg.com/storage/projects/1781410518_WhatsApp_Image_2026-06-13_at_9.06.08_PM.jpeg"
         ],
-        "ai_gallery": [
-            {
-                "url": "https://moqlate.coderaeg.com/storage/ai_renders/order_33_room_135_1781542776.jpg",
-                "order_id": 33,
-                "room_name": "غرفة نوم رئيسية",
-                "created_at": "2026-06-15T16:59:23+00:00"
-            }
-        ]
+        "apartments_count": 8
     }
 }''';
   
   try {
     final Map<String, dynamic> data = json.decode(jsonStr);
-    final profile = ProfileModel.fromJson(data['data']);
-    print('Parsed successfully: \${profile.user.name}');
-    print('Recent order image url: \${profile.recentOrders.first.imageUrl}');
-    print('Recent order project: \${profile.recentOrders.first.projectName}');
-    print('Saved design room: \${profile.savedDesigns.first.roomName}');
+    final project = ProjectModel.fromJson(data['data']);
+    print('Project Images length: \${project.images.length}');
+    for (int i = 0; i < project.images.length; i++) {
+        print('Image \$i: \${project.images[i]}');
+        final uri = Uri.parse(project.images[i]);
+        print('  Valid URI: \${uri.isAbsolute}');
+    }
   } catch (e, stacktrace) {
     print('Error: \$e');
     print(stacktrace);

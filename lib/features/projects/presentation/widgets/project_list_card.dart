@@ -66,7 +66,7 @@ class ProjectListCard extends StatelessWidget {
                           )
                         : project.imagePath.startsWith('http')
                             ? Image.network(
-                                project.imagePath,
+                                Uri.encodeFull(project.imagePath),
                                 width: imageWidth,
                                 height: double.infinity,
                                 fit: BoxFit.cover,

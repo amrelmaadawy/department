@@ -85,7 +85,7 @@ class ProjectUnitCard extends StatelessWidget {
                     child: unit.imagePath.isNotEmpty
                         ? (unit.imagePath.startsWith('http')
                             ? Image.network(
-                                unit.imagePath,
+                                Uri.encodeFull(unit.imagePath),
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) =>
                                     _buildImagePlaceholder(context),

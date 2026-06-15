@@ -119,7 +119,7 @@ class _ProjectDetailsHeaderState extends State<ProjectDetailsHeader> {
                     if (imagePath.isNotEmpty) {
                       if (imagePath.startsWith('http')) {
                         return Image.network(
-                          imagePath,
+                          Uri.encodeFull(imagePath),
                           fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) =>
                               _buildErrorImage(context),
