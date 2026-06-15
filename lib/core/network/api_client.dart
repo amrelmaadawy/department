@@ -98,6 +98,15 @@ class ApiClient {
 
   dynamic _processResponse(Response response) {
     // Assuming JSON response. Can be customized if there's a standard wrapper
+    if (response.data is Map<String, dynamic>) {
+      final data = response.data as Map<String, dynamic>;
+      if (data['success'] == false) {
+        throw ServerException(
+          message: data['message'] ?? 'حدث خطأ غير معروف',
+          data: data,
+        );
+      }
+    }
     return response.data;
   }
 

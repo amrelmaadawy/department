@@ -56,27 +56,35 @@ class ProjectListCard extends StatelessWidget {
                   ),
                   child: Hero(
                     tag: 'list_project_${project.id}',
-                    child: project.imagePath.startsWith('http')
-                        ? Image.network(
-                            project.imagePath,
+                    child: project.imagePath.isEmpty
+                        ? Container(
                             width: imageWidth,
                             height: double.infinity,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) =>
-                                Container(
-                              width: imageWidth,
-                              height: double.infinity,
-                              color: context.colors.primary.withValues(alpha: 0.1),
-                              child: Icon(Icons.broken_image,
-                                  color: context.colors.textSecondary),
-                            ),
+                            color: context.colors.primary.withValues(alpha: 0.1),
+                            child: Icon(Icons.image_not_supported,
+                                color: context.colors.textSecondary, size: 30),
                           )
-                        : Image.asset(
-                            project.imagePath,
-                            width: imageWidth,
-                            height: double.infinity,
-                            fit: BoxFit.cover,
-                          ),
+                        : project.imagePath.startsWith('http')
+                            ? Image.network(
+                                project.imagePath,
+                                width: imageWidth,
+                                height: double.infinity,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) =>
+                                    Container(
+                                  width: imageWidth,
+                                  height: double.infinity,
+                                  color: context.colors.primary.withValues(alpha: 0.1),
+                                  child: Icon(Icons.broken_image,
+                                      color: context.colors.textSecondary),
+                                ),
+                              )
+                            : Image.asset(
+                                project.imagePath,
+                                width: imageWidth,
+                                height: double.infinity,
+                                fit: BoxFit.cover,
+                              ),
                   ),
                 ),
                 if (project.images.length > 1)

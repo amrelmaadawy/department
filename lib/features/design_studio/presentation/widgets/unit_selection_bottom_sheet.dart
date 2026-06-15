@@ -110,18 +110,25 @@ class UnitSelectionBottomSheet extends StatelessWidget {
             ),
             child: Row(
               children: [
-                // Small Image/Icon
                 Container(
                   width: 50,
                   height: 50,
                   decoration: BoxDecoration(
                     color: context.colors.background,
                     borderRadius: BorderRadius.circular(AppRadius.md),
-                    image: DecorationImage(
-                      image: AssetImage(unit.imagePath),
-                      fit: BoxFit.cover,
-                    ),
+                    image: unit.imagePath.isNotEmpty
+                        ? DecorationImage(
+                            image: unit.imagePath.startsWith('http')
+                                ? NetworkImage(unit.imagePath) as ImageProvider
+                                : AssetImage(unit.imagePath),
+                            fit: BoxFit.cover,
+                          )
+                        : null,
                   ),
+                  child: unit.imagePath.isEmpty
+                      ? Icon(FluentIcons.image_off_24_regular,
+                          color: context.colors.textSecondary, size: 24)
+                      : null,
                 ),
                 SizedBox(width: AppSpacing.md),
                 Expanded(
