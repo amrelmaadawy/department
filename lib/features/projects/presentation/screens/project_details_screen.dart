@@ -135,7 +135,9 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
     final baseColor = isDark ? Colors.grey[800]! : Colors.grey[300]!;
     final highlightColor = isDark ? Colors.grey[700]! : Colors.grey[100]!;
 
-    return Padding(
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      physics: const NeverScrollableScrollPhysics(),
       padding: EdgeInsets.symmetric(
         vertical: AppSpacing.md,
         horizontal: AppSpacing.lg,
@@ -143,34 +145,37 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
       child: Shimmer.fromColors(
         baseColor: baseColor,
         highlightColor: highlightColor,
-        child: Wrap(
-          spacing: AppSpacing.xl,
-          runSpacing: AppSpacing.lg,
-          alignment: WrapAlignment.center,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: List.generate(5, (index) {
-            return SizedBox(
-              width: 75,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    width: 52, // 26 * 2 (radius)
-                    height: 52,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
+            return Padding(
+              padding: EdgeInsets.only(
+                right: index == 0 ? 0 : AppSpacing.xl,
+              ),
+              child: SizedBox(
+                width: 75,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      width: 52, // 26 * 2 (radius)
+                      height: 52,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: AppSpacing.sm),
-                  Container(
-                    width: 50,
-                    height: 12,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(AppRadius.sm),
+                    SizedBox(height: AppSpacing.sm),
+                    Container(
+                      width: 50,
+                      height: 12,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(AppRadius.sm),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             );
           }),

@@ -31,43 +31,50 @@ class ProjectAmenitiesRow extends StatelessWidget {
   Widget build(BuildContext context) {
     if (amenities.isEmpty) return const SizedBox.shrink();
 
-    return Padding(
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      physics: const BouncingScrollPhysics(),
       padding: EdgeInsets.symmetric(
         vertical: AppSpacing.md,
         horizontal: AppSpacing.lg,
       ),
-      child: Wrap(
-        spacing: AppSpacing.xl,
-        runSpacing: AppSpacing.lg,
-        alignment: WrapAlignment.center,
-        children: amenities.map((amenity) {
-          return SizedBox(
-            width: 75, // Fixed width for each item to keep it uniform
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CircleAvatar(
-                  radius: 26,
-                  backgroundColor: context.colors.gold.withValues(alpha: 0.15),
-                  child: Icon(
-                    _getIconForAmenity(amenity),
-                    color: context.colors.gold,
-                    size: 24,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: amenities.asMap().entries.map((entry) {
+          final index = entry.key;
+          final amenity = entry.value;
+          return Padding(
+            padding: EdgeInsets.only(
+              right: index == 0 ? 0 : AppSpacing.xl,
+            ),
+            child: SizedBox(
+              width: 75, // Fixed width for each item to keep it uniform
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CircleAvatar(
+                    radius: 26,
+                    backgroundColor: context.colors.gold.withValues(alpha: 0.15),
+                    child: Icon(
+                      _getIconForAmenity(amenity),
+                      color: context.colors.gold,
+                      size: 24,
+                    ),
                   ),
-                ),
-                SizedBox(height: AppSpacing.sm),
-                Text(
-                  amenity,
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: AppFonts.bodySmall,
-                    fontWeight: FontWeight.bold,
-                    color: context.colors.textPrimary,
+                  SizedBox(height: AppSpacing.sm),
+                  Text(
+                    amenity,
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: AppFonts.bodySmall,
+                      fontWeight: FontWeight.bold,
+                      color: context.colors.textPrimary,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         }).toList(),
