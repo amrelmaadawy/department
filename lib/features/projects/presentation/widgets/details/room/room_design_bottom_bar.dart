@@ -3,6 +3,8 @@ import 'package:apartment/features/projects/presentation/cubit/ai_room_design_st
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import '../../../../../../core/widgets/app_toast.dart';
 
 import '../../../../../../core/theme/app_fonts.dart';
 import '../../../../../../core/theme/app_radius.dart';
@@ -18,20 +20,13 @@ class RoomDesignBottomBar extends StatelessWidget {
       listenWhen: (previous, current) => previous.status != current.status,
       listener: (context, state) {
         if (state.status == AiDesignStatus.success) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('تم إرسال الطلب بنجاح!'),
-              backgroundColor: Colors.green,
-            ),
-          );
-          // Can navigate or show success dialog here
+          AppToast.showSuccess(context, 'تم إرسال الطلب بنجاح!');
+          // Navigate to AI renders screen with the orderId
+          if (state.resultOrder != null) {
+            context.push('/ai-renders/${state.resultOrder!.id}');
+          }
         } else if (state.status == AiDesignStatus.failure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.errorMessage ?? 'حدث خطأ غير متوقع'),
-              backgroundColor: Colors.red,
-            ),
-          );
+          AppToast.showError(context, state.errorMessage ?? 'حدث خطأ غير متوقع');
         }
       },
       builder: (context, state) {

@@ -6,6 +6,7 @@ import '../../../home/domain/entities/room_details_entity.dart';
 
 import 'package:apartment/features/projects/domain/entities/finishing_order_entity.dart';
 import 'package:apartment/features/projects/domain/entities/finishing_order_request_entity.dart';
+import 'package:apartment/features/projects/domain/entities/ai_renders_entity.dart';
 
 abstract class ProjectRepository {
   Future<Either<Failure, List<ProjectEntity>>> getProjects();
@@ -14,4 +15,5 @@ abstract class ProjectRepository {
   Future<Either<Failure, ProjectUnitEntity>> getUnitDetails(int id);
   Future<Either<Failure, RoomDetailsEntity>> getRoomDetails(int id);
   Future<Either<Failure, FinishingOrderEntity>> submitFinishingOrder(FinishingOrderRequestEntity request);
+  Future<Either<Failure, AiRendersEntity>> getAiRenders(int orderId);
 }

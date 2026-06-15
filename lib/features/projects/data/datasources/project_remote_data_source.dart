@@ -6,6 +6,7 @@ import '../../../home/data/models/project_unit_model.dart';
 import '../models/project_model.dart';
 import '../models/finishing_order_model.dart';
 import 'package:apartment/features/projects/data/models/finishing_order_request_model.dart';
+import 'package:apartment/features/projects/data/models/ai_renders_model.dart';
 
 abstract class ProjectRemoteDataSource {
   Future<List<ProjectModel>> getProjects();
@@ -14,6 +15,7 @@ abstract class ProjectRemoteDataSource {
   Future<ProjectUnitModel> getUnitDetails(int id);
   Future<RoomDetailsModel> getRoomDetails(int id);
   Future<FinishingOrderModel> submitFinishingOrder(FinishingOrderRequestModel request);
+  Future<AiRendersModel> getAiRenders(int orderId);
 }
 
 class ProjectRemoteDataSourceImpl implements ProjectRemoteDataSource {
@@ -91,6 +93,17 @@ class ProjectRemoteDataSourceImpl implements ProjectRemoteDataSource {
       return FinishingOrderModel.fromJson(response['data']);
     } else {
       throw Exception('Failed to submit finishing order');
+    }
+  }
+
+  @override
+  Future<AiRendersModel> getAiRenders(int orderId) async {
+    final response = await apiClient.get(ApiEndpoints.getAiRenders(orderId));
+
+    if (response != null && response['data'] != null) {
+      return AiRendersModel.fromJson(response['data']);
+    } else {
+      throw Exception('Failed to load AI renders');
     }
   }
 }

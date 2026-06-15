@@ -16,6 +16,8 @@ import 'package:apartment/features/projects/domain/usecases/get_project_units_us
 import 'package:apartment/features/projects/domain/usecases/get_unit_details_usecase.dart';
 import 'package:apartment/features/projects/domain/usecases/get_room_details_usecase.dart';
 import 'package:apartment/features/projects/domain/usecases/submit_finishing_order_use_case.dart';
+import 'package:apartment/features/projects/domain/usecases/get_ai_renders_use_case.dart';
+import 'package:apartment/features/projects/presentation/cubit/ai_renders_cubit.dart';
 import 'package:apartment/features/projects/presentation/cubit/project_details_cubit.dart';
 import 'package:apartment/features/projects/presentation/cubit/projects_cubit.dart';
 import 'package:apartment/features/projects/presentation/cubit/unit_details_cubit.dart';
@@ -101,12 +103,18 @@ Future<void> init() async {
       submitFinishingOrderUseCase: sl(),
     ),
   );
+  sl.registerFactory(
+    () => AiRendersCubit(
+      getAiRendersUseCase: sl(),
+    ),
+  );
   sl.registerLazySingleton(() => GetProjectsUseCase(sl()));
   sl.registerLazySingleton(() => GetProjectDetailsUseCase(sl()));
   sl.registerLazySingleton(() => GetProjectUnitsUseCase(sl()));
   sl.registerLazySingleton(() => GetUnitDetailsUseCase(sl()));
   sl.registerLazySingleton(() => GetRoomDetailsUseCase(sl()));
   sl.registerLazySingleton(() => SubmitFinishingOrderUseCase(sl()));
+  sl.registerLazySingleton(() => GetAiRendersUseCase(sl()));
   sl.registerLazySingleton<ProjectRepository>(
     () => ProjectRepositoryImpl(remoteDataSource: sl()),
   );

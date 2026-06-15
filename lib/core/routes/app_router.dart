@@ -23,6 +23,7 @@ import '../../../features/layout/presentation/screens/layout_screen.dart';
 import '../../../features/projects/presentation/screens/project_details_screen.dart';
 import '../../../features/projects/presentation/screens/unit_details_screen.dart';
 import '../../../features/projects/presentation/screens/room_details_screen.dart';
+import '../../../features/projects/presentation/screens/ai_renders_screen.dart';
 import '../../../features/contracts/presentation/screens/contract_signing_screen.dart';
 import '../../../features/contracts/presentation/screens/contract_preview_screen.dart';
 import '../../../features/contracts/domain/entities/contract_type.dart';
@@ -167,6 +168,26 @@ class AppRouter {
           return ContractPreviewScreen(signatureImage: signatureImage);
         },
       ),
+        GoRoute(
+          path: '/rooms/:roomId',
+          builder: (context, state) {
+            final room = state.extra as UnitRoomEntity;
+            final apartmentIdStr = state.uri.queryParameters['apartmentId'];
+            final apartmentId = int.tryParse(apartmentIdStr ?? '0') ?? 0;
+            return RoomDetailsScreen(
+              initialRoom: room,
+              apartmentId: apartmentId,
+            );
+          },
+        ),
+        GoRoute(
+          path: '/ai-renders/:orderId',
+          builder: (context, state) {
+            final orderIdStr = state.pathParameters['orderId'];
+            final orderId = int.tryParse(orderIdStr ?? '0') ?? 0;
+            return AiRendersScreen(orderId: orderId);
+          },
+        ),
       GoRoute(
         path: packages,
         pageBuilder: (context, state) {

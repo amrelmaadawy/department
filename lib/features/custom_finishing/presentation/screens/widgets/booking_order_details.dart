@@ -7,6 +7,7 @@ import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/l10n/app_localizations.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
+import 'package:apartment/core/widgets/app_toast.dart';
 
 class BookingOrderDetails extends StatelessWidget {
   final String orderId;
@@ -15,15 +16,7 @@ class BookingOrderDetails extends StatelessWidget {
 
   void _copyOrderId(BuildContext context) {
     Clipboard.setData(ClipboardData(text: orderId));
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          AppLocalizations.of(context)!.orderNumberCopiedSuccessfully,
-        ),
-        backgroundColor: context.colors.primary,
-        duration: Duration(seconds: 2),
-      ),
-    );
+    AppToast.showSuccess(context, AppLocalizations.of(context)!.orderNumberCopiedSuccessfully);
   }
 
   @override

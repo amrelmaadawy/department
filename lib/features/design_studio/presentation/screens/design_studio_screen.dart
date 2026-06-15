@@ -10,6 +10,7 @@ import 'package:apartment/core/theme/theme_extension.dart';
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/widgets/app_toast.dart';
 import '../../../../core/routes/app_router.dart';
 import '../cubit/design_context_cubit.dart';
 import '../cubit/design_context_state.dart';
@@ -53,10 +54,7 @@ class DesignStudioScreen extends StatelessWidget {
                     subtitle: l10n.returnToSavedDesigns,
                     icon: FluentIcons.folder_24_regular,
                     onTap: () {
-                      // Placeholder
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(l10n.featureComingSoon)),
-                      );
+                      AppToast.show(context, message: l10n.featureComingSoon, isError: false);
                     },
                   ),
                   const SizedBox(height: AppSpacing.xxxl),
