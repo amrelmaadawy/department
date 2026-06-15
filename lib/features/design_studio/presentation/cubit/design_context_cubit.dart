@@ -25,39 +25,8 @@ class DesignContextCubit extends Cubit<DesignContextState> {
     }
   }
 
-  // Helper mock data for the bottom sheet
+  // Helper mock data for the bottom sheet (To be replaced with actual API call)
   List<ProjectUnitEntity> getMockOwnedUnits() {
-    return [
-      ProjectUnitEntity(
-        id: 'u101',
-        title: 'شقة فاخرة - الدور الأول',
-        type: UnitType.apartment,
-        price: 3500000,
-        area: 145.0,
-        bedrooms: 3,
-        bathrooms: 2,
-        status: UnitStatus.available,
-        imagePath: 'assets/images/placeholder_unit.png',
-        floor: 1,
-        extras: const ['بلكونة', 'مطبخ مفتوح'],
-        description: 'شقة فاخرة في موقع متميز',
-        images: const ['assets/images/placeholder_unit.png'],
-      ),
-      ProjectUnitEntity(
-        id: 'v205',
-        title: 'فيلا مستقلة - إطلالة بحرية',
-        type: UnitType.villa,
-        price: 12000000,
-        area: 320.0,
-        bedrooms: 5,
-        bathrooms: 4,
-        status: UnitStatus.available,
-        imagePath: 'assets/images/placeholder_unit.png',
-        floor: 0,
-        extras: const ['مسبح خاص', 'حديقة'],
-        description: 'فيلا راقية تطل على البحر',
-        images: const ['assets/images/placeholder_unit.png'],
-      ),
-    ];
+    return [];
   }
 }

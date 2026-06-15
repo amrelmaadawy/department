@@ -1010,24 +1010,6 @@ abstract class AppLocalizations {
   /// **'Contact Sales'**
   String get profileMenuContactSales;
 
-  /// No description provided for @mockUnitName.
-  ///
-  /// In en, this message translates to:
-  /// **'Villa 402 - Sea View'**
-  String get mockUnitName;
-
-  /// No description provided for @mockContractDate.
-  ///
-  /// In en, this message translates to:
-  /// **'October 12, 2026'**
-  String get mockContractDate;
-
-  /// No description provided for @mockOwnerName.
-  ///
-  /// In en, this message translates to:
-  /// **'Ahmed Mahmoud Al-Attar'**
-  String get mockOwnerName;
-
   /// No description provided for @contractStatusVerified.
   ///
   /// In en, this message translates to:
@@ -1178,12 +1160,6 @@ abstract class AppLocalizations {
   /// **'Finishing'**
   String get statusFinishing;
 
-  /// No description provided for @mockUnitDuplex.
-  ///
-  /// In en, this message translates to:
-  /// **'Duplex Apartment - 201'**
-  String get mockUnitDuplex;
-
   /// No description provided for @statusDelivered.
   ///
   /// In en, this message translates to:
@@ -1214,42 +1190,6 @@ abstract class AppLocalizations {
   /// **'Sarah'**
   String get supportAgentName;
 
-  /// No description provided for @mockMessage1.
-  ///
-  /// In en, this message translates to:
-  /// **'Certainly, I\'m checking the schedule for your unit with the supervising engineer. One moment please.'**
-  String get mockMessage1;
-
-  /// No description provided for @mockTime1.
-  ///
-  /// In en, this message translates to:
-  /// **'10:06 AM'**
-  String get mockTime1;
-
-  /// No description provided for @mockMessage2.
-  ///
-  /// In en, this message translates to:
-  /// **'Hello Sarah, I would like to inquire about the delivery date for the gypsum board phase in my unit.'**
-  String get mockMessage2;
-
-  /// No description provided for @mockTime2.
-  ///
-  /// In en, this message translates to:
-  /// **'10:05 AM'**
-  String get mockTime2;
-
-  /// No description provided for @mockMessage3.
-  ///
-  /// In en, this message translates to:
-  /// **'Welcome to Luxury Finishing Customer Service.\nHow can I help you today with your project?'**
-  String get mockMessage3;
-
-  /// No description provided for @mockTime3.
-  ///
-  /// In en, this message translates to:
-  /// **'10:00 AM'**
-  String get mockTime3;
-
   /// No description provided for @whatsapp.
   ///
   /// In en, this message translates to:
@@ -1267,12 +1207,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Project'**
   String get project;
-
-  /// No description provided for @mockProjectRiyadh.
-  ///
-  /// In en, this message translates to:
-  /// **'Riyadh Pearl'**
-  String get mockProjectRiyadh;
 
   /// No description provided for @unitType.
   ///
@@ -1855,6 +1789,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Logged out Successfully!'**
   String get logoutSuccess;
+
+  /// No description provided for @srvInvestmentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Investment'**
+  String get srvInvestmentTitle;
+
+  /// No description provided for @srvInvestmentDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Towards a promising real estate future'**
+  String get srvInvestmentDesc;
+
+  /// No description provided for @srvMarketingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Marketing'**
+  String get srvMarketingTitle;
+
+  /// No description provided for @srvMarketingDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Reaching the best opportunities'**
+  String get srvMarketingDesc;
+
+  /// No description provided for @srvContractingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Contracting'**
+  String get srvContractingTitle;
+
+  /// No description provided for @srvContractingDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Professional execution, quality and commitment'**
+  String get srvContractingDesc;
+
+  /// No description provided for @srvRealEstateDevTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Real Estate Dev.'**
+  String get srvRealEstateDevTitle;
+
+  /// No description provided for @srvRealEstateDevDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Innovative visions for distinguished projects'**
+  String get srvRealEstateDevDesc;
+
+  /// No description provided for @srvSellingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Selling'**
+  String get srvSellingTitle;
+
+  /// No description provided for @srvSellingDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Professional marketing for best prices'**
+  String get srvSellingDesc;
+
+  /// No description provided for @srvBuyingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Buying'**
+  String get srvBuyingTitle;
+
+  /// No description provided for @srvBuyingDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Helping you choose the best properties'**
+  String get srvBuyingDesc;
+
+  /// No description provided for @srvLeasingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Leasing'**
+  String get srvLeasingTitle;
+
+  /// No description provided for @srvLeasingDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Reliable leasing solutions'**
+  String get srvLeasingDesc;
+
+  /// No description provided for @srvPropertyMgtTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Property Management'**
+  String get srvPropertyMgtTitle;
+
+  /// No description provided for @srvPropertyMgtDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Professional management for lasting value'**
+  String get srvPropertyMgtDesc;
+
+  /// No description provided for @srvEContractsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'E-Contracts'**
+  String get srvEContractsTitle;
+
+  /// No description provided for @srvEContractsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Secure contracts with smart steps'**
+  String get srvEContractsDesc;
 }
 
 class _AppLocalizationsDelegate

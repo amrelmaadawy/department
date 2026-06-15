@@ -84,23 +84,23 @@ class SupportScreen extends StatelessWidget {
 
                 // Agent Reply
                 ChatBubble(
-                  text: l10n.mockMessage1,
-                  time: l10n.mockTime1,
+                  text: 'Hello, how can I help you?',
+                  time: '10:00 AM',
                   isUser: false,
                   avatarUrl: agentAvatar,
                 ),
 
                 // User Reply
                 ChatBubble(
-                  text: l10n.mockMessage2,
-                  time: l10n.mockTime2,
+                  text: 'I need help with my unit.',
+                  time: '10:05 AM',
                   isUser: true,
                 ),
 
                 // Agent Welcome
                 ChatBubble(
-                  text: l10n.mockMessage3,
-                  time: l10n.mockTime3,
+                  text: 'Sure, what seems to be the problem?',
+                  time: '10:06 AM',
                   isUser: false,
                   avatarUrl: agentAvatar,
                 ),

@@ -32,7 +32,7 @@ class HomeHeaderView extends StatelessWidget {
     return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {
         String userName = '...';
-        String avatarUrl = 'assets/images/user_avatar_mock.png';
+        String? avatarUrl = null;
         String? userCity;
 
         if (state is ProfileLoaded) {
@@ -75,10 +75,15 @@ class HomeHeaderView extends StatelessWidget {
               // Start Edge: Avatar
               CircleAvatar(
                 radius: 26, // Slightly larger for premium feel
-                backgroundImage: avatarUrl.startsWith('http') 
-                  ? NetworkImage(avatarUrl) as ImageProvider
-                  : AssetImage(avatarUrl),
+                backgroundImage: avatarUrl != null 
+                  ? (avatarUrl.startsWith('http') 
+                      ? NetworkImage(avatarUrl) as ImageProvider
+                      : AssetImage(avatarUrl)) 
+                  : null,
                 backgroundColor: context.colors.border,
+                child: avatarUrl == null 
+                  ? Icon(FluentIcons.person_24_regular, color: context.colors.textSecondary) 
+                  : null,
               ),
               const SizedBox(width: AppSpacing.md),
               

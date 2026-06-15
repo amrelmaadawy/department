@@ -10,7 +10,7 @@ import '../../../../core/theme/app_spacing.dart';
 import '../cubit/home_cubit.dart';
 import '../widgets/featured_project_card.dart';
 import '../widgets/home_header.dart';
-import '../widgets/promo_banner_card.dart';
+import '../widgets/company_services_carousel.dart';
 import '../widgets/section_header.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -48,7 +48,8 @@ class HomeView extends StatelessWidget {
                 else if (state is HomeLoaded)
                   SliverList(
                     delegate: SliverChildListDelegate([
-                      const PromoBannerCard(),
+                      const CompanyServicesCarousel(),
+                      const SizedBox(height: AppSpacing.md),
                       SectionHeader(
                         title: l10n.featuredProjects,
                       ),
@@ -92,17 +93,17 @@ class HomeView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Promo Banner Shimmer
+          // Company Services Carousel Shimmer
           Container(
             width: double.infinity,
-            height: 200,
+            height: 180,
             margin: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
             decoration: BoxDecoration(
               color: context.colors.white,
               borderRadius: BorderRadius.circular(AppRadius.lg),
             ),
           ),
-          const SizedBox(height: AppSpacing.xl),
+          const SizedBox(height: AppSpacing.lg),
           // Section Title Shimmer
           Padding(
             padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),

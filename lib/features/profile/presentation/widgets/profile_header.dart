@@ -9,7 +9,7 @@ import 'package:apartment/core/theme/theme_extension.dart';
 class ProfileHeader extends StatelessWidget {
   final String userName;
   final String userType;
-  final String avatarUrl;
+  final String? avatarUrl;
   final int aiCredits;
 
   const ProfileHeader({
@@ -118,12 +118,12 @@ class ProfileHeader extends StatelessWidget {
                   child: CircleAvatar(
                     radius: 50,
                     backgroundColor: context.colors.white,
-                    backgroundImage: avatarUrl.isNotEmpty
-                        ? (avatarUrl.startsWith('http')
-                            ? NetworkImage(avatarUrl) as ImageProvider
-                            : AssetImage(avatarUrl))
+                    backgroundImage: (avatarUrl != null && avatarUrl!.isNotEmpty)
+                        ? (avatarUrl!.startsWith('http')
+                            ? NetworkImage(avatarUrl!) as ImageProvider
+                            : AssetImage(avatarUrl!))
                         : null,
-                    child: avatarUrl.isEmpty
+                    child: (avatarUrl == null || avatarUrl!.isEmpty)
                         ? Icon(
                             Icons.person,
                             size: 50,

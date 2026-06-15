@@ -56,9 +56,9 @@ class _UnitContractScreenState extends State<UnitContractScreen> {
     // Mock Data
     final Map<String, dynamic> contractData = {
       'projectName': 'The Pearl Resort',
-      'unitName': l10n.mockUnitName,
-      'contractDate': l10n.mockContractDate,
-      'ownerName': l10n.mockOwnerName,
+      'unitName': 'Unit A1',
+      'contractDate': '2026-10-12',
+      'ownerName': 'Ahmed Al-Attar',
       'totalPrice': '12,500,000 ر.س',
       'paidAmount': '2,500,000 ر.س',
       'remainingAmount': '10,000,000 ر.س',

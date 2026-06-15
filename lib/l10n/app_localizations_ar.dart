@@ -479,15 +479,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get profileMenuContactSales => 'تواصل مع المبيعات';
 
   @override
-  String get mockUnitName => 'فيلا 402 - إطلالة بحرية';
-
-  @override
-  String get mockContractDate => '12 أكتوبر 2026';
-
-  @override
-  String get mockOwnerName => 'أحمد محمود العطار';
-
-  @override
   String get contractStatusVerified => 'موثق ومعتمد';
 
   @override
@@ -564,9 +555,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statusFinishing => 'جاري التشطيب';
 
   @override
-  String get mockUnitDuplex => 'شقة دوبلكس - 201';
-
-  @override
   String get statusDelivered => 'تم التسليم';
 
   @override
@@ -582,27 +570,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get supportAgentName => 'سارة';
 
   @override
-  String get mockMessage1 =>
-      'بالتأكيد، جاري التحقق من الجدول الزمني الخاص بوحدتك مع المهندس المشرف. لحظات من فضلك.';
-
-  @override
-  String get mockTime1 => '10:06 ص';
-
-  @override
-  String get mockMessage2 =>
-      'مرحباً سارة، أود الاستفسار عن موعد تسليم مرحلة الجبس بورد في وحدتي.';
-
-  @override
-  String get mockTime2 => '10:05 ص';
-
-  @override
-  String get mockMessage3 =>
-      'أهلاً بك في خدمة عملاء التشطيبات الفاخرة.\nكيف يمكنني مساعدتك اليوم في مشروعك؟';
-
-  @override
-  String get mockTime3 => '10:00 ص';
-
-  @override
   String get whatsapp => 'واتساب';
 
   @override
@@ -610,9 +577,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get project => 'المشروع';
-
-  @override
-  String get mockProjectRiyadh => 'لؤلؤة الرياض';
 
   @override
   String get unitType => 'نوع الوحدة';
@@ -935,4 +899,58 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get logoutSuccess => 'تم تسجيل الخروج بنجاح!';
+
+  @override
+  String get srvInvestmentTitle => 'الاستثمار';
+
+  @override
+  String get srvInvestmentDesc => 'نحو مستقبل عقاري واعد';
+
+  @override
+  String get srvMarketingTitle => 'التسويق';
+
+  @override
+  String get srvMarketingDesc => 'وصولك لأفضل الفرص';
+
+  @override
+  String get srvContractingTitle => 'المقاولات';
+
+  @override
+  String get srvContractingDesc => 'تنفيذ احترافي جودة والتزام';
+
+  @override
+  String get srvRealEstateDevTitle => 'التطوير العقاري';
+
+  @override
+  String get srvRealEstateDevDesc => 'رؤى مبتكرة لمشاريع متميزة';
+
+  @override
+  String get srvSellingTitle => 'البيع';
+
+  @override
+  String get srvSellingDesc => 'تسويق احترافي لأفضل الأسعار';
+
+  @override
+  String get srvBuyingTitle => 'الشراء';
+
+  @override
+  String get srvBuyingDesc => 'نساعدك في اختيار أفضل العقارات';
+
+  @override
+  String get srvLeasingTitle => 'التأجير';
+
+  @override
+  String get srvLeasingDesc => 'حلول تأجيرية موثوقة';
+
+  @override
+  String get srvPropertyMgtTitle => 'إدارة الأملاك';
+
+  @override
+  String get srvPropertyMgtDesc => 'إدارة احترافية لقيمة تدوم';
+
+  @override
+  String get srvEContractsTitle => 'العقود الإلكترونية';
+
+  @override
+  String get srvEContractsDesc => 'عقود آمنة بخطوات ذكية';
 }

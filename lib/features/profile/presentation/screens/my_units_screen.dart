@@ -21,17 +21,17 @@ class MyUnitsScreen extends StatelessWidget {
     final List<Map<String, dynamic>> myUnits = [
       {
         'projectName': 'The Pearl Resort',
-        'unitName': l10n.mockUnitName,
+        'unitName': 'Unit A1',
         'status': l10n.statusFinishing,
         'progress': 0.65, // 65% completed
-        'image': 'assets/images/unit_villa.png',
+        'image': null,
       },
       {
         'projectName': 'Downtown Heights',
-        'unitName': l10n.mockUnitDuplex,
+        'unitName': 'Duplex 202',
         'status': l10n.statusDelivered,
         'progress': 1.0,
-        'image': 'assets/images/unit_duplex.png',
+        'image': null,
       },
     ];
 
@@ -95,7 +95,7 @@ class MyUnitsScreen extends StatelessWidget {
                   height: 160,
                   width: double.infinity,
                   color: context.colors.border,
-                  child: Image.asset(
+                  child: unit['image'] != null ? Image.asset(
                     unit['image'],
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) => Icon(
@@ -103,7 +103,7 @@ class MyUnitsScreen extends StatelessWidget {
                       size: 40,
                       color: context.colors.textSecondary,
                     ),
-                  ),
+                  ) : Center(child: Icon(FluentIcons.home_24_regular, size: 40, color: context.colors.textSecondary)),
                 ),
                 // Status Badge
                 Positioned(

@@ -70,7 +70,9 @@ class _ProjectDetailsHeaderState extends State<ProjectDetailsHeader> {
     // Determine back arrow direction based on RTL
     final isRTL = Directionality.of(context) == TextDirection.rtl;
     final backIcon = isRTL ? Icons.arrow_forward_ios : Icons.arrow_back_ios_new;
-    final images = widget.project.images.isNotEmpty ? widget.project.images : ['']; // Fallback to empty string for error builder
+    final images = widget.project.images.isNotEmpty
+        ? widget.project.images
+        : ['']; // Fallback to empty string for error builder
 
     return SliverAppBar(
       expandedHeight: 320,
@@ -82,10 +84,7 @@ class _ProjectDetailsHeaderState extends State<ProjectDetailsHeader> {
       leading: GestureDetector(
         onTap: () => context.pop(),
         child: Container(
-          margin: EdgeInsets.only(
-            left: AppSpacing.md,
-            right: AppSpacing.md,
-          ),
+          margin: EdgeInsets.only(left: AppSpacing.md, right: AppSpacing.md),
           decoration: BoxDecoration(
             color: context.colors.white.withValues(alpha: 0.85),
             shape: BoxShape.circle,
@@ -134,7 +133,7 @@ class _ProjectDetailsHeaderState extends State<ProjectDetailsHeader> {
                 ),
               ),
             ),
-            
+
             // Top Gradient to ensure buttons are visible
             Positioned(
               top: 0,
@@ -146,12 +145,15 @@ class _ProjectDetailsHeaderState extends State<ProjectDetailsHeader> {
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
-                    colors: [Colors.black.withValues(alpha: 0.4), Colors.transparent],
+                    colors: [
+                      Colors.black.withValues(alpha: 0.4),
+                      Colors.transparent,
+                    ],
                   ),
                 ),
               ),
             ),
-            
+
             // Bottom Gradient to ensure dots are visible
             if (images.length > 1)
               Positioned(
@@ -164,7 +166,10 @@ class _ProjectDetailsHeaderState extends State<ProjectDetailsHeader> {
                     gradient: LinearGradient(
                       begin: Alignment.bottomCenter,
                       end: Alignment.topCenter,
-                      colors: [Colors.black.withValues(alpha: 0.5), Colors.transparent],
+                      colors: [
+                        Colors.black.withValues(alpha: 0.5),
+                        Colors.transparent,
+                      ],
                     ),
                   ),
                 ),
@@ -178,22 +183,21 @@ class _ProjectDetailsHeaderState extends State<ProjectDetailsHeader> {
                 right: 0,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(
-                    images.length,
-                    (index) {
-                      final isActive = _currentPage == index;
-                      return AnimatedContainer(
-                        duration: const Duration(milliseconds: 300),
-                        margin: const EdgeInsets.symmetric(horizontal: 4),
-                        height: 8,
-                        width: isActive ? 24 : 8,
-                        decoration: BoxDecoration(
-                          color: isActive ? context.colors.gold : Colors.white.withValues(alpha: 0.5),
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                      );
-                    },
-                  ),
+                  children: List.generate(images.length, (index) {
+                    final isActive = _currentPage == index;
+                    return AnimatedContainer(
+                      duration: const Duration(milliseconds: 300),
+                      margin: const EdgeInsets.symmetric(horizontal: 4),
+                      height: 8,
+                      width: isActive ? 24 : 8,
+                      decoration: BoxDecoration(
+                        color: isActive
+                            ? context.colors.gold
+                            : Colors.white.withValues(alpha: 0.5),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                    );
+                  }),
                 ),
               ),
 

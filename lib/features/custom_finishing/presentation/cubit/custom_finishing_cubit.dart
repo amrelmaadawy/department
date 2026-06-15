@@ -26,7 +26,7 @@ class CustomFinishingCubit extends Cubit<CustomFinishingState> {
           description:
               'يعطي طابعاً فخماً وملمساً بارداً. مثالي للمساحات المفتوحة.',
           imageUrl:
-              'assets/images/material_marble.png', // Will copy generated image
+              '', // Will copy generated image
           pricePerSqm: 1200.0,
           tag: 'فاخر',
         ),
@@ -36,7 +36,7 @@ class CustomFinishingCubit extends Cubit<CustomFinishingState> {
           name: 'بورسلين إسباني',
           description: 'متانة عالية وتنوع في التصاميم والألوان، سهل التنظيف.',
           imageUrl:
-              'assets/images/material_porcelain.png', // Will copy generated image
+              '', // Will copy generated image
           pricePerSqm: 650.0,
           tag: 'عملي',
         ),
@@ -46,7 +46,7 @@ class CustomFinishingCubit extends Cubit<CustomFinishingState> {
           name: 'باركيه ألماني',
           description: 'يضفي دفئاً ورونقاً طبيعياً للمكان، مناسب لغرف النوم.',
           imageUrl:
-              'assets/images/material_parquet.png', // Will copy generated image
+              '', // Will copy generated image
           pricePerSqm: 850.0,
           tag: 'دافئ',
         ),
@@ -56,7 +56,7 @@ class CustomFinishingCubit extends Cubit<CustomFinishingState> {
           name: 'أرضيات SPC',
           description: 'مقاوم للماء والرطوبة، خيار عملي واقتصادي بلمسة عصرية.',
           imageUrl:
-              'assets/images/material_spc.png', // Will copy generated image
+              '', // Will copy generated image
           pricePerSqm: 250.0,
           tag: 'اقتصادي',
         ),

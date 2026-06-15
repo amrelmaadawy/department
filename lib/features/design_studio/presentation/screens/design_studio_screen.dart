@@ -81,9 +81,11 @@ class DesignStudioScreen extends StatelessWidget {
         background: Stack(
           fit: StackFit.expand,
           children: [
-            Image.asset(
-              'assets/images/design_studio_hero_bright.png',
-              fit: BoxFit.cover,
+            Container(
+              color: context.colors.primary,
+              child: const Center(
+                child: Icon(FluentIcons.color_fill_24_regular, size: 64, color: Colors.white24),
+              ),
             ),
             // Gradient Overlay
             Container(

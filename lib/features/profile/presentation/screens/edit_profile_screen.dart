@@ -53,10 +53,11 @@ class EditProfileScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(color: context.colors.gold, width: 3),
-                      image: const DecorationImage(
-                        image: AssetImage('assets/images/user_avatar_mock.png'),
-                        fit: BoxFit.cover,
-                      ),
+                      color: context.colors.white,
+                    ),
+                    child: Center(
+                      child: Icon(FluentIcons.person_48_regular, size: 60, color: context.colors.textSecondary),
+                    
                     ),
                   ),
                   Container(
@@ -76,7 +77,7 @@ class EditProfileScreen extends StatelessWidget {
             // Form Fields
             CustomTextField(
               label: l10n.fullName,
-              hint: l10n.mockOwnerName,
+              hint: 'Ahmed Al-Attar',
               icon: FluentIcons.person_24_regular,
             ),
             SizedBox(height: AppSpacing.xl),

@@ -480,15 +480,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileMenuContactSales => 'Contact Sales';
 
   @override
-  String get mockUnitName => 'Villa 402 - Sea View';
-
-  @override
-  String get mockContractDate => 'October 12, 2026';
-
-  @override
-  String get mockOwnerName => 'Ahmed Mahmoud Al-Attar';
-
-  @override
   String get contractStatusVerified => 'Verified & Approved';
 
   @override
@@ -565,9 +556,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get statusFinishing => 'Finishing';
 
   @override
-  String get mockUnitDuplex => 'Duplex Apartment - 201';
-
-  @override
   String get statusDelivered => 'Delivered';
 
   @override
@@ -583,27 +571,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get supportAgentName => 'Sarah';
 
   @override
-  String get mockMessage1 =>
-      'Certainly, I\'m checking the schedule for your unit with the supervising engineer. One moment please.';
-
-  @override
-  String get mockTime1 => '10:06 AM';
-
-  @override
-  String get mockMessage2 =>
-      'Hello Sarah, I would like to inquire about the delivery date for the gypsum board phase in my unit.';
-
-  @override
-  String get mockTime2 => '10:05 AM';
-
-  @override
-  String get mockMessage3 =>
-      'Welcome to Luxury Finishing Customer Service.\nHow can I help you today with your project?';
-
-  @override
-  String get mockTime3 => '10:00 AM';
-
-  @override
   String get whatsapp => 'WhatsApp';
 
   @override
@@ -611,9 +578,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get project => 'Project';
-
-  @override
-  String get mockProjectRiyadh => 'Riyadh Pearl';
 
   @override
   String get unitType => 'Unit Type';
@@ -940,4 +904,60 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get logoutSuccess => 'Logged out Successfully!';
+
+  @override
+  String get srvInvestmentTitle => 'Investment';
+
+  @override
+  String get srvInvestmentDesc => 'Towards a promising real estate future';
+
+  @override
+  String get srvMarketingTitle => 'Marketing';
+
+  @override
+  String get srvMarketingDesc => 'Reaching the best opportunities';
+
+  @override
+  String get srvContractingTitle => 'Contracting';
+
+  @override
+  String get srvContractingDesc =>
+      'Professional execution, quality and commitment';
+
+  @override
+  String get srvRealEstateDevTitle => 'Real Estate Dev.';
+
+  @override
+  String get srvRealEstateDevDesc =>
+      'Innovative visions for distinguished projects';
+
+  @override
+  String get srvSellingTitle => 'Selling';
+
+  @override
+  String get srvSellingDesc => 'Professional marketing for best prices';
+
+  @override
+  String get srvBuyingTitle => 'Buying';
+
+  @override
+  String get srvBuyingDesc => 'Helping you choose the best properties';
+
+  @override
+  String get srvLeasingTitle => 'Leasing';
+
+  @override
+  String get srvLeasingDesc => 'Reliable leasing solutions';
+
+  @override
+  String get srvPropertyMgtTitle => 'Property Management';
+
+  @override
+  String get srvPropertyMgtDesc => 'Professional management for lasting value';
+
+  @override
+  String get srvEContractsTitle => 'E-Contracts';
+
+  @override
+  String get srvEContractsDesc => 'Secure contracts with smart steps';
 }

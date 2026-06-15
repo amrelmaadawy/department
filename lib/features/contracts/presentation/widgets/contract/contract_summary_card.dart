@@ -76,13 +76,13 @@ class ContractSummaryCard extends StatelessWidget {
           SizedBox(height: AppSpacing.md),
           
           if (unit != null) ...[
-            _buildInfoRow(context, l10n.project, l10n.mockProjectRiyadh, FluentIcons.location_24_regular),
+            _buildInfoRow(context, l10n.project, 'Riyadh Project', FluentIcons.location_24_regular),
             SizedBox(height: AppSpacing.sm),
             _buildInfoRow(context, l10n.unitType, l10n.unitTypeDesc(unit.title, unit.area.toString()), FluentIcons.home_24_regular),
             SizedBox(height: AppSpacing.sm),
             _buildInfoRow(context, l10n.floor, l10n.floorDesc(unit.floor.toString()), FluentIcons.layer_24_regular),
           ] else ...[
-            _buildInfoRow(context, l10n.project, l10n.mockProjectRiyadh, FluentIcons.location_24_regular),
+            _buildInfoRow(context, l10n.project, 'Riyadh Project', FluentIcons.location_24_regular),
             SizedBox(height: AppSpacing.sm),
             _buildInfoRow(context, l10n.details, l10n.loadingStatus, FluentIcons.info_24_regular),
           ],

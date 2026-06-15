@@ -24,19 +24,19 @@ class _UnitProgressScreenState extends State<UnitProgressScreen> {
       'title': 'التأسيس والمحارة',
       'subtitle': 'تم الانتهاء من أعمال البناء والمحارة الأساسية',
       'date': '12 أكتوبر 2026',
-      'images': ['assets/images/project_one_mock.png'],
+      'images': [],
     },
     {
       'title': 'تأسيس السباكة والكهرباء',
       'subtitle': 'تم تمديد شبكات المياه والكهرباء والتكييف',
       'date': '28 أكتوبر 2026',
-      'images': ['assets/images/project_two_mock.png', 'assets/images/unit_apartment.png'],
+      'images': [],
     },
     {
       'title': 'الأرضيات والأسقف',
       'subtitle': 'جاري العمل على تركيب الرخام وأسقف الجبس بورد',
       'date': 'جاري التنفيذ',
-      'images': ['assets/images/material_marble.png'], // Just using mock images
+      'images': [],
     },
     {
       'title': 'الدهانات والتشطيب النهائي',

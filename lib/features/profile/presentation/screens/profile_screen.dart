@@ -132,7 +132,7 @@ class _ProfileViewState extends State<ProfileView>
           },
           builder: (context, profileState) {
             String userName = '...';
-            String avatarUrl = 'assets/images/profile_avatar.png';
+            String? avatarUrl = null;
             int designsCount = 0;
             int contractsCount = 0;
             int unitsCount = 0;
