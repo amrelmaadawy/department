@@ -80,8 +80,8 @@ class ProfileMenuList extends StatelessWidget {
                   onTap: () => context.push('/ai-gallery'),
                 ),
                 ProfileMenuItem(
-                  icon: FluentIcons.image_multiple_24_regular,
-                  title: 'التصميمات المحفوظة',
+                  icon: FluentIcons.heart_24_regular,
+                  title: 'المفضلة',
                   showDivider: false,
                   onTap: () => context.push('/saved-designs'),
                 ),
