@@ -4,4 +4,5 @@ import '../entities/profile_entity.dart';
 
 abstract class ProfileRepository {
   Future<Either<Failure, ProfileEntity>> getProfile();
+  Future<Either<Failure, bool>> toggleFavoriteDesign(int orderId, String imageUrl);
 }

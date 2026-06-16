@@ -15,10 +15,18 @@ class ProfileRepositoryImpl implements ProfileRepository {
     try {
       final profile = await remoteDataSource.getProfile();
       return Right(profile);
-    } on ServerException catch (e) {
-      return Left(ServerFailure(e.message));
     } catch (e) {
-      return Left(ServerFailure('An unexpected error occurred: ${e.toString()}'));
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> toggleFavoriteDesign(int orderId, String imageUrl) async {
+    try {
+      final result = await remoteDataSource.toggleFavoriteDesign(orderId, imageUrl);
+      return Right(result);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
     }
   }
 }

@@ -4,6 +4,7 @@ import '../models/profile_model.dart';
 
 abstract class ProfileRemoteDataSource {
   Future<ProfileModel> getProfile();
+  Future<bool> toggleFavoriteDesign(int orderId, String imageUrl);
 }
 
 class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
@@ -20,6 +21,23 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
       return ProfileModel.fromJson(response['data']);
     } else {
       throw Exception('Failed to load profile data');
+    }
+  }
+
+  @override
+  Future<bool> toggleFavoriteDesign(int orderId, String imageUrl) async {
+    final response = await apiClient.post(
+      ApiEndpoints.savedDesigns,
+      data: {
+        "finishing_order_id": orderId,
+        "image_url": imageUrl,
+      },
+    );
+    
+    if (response != null && response['success'] == true && response['data'] != null) {
+      return response['data']['saved'] ?? false;
+    } else {
+      throw Exception(response?['message'] ?? 'Failed to toggle favorite design');
     }
   }
 }

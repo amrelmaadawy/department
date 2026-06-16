@@ -146,6 +146,13 @@ class AiGalleryScreen extends StatelessWidget {
   Widget _buildGalleryItem(BuildContext context, dynamic item) {
     // Generate a unique hero tag
     final heroTag = 'ai_image_${item.url}_${item.hashCode}';
+    final profileCubit = context.read<ProfileCubit>();
+    final state = profileCubit.state;
+    bool isFavorite = false;
+    
+    if (state is ProfileLoaded) {
+      isFavorite = state.profile.savedDesigns.any((d) => d.id == item.orderId || (d.imageUrls.isNotEmpty && d.imageUrls.first == item.url));
+    }
 
     return GestureDetector(
       onTap: () {
@@ -215,6 +222,25 @@ class AiGalleryScreen extends StatelessWidget {
                   ),
                 ),
               ),
+              Positioned(
+                top: AppSpacing.xs,
+                right: AppSpacing.xs,
+                child: IconButton(
+                  icon: Icon(
+                    isFavorite ? FluentIcons.heart_24_filled : FluentIcons.heart_24_regular,
+                    color: isFavorite ? Colors.red : Colors.white,
+                    shadows: [
+                      Shadow(
+                        color: Colors.black.withValues(alpha: 0.5),
+                        blurRadius: 10,
+                      ),
+                    ],
+                  ),
+                  onPressed: () {
+                    profileCubit.toggleFavoriteDesign(item.orderId, item.url);
+                  },
+                ),
+              ),
             ],
           ),
         ),
@@ -223,6 +249,7 @@ class AiGalleryScreen extends StatelessWidget {
   }
 
   void _showAiGalleryDetails(BuildContext context, dynamic item, String heroTag) {
+    final profileCubit = context.read<ProfileCubit>();
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -264,9 +291,30 @@ class AiGalleryScreen extends StatelessWidget {
                         color: context.colors.textPrimary,
                       ),
                     ),
-                    IconButton(
-                      icon: Icon(FluentIcons.dismiss_24_regular, color: context.colors.textSecondary),
-                      onPressed: () => Navigator.pop(context),
+                    Row(
+                      children: [
+                        BlocBuilder<ProfileCubit, ProfileState>(
+                          builder: (context, state) {
+                            bool isFavorite = false;
+                            if (state is ProfileLoaded) {
+                              isFavorite = state.profile.savedDesigns.any((d) => d.id == item.orderId || (d.imageUrls.isNotEmpty && d.imageUrls.first == item.url));
+                            }
+                            return IconButton(
+                              icon: Icon(
+                                isFavorite ? FluentIcons.heart_24_filled : FluentIcons.heart_24_regular,
+                                color: isFavorite ? Colors.red : context.colors.textSecondary,
+                              ),
+                              onPressed: () {
+                                profileCubit.toggleFavoriteDesign(item.orderId, item.url);
+                              },
+                            );
+                          },
+                        ),
+                        IconButton(
+                          icon: Icon(FluentIcons.dismiss_24_regular, color: context.colors.textSecondary),
+                          onPressed: () => Navigator.pop(context),
+                        ),
+                      ],
                     ),
                   ],
                 ),
