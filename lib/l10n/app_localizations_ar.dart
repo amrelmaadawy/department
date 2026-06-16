@@ -970,4 +970,51 @@ class AppLocalizationsAr extends AppLocalizations {
   String imageCountOf(String current, String total) {
     return '$current من $total';
   }
+
+  @override
+  String get compareUnits => 'مقارنة';
+
+  @override
+  String get compareNow => 'قارن الآن';
+
+  @override
+  String get unitComparison => 'مقارنة الوحدات';
+
+  @override
+  String unitsSelected(String count) {
+    return 'تم اختيار $count وحدة';
+  }
+
+  @override
+  String get clearComparison => 'مسح';
+
+  @override
+  String get maxUnitsReached => 'يمكنك مقارنة ٣ وحدات كحد أقصى';
+
+  @override
+  String get bookUnit => 'احجز الوحدة';
+
+  @override
+  String get comparisonPrice => 'السعر';
+
+  @override
+  String get comparisonArea => 'المساحة';
+
+  @override
+  String get comparisonRooms => 'الغرف';
+
+  @override
+  String get comparisonBaths => 'الحمامات';
+
+  @override
+  String get comparisonFloor => 'الطابق';
+
+  @override
+  String get comparisonStatus => 'الحالة';
+
+  @override
+  String get comparisonType => 'النوع';
+
+  @override
+  String get selectUnitsToCompare => 'حدد الوحدات للمقارنة (2-3 وحدات)';
 }

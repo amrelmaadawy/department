@@ -383,5 +383,27 @@
         "type": "String"
       }
     }
-  }
+  },
+  "compareUnits": "مقارنة",
+  "compareNow": "قارن الآن",
+  "unitComparison": "مقارنة الوحدات",
+  "unitsSelected": "تم اختيار {count} وحدة",
+  "@unitsSelected": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "clearComparison": "مسح",
+  "maxUnitsReached": "يمكنك مقارنة ٣ وحدات كحد أقصى",
+  "bookUnit": "احجز الوحدة",
+  "comparisonPrice": "السعر",
+  "comparisonArea": "المساحة",
+  "comparisonRooms": "الغرف",
+  "comparisonBaths": "الحمامات",
+  "comparisonFloor": "الطابق",
+  "comparisonStatus": "الحالة",
+  "comparisonType": "النوع",
+  "selectUnitsToCompare": "حدد الوحدات للمقارنة (2-3 وحدات)"
 }

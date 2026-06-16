@@ -21,6 +21,7 @@ import 'package:apartment/features/projects/presentation/cubit/ai_renders_cubit.
 import 'package:apartment/features/projects/data/datasources/local/room_design_cache_service.dart';
 import 'package:apartment/features/projects/presentation/cubit/project_details_cubit.dart';
 import 'package:apartment/features/projects/presentation/cubit/projects_cubit.dart';
+import 'package:apartment/features/projects/presentation/cubit/comparison_cubit.dart';
 import 'package:apartment/features/projects/presentation/cubit/unit_details_cubit.dart';
 import 'package:apartment/features/projects/presentation/cubit/room_details_cubit.dart';
 import 'package:apartment/features/projects/presentation/cubit/ai_room_design_cubit.dart';
@@ -89,6 +90,7 @@ Future<void> init() async {
 
   // Features - Projects
   sl.registerFactory(() => ProjectsCubit(getProjectsUseCase: sl()));
+  sl.registerFactory(() => ComparisonCubit());
   sl.registerFactory(
     () => ProjectDetailsCubit(
       getProjectDetailsUseCase: sl(),

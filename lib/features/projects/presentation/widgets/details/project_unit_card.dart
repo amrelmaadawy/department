@@ -11,6 +11,7 @@ class ProjectUnitCard extends StatelessWidget {
   final ProjectUnitEntity unit;
   final int index;
   final bool isSelected;
+  final bool isComparisonMode;
   final VoidCallback onTap;
 
   const ProjectUnitCard({
@@ -18,6 +19,7 @@ class ProjectUnitCard extends StatelessWidget {
     required this.unit,
     required this.index,
     this.isSelected = false,
+    this.isComparisonMode = false,
     required this.onTap,
   });
 
@@ -82,16 +84,54 @@ class ProjectUnitCard extends StatelessWidget {
                   // Image
                   SizedBox(
                     width: 120,
-                    child: unit.imagePath.isNotEmpty
-                        ? (unit.imagePath.startsWith('http')
-                            ? Image.network(
-                                Uri.encodeFull(unit.imagePath),
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) =>
-                                    _buildImagePlaceholder(context),
-                              )
-                            : Image.asset(unit.imagePath, fit: BoxFit.cover))
-                        : _buildImagePlaceholder(context),
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        unit.imagePath.isNotEmpty
+                            ? (unit.imagePath.startsWith('http')
+                                ? Image.network(
+                                    Uri.encodeFull(unit.imagePath),
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (context, error, stackTrace) =>
+                                        _buildImagePlaceholder(context),
+                                  )
+                                : Image.asset(unit.imagePath, fit: BoxFit.cover))
+                            : _buildImagePlaceholder(context),
+                        
+                        // Comparison Checkbox Overlay
+                        if (isComparisonMode)
+                          Positioned(
+                            top: AppSpacing.sm,
+                            right: AppSpacing.sm,
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 200),
+                              width: 24,
+                              height: 24,
+                              decoration: BoxDecoration(
+                                color: isSelected ? context.colors.gold : context.colors.white.withValues(alpha: 0.9),
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  color: isSelected ? context.colors.gold : context.colors.border,
+                                  width: 2,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withValues(alpha: 0.1),
+                                    blurRadius: 4,
+                                  )
+                                ],
+                              ),
+                              child: Center(
+                                child: Icon(
+                                  FluentIcons.checkmark_16_filled,
+                                  size: 14,
+                                  color: isSelected ? context.colors.white : Colors.transparent,
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
                   ),
 
                   // Details

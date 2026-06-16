@@ -1927,6 +1927,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{current} of {total}'**
   String imageCountOf(String current, String total);
+
+  /// No description provided for @compareUnits.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare'**
+  String get compareUnits;
+
+  /// No description provided for @compareNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare Now'**
+  String get compareNow;
+
+  /// No description provided for @unitComparison.
+  ///
+  /// In en, this message translates to:
+  /// **'Unit Comparison'**
+  String get unitComparison;
+
+  /// No description provided for @unitsSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} units selected'**
+  String unitsSelected(String count);
+
+  /// No description provided for @clearComparison.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get clearComparison;
+
+  /// No description provided for @maxUnitsReached.
+  ///
+  /// In en, this message translates to:
+  /// **'You can compare up to 3 units only'**
+  String get maxUnitsReached;
+
+  /// No description provided for @bookUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'Book Unit'**
+  String get bookUnit;
+
+  /// No description provided for @comparisonPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Price'**
+  String get comparisonPrice;
+
+  /// No description provided for @comparisonArea.
+  ///
+  /// In en, this message translates to:
+  /// **'Area'**
+  String get comparisonArea;
+
+  /// No description provided for @comparisonRooms.
+  ///
+  /// In en, this message translates to:
+  /// **'Rooms'**
+  String get comparisonRooms;
+
+  /// No description provided for @comparisonBaths.
+  ///
+  /// In en, this message translates to:
+  /// **'Baths'**
+  String get comparisonBaths;
+
+  /// No description provided for @comparisonFloor.
+  ///
+  /// In en, this message translates to:
+  /// **'Floor'**
+  String get comparisonFloor;
+
+  /// No description provided for @comparisonStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get comparisonStatus;
+
+  /// No description provided for @comparisonType.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get comparisonType;
+
+  /// No description provided for @selectUnitsToCompare.
+  ///
+  /// In en, this message translates to:
+  /// **'Select units to compare (2-3 units)'**
+  String get selectUnitsToCompare;
 }
 
 class _AppLocalizationsDelegate

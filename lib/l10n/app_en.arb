@@ -383,5 +383,27 @@
         "type": "String"
       }
     }
-  }
+  },
+  "compareUnits": "Compare",
+  "compareNow": "Compare Now",
+  "unitComparison": "Unit Comparison",
+  "unitsSelected": "{count} units selected",
+  "@unitsSelected": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "clearComparison": "Clear",
+  "maxUnitsReached": "You can compare up to 3 units only",
+  "bookUnit": "Book Unit",
+  "comparisonPrice": "Price",
+  "comparisonArea": "Area",
+  "comparisonRooms": "Rooms",
+  "comparisonBaths": "Baths",
+  "comparisonFloor": "Floor",
+  "comparisonStatus": "Status",
+  "comparisonType": "Type",
+  "selectUnitsToCompare": "Select units to compare (2-3 units)"
 }

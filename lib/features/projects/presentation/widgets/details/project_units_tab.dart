@@ -1,6 +1,10 @@
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/features/home/domain/entities/project_unit_entity.dart';
+import 'package:apartment/features/projects/presentation/cubit/comparison_cubit.dart' as import_comparison;
+import 'package:apartment/features/projects/presentation/cubit/comparison_state.dart' as import_comparison;
+import 'package:apartment/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:apartment/core/routes/app_router.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
@@ -140,21 +144,67 @@ class _ProjectUnitsTabState extends State<ProjectUnitsTab> {
           const SizedBox(height: AppSpacing.xl),
         ],
 
-        // Filter Button
+        // Filter & Compare Buttons
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                '${filteredUnits.length} وحدة مطابقة',
-                style: TextStyle(
-                  fontSize: AppFonts.headlineSmall,
-                  fontWeight: FontWeight.bold,
-                  color: context.colors.textPrimary,
+              Expanded(
+                child: Text(
+                  '${filteredUnits.length} وحدة مطابقة',
+                  style: TextStyle(
+                    fontSize: AppFonts.headlineSmall,
+                    fontWeight: FontWeight.bold,
+                    color: context.colors.textPrimary,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
-              GestureDetector(
+              Row(
+                children: [
+                  // Compare Button
+                  BlocBuilder<import_comparison.ComparisonCubit, import_comparison.ComparisonState>(
+                    builder: (context, compState) {
+                      final isCompMode = compState.isComparisonMode;
+                      return GestureDetector(
+                        onTap: () => context.read<import_comparison.ComparisonCubit>().toggleComparisonMode(),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: 8),
+                          margin: const EdgeInsets.only(right: AppSpacing.sm), // RTL: left side of compare is filter
+                          decoration: BoxDecoration(
+                            color: isCompMode ? context.colors.gold : context.colors.background,
+                            borderRadius: BorderRadius.circular(AppRadius.lg),
+                            border: Border.all(
+                              color: isCompMode ? context.colors.gold : context.colors.border,
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              Icon(
+                                FluentIcons.slide_multiple_24_regular,
+                                size: 20,
+                                color: isCompMode ? context.colors.white : context.colors.textPrimary,
+                              ),
+                              const SizedBox(width: AppSpacing.sm),
+                              Text(
+                                AppLocalizations.of(context)!.compareUnits,
+                                style: TextStyle(
+                                  fontSize: AppFonts.labelLarge,
+                                  fontWeight: FontWeight.bold,
+                                  color: isCompMode ? context.colors.white : context.colors.textPrimary,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                  const SizedBox(width: AppSpacing.sm),
+                  // Filter Button
+                  GestureDetector(
                 onTap: _openFilterSheet,
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: 8),
@@ -208,12 +258,14 @@ class _ProjectUnitsTabState extends State<ProjectUnitsTab> {
                         ),
                       ]
                     ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+                  ), // Closes Row
+                ), // Closes Container
+              ), // Closes GestureDetector
+              ], // Closes inner Row children
+            ), // Closes inner Row widget
+            ], // Closes main Row children
+          ), // Closes main Row widget
+        ), // Closes Padding
         const SizedBox(height: AppSpacing.md),
         // Units List / Grid
         Padding(
@@ -245,26 +297,41 @@ class _ProjectUnitsTabState extends State<ProjectUnitsTab> {
                     itemCount: filteredUnits.length,
                     itemBuilder: (context, index) {
                       final unit = filteredUnits[index];
-                      return ProjectUnitCard(
-                        key: ValueKey(unit.id),
-                        unit: unit,
-                        index: index,
-                        isSelected: _selectedUnitId == unit.id,
-                        onTap: () {
-                          setState(() {
-                            _selectedUnitId = unit.id;
-                          });
-                          Future.delayed(const Duration(milliseconds: 150), () {
-                            if (context.mounted) {
-                              context.push(
-                                AppRouter.unitDetails,
-                                extra: {
-                                  'unit': unit,
-                                  'heroTag': 'unit_${unit.id}',
-                                },
-                              );
-                            }
-                          });
+                      return BlocBuilder<import_comparison.ComparisonCubit, import_comparison.ComparisonState>(
+                        builder: (context, compState) {
+                          final isCompMode = compState.isComparisonMode;
+                          final isSelected = isCompMode 
+                              ? compState.selectedUnits.any((u) => u.id == unit.id)
+                              : _selectedUnitId == unit.id;
+
+                          return ProjectUnitCard(
+                            key: ValueKey(unit.id),
+                            unit: unit,
+                            index: index,
+                            isSelected: isSelected,
+                            isComparisonMode: isCompMode,
+                            onTap: () {
+                              if (isCompMode) {
+                                context.read<import_comparison.ComparisonCubit>().toggleUnit(unit);
+                                return;
+                              }
+
+                              setState(() {
+                                _selectedUnitId = unit.id;
+                              });
+                              Future.delayed(const Duration(milliseconds: 150), () {
+                                if (context.mounted) {
+                                  context.push(
+                                    AppRouter.unitDetails,
+                                    extra: {
+                                      'unit': unit,
+                                      'heroTag': 'unit_${unit.id}',
+                                    },
+                                  );
+                                }
+                              });
+                            },
+                          );
                         },
                       );
                     },
@@ -278,26 +345,41 @@ class _ProjectUnitsTabState extends State<ProjectUnitsTab> {
                   itemCount: filteredUnits.length,
                   itemBuilder: (context, index) {
                     final unit = filteredUnits[index];
-                    return ProjectUnitCard(
-                      key: ValueKey(unit.id),
-                      unit: unit,
-                      index: index,
-                      isSelected: _selectedUnitId == unit.id,
-                      onTap: () {
-                        setState(() {
-                          _selectedUnitId = unit.id;
-                        });
-                        Future.delayed(const Duration(milliseconds: 150), () {
-                          if (context.mounted) {
-                            context.push(
-                              AppRouter.unitDetails,
-                              extra: {
-                                'unit': unit,
-                                'heroTag': 'unit_${unit.id}',
-                              },
-                            );
-                          }
-                        });
+                    return BlocBuilder<import_comparison.ComparisonCubit, import_comparison.ComparisonState>(
+                      builder: (context, compState) {
+                        final isCompMode = compState.isComparisonMode;
+                        final isSelected = isCompMode 
+                            ? compState.selectedUnits.any((u) => u.id == unit.id)
+                            : _selectedUnitId == unit.id;
+
+                        return ProjectUnitCard(
+                          key: ValueKey(unit.id),
+                          unit: unit,
+                          index: index,
+                          isSelected: isSelected,
+                          isComparisonMode: isCompMode,
+                          onTap: () {
+                            if (isCompMode) {
+                              context.read<import_comparison.ComparisonCubit>().toggleUnit(unit);
+                              return;
+                            }
+
+                            setState(() {
+                              _selectedUnitId = unit.id;
+                            });
+                            Future.delayed(const Duration(milliseconds: 150), () {
+                              if (context.mounted) {
+                                context.push(
+                                  AppRouter.unitDetails,
+                                  extra: {
+                                    'unit': unit,
+                                    'heroTag': 'unit_${unit.id}',
+                                  },
+                                );
+                              }
+                            });
+                          },
+                        );
                       },
                     );
                   },

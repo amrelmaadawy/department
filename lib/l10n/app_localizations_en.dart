@@ -977,4 +977,51 @@ class AppLocalizationsEn extends AppLocalizations {
   String imageCountOf(String current, String total) {
     return '$current of $total';
   }
+
+  @override
+  String get compareUnits => 'Compare';
+
+  @override
+  String get compareNow => 'Compare Now';
+
+  @override
+  String get unitComparison => 'Unit Comparison';
+
+  @override
+  String unitsSelected(String count) {
+    return '$count units selected';
+  }
+
+  @override
+  String get clearComparison => 'Clear';
+
+  @override
+  String get maxUnitsReached => 'You can compare up to 3 units only';
+
+  @override
+  String get bookUnit => 'Book Unit';
+
+  @override
+  String get comparisonPrice => 'Price';
+
+  @override
+  String get comparisonArea => 'Area';
+
+  @override
+  String get comparisonRooms => 'Rooms';
+
+  @override
+  String get comparisonBaths => 'Baths';
+
+  @override
+  String get comparisonFloor => 'Floor';
+
+  @override
+  String get comparisonStatus => 'Status';
+
+  @override
+  String get comparisonType => 'Type';
+
+  @override
+  String get selectUnitsToCompare => 'Select units to compare (2-3 units)';
 }
