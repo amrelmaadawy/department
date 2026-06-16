@@ -7,6 +7,7 @@ import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/widgets/app_toast.dart';
 import '../../../projects/domain/entities/finishing_order_entity.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ProfileRecentOrdersSection extends StatelessWidget {
   final List<FinishingOrderEntity> recentOrders;
@@ -189,7 +190,7 @@ class ProfileRecentOrdersSection extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '${order.totalCost.toStringAsFixed(0)} ج.م',
+                  '${order.totalCost.toStringAsFixed(0)} ريال',
                   style: TextStyle(
                     fontSize: AppFonts.bodyLarge,
                     fontWeight: FontWeight.bold,
@@ -268,12 +269,6 @@ class ProfileRecentOrdersSection extends StatelessWidget {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(AppRadius.xl),
                           color: context.colors.border.withValues(alpha: 0.1),
-                          image: order.imageUrl.isNotEmpty
-                              ? DecorationImage(
-                                  image: NetworkImage(order.imageUrl),
-                                  fit: BoxFit.cover,
-                                )
-                              : null,
                         ),
                         child: order.imageUrl.isEmpty
                             ? Center(
@@ -286,7 +281,35 @@ class ProfileRecentOrdersSection extends StatelessWidget {
                                   ],
                                 ),
                               )
-                            : null,
+                            : ClipRRect(
+                                borderRadius: BorderRadius.circular(AppRadius.xl),
+                                child: Image.network(
+                                  order.imageUrl,
+                                  fit: BoxFit.cover,
+                                  loadingBuilder: (context, child, loadingProgress) {
+                                    if (loadingProgress == null) return child;
+                                    return Shimmer.fromColors(
+                                      baseColor: context.colors.border.withValues(alpha: 0.5),
+                                      highlightColor: context.colors.border.withValues(alpha: 0.1),
+                                      child: Container(
+                                        color: Colors.white,
+                                      ),
+                                    );
+                                  },
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return Center(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Icon(FluentIcons.error_circle_24_regular, size: 48, color: context.colors.error.withValues(alpha: 0.5)),
+                                          const SizedBox(height: AppSpacing.sm),
+                                          Text('حدث خطأ في تحميل الصورة', style: TextStyle(color: context.colors.textSecondary)),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
                       ),
                       const SizedBox(height: AppSpacing.xxl),
 
@@ -308,7 +331,7 @@ class ProfileRecentOrdersSection extends StatelessWidget {
                             const Divider(height: AppSpacing.xl),
                             _buildDetailRow(context, 'النمط', order.style.isNotEmpty ? order.style : 'غير محدد'),
                             const Divider(height: AppSpacing.xl),
-                            _buildDetailRow(context, 'التكلفة الإجمالية', '${order.totalCost.toStringAsFixed(0)} ج.م', isPrimary: true),
+                            _buildDetailRow(context, 'التكلفة الإجمالية', '${order.totalCost.toStringAsFixed(0)} ريال', isPrimary: true),
                           ],
                         ),
                       ),

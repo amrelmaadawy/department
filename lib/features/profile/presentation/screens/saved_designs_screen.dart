@@ -260,7 +260,7 @@ class SavedDesignsScreen extends StatelessWidget {
                               _buildDetailRow(context, 'تاريخ التصميم', '${design.createdAt!.day}/${design.createdAt!.month}/${design.createdAt!.year}'),
                               const Divider(height: AppSpacing.xl),
                             ],
-                            _buildDetailRow(context, 'التكلفة', '${design.totalCost.toStringAsFixed(0)} ج.م', isPrimary: true),
+                            _buildDetailRow(context, 'التكلفة', '${design.totalCost.toStringAsFixed(0)} ريال', isPrimary: true),
                           ],
                         ),
                       ),
