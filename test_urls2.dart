@@ -16,9 +16,9 @@ void main() async {
       final uri = Uri.parse(encoded);
       final request = await client.headUrl(uri);
       final response = await request.close();
-      print(url + " -> " + response.statusCode.toString());
+      print("$url -> ${response.statusCode}");
     } catch (e) {
-      print(url + " -> Error: " + e.toString());
+      print("$url -> Error: $e");
     }
   }
   

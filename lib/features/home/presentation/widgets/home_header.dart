@@ -32,7 +32,7 @@ class HomeHeaderView extends StatelessWidget {
     return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {
         String userName = '...';
-        String? avatarUrl = null;
+        String? avatarUrl;
         String? userCity;
 
         if (state is ProfileLoaded) {
@@ -112,7 +112,7 @@ class HomeHeaderView extends StatelessWidget {
                               ? Image.network(
                                   avatarUrl,
                                   fit: BoxFit.cover,
-                                  errorBuilder: (_, __, ___) => _buildHomeFallbackAvatar(context),
+                                  errorBuilder: (_, _, _) => _buildHomeFallbackAvatar(context),
                                 )
                               : Image.asset(
                                   avatarUrl,

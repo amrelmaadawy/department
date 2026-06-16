@@ -7,9 +7,7 @@ void main() async {
   if (!c2.contains("import '../../../../l10n/app_localizations.dart';")) {
       final importIndex = c2.lastIndexOf(RegExp(r'import .*;'));
       final endOfLine = c2.indexOf('\n', importIndex);
-      c2 = c2.substring(0, endOfLine + 1) +
-          "import '../../../../l10n/app_localizations.dart';\n" +
-          c2.substring(endOfLine + 1);
+      c2 = "${c2.substring(0, endOfLine + 1)}import '../../../../l10n/app_localizations.dart';\n${c2.substring(endOfLine + 1)}";
   }
 
   // Insert l10n definition in build method

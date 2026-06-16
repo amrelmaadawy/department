@@ -27,11 +27,9 @@ void main() async {
           final importIndex = content.lastIndexOf(RegExp(r'import .*;'));
           if (importIndex != -1) {
             final endOfLine = content.indexOf('\n', importIndex);
-            content = content.substring(0, endOfLine + 1) +
-                "import 'package:apartment/core/theme/theme_extension.dart';\n" +
-                content.substring(endOfLine + 1);
+            content = "${content.substring(0, endOfLine + 1)}import 'package:apartment/core/theme/theme_extension.dart';\n${content.substring(endOfLine + 1)}";
           } else {
-            content = "import 'package:apartment/core/theme/theme_extension.dart';\n" + content;
+            content = "import 'package:apartment/core/theme/theme_extension.dart';\n$content";
           }
         }
         await entity.writeAsString(content);

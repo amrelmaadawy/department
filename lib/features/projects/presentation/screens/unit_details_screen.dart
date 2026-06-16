@@ -30,7 +30,7 @@ class UnitDetailsScreen extends StatefulWidget {
 }
 
 class _UnitDetailsScreenState extends State<UnitDetailsScreen> {
-  bool _isImageZoomed = false;
+  final bool _isImageZoomed = false;
 
   @override
   Widget build(BuildContext context) {

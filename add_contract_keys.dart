@@ -11,7 +11,7 @@ void main() async {
 ''';
     // Insert before the last closing brace
     final lastBraceIndex = arContent.lastIndexOf('}');
-    arContent = arContent.substring(0, lastBraceIndex) + ',\n' + newArKeys + '\n}';
+    arContent = '${arContent.substring(0, lastBraceIndex)},\n$newArKeys\n}';
     // Fix potential trailing commas
     arContent = arContent.replaceAll(',,', ',');
     await arFile.writeAsString(arContent);
@@ -26,7 +26,7 @@ void main() async {
   "finishingContractTerms": "1. The contractor undertakes to execute finishing works according to approved specifications.\\n2. Prices include supply of materials and labor.\\n3. Client commits to paying installments based on agreed completion percentages.\\n4. Contractor guarantees quality of work for one full year.\\n5. Any design modifications after execution starts are subject to separate pricing.\\n... [More Legal Terms]",
 ''';
     final lastBraceIndex = enContent.lastIndexOf('}');
-    enContent = enContent.substring(0, lastBraceIndex) + ',\n' + newEnKeys + '\n}';
+    enContent = '${enContent.substring(0, lastBraceIndex)},\n$newEnKeys\n}';
     enContent = enContent.replaceAll(',,', ',');
     await enFile.writeAsString(enContent);
   }

@@ -166,7 +166,7 @@ class SavedDesignDetailsSheet extends StatelessWidget {
                                   child: Container(color: Colors.white),
                                 );
                               },
-                              errorBuilder: (context, _, __) => const Center(
+                              errorBuilder: (context, _, _) => const Center(
                                 child: Icon(FluentIcons.image_off_24_regular, size: 48),
                               ),
                             ),

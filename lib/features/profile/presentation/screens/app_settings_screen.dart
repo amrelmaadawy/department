@@ -23,8 +23,8 @@ class AppSettingsScreen extends StatefulWidget {
 
 class _AppSettingsScreenState extends State<AppSettingsScreen> {
   bool _isDarkMode = false;
-  bool _pushNotifications = true;
-  bool _emailNotifications = false;
+  final bool _pushNotifications = true;
+  final bool _emailNotifications = false;
 
   @override
   void initState() {

@@ -10,7 +10,7 @@ void main() async {
   "registerSuccess": "تم إنشاء الحساب بنجاح!"''';
     // Insert before the last closing brace
     final lastBraceIndex = arContent.lastIndexOf('}');
-    arContent = arContent.substring(0, lastBraceIndex) + ',\n' + newArKeys + '\n}';
+    arContent = '${arContent.substring(0, lastBraceIndex)},\n$newArKeys\n}';
     await arFile.writeAsString(arContent);
   }
 
@@ -23,7 +23,7 @@ void main() async {
   "registerSuccess": "Account Created Successfully!"''';
     // Insert before the last closing brace
     final lastBraceIndex = enContent.lastIndexOf('}');
-    enContent = enContent.substring(0, lastBraceIndex) + ',\n' + newEnKeys + '\n}';
+    enContent = '${enContent.substring(0, lastBraceIndex)},\n$newEnKeys\n}';
     await enFile.writeAsString(enContent);
   }
 

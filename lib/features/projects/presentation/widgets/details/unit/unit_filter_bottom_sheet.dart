@@ -254,7 +254,7 @@ class _UnitFilterBottomSheetState extends State<UnitFilterBottomSheet> {
       valueWidget: Row(
         children: [
           Text(
-            '${_formatPrice(currentMin)}',
+            _formatPrice(currentMin),
             style: TextStyle(
               color: context.colors.gold,
               fontWeight: FontWeight.bold,
