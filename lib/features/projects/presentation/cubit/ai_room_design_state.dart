@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import '../../domain/entities/finishing_order_entity.dart';
 
 enum AiDesignStatus { initial, loading, success, failure }
+enum PresetNotesStatus { initial, loading, success, failure }
 
 class AiRoomDesignState extends Equatable {
   final int apartmentId;
@@ -16,6 +17,8 @@ class AiRoomDesignState extends Equatable {
   final AiDesignStatus status;
   final String? errorMessage;
   final FinishingOrderEntity? resultOrder;
+  final List<String> presetNotes;
+  final PresetNotesStatus presetNotesStatus;
 
   const AiRoomDesignState({
     this.apartmentId = 0,
@@ -29,6 +32,8 @@ class AiRoomDesignState extends Equatable {
     this.status = AiDesignStatus.initial,
     this.errorMessage,
     this.resultOrder,
+    this.presetNotes = const [],
+    this.presetNotesStatus = PresetNotesStatus.initial,
   });
 
   double get expectedTotalCost => (baseRoomCost + selectedMaterialsCost) * roomArea;
@@ -45,6 +50,8 @@ class AiRoomDesignState extends Equatable {
     AiDesignStatus? status,
     String? errorMessage,
     FinishingOrderEntity? resultOrder,
+    List<String>? presetNotes,
+    PresetNotesStatus? presetNotesStatus,
   }) {
     return AiRoomDesignState(
       apartmentId: apartmentId ?? this.apartmentId,
@@ -58,6 +65,8 @@ class AiRoomDesignState extends Equatable {
       status: status ?? this.status,
       errorMessage: errorMessage ?? this.errorMessage,
       resultOrder: resultOrder ?? this.resultOrder,
+      presetNotes: presetNotes ?? this.presetNotes,
+      presetNotesStatus: presetNotesStatus ?? this.presetNotesStatus,
     );
   }
 
@@ -74,5 +83,7 @@ class AiRoomDesignState extends Equatable {
         status,
         errorMessage,
         resultOrder,
+        presetNotes,
+        presetNotesStatus,
       ];
 }

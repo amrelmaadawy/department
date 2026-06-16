@@ -59,14 +59,17 @@ class ProfileMenuList extends StatelessWidget {
                 ProfileMenuItem(
                   icon: FluentIcons.person_edit_24_regular,
                   title: l10n.profileMenuEditProfile,
+                  showDivider: false,
                   onTap: () => context.push('/edit-profile'),
                 ),
+                /*
                 ProfileMenuItem(
                   icon: FluentIcons.shield_keyhole_24_regular,
                   title: l10n.profileMenuSecurity,
                   showDivider: false,
                   onTap: () => context.push('/security'),
                 ),
+                */
               ]),
 
               const SizedBox(height: AppSpacing.xl),

@@ -19,6 +19,7 @@ abstract class ProjectRemoteDataSource {
   Future<FinishingOrderModel> submitFinishingOrder(FinishingOrderRequestModel request);
   Future<AiRendersModel> getAiRenders(int orderId);
   Future<SavedDesignModel> saveDesign(SaveDesignRequestModel request);
+  Future<List<String>> getPresetNotes();
 }
 
 class ProjectRemoteDataSourceImpl implements ProjectRemoteDataSource {
@@ -121,6 +122,17 @@ class ProjectRemoteDataSourceImpl implements ProjectRemoteDataSource {
       return SavedDesignModel.fromJson(response['data']['saved_design']);
     } else {
       throw Exception('Failed to save design');
+    }
+  }
+
+  @override
+  Future<List<String>> getPresetNotes() async {
+    final response = await apiClient.get(ApiEndpoints.presetNotes);
+    
+    if (response != null && response['data'] != null && response['data']['preset_notes'] != null) {
+      return List<String>.from(response['data']['preset_notes']);
+    } else {
+      throw Exception('Failed to load preset notes');
     }
   }
 }

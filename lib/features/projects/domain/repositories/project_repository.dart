@@ -20,4 +20,5 @@ abstract class ProjectRepository {
   Future<Either<Failure, FinishingOrderEntity>> submitFinishingOrder(FinishingOrderRequestEntity request);
   Future<Either<Failure, AiRendersEntity>> getAiRenders(int orderId);
   Future<Either<Failure, SavedDesignEntity>> saveDesign(SaveDesignRequestModel request);
+  Future<Either<Failure, List<String>>> getPresetNotes();
 }

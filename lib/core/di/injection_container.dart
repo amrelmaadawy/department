@@ -26,6 +26,7 @@ import 'package:apartment/features/projects/presentation/cubit/room_details_cubi
 import 'package:apartment/features/projects/presentation/cubit/ai_room_design_cubit.dart';
 import 'package:apartment/features/projects/domain/usecases/save_design_use_case.dart';
 import 'package:apartment/features/projects/presentation/cubit/save_design_cubit.dart';
+import 'package:apartment/features/projects/domain/usecases/get_preset_notes_use_case.dart';
 import 'package:apartment/features/profile/data/datasources/profile_remote_data_source.dart';
 import 'package:apartment/features/profile/data/repositories/profile_repository_impl.dart';
 import 'package:apartment/features/profile/domain/repositories/profile_repository.dart';
@@ -108,6 +109,7 @@ Future<void> init() async {
   sl.registerFactory(
     () => AiRoomDesignCubit(
       submitFinishingOrderUseCase: sl(),
+      getPresetNotesUseCase: sl(),
       cacheService: sl(),
     ),
   );
@@ -129,6 +131,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => SubmitFinishingOrderUseCase(sl()));
   sl.registerLazySingleton(() => GetAiRendersUseCase(sl()));
   sl.registerLazySingleton(() => SaveDesignUseCase(sl()));
+  sl.registerLazySingleton(() => GetPresetNotesUseCase(sl()));
   sl.registerLazySingleton<ProjectRepository>(
     () => ProjectRepositoryImpl(remoteDataSource: sl()),
   );

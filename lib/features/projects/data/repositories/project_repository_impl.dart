@@ -115,4 +115,16 @@ class ProjectRepositoryImpl implements ProjectRepository {
       return Left(ServerFailure('An unexpected error occurred: ${e.toString()}'));
     }
   }
+
+  @override
+  Future<Either<Failure, List<String>>> getPresetNotes() async {
+    try {
+      final notes = await remoteDataSource.getPresetNotes();
+      return Right(notes);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure('An unexpected error occurred: ${e.toString()}'));
+    }
+  }
 }

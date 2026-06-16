@@ -2,16 +2,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../home/domain/entities/finishing_material_entity.dart';
 import '../../domain/entities/finishing_order_request_entity.dart';
+import '../../domain/usecases/get_preset_notes_use_case.dart';
 import '../../domain/usecases/submit_finishing_order_use_case.dart';
 import '../../data/datasources/local/room_design_cache_service.dart';
 import 'ai_room_design_state.dart';
 
 class AiRoomDesignCubit extends Cubit<AiRoomDesignState> {
   final SubmitFinishingOrderUseCase submitFinishingOrderUseCase;
+  final GetPresetNotesUseCase getPresetNotesUseCase;
   final RoomDesignCacheService cacheService;
 
   AiRoomDesignCubit({
     required this.submitFinishingOrderUseCase,
+    required this.getPresetNotesUseCase,
     required this.cacheService,
   }) : super(const AiRoomDesignState());
 
@@ -39,6 +42,22 @@ class AiRoomDesignCubit extends Cubit<AiRoomDesignState> {
         notes: notes,
       ));
     }
+
+    if (state.presetNotes.isEmpty && state.presetNotesStatus != PresetNotesStatus.success) {
+      _loadPresetNotes();
+    }
+  }
+
+  Future<void> _loadPresetNotes() async {
+    emit(state.copyWith(presetNotesStatus: PresetNotesStatus.loading));
+    final result = await getPresetNotesUseCase();
+    result.fold(
+      (failure) => emit(state.copyWith(presetNotesStatus: PresetNotesStatus.failure)),
+      (notes) => emit(state.copyWith(
+        presetNotesStatus: PresetNotesStatus.success,
+        presetNotes: notes,
+      )),
+    );
   }
 
   void _autoSave() {

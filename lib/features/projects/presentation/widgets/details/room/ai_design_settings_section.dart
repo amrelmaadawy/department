@@ -2,6 +2,7 @@ import 'package:apartment/features/projects/presentation/cubit/ai_room_design_cu
 import 'package:apartment/features/projects/presentation/cubit/ai_room_design_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../../../../core/theme/app_fonts.dart';
 import '../../../../../../core/theme/app_radius.dart';
@@ -155,6 +156,81 @@ class _AiDesignSettingsSectionState extends State<AiDesignSettingsSection> {
                 borderSide: BorderSide(color: context.colors.primary),
               ),
             ),
+          ),
+          SizedBox(height: AppSpacing.sm),
+          BlocBuilder<AiRoomDesignCubit, AiRoomDesignState>(
+            builder: (context, state) {
+              if (state.presetNotesStatus == PresetNotesStatus.loading) {
+                return SizedBox(
+                  height: 40,
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: 3,
+                    separatorBuilder: (context, index) => SizedBox(width: AppSpacing.sm),
+                    itemBuilder: (context, index) => Shimmer.fromColors(
+                      baseColor: context.colors.border.withValues(alpha: 0.5),
+                      highlightColor: context.colors.border.withValues(alpha: 0.1),
+                      child: Container(
+                        width: 150,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(AppRadius.round),
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              }
+              
+              if (state.presetNotes.isEmpty) {
+                return const SizedBox.shrink();
+              }
+
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'ملاحظات مقترحة',
+                    style: TextStyle(
+                      fontSize: AppFonts.labelLarge,
+                      color: context.colors.textSecondary,
+                    ),
+                  ),
+                  SizedBox(height: AppSpacing.xs),
+                  SizedBox(
+                    height: 40,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: state.presetNotes.length,
+                      separatorBuilder: (context, index) => SizedBox(width: AppSpacing.sm),
+                      itemBuilder: (context, index) {
+                        final note = state.presetNotes[index];
+                        return ActionChip(
+                          label: Text(note),
+                          labelStyle: TextStyle(
+                            fontSize: AppFonts.bodySmall,
+                            color: context.colors.primary,
+                          ),
+                          backgroundColor: context.colors.primary.withValues(alpha: 0.05),
+                          side: BorderSide(color: context.colors.primary.withValues(alpha: 0.2)),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.round)),
+                          onPressed: () {
+                            final currentText = _notesController.text;
+                            final newText = currentText.isEmpty ? note : '$currentText\n$note';
+                            _notesController.text = newText;
+                            _notesController.selection = TextSelection.fromPosition(
+                              TextPosition(offset: newText.length),
+                            );
+                            // Cubit is updated via the controller's listener set in initState
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
         ],
       ),
