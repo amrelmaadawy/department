@@ -23,8 +23,8 @@ class HomeCubit extends Cubit<HomeState> {
     result.fold(
       (failure) => emit(HomeLoaded(featuredProjects: const [])), // Or handle error state appropriately
       (projects) {
-        // Take the first 3 projects as "Featured" or any other logic you prefer
-        final featured = projects.take(3).toList();
+        // Filter for featured projects only
+        final featured = projects.where((p) => p.isFeatured).toList();
         emit(HomeLoaded(featuredProjects: featured));
       },
     );
