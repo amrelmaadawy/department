@@ -215,8 +215,9 @@ class SavedDesignsScreen extends StatelessWidget {
                               color: Colors.red,
                             ),
                             onPressed: () {
+                              final targetId = design.finishingOrderId > 0 ? design.finishingOrderId : design.id;
                               context.read<ProfileCubit>().toggleFavoriteDesign(
-                                    design.id,
+                                    targetId,
                                     design.imageUrls.isNotEmpty ? design.imageUrls.first : '',
                                   );
                             },
@@ -285,8 +286,9 @@ class SavedDesignsScreen extends StatelessWidget {
                         IconButton(
                           icon: const Icon(FluentIcons.heart_24_filled, color: Colors.red),
                           onPressed: () {
+                            final targetId = design.finishingOrderId > 0 ? design.finishingOrderId : design.id;
                             profileCubit.toggleFavoriteDesign(
-                              design.id,
+                              targetId,
                               design.imageUrls.isNotEmpty ? design.imageUrls.first : '',
                             );
                             Navigator.pop(bottomSheetContext);

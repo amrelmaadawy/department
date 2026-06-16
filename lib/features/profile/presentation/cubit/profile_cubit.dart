@@ -36,7 +36,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     
     // Check if it's currently saved
     final isCurrentlySaved = currentProfile.savedDesigns.any(
-      (d) => d.id == orderId || (d.imageUrls.isNotEmpty && d.imageUrls.first == imageUrl)
+      (d) => d.id == orderId || d.finishingOrderId == orderId || (d.imageUrls.isNotEmpty && d.imageUrls.first == imageUrl)
     );
     
     List<SavedDesignEntity> updatedSavedDesigns;
@@ -44,7 +44,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     if (isCurrentlySaved) {
       // Optimistic Remove
       updatedSavedDesigns = currentProfile.savedDesigns.where(
-        (d) => !(d.id == orderId || (d.imageUrls.isNotEmpty && d.imageUrls.first == imageUrl))
+        (d) => !(d.id == orderId || d.finishingOrderId == orderId || (d.imageUrls.isNotEmpty && d.imageUrls.first == imageUrl))
       ).toList();
     } else {
       // Optimistic Add
@@ -62,6 +62,7 @@ class ProfileCubit extends Cubit<ProfileState> {
         unitName: galleryItem?.unitName ?? '',
         roomName: galleryItem?.roomName ?? '',
         createdAt: DateTime.now(),
+        finishingOrderId: orderId,
       );
       
       updatedSavedDesigns = List.from(currentProfile.savedDesigns)..insert(0, newSavedDesign);
@@ -83,14 +84,18 @@ class ProfileCubit extends Cubit<ProfileState> {
     
     result.fold(
       (failure) {
-        // Rollback on failure
-        emit(ProfileError(message: failure.message));
-        emit(ProfileLoaded(profile: currentProfile));
+        if (!isClosed) {
+          // Rollback on failure
+          emit(ProfileError(message: failure.message));
+          emit(ProfileLoaded(profile: currentProfile));
+        }
       },
       (isSaved) {
-        // API succeeded. Refresh the profile silently to ensure we have the correct backend IDs for the new items.
-        // We do this without emitting ProfileLoading to keep the UX smooth.
-        _refreshProfileSilently();
+        if (!isClosed) {
+          // API succeeded. Refresh the profile silently to ensure we have the correct backend IDs for the new items.
+          // We do this without emitting ProfileLoading to keep the UX smooth.
+          _refreshProfileSilently();
+        }
       },
     );
   }
@@ -100,7 +105,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     result.fold(
       (failure) => null, // Ignore silent failure
       (profile) {
-        if (state is ProfileLoaded) {
+        if (!isClosed && state is ProfileLoaded) {
           emit(ProfileLoaded(profile: profile));
         }
       },

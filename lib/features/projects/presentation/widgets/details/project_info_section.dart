@@ -6,7 +6,6 @@ import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/features/home/domain/entities/project_entity.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
-import 'package:apartment/core/theme/app_radius.dart';
 
 class ProjectInfoSection extends StatelessWidget {
   final ProjectEntity project;

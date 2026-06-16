@@ -12,6 +12,7 @@ class SavedDesignEntity extends Equatable {
   final String unitName;
   final String roomName;
   final DateTime? createdAt;
+  final int finishingOrderId;
 
   const SavedDesignEntity({
     required this.id,
@@ -25,6 +26,7 @@ class SavedDesignEntity extends Equatable {
     this.unitName = '',
     this.roomName = '',
     this.createdAt,
+    this.finishingOrderId = 0,
   });
 
   @override
@@ -40,5 +42,6 @@ class SavedDesignEntity extends Equatable {
         unitName,
         roomName,
         createdAt,
+        finishingOrderId,
       ];
 }
