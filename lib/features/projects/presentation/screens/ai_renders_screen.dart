@@ -1,6 +1,9 @@
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:dio/dio.dart';
+import 'package:gal/gal.dart';
 
 import '../../../../core/di/injection_container.dart';
 import '../../../../core/theme/app_fonts.dart';
@@ -185,38 +188,38 @@ class _AiCompletedViewState extends State<_AiCompletedView> {
   int _currentIndex = 0;
   bool _isDownloading = false;
 
-  // Future<void> _downloadImage(String url) async {
-  //   if (_isDownloading) return;
-  //   setState(() => _isDownloading = true);
+  Future<void> _downloadImage(String url) async {
+    if (_isDownloading) return;
+    setState(() => _isDownloading = true);
 
-  //   try {
-  //     final response = await Dio().get(
-  //       url,
-  //       options: Options(responseType: ResponseType.bytes),
-  //     );
+    try {
+      final response = await Dio().get(
+        url,
+        options: Options(responseType: ResponseType.bytes),
+      );
       
-  //     if (!await Gal.hasAccess()) {
-  //       await Gal.requestAccess();
-  //     }
+      if (!await Gal.hasAccess()) {
+        await Gal.requestAccess();
+      }
 
-  //     await Gal.putImageBytes(
-  //       Uint8List.fromList(response.data),
-  //       name: "ai_design_${DateTime.now().millisecondsSinceEpoch}",
-  //     );
+      await Gal.putImageBytes(
+        Uint8List.fromList(response.data),
+        name: "ai_design_${DateTime.now().millisecondsSinceEpoch}",
+      );
 
-  //     if (mounted) {
-  //       AppToast.showSuccess(context, 'تم تنزيل التصميم وحفظه في المعرض بنجاح!');
-  //     }
-  //   } catch (e) {
-  //     if (mounted) {
-  //       AppToast.showError(context, 'حدث خطأ في تحميل الصورة.');
-  //     }
-  //   } finally {
-  //     if (mounted) {
-  //       setState(() => _isDownloading = false);
-  //     }
-  //   }
-  // }
+      if (mounted) {
+        AppToast.show(context, message: 'تم تنزيل التصميم وحفظه في المعرض بنجاح!', isError: false);
+      }
+    } catch (e) {
+      if (mounted) {
+        AppToast.show(context, message: 'حدث خطأ في تحميل الصورة.', isError: true);
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isDownloading = false);
+      }
+    }
+  }
 
   @override
   void dispose() {
@@ -326,7 +329,7 @@ class _AiCompletedViewState extends State<_AiCompletedView> {
             top: false,
             child: Row(
               children: [
-                /* Expanded(
+                Expanded(
                   child: OutlinedButton.icon(
                     onPressed: _isDownloading ? null : () => _downloadImage(widget.renders[_currentIndex]),
                     style: OutlinedButton.styleFrom(
@@ -341,7 +344,7 @@ class _AiCompletedViewState extends State<_AiCompletedView> {
                     label: Text(_isDownloading ? 'جاري...' : 'تحميل', style: const TextStyle(fontWeight: FontWeight.bold)),
                   ),
                 ),
-                const SizedBox(width: AppSpacing.md), */
+                const SizedBox(width: AppSpacing.md),
                 Expanded(
                   child: BlocConsumer<SaveDesignCubit, SaveDesignState>(
                     listener: (context, state) {

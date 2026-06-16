@@ -71,6 +71,7 @@ class _AiDesignSettingsSectionState extends State<AiDesignSettingsSection> {
           ),
           SizedBox(height: AppSpacing.md),
           
+          /*
           // Style Selection
           Text(
             'اختر الستايل (اختياري)',
@@ -124,6 +125,7 @@ class _AiDesignSettingsSectionState extends State<AiDesignSettingsSection> {
           ),
           
           SizedBox(height: AppSpacing.lg),
+          */
           
           // Notes TextField
           Text(

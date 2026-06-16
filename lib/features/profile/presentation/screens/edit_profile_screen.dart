@@ -140,6 +140,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 key: _formKey,
                 child: Column(
                   children: [
+                    /*
                     // Avatar
                     Center(
                       child: GestureDetector(
@@ -193,6 +194,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                     ),
                     const SizedBox(height: AppSpacing.xxxl),
+                    */
 
                     // Form Fields
                     CustomTextField(
@@ -232,7 +234,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     CustomTextField(
                       controller: _phoneController,
                       label: l10n.phoneNumber,
-                      hint: '+20 100 123 4567',
+                      hint: '+966 50 123 4567',
                       icon: FluentIcons.phone_24_regular,
                       keyboardType: TextInputType.phone,
                       validator: (val) {
@@ -248,7 +250,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     CustomTextField(
                       controller: _addressController,
                       label: l10n.address,
-                      hint: 'Cairo, Egypt',
+                      hint: 'الرياض، المملكة العربية السعودية',
                       icon: FluentIcons.location_24_regular,
                       enabled: !isLoading,
                     ),

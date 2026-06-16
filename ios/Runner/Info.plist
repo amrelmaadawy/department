@@ -45,5 +45,9 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>يحتاج التطبيق إلى صلاحية الوصول لمعرض الصور لحفظ التصميمات واستعراضها.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>يحتاج التطبيق إلى صلاحية حفظ الصور لإضافة التصميمات الجديدة إلى جهازك.</string>
 </dict>
 </plist>
