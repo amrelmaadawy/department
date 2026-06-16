@@ -1897,6 +1897,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Secure contracts with smart steps'**
   String get srvEContractsDesc;
+
+  /// No description provided for @address.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get address;
+
+  /// No description provided for @bio.
+  ///
+  /// In en, this message translates to:
+  /// **'Bio'**
+  String get bio;
+
+  /// No description provided for @updateProfileSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile updated successfully'**
+  String get updateProfileSuccess;
 }
 
 class _AppLocalizationsDelegate

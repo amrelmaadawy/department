@@ -368,5 +368,8 @@
   "srvPropertyMgtTitle": "إدارة الأملاك",
   "srvPropertyMgtDesc": "إدارة احترافية لقيمة تدوم",
   "srvEContractsTitle": "العقود الإلكترونية",
-  "srvEContractsDesc": "عقود آمنة بخطوات ذكية"
+  "srvEContractsDesc": "عقود آمنة بخطوات ذكية",
+  "address": "العنوان",
+  "bio": "نبذة تعريفية",
+  "updateProfileSuccess": "تم تحديث البيانات بنجاح"
 }

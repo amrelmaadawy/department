@@ -1,10 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import '../../domain/entities/project_entity.dart';
-import '../../domain/entities/project_service_entity.dart';
-import '../../domain/entities/project_unit_entity.dart';
 import '../../../../features/projects/domain/usecases/get_projects_usecase.dart';
 
 part 'home_state.dart';

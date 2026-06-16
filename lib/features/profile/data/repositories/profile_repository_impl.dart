@@ -2,7 +2,9 @@ import 'package:dartz/dartz.dart';
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failures.dart';
 import '../../domain/entities/profile_entity.dart';
+import 'package:dio/dio.dart';
 import '../../domain/repositories/profile_repository.dart';
+import '../../domain/usecases/update_profile_params.dart';
 import '../datasources/profile_remote_data_source.dart';
 
 class ProfileRepositoryImpl implements ProfileRepository {
@@ -14,6 +16,24 @@ class ProfileRepositoryImpl implements ProfileRepository {
   Future<Either<Failure, ProfileEntity>> getProfile() async {
     try {
       final profile = await remoteDataSource.getProfile();
+      return Right(profile);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, ProfileEntity>> updateProfile(UpdateProfileParams params) async {
+    try {
+      final map = params.toMap();
+      if (params.avatarPath != null) {
+        // Need to import dio for MultipartFile
+        final file = await MultipartFile.fromFile(params.avatarPath!);
+        map['avatar_url'] = file;
+      }
+      final formData = FormData.fromMap(map);
+      
+      final profile = await remoteDataSource.updateProfile(formData as dynamic); // Passing FormData directly
       return Right(profile);
     } catch (e) {
       return Left(ServerFailure(e.toString()));

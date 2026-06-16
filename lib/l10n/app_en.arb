@@ -368,5 +368,8 @@
   "srvPropertyMgtTitle": "Property Management",
   "srvPropertyMgtDesc": "Professional management for lasting value",
   "srvEContractsTitle": "E-Contracts",
-  "srvEContractsDesc": "Secure contracts with smart steps"
+  "srvEContractsDesc": "Secure contracts with smart steps",
+  "address": "Address",
+  "bio": "Bio",
+  "updateProfileSuccess": "Profile updated successfully"
 }

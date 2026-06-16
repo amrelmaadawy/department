@@ -37,8 +37,8 @@ class AiGalleryScreen extends StatelessWidget {
           onPressed: () => context.pop(),
         ),
       ),
-      body: BlocProvider(
-        create: (context) => sl<ProfileCubit>()..getProfile(),
+      body: BlocProvider.value(
+        value: sl<ProfileCubit>()..getProfile(),
         child: BlocBuilder<ProfileCubit, ProfileState>(
           builder: (context, state) {
             if (state is ProfileLoading || state is ProfileInitial) {
@@ -254,15 +254,17 @@ class AiGalleryScreen extends StatelessWidget {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (context) {
-        return Container(
-          height: MediaQuery.of(context).size.height * 0.90, // Take up most of the screen
-          decoration: BoxDecoration(
-            color: context.colors.background,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(AppRadius.xl)),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+      builder: (bottomSheetContext) {
+        return BlocProvider.value(
+          value: profileCubit,
+          child: Container(
+            height: MediaQuery.of(context).size.height * 0.90, // Take up most of the screen
+            decoration: BoxDecoration(
+              color: context.colors.background,
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(AppRadius.xl)),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               // Handle
               Center(
@@ -411,6 +413,7 @@ class AiGalleryScreen extends StatelessWidget {
               const SizedBox(height: AppSpacing.xl),
             ],
           ),
+        ),
         );
       },
     );

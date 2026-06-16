@@ -4,6 +4,7 @@ import '../models/profile_model.dart';
 
 abstract class ProfileRemoteDataSource {
   Future<ProfileModel> getProfile();
+  Future<ProfileModel> updateProfile(dynamic data);
   Future<bool> toggleFavoriteDesign(int orderId, String imageUrl);
 }
 
@@ -21,6 +22,19 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
       return ProfileModel.fromJson(response['data']);
     } else {
       throw Exception('Failed to load profile data');
+    }
+  }
+
+  @override
+  Future<ProfileModel> updateProfile(dynamic data) async {
+    final response = await apiClient.post(ApiEndpoints.profile, data: data);
+    if (response != null && response['data'] != null) {
+      if (response['data']['user'] != null) {
+        return ProfileModel.fromJson(response['data']);
+      }
+      return ProfileModel.fromJson(response['data']);
+    } else {
+      throw Exception('Failed to update profile data');
     }
   }
 

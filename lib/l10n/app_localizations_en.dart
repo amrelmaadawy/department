@@ -960,4 +960,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get srvEContractsDesc => 'Secure contracts with smart steps';
+
+  @override
+  String get address => 'Address';
+
+  @override
+  String get bio => 'Bio';
+
+  @override
+  String get updateProfileSuccess => 'Profile updated successfully';
 }

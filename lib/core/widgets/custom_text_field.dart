@@ -12,6 +12,9 @@ class CustomTextField extends StatelessWidget {
   final bool isPassword;
   final TextInputType keyboardType;
   final TextEditingController? controller;
+  final String? Function(String?)? validator;
+  final bool enabled;
+  final int maxLines;
 
   const CustomTextField({
     super.key,
@@ -21,6 +24,9 @@ class CustomTextField extends StatelessWidget {
     this.isPassword = false,
     this.keyboardType = TextInputType.text,
     this.controller,
+    this.validator,
+    this.enabled = true,
+    this.maxLines = 1,
   });
 
   @override
@@ -50,10 +56,13 @@ class CustomTextField extends StatelessWidget {
               ),
             ],
           ),
-          child: TextField(
+          child: TextFormField(
             controller: controller,
             obscureText: isPassword,
             keyboardType: keyboardType,
+            validator: validator,
+            enabled: enabled,
+            maxLines: maxLines,
             style: TextStyle(
               fontSize: AppFonts.bodyLarge,
               color: context.colors.textPrimary,

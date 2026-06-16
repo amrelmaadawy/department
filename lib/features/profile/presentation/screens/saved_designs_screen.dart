@@ -38,8 +38,8 @@ class SavedDesignsScreen extends StatelessWidget {
           onPressed: () => context.pop(),
         ),
       ),
-      body: BlocProvider(
-        create: (context) => sl<ProfileCubit>()..getProfile(),
+      body: BlocProvider.value(
+        value: sl<ProfileCubit>()..getProfile(),
         child: BlocConsumer<ProfileCubit, ProfileState>(
           listener: (context, state) {
             if (state is ProfileError) {

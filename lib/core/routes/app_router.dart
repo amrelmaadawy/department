@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:apartment/features/home/domain/entities/unit_room_entity.dart';
+import 'package:apartment/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -271,7 +272,10 @@ class AppRouter {
           return CustomTransitionPage(
             key: state.pageKey,
             transitionDuration: const Duration(milliseconds: 400),
-            child: const AiGalleryScreen(),
+            child: BlocProvider.value(
+              value: sl<ProfileCubit>(),
+              child: const AiGalleryScreen(),
+            ),
             transitionsBuilder: AppRouterTransitions.slideFromRight,
           );
         },
@@ -282,7 +286,10 @@ class AppRouter {
           return CustomTransitionPage(
             key: state.pageKey,
             transitionDuration: const Duration(milliseconds: 400),
-            child: const SavedDesignsScreen(),
+            child: BlocProvider.value(
+              value: sl<ProfileCubit>(),
+              child: const SavedDesignsScreen(),
+            ),
             transitionsBuilder: AppRouterTransitions.slideFromRight,
           );
         },
@@ -297,7 +304,10 @@ class AppRouter {
       ),
       GoRoute(
         path: editProfile,
-        builder: (context, state) => const EditProfileScreen(),
+        builder: (context, state) => BlocProvider.value(
+          value: sl<ProfileCubit>(),
+          child: const EditProfileScreen(),
+        ),
       ),
       GoRoute(
         path: security,

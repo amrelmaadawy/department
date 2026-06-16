@@ -51,6 +51,7 @@ class ProfileMenuList extends StatelessWidget {
               ]),
 
               const SizedBox(height: AppSpacing.xl),
+              */
 
               // Section: Account Settings
               _buildSectionTitle(context, l10n.profileSectionAccount),
@@ -69,7 +70,6 @@ class ProfileMenuList extends StatelessWidget {
               ]),
 
               const SizedBox(height: AppSpacing.xl),
-              */
 
               // Section: Design Studio
               _buildSectionTitle(context, 'استوديو التصميمات'),

@@ -5,13 +5,18 @@ import '../../domain/usecases/toggle_favorite_design_usecase.dart';
 import '../../domain/entities/profile_entity.dart';
 import 'profile_state.dart';
 
+import '../../domain/usecases/update_profile_usecase.dart';
+import '../../domain/usecases/update_profile_params.dart';
+
 class ProfileCubit extends Cubit<ProfileState> {
   final GetProfileUseCase getProfileUseCase;
   final ToggleFavoriteDesignUseCase toggleFavoriteDesignUseCase;
+  final UpdateProfileUseCase updateProfileUseCase;
 
   ProfileCubit({
     required this.getProfileUseCase,
     required this.toggleFavoriteDesignUseCase,
+    required this.updateProfileUseCase,
   }) : super(ProfileInitial());
 
   Future<void> getProfile() async {
@@ -22,6 +27,26 @@ class ProfileCubit extends Cubit<ProfileState> {
     result.fold(
       (failure) => emit(ProfileError(message: failure.message)),
       (profile) => emit(ProfileLoaded(profile: profile)),
+    );
+  }
+
+  Future<void> updateProfile(UpdateProfileParams params) async {
+    final currentState = state;
+    emit(ProfileUpdateLoading());
+
+    final result = await updateProfileUseCase(params);
+
+    result.fold(
+      (failure) {
+        emit(ProfileUpdateError(message: failure.message));
+        if (currentState is ProfileLoaded) {
+          emit(currentState); // Revert to previous loaded state
+        }
+      },
+      (profile) {
+        emit(ProfileUpdateSuccess(profile: profile));
+        emit(ProfileLoaded(profile: profile));
+      },
     );
   }
   void clearProfile() {

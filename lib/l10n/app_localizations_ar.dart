@@ -953,4 +953,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get srvEContractsDesc => 'عقود آمنة بخطوات ذكية';
+
+  @override
+  String get address => 'العنوان';
+
+  @override
+  String get bio => 'نبذة تعريفية';
+
+  @override
+  String get updateProfileSuccess => 'تم تحديث البيانات بنجاح';
 }
