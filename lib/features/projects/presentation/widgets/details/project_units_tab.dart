@@ -154,9 +154,8 @@ class _ProjectUnitsTabState extends State<ProjectUnitsTab> {
                 child: Text(
                   '${filteredUnits.length} وحدة مطابقة',
                   style: TextStyle(
-                    fontSize: AppFonts.headlineSmall,
-                    fontWeight: FontWeight.bold,
-                    color: context.colors.textPrimary,
+                    fontSize: AppFonts.bodyLarge, // Smaller and elegant
+                    color: context.colors.textSecondary, // Lighter color for better visual hierarchy
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,

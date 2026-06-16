@@ -7,6 +7,10 @@ import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/widgets/app_toast.dart';
 import '../../../projects/domain/entities/finishing_order_entity.dart';
 import 'package:shimmer/shimmer.dart';
+import '../../../../core/di/injection_container.dart';
+import '../../../projects/presentation/cubit/share_design_cubit.dart' as import_share;
+import '../../../../../l10n/app_localizations.dart';
+import 'package:flutter_bloc/flutter_bloc.dart' as import_flutter_bloc;
 
 class ProfileRecentOrdersSection extends StatelessWidget {
   final List<FinishingOrderEntity> recentOrders;
@@ -246,9 +250,38 @@ class ProfileRecentOrdersSection extends StatelessWidget {
                         color: context.colors.textPrimary,
                       ),
                     ),
-                    IconButton(
-                      icon: Icon(FluentIcons.dismiss_24_regular, color: context.colors.textSecondary),
-                      onPressed: () => Navigator.pop(context),
+                    Row(
+                      children: [
+                        if (order.imageUrl.isNotEmpty)
+                          import_flutter_bloc.BlocProvider(
+                            create: (context) => sl<import_share.ShareDesignCubit>(),
+                            child: import_flutter_bloc.BlocConsumer<import_share.ShareDesignCubit, import_share.ShareDesignState>(
+                              listener: (context, state) {
+                                if (state is import_share.ShareDesignError) {
+                                  AppToast.showError(context, state.message);
+                                }
+                              },
+                              builder: (context, state) {
+                                final isSharing = state is import_share.ShareDesignLoading;
+                                return IconButton(
+                                  icon: isSharing
+                                      ? SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: context.colors.textSecondary))
+                                      : Icon(FluentIcons.share_android_24_regular, color: context.colors.textSecondary),
+                                  onPressed: isSharing ? null : () {
+                                    context.read<import_share.ShareDesignCubit>().shareDesign(
+                                      imagePath: order.imageUrl,
+                                      text: AppLocalizations.of(context)!.shareDesignText,
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                          ),
+                        IconButton(
+                          icon: Icon(FluentIcons.dismiss_24_regular, color: context.colors.textSecondary),
+                          onPressed: () => Navigator.pop(context),
+                        ),
+                      ],
                     ),
                   ],
                 ),

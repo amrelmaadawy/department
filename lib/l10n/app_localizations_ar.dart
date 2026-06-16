@@ -1017,4 +1017,17 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get selectUnitsToCompare => 'حدد الوحدات للمقارنة (2-3 وحدات)';
+
+  @override
+  String get shareDesign => 'مشاركة التصميم';
+
+  @override
+  String get shareDesignText =>
+      'هذا تصميم وحدتي من تطبيق شطبها بكيفك، عطوني رأيكم 🏡';
+
+  @override
+  String get shareLoading => 'جاري تجهيز التصميم للمشاركة...';
+
+  @override
+  String get shareError => 'عذراً، حدث خطأ أثناء محاولة مشاركة التصميم.';
 }

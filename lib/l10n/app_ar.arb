@@ -405,5 +405,9 @@
   "comparisonFloor": "الطابق",
   "comparisonStatus": "الحالة",
   "comparisonType": "النوع",
-  "selectUnitsToCompare": "حدد الوحدات للمقارنة (2-3 وحدات)"
+  "selectUnitsToCompare": "حدد الوحدات للمقارنة (2-3 وحدات)",
+  "shareDesign": "مشاركة التصميم",
+  "shareDesignText": "هذا تصميم وحدتي من تطبيق شطبها بكيفك، عطوني رأيكم 🏡",
+  "shareLoading": "جاري تجهيز التصميم للمشاركة...",
+  "shareError": "عذراً، حدث خطأ أثناء محاولة مشاركة التصميم."
 }

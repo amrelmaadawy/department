@@ -15,6 +15,8 @@ import '../cubit/ai_renders_cubit.dart';
 import '../cubit/ai_renders_state.dart';
 import '../cubit/save_design_cubit.dart';
 import '../cubit/save_design_state.dart';
+import '../cubit/share_design_cubit.dart' as import_share;
+import '../../../../../l10n/app_localizations.dart';
 
 class AiRendersScreen extends StatelessWidget {
   final int orderId;
@@ -62,8 +64,11 @@ class AiRendersScreen extends StatelessWidget {
             } else if (state is AiRendersPending) {
               return _AiPendingView(statusLabel: state.aiRenders.aiStatusLabel);
             } else if (state is AiRendersCompleted) {
-              return BlocProvider(
-                create: (context) => sl<SaveDesignCubit>(),
+              return MultiBlocProvider(
+                providers: [
+                  BlocProvider(create: (context) => sl<SaveDesignCubit>()),
+                  BlocProvider(create: (context) => sl<import_share.ShareDesignCubit>()),
+                ],
                 child: _AiCompletedView(
                   renders: state.aiRenders.aiRenders,
                   orderId: orderId,
@@ -329,22 +334,55 @@ class _AiCompletedViewState extends State<_AiCompletedView> {
             top: false,
             child: Row(
               children: [
-                Expanded(
-                  child: OutlinedButton.icon(
-                    onPressed: _isDownloading ? null : () => _downloadImage(widget.renders[_currentIndex]),
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: context.colors.primary,
-                      side: BorderSide(color: context.colors.primary),
-                      padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.lg)),
-                    ),
-                    icon: _isDownloading 
-                        ? SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: context.colors.primary))
-                        : const Icon(FluentIcons.arrow_download_24_regular),
-                    label: Text(_isDownloading ? 'جاري...' : 'تحميل', style: const TextStyle(fontWeight: FontWeight.bold)),
+                // Download Button
+                ElevatedButton(
+                  onPressed: _isDownloading ? null : () => _downloadImage(widget.renders[_currentIndex]),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: context.colors.white,
+                    foregroundColor: context.colors.textPrimary,
+                    elevation: 0,
+                    side: BorderSide(color: context.colors.border),
+                    padding: const EdgeInsets.all(14),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.lg)),
                   ),
+                  child: _isDownloading 
+                      ? SizedBox(width: 24, height: 24, child: CircularProgressIndicator(strokeWidth: 2, color: context.colors.textPrimary))
+                      : const Icon(FluentIcons.arrow_download_24_regular, size: 24),
+                ),
+                const SizedBox(width: AppSpacing.sm),
+                
+                // Share Button
+                BlocConsumer<import_share.ShareDesignCubit, import_share.ShareDesignState>(
+                  listener: (context, state) {
+                    if (state is import_share.ShareDesignError) {
+                      AppToast.showError(context, state.message);
+                    }
+                  },
+                  builder: (context, state) {
+                    final isSharing = state is import_share.ShareDesignLoading;
+                    return ElevatedButton(
+                      onPressed: isSharing ? null : () {
+                        context.read<import_share.ShareDesignCubit>().shareDesign(
+                          imagePath: widget.renders[_currentIndex],
+                          text: AppLocalizations.of(context)!.shareDesignText,
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: context.colors.gold.withValues(alpha: 0.1),
+                        foregroundColor: context.colors.gold,
+                        elevation: 0,
+                        padding: const EdgeInsets.all(14),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.lg)),
+                      ),
+                      child: isSharing 
+                          ? SizedBox(width: 24, height: 24, child: CircularProgressIndicator(strokeWidth: 2, color: context.colors.gold))
+                          : const Icon(FluentIcons.share_android_24_regular, size: 24),
+                    );
+                  },
                 ),
                 const SizedBox(width: AppSpacing.md),
+                
+                // Save Design Button
                 Expanded(
                   child: BlocConsumer<SaveDesignCubit, SaveDesignState>(
                     listener: (context, state) {
@@ -368,20 +406,20 @@ class _AiCompletedViewState extends State<_AiCompletedView> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: context.colors.primary,
                           foregroundColor: context.colors.white,
-                          padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+                          padding: const EdgeInsets.symmetric(vertical: 14),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.lg)),
                           elevation: 0,
                         ),
                         icon: isLoading
                             ? const SizedBox(
-                                width: 20,
-                                height: 20,
+                                width: 24,
+                                height: 24,
                                 child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
                               )
-                            : const Icon(FluentIcons.save_24_regular),
+                            : const Icon(FluentIcons.save_24_regular, size: 24),
                         label: Text(
                           isLoading ? 'جاري الحفظ...' : 'حفظ التصميم',
-                          style: const TextStyle(fontWeight: FontWeight.bold),
+                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                         ),
                       );
                     },

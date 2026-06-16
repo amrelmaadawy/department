@@ -27,6 +27,7 @@ import 'package:apartment/features/projects/presentation/cubit/room_details_cubi
 import 'package:apartment/features/projects/presentation/cubit/ai_room_design_cubit.dart';
 import 'package:apartment/features/projects/domain/usecases/save_design_use_case.dart';
 import 'package:apartment/features/projects/presentation/cubit/save_design_cubit.dart';
+import 'package:apartment/features/projects/presentation/cubit/share_design_cubit.dart';
 import 'package:apartment/features/projects/domain/usecases/get_preset_notes_use_case.dart';
 import 'package:apartment/features/profile/data/datasources/profile_remote_data_source.dart';
 import 'package:apartment/features/profile/data/repositories/profile_repository_impl.dart';
@@ -39,6 +40,9 @@ import 'package:get_it/get_it.dart';
 import 'package:apartment/features/design_studio/presentation/cubit/design_context_cubit.dart';
 import 'package:apartment/core/localization/cubit/locale_cubit.dart';
 import 'package:apartment/core/theme/cubit/theme_cubit.dart';
+import 'package:apartment/core/services/share/share_service.dart';
+import 'package:apartment/core/services/share/share_service_impl.dart';
+import 'package:apartment/features/home/domain/usecases/share_design_usecase.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -125,6 +129,11 @@ Future<void> init() async {
       saveDesignUseCase: sl(),
     ),
   );
+  sl.registerFactory(
+    () => ShareDesignCubit(
+      shareDesignUseCase: sl(),
+    ),
+  );
   sl.registerLazySingleton(() => GetProjectsUseCase(sl()));
   sl.registerLazySingleton(() => GetProjectDetailsUseCase(sl()));
   sl.registerLazySingleton(() => GetProjectUnitsUseCase(sl()));
@@ -165,6 +174,8 @@ Future<void> init() async {
   sl.registerLazySingleton(() => sharedPreferences);
   sl.registerLazySingleton(() => RoomDesignCacheService(sharedPreferences: sl()));
   sl.registerLazySingleton(() => const FlutterSecureStorage());
+  sl.registerLazySingleton<IShareService>(() => ShareServiceImpl(dio: sl()));
+  sl.registerLazySingleton(() => ShareDesignUseCase(shareService: sl()));
 
   // Network
   sl.registerLazySingleton(() => AuthInterceptor(secureStorage: sl()));

@@ -11,7 +11,10 @@ import '../cubit/profile_cubit.dart';
 import '../cubit/profile_state.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/widgets/error_state_view.dart';
+import '../../../../core/widgets/app_toast.dart';
 import '../../../../core/di/injection_container.dart';
+import '../../../projects/presentation/cubit/share_design_cubit.dart' as import_share;
+import '../../../../../l10n/app_localizations.dart';
 
 class AiGalleryScreen extends StatelessWidget {
   const AiGalleryScreen({super.key});
@@ -311,6 +314,30 @@ class AiGalleryScreen extends StatelessWidget {
                               },
                             );
                           },
+                        ),
+                        BlocProvider(
+                          create: (context) => sl<import_share.ShareDesignCubit>(),
+                          child: BlocConsumer<import_share.ShareDesignCubit, import_share.ShareDesignState>(
+                            listener: (context, state) {
+                              if (state is import_share.ShareDesignError) {
+                                AppToast.showError(context, state.message);
+                              }
+                            },
+                            builder: (context, state) {
+                              final isSharing = state is import_share.ShareDesignLoading;
+                              return IconButton(
+                                icon: isSharing
+                                    ? SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: context.colors.textSecondary))
+                                    : Icon(FluentIcons.share_android_24_regular, color: context.colors.textSecondary),
+                                onPressed: isSharing ? null : () {
+                                  context.read<import_share.ShareDesignCubit>().shareDesign(
+                                    imagePath: item.url,
+                                    text: AppLocalizations.of(context)!.shareDesignText,
+                                  );
+                                },
+                              );
+                            },
+                          ),
                         ),
                         IconButton(
                           icon: Icon(FluentIcons.dismiss_24_regular, color: context.colors.textSecondary),

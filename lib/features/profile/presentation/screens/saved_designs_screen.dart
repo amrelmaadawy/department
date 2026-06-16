@@ -13,6 +13,8 @@ import '../../../../core/theme/app_radius.dart';
 import '../../../../core/widgets/error_state_view.dart';
 
 import '../../../../core/di/injection_container.dart';
+import '../../../projects/presentation/cubit/share_design_cubit.dart' as import_share;
+import '../../../../../l10n/app_localizations.dart';
 
 class SavedDesignsScreen extends StatelessWidget {
   const SavedDesignsScreen({super.key});
@@ -294,6 +296,31 @@ class SavedDesignsScreen extends StatelessWidget {
                             Navigator.pop(bottomSheetContext);
                           },
                         ),
+                        if (design.imageUrls.isNotEmpty)
+                          BlocProvider(
+                            create: (context) => sl<import_share.ShareDesignCubit>(),
+                            child: BlocConsumer<import_share.ShareDesignCubit, import_share.ShareDesignState>(
+                              listener: (context, state) {
+                                if (state is import_share.ShareDesignError) {
+                                  AppToast.showError(context, state.message);
+                                }
+                              },
+                              builder: (context, state) {
+                                final isSharing = state is import_share.ShareDesignLoading;
+                                return IconButton(
+                                  icon: isSharing
+                                      ? SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: context.colors.textSecondary))
+                                      : Icon(FluentIcons.share_android_24_regular, color: context.colors.textSecondary),
+                                  onPressed: isSharing ? null : () {
+                                    context.read<import_share.ShareDesignCubit>().shareDesign(
+                                      imagePath: design.imageUrls.first,
+                                      text: AppLocalizations.of(context)!.shareDesignText,
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                          ),
                         IconButton(
                           icon: Icon(FluentIcons.dismiss_24_regular, color: context.colors.textSecondary),
                           onPressed: () => Navigator.pop(bottomSheetContext),

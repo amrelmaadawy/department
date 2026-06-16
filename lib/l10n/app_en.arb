@@ -405,5 +405,9 @@
   "comparisonFloor": "Floor",
   "comparisonStatus": "Status",
   "comparisonType": "Type",
-  "selectUnitsToCompare": "Select units to compare (2-3 units)"
+  "selectUnitsToCompare": "Select units to compare (2-3 units)",
+  "shareDesign": "Share Design",
+  "shareDesignText": "Check out this amazing design I generated for my unit using Shatebha Bkayfak App! 🏡✨",
+  "shareLoading": "Preparing design for sharing...",
+  "shareError": "Sorry, an error occurred while sharing the design."
 }

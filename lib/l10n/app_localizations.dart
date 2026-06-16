@@ -2017,6 +2017,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Select units to compare (2-3 units)'**
   String get selectUnitsToCompare;
+
+  /// No description provided for @shareDesign.
+  ///
+  /// In en, this message translates to:
+  /// **'Share Design'**
+  String get shareDesign;
+
+  /// No description provided for @shareDesignText.
+  ///
+  /// In en, this message translates to:
+  /// **'Check out this amazing design I generated for my unit using Shatebha Bkayfak App! 🏡✨'**
+  String get shareDesignText;
+
+  /// No description provided for @shareLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Preparing design for sharing...'**
+  String get shareLoading;
+
+  /// No description provided for @shareError.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorry, an error occurred while sharing the design.'**
+  String get shareError;
 }
 
 class _AppLocalizationsDelegate

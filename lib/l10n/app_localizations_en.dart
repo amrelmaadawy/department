@@ -1024,4 +1024,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get selectUnitsToCompare => 'Select units to compare (2-3 units)';
+
+  @override
+  String get shareDesign => 'Share Design';
+
+  @override
+  String get shareDesignText =>
+      'Check out this amazing design I generated for my unit using Shatebha Bkayfak App! 🏡✨';
+
+  @override
+  String get shareLoading => 'Preparing design for sharing...';
+
+  @override
+  String get shareError => 'Sorry, an error occurred while sharing the design.';
 }
