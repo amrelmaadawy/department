@@ -962,4 +962,12 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get updateProfileSuccess => 'تم تحديث البيانات بنجاح';
+
+  @override
+  String get closeGallery => 'إغلاق';
+
+  @override
+  String imageCountOf(String current, String total) {
+    return '$current من $total';
+  }
 }

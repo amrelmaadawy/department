@@ -969,4 +969,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get updateProfileSuccess => 'Profile updated successfully';
+
+  @override
+  String get closeGallery => 'Close';
+
+  @override
+  String imageCountOf(String current, String total) {
+    return '$current of $total';
+  }
 }

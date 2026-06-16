@@ -7,6 +7,7 @@ import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/features/home/domain/entities/project_entity.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
+import 'package:apartment/core/widgets/full_screen_gallery.dart';
 
 class ProjectDetailsHeader extends StatefulWidget {
   final ProjectEntity project;
@@ -99,38 +100,54 @@ class _ProjectDetailsHeaderState extends State<ProjectDetailsHeader> {
           fit: StackFit.expand,
           children: [
             // Images PageView
-            Hero(
-              tag: widget.heroTag,
-              child: GestureDetector(
-                onPanDown: (_) => _autoPlayTimer?.cancel(),
-                onPanCancel: _onUserInteraction,
-                onPanEnd: (_) => _onUserInteraction,
-                child: PageView.builder(
-                  controller: _pageController,
-                  itemCount: images.length,
-                  onPageChanged: (index) {
-                    setState(() {
-                      _currentPage = index;
-                    });
-                  },
-                  itemBuilder: (context, index) {
-                    final imagePath = images[index];
-                    if (imagePath.isNotEmpty) {
-                      if (imagePath.startsWith('http')) {
-                        return Image.network(
-                          Uri.encodeFull(imagePath),
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) =>
-                              _buildErrorImage(context),
-                        );
-                      } else {
-                        return Image.asset(imagePath, fit: BoxFit.cover);
-                      }
+            GestureDetector(
+              onPanDown: (_) => _autoPlayTimer?.cancel(),
+              onPanCancel: _onUserInteraction,
+              onPanEnd: (_) => _onUserInteraction,
+              child: PageView.builder(
+                controller: _pageController,
+                itemCount: images.length,
+                onPageChanged: (index) {
+                  setState(() {
+                    _currentPage = index;
+                  });
+                },
+                itemBuilder: (context, index) {
+                  final imagePath = images[index];
+                  Widget imageWidget;
+                  
+                  if (imagePath.isNotEmpty) {
+                    if (imagePath.startsWith('http')) {
+                      imageWidget = Image.network(
+                        Uri.encodeFull(imagePath),
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) =>
+                            _buildErrorImage(context),
+                      );
                     } else {
-                      return _buildErrorImage(context);
+                      imageWidget = Image.asset(imagePath, fit: BoxFit.cover);
                     }
-                  },
-                ),
+                  } else {
+                    imageWidget = _buildErrorImage(context);
+                  }
+
+                  final tag = index == 0 ? widget.heroTag : '${widget.heroTag}_$index';
+
+                  return GestureDetector(
+                    onTap: () {
+                      FullScreenGallery.show(
+                        context,
+                        images: images,
+                        initialIndex: index,
+                        heroTagPrefix: widget.heroTag,
+                      );
+                    },
+                    child: Hero(
+                      tag: tag,
+                      child: imageWidget,
+                    ),
+                  );
+                },
               ),
             ),
 

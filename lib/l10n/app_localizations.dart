@@ -1915,6 +1915,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Profile updated successfully'**
   String get updateProfileSuccess;
+
+  /// No description provided for @closeGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get closeGallery;
+
+  /// No description provided for @imageCountOf.
+  ///
+  /// In en, this message translates to:
+  /// **'{current} of {total}'**
+  String imageCountOf(String current, String total);
 }
 
 class _AppLocalizationsDelegate

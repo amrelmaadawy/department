@@ -92,6 +92,7 @@ class ProfileMenuList extends StatelessWidget {
 
               const SizedBox(height: AppSpacing.xl),
 
+              /*
               // Section: App Settings
               _buildSectionTitle(context, l10n.profileSectionApp),
               _buildMenuGroup(context, [
@@ -104,6 +105,7 @@ class ProfileMenuList extends StatelessWidget {
               ]),
 
               const SizedBox(height: AppSpacing.xl),
+              */
 
               /*
               // Section: Support

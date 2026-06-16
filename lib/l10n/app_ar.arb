@@ -371,5 +371,17 @@
   "srvEContractsDesc": "عقود آمنة بخطوات ذكية",
   "address": "العنوان",
   "bio": "نبذة تعريفية",
-  "updateProfileSuccess": "تم تحديث البيانات بنجاح"
+  "updateProfileSuccess": "تم تحديث البيانات بنجاح",
+  "closeGallery": "إغلاق",
+  "imageCountOf": "{current} من {total}",
+  "@imageCountOf": {
+    "placeholders": {
+      "current": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  }
 }

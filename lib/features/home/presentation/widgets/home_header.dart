@@ -107,15 +107,15 @@ class HomeHeaderView extends StatelessWidget {
                       ),
                     ),
                     child: ClipOval(
-                      child: avatarUrl != null && avatarUrl!.isNotEmpty
-                          ? (avatarUrl!.startsWith('http')
+                      child: avatarUrl != null && avatarUrl.isNotEmpty
+                          ? (avatarUrl.startsWith('http')
                               ? Image.network(
-                                  avatarUrl!,
+                                  avatarUrl,
                                   fit: BoxFit.cover,
                                   errorBuilder: (_, __, ___) => _buildHomeFallbackAvatar(context),
                                 )
                               : Image.asset(
-                                  avatarUrl!,
+                                  avatarUrl,
                                   fit: BoxFit.cover,
                                   errorBuilder: (_, __, ___) => _buildHomeFallbackAvatar(context),
                                 ))

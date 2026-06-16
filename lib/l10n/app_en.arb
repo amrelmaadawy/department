@@ -371,5 +371,17 @@
   "srvEContractsDesc": "Secure contracts with smart steps",
   "address": "Address",
   "bio": "Bio",
-  "updateProfileSuccess": "Profile updated successfully"
+  "updateProfileSuccess": "Profile updated successfully",
+  "closeGallery": "Close",
+  "imageCountOf": "{current} of {total}",
+  "@imageCountOf": {
+    "placeholders": {
+      "current": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  }
 }

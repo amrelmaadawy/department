@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 import '../../../../core/theme/app_fonts.dart';

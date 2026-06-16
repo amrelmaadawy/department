@@ -7,6 +7,7 @@ import 'package:apartment/features/home/domain/entities/project_unit_entity.dart
 import 'unit_image_thumbnails.dart';
 import 'unit_zoom_controls.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
+import 'package:apartment/core/widgets/full_screen_gallery.dart';
 
 class UnitFloorPlanViewer extends StatefulWidget {
   final ProjectUnitEntity unit;
@@ -159,14 +160,24 @@ class _UnitFloorPlanViewerState extends State<UnitFloorPlanViewer> {
                             ),
                     );
                     
-                    // Only apply Hero to the first image to match the tag from previous screen
-                    if (index == 0) {
-                      return Hero(
-                        tag: widget.heroTag,
+                    final tag = index == 0 ? widget.heroTag : '${widget.heroTag}_$index';
+
+                    return GestureDetector(
+                      onTap: () {
+                        if (hasImage) {
+                          FullScreenGallery.show(
+                            context,
+                            images: images,
+                            initialIndex: index,
+                            heroTagPrefix: widget.heroTag,
+                          );
+                        }
+                      },
+                      child: Hero(
+                        tag: tag,
                         child: imageWidget,
-                      );
-                    }
-                    return imageWidget;
+                      ),
+                    );
                   },
                 ),
               ),
