@@ -72,18 +72,57 @@ class HomeHeaderView extends StatelessWidget {
           ),
           child: Row(
             children: [
-              // Start Edge: Avatar
-              CircleAvatar(
-                radius: 26, // Slightly larger for premium feel
-                backgroundImage: avatarUrl != null 
-                  ? (avatarUrl.startsWith('http') 
-                      ? NetworkImage(avatarUrl) as ImageProvider
-                      : AssetImage(avatarUrl)) 
-                  : null,
-                backgroundColor: context.colors.border,
-                child: avatarUrl == null 
-                  ? Icon(FluentIcons.person_24_regular, color: context.colors.textSecondary) 
-                  : null,
+              // Start Edge: Premium Avatar
+              Container(
+                width: 56,
+                height: 56,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: LinearGradient(
+                    colors: [
+                      context.colors.gold,
+                      context.colors.gold.withValues(alpha: 0.3),
+                      context.colors.gold,
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: context.colors.gold.withValues(alpha: 0.15),
+                      blurRadius: 12,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: context.colors.background,
+                      border: Border.all(
+                        color: context.colors.background,
+                        width: 2.5,
+                      ),
+                    ),
+                    child: ClipOval(
+                      child: avatarUrl != null && avatarUrl!.isNotEmpty
+                          ? (avatarUrl!.startsWith('http')
+                              ? Image.network(
+                                  avatarUrl!,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (_, __, ___) => _buildHomeFallbackAvatar(context),
+                                )
+                              : Image.asset(
+                                  avatarUrl!,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (_, __, ___) => _buildHomeFallbackAvatar(context),
+                                ))
+                          : _buildHomeFallbackAvatar(context),
+                    ),
+                  ),
+                ),
               ),
               const SizedBox(width: AppSpacing.md),
               
@@ -156,6 +195,19 @@ class HomeHeaderView extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  Widget _buildHomeFallbackAvatar(BuildContext context) {
+    return Container(
+      color: context.colors.background,
+      child: Center(
+        child: Icon(
+          FluentIcons.person_24_filled,
+          color: context.colors.textSecondary.withValues(alpha: 0.5),
+          size: 28,
+        ),
+      ),
     );
   }
 }

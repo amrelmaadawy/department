@@ -93,43 +93,54 @@ class ProfileHeader extends StatelessWidget {
             children: [
               // Avatar with glowing golden border
               Container(
-                padding: EdgeInsets.all(3), // Border width
+                width: 116,
+                height: 116,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   gradient: LinearGradient(
-                    colors: [context.colors.gold, Color(0xFFE5B962)],
+                    colors: [
+                      context.colors.gold,
+                      context.colors.gold.withValues(alpha: 0.5),
+                      context.colors.gold,
+                    ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: context.colors.gold.withValues(alpha: 0.3),
-                      blurRadius: 20,
-                      spreadRadius: 2,
+                      color: context.colors.gold.withValues(alpha: 0.25),
+                      blurRadius: 24,
+                      spreadRadius: 4,
+                      offset: const Offset(0, 8),
                     ),
                   ],
                 ),
-                child: Container(
-                  padding: EdgeInsets.all(2), // Inner gap
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: context.colors.primary,
-                  ),
-                  child: CircleAvatar(
-                    radius: 50,
-                    backgroundColor: context.colors.white,
-                    backgroundImage: (avatarUrl != null && avatarUrl!.isNotEmpty)
-                        ? (avatarUrl!.startsWith('http')
-                            ? NetworkImage(avatarUrl!) as ImageProvider
-                            : AssetImage(avatarUrl!))
-                        : null,
-                    child: (avatarUrl == null || avatarUrl!.isEmpty)
-                        ? Icon(
-                            Icons.person,
-                            size: 50,
-                            color: context.colors.textSecondary,
-                          )
-                        : null,
+                child: Padding(
+                  padding: const EdgeInsets.all(3.0), // Border width
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: context.colors.primary,
+                      border: Border.all(
+                        color: context.colors.primary.withValues(alpha: 0.8),
+                        width: 3,
+                      ),
+                    ),
+                    child: ClipOval(
+                      child: (avatarUrl != null && avatarUrl!.isNotEmpty)
+                          ? (avatarUrl!.startsWith('http')
+                              ? Image.network(
+                                  avatarUrl!,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (_, __, ___) => _buildFallbackAvatar(context),
+                                )
+                              : Image.asset(
+                                  avatarUrl!,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (_, __, ___) => _buildFallbackAvatar(context),
+                                ))
+                          : _buildFallbackAvatar(context),
+                    ),
                   ),
                 ),
               ),
@@ -216,6 +227,19 @@ class ProfileHeader extends StatelessWidget {
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildFallbackAvatar(BuildContext context) {
+    return Container(
+      color: context.colors.background,
+      child: Center(
+        child: Icon(
+          FluentIcons.person_48_filled,
+          color: context.colors.textSecondary.withValues(alpha: 0.5),
+          size: 56,
+        ),
       ),
     );
   }
