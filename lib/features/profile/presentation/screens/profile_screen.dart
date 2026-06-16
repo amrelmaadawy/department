@@ -7,6 +7,7 @@ import '../../../../l10n/app_localizations.dart';
 import '../widgets/profile_header.dart';
 import '../widgets/profile_stats_card.dart';
 import '../widgets/profile_menu_list.dart';
+import '../widgets/profile_shimmer_loading.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -45,6 +46,7 @@ class _ProfileViewState extends State<ProfileView>
   late Animation<double> _headerAnim;
   late Animation<double> _cardAnim;
   late Animation<double> _listAnim;
+  bool _hasAnimated = false;
 
   @override
   void initState() {
@@ -74,14 +76,16 @@ class _ProfileViewState extends State<ProfileView>
         curve: const Interval(0.5, 1.0, curve: Curves.easeOutCubic),
       ),
     );
-
-    _animController.forward();
   }
 
   @override
   void dispose() {
     _animController.dispose();
     super.dispose();
+  }
+
+  Future<void> _onRefresh() async {
+    context.read<ProfileCubit>().getProfile();
   }
 
   @override
@@ -128,11 +132,30 @@ class _ProfileViewState extends State<ProfileView>
           listener: (context, state) {
             if (state is ProfileError) {
               AppToast.show(context, message: state.message, isError: true);
+            } else if (state is ProfileLoaded && !_hasAnimated) {
+              _hasAnimated = true;
+              _animController.forward();
             }
           },
           builder: (context, profileState) {
+            if (profileState is ProfileLoading || profileState is ProfileInitial) {
+              return RefreshIndicator(
+                onRefresh: _onRefresh,
+                color: context.colors.primary,
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: Column(
+                    children: [
+                      const ProfileShimmerLoading(),
+                      ProfileMenuList(listAnim: const AlwaysStoppedAnimation(1.0)),
+                    ],
+                  ),
+                ),
+              );
+            }
+
             String userName = '...';
-            String? avatarUrl = null;
+            String? avatarUrl;
             int designsCount = 0;
             int contractsCount = 0;
             int unitsCount = 0;
@@ -141,7 +164,7 @@ class _ProfileViewState extends State<ProfileView>
 
             if (profileState is ProfileLoaded) {
               userName = profileState.profile.user.name;
-              avatarUrl = profileState.profile.user.avatarUrl ?? avatarUrl;
+              avatarUrl = profileState.profile.user.avatarUrl;
               designsCount = profileState.profile.statistics.totalSavedDesigns;
               contractsCount = profileState.profile.statistics.totalOrders;
               unitsCount = profileState.profile.statistics.totalApartments;
@@ -149,61 +172,64 @@ class _ProfileViewState extends State<ProfileView>
               recentOrders = profileState.profile.recentOrders;
             } else if (profileState is ProfileError) {
               userName = profileState.message;
-            } else if (profileState is ProfileLoading) {
-              userName = 'جاري التحميل...';
             }
 
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-                  // Header with stacked stats card
-                  Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      FadeTransition(
-                        opacity: _headerAnim,
-                        child: SlideTransition(
-                          position: Tween<Offset>(
-                            begin: const Offset(0, -0.2),
-                            end: Offset.zero,
-                          ).animate(_headerAnim),
-                          child: ProfileHeader(
-                            userName: userName,
-                            userType: userType,
-                            avatarUrl: avatarUrl,
-                            aiCredits: aiCredits,
+            return RefreshIndicator(
+              onRefresh: _onRefresh,
+              color: context.colors.primary,
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: Column(
+                  children: [
+                    // Header with stacked stats card
+                    Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        FadeTransition(
+                          opacity: _headerAnim,
+                          child: SlideTransition(
+                            position: Tween<Offset>(
+                              begin: const Offset(0, -0.2),
+                              end: Offset.zero,
+                            ).animate(_headerAnim),
+                            child: ProfileHeader(
+                              userName: userName,
+                              userType: userType,
+                              avatarUrl: avatarUrl,
+                              aiCredits: aiCredits,
+                            ),
                           ),
                         ),
-                      ),
-                      Positioned(
-                        bottom: -40, // Half of the card height approximately
-                        left: 0,
-                        right: 0,
-                        child: ScaleTransition(
-                          scale: _cardAnim,
-                          child: ProfileStatsCard(
-                            designsCount: designsCount,
-                            contractsCount: contractsCount,
-                            unitsCount: unitsCount,
-                            designsLabel: 'تصميماتي', // Using local strings or l10n
-                            contractsLabel: l10n.myContracts,
-                            unitsLabel: l10n.myUnits,
+                        Positioned(
+                          bottom: -40, // Half of the card height approximately
+                          left: 0,
+                          right: 0,
+                          child: ScaleTransition(
+                            scale: _cardAnim,
+                            child: ProfileStatsCard(
+                              designsCount: designsCount,
+                              contractsCount: contractsCount,
+                              unitsCount: unitsCount,
+                              designsLabel: 'تصميماتي', // Using local strings or l10n
+                              contractsLabel: l10n.myContracts,
+                              unitsLabel: l10n.myUnits,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
 
-                  // Provide space for the overlapping card
-                  const SizedBox(height: 60),
-                  const SizedBox(height: AppSpacing.md),
+                    // Provide space for the overlapping card
+                    const SizedBox(height: 60),
+                    const SizedBox(height: AppSpacing.md),
 
-                  // Recent Orders
-                  ProfileRecentOrdersSection(recentOrders: recentOrders),
+                    // Recent Orders
+                    ProfileRecentOrdersSection(recentOrders: recentOrders),
 
-                  // Menu Groups
-                  ProfileMenuList(listAnim: _listAnim),
-                ],
+                    // Menu Groups
+                    ProfileMenuList(listAnim: _listAnim),
+                  ],
+                ),
               ),
             );
           },
