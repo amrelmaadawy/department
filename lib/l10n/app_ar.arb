@@ -409,5 +409,15 @@
   "shareDesign": "مشاركة التصميم",
   "shareDesignText": "هذا تصميم وحدتي من تطبيق شطبها بكيفك، عطوني رأيكم 🏡",
   "shareLoading": "جاري تجهيز التصميم للمشاركة...",
-  "shareError": "عذراً، حدث خطأ أثناء محاولة مشاركة التصميم."
+  "shareError": "عذراً، حدث خطأ أثناء محاولة مشاركة التصميم.",
+  "searchDesigns": "بحث في التصاميم...",
+  "sortBy": "ترتيب حسب",
+  "newestFirst": "الأحدث أولاً",
+  "oldestFirst": "الأقدم أولاً",
+  "filterByProject": "المشروع",
+  "filterByStyle": "النمط",
+  "clearFilters": "مسح الفلاتر",
+  "noDesignsFound": "لا توجد تصاميم مطابقة لبحثك",
+  "applyFilters": "تطبيق",
+  "all": "الكل"
 }

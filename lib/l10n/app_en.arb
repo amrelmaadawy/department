@@ -409,5 +409,15 @@
   "shareDesign": "Share Design",
   "shareDesignText": "Check out this amazing design I generated for my unit using Shatebha Bkayfak App! 🏡✨",
   "shareLoading": "Preparing design for sharing...",
-  "shareError": "Sorry, an error occurred while sharing the design."
+  "shareError": "Sorry, an error occurred while sharing the design.",
+  "searchDesigns": "Search designs...",
+  "sortBy": "Sort by",
+  "newestFirst": "Newest first",
+  "oldestFirst": "Oldest first",
+  "filterByProject": "Project",
+  "filterByStyle": "Style",
+  "clearFilters": "Clear filters",
+  "noDesignsFound": "No designs match your search",
+  "applyFilters": "Apply",
+  "all": "All"
 }

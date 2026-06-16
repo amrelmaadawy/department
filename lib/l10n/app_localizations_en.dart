@@ -1037,4 +1037,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get shareError => 'Sorry, an error occurred while sharing the design.';
+
+  @override
+  String get searchDesigns => 'Search designs...';
+
+  @override
+  String get sortBy => 'Sort by';
+
+  @override
+  String get newestFirst => 'Newest first';
+
+  @override
+  String get oldestFirst => 'Oldest first';
+
+  @override
+  String get filterByProject => 'Project';
+
+  @override
+  String get filterByStyle => 'Style';
+
+  @override
+  String get clearFilters => 'Clear filters';
+
+  @override
+  String get noDesignsFound => 'No designs match your search';
+
+  @override
+  String get applyFilters => 'Apply';
+
+  @override
+  String get all => 'All';
 }

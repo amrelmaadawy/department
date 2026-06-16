@@ -288,12 +288,16 @@ class AiGalleryScreen extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      'تفاصيل التصميم',
-                      style: TextStyle(
-                        fontSize: AppFonts.headlineSmall,
-                        fontWeight: FontWeight.bold,
-                        color: context.colors.textPrimary,
+                    Expanded(
+                      child: Text(
+                        'تفاصيل التصميم',
+                        style: TextStyle(
+                          fontSize: AppFonts.headlineSmall,
+                          fontWeight: FontWeight.bold,
+                          color: context.colors.textPrimary,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     Row(

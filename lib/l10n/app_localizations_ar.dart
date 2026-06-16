@@ -1030,4 +1030,34 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get shareError => 'عذراً، حدث خطأ أثناء محاولة مشاركة التصميم.';
+
+  @override
+  String get searchDesigns => 'بحث في التصاميم...';
+
+  @override
+  String get sortBy => 'ترتيب حسب';
+
+  @override
+  String get newestFirst => 'الأحدث أولاً';
+
+  @override
+  String get oldestFirst => 'الأقدم أولاً';
+
+  @override
+  String get filterByProject => 'المشروع';
+
+  @override
+  String get filterByStyle => 'النمط';
+
+  @override
+  String get clearFilters => 'مسح الفلاتر';
+
+  @override
+  String get noDesignsFound => 'لا توجد تصاميم مطابقة لبحثك';
+
+  @override
+  String get applyFilters => 'تطبيق';
+
+  @override
+  String get all => 'الكل';
 }

@@ -2041,6 +2041,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sorry, an error occurred while sharing the design.'**
   String get shareError;
+
+  /// No description provided for @searchDesigns.
+  ///
+  /// In en, this message translates to:
+  /// **'Search designs...'**
+  String get searchDesigns;
+
+  /// No description provided for @sortBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort by'**
+  String get sortBy;
+
+  /// No description provided for @newestFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Newest first'**
+  String get newestFirst;
+
+  /// No description provided for @oldestFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Oldest first'**
+  String get oldestFirst;
+
+  /// No description provided for @filterByProject.
+  ///
+  /// In en, this message translates to:
+  /// **'Project'**
+  String get filterByProject;
+
+  /// No description provided for @filterByStyle.
+  ///
+  /// In en, this message translates to:
+  /// **'Style'**
+  String get filterByStyle;
+
+  /// No description provided for @clearFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear filters'**
+  String get clearFilters;
+
+  /// No description provided for @noDesignsFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No designs match your search'**
+  String get noDesignsFound;
+
+  /// No description provided for @applyFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get applyFilters;
+
+  /// No description provided for @all.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get all;
 }
 
 class _AppLocalizationsDelegate
