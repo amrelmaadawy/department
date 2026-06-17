@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Apartment</string>
+	<string>شطبها بكيفك</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -49,5 +49,9 @@
 	<string>يحتاج التطبيق إلى صلاحية الوصول لمعرض الصور لحفظ التصميمات واستعراضها.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>يحتاج التطبيق إلى صلاحية حفظ الصور لإضافة التصميمات الجديدة إلى جهازك.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>يحتاج التطبيق إلى صلاحية الكاميرا لالتقاط صورة للملف الشخصي.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>يحتاج التطبيق إلى هذا الإذن كجزء من متطلبات صلاحية الكاميرا.</string>
 </dict>
 </plist>

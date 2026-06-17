@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_spacing.dart';
@@ -35,7 +34,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final _bioController = TextEditingController();
 
   File? _selectedAvatar;
-  String? _currentAvatarUrl;
   bool _isInitialized = false;
 
   @override
@@ -55,19 +53,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     _phoneController.text = state.profile.user.phone!;
     _addressController.text = state.profile.user.address ?? '';
     _bioController.text = state.profile.user.bio ?? '';
-    _currentAvatarUrl = state.profile.user.avatarUrl;
     _isInitialized = true;
-  }
-
-  Future<void> _pickImage() async {
-    final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-
-    if (image != null) {
-      setState(() {
-        _selectedAvatar = File(image.path);
-      });
-    }
   }
 
   void _onSave(BuildContext context) {

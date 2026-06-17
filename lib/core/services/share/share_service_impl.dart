@@ -30,7 +30,7 @@ class ShareServiceImpl implements IShareService {
 
       // Share the file
       final xFile = XFile(localPath);
-      await Share.shareXFiles([xFile], text: text);
+      await SharePlus.instance.share(ShareParams(files: [xFile], text: text));
 
     } catch (e) {
       throw Exception('Failed to share image: $e');

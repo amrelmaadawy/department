@@ -2101,6 +2101,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Continue via WhatsApp'**
   String get whatsappBtn;
+
+  /// No description provided for @aiRendersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Designs'**
+  String get aiRendersTitle;
+
+  /// No description provided for @aiWorkingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'AI is now working'**
+  String get aiWorkingTitle;
+
+  /// No description provided for @aiWorkingSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Analyzing the design and selecting the best colors and lighting...'**
+  String get aiWorkingSubtitle;
+
+  /// No description provided for @aiRendersRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Try Again'**
+  String get aiRendersRetry;
+
+  /// No description provided for @aiRendersSaveDesign.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Design'**
+  String get aiRendersSaveDesign;
+
+  /// No description provided for @aiRendersSaving.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving...'**
+  String get aiRendersSaving;
+
+  /// No description provided for @aiRendersDownloadSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Design downloaded and saved to gallery successfully!'**
+  String get aiRendersDownloadSuccess;
+
+  /// No description provided for @aiRendersDownloadError.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred while downloading the image.'**
+  String get aiRendersDownloadError;
+
+  /// No description provided for @aiRendersNoDesigns.
+  ///
+  /// In en, this message translates to:
+  /// **'No designs found.'**
+  String get aiRendersNoDesigns;
 }
 
 class _AppLocalizationsDelegate

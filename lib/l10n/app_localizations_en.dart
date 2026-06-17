@@ -1067,4 +1067,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get whatsappBtn => 'Continue via WhatsApp';
+
+  @override
+  String get aiRendersTitle => 'AI Designs';
+
+  @override
+  String get aiWorkingTitle => 'AI is now working';
+
+  @override
+  String get aiWorkingSubtitle =>
+      'Analyzing the design and selecting the best colors and lighting...';
+
+  @override
+  String get aiRendersRetry => 'Try Again';
+
+  @override
+  String get aiRendersSaveDesign => 'Save Design';
+
+  @override
+  String get aiRendersSaving => 'Saving...';
+
+  @override
+  String get aiRendersDownloadSuccess =>
+      'Design downloaded and saved to gallery successfully!';
+
+  @override
+  String get aiRendersDownloadError =>
+      'An error occurred while downloading the image.';
+
+  @override
+  String get aiRendersNoDesigns => 'No designs found.';
 }

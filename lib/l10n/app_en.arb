@@ -419,5 +419,14 @@
   "welcomeSubtitle": "We craft your space into an architectural masterpiece that reflects your personality.",
   "welcomeTitle": "Finish it your way",
   "whatsapp": "WhatsApp",
-  "whatsappBtn": "Continue via WhatsApp"
+  "whatsappBtn": "Continue via WhatsApp",
+  "aiRendersTitle": "AI Designs",
+  "aiWorkingTitle": "AI is now working",
+  "aiWorkingSubtitle": "Analyzing the design and selecting the best colors and lighting...",
+  "aiRendersRetry": "Try Again",
+  "aiRendersSaveDesign": "Save Design",
+  "aiRendersSaving": "Saving...",
+  "aiRendersDownloadSuccess": "Design downloaded and saved to gallery successfully!",
+  "aiRendersDownloadError": "An error occurred while downloading the image.",
+  "aiRendersNoDesigns": "No designs found."
 }

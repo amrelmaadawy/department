@@ -36,12 +36,14 @@ class AiRendersScreen extends StatelessWidget {
             icon: Icon(FluentIcons.chevron_right_24_regular, color: context.colors.textPrimary),
             onPressed: () => Navigator.of(context).pop(),
           ),
-          title: Text(
-            'تصاميم الذكاء الاصطناعي',
-            style: TextStyle(
-              fontSize: AppFonts.headlineSmall,
-              fontWeight: FontWeight.bold,
-              color: context.colors.textPrimary,
+          title: Builder(
+            builder: (context) => Text(
+              AppLocalizations.of(context)!.aiRendersTitle,
+              style: TextStyle(
+                fontSize: AppFonts.headlineSmall,
+                fontWeight: FontWeight.bold,
+                color: context.colors.textPrimary,
+              ),
             ),
           ),
           centerTitle: true,
@@ -91,7 +93,7 @@ class AiRendersScreen extends StatelessWidget {
                       SizedBox(height: AppSpacing.lg),
                       ElevatedButton(
                         onPressed: () => context.read<AiRendersCubit>().fetchAiRenders(orderId),
-                        child: Text('إعادة المحاولة'),
+                        child: Text(AppLocalizations.of(context)!.aiRendersRetry),
                       ),
                     ],
                   ),
@@ -140,22 +142,26 @@ class _AiPendingView extends StatelessWidget {
               ),
             ),
             const SizedBox(height: AppSpacing.xxl),
-            Text(
-              'الذكاء الاصطناعي يعمل الآن',
-              style: TextStyle(
-                fontSize: AppFonts.headlineMedium,
-                fontWeight: FontWeight.bold,
-                color: context.colors.textPrimary,
+            Builder(
+              builder: (context) => Text(
+                AppLocalizations.of(context)!.aiWorkingTitle,
+                style: TextStyle(
+                  fontSize: AppFonts.headlineMedium,
+                  fontWeight: FontWeight.bold,
+                  color: context.colors.textPrimary,
+                ),
               ),
             ),
             const SizedBox(height: AppSpacing.md),
-            Text(
-              statusLabel.isNotEmpty ? statusLabel : 'جاري تحليل التصميم واختيار أفضل الألوان والإضاءة...',
-              style: TextStyle(
-                fontSize: AppFonts.bodyLarge,
-                color: context.colors.textSecondary,
+            Builder(
+              builder: (context) => Text(
+                statusLabel.isNotEmpty ? statusLabel : AppLocalizations.of(context)!.aiWorkingSubtitle,
+                style: TextStyle(
+                  fontSize: AppFonts.bodyLarge,
+                  color: context.colors.textSecondary,
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
             ),
             const SizedBox(height: AppSpacing.xl),
             SizedBox(
@@ -213,11 +219,11 @@ class _AiCompletedViewState extends State<_AiCompletedView> {
       );
 
       if (mounted) {
-        AppToast.show(context, message: 'تم تنزيل التصميم وحفظه في المعرض بنجاح!', isError: false);
+        AppToast.show(context, message: AppLocalizations.of(context)!.aiRendersDownloadSuccess, isError: false);
       }
     } catch (e) {
       if (mounted) {
-        AppToast.show(context, message: 'حدث خطأ في تحميل الصورة.', isError: true);
+        AppToast.show(context, message: AppLocalizations.of(context)!.aiRendersDownloadError, isError: true);
       }
     } finally {
       if (mounted) {
@@ -237,7 +243,7 @@ class _AiCompletedViewState extends State<_AiCompletedView> {
     if (widget.renders.isEmpty) {
       return Center(
         child: Text(
-          'لم يتم العثور على تصاميم.',
+          AppLocalizations.of(context)!.aiRendersNoDesigns,
           style: TextStyle(fontSize: AppFonts.bodyLarge, color: context.colors.textPrimary),
         ),
       );
@@ -417,9 +423,13 @@ class _AiCompletedViewState extends State<_AiCompletedView> {
                                 child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
                               )
                             : const Icon(FluentIcons.save_24_regular, size: 24),
-                        label: Text(
-                          isLoading ? 'جاري الحفظ...' : 'حفظ التصميم',
-                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                        label: Builder(
+                          builder: (context) => Text(
+                            isLoading
+                                ? AppLocalizations.of(context)!.aiRendersSaving
+                                : AppLocalizations.of(context)!.aiRendersSaveDesign,
+                            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
                         ),
                       );
                     },

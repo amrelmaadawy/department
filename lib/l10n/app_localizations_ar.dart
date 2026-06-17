@@ -1060,4 +1060,33 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get whatsappBtn => 'متابعة المحادثة عبر واتساب';
+
+  @override
+  String get aiRendersTitle => 'تصاميم الذكاء الاصطناعي';
+
+  @override
+  String get aiWorkingTitle => 'الذكاء الاصطناعي يعمل الآن';
+
+  @override
+  String get aiWorkingSubtitle =>
+      'جاري تحليل التصميم واختيار أفضل الألوان والإضاءة...';
+
+  @override
+  String get aiRendersRetry => 'إعادة المحاولة';
+
+  @override
+  String get aiRendersSaveDesign => 'حفظ التصميم';
+
+  @override
+  String get aiRendersSaving => 'جاري الحفظ...';
+
+  @override
+  String get aiRendersDownloadSuccess =>
+      'تم تنزيل التصميم وحفظه في المعرض بنجاح!';
+
+  @override
+  String get aiRendersDownloadError => 'حدث خطأ في تحميل الصورة.';
+
+  @override
+  String get aiRendersNoDesigns => 'لم يتم العثور على تصاميم.';
 }

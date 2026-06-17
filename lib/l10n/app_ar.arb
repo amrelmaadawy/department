@@ -419,5 +419,14 @@
   "welcomeSubtitle": "نصنع من مساحتك تحفة معمارية تعكس شخصيتك.",
   "welcomeTitle": "شطبها بكيفك",
   "whatsapp": "واتساب",
-  "whatsappBtn": "متابعة المحادثة عبر واتساب"
+  "whatsappBtn": "متابعة المحادثة عبر واتساب",
+  "aiRendersTitle": "تصاميم الذكاء الاصطناعي",
+  "aiWorkingTitle": "الذكاء الاصطناعي يعمل الآن",
+  "aiWorkingSubtitle": "جاري تحليل التصميم واختيار أفضل الألوان والإضاءة...",
+  "aiRendersRetry": "إعادة المحاولة",
+  "aiRendersSaveDesign": "حفظ التصميم",
+  "aiRendersSaving": "جاري الحفظ...",
+  "aiRendersDownloadSuccess": "تم تنزيل التصميم وحفظه في المعرض بنجاح!",
+  "aiRendersDownloadError": "حدث خطأ في تحميل الصورة.",
+  "aiRendersNoDesigns": "لم يتم العثور على تصاميم."
 }

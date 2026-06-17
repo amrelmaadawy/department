@@ -1,4 +1,3 @@
-import 'package:apartment/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
@@ -27,8 +26,6 @@ class HomeHeaderView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-
     return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {
         String userName = '...';

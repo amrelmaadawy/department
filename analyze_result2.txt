@@ -1,0 +1,47 @@
+﻿Analyzing apartment...                                          
+
+   info - Don't invoke 'print' in production code - add_auth_keys.dart:30:3 - avoid_print
+   info - Don't invoke 'print' in production code - add_logout_keys.dart:28:3 - avoid_print
+   info - Don't invoke 'print' in production code - fix_errors.dart:37:9 - avoid_print
+   info - Don't invoke 'print' in production code - fix_more_blue.dart:25:7 - avoid_print
+   info - Unnecessary use of multiple underscores - lib\core\widgets\full_screen_gallery.dart:29:48 - unnecessary_underscores
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\auth\presentation\widgets\social_login_button.dart:28:49 - deprecated_member_use
+   info - Unnecessary use of multiple underscores - lib\features\home\presentation\widgets\home_header.dart:117:53 - unnecessary_underscores
+   info - Unnecessary use of multiple underscores - lib\features\home\presentation\widgets\home_header.dart:117:57 - unnecessary_underscores
+   info - Unnecessary use of multiple underscores - lib\features\profile\presentation\screens\ai_gallery_screen.dart:194:46 - unnecessary_underscores
+   info - Unnecessary use of multiple underscores - lib\features\profile\presentation\screens\ai_gallery_screen.dart:385:56 - unnecessary_underscores
+   info - Unnecessary use of multiple underscores - lib\features\profile\presentation\screens\saved_designs_screen.dart:119:49 - unnecessary_underscores
+   info - Unnecessary use of multiple underscores - lib\features\profile\presentation\screens\saved_designs_screen.dart:229:29 - unnecessary_underscores
+   info - Unnecessary use of multiple underscores - lib\features\profile\presentation\widgets\profile_header.dart:135:53 - unnecessary_underscores
+   info - Unnecessary use of multiple underscores - lib\features\profile\presentation\widgets\profile_header.dart:135:57 - unnecessary_underscores
+   info - Unnecessary use of multiple underscores - lib\features\profile\presentation\widgets\profile_header.dart:140:53 - unnecessary_underscores
+   info - Unnecessary use of multiple underscores - lib\features\profile\presentation\widgets\profile_header.dart:140:57 - unnecessary_underscores
+   info - Unnecessary use of multiple underscores - lib\features\profile\presentation\widgets\saved_design_card.dart:66:52 - unnecessary_underscores
+   info - The imported package 'intl' isn't a dependency of the importing package - lib\features\projects\domain\services\contract_pdf_generator.dart:6:8 - depend_on_referenced_packages
+warning - The value of the field '_isImageZoomed' isn't used - lib\features\projects\presentation\screens\unit_details_screen.dart:33:14 - unused_field
+warning - The value of the field '_floors' isn't used - lib\features\projects\presentation\widgets\details\project_units_tab.dart:30:13 - unused_field
+warning - The value of the field '_availableStyles' isn't used - lib\features\projects\presentation\widgets\details\room\ai_design_settings_section.dart:21:22 - unused_field
+   info - The imported package 'intl' isn't a dependency of the importing package - lib\features\projects\presentation\widgets\details\unit\unit_bottom_actions.dart:3:8 - depend_on_referenced_packages
+   info - 'scale' is deprecated and shouldn't be used. Use scaleByVector3, scaleByVector4, or scaleByDouble instead - lib\features\projects\presentation\widgets\details\unit\unit_floor_plan_viewer.dart:73:50 - deprecated_member_use
+   info - 'scale' is deprecated and shouldn't be used. Use scaleByVector3, scaleByVector4, or scaleByDouble instead - lib\features\projects\presentation\widgets\details\unit\unit_floor_plan_viewer.dart:80:48 - deprecated_member_use
+   info - Don't invoke 'print' in production code - refactor.dart:37:9 - avoid_print
+   info - Don't invoke 'print' in production code - refactor.dart:42:3 - avoid_print
+   info - Don't invoke 'print' in production code - test_parse.dart:41:5 - avoid_print
+   info - Don't invoke 'print' in production code - test_parse.dart:43:9 - avoid_print
+warning - The value of the local variable 'uri' isn't used - test_parse.dart:44:15 - unused_local_variable
+   info - Don't invoke 'print' in production code - test_parse.dart:45:9 - avoid_print
+   info - Don't invoke 'print' in production code - test_parse.dart:48:5 - avoid_print
+   info - Don't invoke 'print' in production code - test_parse.dart:49:5 - avoid_print
+warning - The value of the local variable 'response' isn't used - test_urls.dart:18:13 - unused_local_variable
+   info - Don't invoke 'print' in production code - test_urls.dart:19:7 - avoid_print
+   info - Don't invoke 'print' in production code - test_urls.dart:21:7 - avoid_print
+   info - Don't invoke 'print' in production code - test_urls2.dart:19:7 - avoid_print
+   info - Don't invoke 'print' in production code - test_urls2.dart:21:7 - avoid_print
+
+flutter : 37 issues found. (ran in 10.4s)
+At line:1 char:1
++ flutter analyze --no-fatal-infos 2>&1 | Out-File -FilePath "analyze_r ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (37 issues found. (ran in 10.4s):String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
