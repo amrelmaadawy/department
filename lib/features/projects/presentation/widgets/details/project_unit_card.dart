@@ -82,8 +82,8 @@ class ProjectUnitCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   // Image
-                  SizedBox(
-                    width: 120,
+                  Expanded(
+                    flex: 3,
                     child: Stack(
                       fit: StackFit.expand,
                       children: [
@@ -136,6 +136,7 @@ class ProjectUnitCard extends StatelessWidget {
 
                   // Details
                   Expanded(
+                    flex: 7,
                     child: Padding(
                       padding: EdgeInsets.all(AppSpacing.sm),
                       child: Column(

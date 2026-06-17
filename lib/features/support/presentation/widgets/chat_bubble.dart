@@ -5,6 +5,7 @@ import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
+import 'package:apartment/core/utils/responsive_builder.dart';
 
 
 class ChatBubble extends StatelessWidget {
@@ -12,6 +13,7 @@ class ChatBubble extends StatelessWidget {
   final String time;
   final bool isUser;
   final String? avatarUrl;
+  final int animationDelay;
 
   const ChatBubble({
     super.key,
@@ -21,8 +23,6 @@ class ChatBubble extends StatelessWidget {
     this.avatarUrl,
     this.animationDelay = 0,
   });
-
-  final int animationDelay;
 
   @override
   Widget build(BuildContext context) {
@@ -60,8 +60,11 @@ class ChatBubble extends StatelessWidget {
               SizedBox(width: AppSpacing.sm),
             ],
 
-            Expanded(
+            Flexible(
               child: Container(
+                constraints: BoxConstraints(
+                  maxWidth: context.isDesktop ? 600 : context.screenWidth * 0.85,
+                ),
                 padding: EdgeInsets.all(AppSpacing.lg),
                 decoration: BoxDecoration(
                   color: isUser

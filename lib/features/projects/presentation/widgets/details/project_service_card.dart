@@ -66,17 +66,17 @@ class ProjectServiceCard extends StatelessWidget {
                         topLeft: Radius.circular(AppRadius.lg),
                         topRight: Radius.circular(AppRadius.lg),
                       ),
-                      child: Image.asset(
-                        service.imagePath,
-                        height: 180,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
+                      child: AspectRatio(
+                        aspectRatio: 16 / 9,
+                        child: Image.asset(
+                          service.imagePath,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
 
-                    // Icon Badge (overlapping bottom-left in LTR, bottom-right in RTL)
-                    // We use Positioned to place it carefully. Since the app is RTL,
-                    // right: 16 will place it on the right side.
+                    // Icon Badge
                     Positioned(
                       bottom: -20,
                       right: AppSpacing.md, // Right side in RTL

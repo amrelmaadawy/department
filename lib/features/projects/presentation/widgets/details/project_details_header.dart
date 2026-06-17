@@ -8,6 +8,7 @@ import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/features/home/domain/entities/project_entity.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 import 'package:apartment/core/widgets/full_screen_gallery.dart';
+import 'package:apartment/core/utils/responsive_builder.dart';
 
 class ProjectDetailsHeader extends StatefulWidget {
   final ProjectEntity project;
@@ -76,7 +77,7 @@ class _ProjectDetailsHeaderState extends State<ProjectDetailsHeader> {
         : ['']; // Fallback to empty string for error builder
 
     return SliverAppBar(
-      expandedHeight: 320,
+      expandedHeight: context.screenHeight * 0.4,
       pinned: true,
       backgroundColor: context.colors.background,
       elevation: 0,

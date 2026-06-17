@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:dio/dio.dart';
@@ -204,6 +205,13 @@ class _AiCompletedViewState extends State<_AiCompletedView> {
     setState(() => _isDownloading = true);
 
     try {
+      if (kIsWeb) {
+        if (mounted) {
+          AppToast.show(context, message: 'حفظ الصور في المعرض غير مدعوم على الويب', isError: true);
+        }
+        return;
+      }
+
       final response = await Dio().get(
         url,
         options: Options(responseType: ResponseType.bytes),

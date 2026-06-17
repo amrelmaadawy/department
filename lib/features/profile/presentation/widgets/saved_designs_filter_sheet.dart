@@ -7,6 +7,7 @@ import '../../../../core/theme/theme_extension.dart';
 import '../../../../../l10n/app_localizations.dart';
 import '../cubit/saved_designs_filter_cubit.dart';
 import '../cubit/saved_designs_filter_state.dart';
+import 'package:apartment/core/utils/responsive_builder.dart';
 
 class SavedDesignsFilterSheet extends StatelessWidget {
   const SavedDesignsFilterSheet({super.key});
@@ -16,6 +17,9 @@ class SavedDesignsFilterSheet extends StatelessWidget {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
+      constraints: BoxConstraints(
+        maxWidth: context.maxContainerWidth,
+      ),
       builder: (_) {
         return BlocProvider.value(
           value: cubit,

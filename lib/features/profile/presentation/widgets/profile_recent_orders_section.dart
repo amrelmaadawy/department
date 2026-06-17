@@ -56,7 +56,7 @@ class ProfileRecentOrdersSection extends StatelessWidget {
         ),
         SizedBox(height: AppSpacing.sm),
         SizedBox(
-          height: 140,
+          height: 165,
           child: ListView.separated(
             padding: EdgeInsets.symmetric(horizontal: AppSpacing.xl),
             scrollDirection: Axis.horizontal,

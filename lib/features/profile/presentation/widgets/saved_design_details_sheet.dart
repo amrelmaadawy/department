@@ -12,6 +12,7 @@ import '../../../../core/di/injection_container.dart';
 import '../cubit/profile_cubit.dart';
 import '../../../projects/presentation/cubit/share_design_cubit.dart' as import_share;
 import '../../../../../l10n/app_localizations.dart';
+import 'package:apartment/core/utils/responsive_builder.dart';
 
 class SavedDesignDetailsSheet extends StatelessWidget {
   final SavedDesignEntity design;
@@ -27,6 +28,9 @@ class SavedDesignDetailsSheet extends StatelessWidget {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
+      constraints: BoxConstraints(
+        maxWidth: context.maxContainerWidth,
+      ),
       builder: (bottomSheetContext) {
         return BlocProvider.value(
           value: profileCubit,

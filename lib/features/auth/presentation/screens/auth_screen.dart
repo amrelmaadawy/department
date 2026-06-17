@@ -15,6 +15,7 @@ import '../../../../core/widgets/app_toast.dart';
 import '../../../../core/widgets/custom_button.dart';
 import '../cubit/auth_cubit.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
+import 'package:apartment/core/utils/responsive_builder.dart';
 
 class AuthScreen extends StatelessWidget {
   const AuthScreen({super.key});
@@ -67,9 +68,12 @@ class _AuthViewState extends State<AuthView> {
     return Scaffold(
       backgroundColor: context.colors.white,
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.all(AppSpacing.lg),
-          child: Column(
+        child: Center(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: context.isDesktop ? 500 : (context.isTablet ? 450 : double.infinity)),
+            child: SingleChildScrollView(
+              padding: EdgeInsets.all(AppSpacing.lg),
+              child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: AppSpacing.xxl),
@@ -201,11 +205,12 @@ class _AuthViewState extends State<AuthView> {
                   );
                 },
               ),
-        
             ],
           ),
         ),
       ),
+    ),
+        ),
     );
   }
 }

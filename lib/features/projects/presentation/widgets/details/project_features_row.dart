@@ -47,8 +47,8 @@ class ProjectFeaturesRow extends StatelessWidget {
             padding: EdgeInsets.only(
               right: index == 0 ? 0 : AppSpacing.xl,
             ),
-            child: SizedBox(
-              width: 75, // Fixed width for each item to keep it uniform
+            child: Container(
+              constraints: const BoxConstraints(minWidth: 75, maxWidth: 100),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [

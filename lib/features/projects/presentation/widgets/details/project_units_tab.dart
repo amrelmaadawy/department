@@ -14,6 +14,7 @@ import 'package:apartment/core/theme/app_radius.dart';
 import 'project_unit_card.dart';
 import 'unit/unit_filter_model.dart';
 import 'unit/unit_filter_bottom_sheet.dart';
+import 'package:apartment/core/utils/responsive_builder.dart';
 
 class ProjectUnitsTab extends StatefulWidget {
   final List<ProjectUnitEntity> units;
@@ -272,8 +273,8 @@ class _ProjectUnitsTabState extends State<ProjectUnitsTab> {
           child: AnimatedSize(
             duration: const Duration(milliseconds: 400),
             curve: Curves.easeInOutCubic,
-            child: LayoutBuilder(
-              builder: (context, constraints) {
+            child: Builder(
+              builder: (context) {
                 if (filteredUnits.isEmpty) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: AppSpacing.xl),
@@ -281,17 +282,17 @@ class _ProjectUnitsTabState extends State<ProjectUnitsTab> {
                   );
                 }
 
-                if (constraints.maxWidth > 600) {
-                  // Tablet View
+                if (!context.isMobile) {
+                  // Tablet / Desktop View
                   return GridView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
+                        SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: context.responsiveCrossAxisCount,
                           crossAxisSpacing: AppSpacing.md,
                           mainAxisSpacing: AppSpacing.md,
-                          childAspectRatio: 2.5, // Wide card ratio
+                          mainAxisExtent: 200, // Fixed safe height for all widths
                         ),
                     itemCount: filteredUnits.length,
                     itemBuilder: (context, index) {

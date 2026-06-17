@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:apartment/features/profile/domain/usecases/update_profile_params.dart';
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
@@ -33,7 +31,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final _addressController = TextEditingController();
   final _bioController = TextEditingController();
 
-  File? _selectedAvatar;
+  String? _selectedAvatarPath;
   bool _isInitialized = false;
 
   @override
@@ -64,7 +62,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         phone: _phoneController.text.trim(),
         address: _addressController.text.trim(),
         bio: _bioController.text.trim(),
-        avatarPath: _selectedAvatar?.path,
+        avatarPath: _selectedAvatarPath,
       );
 
       context.read<ProfileCubit>().updateProfile(params);

@@ -9,6 +9,7 @@ import 'package:apartment/l10n/app_localizations.dart';
 import 'package:apartment/core/routes/app_router.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'comparison_unit_card.dart';
+import 'package:apartment/core/utils/responsive_builder.dart';
 
 class UnitComparisonSheet extends StatelessWidget {
   final List<ProjectUnitEntity> units;
@@ -20,6 +21,9 @@ class UnitComparisonSheet extends StatelessWidget {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
+      constraints: BoxConstraints(
+        maxWidth: context.maxContainerWidth,
+      ),
       builder: (context) => UnitComparisonSheet(units: units),
     );
   }
