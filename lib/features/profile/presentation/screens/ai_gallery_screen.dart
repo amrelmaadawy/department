@@ -320,6 +320,7 @@ class AiGalleryScreen extends StatelessWidget {
                             );
                           },
                         ),
+                        /*
                         BlocProvider(
                           create: (context) => sl<import_share.ShareDesignCubit>(),
                           child: BlocConsumer<import_share.ShareDesignCubit, import_share.ShareDesignState>(
@@ -344,6 +345,7 @@ class AiGalleryScreen extends StatelessWidget {
                             },
                           ),
                         ),
+                        */
                         IconButton(
                           icon: Icon(FluentIcons.dismiss_24_regular, color: context.colors.textSecondary),
                           onPressed: () => Navigator.pop(context),

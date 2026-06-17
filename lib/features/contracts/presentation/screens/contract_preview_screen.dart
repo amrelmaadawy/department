@@ -59,6 +59,7 @@ class ContractPreviewScreen extends StatelessWidget {
             scrolledUnderElevation: 0,
             centerTitle: true,
             actions: [
+              /*
               IconButton(
                 icon: Icon(Icons.share_outlined, color: context.colors.primary, size: 22),
                 onPressed: () async {
@@ -76,6 +77,7 @@ class ContractPreviewScreen extends StatelessWidget {
                 },
               ),
               SizedBox(width: 10),
+              */
             ],
             leading: IconButton(
               icon: Icon(Icons.arrow_back_ios, color: context.colors.primary, size: 20),

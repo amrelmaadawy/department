@@ -348,6 +348,7 @@ class _AiCompletedViewState extends State<_AiCompletedView> {
             top: false,
             child: Row(
               children: [
+                /*
                 // Download Button
                 ElevatedButton(
                   onPressed: _isDownloading ? null : () => _downloadImage(widget.renders[_currentIndex]),
@@ -395,6 +396,7 @@ class _AiCompletedViewState extends State<_AiCompletedView> {
                   },
                 ),
                 const SizedBox(width: AppSpacing.md),
+                */
                 
                 // Save Design Button
                 Expanded(

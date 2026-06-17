@@ -95,31 +95,33 @@ class SavedDesignDetailsSheet extends StatelessWidget {
                         Navigator.pop(context);
                       },
                     ),
-                    if (design.imageUrls.isNotEmpty)
-                      BlocProvider(
-                        create: (context) => sl<import_share.ShareDesignCubit>(),
-                        child: BlocConsumer<import_share.ShareDesignCubit, import_share.ShareDesignState>(
-                          listener: (context, state) {
-                            if (state is import_share.ShareDesignError) {
-                              AppToast.showError(context, state.message);
-                            }
-                          },
-                          builder: (context, state) {
-                            final isSharing = state is import_share.ShareDesignLoading;
-                            return IconButton(
-                              icon: isSharing
-                                  ? SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: context.colors.textSecondary))
-                                  : Icon(FluentIcons.share_android_24_regular, color: context.colors.textSecondary),
-                              onPressed: isSharing ? null : () {
-                                context.read<import_share.ShareDesignCubit>().shareDesign(
-                                  imagePath: design.imageUrls.first,
-                                  text: AppLocalizations.of(context)!.shareDesignText,
-                                );
-                              },
-                            );
-                          },
+                    /*
+                      if (design.imageUrls.isNotEmpty)
+                        BlocProvider(
+                          create: (context) => sl<import_share.ShareDesignCubit>(),
+                          child: BlocConsumer<import_share.ShareDesignCubit, import_share.ShareDesignState>(
+                            listener: (context, state) {
+                              if (state is import_share.ShareDesignError) {
+                                AppToast.showError(context, state.message);
+                              }
+                            },
+                            builder: (context, state) {
+                              final isSharing = state is import_share.ShareDesignLoading;
+                              return IconButton(
+                                icon: isSharing
+                                    ? SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: context.colors.textSecondary))
+                                    : Icon(FluentIcons.share_android_24_regular, color: context.colors.textSecondary),
+                                onPressed: isSharing ? null : () {
+                                  context.read<import_share.ShareDesignCubit>().shareDesign(
+                                    imagePath: design.imageUrls.first,
+                                    text: AppLocalizations.of(context)!.shareDesignText,
+                                  );
+                                },
+                              );
+                            },
+                          ),
                         ),
-                      ),
+                      */
                     IconButton(
                       icon: Icon(FluentIcons.dismiss_24_regular, color: context.colors.textSecondary),
                       onPressed: () => Navigator.pop(context),

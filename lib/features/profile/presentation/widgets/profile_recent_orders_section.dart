@@ -256,6 +256,7 @@ class ProfileRecentOrdersSection extends StatelessWidget {
                     ),
                     Row(
                       children: [
+                        /*
                         if (order.imageUrl.isNotEmpty)
                           import_flutter_bloc.BlocProvider(
                             create: (context) => sl<import_share.ShareDesignCubit>(),
@@ -281,6 +282,7 @@ class ProfileRecentOrdersSection extends StatelessWidget {
                               },
                             ),
                           ),
+                        */
                         IconButton(
                           icon: Icon(FluentIcons.dismiss_24_regular, color: context.colors.textSecondary),
                           onPressed: () => Navigator.pop(context),
