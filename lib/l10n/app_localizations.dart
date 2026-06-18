@@ -2221,6 +2221,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count} Units'**
   String projectUnitsCount(int count);
+
+  /// No description provided for @homeNoProjectsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No featured projects at the moment'**
+  String get homeNoProjectsTitle;
+
+  /// No description provided for @homeNoProjectsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'We are constantly working to provide the best real estate projects, please check back later or explore our services above.'**
+  String get homeNoProjectsSubtitle;
 }
 
 class _AppLocalizationsDelegate

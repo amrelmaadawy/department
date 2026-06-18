@@ -1124,4 +1124,11 @@ class AppLocalizationsAr extends AppLocalizations {
   String projectUnitsCount(int count) {
     return '$count وحدات';
   }
+
+  @override
+  String get homeNoProjectsTitle => 'لا توجد مشاريع متميزة حالياً';
+
+  @override
+  String get homeNoProjectsSubtitle =>
+      'نعمل باستمرار على توفير أفضل المشاريع العقارية، يرجى التحقق لاحقاً أو استكشاف خدماتنا في الأعلى.';
 }

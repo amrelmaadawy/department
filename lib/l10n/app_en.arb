@@ -446,5 +446,7 @@
   "unnamedLabel": "Unnamed",
   "creationDateLabel": "Creation Date",
   "notAvailableLabel": "Not Available",
-  "projectUnitsCount": "{count} Units"
+  "projectUnitsCount": "{count} Units",
+  "homeNoProjectsTitle": "No featured projects at the moment",
+  "homeNoProjectsSubtitle": "We are constantly working to provide the best real estate projects, please check back later or explore our services above."
 }

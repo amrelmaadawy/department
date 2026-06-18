@@ -1132,4 +1132,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String projectUnitsCount(int count) {
     return '$count Units';
   }
+
+  @override
+  String get homeNoProjectsTitle => 'No featured projects at the moment';
+
+  @override
+  String get homeNoProjectsSubtitle =>
+      'We are constantly working to provide the best real estate projects, please check back later or explore our services above.';
 }

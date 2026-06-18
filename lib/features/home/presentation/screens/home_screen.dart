@@ -2,8 +2,10 @@ import 'package:apartment/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
 import '../../../../core/di/injection_container.dart';
+import '../../../../core/widgets/empty_state_view.dart';
 import '../../../../core/theme/theme_extension.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
@@ -53,23 +55,30 @@ class HomeView extends StatelessWidget {
                       SectionHeader(
                         title: l10n.featuredProjects,
                       ),
-                      SizedBox(
-                        height: 280,
-                        child: ListView.separated(
-                          scrollDirection: Axis.horizontal,
-                          padding: EdgeInsets.symmetric(
-                            horizontal: AppSpacing.lg,
+                      if (state.featuredProjects.isEmpty)
+                        EmptyStateView(
+                          icon: FluentIcons.building_desktop_24_regular,
+                          title: l10n.homeNoProjectsTitle,
+                          subtitle: l10n.homeNoProjectsSubtitle,
+                        )
+                      else
+                        SizedBox(
+                          height: 280,
+                          child: ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            padding: EdgeInsets.symmetric(
+                              horizontal: AppSpacing.lg,
+                            ),
+                            itemCount: state.featuredProjects.length,
+                            separatorBuilder: (context, index) =>
+                                const SizedBox(width: AppSpacing.lg),
+                            itemBuilder: (context, index) {
+                              return FeaturedProjectCard(
+                                project: state.featuredProjects[index],
+                              );
+                            },
                           ),
-                          itemCount: state.featuredProjects.length,
-                          separatorBuilder: (context, index) =>
-                              const SizedBox(width: AppSpacing.lg),
-                          itemBuilder: (context, index) {
-                            return FeaturedProjectCard(
-                              project: state.featuredProjects[index],
-                            );
-                          },
                         ),
-                      ),
                       const SizedBox(height: AppSpacing.xxl),
                     ]),
                   )

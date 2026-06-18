@@ -446,5 +446,7 @@
   "unnamedLabel": "بدون اسم",
   "creationDateLabel": "تاريخ الإنشاء",
   "notAvailableLabel": "غير متوفر",
-  "projectUnitsCount": "{count} وحدات"
+  "projectUnitsCount": "{count} وحدات",
+  "homeNoProjectsTitle": "لا توجد مشاريع متميزة حالياً",
+  "homeNoProjectsSubtitle": "نعمل باستمرار على توفير أفضل المشاريع العقارية، يرجى التحقق لاحقاً أو استكشاف خدماتنا في الأعلى."
 }
