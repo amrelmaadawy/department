@@ -54,12 +54,6 @@ class _ProjectsViewState extends State<ProjectsView> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final filterOptions = [
-      {'key': AppConstants.filterAll, 'label': l10n.filterAll},
-      {'key': 'القاهرة الجديدة', 'label': 'القاهرة الجديدة'},
-      {'key': 'جدة', 'label': l10n.filterJeddah},
-      {'key': 'الشرقية', 'label': l10n.filterEastern},
-    ];
 
     return Scaffold(
       backgroundColor: context.colors.background,
@@ -107,13 +101,22 @@ class _ProjectsViewState extends State<ProjectsView> {
                           ),
                           SizedBox(height: AppSpacing.md),
                           if (state is ProjectsLoaded)
-                            FilterChipsRow(
-                              filters: filterOptions.map((e) => e['label'] as String).toList(),
-                              selectedFilter: filterOptions.firstWhere((e) => e['key'] == state.selectedFilter, orElse: () => filterOptions.first)['label'] as String,
-                              onFilterSelected: (label) {
-                                final key = filterOptions.firstWhere((e) => e['label'] == label)['key'] as String;
-                                context.read<ProjectsCubit>().filterByCity(key);
-                              },
+                            Builder(
+                              builder: (context) {
+                                final dynamicFilters = [
+                                  {'key': AppConstants.filterAll, 'label': l10n.filterAll},
+                                  ...state.availableCities.map((city) => {'key': city, 'label': city}),
+                                ];
+                                
+                                return FilterChipsRow(
+                                  filters: dynamicFilters.map((e) => e['label'] as String).toList(),
+                                  selectedFilter: dynamicFilters.firstWhere((e) => e['key'] == state.selectedFilter, orElse: () => dynamicFilters.first)['label'] as String,
+                                  onFilterSelected: (label) {
+                                    final key = dynamicFilters.firstWhere((e) => e['label'] == label)['key'] as String;
+                                    context.read<ProjectsCubit>().filterByCity(key);
+                                  },
+                                );
+                              }
                             ),
                           SizedBox(height: AppSpacing.sm),
                         ],

@@ -5,6 +5,7 @@ class ProjectModel extends ProjectEntity {
     required super.id,
     required super.name,
     super.description,
+    super.city,
     required super.location,
     required super.status,
     required super.images,
@@ -19,7 +20,10 @@ class ProjectModel extends ProjectEntity {
       id: json['id'] is int ? json['id'] : int.tryParse(json['id'].toString()) ?? 0,
       name: json['name'] ?? '',
       description: json['description'] ?? '',
-      location: json['location'] ?? '',
+      city: json['city'] ?? '',
+      location: (json['city'] != null && json['address'] != null) 
+          ? '${json['city']} - ${json['address']}' 
+          : json['address'] ?? json['city'] ?? json['location'] ?? '',
       status: json['status'] ?? 'available',
       images: json['images'] != null ? List<String>.from(json['images']) : [],
       apartmentsCount: json['apartments_count'] is int ? json['apartments_count'] : int.tryParse(json['apartments_count'].toString()) ?? 0,

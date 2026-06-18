@@ -34,7 +34,12 @@ class AiRendersScreen extends StatelessWidget {
           backgroundColor: context.colors.background,
           elevation: 0,
           leading: IconButton(
-            icon: Icon(FluentIcons.chevron_right_24_regular, color: context.colors.textPrimary),
+            icon: Icon(
+              Directionality.of(context) == TextDirection.rtl 
+                ? FluentIcons.chevron_right_24_regular 
+                : FluentIcons.chevron_left_24_regular, 
+              color: context.colors.textPrimary,
+            ),
             onPressed: () => Navigator.of(context).pop(),
           ),
           title: Builder(

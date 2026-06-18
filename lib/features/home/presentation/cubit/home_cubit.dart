@@ -1,3 +1,4 @@
+import 'package:apartment/core/network/app_cancel_token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -6,16 +7,17 @@ import '../../../../features/projects/domain/usecases/get_projects_usecase.dart'
 
 part 'home_state.dart';
 
+
 class HomeCubit extends Cubit<HomeState> {
   final GetProjectsUseCase getProjectsUseCase;
+  final AppCancelToken _cancelToken = AppCancelToken();
 
   HomeCubit({required this.getProjectsUseCase}) : super(HomeInitial());
 
   void loadHomeData() async {
     emit(HomeLoading());
 
-    final result = await getProjectsUseCase();
-
+    final result = await getProjectsUseCase(cancelToken: _cancelToken);
 
     result.fold(
       (failure) => emit(HomeLoaded(featuredProjects: const [])), // Or handle error state appropriately
@@ -25,5 +27,11 @@ class HomeCubit extends Cubit<HomeState> {
         emit(HomeLoaded(featuredProjects: featured));
       },
     );
+  }
+
+  @override
+  Future<void> close() {
+    _cancelToken.cancel('HomeCubit closed');
+    return super.close();
   }
 }

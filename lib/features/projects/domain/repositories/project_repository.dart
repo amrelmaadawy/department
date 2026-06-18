@@ -10,9 +10,10 @@ import 'package:apartment/features/projects/domain/entities/ai_renders_entity.da
 
 import 'package:apartment/features/projects/domain/entities/saved_design_entity.dart';
 import 'package:apartment/features/projects/data/models/save_design_request_model.dart';
+import '../../../../core/network/app_cancel_token.dart';
 
 abstract class ProjectRepository {
-  Future<Either<Failure, List<ProjectEntity>>> getProjects();
+  Future<Either<Failure, List<ProjectEntity>>> getProjects({AppCancelToken? cancelToken});
   Future<Either<Failure, ProjectEntity>> getProjectDetails(int id);
   Future<Either<Failure, List<ProjectUnitEntity>>> getProjectUnits(int id);
   Future<Either<Failure, ProjectUnitEntity>> getUnitDetails(int id);

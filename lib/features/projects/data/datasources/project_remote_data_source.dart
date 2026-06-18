@@ -11,8 +11,10 @@ import 'package:apartment/features/projects/data/models/ai_renders_model.dart';
 import 'package:apartment/features/projects/data/models/save_design_request_model.dart';
 import 'package:apartment/features/projects/data/models/saved_design_model.dart';
 
+import '../../../../core/network/app_cancel_token.dart';
+
 abstract class ProjectRemoteDataSource {
-  Future<List<ProjectModel>> getProjects();
+  Future<List<ProjectModel>> getProjects({AppCancelToken? cancelToken});
   Future<ProjectModel> getProjectDetails(int id);
   Future<List<ProjectUnitModel>> getProjectUnits(int id);
   Future<ProjectUnitModel> getUnitDetails(int id);
@@ -29,8 +31,11 @@ class ProjectRemoteDataSourceImpl implements ProjectRemoteDataSource {
   ProjectRemoteDataSourceImpl({required this.apiClient});
 
   @override
-  Future<List<ProjectModel>> getProjects() async {
-    final response = await apiClient.get(ApiEndpoints.projects);
+  Future<List<ProjectModel>> getProjects({AppCancelToken? cancelToken}) async {
+    final response = await apiClient.get(
+      ApiEndpoints.projects,
+      cancelToken: cancelToken?.token,
+    );
     
     if (response != null && response['data'] != null && response['data'] is List) {
       return (response['data'] as List)

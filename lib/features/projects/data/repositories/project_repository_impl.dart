@@ -14,15 +14,17 @@ import 'package:apartment/features/projects/domain/entities/ai_renders_entity.da
 import 'package:apartment/features/projects/domain/entities/saved_design_entity.dart';
 import 'package:apartment/features/projects/data/models/save_design_request_model.dart';
 
+import '../../../../core/network/app_cancel_token.dart';
+
 class ProjectRepositoryImpl implements ProjectRepository {
   final ProjectRemoteDataSource remoteDataSource;
 
   ProjectRepositoryImpl({required this.remoteDataSource});
 
   @override
-  Future<Either<Failure, List<ProjectEntity>>> getProjects() async {
+  Future<Either<Failure, List<ProjectEntity>>> getProjects({AppCancelToken? cancelToken}) async {
     try {
-      final projects = await remoteDataSource.getProjects();
+      final projects = await remoteDataSource.getProjects(cancelToken: cancelToken);
       return Right(projects);
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));

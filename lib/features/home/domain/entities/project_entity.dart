@@ -7,6 +7,7 @@ class ProjectEntity extends Equatable {
   final int id;
   final String name;
   final String description;
+  final String city;
   final String location;
   final String status;
   final List<String> images;
@@ -28,6 +29,7 @@ class ProjectEntity extends Equatable {
     required this.id,
     required this.name,
     this.description = '',
+    this.city = '',
     required this.location,
     this.status = 'available',
     this.images = const [],
@@ -51,6 +53,7 @@ class ProjectEntity extends Equatable {
     int? id,
     String? name,
     String? description,
+    String? city,
     String? location,
     String? status,
     List<String>? images,
@@ -70,6 +73,7 @@ class ProjectEntity extends Equatable {
       id: id ?? this.id,
       name: name ?? this.name,
       description: description ?? this.description,
+      city: city ?? this.city,
       location: location ?? this.location,
       status: status ?? this.status,
       images: images ?? this.images,
@@ -92,6 +96,7 @@ class ProjectEntity extends Equatable {
     id,
     name,
     description,
+    city,
     location,
     status,
     images,

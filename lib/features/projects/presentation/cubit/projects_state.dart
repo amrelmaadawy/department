@@ -15,15 +15,17 @@ class ProjectsLoaded extends ProjectsState {
   final List<ProjectEntity> allProjects;
   final List<ProjectEntity> filteredProjects;
   final String selectedFilter;
+  final List<String> availableCities;
 
   const ProjectsLoaded({
     required this.allProjects,
     required this.filteredProjects,
     required this.selectedFilter,
+    required this.availableCities,
   });
 
   @override
-  List<Object> get props => [allProjects, filteredProjects, selectedFilter];
+  List<Object> get props => [allProjects, filteredProjects, selectedFilter, availableCities];
 }
 
 class ProjectsError extends ProjectsState {
