@@ -1,3 +1,4 @@
+import 'package:apartment/features/projects/presentation/cubit/share_design_cubit.dart' as import_share;
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
@@ -8,6 +9,9 @@ import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/widgets/app_toast.dart';
 import '../../../projects/domain/entities/finishing_order_entity.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/di/injection_container.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class ProfileRecentOrdersSection extends StatelessWidget {
   final List<FinishingOrderEntity> recentOrders;
@@ -253,11 +257,10 @@ class ProfileRecentOrdersSection extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        /*
                         if (order.imageUrl.isNotEmpty)
-                          import_flutter_bloc.BlocProvider(
+                          BlocProvider(
                             create: (context) => sl<import_share.ShareDesignCubit>(),
-                            child: import_flutter_bloc.BlocConsumer<import_share.ShareDesignCubit, import_share.ShareDesignState>(
+                            child: BlocConsumer<import_share.ShareDesignCubit, import_share.ShareDesignState>(
                               listener: (context, state) {
                                 if (state is import_share.ShareDesignError) {
                                   AppToast.showError(context, state.message);
@@ -279,7 +282,6 @@ class ProfileRecentOrdersSection extends StatelessWidget {
                               },
                             ),
                           ),
-                        */
                         IconButton(
                           icon: Icon(FluentIcons.dismiss_24_regular, color: context.colors.textSecondary),
                           onPressed: () => Navigator.pop(context),

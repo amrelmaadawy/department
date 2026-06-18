@@ -1,4 +1,5 @@
 import 'package:apartment/features/projects/domain/entities/saved_design_entity.dart';
+import 'package:apartment/features/projects/presentation/cubit/share_design_cubit.dart' as import_share;
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,6 +11,9 @@ import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/theme_extension.dart';
 import '../cubit/profile_cubit.dart';
 import 'package:apartment/core/utils/responsive_builder.dart';
+import '../../../../core/di/injection_container.dart';
+import '../../../../l10n/app_localizations.dart';
+import '../../../../core/widgets/app_toast.dart';
 
 class SavedDesignDetailsSheet extends StatelessWidget {
   final SavedDesignEntity design;
@@ -92,33 +96,31 @@ class SavedDesignDetailsSheet extends StatelessWidget {
                         Navigator.pop(context);
                       },
                     ),
-                    /*
-                      if (design.imageUrls.isNotEmpty)
-                        BlocProvider(
-                          create: (context) => sl<import_share.ShareDesignCubit>(),
-                          child: BlocConsumer<import_share.ShareDesignCubit, import_share.ShareDesignState>(
-                            listener: (context, state) {
-                              if (state is import_share.ShareDesignError) {
-                                AppToast.showError(context, state.message);
-                              }
-                            },
-                            builder: (context, state) {
-                              final isSharing = state is import_share.ShareDesignLoading;
-                              return IconButton(
-                                icon: isSharing
-                                    ? SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: context.colors.textSecondary))
-                                    : Icon(FluentIcons.share_android_24_regular, color: context.colors.textSecondary),
-                                onPressed: isSharing ? null : () {
-                                  context.read<import_share.ShareDesignCubit>().shareDesign(
-                                    imagePath: design.imageUrls.first,
-                                    text: AppLocalizations.of(context)!.shareDesignText,
-                                  );
-                                },
-                              );
-                            },
-                          ),
+                    if (design.imageUrls.isNotEmpty)
+                      BlocProvider(
+                        create: (context) => sl<import_share.ShareDesignCubit>(),
+                        child: BlocConsumer<import_share.ShareDesignCubit, import_share.ShareDesignState>(
+                          listener: (context, state) {
+                            if (state is import_share.ShareDesignError) {
+                              AppToast.showError(context, state.message);
+                            }
+                          },
+                          builder: (context, state) {
+                            final isSharing = state is import_share.ShareDesignLoading;
+                            return IconButton(
+                              icon: isSharing
+                                  ? SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: context.colors.textSecondary))
+                                  : Icon(FluentIcons.share_android_24_regular, color: context.colors.textSecondary),
+                              onPressed: isSharing ? null : () {
+                                context.read<import_share.ShareDesignCubit>().shareDesign(
+                                  imagePath: design.imageUrls.first,
+                                  text: AppLocalizations.of(context)!.shareDesignText,
+                                );
+                              },
+                            );
+                          },
                         ),
-                      */
+                      ),
                     IconButton(
                       icon: Icon(FluentIcons.dismiss_24_regular, color: context.colors.textSecondary),
                       onPressed: () => Navigator.pop(context),
