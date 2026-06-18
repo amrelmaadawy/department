@@ -7,11 +7,7 @@ import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/theme_extension.dart';
-import '../../../../core/widgets/app_toast.dart';
-import '../../../../core/di/injection_container.dart';
 import '../cubit/profile_cubit.dart';
-import '../../../projects/presentation/cubit/share_design_cubit.dart' as import_share;
-import '../../../../../l10n/app_localizations.dart';
 import 'package:apartment/core/utils/responsive_builder.dart';
 
 class SavedDesignDetailsSheet extends StatelessWidget {

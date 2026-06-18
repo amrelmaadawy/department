@@ -160,7 +160,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                     child: Column(
                                       children: [
                                         Text(
-                                          "شطبها بكيفك",
+                                          l10n.welcomeTitle,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                             color: context.colors.gold,

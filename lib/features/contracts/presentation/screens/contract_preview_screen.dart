@@ -1,7 +1,6 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
 
 import 'package:apartment/core/theme/app_spacing.dart';

@@ -86,6 +86,13 @@
       }
     }
   },
+  "@projectUnitsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "aboutProject": "About Project",
   "accountSettings": "Account Settings",
   "address": "Address",
@@ -428,5 +435,16 @@
   "aiRendersSaving": "Saving...",
   "aiRendersDownloadSuccess": "Design downloaded and saved to gallery successfully!",
   "aiRendersDownloadError": "An error occurred while downloading the image.",
-  "aiRendersNoDesigns": "No designs found."
+  "aiRendersNoDesigns": "No designs found.",
+  "aiGalleryTitle": "AI Gallery",
+  "aiGalleryNoDesigns": "No saved designs",
+  "aiGalleryCreatePrompt": "Create your designs...",
+  "aiGalleryUnnamedRoom": "Unnamed Room",
+  "aiGalleryDesignDetails": "Design Details",
+  "aiGalleryImageNotAvailable": "Image not available",
+  "roomNameLabel": "Room Name",
+  "unnamedLabel": "Unnamed",
+  "creationDateLabel": "Creation Date",
+  "notAvailableLabel": "Not Available",
+  "projectUnitsCount": "{count} Units"
 }

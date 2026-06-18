@@ -1097,4 +1097,39 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get aiRendersNoDesigns => 'No designs found.';
+
+  @override
+  String get aiGalleryTitle => 'AI Gallery';
+
+  @override
+  String get aiGalleryNoDesigns => 'No saved designs';
+
+  @override
+  String get aiGalleryCreatePrompt => 'Create your designs...';
+
+  @override
+  String get aiGalleryUnnamedRoom => 'Unnamed Room';
+
+  @override
+  String get aiGalleryDesignDetails => 'Design Details';
+
+  @override
+  String get aiGalleryImageNotAvailable => 'Image not available';
+
+  @override
+  String get roomNameLabel => 'Room Name';
+
+  @override
+  String get unnamedLabel => 'Unnamed';
+
+  @override
+  String get creationDateLabel => 'Creation Date';
+
+  @override
+  String get notAvailableLabel => 'Not Available';
+
+  @override
+  String projectUnitsCount(int count) {
+    return '$count Units';
+  }
 }

@@ -7,10 +7,6 @@ import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/widgets/app_toast.dart';
 import '../../../projects/domain/entities/finishing_order_entity.dart';
 import 'package:shimmer/shimmer.dart';
-import '../../../../core/di/injection_container.dart';
-import '../../../projects/presentation/cubit/share_design_cubit.dart' as import_share;
-import '../../../../../l10n/app_localizations.dart';
-import 'package:flutter_bloc/flutter_bloc.dart' as import_flutter_bloc;
 
 class ProfileRecentOrdersSection extends StatelessWidget {
   final List<FinishingOrderEntity> recentOrders;

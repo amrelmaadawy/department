@@ -12,7 +12,7 @@ class ProjectsCubit extends Cubit<ProjectsState> {
   ProjectsCubit({required this.getProjectsUseCase}) : super(ProjectsInitial());
 
   List<ProjectEntity> _allProjects = [];
-  String _currentFilter = 'الكل';
+  String _currentFilter = 'all';
   String _currentSearchQuery = '';
 
   void loadProjects() async {
@@ -51,7 +51,7 @@ class ProjectsCubit extends Cubit<ProjectsState> {
     List<ProjectEntity> filtered = _allProjects;
 
     // Apply city filter
-    if (_currentFilter != 'الكل') {
+    if (_currentFilter != 'all') {
       filtered = filtered
           .where((p) => p.location.contains(_currentFilter))
           .toList();

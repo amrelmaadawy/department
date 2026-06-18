@@ -9,13 +9,24 @@ import '../../../../core/theme/app_spacing.dart';
 import '../../../profile/presentation/cubit/profile_cubit.dart';
 import '../../../profile/presentation/cubit/profile_state.dart';
 
-class HomeHeader extends StatelessWidget {
+class HomeHeader extends StatefulWidget {
   const HomeHeader({super.key});
+
+  @override
+  State<HomeHeader> createState() => _HomeHeaderState();
+}
+
+class _HomeHeaderState extends State<HomeHeader> {
+  @override
+  void initState() {
+    super.initState();
+    sl<ProfileCubit>().loadProfileIfNeeded();
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
-      value: sl<ProfileCubit>()..getProfile(),
+      value: sl<ProfileCubit>(),
       child: const HomeHeaderView(),
     );
   }

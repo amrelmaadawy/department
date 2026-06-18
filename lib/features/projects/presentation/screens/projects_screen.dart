@@ -55,10 +55,10 @@ class _ProjectsViewState extends State<ProjectsView> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final filterOptions = [
-      l10n.filterAll,
-      l10n.riyadh,
-      l10n.filterJeddah,
-      l10n.filterEastern,
+      {'key': 'all', 'label': l10n.filterAll},
+      {'key': 'الرياض', 'label': l10n.riyadh},
+      {'key': 'جدة', 'label': l10n.filterJeddah},
+      {'key': 'الشرقية', 'label': l10n.filterEastern},
     ];
 
     return Scaffold(
@@ -108,11 +108,12 @@ class _ProjectsViewState extends State<ProjectsView> {
                           SizedBox(height: AppSpacing.md),
                           if (state is ProjectsLoaded)
                             FilterChipsRow(
-                              filters: filterOptions,
-                              selectedFilter: state.selectedFilter,
-                              onFilterSelected: (city) => context
-                                  .read<ProjectsCubit>()
-                                  .filterByCity(city),
+                              filters: filterOptions.map((e) => e['label'] as String).toList(),
+                              selectedFilter: filterOptions.firstWhere((e) => e['key'] == state.selectedFilter, orElse: () => filterOptions.first)['label'] as String,
+                              onFilterSelected: (label) {
+                                final key = filterOptions.firstWhere((e) => e['label'] == label)['key'] as String;
+                                context.read<ProjectsCubit>().filterByCity(key);
+                              },
                             ),
                           SizedBox(height: AppSpacing.sm),
                         ],

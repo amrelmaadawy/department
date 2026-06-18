@@ -2155,6 +2155,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No designs found.'**
   String get aiRendersNoDesigns;
+
+  /// No description provided for @aiGalleryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Gallery'**
+  String get aiGalleryTitle;
+
+  /// No description provided for @aiGalleryNoDesigns.
+  ///
+  /// In en, this message translates to:
+  /// **'No saved designs'**
+  String get aiGalleryNoDesigns;
+
+  /// No description provided for @aiGalleryCreatePrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Create your designs...'**
+  String get aiGalleryCreatePrompt;
+
+  /// No description provided for @aiGalleryUnnamedRoom.
+  ///
+  /// In en, this message translates to:
+  /// **'Unnamed Room'**
+  String get aiGalleryUnnamedRoom;
+
+  /// No description provided for @aiGalleryDesignDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Design Details'**
+  String get aiGalleryDesignDetails;
+
+  /// No description provided for @aiGalleryImageNotAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Image not available'**
+  String get aiGalleryImageNotAvailable;
+
+  /// No description provided for @roomNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Room Name'**
+  String get roomNameLabel;
+
+  /// No description provided for @unnamedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Unnamed'**
+  String get unnamedLabel;
+
+  /// No description provided for @creationDateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Creation Date'**
+  String get creationDateLabel;
+
+  /// No description provided for @notAvailableLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Not Available'**
+  String get notAvailableLabel;
+
+  /// No description provided for @projectUnitsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Units'**
+  String projectUnitsCount(int count);
 }
 
 class _AppLocalizationsDelegate

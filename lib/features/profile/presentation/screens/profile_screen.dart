@@ -27,7 +27,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
-      value: sl<ProfileCubit>()..getProfile(),
+      value: sl<ProfileCubit>(),
       child: const ProfileView(),
     );
   }
@@ -55,6 +55,8 @@ class _ProfileViewState extends State<ProfileView>
       vsync: this,
       duration: const Duration(milliseconds: 1200),
     );
+
+    sl<ProfileCubit>().loadProfileIfNeeded();
 
     _headerAnim = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(

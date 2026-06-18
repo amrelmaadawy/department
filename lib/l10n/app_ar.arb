@@ -86,6 +86,13 @@
       }
     }
   },
+  "@projectUnitsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "aboutProject": "عن المشروع",
   "accountSettings": "إعدادات الحساب",
   "address": "العنوان",
@@ -428,5 +435,16 @@
   "aiRendersSaving": "جاري الحفظ...",
   "aiRendersDownloadSuccess": "تم تنزيل التصميم وحفظه في المعرض بنجاح!",
   "aiRendersDownloadError": "حدث خطأ في تحميل الصورة.",
-  "aiRendersNoDesigns": "لم يتم العثور على تصاميم."
+  "aiRendersNoDesigns": "لم يتم العثور على تصاميم.",
+  "aiGalleryTitle": "معرض الذكاء الاصطناعي",
+  "aiGalleryNoDesigns": "لا توجد تصميمات محفوظة",
+  "aiGalleryCreatePrompt": "قم بإنشاء تصميماتك...",
+  "aiGalleryUnnamedRoom": "غرفة بدون اسم",
+  "aiGalleryDesignDetails": "تفاصيل التصميم",
+  "aiGalleryImageNotAvailable": "الصورة غير متوفرة",
+  "roomNameLabel": "اسم الغرفة",
+  "unnamedLabel": "بدون اسم",
+  "creationDateLabel": "تاريخ الإنشاء",
+  "notAvailableLabel": "غير متوفر",
+  "projectUnitsCount": "{count} وحدات"
 }

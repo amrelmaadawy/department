@@ -1,3 +1,4 @@
+import 'package:apartment/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -169,7 +170,7 @@ class ProjectListCard extends StatelessWidget {
                             ),
                             SizedBox(width: 4),
                             Text(
-                              '${project.apartmentsCount} وحدات',
+                              AppLocalizations.of(context)!.projectUnitsCount(project.apartmentsCount),
                               style: TextStyle(
                                 color: context.colors.textSecondary,
                                 fontSize: AppFonts.bodySmall,

@@ -1089,4 +1089,39 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get aiRendersNoDesigns => 'لم يتم العثور على تصاميم.';
+
+  @override
+  String get aiGalleryTitle => 'معرض الذكاء الاصطناعي';
+
+  @override
+  String get aiGalleryNoDesigns => 'لا توجد تصميمات محفوظة';
+
+  @override
+  String get aiGalleryCreatePrompt => 'قم بإنشاء تصميماتك...';
+
+  @override
+  String get aiGalleryUnnamedRoom => 'غرفة بدون اسم';
+
+  @override
+  String get aiGalleryDesignDetails => 'تفاصيل التصميم';
+
+  @override
+  String get aiGalleryImageNotAvailable => 'الصورة غير متوفرة';
+
+  @override
+  String get roomNameLabel => 'اسم الغرفة';
+
+  @override
+  String get unnamedLabel => 'بدون اسم';
+
+  @override
+  String get creationDateLabel => 'تاريخ الإنشاء';
+
+  @override
+  String get notAvailableLabel => 'غير متوفر';
+
+  @override
+  String projectUnitsCount(int count) {
+    return '$count وحدات';
+  }
 }

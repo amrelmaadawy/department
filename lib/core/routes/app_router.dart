@@ -1,42 +1,16 @@
-import 'dart:typed_data';
-import 'package:apartment/features/home/domain/entities/unit_room_entity.dart';
-import 'package:apartment/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'package:apartment/features/custom_finishing/presentation/screens/custom_finishing_screen.dart';
-import 'package:apartment/features/custom_finishing/presentation/screens/booking_success_screen.dart';
-import 'package:apartment/features/custom_finishing/presentation/screens/contracts_review_screen.dart';
-import 'package:apartment/features/profile/presentation/screens/profile_screen.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../../features/app_startup/presentation/screens/welcome_screen.dart';
-import '../../../features/onboarding/presentation/screens/onboarding_screen.dart';
-import '../../../features/profile/presentation/screens/app_settings_screen.dart';
-import '../../../features/profile/presentation/screens/ai_gallery_screen.dart';
-import '../../../features/profile/presentation/screens/saved_designs_screen.dart';
-import '../../../features/profile/presentation/screens/edit_profile_screen.dart';
-import '../../../features/profile/presentation/screens/security_screen.dart';
-import '../../../features/profile/presentation/screens/my_units_screen.dart';
-import '../../../features/profile/presentation/screens/unit_contract_screen.dart';
-import '../../../features/profile/presentation/screens/unit_progress_screen.dart';
-import '../../../features/auth/presentation/screens/auth_screen.dart';
-import '../../../features/auth/presentation/cubit/auth_cubit.dart';
 import '../../../features/layout/presentation/screens/layout_screen.dart';
-import '../../../features/projects/presentation/screens/project_details_screen.dart';
-import '../../../features/projects/presentation/screens/unit_details_screen.dart';
-import '../../../features/projects/presentation/screens/room_details_screen.dart';
-import '../../../features/projects/presentation/screens/ai_renders_screen.dart';
-import '../../../features/contracts/presentation/screens/contract_signing_screen.dart';
-import '../../../features/contracts/presentation/screens/contract_preview_screen.dart';
-import '../../../features/contracts/domain/entities/contract_type.dart';
-import '../../../features/packages/presentation/screens/packages_screen.dart';
-import '../../../features/support/presentation/screens/support_screen.dart';
-import '../../../features/home/domain/entities/project_entity.dart';
-import '../../../features/home/domain/entities/project_unit_entity.dart';
 import '../di/injection_container.dart';
-import '../../features/custom_finishing/presentation/cubit/custom_finishing_cubit.dart';
-import 'app_router_transitions.dart';
+
+import 'auth_routes.dart';
+import 'project_routes.dart';
+import 'profile_routes.dart';
+import 'contract_routes.dart';
+import 'finishing_routes.dart';
 
 class AppRouter {
   static const String initial = '/';
@@ -65,275 +39,51 @@ class AppRouter {
 
   static final router = GoRouter(
     initialLocation: initial,
+    redirect: (context, state) async {
+      final secureStorage = sl<FlutterSecureStorage>();
+      final token = await secureStorage.read(key: 'auth_token');
+      final isAuth = token != null && token.isNotEmpty;
+
+      final isGoingToAuth = state.uri.path == auth;
+      final isGoingToOnboarding = state.uri.path == onboarding;
+      final isGoingToInitial = state.uri.path == initial;
+      
+      final isPublicRoute = isGoingToInitial || isGoingToOnboarding || isGoingToAuth;
+
+      if (!isAuth && !isPublicRoute) {
+        return auth;
+      }
+
+      if (isAuth && (isGoingToAuth || isGoingToOnboarding)) {
+        return layout;
+      }
+
+      return null;
+    },
     routes: [
       GoRoute(
         path: initial,
         builder: (context, state) => const WelcomeScreen(),
       ),
-      GoRoute(
-        path: onboarding,
-        builder: (context, state) => const OnboardingScreen(),
-      ),
-      GoRoute(path: auth, builder: (context, state) => const AuthScreen()),
       GoRoute(path: layout, builder: (context, state) => const LayoutScreen()),
-      GoRoute(
-        path: projectDetails,
-        redirect: (context, state) => state.extra == null ? layout : null,
-        pageBuilder: (context, state) {
-          final extra = state.extra as Map<String, dynamic>?;
-          if (extra == null) {
-            return CustomTransitionPage(
-              key: state.pageKey,
-              child: const _RedirectFallback(route: layout),
-              transitionsBuilder: AppRouterTransitions.fadeTransition,
-            );
-          }
-          return CustomTransitionPage(
-            key: state.pageKey,
-            transitionDuration: const Duration(milliseconds: 600),
-            child: ProjectDetailsScreen(
-              project: extra['project'] as ProjectEntity,
-              heroTag: extra['heroTag'] as String,
-            ),
-            transitionsBuilder: AppRouterTransitions.slideUpFromBottom,
-          );
-        },
-      ),
-      GoRoute(
-        path: unitDetails,
-        redirect: (context, state) => state.extra == null ? layout : null,
-        pageBuilder: (context, state) {
-          final extra = state.extra as Map<String, dynamic>?;
-          if (extra == null) {
-            return CustomTransitionPage(
-              key: state.pageKey,
-              child: const _RedirectFallback(route: layout),
-              transitionsBuilder: AppRouterTransitions.fadeTransition,
-            );
-          }
-          return CustomTransitionPage(
-            key: state.pageKey,
-            transitionDuration: const Duration(milliseconds: 600),
-            child: UnitDetailsScreen(
-              unit: extra['unit'] as ProjectUnitEntity,
-              heroTag: extra['heroTag'] as String,
-            ),
-            transitionsBuilder: AppRouterTransitions.slideUpFromBottom,
-          );
-        },
-      ),
-      GoRoute(
-        path: roomDetails,
-        redirect: (context, state) => state.extra == null ? layout : null,
-        pageBuilder: (context, state) {
-          final extra = state.extra as Map<String, dynamic>?;
-          if (extra == null) {
-            return CustomTransitionPage(
-              key: state.pageKey,
-              child: const _RedirectFallback(route: layout),
-              transitionsBuilder: AppRouterTransitions.fadeTransition,
-            );
-          }
-          return CustomTransitionPage(
-            key: state.pageKey,
-            transitionDuration: const Duration(milliseconds: 400),
-            child: RoomDetailsScreen(
-              initialRoom: extra['room'] as UnitRoomEntity,
-              apartmentId: extra['apartmentId'] as int,
-            ),
-            transitionsBuilder: AppRouterTransitions.slideFromRight,
-          );
-        },
-      ),
-      GoRoute(
-        path: contractSigning,
-        pageBuilder: (context, state) {
-          final args = state.extra as Map<String, dynamic>? ?? {};
-          final contractType = args['type'] as ContractType? ?? ContractType.unit;
-          final finishingTotal = args['finishingTotal'] as double?;
-          final unit = args['unit'];
-          
-          return CustomTransitionPage(
-            key: state.pageKey,
-            transitionDuration: const Duration(milliseconds: 600),
-            child: ContractSigningScreen(
-              contractType: contractType,
-              finishingTotal: finishingTotal,
-              unit: unit,
-            ),
-            transitionsBuilder: AppRouterTransitions.slideFromRight,
-          );
-        },
-      ),
-      GoRoute(
-        path: contractPreview,
-        redirect: (context, state) => state.extra == null ? contractSigning : null,
-        builder: (context, state) {
-          final args = state.extra as Map<String, dynamic>?; final signatureImage = args != null ? args['signatureImage'] as Uint8List? : null;
-          if (signatureImage == null) return const _RedirectFallback(route: contractSigning);
-          return ContractPreviewScreen(signatureImage: signatureImage, contractType: args?['contractType'], price: args?['price'], unit: args?['unit']);
-        },
-      ),
-        GoRoute(
-          path: '/rooms/:roomId',
-          builder: (context, state) {
-            final room = state.extra as UnitRoomEntity;
-            final apartmentIdStr = state.uri.queryParameters['apartmentId'];
-            final apartmentId = int.tryParse(apartmentIdStr ?? '0') ?? 0;
-            return RoomDetailsScreen(
-              initialRoom: room,
-              apartmentId: apartmentId,
-            );
-          },
-        ),
-        GoRoute(
-          path: '/ai-renders/:orderId',
-          builder: (context, state) {
-            final orderIdStr = state.pathParameters['orderId'];
-            final orderId = int.tryParse(orderIdStr ?? '0') ?? 0;
-            return AiRendersScreen(orderId: orderId);
-          },
-        ),
-      GoRoute(
-        path: packages,
-        pageBuilder: (context, state) {
-          return CustomTransitionPage(
-            key: state.pageKey,
-            transitionDuration: const Duration(milliseconds: 400),
-            child: const PackagesScreen(),
-            transitionsBuilder: AppRouterTransitions.slideFromRight,
-          );
-        },
-      ),
-      GoRoute(
-        path: customFinishing,
-        pageBuilder: (context, state) {
-          return CustomTransitionPage(
-            key: state.pageKey,
-            child: BlocProvider(
-              create: (context) => sl<CustomFinishingCubit>()..loadMaterials(),
-              child: const CustomFinishingScreen(),
-            ),
-            transitionsBuilder: AppRouterTransitions.slideFromRight,
-          );
-        },
-      ),
-      GoRoute(
-        path: contractsReview,
-        redirect: (context, state) => state.extra == null ? customFinishing : null,
-        pageBuilder: (context, state) {
-          final extra = state.extra as Map<String, dynamic>?;
-          if (extra == null) {
-            return CustomTransitionPage(
-              key: state.pageKey,
-              child: const _RedirectFallback(route: customFinishing),
-              transitionsBuilder: AppRouterTransitions.fadeTransition,
-            );
-          }
-          final totalFinishingCost = extra['totalFinishingCost'] as double? ?? 0.0;
-          final unit = extra['unit'];
-          return CustomTransitionPage(
-            key: state.pageKey,
-            transitionDuration: const Duration(milliseconds: 600),
-            child: ContractsReviewScreen(
-              totalFinishingCost: totalFinishingCost,
-              unit: unit,
-            ),
-            transitionsBuilder: AppRouterTransitions.slideFromRight,
-          );
-        },
-      ),
-      GoRoute(
-        path: bookingSuccess,
-        pageBuilder: (context, state) {
-          final orderId = state.extra as String? ?? 'ORD-00000';
-          return CustomTransitionPage(
-            key: state.pageKey,
-            transitionDuration: const Duration(milliseconds: 500),
-            child: BookingSuccessScreen(orderId: orderId),
-            transitionsBuilder: AppRouterTransitions.fadeTransition,
-          );
-        },
-      ),
-      GoRoute(
-        path: profile,
-        builder: (context, state) => BlocProvider(
-          create: (_) => sl<AuthCubit>(),
-          child: const ProfileScreen(),
-        ),
-      ),
-      GoRoute(
-        path: myUnits,
-        builder: (context, state) => const MyUnitsScreen(),
-      ),
-      GoRoute(
-        path: aiGallery,
-        pageBuilder: (context, state) {
-          return CustomTransitionPage(
-            key: state.pageKey,
-            transitionDuration: const Duration(milliseconds: 400),
-            child: BlocProvider.value(
-              value: sl<ProfileCubit>(),
-              child: const AiGalleryScreen(),
-            ),
-            transitionsBuilder: AppRouterTransitions.slideFromRight,
-          );
-        },
-      ),
-      GoRoute(
-        path: savedDesigns,
-        pageBuilder: (context, state) {
-          return CustomTransitionPage(
-            key: state.pageKey,
-            transitionDuration: const Duration(milliseconds: 400),
-            child: BlocProvider.value(
-              value: sl<ProfileCubit>(),
-              child: const SavedDesignsScreen(),
-            ),
-            transitionsBuilder: AppRouterTransitions.slideFromRight,
-          );
-        },
-      ),
-      GoRoute(
-        path: unitProgress,
-        builder: (context, state) => const UnitProgressScreen(),
-      ),
-      GoRoute(
-        path: unitContract,
-        builder: (context, state) => const UnitContractScreen(),
-      ),
-      GoRoute(
-        path: editProfile,
-        builder: (context, state) => BlocProvider.value(
-          value: sl<ProfileCubit>(),
-          child: const EditProfileScreen(),
-        ),
-      ),
-      GoRoute(
-        path: security,
-        builder: (context, state) => const SecurityScreen(),
-      ),
-      GoRoute(
-        path: appSettings,
-        builder: (context, state) => const AppSettingsScreen(),
-      ),
-      GoRoute(
-        path: support,
-        builder: (context, state) => const SupportScreen(),
-      ),
+      ...AuthRoutes.routes,
+      ...ProjectRoutes.routes,
+      ...ProfileRoutes.routes,
+      ...ContractRoutes.routes,
+      ...FinishingRoutes.routes,
     ],
   );
 }
 
-class _RedirectFallback extends StatefulWidget {
+class RedirectFallback extends StatefulWidget {
   final String route;
-  const _RedirectFallback({required this.route});
+  const RedirectFallback({super.key, required this.route});
 
   @override
-  State<_RedirectFallback> createState() => _RedirectFallbackState();
+  State<RedirectFallback> createState() => _RedirectFallbackState();
 }
 
-class _RedirectFallbackState extends State<_RedirectFallback> {
+class _RedirectFallbackState extends State<RedirectFallback> {
   @override
   void initState() {
     super.initState();

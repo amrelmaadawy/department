@@ -1,0 +1,105 @@
+import 'package:go_router/go_router.dart';
+import 'package:apartment/core/routes/app_router.dart';
+import 'package:apartment/core/routes/app_router_transitions.dart';
+
+import '../../../features/projects/presentation/screens/project_details_screen.dart';
+import '../../../features/projects/presentation/screens/unit_details_screen.dart';
+import '../../../features/projects/presentation/screens/room_details_screen.dart';
+import '../../../features/projects/presentation/screens/ai_renders_screen.dart';
+import '../../../features/home/domain/entities/project_entity.dart';
+import '../../../features/home/domain/entities/project_unit_entity.dart';
+import '../../../features/home/domain/entities/unit_room_entity.dart';
+
+class ProjectRoutes {
+  static final List<RouteBase> routes = [
+    GoRoute(
+      path: AppRouter.projectDetails,
+      redirect: (context, state) => state.extra == null ? AppRouter.layout : null,
+      pageBuilder: (context, state) {
+        final extra = state.extra as Map<String, dynamic>?;
+        if (extra == null) {
+          return CustomTransitionPage(
+            key: state.pageKey,
+            child: const RedirectFallback(route: AppRouter.layout),
+            transitionsBuilder: AppRouterTransitions.fadeTransition,
+          );
+        }
+        return CustomTransitionPage(
+          key: state.pageKey,
+          transitionDuration: const Duration(milliseconds: 600),
+          child: ProjectDetailsScreen(
+            project: extra['project'] as ProjectEntity,
+            heroTag: extra['heroTag'] as String,
+          ),
+          transitionsBuilder: AppRouterTransitions.slideUpFromBottom,
+        );
+      },
+    ),
+    GoRoute(
+      path: AppRouter.unitDetails,
+      redirect: (context, state) => state.extra == null ? AppRouter.layout : null,
+      pageBuilder: (context, state) {
+        final extra = state.extra as Map<String, dynamic>?;
+        if (extra == null) {
+          return CustomTransitionPage(
+            key: state.pageKey,
+            child: const RedirectFallback(route: AppRouter.layout),
+            transitionsBuilder: AppRouterTransitions.fadeTransition,
+          );
+        }
+        return CustomTransitionPage(
+          key: state.pageKey,
+          transitionDuration: const Duration(milliseconds: 600),
+          child: UnitDetailsScreen(
+            unit: extra['unit'] as ProjectUnitEntity,
+            heroTag: extra['heroTag'] as String,
+          ),
+          transitionsBuilder: AppRouterTransitions.slideUpFromBottom,
+        );
+      },
+    ),
+    GoRoute(
+      path: AppRouter.roomDetails,
+      redirect: (context, state) => state.extra == null ? AppRouter.layout : null,
+      pageBuilder: (context, state) {
+        final extra = state.extra as Map<String, dynamic>?;
+        if (extra == null) {
+          return CustomTransitionPage(
+            key: state.pageKey,
+            child: const RedirectFallback(route: AppRouter.layout),
+            transitionsBuilder: AppRouterTransitions.fadeTransition,
+          );
+        }
+        return CustomTransitionPage(
+          key: state.pageKey,
+          transitionDuration: const Duration(milliseconds: 400),
+          child: RoomDetailsScreen(
+            initialRoom: extra['room'] as UnitRoomEntity,
+            apartmentId: extra['apartmentId'] as int,
+          ),
+          transitionsBuilder: AppRouterTransitions.slideFromRight,
+        );
+      },
+    ),
+    GoRoute(
+      path: '/rooms/:roomId',
+      builder: (context, state) {
+        final room = state.extra as UnitRoomEntity;
+        final apartmentIdStr = state.uri.queryParameters['apartmentId'];
+        final apartmentId = int.tryParse(apartmentIdStr ?? '0') ?? 0;
+        return RoomDetailsScreen(
+          initialRoom: room,
+          apartmentId: apartmentId,
+        );
+      },
+    ),
+    GoRoute(
+      path: '/ai-renders/:orderId',
+      builder: (context, state) {
+        final orderIdStr = state.pathParameters['orderId'];
+        final orderId = int.tryParse(orderIdStr ?? '0') ?? 0;
+        return AiRendersScreen(orderId: orderId);
+      },
+    ),
+  ];
+}

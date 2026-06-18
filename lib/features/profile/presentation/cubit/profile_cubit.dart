@@ -30,6 +30,12 @@ class ProfileCubit extends Cubit<ProfileState> {
     );
   }
 
+  void loadProfileIfNeeded() {
+    if (state is ProfileInitial || state is ProfileError) {
+      getProfile();
+    }
+  }
+
   Future<void> updateProfile(UpdateProfileParams params) async {
     final currentState = state;
     emit(ProfileUpdateLoading());
