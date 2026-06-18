@@ -51,7 +51,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appearance => 'Appearance';
 
   @override
-  String get applyFilters => 'Apply';
+  String get applyFilters => 'Apply Filters';
 
   @override
   String get arabicLang => 'Arabic';
@@ -149,7 +149,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clearComparison => 'Clear';
 
   @override
-  String get clearFilters => 'Clear filters';
+  String get clearFilters => 'Clear Filters';
 
   @override
   String get clearSignature => 'Clear Signature';
@@ -1139,4 +1139,109 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get homeNoProjectsSubtitle =>
       'We are constantly working to provide the best real estate projects, please check back later or explore our services above.';
+
+  @override
+  String get filterUnitsTitle => 'Filter Units';
+
+  @override
+  String get clearAll => 'Clear All';
+
+  @override
+  String get priceRange => 'Price Range';
+
+  @override
+  String get areaTitle => 'Area';
+
+  @override
+  String get bedroomsCount => 'Bedrooms';
+
+  @override
+  String get bathroomsCount => 'Bathrooms';
+
+  @override
+  String get floorOrZone => 'Floor / Zone';
+
+  @override
+  String get floorRange => 'Floor Range';
+
+  @override
+  String get noMatchingUnits => 'No matching units found';
+
+  @override
+  String get noAvailableUnits => 'No available units currently';
+
+  @override
+  String get tryAdjustingFilters =>
+      'Try adjusting or clearing your filters to find units that meet your needs.';
+
+  @override
+  String get unitsWillBeAddedSoon =>
+      'Units will be added to this project soon. Please check back later.';
+
+  @override
+  String get apartments => 'Apartments';
+
+  @override
+  String get villas => 'Villas';
+
+  @override
+  String get duplexes => 'Duplexes';
+
+  @override
+  String get groundFloor => 'Ground Floor';
+
+  @override
+  String get roomsAndAreasDetails => 'Rooms & Areas Details';
+
+  @override
+  String get notSpecified => 'Not specified';
+
+  @override
+  String get noFloorPlanAvailable => 'No detailed floor plan available';
+
+  @override
+  String get updatingRoomsDataSoon =>
+      'Updating room and area data for this unit. It will be available soon.';
+
+  @override
+  String get aiSettings => 'AI Settings';
+
+  @override
+  String get chooseStyleOptional => 'Choose Style (Optional)';
+
+  @override
+  String get additionalNotesOptional => 'Additional Notes (Optional)';
+
+  @override
+  String get notesExample =>
+      'Example: I want to blend the simplicity of Japanese design...';
+
+  @override
+  String get suggestedNotes => 'Suggested Notes';
+
+  @override
+  String get requestSentSuccessfully => 'Request sent successfully!';
+
+  @override
+  String get unexpectedError => 'An unexpected error occurred';
+
+  @override
+  String get approximateCost => 'Approximate Cost';
+
+  @override
+  String get sending => 'Sending...';
+
+  @override
+  String get smartDesign => 'Smart Design';
+
+  @override
+  String get availableFinishingOptions => 'Available Finishing Options';
+
+  @override
+  String buildingNumber(Object number) {
+    return 'Building $number';
+  }
+
+  @override
+  String get filter => 'Filter';
 }

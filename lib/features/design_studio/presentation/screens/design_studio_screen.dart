@@ -411,7 +411,7 @@ class DesignStudioScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(AppSpacing.md),
               decoration: BoxDecoration(
                 color: AppColors.gold.withValues(alpha: 0.1),
                 shape: BoxShape.circle,

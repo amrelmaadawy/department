@@ -58,8 +58,6 @@ class _UnitDetailsScreenContent extends StatefulWidget {
 }
 
 class _UnitDetailsScreenContentState extends State<_UnitDetailsScreenContent> {
-  bool _isImageZoomed = false;
-
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -85,18 +83,12 @@ class _UnitDetailsScreenContentState extends State<_UnitDetailsScreenContent> {
            
           ),
           body: SingleChildScrollView(
-            physics: _isImageZoomed ? const NeverScrollableScrollPhysics() : null,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 UnitFloorPlanViewer(
                   unit: currentUnit,
                   heroTag: widget.heroTag,
-                  onZoomChanged: (isZoomed) {
-                    setState(() {
-                      _isImageZoomed = isZoomed;
-                    });
-                  },
                 ),
                 UnitSpecsChips(unit: currentUnit),
                 UnitOverviewCard(unit: currentUnit),

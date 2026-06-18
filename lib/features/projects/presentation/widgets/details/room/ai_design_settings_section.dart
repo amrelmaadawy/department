@@ -8,6 +8,7 @@ import '../../../../../../core/theme/app_fonts.dart';
 import '../../../../../../core/theme/app_radius.dart';
 import '../../../../../../core/theme/app_spacing.dart';
 import '../../../../../../core/theme/theme_extension.dart';
+import 'package:apartment/l10n/app_localizations.dart';
 class AiDesignSettingsSection extends StatefulWidget {
   const AiDesignSettingsSection({super.key});
 
@@ -43,6 +44,7 @@ class _AiDesignSettingsSectionState extends State<AiDesignSettingsSection> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
       child: Column(
@@ -60,7 +62,7 @@ class _AiDesignSettingsSectionState extends State<AiDesignSettingsSection> {
               ),
               SizedBox(width: AppSpacing.sm),
               Text(
-                'إعدادات الذكاء الاصطناعي',
+                l10n.aiSettings,
                 style: TextStyle(
                   fontSize: AppFonts.headlineSmall,
                   fontWeight: FontWeight.bold,
@@ -129,7 +131,7 @@ class _AiDesignSettingsSectionState extends State<AiDesignSettingsSection> {
           
           // Notes TextField
           Text(
-            'ملاحظات إضافية (اختياري)',
+            l10n.additionalNotesOptional,
             style: TextStyle(
               fontSize: AppFonts.bodyMedium,
               fontWeight: FontWeight.bold,
@@ -141,7 +143,7 @@ class _AiDesignSettingsSectionState extends State<AiDesignSettingsSection> {
             controller: _notesController,
             maxLines: 4,
             decoration: InputDecoration(
-              hintText: 'مثال: أرغب بدمج بساطة التصميم الياباني...',
+              hintText: l10n.notesExample,
               hintStyle: TextStyle(color: context.colors.textSecondary),
               filled: true,
               fillColor: context.colors.white,
@@ -193,7 +195,7 @@ class _AiDesignSettingsSectionState extends State<AiDesignSettingsSection> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'ملاحظات مقترحة',
+                    l10n.suggestedNotes,
                     style: TextStyle(
                       fontSize: AppFonts.labelLarge,
                       color: context.colors.textSecondary,

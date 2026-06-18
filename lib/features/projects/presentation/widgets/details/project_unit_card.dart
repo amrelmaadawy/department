@@ -218,12 +218,12 @@ class ProjectUnitCard extends StatelessWidget {
                               _buildSpecItem(
                                 context,
                                 FluentIcons.building_24_regular,
-                                'عمارة ${unit.buildingNumber}',
+                                l10n.buildingNumber(unit.buildingNumber.toString()),
                               ),
                               _buildSpecItem(
                                 context,
                                 FluentIcons.layer_24_regular,
-                                'الدور ${unit.floor}',
+                                l10n.floorDesc(unit.floor.toString()),
                               ),
                             ],
                           ),

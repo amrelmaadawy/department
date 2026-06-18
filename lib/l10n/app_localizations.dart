@@ -179,7 +179,7 @@ abstract class AppLocalizations {
   /// No description provided for @applyFilters.
   ///
   /// In en, this message translates to:
-  /// **'Apply'**
+  /// **'Apply Filters'**
   String get applyFilters;
 
   /// No description provided for @arabicLang.
@@ -365,7 +365,7 @@ abstract class AppLocalizations {
   /// No description provided for @clearFilters.
   ///
   /// In en, this message translates to:
-  /// **'Clear filters'**
+  /// **'Clear Filters'**
   String get clearFilters;
 
   /// No description provided for @clearSignature.
@@ -2233,6 +2233,204 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'We are constantly working to provide the best real estate projects, please check back later or explore our services above.'**
   String get homeNoProjectsSubtitle;
+
+  /// No description provided for @filterUnitsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter Units'**
+  String get filterUnitsTitle;
+
+  /// No description provided for @clearAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear All'**
+  String get clearAll;
+
+  /// No description provided for @priceRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Price Range'**
+  String get priceRange;
+
+  /// No description provided for @areaTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Area'**
+  String get areaTitle;
+
+  /// No description provided for @bedroomsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Bedrooms'**
+  String get bedroomsCount;
+
+  /// No description provided for @bathroomsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Bathrooms'**
+  String get bathroomsCount;
+
+  /// No description provided for @floorOrZone.
+  ///
+  /// In en, this message translates to:
+  /// **'Floor / Zone'**
+  String get floorOrZone;
+
+  /// No description provided for @floorRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Floor Range'**
+  String get floorRange;
+
+  /// No description provided for @noMatchingUnits.
+  ///
+  /// In en, this message translates to:
+  /// **'No matching units found'**
+  String get noMatchingUnits;
+
+  /// No description provided for @noAvailableUnits.
+  ///
+  /// In en, this message translates to:
+  /// **'No available units currently'**
+  String get noAvailableUnits;
+
+  /// No description provided for @tryAdjustingFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Try adjusting or clearing your filters to find units that meet your needs.'**
+  String get tryAdjustingFilters;
+
+  /// No description provided for @unitsWillBeAddedSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Units will be added to this project soon. Please check back later.'**
+  String get unitsWillBeAddedSoon;
+
+  /// No description provided for @apartments.
+  ///
+  /// In en, this message translates to:
+  /// **'Apartments'**
+  String get apartments;
+
+  /// No description provided for @villas.
+  ///
+  /// In en, this message translates to:
+  /// **'Villas'**
+  String get villas;
+
+  /// No description provided for @duplexes.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplexes'**
+  String get duplexes;
+
+  /// No description provided for @groundFloor.
+  ///
+  /// In en, this message translates to:
+  /// **'Ground Floor'**
+  String get groundFloor;
+
+  /// No description provided for @roomsAndAreasDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Rooms & Areas Details'**
+  String get roomsAndAreasDetails;
+
+  /// No description provided for @notSpecified.
+  ///
+  /// In en, this message translates to:
+  /// **'Not specified'**
+  String get notSpecified;
+
+  /// No description provided for @noFloorPlanAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'No detailed floor plan available'**
+  String get noFloorPlanAvailable;
+
+  /// No description provided for @updatingRoomsDataSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Updating room and area data for this unit. It will be available soon.'**
+  String get updatingRoomsDataSoon;
+
+  /// No description provided for @aiSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Settings'**
+  String get aiSettings;
+
+  /// No description provided for @chooseStyleOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Style (Optional)'**
+  String get chooseStyleOptional;
+
+  /// No description provided for @additionalNotesOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Additional Notes (Optional)'**
+  String get additionalNotesOptional;
+
+  /// No description provided for @notesExample.
+  ///
+  /// In en, this message translates to:
+  /// **'Example: I want to blend the simplicity of Japanese design...'**
+  String get notesExample;
+
+  /// No description provided for @suggestedNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggested Notes'**
+  String get suggestedNotes;
+
+  /// No description provided for @requestSentSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Request sent successfully!'**
+  String get requestSentSuccessfully;
+
+  /// No description provided for @unexpectedError.
+  ///
+  /// In en, this message translates to:
+  /// **'An unexpected error occurred'**
+  String get unexpectedError;
+
+  /// No description provided for @approximateCost.
+  ///
+  /// In en, this message translates to:
+  /// **'Approximate Cost'**
+  String get approximateCost;
+
+  /// No description provided for @sending.
+  ///
+  /// In en, this message translates to:
+  /// **'Sending...'**
+  String get sending;
+
+  /// No description provided for @smartDesign.
+  ///
+  /// In en, this message translates to:
+  /// **'Smart Design'**
+  String get smartDesign;
+
+  /// No description provided for @availableFinishingOptions.
+  ///
+  /// In en, this message translates to:
+  /// **'Available Finishing Options'**
+  String get availableFinishingOptions;
+
+  /// No description provided for @buildingNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Building {number}'**
+  String buildingNumber(Object number);
+
+  /// No description provided for @filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter'**
+  String get filter;
 }
 
 class _AppLocalizationsDelegate

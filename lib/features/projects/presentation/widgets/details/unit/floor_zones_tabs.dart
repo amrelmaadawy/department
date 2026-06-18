@@ -3,6 +3,7 @@ import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
+import 'package:apartment/l10n/app_localizations.dart';
 
 class FloorZonesTabs extends StatelessWidget {
   final List<String> zones;
@@ -19,6 +20,7 @@ class FloorZonesTabs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (zones.isEmpty) return const SizedBox.shrink();
+    final l10n = AppLocalizations.of(context)!;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -26,7 +28,7 @@ class FloorZonesTabs extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
           child: Text(
-            'نطاق الأدوار',
+            l10n.floorRange,
             style: TextStyle(
               fontSize: AppFonts.headlineSmall,
               fontWeight: FontWeight.bold,
@@ -43,7 +45,7 @@ class FloorZonesTabs extends StatelessWidget {
             children: [
               _buildZoneChip(
                 context: context,
-                zone: 'الكل',
+                zone: l10n.all,
                 isSelected: selectedZone == null,
                 onTap: () => onZoneSelected(null),
               ),

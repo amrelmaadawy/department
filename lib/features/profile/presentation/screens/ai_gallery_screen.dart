@@ -54,53 +54,50 @@ class _AiGalleryScreenState extends State<AiGalleryScreen> {
           onPressed: () => context.pop(),
         ),
       ),
-      body: BlocProvider.value(
-        value: sl<ProfileCubit>(),
-        child: BlocBuilder<ProfileCubit, ProfileState>(
-          builder: (context, state) {
-            if (state is ProfileLoading || state is ProfileInitial) {
-              return GridView.builder(
-                padding: const EdgeInsets.all(AppSpacing.xl),
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: context.responsiveCrossAxisCount,
-                  crossAxisSpacing: AppSpacing.lg,
-                  mainAxisSpacing: AppSpacing.lg,
-                  childAspectRatio: 0.8,
-                ),
-                itemCount: 6,
-                itemBuilder: (context, index) {
-                  return Shimmer.fromColors(
-                    baseColor: context.colors.border.withValues(alpha: 0.5),
-                    highlightColor: context.colors.border.withValues(alpha: 0.1),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(AppRadius.xl),
-                      ),
+      body: BlocBuilder<ProfileCubit, ProfileState>(
+        builder: (context, state) {
+          if (state is ProfileLoading || state is ProfileInitial) {
+            return GridView.builder(
+              padding: const EdgeInsets.all(AppSpacing.xl),
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: context.responsiveCrossAxisCount,
+                crossAxisSpacing: AppSpacing.lg,
+                mainAxisSpacing: AppSpacing.lg,
+                childAspectRatio: 0.8,
+              ),
+              itemCount: 6,
+              itemBuilder: (context, index) {
+                return Shimmer.fromColors(
+                  baseColor: context.colors.border.withValues(alpha: 0.5),
+                  highlightColor: context.colors.border.withValues(alpha: 0.1),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(AppRadius.xl),
                     ),
-                  );
-                },
-              );
+                  ),
+                );
+              },
+            );
+          }
+          if (state is ProfileError) {
+            return ErrorStateView(
+              message: state.message,
+              onRetry: () {
+                context.read<ProfileCubit>().getProfile();
+              },
+            );
+          }
+          if (state is ProfileLoaded) {
+            final gallery = state.profile.aiGallery;
+            if (gallery.isEmpty) {
+              return const AiGalleryEmptyState();
             }
-            if (state is ProfileError) {
-              return ErrorStateView(
-                message: state.message,
-                onRetry: () {
-                  context.read<ProfileCubit>().getProfile();
-                },
-              );
-            }
-            if (state is ProfileLoaded) {
-              final gallery = state.profile.aiGallery;
-              if (gallery.isEmpty) {
-                return const AiGalleryEmptyState();
-              }
-              return AiGalleryGrid(gallery: gallery);
-            }
-            return const SizedBox.shrink();
-          },
-        ),
+            return AiGalleryGrid(gallery: gallery);
+          }
+          return const SizedBox.shrink();
+        },
       ),
     );
   }

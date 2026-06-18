@@ -36,8 +36,8 @@ class ProfileRoutes {
         return CustomTransitionPage(
           key: state.pageKey,
           transitionDuration: const Duration(milliseconds: 400),
-          child: BlocProvider.value(
-            value: sl<ProfileCubit>(),
+          child: BlocProvider(
+            create: (_) => sl<ProfileCubit>()..getProfile(),
             child: const AiGalleryScreen(),
           ),
           transitionsBuilder: AppRouterTransitions.slideFromRight,
@@ -50,8 +50,8 @@ class ProfileRoutes {
         return CustomTransitionPage(
           key: state.pageKey,
           transitionDuration: const Duration(milliseconds: 400),
-          child: BlocProvider.value(
-            value: sl<ProfileCubit>(),
+          child: BlocProvider(
+            create: (_) => sl<ProfileCubit>()..getProfile(),
             child: const SavedDesignsScreen(),
           ),
           transitionsBuilder: AppRouterTransitions.slideFromRight,
@@ -68,8 +68,8 @@ class ProfileRoutes {
     ),
     GoRoute(
       path: AppRouter.editProfile,
-      builder: (context, state) => BlocProvider.value(
-        value: sl<ProfileCubit>(),
+      builder: (context, state) => BlocProvider(
+        create: (_) => sl<ProfileCubit>()..getProfile(),
         child: const EditProfileScreen(),
       ),
     ),

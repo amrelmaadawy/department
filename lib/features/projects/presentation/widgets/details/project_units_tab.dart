@@ -80,7 +80,6 @@ class _ProjectUnitsTabState extends State<ProjectUnitsTab> {
 
     setState(() {
       _floors = uniqueFloors;
-      _zones = uniqueFloors.map((f) => "الدور $f").toList();
       _bedrooms = uniqueBeds;
       _bathrooms = uniqueBaths;
       _types = uniqueTypes;
@@ -89,6 +88,17 @@ class _ProjectUnitsTabState extends State<ProjectUnitsTab> {
       _minArea = minA;
       _maxArea = maxA;
     });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_floors.isNotEmpty && _zones.isEmpty) {
+      final l10n = AppLocalizations.of(context)!;
+      setState(() {
+        _zones = _floors.map((f) => _getFloorZoneName(f, l10n)).toList();
+      });
+    }
   }
 
   Future<void> _openFilterSheet() async {
@@ -130,8 +140,7 @@ class _ProjectUnitsTabState extends State<ProjectUnitsTab> {
       if (_activeFilter.bathrooms != null && u.bathrooms != _activeFilter.bathrooms) return false;
       if (_activeFilter.unitType != null && u.type != _activeFilter.unitType) return false;
       if (_activeFilter.floorZone != null) {
-        final floorNum = int.tryParse(_activeFilter.floorZone!.replaceAll('الدور ', ''));
-        if (floorNum != null && u.floor != floorNum) return false;
+        if (_getFloorZoneName(u.floor, AppLocalizations.of(context)!) != _activeFilter.floorZone) return false;
       }
       return true;
     }).toList();
@@ -153,7 +162,7 @@ class _ProjectUnitsTabState extends State<ProjectUnitsTab> {
             children: [
               Expanded(
                 child: Text(
-                  '${filteredUnits.length} وحدة مطابقة',
+                  '${filteredUnits.length} ${AppLocalizations.of(context)!.noMatchingUnits.split(' ').last}', // Reusing units text or formatting
                   style: TextStyle(
                     fontSize: AppFonts.bodyLarge, // Smaller and elegant
                     color: context.colors.textSecondary, // Lighter color for better visual hierarchy
@@ -230,7 +239,7 @@ class _ProjectUnitsTabState extends State<ProjectUnitsTab> {
                       ),
                       const SizedBox(width: AppSpacing.sm),
                       Text(
-                        'تصفية',
+                        AppLocalizations.of(context)!.filter,
                         style: TextStyle(
                           fontSize: AppFonts.labelLarge,
                           fontWeight: FontWeight.bold,
@@ -295,7 +304,7 @@ class _ProjectUnitsTabState extends State<ProjectUnitsTab> {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        _buildFloorHeader(floor),
+                        _buildFloorHeader(floor, AppLocalizations.of(context)!),
                         if (!context.isMobile)
                           GridView.builder(
                             shrinkWrap: true,
@@ -370,8 +379,8 @@ class _ProjectUnitsTabState extends State<ProjectUnitsTab> {
     );
   }
 
-  Widget _buildFloorHeader(int floor) {
-    String floorName = floor == 0 ? 'الدور الأرضي' : 'الدور $floor';
+  Widget _buildFloorHeader(int floor, AppLocalizations l10n) {
+    String floorName = _getFloorZoneName(floor, l10n);
     return Padding(
       padding: const EdgeInsets.only(top: 0, bottom: AppSpacing.sm),
       child: Row(
@@ -448,7 +457,7 @@ class _ProjectUnitsTabState extends State<ProjectUnitsTab> {
           ),
           const SizedBox(height: AppSpacing.xl),
           Text(
-            isFilter ? 'لا توجد وحدات مطابقة' : 'لا توجد وحدات متاحة حالياً',
+            isFilter ? AppLocalizations.of(context)!.noMatchingUnits : AppLocalizations.of(context)!.noAvailableUnits,
             style: TextStyle(
               fontSize: AppFonts.headlineSmall,
               fontWeight: FontWeight.bold,
@@ -459,8 +468,8 @@ class _ProjectUnitsTabState extends State<ProjectUnitsTab> {
           const SizedBox(height: AppSpacing.sm),
           Text(
             isFilter 
-                ? 'جرب تعديل الفلاتر أو مسحها للبحث عن وحدات أخرى تلبي احتياجاتك.'
-                : 'سيتم إضافة وحدات لهذا المشروع قريباً، يرجى العودة لاحقاً.',
+                ? AppLocalizations.of(context)!.tryAdjustingFilters
+                : AppLocalizations.of(context)!.unitsWillBeAddedSoon,
             style: TextStyle(
               fontSize: AppFonts.bodyLarge,
               color: context.colors.textSecondary,
@@ -477,7 +486,7 @@ class _ProjectUnitsTabState extends State<ProjectUnitsTab> {
                 });
               },
               icon: Icon(FluentIcons.arrow_counterclockwise_24_regular, size: 20),
-              label: Text('مسح الفلاتر', style: TextStyle(fontWeight: FontWeight.bold)),
+              label: Text(AppLocalizations.of(context)!.clearFilters, style: TextStyle(fontWeight: FontWeight.bold)),
               style: OutlinedButton.styleFrom(
                 foregroundColor: context.colors.error,
                 side: BorderSide(color: context.colors.error.withValues(alpha: 0.5)),
@@ -498,8 +507,8 @@ class _ProjectUnitsTabState extends State<ProjectUnitsTab> {
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
       child: Row(
         children: [
-          _buildTypeTabItem(null, 'الكل'),
-          ..._types.map((type) => _buildTypeTabItem(type, _getTypeLabel(type))),
+          _buildTypeTabItem(null, AppLocalizations.of(context)!.all),
+          ..._types.map((type) => _buildTypeTabItem(type, _getTypeLabel(type, AppLocalizations.of(context)!))),
         ],
       ),
     );
@@ -561,14 +570,18 @@ class _ProjectUnitsTabState extends State<ProjectUnitsTab> {
     );
   }
 
-  String _getTypeLabel(UnitType type) {
+  String _getTypeLabel(UnitType type, AppLocalizations l10n) {
     switch (type) {
       case UnitType.apartment:
-        return 'شقق';
+        return l10n.apartments;
       case UnitType.villa:
-        return 'فيلات';
+        return l10n.villas;
       case UnitType.duplex:
-        return 'دوبلكس';
+        return l10n.duplexes;
     }
+  }
+
+  String _getFloorZoneName(int floor, AppLocalizations l10n) {
+    return floor == 0 ? l10n.groundFloor : l10n.floorDesc(floor.toString());
   }
 }

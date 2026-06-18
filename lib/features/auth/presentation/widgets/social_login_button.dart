@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../../../../core/theme/app_spacing.dart';
 
 import 'package:apartment/core/theme/theme_extension.dart';
 
@@ -31,7 +32,7 @@ class SocialLoginButton extends StatelessWidget {
             ),
           ],
         ),
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(AppSpacing.md),
         child: SvgPicture.asset(iconPath, fit: BoxFit.contain),
       ),
     );

@@ -10,23 +10,25 @@ import '../../../../../../core/theme/app_fonts.dart';
 import '../../../../../../core/theme/app_radius.dart';
 import '../../../../../../core/theme/app_spacing.dart';
 import '../../../../../../core/theme/theme_extension.dart';
+import 'package:apartment/l10n/app_localizations.dart';
 
 class RoomDesignBottomBar extends StatelessWidget {
   const RoomDesignBottomBar({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return BlocConsumer<AiRoomDesignCubit, AiRoomDesignState>(
       listenWhen: (previous, current) => previous.status != current.status,
       listener: (context, state) {
         if (state.status == AiDesignStatus.success) {
-          AppToast.showSuccess(context, 'تم إرسال الطلب بنجاح!');
+          AppToast.showSuccess(context, l10n.requestSentSuccessfully);
           // Navigate to AI renders screen with the orderId
           if (state.resultOrder != null) {
             context.push('/ai-renders/${state.resultOrder!.id}');
           }
         } else if (state.status == AiDesignStatus.failure) {
-          AppToast.showError(context, state.errorMessage ?? 'حدث خطأ غير متوقع');
+          AppToast.showError(context, state.errorMessage ?? l10n.unexpectedError);
         }
       },
       builder: (context, state) {
@@ -57,7 +59,7 @@ class RoomDesignBottomBar extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'التكلفة التقريبية',
+                      l10n.approximateCost,
                       style: TextStyle(
                         fontSize: AppFonts.labelMedium,
                         color: context.colors.textSecondary,
@@ -104,7 +106,7 @@ class RoomDesignBottomBar extends StatelessWidget {
                           )
                         : const Icon(FluentIcons.sparkle_24_filled, size: 20),
                     label: Text(
-                      state.status == AiDesignStatus.loading ? 'جاري الإرسال...' : 'تصميم ذكي',
+                      state.status == AiDesignStatus.loading ? l10n.sending : l10n.smartDesign,
                       style: TextStyle(
                         fontSize: AppFonts.bodyMedium,
                         fontWeight: FontWeight.bold,

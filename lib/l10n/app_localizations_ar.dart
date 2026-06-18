@@ -50,7 +50,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get appearance => 'المظهر';
 
   @override
-  String get applyFilters => 'تطبيق';
+  String get applyFilters => 'تطبيق الفلاتر';
 
   @override
   String get arabicLang => 'العربية';
@@ -1131,4 +1131,108 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get homeNoProjectsSubtitle =>
       'نعمل باستمرار على توفير أفضل المشاريع العقارية، يرجى التحقق لاحقاً أو استكشاف خدماتنا في الأعلى.';
+
+  @override
+  String get filterUnitsTitle => 'تصفية الوحدات';
+
+  @override
+  String get clearAll => 'مسح الكل';
+
+  @override
+  String get priceRange => 'نطاق السعر';
+
+  @override
+  String get areaTitle => 'المساحة';
+
+  @override
+  String get bedroomsCount => 'عدد الغرف';
+
+  @override
+  String get bathroomsCount => 'عدد الحمامات';
+
+  @override
+  String get floorOrZone => 'الدور / المنطقة';
+
+  @override
+  String get floorRange => 'نطاق الأدوار';
+
+  @override
+  String get noMatchingUnits => 'لا توجد وحدات مطابقة';
+
+  @override
+  String get noAvailableUnits => 'لا توجد وحدات متاحة حالياً';
+
+  @override
+  String get tryAdjustingFilters =>
+      'جرب تعديل الفلاتر أو مسحها للبحث عن وحدات أخرى تلبي احتياجاتك.';
+
+  @override
+  String get unitsWillBeAddedSoon =>
+      'سيتم إضافة وحدات لهذا المشروع قريباً، يرجى العودة لاحقاً.';
+
+  @override
+  String get apartments => 'شقق';
+
+  @override
+  String get villas => 'فيلات';
+
+  @override
+  String get duplexes => 'دوبلكس';
+
+  @override
+  String get groundFloor => 'الدور الأرضي';
+
+  @override
+  String get roomsAndAreasDetails => 'تفاصيل الغرف والمساحات';
+
+  @override
+  String get notSpecified => 'غير محددة';
+
+  @override
+  String get noFloorPlanAvailable => 'لم يتم إدراج المخطط التفصيلي';
+
+  @override
+  String get updatingRoomsDataSoon =>
+      'جاري تحديث بيانات الغرف والمساحات الداخلية لهذه الوحدة وسيتم توفيرها قريباً.';
+
+  @override
+  String get aiSettings => 'إعدادات الذكاء الاصطناعي';
+
+  @override
+  String get chooseStyleOptional => 'اختر الستايل (اختياري)';
+
+  @override
+  String get additionalNotesOptional => 'ملاحظات إضافية (اختياري)';
+
+  @override
+  String get notesExample => 'مثال: أرغب بدمج بساطة التصميم الياباني...';
+
+  @override
+  String get suggestedNotes => 'ملاحظات مقترحة';
+
+  @override
+  String get requestSentSuccessfully => 'تم إرسال الطلب بنجاح!';
+
+  @override
+  String get unexpectedError => 'حدث خطأ غير متوقع';
+
+  @override
+  String get approximateCost => 'التكلفة التقريبية';
+
+  @override
+  String get sending => 'جاري الإرسال...';
+
+  @override
+  String get smartDesign => 'تصميم ذكي';
+
+  @override
+  String get availableFinishingOptions => 'خيارات التشطيب المتاحة';
+
+  @override
+  String buildingNumber(Object number) {
+    return 'عمارة $number';
+  }
+
+  @override
+  String get filter => 'تصفية';
 }

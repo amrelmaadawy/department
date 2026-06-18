@@ -1,5 +1,6 @@
 import 'package:apartment/features/home/domain/entities/project_unit_entity.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:apartment/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_radius.dart';
@@ -95,6 +96,7 @@ class _UnitFilterBottomSheetState extends State<UnitFilterBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       height: MediaQuery.of(context).size.height * 0.90,
       decoration: BoxDecoration(
@@ -138,7 +140,7 @@ class _UnitFilterBottomSheetState extends State<UnitFilterBottomSheet> {
                     ),
                     const SizedBox(width: AppSpacing.sm),
                     Text(
-                      'تصفية الوحدات',
+                      l10n.filterUnitsTitle,
                       style: TextStyle(
                         fontSize: AppFonts.headlineSmall,
                         fontWeight: FontWeight.bold,
@@ -165,7 +167,7 @@ class _UnitFilterBottomSheetState extends State<UnitFilterBottomSheet> {
                         ),
                         const SizedBox(width: 4),
                         Text(
-                          'مسح الكل',
+                          l10n.clearAll,
                           style: TextStyle(
                             color: context.colors.error,
                             fontWeight: FontWeight.bold,
@@ -187,15 +189,15 @@ class _UnitFilterBottomSheetState extends State<UnitFilterBottomSheet> {
               padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
               physics: const BouncingScrollPhysics(),
               children: [
-                _buildPriceSection(),
+                _buildPriceSection(l10n),
                 const SizedBox(height: AppSpacing.sm),
-                _buildAreaSection(),
+                _buildAreaSection(l10n),
                 const SizedBox(height: AppSpacing.sm),
-                _buildBedroomsSection(),
+                _buildBedroomsSection(l10n),
                 const SizedBox(height: AppSpacing.sm),
-                _buildBathroomsSection(),
+                _buildBathroomsSection(l10n),
                 const SizedBox(height: AppSpacing.sm),
-                _buildFloorSection(),
+                _buildFloorSection(l10n),
                 const SizedBox(height: 100), // Space for bottom button
               ],
             ),
@@ -229,7 +231,7 @@ class _UnitFilterBottomSheetState extends State<UnitFilterBottomSheet> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'تطبيق الفلاتر',
+                      l10n.applyFilters,
                       style: TextStyle(
                         fontSize: AppFonts.headlineSmall,
                         fontWeight: FontWeight.bold,
@@ -239,7 +241,7 @@ class _UnitFilterBottomSheetState extends State<UnitFilterBottomSheet> {
                     if (_currentFilter.activeFilterCount > 0) ...[
                       const SizedBox(width: AppSpacing.md),
                       Container(
-                        padding: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(AppSpacing.sm),
                         decoration: BoxDecoration(
                           color: context.colors.gold,
                           shape: BoxShape.circle,
@@ -264,7 +266,7 @@ class _UnitFilterBottomSheetState extends State<UnitFilterBottomSheet> {
     );
   }
 
-  Widget _buildPriceSection() {
+  Widget _buildPriceSection(AppLocalizations l10n) {
     double minVal = widget.minProjectPrice;
     double maxVal = widget.maxProjectPrice > widget.minProjectPrice ? widget.maxProjectPrice : minVal + 1000000;
     
@@ -275,7 +277,7 @@ class _UnitFilterBottomSheetState extends State<UnitFilterBottomSheet> {
     currentMax = currentMax.clamp(currentMin, maxVal);
 
     return _buildFilterSection(
-      title: 'نطاق السعر',
+      title: l10n.priceRange,
       valueWidget: Row(
         children: [
           Text(
@@ -332,7 +334,7 @@ class _UnitFilterBottomSheetState extends State<UnitFilterBottomSheet> {
     );
   }
 
-  Widget _buildAreaSection() {
+  Widget _buildAreaSection(AppLocalizations l10n) {
     double minVal = widget.minProjectArea;
     double maxVal = widget.maxProjectArea > widget.minProjectArea ? widget.maxProjectArea : minVal + 100;
     
@@ -343,7 +345,7 @@ class _UnitFilterBottomSheetState extends State<UnitFilterBottomSheet> {
     currentMax = currentMax.clamp(currentMin, maxVal);
 
     return _buildFilterSection(
-      title: 'المساحة',
+      title: l10n.areaTitle,
       valueWidget: Row(
         children: [
           Text(
@@ -400,11 +402,11 @@ class _UnitFilterBottomSheetState extends State<UnitFilterBottomSheet> {
     );
   }
 
-  Widget _buildBedroomsSection() {
+  Widget _buildBedroomsSection(AppLocalizations l10n) {
     if (widget.availableBedrooms.isEmpty) return const SizedBox.shrink();
 
     return _buildFilterSection(
-      title: 'عدد الغرف',
+      title: l10n.bedroomsCount,
       child: Wrap(
         spacing: AppSpacing.md,
         runSpacing: AppSpacing.md,
@@ -428,11 +430,11 @@ class _UnitFilterBottomSheetState extends State<UnitFilterBottomSheet> {
     );
   }
 
-  Widget _buildBathroomsSection() {
+  Widget _buildBathroomsSection(AppLocalizations l10n) {
     if (widget.availableBathrooms.isEmpty) return const SizedBox.shrink();
 
     return _buildFilterSection(
-      title: 'عدد الحمامات',
+      title: l10n.bathroomsCount,
       child: Wrap(
         spacing: AppSpacing.md,
         runSpacing: AppSpacing.md,
@@ -456,11 +458,11 @@ class _UnitFilterBottomSheetState extends State<UnitFilterBottomSheet> {
     );
   }
 
-  Widget _buildFloorSection() {
+  Widget _buildFloorSection(AppLocalizations l10n) {
     if (widget.availableZones.isEmpty) return const SizedBox.shrink();
     
     return _buildFilterSection(
-      title: 'الدور / المنطقة',
+      title: l10n.floorOrZone,
       child: FloorZonesTabs(
         zones: widget.availableZones,
         selectedZone: _currentFilter.floorZone,
@@ -502,7 +504,7 @@ class _UnitFilterBottomSheetState extends State<UnitFilterBottomSheet> {
                   color: context.colors.textPrimary,
                 ),
               ),
-              if (valueWidget != null) valueWidget,
+              ?valueWidget,
             ],
           ),
           const SizedBox(height: AppSpacing.md),
