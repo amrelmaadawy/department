@@ -282,107 +282,44 @@ class _ProjectUnitsTabState extends State<ProjectUnitsTab> {
                   );
                 }
 
-                if (!context.isMobile) {
-                  // Tablet / Desktop View
-                  return GridView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    gridDelegate:
-                        SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: context.responsiveCrossAxisCount,
-                          crossAxisSpacing: AppSpacing.md,
-                          mainAxisSpacing: AppSpacing.md,
-                          mainAxisExtent: 200, // Fixed safe height for all widths
-                        ),
-                    itemCount: filteredUnits.length,
-                    itemBuilder: (context, index) {
-                      final unit = filteredUnits[index];
-                      return BlocBuilder<import_comparison.ComparisonCubit, import_comparison.ComparisonState>(
-                        builder: (context, compState) {
-                          final isCompMode = compState.isComparisonMode;
-                          final isSelected = isCompMode 
-                              ? compState.selectedUnits.any((u) => u.id == unit.id)
-                              : _selectedUnitId == unit.id;
-
-                          return ProjectUnitCard(
-                            key: ValueKey(unit.id),
-                            unit: unit,
-                            index: index,
-                            isSelected: isSelected,
-                            isComparisonMode: isCompMode,
-                            onTap: () {
-                              if (isCompMode) {
-                                context.read<import_comparison.ComparisonCubit>().toggleUnit(unit);
-                                return;
-                              }
-
-                              setState(() {
-                                _selectedUnitId = unit.id;
-                              });
-                              Future.delayed(const Duration(milliseconds: 150), () {
-                                if (context.mounted) {
-                                  context.push(
-                                    AppRouter.unitDetails,
-                                    extra: {
-                                      'unit': unit,
-                                      'heroTag': 'unit_${unit.id}',
-                                    },
-                                  );
-                                }
-                              });
-                            },
-                          );
-                        },
-                      );
-                    },
-                  );
+                final groupedUnits = <int, List<ProjectUnitEntity>>{};
+                for (var unit in filteredUnits) {
+                  groupedUnits.putIfAbsent(unit.floor, () => []).add(unit);
                 }
+                final sortedFloors = groupedUnits.keys.toList()..sort();
 
-                // Mobile View
-                return ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: filteredUnits.length,
-                  itemBuilder: (context, index) {
-                    final unit = filteredUnits[index];
-                    return BlocBuilder<import_comparison.ComparisonCubit, import_comparison.ComparisonState>(
-                      builder: (context, compState) {
-                        final isCompMode = compState.isComparisonMode;
-                        final isSelected = isCompMode 
-                            ? compState.selectedUnits.any((u) => u.id == unit.id)
-                            : _selectedUnitId == unit.id;
-
-                        return ProjectUnitCard(
-                          key: ValueKey(unit.id),
-                          unit: unit,
-                          index: index,
-                          isSelected: isSelected,
-                          isComparisonMode: isCompMode,
-                          onTap: () {
-                            if (isCompMode) {
-                              context.read<import_comparison.ComparisonCubit>().toggleUnit(unit);
-                              return;
-                            }
-
-                            setState(() {
-                              _selectedUnitId = unit.id;
-                            });
-                            Future.delayed(const Duration(milliseconds: 150), () {
-                              if (context.mounted) {
-                                context.push(
-                                  AppRouter.unitDetails,
-                                  extra: {
-                                    'unit': unit,
-                                    'heroTag': 'unit_${unit.id}',
-                                  },
-                                );
-                              }
-                            });
-                          },
-                        );
-                      },
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: sortedFloors.map((floor) {
+                    final unitsInFloor = groupedUnits[floor]!;
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        _buildFloorHeader(floor),
+                        if (!context.isMobile)
+                          GridView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: context.responsiveCrossAxisCount,
+                              crossAxisSpacing: AppSpacing.md,
+                              mainAxisSpacing: AppSpacing.md,
+                              mainAxisExtent: 200, // Fixed safe height for all widths
+                            ),
+                            itemCount: unitsInFloor.length,
+                            itemBuilder: (context, index) => _buildUnitCard(context, unitsInFloor[index], index),
+                          )
+                        else
+                          ListView.builder(
+                            padding: EdgeInsets.symmetric(vertical: AppSpacing.sm),
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: unitsInFloor.length,
+                            itemBuilder: (context, index) => _buildUnitCard(context, unitsInFloor[index], index),
+                          ),
+                      ],
                     );
-                  },
+                  }).toList(),
                 );
               },
             ),
@@ -390,6 +327,91 @@ class _ProjectUnitsTabState extends State<ProjectUnitsTab> {
         ),
         SizedBox(height: AppSpacing.xl),
       ],
+    );
+  }
+
+  Widget _buildUnitCard(BuildContext context, ProjectUnitEntity unit, int index) {
+    return BlocBuilder<import_comparison.ComparisonCubit, import_comparison.ComparisonState>(
+      builder: (context, compState) {
+        final isCompMode = compState.isComparisonMode;
+        final isSelected = isCompMode 
+            ? compState.selectedUnits.any((u) => u.id == unit.id)
+            : _selectedUnitId == unit.id;
+
+        return ProjectUnitCard(
+          key: ValueKey(unit.id),
+          unit: unit,
+          index: index,
+          isSelected: isSelected,
+          isComparisonMode: isCompMode,
+          onTap: () {
+            if (isCompMode) {
+              context.read<import_comparison.ComparisonCubit>().toggleUnit(unit);
+              return;
+            }
+
+            setState(() {
+              _selectedUnitId = unit.id;
+            });
+            Future.delayed(const Duration(milliseconds: 150), () {
+              if (context.mounted) {
+                context.push(
+                  AppRouter.unitDetails,
+                  extra: {
+                    'unit': unit,
+                    'heroTag': 'unit_${unit.id}',
+                  },
+                );
+              }
+            });
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildFloorHeader(int floor) {
+    String floorName = floor == 0 ? 'الدور الأرضي' : 'الدور $floor';
+    return Padding(
+      padding: const EdgeInsets.only(top: 0, bottom: AppSpacing.sm),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: 6),
+            decoration: BoxDecoration(
+              color: context.colors.gold.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(AppRadius.md),
+              border: Border.all(color: context.colors.gold.withValues(alpha: 0.3)),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  FluentIcons.building_multiple_24_regular,
+                  color: context.colors.gold,
+                  size: 16,
+                ),
+                const SizedBox(width: AppSpacing.sm),
+                Text(
+                  floorName,
+                  style: TextStyle(
+                    fontSize: AppFonts.labelLarge,
+                    fontWeight: FontWeight.bold,
+                    color: context.colors.gold,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: AppSpacing.md),
+          Expanded(
+            child: Divider(
+              color: context.colors.border.withValues(alpha: 0.5),
+              thickness: 1,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
