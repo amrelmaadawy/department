@@ -1,4 +1,5 @@
 import 'package:apartment/features/home/domain/entities/project_unit_entity.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_radius.dart';
@@ -86,7 +87,7 @@ class _UnitFilterBottomSheetState extends State<UnitFilterBottomSheet> {
 
   Widget _buildDivider() {
     return Divider(
-      height: 48,
+      height: 24,
       thickness: 1,
       color: context.colors.border.withValues(alpha: 0.3),
     );
@@ -128,48 +129,72 @@ class _UnitFilterBottomSheetState extends State<UnitFilterBottomSheet> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'تصفية الوحدات',
-                  style: TextStyle(
-                    fontSize: AppFonts.headlineSmall,
-                    fontWeight: FontWeight.bold,
-                    color: context.colors.textPrimary,
-                  ),
+                Row(
+                  children: [
+                    Icon(
+                      FluentIcons.filter_24_filled,
+                      color: context.colors.gold,
+                      size: 24,
+                    ),
+                    const SizedBox(width: AppSpacing.sm),
+                    Text(
+                      'تصفية الوحدات',
+                      style: TextStyle(
+                        fontSize: AppFonts.headlineSmall,
+                        fontWeight: FontWeight.bold,
+                        color: context.colors.textPrimary,
+                      ),
+                    ),
+                  ],
                 ),
-                TextButton(
-                  onPressed: _resetFilters,
-                  style: TextButton.styleFrom(
-                    foregroundColor: context.colors.error,
-                    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
-                  ),
-                  child: Text(
-                    'مسح الكل',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: AppFonts.bodyLarge,
+                InkWell(
+                  onTap: _resetFilters,
+                  borderRadius: BorderRadius.circular(100),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.xs),
+                    decoration: BoxDecoration(
+                      color: context.colors.error.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          FluentIcons.arrow_counterclockwise_20_regular,
+                          color: context.colors.error,
+                          size: 18,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          'مسح الكل',
+                          style: TextStyle(
+                            color: context.colors.error,
+                            fontWeight: FontWeight.bold,
+                            fontSize: AppFonts.labelLarge,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ],
             ),
           ),
-          const SizedBox(height: AppSpacing.sm),
-          Divider(color: context.colors.border.withValues(alpha: 0.5), height: 1),
+          const SizedBox(height: AppSpacing.md),
 
           // Scrollable Content
           Expanded(
             child: ListView(
-              padding: const EdgeInsets.symmetric(vertical: AppSpacing.xl),
+              padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
               physics: const BouncingScrollPhysics(),
               children: [
                 _buildPriceSection(),
-                _buildDivider(),
+                const SizedBox(height: AppSpacing.sm),
                 _buildAreaSection(),
-                _buildDivider(),
+                const SizedBox(height: AppSpacing.sm),
                 _buildBedroomsSection(),
-                _buildDivider(),
+                const SizedBox(height: AppSpacing.sm),
                 _buildBathroomsSection(),
-                _buildDivider(),
+                const SizedBox(height: AppSpacing.sm),
                 _buildFloorSection(),
                 const SizedBox(height: 100), // Space for bottom button
               ],
@@ -280,14 +305,14 @@ class _UnitFilterBottomSheetState extends State<UnitFilterBottomSheet> {
       ),
       child: SliderTheme(
         data: SliderTheme.of(context).copyWith(
-          trackHeight: 6.0,
+          trackHeight: 4.0,
           activeTrackColor: context.colors.gold,
-          inactiveTrackColor: context.colors.background,
+          inactiveTrackColor: context.colors.border.withValues(alpha: 0.2),
           thumbColor: context.colors.gold,
-          overlayColor: context.colors.gold.withValues(alpha: 0.15),
+          overlayColor: context.colors.gold.withValues(alpha: 0.1),
           rangeThumbShape: const RoundRangeSliderThumbShape(
-            enabledThumbRadius: 12,
-            elevation: 4,
+            enabledThumbRadius: 10,
+            elevation: 3,
           ),
         ),
         child: RangeSlider(
@@ -348,14 +373,14 @@ class _UnitFilterBottomSheetState extends State<UnitFilterBottomSheet> {
       ),
       child: SliderTheme(
         data: SliderTheme.of(context).copyWith(
-          trackHeight: 6.0,
+          trackHeight: 4.0,
           activeTrackColor: context.colors.gold,
-          inactiveTrackColor: context.colors.background,
+          inactiveTrackColor: context.colors.border.withValues(alpha: 0.2),
           thumbColor: context.colors.gold,
-          overlayColor: context.colors.gold.withValues(alpha: 0.15),
+          overlayColor: context.colors.gold.withValues(alpha: 0.1),
           rangeThumbShape: const RoundRangeSliderThumbShape(
-            enabledThumbRadius: 12,
-            elevation: 4,
+            enabledThumbRadius: 10,
+            elevation: 3,
           ),
         ),
         child: RangeSlider(
@@ -436,20 +461,17 @@ class _UnitFilterBottomSheetState extends State<UnitFilterBottomSheet> {
     
     return _buildFilterSection(
       title: 'الدور / المنطقة',
-      child: Transform.translate(
-        offset: const Offset(-AppSpacing.lg, 0),
-        child: FloorZonesTabs(
-          zones: widget.availableZones,
-          selectedZone: _currentFilter.floorZone,
-          onZoneSelected: (zone) {
-            setState(() {
-              _currentFilter = _currentFilter.copyWith(
-                floorZone: zone,
-                clearFloorZone: zone == null,
-              );
-            });
-          },
-        ),
+      child: FloorZonesTabs(
+        zones: widget.availableZones,
+        selectedZone: _currentFilter.floorZone,
+        onZoneSelected: (zone) {
+          setState(() {
+            _currentFilter = _currentFilter.copyWith(
+              floorZone: zone,
+              clearFloorZone: zone == null,
+            );
+          });
+        },
       ),
     );
   }
@@ -459,24 +481,31 @@ class _UnitFilterBottomSheetState extends State<UnitFilterBottomSheet> {
     Widget? valueWidget,
     required Widget child,
   }) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+      padding: const EdgeInsets.all(AppSpacing.md),
+      decoration: BoxDecoration(
+        color: context.colors.border.withValues(alpha: 0.05),
+        borderRadius: BorderRadius.circular(AppRadius.lg),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title,
-            style: TextStyle(
-              fontSize: AppFonts.bodyLarge,
-              fontWeight: FontWeight.bold,
-              color: context.colors.textPrimary,
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: AppFonts.bodyLarge,
+                  fontWeight: FontWeight.bold,
+                  color: context.colors.textPrimary,
+                ),
+              ),
+              if (valueWidget != null) valueWidget,
+            ],
           ),
-          if (valueWidget != null) ...[
-            const SizedBox(height: AppSpacing.xs),
-            valueWidget,
-          ],
-          const SizedBox(height: AppSpacing.lg),
+          const SizedBox(height: AppSpacing.md),
           child,
         ],
       ),
@@ -495,18 +524,19 @@ class _UnitFilterBottomSheetState extends State<UnitFilterBottomSheet> {
         duration: const Duration(milliseconds: 250),
         curve: Curves.easeOutCubic,
         padding: EdgeInsets.symmetric(
-          horizontal: isCircular ? 24 : AppSpacing.xl,
-          vertical: isCircular ? 18 : 12,
+          horizontal: isCircular ? 16 : AppSpacing.xl,
+          vertical: isCircular ? 8 : 12,
         ),
         decoration: BoxDecoration(
           color: isSelected ? context.colors.gold : context.colors.background,
-          borderRadius: BorderRadius.circular(isCircular ? 100 : AppRadius.xl),
+          borderRadius: BorderRadius.circular(isCircular ? AppRadius.md : AppRadius.xl),
+          border: isSelected ? null : Border.all(color: context.colors.border.withValues(alpha: 0.2)),
           boxShadow: isSelected
               ? [
                   BoxShadow(
                     color: context.colors.gold.withValues(alpha: 0.3),
-                    blurRadius: 12,
-                    offset: const Offset(0, 4),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
                   )
                 ]
               : null,
