@@ -133,12 +133,12 @@ class ProfileHeader extends StatelessWidget {
                               ? CachedNetworkImage(
                                   imageUrl: avatarUrl!,
                                   fit: BoxFit.cover,
-                                  errorWidget: (_, __, ___) => _buildFallbackAvatar(context),
+                                  errorWidget: (_, _, _) => _buildFallbackAvatar(context),
                                 )
                               : Image.asset(
                                   avatarUrl!,
                                   fit: BoxFit.cover,
-                                  errorBuilder: (_, __, ___) => _buildFallbackAvatar(context),
+                                  errorBuilder: (_,_, _) => _buildFallbackAvatar(context),
                                 ))
                           : _buildFallbackAvatar(context),
                     ),
