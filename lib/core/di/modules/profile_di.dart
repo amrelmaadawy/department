@@ -9,25 +9,25 @@ import 'package:apartment/features/profile/domain/usecases/update_profile_usecas
 import 'package:apartment/features/profile/presentation/cubit/profile_cubit.dart';
 
 Future<void> registerProfileDi(GetIt sl) async {
-  // Cubit
-  sl.registerLazySingleton(() => ProfileCubit(
-    getProfileUseCase: sl(),
-    toggleFavoriteDesignUseCase: sl(),
-    updateProfileUseCase: sl(),
-  ));
-
-  // Use Cases
-  sl.registerLazySingleton(() => GetProfileUseCase(sl()));
-  sl.registerLazySingleton(() => ToggleFavoriteDesignUseCase(sl()));
-  sl.registerLazySingleton(() => UpdateProfileUseCase(sl()));
+  // Data Source
+  sl.registerLazySingleton<ProfileRemoteDataSource>(
+    () => ProfileRemoteDataSourceImpl(apiClient: sl()),
+  );
 
   // Repository
   sl.registerLazySingleton<ProfileRepository>(
     () => ProfileRepositoryImpl(remoteDataSource: sl()),
   );
 
-  // Data Source
-  sl.registerLazySingleton<ProfileRemoteDataSource>(
-    () => ProfileRemoteDataSourceImpl(apiClient: sl()),
-  );
+  // Use Cases
+  sl.registerLazySingleton(() => GetProfileUseCase(sl()));
+  sl.registerLazySingleton(() => ToggleFavoriteDesignUseCase(sl()));
+  sl.registerLazySingleton(() => UpdateProfileUseCase(sl()));
+
+  // Cubit
+  sl.registerLazySingleton(() => ProfileCubit(
+    getProfileUseCase: sl(),
+    toggleFavoriteDesignUseCase: sl(),
+    updateProfileUseCase: sl(),
+  ));
 }

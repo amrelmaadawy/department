@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/routes/app_router.dart';
@@ -60,11 +61,11 @@ class FeaturedProjectCard extends StatelessWidget {
                                   color: context.colors.textSecondary, size: 40),
                             )
                           : project.imagePath.startsWith('http')
-                            ? Image.network(
-                                Uri.encodeFull(project.imagePath),
+                            ? CachedNetworkImage(
+                                imageUrl: Uri.encodeFull(project.imagePath),
                                   width: double.infinity,
                                   fit: BoxFit.cover,
-                                  errorBuilder: (context, error, stackTrace) =>
+                                  errorWidget: (context, url, error) =>
                                       Container(
                                     width: double.infinity,
                                     color: context.colors.primary

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
@@ -119,10 +120,10 @@ class _ProjectDetailsHeaderState extends State<ProjectDetailsHeader> {
                   
                   if (imagePath.isNotEmpty) {
                     if (imagePath.startsWith('http')) {
-                      imageWidget = Image.network(
-                        Uri.encodeFull(imagePath),
+                      imageWidget = CachedNetworkImage(
+                        imageUrl: Uri.encodeFull(imagePath),
                         fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) =>
+                        errorWidget: (context, url, error) =>
                             _buildErrorImage(context),
                       );
                     } else {

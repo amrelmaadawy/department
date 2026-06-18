@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/core/theme/app_sizes.dart';
 import 'package:apartment/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -125,7 +126,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                       Opacity(
                         opacity: _glassOpacity.value,
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(24),
+                          borderRadius: BorderRadius.circular(AppRadius.xl),
                           child: BackdropFilter(
                             filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                             child: Container(
@@ -135,7 +136,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                               ),
                               decoration: BoxDecoration(
                                 color: Colors.white.withValues(alpha: 0.1),
-                                borderRadius: BorderRadius.circular(24),
+                                borderRadius: BorderRadius.circular(AppRadius.xl),
                                 border: Border.all(
                                   color: Colors.white.withValues(alpha: 0.2),
                                   width: 1,

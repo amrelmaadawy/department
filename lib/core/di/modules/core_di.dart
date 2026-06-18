@@ -21,11 +21,6 @@ import 'package:apartment/features/design_studio/presentation/cubit/design_conte
 import 'package:apartment/features/projects/data/datasources/local/room_design_cache_service.dart';
 
 Future<void> registerCoreDi(GetIt sl) async {
-  // Features - Layout & Home & Design Studio
-  sl.registerFactory(() => LayoutCubit());
-  sl.registerFactory(() => HomeCubit(getProjectsUseCase: sl()));
-  sl.registerLazySingleton(() => DesignContextCubit());
-
   // Core Data & Services
   final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton(() => sharedPreferences);
@@ -34,11 +29,12 @@ Future<void> registerCoreDi(GetIt sl) async {
   sl.registerLazySingleton<IShareService>(() => ShareServiceImpl(dio: sl()));
   sl.registerLazySingleton<IDownloadService>(() => DownloadServiceImpl(dio: sl()));
 
-  // Network
+  // Network Interceptors
   sl.registerLazySingleton(() => AuthInterceptor(secureStorage: sl()));
   sl.registerLazySingleton(() => ErrorInterceptor());
   sl.registerLazySingleton(() => LoggingInterceptor());
   
+  // Network Dio
   sl.registerLazySingleton(
     () {
       final dio = Dio(
@@ -57,9 +53,15 @@ Future<void> registerCoreDi(GetIt sl) async {
     },
   );
 
+  // Network API Client
   sl.registerLazySingleton(() => ApiClient(dio: sl()));
 
-  // Locale & Theme
+  // Core Cubits (Locale, Theme)
   sl.registerLazySingleton(() => LocaleCubit(sharedPreferences: sl()));
   sl.registerLazySingleton(() => ThemeCubit(sharedPreferences: sl()));
+
+  // Feature Cubits (Layout, Home, Design Studio)
+  sl.registerFactory(() => LayoutCubit());
+  sl.registerFactory(() => HomeCubit(getProjectsUseCase: sl()));
+  sl.registerLazySingleton(() => DesignContextCubit());
 }

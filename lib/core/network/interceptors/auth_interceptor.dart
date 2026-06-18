@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import '../../routes/app_router.dart';
 
 class AuthInterceptor extends Interceptor {
   final FlutterSecureStorage secureStorage;
@@ -26,8 +27,9 @@ class AuthInterceptor extends Interceptor {
   @override
   Future<void> onError(DioException err, ErrorInterceptorHandler handler) async {
     if (err.response?.statusCode == 401) {
-      // TODO: Implement Token Refresh logic if supported by backend
-      // Or dispatch an event to log the user out
+      // Clear token and force navigation to Auth
+      await secureStorage.delete(key: _tokenKey);
+      AppRouter.router.go(AppRouter.auth);
     }
     super.onError(err, handler);
   }

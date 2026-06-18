@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
 import '../../../../core/theme/app_fonts.dart';
@@ -129,10 +130,10 @@ class ProfileHeader extends StatelessWidget {
                     child: ClipOval(
                       child: (avatarUrl != null && avatarUrl!.isNotEmpty)
                           ? (avatarUrl!.startsWith('http')
-                              ? Image.network(
-                                  avatarUrl!,
+                              ? CachedNetworkImage(
+                                  imageUrl: avatarUrl!,
                                   fit: BoxFit.cover,
-                                  errorBuilder: (_, __, ___) => _buildFallbackAvatar(context),
+                                  errorWidget: (_, __, ___) => _buildFallbackAvatar(context),
                                 )
                               : Image.asset(
                                   avatarUrl!,

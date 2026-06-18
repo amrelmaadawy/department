@@ -1,5 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import '../../../../../../core/theme/app_fonts.dart';
 import '../../../../../../core/theme/app_radius.dart';
@@ -49,10 +50,10 @@ class FinishingMaterialCard extends StatelessWidget {
               child: material.imageUrl != null && material.imageUrl!.isNotEmpty
                   ? ClipRRect(
                       borderRadius: BorderRadius.circular(AppRadius.sm),
-                      child: Image.network(
-                        material.imageUrl!,
+                      child: CachedNetworkImage(
+                        imageUrl: material.imageUrl!,
                         fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) =>
+                        errorWidget: (context, url, error) =>
                             _buildPlaceholder(context),
                       ),
                     )

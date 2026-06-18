@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import '../../../../../core/theme/app_spacing.dart';
 import '../../../../../core/theme/app_radius.dart';
@@ -34,19 +35,16 @@ class AiRendersPageView extends StatelessWidget {
                 child: InteractiveViewer(
                   minScale: 1.0,
                   maxScale: 4.0,
-                  child: Image.network(
-                    renders[index],
+                  child: CachedNetworkImage(
+                    imageUrl: renders[index],
                     fit: BoxFit.cover,
-                    loadingBuilder: (context, child, loadingProgress) {
-                      if (loadingProgress == null) return child;
+                    progressIndicatorBuilder: (context, url, downloadProgress) {
                       return Center(
                         child: SizedBox(
                           width: 48,
                           height: 48,
                           child: CircularProgressIndicator(
-                            value: loadingProgress.expectedTotalBytes != null
-                                ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
-                                : null,
+                            value: downloadProgress.progress,
                             strokeWidth: 3,
                             color: context.colors.primary,
                             backgroundColor: context.colors.primary.withValues(alpha: 0.1),
@@ -55,7 +53,7 @@ class AiRendersPageView extends StatelessWidget {
                         ),
                       );
                     },
-                    errorBuilder: (context, error, stackTrace) => const Center(
+                    errorWidget: (context, url, error) => const Center(
                       child: Icon(FluentIcons.image_off_24_regular, size: 64, color: Colors.grey),
                     ),
                   ),
@@ -75,12 +73,12 @@ class AiRendersPageView extends StatelessWidget {
                 renders.length,
                 (index) => AnimatedContainer(
                   duration: const Duration(milliseconds: 300),
-                  margin: const EdgeInsets.symmetric(horizontal: 4),
-                  width: currentIndex == index ? 24 : 8,
-                  height: 8,
+                  margin: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
+                  width: currentIndex == index ? AppSpacing.lg : AppSpacing.sm,
+                  height: AppSpacing.sm,
                   decoration: BoxDecoration(
                     color: currentIndex == index ? context.colors.primary : context.colors.border,
-                    borderRadius: BorderRadius.circular(4),
+                    borderRadius: BorderRadius.circular(AppSpacing.xs),
                   ),
                 ),
               ),

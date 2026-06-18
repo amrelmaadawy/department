@@ -1,4 +1,5 @@
 import 'package:apartment/core/theme/theme_extension.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
@@ -89,10 +90,10 @@ class ProjectUnitCard extends StatelessWidget {
                       children: [
                         unit.imagePath.isNotEmpty
                             ? (unit.imagePath.startsWith('http')
-                                ? Image.network(
-                                    Uri.encodeFull(unit.imagePath),
+                                ? CachedNetworkImage(
+                                    imageUrl: Uri.encodeFull(unit.imagePath),
                                     fit: BoxFit.cover,
-                                    errorBuilder: (context, error, stackTrace) =>
+                                    errorWidget: (context, url, error) =>
                                         _buildImagePlaceholder(context),
                                   )
                                 : Image.asset(unit.imagePath, fit: BoxFit.cover))

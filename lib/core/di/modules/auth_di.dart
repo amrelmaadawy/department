@@ -9,19 +9,10 @@ import 'package:apartment/features/auth/domain/usecases/register_usecase.dart';
 import 'package:apartment/features/auth/presentation/cubit/auth_cubit.dart';
 
 Future<void> registerAuthDi(GetIt sl) async {
-  // Cubit
-  sl.registerFactory(
-    () => AuthCubit(
-      registerUseCase: sl(),
-      loginUseCase: sl(),
-      logoutUseCase: sl(),
-    ),
+  // Data sources
+  sl.registerLazySingleton<AuthRemoteDataSource>(
+    () => AuthRemoteDataSourceImpl(apiClient: sl()),
   );
-  
-  // Use cases
-  sl.registerLazySingleton(() => RegisterUseCase(sl()));
-  sl.registerLazySingleton(() => LoginUseCase(sl()));
-  sl.registerLazySingleton(() => LogoutUseCase(sl()));
 
   // Repository
   sl.registerLazySingleton<AuthRepository>(
@@ -32,8 +23,17 @@ Future<void> registerAuthDi(GetIt sl) async {
     ),
   );
 
-  // Data sources
-  sl.registerLazySingleton<AuthRemoteDataSource>(
-    () => AuthRemoteDataSourceImpl(apiClient: sl()),
+  // Use cases
+  sl.registerLazySingleton(() => RegisterUseCase(sl()));
+  sl.registerLazySingleton(() => LoginUseCase(sl()));
+  sl.registerLazySingleton(() => LogoutUseCase(sl()));
+
+  // Cubit
+  sl.registerFactory(
+    () => AuthCubit(
+      registerUseCase: sl(),
+      loginUseCase: sl(),
+      logoutUseCase: sl(),
+    ),
   );
 }

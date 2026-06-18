@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:shimmer/shimmer.dart';
@@ -126,18 +127,17 @@ class AiGalleryDetailsSheet extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: context.colors.border.withValues(alpha: 0.1),
                       ),
-                      child: Image.network(
-                        item.url,
+                      child: CachedNetworkImage(
+                        imageUrl: item.url,
                         fit: BoxFit.contain,
-                        loadingBuilder: (context, child, progress) {
-                          if (progress == null) return child;
+                        progressIndicatorBuilder: (context, url, progress) {
                           return Shimmer.fromColors(
                             baseColor: context.colors.border.withValues(alpha: 0.3),
                             highlightColor: context.colors.border.withValues(alpha: 0.1),
                             child: Container(color: Colors.white),
                           );
                         },
-                        errorBuilder: (context, error, stackTrace) => Center(
+                        errorWidget: (context, url, error) => Center(
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [

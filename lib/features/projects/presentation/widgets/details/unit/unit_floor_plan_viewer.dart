@@ -1,5 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
@@ -154,7 +155,7 @@ class _UnitFloorPlanViewerState extends State<UnitFloorPlanViewer> {
                       minScale: 1.0,
                       maxScale: 4.0,
                       child: hasImage
-                          ? (images[index].startsWith('http') ? Image.network(images[index], fit: BoxFit.contain) : Image.asset(images[index], fit: BoxFit.contain))
+                          ? (images[index].startsWith('http') ? CachedNetworkImage(imageUrl: images[index], fit: BoxFit.contain) : Image.asset(images[index], fit: BoxFit.contain))
                           : Center(
                               child: Icon(FluentIcons.image_off_24_regular, size: 48, color: context.colors.textSecondary),
                             ),

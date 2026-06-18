@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:apartment/core/constants/app_constants.dart';
 import 'package:apartment/features/projects/presentation/widgets/custom_search_bar.dart';
 import 'package:apartment/features/projects/presentation/widgets/filter_chips_row.dart';
 import 'package:apartment/features/projects/presentation/widgets/project_list_card.dart';
@@ -55,8 +55,8 @@ class _ProjectsViewState extends State<ProjectsView> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final filterOptions = [
-      {'key': 'all', 'label': l10n.filterAll},
-      {'key': 'الرياض', 'label': l10n.riyadh},
+      {'key': AppConstants.filterAll, 'label': l10n.filterAll},
+      {'key': 'القاهرة الجديدة', 'label': 'القاهرة الجديدة'},
       {'key': 'جدة', 'label': l10n.filterJeddah},
       {'key': 'الشرقية', 'label': l10n.filterEastern},
     ];
@@ -217,7 +217,7 @@ class _StickyHeaderDelegate extends SliverPersistentHeaderDelegate {
   double get minExtent => 130.0;
 
   @override
-  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
-    return true;
+  bool shouldRebuild(covariant _StickyHeaderDelegate oldDelegate) {
+    return oldDelegate.child != child;
   }
 }

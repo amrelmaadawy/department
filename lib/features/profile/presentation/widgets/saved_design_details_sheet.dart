@@ -1,5 +1,6 @@
 import 'package:apartment/features/projects/domain/entities/saved_design_entity.dart';
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:shimmer/shimmer.dart';
@@ -157,18 +158,17 @@ class SavedDesignDetailsSheet extends StatelessWidget {
                           )
                         : ClipRRect(
                             borderRadius: BorderRadius.circular(AppRadius.xl),
-                            child: Image.network(
-                              design.imageUrls.first,
+                            child: CachedNetworkImage(
+                              imageUrl: design.imageUrls.first,
                               fit: BoxFit.cover,
-                              loadingBuilder: (context, child, progress) {
-                                if (progress == null) return child;
+                              progressIndicatorBuilder: (context, url, progress) {
                                 return Shimmer.fromColors(
                                   baseColor: context.colors.border.withValues(alpha: 0.5),
                                   highlightColor: context.colors.border.withValues(alpha: 0.1),
                                   child: Container(color: Colors.white),
                                 );
                               },
-                              errorBuilder: (context, _, _) => const Center(
+                              errorWidget: (context, url, error) => const Center(
                                 child: Icon(FluentIcons.image_off_24_regular, size: 48),
                               ),
                             ),

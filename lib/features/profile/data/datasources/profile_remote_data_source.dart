@@ -1,5 +1,6 @@
 import '../../../../core/network/api_client.dart';
 import '../../../../core/network/api_endpoints.dart';
+import '../../../../core/error/exceptions.dart';
 import '../models/profile_model.dart';
 
 abstract class ProfileRemoteDataSource {
@@ -21,7 +22,7 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
     if (response != null && response['data'] != null) {
       return ProfileModel.fromJson(response['data']);
     } else {
-      throw Exception('Failed to load profile data');
+      throw ServerException(message: 'Failed to load profile data');
     }
   }
 
@@ -34,7 +35,7 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
       }
       return ProfileModel.fromJson(response['data']);
     } else {
-      throw Exception('Failed to update profile data');
+      throw ServerException(message: 'Failed to update profile data');
     }
   }
 
@@ -51,7 +52,7 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
     if (response != null && response['success'] == true && response['data'] != null) {
       return response['data']['saved'] ?? false;
     } else {
-      throw Exception(response?['message'] ?? 'Failed to toggle favorite design');
+      throw ServerException(message: response?['message'] ?? 'Failed to toggle favorite design');
     }
   }
 }

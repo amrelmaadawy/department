@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
@@ -127,10 +128,10 @@ class _FullScreenGalleryState extends State<FullScreenGallery> {
                 minScale: 1.0,
                 maxScale: 5.0,
                 child: imagePath.startsWith('http')
-                    ? Image.network(
-                        Uri.encodeFull(imagePath),
+                    ? CachedNetworkImage(
+                        imageUrl: Uri.encodeFull(imagePath),
                         fit: BoxFit.contain,
-                        errorBuilder: (context, error, stackTrace) => Center(
+                        errorWidget: (context, url, error) => Center(
                           child: Icon(
                             FluentIcons.image_off_24_regular,
                             size: 64,

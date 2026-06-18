@@ -25,6 +25,28 @@ import 'package:apartment/features/projects/presentation/cubit/download_image_cu
 import 'package:apartment/features/home/domain/usecases/share_design_usecase.dart';
 
 Future<void> registerProjectsDi(GetIt sl) async {
+  // Data Source
+  sl.registerLazySingleton<ProjectRemoteDataSource>(
+    () => ProjectRemoteDataSourceImpl(apiClient: sl()),
+  );
+
+  // Repository
+  sl.registerLazySingleton<ProjectRepository>(
+    () => ProjectRepositoryImpl(remoteDataSource: sl()),
+  );
+
+  // Use Cases
+  sl.registerLazySingleton(() => GetProjectsUseCase(sl()));
+  sl.registerLazySingleton(() => GetProjectDetailsUseCase(sl()));
+  sl.registerLazySingleton(() => GetProjectUnitsUseCase(sl()));
+  sl.registerLazySingleton(() => GetUnitDetailsUseCase(sl()));
+  sl.registerLazySingleton(() => GetRoomDetailsUseCase(sl()));
+  sl.registerLazySingleton(() => SubmitFinishingOrderUseCase(sl()));
+  sl.registerLazySingleton(() => GetAiRendersUseCase(sl()));
+  sl.registerLazySingleton(() => SaveDesignUseCase(sl()));
+  sl.registerLazySingleton(() => GetPresetNotesUseCase(sl()));
+  sl.registerLazySingleton(() => ShareDesignUseCase(shareService: sl()));
+
   // Cubits
   sl.registerFactory(() => ProjectsCubit(getProjectsUseCase: sl()));
   sl.registerFactory(() => ComparisonCubit());
@@ -71,27 +93,5 @@ Future<void> registerProjectsDi(GetIt sl) async {
     () => DownloadImageCubit(
       downloadService: sl(),
     ),
-  );
-
-  // Use Cases
-  sl.registerLazySingleton(() => GetProjectsUseCase(sl()));
-  sl.registerLazySingleton(() => GetProjectDetailsUseCase(sl()));
-  sl.registerLazySingleton(() => GetProjectUnitsUseCase(sl()));
-  sl.registerLazySingleton(() => GetUnitDetailsUseCase(sl()));
-  sl.registerLazySingleton(() => GetRoomDetailsUseCase(sl()));
-  sl.registerLazySingleton(() => SubmitFinishingOrderUseCase(sl()));
-  sl.registerLazySingleton(() => GetAiRendersUseCase(sl()));
-  sl.registerLazySingleton(() => SaveDesignUseCase(sl()));
-  sl.registerLazySingleton(() => GetPresetNotesUseCase(sl()));
-  sl.registerLazySingleton(() => ShareDesignUseCase(shareService: sl()));
-
-  // Repository
-  sl.registerLazySingleton<ProjectRepository>(
-    () => ProjectRepositoryImpl(remoteDataSource: sl()),
-  );
-
-  // Data Source
-  sl.registerLazySingleton<ProjectRemoteDataSource>(
-    () => ProjectRemoteDataSourceImpl(apiClient: sl()),
   );
 }

@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:shimmer/shimmer.dart';
@@ -54,18 +55,17 @@ class AiGalleryItemCard extends StatelessWidget {
             children: [
               Hero(
                 tag: heroTag,
-                child: Image.network(
-                  item.url,
+                child: CachedNetworkImage(
+                  imageUrl: item.url,
                   fit: BoxFit.cover,
-                  loadingBuilder: (context, child, progress) {
-                    if (progress == null) return child;
+                  progressIndicatorBuilder: (context, url, progress) {
                     return Shimmer.fromColors(
                       baseColor: context.colors.border.withValues(alpha: 0.3),
                       highlightColor: context.colors.border.withValues(alpha: 0.1),
                       child: Container(color: Colors.white),
                     );
                   },
-                  errorBuilder: (context, error, stackTrace) => Container(
+                  errorWidget: (context, url, error) => Container(
                     color: context.colors.border.withValues(alpha: 0.2),
                     child: Center(
                       child: Icon(FluentIcons.image_off_24_regular, color: context.colors.textSecondary),

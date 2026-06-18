@@ -1,5 +1,6 @@
 import 'package:apartment/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/routes/app_router.dart';
@@ -66,12 +67,12 @@ class ProjectListCard extends StatelessWidget {
                                 color: context.colors.textSecondary, size: 30),
                           )
                         : project.imagePath.startsWith('http')
-                            ? Image.network(
-                                Uri.encodeFull(project.imagePath),
+                            ? CachedNetworkImage(
+                                imageUrl: Uri.encodeFull(project.imagePath),
                                 width: imageWidth,
                                 height: double.infinity,
                                 fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) =>
+                                errorWidget: (context, url, error) =>
                                     Container(
                                   width: imageWidth,
                                   height: double.infinity,
@@ -109,7 +110,7 @@ class ProjectListCard extends StatelessWidget {
                             color: Colors.white,
                             size: 12,
                           ),
-                          const SizedBox(width: 4),
+                          const SizedBox(width: AppSpacing.xs),
                           Text(
                             '${project.images.length}',
                             style: const TextStyle(
@@ -144,7 +145,7 @@ class ProjectListCard extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    SizedBox(height: 4),
+                    SizedBox(height: AppSpacing.xs),
                     Text(
                       project.location,
                       style: TextStyle(
@@ -168,7 +169,7 @@ class ProjectListCard extends StatelessWidget {
                               size: 16,
                               color: context.colors.textSecondary,
                             ),
-                            SizedBox(width: 4),
+                            SizedBox(width: AppSpacing.xs),
                             Text(
                               AppLocalizations.of(context)!.projectUnitsCount(project.apartmentsCount),
                               style: TextStyle(
@@ -186,7 +187,7 @@ class ProjectListCard extends StatelessWidget {
                               size: 16,
                               color: context.colors.textSecondary,
                             ),
-                            SizedBox(width: 4),
+                            SizedBox(width: AppSpacing.xs),
                             Text(
                               '${project.buildingArea.toStringAsFixed(0)} م²',
                               style: TextStyle(

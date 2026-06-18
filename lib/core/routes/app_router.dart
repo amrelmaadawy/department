@@ -54,7 +54,7 @@ class AppRouter {
         return auth;
       }
 
-      if (isAuth && (isGoingToAuth || isGoingToOnboarding)) {
+      if (isAuth && (isGoingToAuth || isGoingToOnboarding || isGoingToInitial)) {
         return layout;
       }
 

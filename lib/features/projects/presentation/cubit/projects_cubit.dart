@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../core/constants/app_constants.dart';
 import '../../../home/domain/entities/project_entity.dart';
 import '../../domain/usecases/get_projects_usecase.dart';
 
@@ -12,7 +13,7 @@ class ProjectsCubit extends Cubit<ProjectsState> {
   ProjectsCubit({required this.getProjectsUseCase}) : super(ProjectsInitial());
 
   List<ProjectEntity> _allProjects = [];
-  String _currentFilter = 'all';
+  String _currentFilter = AppConstants.filterAll;
   String _currentSearchQuery = '';
 
   void loadProjects() async {
@@ -51,7 +52,7 @@ class ProjectsCubit extends Cubit<ProjectsState> {
     List<ProjectEntity> filtered = _allProjects;
 
     // Apply city filter
-    if (_currentFilter != 'all') {
+    if (_currentFilter != AppConstants.filterAll) {
       filtered = filtered
           .where((p) => p.location.contains(_currentFilter))
           .toList();

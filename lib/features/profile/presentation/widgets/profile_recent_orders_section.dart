@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 import '../../../../core/theme/app_fonts.dart';
@@ -317,11 +318,10 @@ class ProfileRecentOrdersSection extends StatelessWidget {
                               )
                             : ClipRRect(
                                 borderRadius: BorderRadius.circular(AppRadius.xl),
-                                child: Image.network(
-                                  order.imageUrl,
+                                child: CachedNetworkImage(
+                                  imageUrl: order.imageUrl,
                                   fit: BoxFit.cover,
-                                  loadingBuilder: (context, child, loadingProgress) {
-                                    if (loadingProgress == null) return child;
+                                  progressIndicatorBuilder: (context, url, progress) {
                                     return Shimmer.fromColors(
                                       baseColor: context.colors.border.withValues(alpha: 0.5),
                                       highlightColor: context.colors.border.withValues(alpha: 0.1),
@@ -330,7 +330,7 @@ class ProfileRecentOrdersSection extends StatelessWidget {
                                       ),
                                     );
                                   },
-                                  errorBuilder: (context, error, stackTrace) {
+                                  errorWidget: (context, url, error) {
                                     return Center(
                                       child: Column(
                                         mainAxisSize: MainAxisSize.min,

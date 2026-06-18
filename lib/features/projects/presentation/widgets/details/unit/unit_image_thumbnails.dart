@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
@@ -54,7 +55,7 @@ class UnitImageThumbnails extends StatelessWidget {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(AppRadius.md - 2),
-                child: (images[index].startsWith('http') ? Image.network(images[index], fit: BoxFit.cover) : Image.asset(images[index], fit: BoxFit.cover)),
+                child: (images[index].startsWith('http') ? CachedNetworkImage(imageUrl: images[index], fit: BoxFit.cover) : Image.asset(images[index], fit: BoxFit.cover)),
               ),
             ),
           );

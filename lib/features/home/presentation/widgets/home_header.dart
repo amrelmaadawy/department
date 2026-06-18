@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
@@ -117,10 +118,10 @@ class HomeHeaderView extends StatelessWidget {
                     child: ClipOval(
                       child: avatarUrl != null && avatarUrl.isNotEmpty
                           ? (avatarUrl.startsWith('http')
-                              ? Image.network(
-                                  avatarUrl,
+                              ? CachedNetworkImage(
+                                  imageUrl: avatarUrl,
                                   fit: BoxFit.cover,
-                                  errorBuilder: (_, _, _) => _buildHomeFallbackAvatar(context),
+                                  errorWidget: (_, _, _) => _buildHomeFallbackAvatar(context),
                                 )
                               : Image.asset(
                                   avatarUrl,

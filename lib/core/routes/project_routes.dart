@@ -81,18 +81,7 @@ class ProjectRoutes {
         );
       },
     ),
-    GoRoute(
-      path: '/rooms/:roomId',
-      builder: (context, state) {
-        final room = state.extra as UnitRoomEntity;
-        final apartmentIdStr = state.uri.queryParameters['apartmentId'];
-        final apartmentId = int.tryParse(apartmentIdStr ?? '0') ?? 0;
-        return RoomDetailsScreen(
-          initialRoom: room,
-          apartmentId: apartmentId,
-        );
-      },
-    ),
+
     GoRoute(
       path: '/ai-renders/:orderId',
       builder: (context, state) {
