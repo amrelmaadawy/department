@@ -69,7 +69,7 @@ class AiRendersActionBar extends StatelessWidget {
                   ),
                   child: isDownloading 
                       ? SizedBox(width: 24, height: 24, child: CircularProgressIndicator(strokeWidth: 2, color: context.colors.textPrimary))
-                      : const Icon(FluentIcons.arrow_download_24_regular, size: 24),
+                      : const Icon(Icons.save_alt_outlined, size: 28),
                 );
               },
             ),
