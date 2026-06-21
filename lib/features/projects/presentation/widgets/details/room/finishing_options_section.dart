@@ -56,6 +56,12 @@ class _FinishingOptionsSectionState extends State<FinishingOptionsSection> {
 
   void _flattenSubtypes() {
     _allSubtypes = widget.options.expand((category) => category.subtypes).toList();
+    // Notify Cubit of total subtypes to determine completion status
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context.read<AiRoomDesignCubit>().setTotalSubtypesCount(_allSubtypes.length);
+      }
+    });
   }
 
   @override
@@ -239,10 +245,10 @@ class _FinishingOptionsSectionState extends State<FinishingOptionsSection> {
         padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl),
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: isSelected ? context.colors.primary : context.colors.background,
+          color: isSelected ? context.colors.gold.withValues(alpha: 0.1) : context.colors.background,
           borderRadius: BorderRadius.circular(AppRadius.round),
           border: Border.all(
-            color: isSelected ? context.colors.primary : context.colors.border,
+            color: isSelected ? context.colors.gold : context.colors.border,
             width: 1.5,
           ),
         ),
@@ -253,7 +259,7 @@ class _FinishingOptionsSectionState extends State<FinishingOptionsSection> {
               Icon(
                 FluentIcons.checkmark_circle_16_filled,
                 size: 18,
-                color: isSelected ? context.colors.white : context.colors.primary,
+                color: isSelected ? context.colors.gold : context.colors.primary,
               ),
               const SizedBox(width: AppSpacing.sm),
             ],
@@ -262,7 +268,7 @@ class _FinishingOptionsSectionState extends State<FinishingOptionsSection> {
               style: TextStyle(
                 fontSize: AppFonts.bodyMedium,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
-                color: isSelected ? context.colors.white : context.colors.textSecondary,
+                color: isSelected ? context.colors.gold : context.colors.textSecondary,
               ),
             ),
           ],

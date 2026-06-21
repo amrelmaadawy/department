@@ -43,7 +43,7 @@ class UnitRoomsProgressBar extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: 4),
                   decoration: BoxDecoration(
-                    color: context.colors.primary.withValues(alpha: 0.1),
+                    color: context.colors.gold.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(AppRadius.round),
                   ),
                   child: Text(
@@ -51,7 +51,7 @@ class UnitRoomsProgressBar extends StatelessWidget {
                     style: TextStyle(
                       fontSize: AppFonts.labelMedium,
                       fontWeight: FontWeight.bold,
-                      color: context.colors.primary,
+                      color: context.colors.gold,
                     ),
                   ),
                 ),
@@ -80,7 +80,7 @@ class UnitRoomsProgressBar extends StatelessWidget {
                     width: 40,
                     margin: const EdgeInsets.only(top: 14), // Align with center of 28px circle
                     height: 2,
-                    color: isLineGold ? context.colors.primary : context.colors.border,
+                    color: isLineGold ? context.colors.gold : context.colors.border,
                   );
                 } else {
                   // Step node
@@ -121,9 +121,9 @@ class UnitRoomsProgressBar extends StatelessWidget {
             height: 28,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: isCompleted ? context.colors.primary : context.colors.background,
+              color: isCompleted ? context.colors.gold : context.colors.background,
               border: Border.all(
-                color: isCompleted ? context.colors.primary : context.colors.border,
+                color: isCompleted ? context.colors.gold : context.colors.border,
                 width: 2,
               ),
             ),

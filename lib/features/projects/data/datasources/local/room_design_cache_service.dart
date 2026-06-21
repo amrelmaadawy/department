@@ -16,6 +16,7 @@ class RoomDesignCacheService {
     required double selectedMaterialsCost,
     required String? selectedStyle,
     required String notes,
+    required bool isCompleted,
   }) async {
     final key = _getKey(roomId);
     final data = {
@@ -23,6 +24,7 @@ class RoomDesignCacheService {
       'selectedMaterialsCost': selectedMaterialsCost,
       'selectedStyle': selectedStyle,
       'notes': notes,
+      'isCompleted': isCompleted,
     };
     await sharedPreferences.setString(key, json.encode(data));
   }

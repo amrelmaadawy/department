@@ -9,24 +9,27 @@ import '../../../../../../core/theme/theme_extension.dart';
 import '../../../../../../core/di/injection_container.dart';
 
 import '../../../../../home/domain/entities/unit_room_entity.dart';
+import '../../../../../home/domain/entities/project_unit_entity.dart';
 import '../../../cubit/room_details_cubit.dart';
 import '../../../cubit/room_details_state.dart';
 import '../../../cubit/unit_details_cubit.dart';
 import 'finishing_options_section.dart';
-import 'room_design_bottom_bar.dart';
+import 'unified_room_bottom_bar.dart';
 
 import 'package:apartment/features/projects/presentation/cubit/ai_room_design_cubit.dart';
 
 class RoomDetailsPage extends StatefulWidget {
   final UnitRoomEntity room;
-  final int apartmentId;
-  final List<UnitRoomEntity> unitRooms;
+  final ProjectUnitEntity unit;
+  final TabController tabController;
+  final double unitFinishingCost;
 
   const RoomDetailsPage({
     super.key,
     required this.room,
-    required this.apartmentId,
-    required this.unitRooms,
+    required this.unit,
+    required this.tabController,
+    required this.unitFinishingCost,
   });
 
   @override
@@ -49,7 +52,7 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> with AutomaticKeepAli
         BlocProvider(
           create: (context) => sl<AiRoomDesignCubit>()
             ..init(
-              apartmentId: widget.apartmentId,
+              apartmentId: int.parse(widget.unit.id),
               roomId: widget.room.id,
               roomArea: widget.room.area,
             ),
@@ -69,24 +72,26 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> with AutomaticKeepAli
           backgroundColor: context.colors.background,
           body: BlocBuilder<RoomDetailsCubit, RoomDetailsState>(
             builder: (context, state) {
-              return SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    SizedBox(height: AppSpacing.md),
-                    
-                    AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 400),
-                      child: _buildBody(state, context),
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 400),
+                        child: _buildBody(state, context),
+                      ),
                     ),
-                    
-                    SizedBox(height: AppSpacing.lg),
-                    // RoomDesignBottomBar acts as the AI Design Action Area now.
-                    if (state is RoomDetailsLoaded)
-                      const RoomDesignBottomBar(),
-                    SizedBox(height: AppSpacing.xxl),
-                  ],
-                ),
+                  ),
+                  if (state is RoomDetailsLoaded)
+                    UnifiedRoomBottomBar(
+                      tabController: widget.tabController,
+                      unit: widget.unit,
+                      finishingCost: widget.unitFinishingCost,
+                    )
+                  else if (state is RoomDetailsLoading || state is RoomDetailsInitial)
+                    _buildBottomBarShimmer(context),
+                ],
               );
             },
           ),
@@ -118,7 +123,7 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> with AutomaticKeepAli
     } else if (state is RoomDetailsLoaded) {
       return FinishingOptionsSection(
         options: state.roomDetails.finishingOptions,
-        unitRooms: widget.unitRooms,
+        unitRooms: widget.unit.rooms,
         currentRoom: widget.room,
       );
     }
@@ -132,58 +137,111 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> with AutomaticKeepAli
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                width: 4,
-                height: 24,
-                decoration: BoxDecoration(
-                  color: baseColor,
-                  borderRadius: BorderRadius.circular(2),
+      child: Shimmer.fromColors(
+        baseColor: baseColor,
+        highlightColor: highlightColor,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: AppSpacing.md),
+            // Progress Bar Shimmer
+            Container(
+               width: double.infinity,
+               height: 4,
+               decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(2)),
+            ),
+            SizedBox(height: AppSpacing.xl),
+            
+            // Tabs Shimmer
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: List.generate(4, (index) => 
+                  Container(
+                    margin: EdgeInsets.only(left: AppSpacing.md),
+                    width: 80,
+                    height: 36,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(AppRadius.round),
+                    ),
+                  )
                 ),
               ),
-              SizedBox(width: AppSpacing.sm),
-              Shimmer.fromColors(
-                baseColor: baseColor,
-                highlightColor: highlightColor,
-                child: Container(
-                  width: 180,
-                  height: 20,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: AppSpacing.md),
-          Shimmer.fromColors(
-            baseColor: baseColor,
-            highlightColor: highlightColor,
-            child: ListView.separated(
+            ),
+            SizedBox(height: AppSpacing.xxl),
+            
+            // Grid Shimmer
+            GridView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: 3,
-              separatorBuilder: (context, index) => SizedBox(height: AppSpacing.md),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: AppSpacing.md,
+                mainAxisSpacing: AppSpacing.md,
+                childAspectRatio: 0.75,
+              ),
+              itemCount: 4,
               itemBuilder: (context, index) {
                 return Container(
-                  height: 60,
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(AppRadius.md),
-                    border: Border.all(
-                      color: Colors.white,
-                    ),
+                    borderRadius: BorderRadius.circular(AppRadius.lg),
                   ),
                 );
               },
             ),
-          ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBottomBarShimmer(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final baseColor = isDark ? Colors.grey[800]! : Colors.grey[300]!;
+    final highlightColor = isDark ? Colors.grey[700]! : Colors.grey[100]!;
+
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
+      decoration: BoxDecoration(
+        color: context.colors.white,
+        boxShadow: [
+          BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 20, offset: const Offset(0, -5)),
         ],
+      ),
+      child: SafeArea(
+        child: Shimmer.fromColors(
+          baseColor: baseColor,
+          highlightColor: highlightColor,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(width: 80, height: 12, decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(2))),
+                      SizedBox(height: 8),
+                      Container(width: 120, height: 24, decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(4))),
+                    ],
+                  ),
+                  Container(width: 40, height: 40, decoration: BoxDecoration(color: Colors.white, shape: BoxShape.circle)),
+                ],
+              ),
+              SizedBox(height: AppSpacing.md),
+              Row(
+                children: [
+                  Expanded(child: Container(height: 48, decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(AppRadius.lg)))),
+                  SizedBox(width: AppSpacing.md),
+                  Expanded(child: Container(height: 48, decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(AppRadius.lg)))),
+                ],
+              )
+            ],
+          ),
+        ),
       ),
     );
   }

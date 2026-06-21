@@ -34,6 +34,7 @@ class AiRoomDesignCubit extends Cubit<AiRoomDesignState> {
       final selectedMaterialsCost = (cachedData['selectedMaterialsCost'] ?? 0.0).toDouble();
       final selectedStyle = cachedData['selectedStyle'] as String?;
       final notes = cachedData['notes'] as String? ?? '';
+      // isCompleted is saved but we derive it dynamically based on totalSubtypesCount anyway
 
       emit(state.copyWith(
         selectedMaterialIds: selectedMaterialIds,
@@ -61,13 +62,22 @@ class AiRoomDesignCubit extends Cubit<AiRoomDesignState> {
   }
 
   void _autoSave() {
+    final isCompleted = state.totalSubtypesCount > 0 && state.selectedMaterialIds.length >= state.totalSubtypesCount;
     cacheService.saveRoomDesignProgress(
       roomId: state.roomId,
       selectedMaterialIds: state.selectedMaterialIds,
       selectedMaterialsCost: state.selectedMaterialsCost,
       selectedStyle: state.selectedStyle,
       notes: state.notes,
+      isCompleted: isCompleted,
     );
+  }
+
+  void setTotalSubtypesCount(int count) {
+    if (state.totalSubtypesCount != count) {
+      emit(state.copyWith(totalSubtypesCount: count));
+      _autoSave();
+    }
   }
 
   void toggleMaterial(FinishingMaterialEntity material, List<FinishingMaterialEntity> siblingMaterials) {
@@ -158,12 +168,14 @@ class AiRoomDesignCubit extends Cubit<AiRoomDesignState> {
       double currentCost = 0.0;
       String? currentStyle;
       String currentNotes = '';
+      bool isCompleted = false;
 
       if (cachedData != null) {
         currentIds = List<int>.from(cachedData['selectedMaterialIds'] ?? []);
         currentCost = (cachedData['selectedMaterialsCost'] ?? 0.0).toDouble();
         currentStyle = cachedData['selectedStyle'] as String?;
         currentNotes = cachedData['notes'] as String? ?? '';
+        isCompleted = cachedData['isCompleted'] == true;
       }
 
       // Check if the material is already selected in the target room
@@ -193,7 +205,8 @@ class AiRoomDesignCubit extends Cubit<AiRoomDesignState> {
         selectedMaterialIds: currentIds,
         selectedMaterialsCost: currentCost,
         selectedStyle: currentStyle,
-        notes: currentNotes,
+        notes: currentNotes, 
+        isCompleted: isCompleted,
       );
     }
   }

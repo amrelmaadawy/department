@@ -34,14 +34,14 @@ class FinishingMaterialGridCard extends StatelessWidget {
           color: context.colors.white,
           borderRadius: BorderRadius.circular(AppRadius.lg),
           border: Border.all(
-            color: isSelected ? context.colors.primary : context.colors.border,
+            color: isSelected ? context.colors.gold : context.colors.border,
             width: isSelected ? 2.0 : 1.0,
           ),
           boxShadow: isSelected
               ? [
                   BoxShadow(
-                    color: context.colors.primary.withValues(alpha: 0.1),
-                    blurRadius: 8,
+                    color: context.colors.gold.withValues(alpha: 0.2),
+                    blurRadius: 12,
                     offset: const Offset(0, 4),
                   )
                 ]
@@ -134,7 +134,7 @@ class FinishingMaterialGridCard extends StatelessWidget {
                           : FluentIcons.circle_24_regular,
                       key: ValueKey<bool>(isSelected),
                       color: isSelected
-                          ? context.colors.primary
+                          ? context.colors.gold
                           : context.colors.textSecondary.withValues(alpha: 0.3),
                       size: 24,
                     ),

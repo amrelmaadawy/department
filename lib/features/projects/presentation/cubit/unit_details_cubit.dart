@@ -57,7 +57,7 @@ class UnitDetailsCubit extends Cubit<UnitDetailsState> {
     Set<int> ids = {};
     for (final room in unit.rooms) {
       final cachedData = cacheService.getRoomDesignProgress(room.id);
-      if (cachedData != null && (cachedData['selectedMaterialsCost'] ?? 0.0) > 0) {
+      if (cachedData != null && cachedData['isCompleted'] == true) {
         ids.add(room.id);
       }
     }
