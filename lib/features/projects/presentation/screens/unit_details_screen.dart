@@ -11,10 +11,12 @@ import '../widgets/details/unit/unit_overview_card.dart';
 import '../widgets/details/unit/unit_specs_chips.dart';
 import '../widgets/details/unit/unit_rooms_progress_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../widgets/details/unit/unit_rooms_section.dart';
 import '../cubit/unit_details_cubit.dart';
 import 'package:apartment/core/di/injection_container.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
+import 'package:apartment/core/theme/app_fonts.dart';
+
+import '../widgets/details/room/room_details_page.dart';
 
 class UnitDetailsScreen extends StatefulWidget {
   final ProjectUnitEntity unit;
@@ -31,7 +33,6 @@ class UnitDetailsScreen extends StatefulWidget {
 }
 
 class _UnitDetailsScreenState extends State<UnitDetailsScreen> {
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -42,6 +43,30 @@ class _UnitDetailsScreenState extends State<UnitDetailsScreen> {
         initialUnit: widget.unit,
       ),
     );
+  }
+}
+
+class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
+  final TabBar _tabBar;
+
+  _SliverAppBarDelegate(this._tabBar);
+
+  @override
+  double get minExtent => _tabBar.preferredSize.height;
+  @override
+  double get maxExtent => _tabBar.preferredSize.height;
+
+  @override
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Container(
+      color: context.colors.background,
+      child: _tabBar,
+    );
+  }
+
+  @override
+  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
+    return false;
   }
 }
 
@@ -66,174 +91,99 @@ class _UnitDetailsScreenContentState extends State<_UnitDetailsScreenContent> {
       builder: (context, state) {
         final currentUnit = state.unit ?? widget.initialUnit;
 
-        return Scaffold(
+        return DefaultTabController(
+          length: currentUnit.rooms.isNotEmpty ? currentUnit.rooms.length : 1,
+          child: Builder(
+            builder: (context) {
+              return Scaffold(
           backgroundColor: context.colors.background,
-          appBar: AppBar(
-            title: Text(
-              l10n.unitDetailsTitle,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: context.colors.textPrimary,
-              ),
-            ),
-            backgroundColor: context.colors.background,
-            elevation: 0,
-            scrolledUnderElevation: 0,
-            centerTitle: true,
-            iconTheme: IconThemeData(color: context.colors.textPrimary),
-           
-          ),
-          body: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                UnitFloorPlanViewer(
-                  unit: currentUnit,
-                  heroTag: widget.heroTag,
-                ),
-                UnitSpecsChips(unit: currentUnit),
-                UnitOverviewCard(unit: currentUnit),
-                
-                // Rooms Progress Bar
-                if (currentUnit.rooms.isNotEmpty)
-                  UnitRoomsProgressBar(
-                    rooms: currentUnit.rooms,
-                    completedRoomIds: state.completedRoomIds,
+          body: NestedScrollView(
+            headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+              return <Widget>[
+                SliverAppBar(
+                  title: Text(
+                    l10n.unitDetailsTitle,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: context.colors.textPrimary,
+                    ),
                   ),
-
-                // Animated Rooms Section
-                AnimatedSize(
-                  duration: const Duration(milliseconds: 400),
-                  curve: Curves.easeInOut,
-                  child: state is UnitDetailsLoading && state.unit?.rooms.isEmpty == true
-                      ? _buildRoomsShimmer(context)
-                      : UnitRoomsSection(
-                          rooms: currentUnit.rooms,
-                          apartmentId: currentUnit.id,
-                        ),
+                  backgroundColor: context.colors.background,
+                  elevation: 0,
+                  scrolledUnderElevation: 0,
+                  centerTitle: true,
+                  iconTheme: IconThemeData(color: context.colors.textPrimary),
+                  pinned: true,
+                  floating: true,
                 ),
-                
-                SizedBox(height: AppSpacing.lg),
-              ],
-            ),
+                SliverToBoxAdapter(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      UnitFloorPlanViewer(
+                        unit: currentUnit,
+                        heroTag: widget.heroTag,
+                      ),
+                      UnitSpecsChips(unit: currentUnit),
+                      UnitOverviewCard(unit: currentUnit),
+                      
+                      // Rooms Progress Bar
+                      if (currentUnit.rooms.isNotEmpty)
+                        UnitRoomsProgressBar(
+                          rooms: currentUnit.rooms,
+                          completedRoomIds: state.completedRoomIds,
+                          onRoomSelected: (index) {
+                            DefaultTabController.of(context).animateTo(index);
+                          },
+                        ),
+                      SizedBox(height: AppSpacing.md),
+                    ],
+                  ),
+                ),
+                if (currentUnit.rooms.isNotEmpty)
+                  SliverPersistentHeader(
+                    pinned: true,
+                    delegate: _SliverAppBarDelegate(
+                      TabBar(
+                        isScrollable: true,
+                        tabAlignment: TabAlignment.start,
+                        indicatorColor: context.colors.primary,
+                        labelColor: context.colors.primary,
+                        unselectedLabelColor: context.colors.textSecondary,
+                        dividerColor: Colors.transparent,
+                        labelStyle: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: AppFonts.bodyMedium,
+                        ),
+                        tabs: currentUnit.rooms.map((room) {
+                          return Tab(text: room.name);
+                        }).toList(),
+                      ),
+                    ),
+                  ),
+              ];
+            },
+            body: currentUnit.rooms.isEmpty
+                ? const Center(child: CircularProgressIndicator())
+                : TabBarView(
+                    children: currentUnit.rooms.map((room) {
+                      return RoomDetailsPage(
+                        room: room,
+                        apartmentId: int.parse(currentUnit.id),
+                        unitRooms: currentUnit.rooms,
+                      );
+                    }).toList(),
+                  ),
           ),
           bottomNavigationBar: UnitBottomActions(
             unit: currentUnit,
             finishingCost: state.totalFinishingCost,
           ),
         );
+        },
+        ),
+        );
       },
-    );
-  }
-
-  Widget _buildRoomsShimmer(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final baseColor = isDark ? Colors.grey[800]! : Colors.grey[300]!;
-    final highlightColor = isDark ? Colors.grey[700]! : Colors.grey[100]!;
-
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: AppSpacing.lg),
-          Row(
-            children: [
-              Container(
-                width: 4,
-                height: 24,
-                decoration: BoxDecoration(
-                  color: baseColor,
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-              SizedBox(width: AppSpacing.sm),
-              Shimmer.fromColors(
-                baseColor: baseColor,
-                highlightColor: highlightColor,
-                child: Container(
-                  width: 150,
-                  height: 20,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: AppSpacing.md),
-          Shimmer.fromColors(
-            baseColor: baseColor,
-            highlightColor: highlightColor,
-            child: ListView.separated(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: 3,
-              separatorBuilder: (context, index) => SizedBox(height: AppSpacing.sm),
-              itemBuilder: (context, index) {
-                return Container(
-                  padding: EdgeInsets.all(AppSpacing.md),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(AppRadius.md),
-                    border: Border.all(
-                      color: Colors.white,
-                    ),
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                      SizedBox(width: AppSpacing.md),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: 100,
-                              height: 14,
-                              color: Colors.white,
-                            ),
-                            SizedBox(height: 8),
-                            Container(
-                              width: 60,
-                              height: 10,
-                              color: Colors.white,
-                            ),
-                          ],
-                        ),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Container(
-                            width: 50,
-                            height: 14,
-                            color: Colors.white,
-                          ),
-                          SizedBox(height: 8),
-                          Container(
-                            width: 40,
-                            height: 10,
-                            color: Colors.white,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

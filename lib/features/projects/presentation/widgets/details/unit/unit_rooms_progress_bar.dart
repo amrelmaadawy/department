@@ -9,11 +9,13 @@ import 'package:apartment/core/theme/theme_extension.dart';
 class UnitRoomsProgressBar extends StatelessWidget {
   final List<UnitRoomEntity> rooms;
   final Set<int> completedRoomIds;
+  final void Function(int index)? onRoomSelected;
 
   const UnitRoomsProgressBar({
     super.key,
     required this.rooms,
     required this.completedRoomIds,
+    this.onRoomSelected,
   });
 
   @override
@@ -86,10 +88,13 @@ class UnitRoomsProgressBar extends StatelessWidget {
                   final room = rooms[roomIndex];
                   final isCompleted = completedRoomIds.contains(room.id);
                   
-                  return _buildStepNode(
-                    context,
-                    title: room.name,
-                    isCompleted: isCompleted,
+                  return GestureDetector(
+                    onTap: () => onRoomSelected?.call(roomIndex),
+                    child: _buildStepNode(
+                      context,
+                      title: room.name,
+                      isCompleted: isCompleted,
+                    ),
                   );
                 }
               }),

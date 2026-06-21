@@ -1,84 +1,87 @@
 import 'package:apartment/core/theme/app_radius.dart';
+import 'package:apartment/features/projects/presentation/cubit/ai_room_design_state.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-
-import '../../../../core/theme/app_spacing.dart';
-import '../../../../core/theme/theme_extension.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/di/injection_container.dart';
 
-import '../../../home/domain/entities/unit_room_entity.dart';
-import '../cubit/room_details_cubit.dart';
-import '../cubit/room_details_state.dart';
-import '../widgets/details/room/finishing_options_section.dart';
-import '../widgets/details/room/room_overview_card.dart';
-import '../widgets/details/room/ai_design_settings_section.dart';
-import '../widgets/details/room/room_design_bottom_bar.dart';
+import '../../../../../../core/theme/app_spacing.dart';
+import '../../../../../../core/theme/theme_extension.dart';
+import '../../../../../../core/di/injection_container.dart';
+
+import '../../../../../home/domain/entities/unit_room_entity.dart';
+import '../../../cubit/room_details_cubit.dart';
+import '../../../cubit/room_details_state.dart';
+import '../../../cubit/unit_details_cubit.dart';
+import 'finishing_options_section.dart';
+import 'room_overview_card.dart';
+import 'ai_design_settings_section.dart';
+import 'room_design_bottom_bar.dart';
 
 import 'package:apartment/features/projects/presentation/cubit/ai_room_design_cubit.dart';
 
-class RoomDetailsScreen extends StatefulWidget {
-  final UnitRoomEntity initialRoom;
+class RoomDetailsPage extends StatefulWidget {
+  final UnitRoomEntity room;
   final int apartmentId;
   final List<UnitRoomEntity> unitRooms;
 
-  const RoomDetailsScreen({
-    super.key, 
-    required this.initialRoom, 
+  const RoomDetailsPage({
+    super.key,
+    required this.room,
     required this.apartmentId,
-    this.unitRooms = const [],
+    required this.unitRooms,
   });
 
   @override
-  State<RoomDetailsScreen> createState() => _RoomDetailsScreenState();
+  State<RoomDetailsPage> createState() => _RoomDetailsPageState();
 }
 
-class _RoomDetailsScreenState extends State<RoomDetailsScreen> {
+class _RoomDetailsPageState extends State<RoomDetailsPage> with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true; // Keeps the room state alive when swiping
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+    
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => sl<RoomDetailsCubit>()..loadRoomDetails(widget.initialRoom),
+          create: (context) => sl<RoomDetailsCubit>()..loadRoomDetails(widget.room),
         ),
         BlocProvider(
           create: (context) => sl<AiRoomDesignCubit>()
             ..init(
               apartmentId: widget.apartmentId,
-              roomId: widget.initialRoom.id,
-              roomArea: widget.initialRoom.area,
+              roomId: widget.room.id,
+              roomArea: widget.room.area,
             ),
         ),
       ],
-      child: Scaffold(
-        backgroundColor: context.colors.background,
-        appBar: AppBar(
-          title: Text(
-            'تفاصيل الغرفة',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: context.colors.textPrimary,
-            ),
-          ),
+      child: BlocListener<AiRoomDesignCubit, AiRoomDesignState>(
+        listenWhen: (previous, current) {
+          return previous.selectedMaterialIds != current.selectedMaterialIds ||
+                 previous.selectedMaterialsCost != current.selectedMaterialsCost ||
+                 previous.selectedStyle != current.selectedStyle ||
+                 previous.status != current.status;
+        },
+        listener: (context, state) {
+          // Tell the parent UnitDetailsCubit to recalculate total cost and progress
+          context.read<UnitDetailsCubit>().refreshFinishingCost();
+        },
+        child: Scaffold(
           backgroundColor: context.colors.background,
-          elevation: 0,
-          scrolledUnderElevation: 0,
-          centerTitle: true,
-          iconTheme: IconThemeData(color: context.colors.textPrimary),
-        ),
-        body: BlocBuilder<RoomDetailsCubit, RoomDetailsState>(
-          builder: (context, state) {
-            final room = state is RoomDetailsLoaded
+          body: BlocBuilder<RoomDetailsCubit, RoomDetailsState>(
+            builder: (context, state) {
+            final currentRoom = state is RoomDetailsLoaded
                 ? state.roomDetails.room
-                : widget.initialRoom;
+                : widget.room;
 
             return SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   SizedBox(height: AppSpacing.md),
-                  RoomOverviewCard(room: room),
+                  RoomOverviewCard(room: currentRoom),
                   SizedBox(height: AppSpacing.xl),
                   
                   AnimatedSwitcher(
@@ -86,16 +89,18 @@ class _RoomDetailsScreenState extends State<RoomDetailsScreen> {
                     child: _buildBody(state, context),
                   ),
                   
+                  SizedBox(height: AppSpacing.lg),
+                  const RoomDesignBottomBar(),
                   SizedBox(height: AppSpacing.xxl),
                 ],
               ),
             );
           },
         ),
-        bottomNavigationBar: const RoomDesignBottomBar(),
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _buildBody(RoomDetailsState state, BuildContext context) {
     if (state is RoomDetailsLoading || state is RoomDetailsInitial) {
@@ -123,7 +128,7 @@ class _RoomDetailsScreenState extends State<RoomDetailsScreen> {
           FinishingOptionsSection(
             options: state.roomDetails.finishingOptions,
             unitRooms: widget.unitRooms,
-            currentRoom: widget.initialRoom,
+            currentRoom: widget.room,
           ),
           SizedBox(height: AppSpacing.xxl),
           const AiDesignSettingsSection(),
