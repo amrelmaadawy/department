@@ -34,7 +34,6 @@ class _SavedDesignsScreenState extends State<SavedDesignsScreen> {
   void initState() {
     super.initState();
     _filterCubit = SavedDesignsFilterCubit();
-    sl<ProfileCubit>().loadProfileIfNeeded();
   }
 
   @override
@@ -49,7 +48,7 @@ class _SavedDesignsScreenState extends State<SavedDesignsScreen> {
     final l10n = AppLocalizations.of(context)!;
     return MultiBlocProvider(
       providers: [
-        BlocProvider.value(value: sl<ProfileCubit>()),
+        BlocProvider(create: (_) => sl<ProfileCubit>()..loadProfileIfNeeded()),
         BlocProvider.value(value: _filterCubit),
       ],
       child: Scaffold(
