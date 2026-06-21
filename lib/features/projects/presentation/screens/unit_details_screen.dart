@@ -9,6 +9,7 @@ import '../widgets/details/unit/unit_bottom_actions.dart';
 import '../widgets/details/unit/unit_floor_plan_viewer.dart';
 import '../widgets/details/unit/unit_overview_card.dart';
 import '../widgets/details/unit/unit_specs_chips.dart';
+import '../widgets/details/unit/unit_rooms_progress_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../widgets/details/unit/unit_rooms_section.dart';
 import '../cubit/unit_details_cubit.dart';
@@ -93,6 +94,13 @@ class _UnitDetailsScreenContentState extends State<_UnitDetailsScreenContent> {
                 UnitSpecsChips(unit: currentUnit),
                 UnitOverviewCard(unit: currentUnit),
                 
+                // Rooms Progress Bar
+                if (currentUnit.rooms.isNotEmpty)
+                  UnitRoomsProgressBar(
+                    rooms: currentUnit.rooms,
+                    completedRoomIds: state.completedRoomIds,
+                  ),
+
                 // Animated Rooms Section
                 AnimatedSize(
                   duration: const Duration(milliseconds: 400),

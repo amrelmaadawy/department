@@ -1244,4 +1244,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get filter => 'Filter';
+
+  @override
+  String get stepStyle => 'Style';
+
+  @override
+  String get stepMaterials => 'Materials';
+
+  @override
+  String get stepDesign => 'Design';
+
+  @override
+  String get stepApproval => 'Approval';
 }

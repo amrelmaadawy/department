@@ -21,8 +21,14 @@ import 'package:apartment/features/projects/presentation/cubit/ai_room_design_cu
 class RoomDetailsScreen extends StatefulWidget {
   final UnitRoomEntity initialRoom;
   final int apartmentId;
+  final List<UnitRoomEntity> unitRooms;
 
-  const RoomDetailsScreen({super.key, required this.initialRoom, required this.apartmentId});
+  const RoomDetailsScreen({
+    super.key, 
+    required this.initialRoom, 
+    required this.apartmentId,
+    this.unitRooms = const [],
+  });
 
   @override
   State<RoomDetailsScreen> createState() => _RoomDetailsScreenState();
@@ -114,7 +120,11 @@ class _RoomDetailsScreenState extends State<RoomDetailsScreen> {
     } else if (state is RoomDetailsLoaded) {
       return Column(
         children: [
-          FinishingOptionsSection(options: state.roomDetails.finishingOptions),
+          FinishingOptionsSection(
+            options: state.roomDetails.finishingOptions,
+            unitRooms: widget.unitRooms,
+            currentRoom: widget.initialRoom,
+          ),
           SizedBox(height: AppSpacing.xxl),
           const AiDesignSettingsSection(),
         ],

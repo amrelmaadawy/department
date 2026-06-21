@@ -488,5 +488,9 @@
       "number": {}
     }
   },
-  "filter": "Filter"
+  "filter": "Filter",
+  "stepStyle": "Style",
+  "stepMaterials": "Materials",
+  "stepDesign": "Design",
+  "stepApproval": "Approval"
 }

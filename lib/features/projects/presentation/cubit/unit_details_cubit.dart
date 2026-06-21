@@ -29,7 +29,12 @@ class UnitDetailsCubit extends Cubit<UnitDetailsState> {
       )),
       (unit) {
         final totalFinishingCost = _calculateTotalFinishingCost(unit);
-        emit(UnitDetailsLoaded(unit: unit, totalFinishingCost: totalFinishingCost));
+        final completedRoomIds = _calculateCompletedRoomIds(unit);
+        emit(UnitDetailsLoaded(
+          unit: unit, 
+          totalFinishingCost: totalFinishingCost,
+          completedRoomIds: completedRoomIds,
+        ));
       },
     );
   }
@@ -48,11 +53,27 @@ class UnitDetailsCubit extends Cubit<UnitDetailsState> {
     return total;
   }
 
+  Set<int> _calculateCompletedRoomIds(ProjectUnitEntity unit) {
+    Set<int> ids = {};
+    for (final room in unit.rooms) {
+      final cachedData = cacheService.getRoomDesignProgress(room.id);
+      if (cachedData != null && (cachedData['selectedMaterialsCost'] ?? 0.0) > 0) {
+        ids.add(room.id);
+      }
+    }
+    return ids;
+  }
+
   void refreshFinishingCost() {
     if (state.unit != null) {
       final total = _calculateTotalFinishingCost(state.unit!);
+      final completedRoomIds = _calculateCompletedRoomIds(state.unit!);
       if (state is UnitDetailsLoaded) {
-        emit(UnitDetailsLoaded(unit: state.unit!, totalFinishingCost: total));
+        emit(UnitDetailsLoaded(
+          unit: state.unit!, 
+          totalFinishingCost: total,
+          completedRoomIds: completedRoomIds,
+        ));
       }
     }
   }

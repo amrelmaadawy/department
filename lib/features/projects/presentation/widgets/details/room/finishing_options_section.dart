@@ -12,11 +12,22 @@ import '../../../../../../core/theme/theme_extension.dart';
 import '../../../../../home/domain/entities/finishing_category_entity.dart';
 import '../../../../../home/domain/entities/finishing_subtype_entity.dart';
 import 'finishing_material_grid_card.dart';
+import 'material_apply_banner.dart';
+import 'room_selection_bottom_sheet.dart';
+import '../../../../../../core/widgets/app_toast.dart';
+import '../../../../../home/domain/entities/unit_room_entity.dart';
 
 class FinishingOptionsSection extends StatefulWidget {
   final List<FinishingCategoryEntity> options;
+  final List<UnitRoomEntity> unitRooms;
+  final UnitRoomEntity? currentRoom;
 
-  const FinishingOptionsSection({super.key, required this.options});
+  const FinishingOptionsSection({
+    super.key, 
+    required this.options,
+    this.unitRooms = const [],
+    this.currentRoom,
+  });
 
   @override
   State<FinishingOptionsSection> createState() => _FinishingOptionsSectionState();
@@ -132,6 +143,61 @@ class _FinishingOptionsSectionState extends State<FinishingOptionsSection> {
                   ),
           ),
         ),
+        
+        // Apply Material Banner
+        BlocBuilder<AiRoomDesignCubit, AiRoomDesignState>(
+          builder: (context, state) {
+            // Find if there is a selected material in the CURRENT subtype
+            final selectedMaterialIdInSubtype = selectedSubtype.materials
+                .map((m) => m.id)
+                .firstWhere((id) => state.selectedMaterialIds.contains(id), orElse: () => -1);
+
+            if (selectedMaterialIdInSubtype != -1 && widget.unitRooms.length > 1) {
+              final selectedMaterial = selectedSubtype.materials.firstWhere((m) => m.id == selectedMaterialIdInSubtype);
+              
+              return AnimatedSize(
+                duration: const Duration(milliseconds: 300),
+                child: MaterialApplyBanner(
+                  onApplyToAll: () {
+                    HapticFeedback.mediumImpact();
+                    context.read<AiRoomDesignCubit>().applyMaterialToOtherRooms(
+                      material: selectedMaterial,
+                      siblingMaterials: selectedSubtype.materials,
+                      targetRoomIds: widget.unitRooms.map((r) => r.id).toList(),
+                    );
+                    AppToast.showSuccess(
+                      context,
+                      'تم تطبيق ${selectedMaterial.name} على جميع الغرف بنجاح',
+                    );
+                  },
+                  onSelectSpecific: () {
+                    HapticFeedback.lightImpact();
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Colors.transparent,
+                      builder: (bottomSheetContext) => RoomSelectionBottomSheet(
+                        availableRooms: widget.unitRooms.where((r) => r.id != widget.currentRoom?.id).toList(),
+                        onApply: (selectedRoomIds) {
+                          context.read<AiRoomDesignCubit>().applyMaterialToOtherRooms(
+                            material: selectedMaterial,
+                            siblingMaterials: selectedSubtype.materials,
+                            targetRoomIds: selectedRoomIds,
+                          );
+                          AppToast.showSuccess(
+                            context,
+                            'تم تطبيق ${selectedMaterial.name} على الغرف المحددة بنجاح',
+                          );
+                        },
+                      ),
+                    );
+                  },
+                ),
+              );
+            }
+            return const SizedBox.shrink();
+          },
+        ),
       ],
     );
   }
@@ -204,69 +270,113 @@ class _FinishingOptionsSectionState extends State<FinishingOptionsSection> {
     return BlocBuilder<AiRoomDesignCubit, AiRoomDesignState>(
       buildWhen: (previous, current) => previous.selectedMaterialIds != current.selectedMaterialIds,
       builder: (context, state) {
-        int totalSteps = _allSubtypes.length;
-        int completedSteps = 0;
+        if (_allSubtypes.isEmpty) return const SizedBox.shrink();
 
-        for (var subtype in _allSubtypes) {
-          bool hasSelection = subtype.materials.any((m) => state.selectedMaterialIds.contains(m.id));
-          if (hasSelection) {
-            completedSteps++;
-          }
-        }
-
-        double progress = totalSteps == 0 ? 0 : completedSteps / totalSteps;
-        int percentage = (progress * 100).toInt();
+        // Determine completion for each subtype
+        List<bool> completedStatus = _allSubtypes.map((subtype) {
+          return subtype.materials.any((m) => state.selectedMaterialIds.contains(m.id));
+        }).toList();
 
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
+          padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'تقدم التشطيب',
-                    style: TextStyle(
-                      fontSize: AppFonts.bodyMedium,
-                      fontWeight: FontWeight.bold,
-                      color: context.colors.textPrimary,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'تقدم التشطيب',
+                      style: TextStyle(
+                        fontSize: AppFonts.headlineSmall,
+                        fontWeight: FontWeight.bold,
+                        color: context.colors.textPrimary,
+                      ),
                     ),
-                  ),
-                  Text(
-                    '$completedSteps / $totalSteps ($percentage%)',
-                    style: TextStyle(
-                      fontSize: AppFonts.bodySmall,
-                      fontWeight: FontWeight.bold,
-                      color: context.colors.primary,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: AppSpacing.sm),
-              Container(
-                height: 8,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: context.colors.border.withValues(alpha: 0.5),
-                  borderRadius: BorderRadius.circular(AppRadius.round),
-                ),
-                alignment: AlignmentDirectional.centerStart,
-                child: TweenAnimationBuilder<double>(
-                  duration: const Duration(milliseconds: 500),
-                  curve: Curves.easeOutCubic,
-                  tween: Tween<double>(begin: 0, end: progress),
-                  builder: (context, value, _) {
-                    return FractionallySizedBox(
-                      widthFactor: value,
-                      child: Container(
-                        decoration: BoxDecoration(
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: context.colors.primary.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(AppRadius.round),
+                      ),
+                      child: Text(
+                        '${completedStatus.where((c) => c).length} / ${_allSubtypes.length} (${(_allSubtypes.isEmpty ? 0 : (completedStatus.where((c) => c).length / _allSubtypes.length * 100)).toInt()}%)',
+                        style: TextStyle(
+                          fontSize: AppFonts.labelMedium,
+                          fontWeight: FontWeight.bold,
                           color: context.colors.primary,
-                          borderRadius: BorderRadius.circular(AppRadius.round),
                         ),
                       ),
-                    );
-                  },
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: AppSpacing.md),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: List.generate(_allSubtypes.length * 2 - 1, (index) {
+                    if (index.isOdd) {
+                      // Connector line
+                      final leftIndex = index ~/ 2;
+                      final rightIndex = leftIndex + 1;
+                      final isLineGold = completedStatus[leftIndex] && completedStatus[rightIndex];
+
+                      return Container(
+                        width: 40,
+                        margin: const EdgeInsets.only(top: 14), // Align with center of 28px circle
+                        height: 2,
+                        color: isLineGold ? context.colors.primary : context.colors.border,
+                      );
+                    } else {
+                      // Step node
+                      final stepIndex = index ~/ 2;
+                      final subtype = _allSubtypes[stepIndex];
+                      final isCompleted = completedStatus[stepIndex];
+
+                      return SizedBox(
+                        width: 70, // Fixed width for centering text
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              width: 28,
+                              height: 28,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: isCompleted ? context.colors.primary : context.colors.background,
+                                border: Border.all(
+                                  color: isCompleted ? context.colors.primary : context.colors.border,
+                                  width: 2,
+                                ),
+                              ),
+                              child: Icon(
+                                FluentIcons.checkmark_12_filled,
+                                size: 16,
+                                color: isCompleted ? context.colors.white : context.colors.border,
+                              ),
+                            ),
+                            const SizedBox(height: AppSpacing.sm),
+                            Text(
+                              subtype.subtypeName,
+                              textAlign: TextAlign.center,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: AppFonts.bodySmall,
+                                fontWeight: isCompleted ? FontWeight.bold : FontWeight.w600,
+                                color: isCompleted ? context.colors.textPrimary : context.colors.textSecondary,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                  }),
                 ),
               ),
             ],

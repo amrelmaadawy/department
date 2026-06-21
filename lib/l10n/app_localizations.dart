@@ -2431,6 +2431,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Filter'**
   String get filter;
+
+  /// No description provided for @stepStyle.
+  ///
+  /// In en, this message translates to:
+  /// **'Style'**
+  String get stepStyle;
+
+  /// No description provided for @stepMaterials.
+  ///
+  /// In en, this message translates to:
+  /// **'Materials'**
+  String get stepMaterials;
+
+  /// No description provided for @stepDesign.
+  ///
+  /// In en, this message translates to:
+  /// **'Design'**
+  String get stepDesign;
+
+  /// No description provided for @stepApproval.
+  ///
+  /// In en, this message translates to:
+  /// **'Approval'**
+  String get stepApproval;
 }
 
 class _AppLocalizationsDelegate

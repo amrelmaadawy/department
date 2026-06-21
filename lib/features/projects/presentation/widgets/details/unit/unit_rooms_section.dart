@@ -89,6 +89,7 @@ class UnitRoomsSection extends StatelessWidget {
             await context.push(AppRouter.roomDetails, extra: {
               'room': room,
               'apartmentId': int.parse(apartmentId),
+              'unitRooms': rooms,
             });
             if (context.mounted) {
               context.read<UnitDetailsCubit>().refreshFinishingCost();

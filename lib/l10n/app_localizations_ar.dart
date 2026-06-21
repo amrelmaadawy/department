@@ -1235,4 +1235,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get filter => 'تصفية';
+
+  @override
+  String get stepStyle => 'النمط';
+
+  @override
+  String get stepMaterials => 'الخامات';
+
+  @override
+  String get stepDesign => 'التصميم';
+
+  @override
+  String get stepApproval => 'الاعتماد';
 }

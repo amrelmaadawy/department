@@ -488,5 +488,9 @@
       "number": {}
     }
   },
-  "filter": "تصفية"
+  "filter": "تصفية",
+  "stepStyle": "النمط",
+  "stepMaterials": "الخامات",
+  "stepDesign": "التصميم",
+  "stepApproval": "الاعتماد"
 }

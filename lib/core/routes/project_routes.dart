@@ -76,6 +76,7 @@ class ProjectRoutes {
           child: RoomDetailsScreen(
             initialRoom: extra['room'] as UnitRoomEntity,
             apartmentId: extra['apartmentId'] as int,
+            unitRooms: (extra['unitRooms'] as List?)?.cast<UnitRoomEntity>() ?? [],
           ),
           transitionsBuilder: AppRouterTransitions.slideFromRight,
         );
