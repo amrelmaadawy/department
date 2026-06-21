@@ -37,27 +37,21 @@ class RoomDesignBottomBar extends StatelessWidget {
       },
       builder: (context, state) {
         return Container(
-          padding: EdgeInsets.only(
-            left: AppSpacing.lg,
-            right: AppSpacing.lg,
-            top: AppSpacing.md,
-            bottom: MediaQuery.of(context).padding.bottom + AppSpacing.md,
-          ),
+          margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+          padding: const EdgeInsets.all(AppSpacing.md),
           decoration: BoxDecoration(
             color: context.colors.white,
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.05),
-                blurRadius: 20,
-                offset: const Offset(0, -5),
+                blurRadius: 15,
+                offset: const Offset(0, 5),
               ),
             ],
-            borderRadius: BorderRadius.vertical(top: Radius.circular(AppRadius.xl)),
+            borderRadius: BorderRadius.circular(AppRadius.xl),
           ),
-          child: SafeArea(
-            top: false,
-            child: Row(
-              children: [
+          child: Row(
+            children: [
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -133,8 +127,7 @@ class RoomDesignBottomBar extends StatelessWidget {
                     ),
                   ),
                 ),
-              ],
-            ),
+            ],
           ),
         );
       },

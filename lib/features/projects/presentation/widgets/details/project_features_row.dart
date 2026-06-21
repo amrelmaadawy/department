@@ -45,7 +45,7 @@ class ProjectFeaturesRow extends StatelessWidget {
           final feature = entry.value;
           return Padding(
             padding: EdgeInsets.only(
-              right: index == 0 ? 0 : AppSpacing.xl,
+              right: index == 0 ? 0 : AppSpacing.md,
             ),
             child: Container(
               constraints: const BoxConstraints(minWidth: 75, maxWidth: 100),

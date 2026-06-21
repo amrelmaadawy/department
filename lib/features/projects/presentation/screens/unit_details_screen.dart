@@ -5,7 +5,7 @@ import 'package:apartment/features/home/domain/entities/project_unit_entity.dart
 import 'package:apartment/l10n/app_localizations.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../widgets/details/unit/unit_bottom_actions.dart';
+import '../widgets/details/unit/unit_wizard_bottom_bar.dart';
 import '../widgets/details/unit/unit_floor_plan_viewer.dart';
 import '../widgets/details/unit/unit_overview_card.dart';
 import '../widgets/details/unit/unit_specs_chips.dart';
@@ -175,9 +175,10 @@ class _UnitDetailsScreenContentState extends State<_UnitDetailsScreenContent> {
                     }).toList(),
                   ),
           ),
-          bottomNavigationBar: UnitBottomActions(
+          bottomNavigationBar: UnitWizardBottomBar(
             unit: currentUnit,
             finishingCost: state.totalFinishingCost,
+            tabController: DefaultTabController.of(context),
           ),
         );
         },

@@ -8,7 +8,6 @@ import '../../../features/projects/presentation/screens/unit_details_screen.dart
 import '../../../features/projects/presentation/screens/ai_renders_screen.dart';
 import '../../../features/home/domain/entities/project_entity.dart';
 import '../../../features/home/domain/entities/project_unit_entity.dart';
-import '../../../features/home/domain/entities/unit_room_entity.dart';
 
 class ProjectRoutes {
   static final List<RouteBase> routes = [
