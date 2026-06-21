@@ -141,8 +141,6 @@ class AiRoomDesignCubit extends Cubit<AiRoomDesignState> {
           status: AiDesignStatus.success,
           resultOrder: order,
         ));
-        // Clear the cache after successful submission
-        cacheService.clearRoomDesignProgress(state.roomId);
       },
     );
   }
