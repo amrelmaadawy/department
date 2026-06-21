@@ -4,6 +4,7 @@ import 'package:apartment/core/routes/app_router_transitions.dart';
 
 import '../../../features/projects/presentation/screens/project_details_screen.dart';
 import '../../../features/projects/presentation/screens/unit_details_screen.dart';
+import '../../../features/projects/presentation/screens/unit_customization_screen.dart';
 
 import '../../../features/projects/presentation/screens/ai_renders_screen.dart';
 import '../../../features/home/domain/entities/project_entity.dart';
@@ -57,7 +58,28 @@ class ProjectRoutes {
         );
       },
     ),
-
+    GoRoute(
+      path: AppRouter.unitCustomization,
+      redirect: (context, state) => state.extra == null ? AppRouter.layout : null,
+      pageBuilder: (context, state) {
+        final extra = state.extra as Map<String, dynamic>?;
+        if (extra == null) {
+          return CustomTransitionPage(
+            key: state.pageKey,
+            child: const RedirectFallback(route: AppRouter.layout),
+            transitionsBuilder: AppRouterTransitions.fadeTransition,
+          );
+        }
+        return CustomTransitionPage(
+          key: state.pageKey,
+          transitionDuration: const Duration(milliseconds: 600),
+          child: UnitCustomizationScreen(
+            unit: extra['unit'] as ProjectUnitEntity,
+          ),
+          transitionsBuilder: AppRouterTransitions.slideUpFromBottom,
+        );
+      },
+    ),
     GoRoute(
       path: '/ai-renders/:orderId',
       builder: (context, state) {

@@ -13,8 +13,6 @@ import '../../../cubit/room_details_cubit.dart';
 import '../../../cubit/room_details_state.dart';
 import '../../../cubit/unit_details_cubit.dart';
 import 'finishing_options_section.dart';
-import 'room_overview_card.dart';
-import 'ai_design_settings_section.dart';
 import 'room_design_bottom_bar.dart';
 
 import 'package:apartment/features/projects/presentation/cubit/ai_room_design_cubit.dart';
@@ -37,7 +35,7 @@ class RoomDetailsPage extends StatefulWidget {
 
 class _RoomDetailsPageState extends State<RoomDetailsPage> with AutomaticKeepAliveClientMixin {
   @override
-  bool get wantKeepAlive => true; // Keeps the room state alive when swiping
+  bool get wantKeepAlive => true; 
 
   @override
   Widget build(BuildContext context) {
@@ -65,42 +63,37 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> with AutomaticKeepAli
                  previous.status != current.status;
         },
         listener: (context, state) {
-          // Tell the parent UnitDetailsCubit to recalculate total cost and progress
           context.read<UnitDetailsCubit>().refreshFinishingCost();
         },
         child: Scaffold(
           backgroundColor: context.colors.background,
           body: BlocBuilder<RoomDetailsCubit, RoomDetailsState>(
             builder: (context, state) {
-            final currentRoom = state is RoomDetailsLoaded
-                ? state.roomDetails.room
-                : widget.room;
-
-            return SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  SizedBox(height: AppSpacing.md),
-                  RoomOverviewCard(room: currentRoom),
-                  SizedBox(height: AppSpacing.xl),
-                  
-                  AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 400),
-                    child: _buildBody(state, context),
-                  ),
-                  
-                  SizedBox(height: AppSpacing.lg),
-                  const RoomDesignBottomBar(),
-                  SizedBox(height: AppSpacing.xxl),
-                ],
-              ),
-            );
-          },
+              return SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    SizedBox(height: AppSpacing.md),
+                    
+                    AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 400),
+                      child: _buildBody(state, context),
+                    ),
+                    
+                    SizedBox(height: AppSpacing.lg),
+                    // RoomDesignBottomBar acts as the AI Design Action Area now.
+                    if (state is RoomDetailsLoaded)
+                      const RoomDesignBottomBar(),
+                    SizedBox(height: AppSpacing.xxl),
+                  ],
+                ),
+              );
+            },
+          ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 
   Widget _buildBody(RoomDetailsState state, BuildContext context) {
     if (state is RoomDetailsLoading || state is RoomDetailsInitial) {
@@ -123,16 +116,10 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> with AutomaticKeepAli
         ),
       );
     } else if (state is RoomDetailsLoaded) {
-      return Column(
-        children: [
-          FinishingOptionsSection(
-            options: state.roomDetails.finishingOptions,
-            unitRooms: widget.unitRooms,
-            currentRoom: widget.room,
-          ),
-          SizedBox(height: AppSpacing.xxl),
-          const AiDesignSettingsSection(),
-        ],
+      return FinishingOptionsSection(
+        options: state.roomDetails.finishingOptions,
+        unitRooms: widget.unitRooms,
+        currentRoom: widget.room,
       );
     }
     return const SizedBox.shrink();

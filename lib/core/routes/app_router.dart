@@ -33,6 +33,7 @@ class AppRouter {
   static const String editProfile = '/edit-profile';
   static const String security = '/security';
   static const String appSettings = '/app-settings';
+  static const String unitCustomization = '/unit-customization';
   static const String support = '/support';
   static const String aiGallery = '/ai-gallery';
   static const String savedDesigns = '/saved-designs';

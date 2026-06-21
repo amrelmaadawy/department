@@ -1,24 +1,20 @@
-import 'package:apartment/core/theme/app_radius.dart';
-import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
+import 'package:apartment/core/theme/app_fonts.dart';
+import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/features/home/domain/entities/project_unit_entity.dart';
 import 'package:apartment/l10n/app_localizations.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
+import 'package:apartment/core/widgets/custom_button.dart';
+import 'package:apartment/core/routes/app_router.dart';
 
-import '../widgets/details/unit/unit_wizard_bottom_bar.dart';
 import '../widgets/details/unit/unit_floor_plan_viewer.dart';
 import '../widgets/details/unit/unit_overview_card.dart';
-import '../widgets/details/unit/unit_specs_chips.dart';
-import '../widgets/details/unit/unit_rooms_progress_bar.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import '../cubit/unit_details_cubit.dart';
-import 'package:apartment/core/di/injection_container.dart';
-import 'package:apartment/core/theme/theme_extension.dart';
-import 'package:apartment/core/theme/app_fonts.dart';
+import '../widgets/details/unit/unit_bento_grid.dart';
+import '../widgets/details/project_features_row.dart';
 
-import '../widgets/details/room/room_details_page.dart';
-
-class UnitDetailsScreen extends StatefulWidget {
+class UnitDetailsScreen extends StatelessWidget {
   final ProjectUnitEntity unit;
   final String heroTag;
 
@@ -29,162 +25,123 @@ class UnitDetailsScreen extends StatefulWidget {
   });
 
   @override
-  State<UnitDetailsScreen> createState() => _UnitDetailsScreenState();
-}
-
-class _UnitDetailsScreenState extends State<UnitDetailsScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => sl<UnitDetailsCubit>()
-        ..loadUnitDetails(int.parse(widget.unit.id), initialUnit: widget.unit),
-      child: _UnitDetailsScreenContent(
-        heroTag: widget.heroTag,
-        initialUnit: widget.unit,
-      ),
-    );
-  }
-}
-
-class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
-  final TabBar _tabBar;
-
-  _SliverAppBarDelegate(this._tabBar);
-
-  @override
-  double get minExtent => _tabBar.preferredSize.height;
-  @override
-  double get maxExtent => _tabBar.preferredSize.height;
-
-  @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Container(
-      color: context.colors.background,
-      child: _tabBar,
-    );
-  }
-
-  @override
-  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
-    return false;
-  }
-}
-
-class _UnitDetailsScreenContent extends StatefulWidget {
-  final ProjectUnitEntity initialUnit;
-  final String heroTag;
-
-  const _UnitDetailsScreenContent({
-    required this.initialUnit,
-    required this.heroTag,
-  });
-
-  @override
-  State<_UnitDetailsScreenContent> createState() => _UnitDetailsScreenContentState();
-}
-
-class _UnitDetailsScreenContentState extends State<_UnitDetailsScreenContent> {
-  @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    return BlocBuilder<UnitDetailsCubit, UnitDetailsState>(
-      builder: (context, state) {
-        final currentUnit = state.unit ?? widget.initialUnit;
+    final formatter = NumberFormat.currency(symbol: '', decimalDigits: 0);
 
-        return DefaultTabController(
-          length: currentUnit.rooms.isNotEmpty ? currentUnit.rooms.length : 1,
-          child: Builder(
-            builder: (context) {
-              return Scaffold(
-          backgroundColor: context.colors.background,
-          body: NestedScrollView(
-            headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-              return <Widget>[
-                SliverAppBar(
-                  title: Text(
-                    l10n.unitDetailsTitle,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: context.colors.textPrimary,
-                    ),
-                  ),
-                  backgroundColor: context.colors.background,
-                  elevation: 0,
-                  scrolledUnderElevation: 0,
-                  centerTitle: true,
-                  iconTheme: IconThemeData(color: context.colors.textPrimary),
-                  pinned: true,
-                  floating: true,
+    return Scaffold(
+      backgroundColor: context.colors.background,
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            title: Text(
+              l10n.unitDetailsTitle,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: context.colors.textPrimary,
+              ),
+            ),
+            backgroundColor: context.colors.background,
+            elevation: 0,
+            scrolledUnderElevation: 0,
+            centerTitle: true,
+            iconTheme: IconThemeData(color: context.colors.textPrimary),
+            pinned: true,
+            floating: true,
+          ),
+          SliverToBoxAdapter(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                UnitFloorPlanViewer(
+                  unit: unit,
+                  heroTag: heroTag,
                 ),
-                SliverToBoxAdapter(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      UnitFloorPlanViewer(
-                        unit: currentUnit,
-                        heroTag: widget.heroTag,
-                      ),
-                      UnitSpecsChips(unit: currentUnit),
-                      UnitOverviewCard(unit: currentUnit),
-                      
-                      // Rooms Progress Bar
-                      if (currentUnit.rooms.isNotEmpty)
-                        UnitRoomsProgressBar(
-                          rooms: currentUnit.rooms,
-                          completedRoomIds: state.completedRoomIds,
-                          onRoomSelected: (index) {
-                            DefaultTabController.of(context).animateTo(index);
-                          },
-                        ),
-                      SizedBox(height: AppSpacing.md),
-                    ],
-                  ),
-                ),
-                if (currentUnit.rooms.isNotEmpty)
-                  SliverPersistentHeader(
-                    pinned: true,
-                    delegate: _SliverAppBarDelegate(
-                      TabBar(
-                        isScrollable: true,
-                        tabAlignment: TabAlignment.start,
-                        indicatorColor: context.colors.primary,
-                        labelColor: context.colors.primary,
-                        unselectedLabelColor: context.colors.textSecondary,
-                        dividerColor: Colors.transparent,
-                        labelStyle: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: AppFonts.bodyMedium,
-                        ),
-                        tabs: currentUnit.rooms.map((room) {
-                          return Tab(text: room.name);
-                        }).toList(),
+                const SizedBox(height: AppSpacing.lg),
+                UnitBentoGrid(unit: unit),
+                if (unit.extras.isNotEmpty) ...[
+                  const SizedBox(height: AppSpacing.lg),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                    child: Text(
+                      'مميزات الوحدة',
+                      style: TextStyle(
+                        fontSize: AppFonts.headlineSmall,
+                        fontWeight: FontWeight.bold,
+                        color: context.colors.textPrimary,
                       ),
                     ),
                   ),
-              ];
-            },
-            body: currentUnit.rooms.isEmpty
-                ? const Center(child: CircularProgressIndicator())
-                : TabBarView(
-                    children: currentUnit.rooms.map((room) {
-                      return RoomDetailsPage(
-                        room: room,
-                        apartmentId: int.parse(currentUnit.id),
-                        unitRooms: currentUnit.rooms,
-                      );
-                    }).toList(),
-                  ),
+                  ProjectFeaturesRow(features: unit.extras),
+                ],
+                const SizedBox(height: AppSpacing.md),
+                UnitOverviewCard(unit: unit),
+                const SizedBox(height: AppSpacing.xxl),
+              ],
+            ),
           ),
-          bottomNavigationBar: UnitWizardBottomBar(
-            unit: currentUnit,
-            finishingCost: state.totalFinishingCost,
-            tabController: DefaultTabController.of(context),
-          ),
-        );
-        },
+        ],
+      ),
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.lg,
+          vertical: AppSpacing.md,
         ),
-        );
-      },
+        decoration: BoxDecoration(
+          color: context.colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.05),
+              blurRadius: 20,
+              offset: const Offset(0, -5),
+            ),
+          ],
+        ),
+        child: SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    l10n.priceTitle,
+                    style: TextStyle(
+                      fontSize: AppFonts.bodyMedium,
+                      color: context.colors.textSecondary,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  Text(
+                    '${formatter.format(unit.price).trim()} ${l10n.sar}',
+                    style: TextStyle(
+                      fontSize: AppFonts.headlineLarge,
+                      fontWeight: FontWeight.bold,
+                      color: context.colors.gold,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: AppSpacing.md),
+              SizedBox(
+                width: double.infinity,
+                child: CustomButton(
+                  text: 'ابدأ رحلة التشطيب',
+                  onPressed: () {
+                    context.push(
+                      AppRouter.unitCustomization,
+                      extra: {
+                        'unit': unit,
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

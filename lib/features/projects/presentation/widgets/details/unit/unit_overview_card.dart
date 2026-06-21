@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
 import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_radius.dart';
@@ -6,7 +7,6 @@ import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/features/home/domain/entities/project_unit_entity.dart';
 import 'package:apartment/l10n/app_localizations.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
-
 
 class UnitOverviewCard extends StatelessWidget {
   final ProjectUnitEntity unit;
@@ -22,11 +22,10 @@ class UnitOverviewCard extends StatelessWidget {
     }
 
     return Container(
-      margin: EdgeInsets.symmetric(
+      margin: const EdgeInsets.symmetric(
         horizontal: AppSpacing.lg,
-        vertical: AppSpacing.md,
       ),
-      padding: EdgeInsets.all(AppSpacing.lg),
+      padding: const EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
         color: context.colors.white,
         borderRadius: BorderRadius.circular(AppRadius.lg),
@@ -37,21 +36,22 @@ class UnitOverviewCard extends StatelessWidget {
             offset: const Offset(0, 4),
           ),
         ],
+        border: Border.all(
+          color: context.colors.border.withValues(alpha: 0.5),
+          width: 1,
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Container(
-                width: 4,
-                height: 24,
-                decoration: BoxDecoration(
-                  color: context.colors.textPrimary,
-                  borderRadius: BorderRadius.circular(2),
-                ),
+              Icon(
+                FluentIcons.text_quote_24_filled,
+                color: context.colors.gold,
+                size: 28,
               ),
-              SizedBox(width: AppSpacing.sm),
+              const SizedBox(width: AppSpacing.sm),
               Text(
                 l10n.overviewTitle,
                 style: TextStyle(
@@ -62,13 +62,13 @@ class UnitOverviewCard extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: AppSpacing.md),
+          const SizedBox(height: AppSpacing.md),
           Text(
             unit.description,
             style: TextStyle(
               fontSize: AppFonts.bodyMedium,
               color: context.colors.textSecondary,
-              height: 1.6,
+              height: 1.8,
             ),
           ),
         ],

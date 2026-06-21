@@ -99,12 +99,9 @@ class _UnitFloorPlanViewerState extends State<UnitFloorPlanViewer> {
       children: [
         Container(
           width: double.infinity,
-          height: 280,
-          margin: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.lg,
-            vertical: AppSpacing.md,
-          ),
+          height: 320,
           decoration: BoxDecoration(
+            color: context.colors.background,
             gradient: RadialGradient(
               colors: [
                 context.colors.white,
@@ -112,22 +109,18 @@ class _UnitFloorPlanViewerState extends State<UnitFloorPlanViewer> {
               ],
               radius: 1.5,
             ),
-            borderRadius: BorderRadius.circular(AppRadius.lg),
-            border: Border.all(color: context.colors.primary.withValues(alpha: 0.1), width: 1),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.03),
-                blurRadius: 20,
-                offset: const Offset(0, 10),
+            border: Border(
+              bottom: BorderSide(
+                color: context.colors.border.withValues(alpha: 0.5),
+                width: 1,
               ),
-            ],
+            ),
           ),
           child: Stack(
             alignment: Alignment.center,
             children: [
               // The image carousel
-              ClipRRect(
-                borderRadius: BorderRadius.circular(AppRadius.lg),
+              ClipRect(
                 child: PageView.builder(
                   physics: _isZoomedIn ? const NeverScrollableScrollPhysics() : null,
                   controller: _pageController,

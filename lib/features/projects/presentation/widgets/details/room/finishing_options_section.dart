@@ -67,23 +67,29 @@ class _FinishingOptionsSectionState extends State<FinishingOptionsSection> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildProgressBar(context),
+        _buildLinearProgressBar(context),
         const SizedBox(height: AppSpacing.md),
         // Tabs Section
-        SizedBox(
-          height: 40,
-          child: ListView.separated(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-            physics: const BouncingScrollPhysics(),
-            itemCount: _allSubtypes.length,
-            separatorBuilder: (context, index) => const SizedBox(width: AppSpacing.sm),
-            itemBuilder: (context, index) {
-              final isSelected = index == _selectedTabIndex;
-              final subtype = _allSubtypes[index];
-              return _buildTabItem(context, subtype, isSelected, index);
-            },
-          ),
+        BlocBuilder<AiRoomDesignCubit, AiRoomDesignState>(
+          buildWhen: (previous, current) => previous.selectedMaterialIds != current.selectedMaterialIds,
+          builder: (context, state) {
+            return SizedBox(
+              height: 40,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                physics: const BouncingScrollPhysics(),
+                itemCount: _allSubtypes.length,
+                separatorBuilder: (context, index) => const SizedBox(width: AppSpacing.sm),
+                itemBuilder: (context, index) {
+                  final isSelected = index == _selectedTabIndex;
+                  final subtype = _allSubtypes[index];
+                  final isCompleted = subtype.materials.any((m) => state.selectedMaterialIds.contains(m.id));
+                  return _buildTabItem(context, subtype, isSelected, isCompleted, index);
+                },
+              ),
+            );
+          },
         ),
         
         const SizedBox(height: AppSpacing.lg),
@@ -129,12 +135,24 @@ class _FinishingOptionsSectionState extends State<FinishingOptionsSection> {
                           return FinishingMaterialGridCard(
                             material: material,
                             isSelected: isSelected,
+                            roomArea: widget.currentRoom?.area,
                             onTap: () {
                               HapticFeedback.lightImpact();
                               context.read<AiRoomDesignCubit>().toggleMaterial(
                                 material,
                                 selectedSubtype.materials,
                               );
+                              
+                              // Auto-Advance Magic ✨
+                              if (!isSelected && _selectedTabIndex < _allSubtypes.length - 1) {
+                                Future.delayed(const Duration(milliseconds: 500), () {
+                                  if (mounted) {
+                                    setState(() {
+                                      _selectedTabIndex++;
+                                    });
+                                  }
+                                });
+                              }
                             },
                           );
                         },
@@ -206,6 +224,7 @@ class _FinishingOptionsSectionState extends State<FinishingOptionsSection> {
     BuildContext context,
     FinishingSubtypeEntity subtype,
     bool isSelected,
+    bool isCompleted,
     int index,
   ) {
     return GestureDetector(
@@ -227,13 +246,26 @@ class _FinishingOptionsSectionState extends State<FinishingOptionsSection> {
             width: 1.5,
           ),
         ),
-        child: Text(
-          subtype.subtypeName,
-          style: TextStyle(
-            fontSize: AppFonts.bodyMedium,
-            fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
-            color: isSelected ? context.colors.white : context.colors.textSecondary,
-          ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (isCompleted) ...[
+              Icon(
+                FluentIcons.checkmark_circle_16_filled,
+                size: 18,
+                color: isSelected ? context.colors.white : context.colors.primary,
+              ),
+              const SizedBox(width: AppSpacing.sm),
+            ],
+            Text(
+              subtype.subtypeName,
+              style: TextStyle(
+                fontSize: AppFonts.bodyMedium,
+                fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
+                color: isSelected ? context.colors.white : context.colors.textSecondary,
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -266,117 +298,52 @@ class _FinishingOptionsSectionState extends State<FinishingOptionsSection> {
     );
   }
 
-  Widget _buildProgressBar(BuildContext context) {
+  Widget _buildLinearProgressBar(BuildContext context) {
     return BlocBuilder<AiRoomDesignCubit, AiRoomDesignState>(
       buildWhen: (previous, current) => previous.selectedMaterialIds != current.selectedMaterialIds,
       builder: (context, state) {
         if (_allSubtypes.isEmpty) return const SizedBox.shrink();
 
-        // Determine completion for each subtype
-        List<bool> completedStatus = _allSubtypes.map((subtype) {
+        final completedCount = _allSubtypes.where((subtype) {
           return subtype.materials.any((m) => state.selectedMaterialIds.contains(m.id));
-        }).toList();
+        }).length;
+        
+        final progress = completedCount / _allSubtypes.length;
 
         return Padding(
-          padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'تقدم التشطيب',
-                      style: TextStyle(
-                        fontSize: AppFonts.headlineSmall,
-                        fontWeight: FontWeight.bold,
-                        color: context.colors.textPrimary,
-                      ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'تقدم الغرفة',
+                    style: TextStyle(
+                      fontSize: AppFonts.labelMedium,
+                      fontWeight: FontWeight.bold,
+                      color: context.colors.textSecondary,
                     ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: context.colors.primary.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(AppRadius.round),
-                      ),
-                      child: Text(
-                        '${completedStatus.where((c) => c).length} / ${_allSubtypes.length} (${(_allSubtypes.isEmpty ? 0 : (completedStatus.where((c) => c).length / _allSubtypes.length * 100)).toInt()}%)',
-                        style: TextStyle(
-                          fontSize: AppFonts.labelMedium,
-                          fontWeight: FontWeight.bold,
-                          color: context.colors.primary,
-                        ),
-                      ),
+                  ),
+                  Text(
+                    '${(progress * 100).toInt()}%',
+                    style: TextStyle(
+                      fontSize: AppFonts.labelMedium,
+                      fontWeight: FontWeight.bold,
+                      color: context.colors.primary,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              const SizedBox(height: AppSpacing.md),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: List.generate(_allSubtypes.length * 2 - 1, (index) {
-                    if (index.isOdd) {
-                      // Connector line
-                      final leftIndex = index ~/ 2;
-                      final rightIndex = leftIndex + 1;
-                      final isLineGold = completedStatus[leftIndex] && completedStatus[rightIndex];
-
-                      return Container(
-                        width: 40,
-                        margin: const EdgeInsets.only(top: 14), // Align with center of 28px circle
-                        height: 2,
-                        color: isLineGold ? context.colors.primary : context.colors.border,
-                      );
-                    } else {
-                      // Step node
-                      final stepIndex = index ~/ 2;
-                      final subtype = _allSubtypes[stepIndex];
-                      final isCompleted = completedStatus[stepIndex];
-
-                      return SizedBox(
-                        width: 70, // Fixed width for centering text
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Container(
-                              width: 28,
-                              height: 28,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: isCompleted ? context.colors.primary : context.colors.background,
-                                border: Border.all(
-                                  color: isCompleted ? context.colors.primary : context.colors.border,
-                                  width: 2,
-                                ),
-                              ),
-                              child: Icon(
-                                FluentIcons.checkmark_12_filled,
-                                size: 16,
-                                color: isCompleted ? context.colors.white : context.colors.border,
-                              ),
-                            ),
-                            const SizedBox(height: AppSpacing.sm),
-                            Text(
-                              subtype.subtypeName,
-                              textAlign: TextAlign.center,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontSize: AppFonts.bodySmall,
-                                fontWeight: isCompleted ? FontWeight.bold : FontWeight.w600,
-                                color: isCompleted ? context.colors.textPrimary : context.colors.textSecondary,
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    }
-                  }),
+              const SizedBox(height: AppSpacing.xs),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(AppRadius.round),
+                child: LinearProgressIndicator(
+                  value: progress,
+                  minHeight: 6,
+                  backgroundColor: context.colors.border,
+                  valueColor: AlwaysStoppedAnimation<Color>(context.colors.primary),
                 ),
               ),
             ],

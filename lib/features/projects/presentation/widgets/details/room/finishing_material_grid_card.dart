@@ -1,6 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../../../core/theme/app_fonts.dart';
 import '../../../../../../core/theme/app_radius.dart';
@@ -11,12 +12,14 @@ import '../../../../../home/domain/entities/finishing_material_entity.dart';
 class FinishingMaterialGridCard extends StatelessWidget {
   final FinishingMaterialEntity material;
   final bool isSelected;
+  final double? roomArea;
   final VoidCallback? onTap;
 
   const FinishingMaterialGridCard({
     super.key,
     required this.material,
     this.isSelected = false,
+    this.roomArea,
     this.onTap,
   });
 
@@ -88,6 +91,23 @@ class FinishingMaterialGridCard extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                         const SizedBox(height: AppSpacing.xs),
+                        if (roomArea != null && roomArea! > 0)
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                            margin: const EdgeInsets.only(bottom: AppSpacing.xs),
+                            decoration: BoxDecoration(
+                              color: context.colors.gold.withValues(alpha: 0.1),
+                              borderRadius: BorderRadius.circular(AppRadius.sm),
+                            ),
+                            child: Text(
+                              '${NumberFormat.currency(symbol: '', decimalDigits: 0).format(material.finalPrice * roomArea!).trim()} ر.س للغرفة',
+                              style: TextStyle(
+                                fontSize: AppFonts.labelSmall,
+                                fontWeight: FontWeight.bold,
+                                color: context.colors.gold,
+                              ),
+                            ),
+                          ),
                         Text(
                           '${material.finalPrice} ر.س / ${material.unit}',
                           style: TextStyle(
@@ -96,7 +116,7 @@ class FinishingMaterialGridCard extends StatelessWidget {
                             color: context.colors.textSecondary,
                             height: 1.2,
                           ),
-                          maxLines: 2,
+                          maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ],
