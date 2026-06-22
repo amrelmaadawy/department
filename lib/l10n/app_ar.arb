@@ -491,6 +491,27 @@
   "filter": "تصفية",
   "stepStyle": "النمط",
   "stepMaterials": "الخامات",
-  "stepDesign": "التصميم",
-  "stepApproval": "الاعتماد"
+  "stepApproval": "الاعتماد",
+  "checkoutTitle": "إتمام الدفع",
+  "paymentSummary": "ملخص الدفع",
+  "subtotal": "المجموع الفرعي",
+  "vat": "ضريبة القيمة المضافة",
+  "downPayment": "الدفعة المقدمة",
+  "paymentMethods": "طرق الدفع",
+  "payNow": "ادفع الآن",
+  "payAmount": "ادفع {amount} ر.س",
+  "@payAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "paymentSuccessTitle": "تم الدفع بنجاح!",
+  "paymentSuccessSubtitle": "تم تأكيد الدفعة المقدمة بنجاح، فريقنا سيبدأ العمل على تجهيز طلبك في أسرع وقت.",
+  "goToDashboard": "الذهاب للوحة التحكم",
+  "applePay": "أبل باي",
+  "creditCard": "البطاقة الائتمانية / مدى",
+  "bankTransfer": "تحويل بنكي",
+  "securePayment": "دفع إلكتروني آمن"
 }

@@ -1252,8 +1252,53 @@ class AppLocalizationsEn extends AppLocalizations {
   String get stepMaterials => 'Materials';
 
   @override
-  String get stepDesign => 'Design';
+  String get stepApproval => 'Approval';
 
   @override
-  String get stepApproval => 'Approval';
+  String get checkoutTitle => 'Checkout';
+
+  @override
+  String get paymentSummary => 'Payment Summary';
+
+  @override
+  String get subtotal => 'Subtotal';
+
+  @override
+  String get vat => 'VAT';
+
+  @override
+  String get downPayment => 'Down Payment';
+
+  @override
+  String get paymentMethods => 'Payment Methods';
+
+  @override
+  String get payNow => 'Pay Now';
+
+  @override
+  String payAmount(String amount) {
+    return 'Pay $amount SAR';
+  }
+
+  @override
+  String get paymentSuccessTitle => 'Payment Successful!';
+
+  @override
+  String get paymentSuccessSubtitle =>
+      'Down payment confirmed successfully. Our team will start processing your order right away.';
+
+  @override
+  String get goToDashboard => 'Go to Dashboard';
+
+  @override
+  String get applePay => 'Apple Pay';
+
+  @override
+  String get creditCard => 'Credit Card / Mada';
+
+  @override
+  String get bankTransfer => 'Bank Transfer';
+
+  @override
+  String get securePayment => 'Secure Electronic Payment';
 }

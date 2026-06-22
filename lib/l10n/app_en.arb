@@ -491,6 +491,27 @@
   "filter": "Filter",
   "stepStyle": "Style",
   "stepMaterials": "Materials",
-  "stepDesign": "Design",
-  "stepApproval": "Approval"
+  "stepApproval": "Approval",
+  "checkoutTitle": "Checkout",
+  "paymentSummary": "Payment Summary",
+  "subtotal": "Subtotal",
+  "vat": "VAT",
+  "downPayment": "Down Payment",
+  "paymentMethods": "Payment Methods",
+  "payNow": "Pay Now",
+  "payAmount": "Pay {amount} SAR",
+  "@payAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "paymentSuccessTitle": "Payment Successful!",
+  "paymentSuccessSubtitle": "Down payment confirmed successfully. Our team will start processing your order right away.",
+  "goToDashboard": "Go to Dashboard",
+  "applePay": "Apple Pay",
+  "creditCard": "Credit Card / Mada",
+  "bankTransfer": "Bank Transfer",
+  "securePayment": "Secure Electronic Payment"
 }

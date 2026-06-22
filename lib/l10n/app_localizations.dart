@@ -2444,17 +2444,101 @@ abstract class AppLocalizations {
   /// **'Materials'**
   String get stepMaterials;
 
-  /// No description provided for @stepDesign.
-  ///
-  /// In en, this message translates to:
-  /// **'Design'**
-  String get stepDesign;
-
   /// No description provided for @stepApproval.
   ///
   /// In en, this message translates to:
   /// **'Approval'**
   String get stepApproval;
+
+  /// No description provided for @checkoutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Checkout'**
+  String get checkoutTitle;
+
+  /// No description provided for @paymentSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Summary'**
+  String get paymentSummary;
+
+  /// No description provided for @subtotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Subtotal'**
+  String get subtotal;
+
+  /// No description provided for @vat.
+  ///
+  /// In en, this message translates to:
+  /// **'VAT'**
+  String get vat;
+
+  /// No description provided for @downPayment.
+  ///
+  /// In en, this message translates to:
+  /// **'Down Payment'**
+  String get downPayment;
+
+  /// No description provided for @paymentMethods.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Methods'**
+  String get paymentMethods;
+
+  /// No description provided for @payNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay Now'**
+  String get payNow;
+
+  /// No description provided for @payAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay {amount} SAR'**
+  String payAmount(String amount);
+
+  /// No description provided for @paymentSuccessTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Successful!'**
+  String get paymentSuccessTitle;
+
+  /// No description provided for @paymentSuccessSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Down payment confirmed successfully. Our team will start processing your order right away.'**
+  String get paymentSuccessSubtitle;
+
+  /// No description provided for @goToDashboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to Dashboard'**
+  String get goToDashboard;
+
+  /// No description provided for @applePay.
+  ///
+  /// In en, this message translates to:
+  /// **'Apple Pay'**
+  String get applePay;
+
+  /// No description provided for @creditCard.
+  ///
+  /// In en, this message translates to:
+  /// **'Credit Card / Mada'**
+  String get creditCard;
+
+  /// No description provided for @bankTransfer.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank Transfer'**
+  String get bankTransfer;
+
+  /// No description provided for @securePayment.
+  ///
+  /// In en, this message translates to:
+  /// **'Secure Electronic Payment'**
+  String get securePayment;
 }
 
 class _AppLocalizationsDelegate

@@ -1243,8 +1243,53 @@ class AppLocalizationsAr extends AppLocalizations {
   String get stepMaterials => 'الخامات';
 
   @override
-  String get stepDesign => 'التصميم';
+  String get stepApproval => 'الاعتماد';
 
   @override
-  String get stepApproval => 'الاعتماد';
+  String get checkoutTitle => 'إتمام الدفع';
+
+  @override
+  String get paymentSummary => 'ملخص الدفع';
+
+  @override
+  String get subtotal => 'المجموع الفرعي';
+
+  @override
+  String get vat => 'ضريبة القيمة المضافة';
+
+  @override
+  String get downPayment => 'الدفعة المقدمة';
+
+  @override
+  String get paymentMethods => 'طرق الدفع';
+
+  @override
+  String get payNow => 'ادفع الآن';
+
+  @override
+  String payAmount(String amount) {
+    return 'ادفع $amount ر.س';
+  }
+
+  @override
+  String get paymentSuccessTitle => 'تم الدفع بنجاح!';
+
+  @override
+  String get paymentSuccessSubtitle =>
+      'تم تأكيد الدفعة المقدمة بنجاح، فريقنا سيبدأ العمل على تجهيز طلبك في أسرع وقت.';
+
+  @override
+  String get goToDashboard => 'الذهاب للوحة التحكم';
+
+  @override
+  String get applePay => 'أبل باي';
+
+  @override
+  String get creditCard => 'البطاقة الائتمانية / مدى';
+
+  @override
+  String get bankTransfer => 'تحويل بنكي';
+
+  @override
+  String get securePayment => 'دفع إلكتروني آمن';
 }

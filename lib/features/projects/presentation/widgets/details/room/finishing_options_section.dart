@@ -130,7 +130,7 @@ class _FinishingOptionsSectionState extends State<FinishingOptionsSection> {
                       maxCrossAxisExtent: 220,
                       mainAxisSpacing: AppSpacing.md,
                       crossAxisSpacing: AppSpacing.md,
-                      childAspectRatio: 0.85,
+                      childAspectRatio: 0.75,
                     ),
                     itemCount: selectedSubtype.materials.length,
                     itemBuilder: (context, index) {

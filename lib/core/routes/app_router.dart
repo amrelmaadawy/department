@@ -11,6 +11,7 @@ import 'project_routes.dart';
 import 'profile_routes.dart';
 import 'contract_routes.dart';
 import 'finishing_routes.dart';
+import 'payment_routes.dart';
 
 class AppRouter {
   static const String initial = '/';
@@ -26,6 +27,8 @@ class AppRouter {
   static const String customFinishing = '/custom-finishing';
   static const String bookingSuccess = '/booking-success';
   static const String contractsReview = '/contracts-review';
+  static const String checkout = '/checkout';
+  static const String paymentSuccess = '/payment-success';
   static const String profile = '/profile';
   static const String myUnits = '/my-units';
   static const String unitProgress = '/unit-progress';
@@ -72,6 +75,7 @@ class AppRouter {
       ...ProfileRoutes.routes,
       ...ContractRoutes.routes,
       ...FinishingRoutes.routes,
+      ...PaymentRoutes.routes,
     ],
   );
 }

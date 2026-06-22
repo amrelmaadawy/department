@@ -169,10 +169,10 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
             onPressed: (!_isUnitContractSigned || !_isFinishingContractSigned)
                 ? null
                 : () {
-                    // Proceed to success screen
+                    // Proceed to checkout screen passing the total cost
                     context.pushReplacement(
-                      '/booking-success',
-                      extra: 'ORD-UNIFIED-12345',
+                      AppRouter.checkout,
+                      extra: totalCost,
                     );
                   },
           ),
