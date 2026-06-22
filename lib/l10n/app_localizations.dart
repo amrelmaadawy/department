@@ -2624,6 +2624,36 @@ abstract class AppLocalizations {
   /// **'Choose {typeName} Type'**
   String chooseTypeOf(String typeName);
 
+  /// No description provided for @materialDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Material Details'**
+  String get materialDetails;
+
+  /// No description provided for @selectThisMaterial.
+  ///
+  /// In en, this message translates to:
+  /// **'Select This Material'**
+  String get selectThisMaterial;
+
+  /// No description provided for @unselectMaterial.
+  ///
+  /// In en, this message translates to:
+  /// **'Unselect Material'**
+  String get unselectMaterial;
+
+  /// No description provided for @pricePerUnitLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Price: {price} SAR / {unit}'**
+  String pricePerUnitLabel(String price, String unit);
+
+  /// No description provided for @totalRoomCostLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Room Cost: {cost} SAR'**
+  String totalRoomCostLabel(String cost);
+
   /// No description provided for @noMaterialsAvailable.
   ///
   /// In en, this message translates to:

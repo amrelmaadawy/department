@@ -10,7 +10,7 @@ import '../../../../core/routes/app_router.dart';
 import '../../../../core/widgets/custom_button.dart';
 import '../../../../features/home/domain/entities/project_unit_entity.dart';
 import '../../../../features/design_studio/presentation/cubit/design_context_cubit.dart';
-import '../../../contracts/domain/entities/contract_type.dart';
+import '../../domain/entities/contract_type.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 import '../../../../l10n/app_localizations.dart';
 

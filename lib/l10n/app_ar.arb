@@ -538,7 +538,23 @@
   "chooseTypeOf": "اختر نوع {typeName}",
   "@chooseTypeOf": {
     "placeholders": {
-      "typeName": { "type": "String" }
+      "typeName": {"type": "String"}
+    }
+  },
+  "materialDetails": "تفاصيل الخامة",
+  "selectThisMaterial": "اختيار هذه الخامة",
+  "unselectMaterial": "إلغاء اختيار الخامة",
+  "pricePerUnitLabel": "السعر: {price} ر.س / {unit}",
+  "@pricePerUnitLabel": {
+    "placeholders": {
+      "price": {"type": "String"},
+      "unit": {"type": "String"}
+    }
+  },
+  "totalRoomCostLabel": "تكلفة الغرفة: {cost} ر.س",
+  "@totalRoomCostLabel": {
+    "placeholders": {
+      "cost": {"type": "String"}
     }
   },
   "noMaterialsAvailable": "لا توجد خامات متاحة في هذا القسم حالياً",

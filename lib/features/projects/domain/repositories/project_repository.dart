@@ -24,4 +24,5 @@ abstract class ProjectRepository {
   Future<Either<Failure, SavedDesignEntity>> saveDesign(SaveDesignRequestModel request);
   Future<Either<Failure, List<String>>> getPresetNotes();
   Future<Either<Failure, List<RoomCustomerRendersEntity>>> getCustomerRenders(int apartmentId);
+  Future<Either<Failure, bool>> toggleCustomerRenderFavorite(int apartmentId, String imageUrl);
 }

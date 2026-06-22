@@ -25,6 +25,7 @@ abstract class ProjectRemoteDataSource {
   Future<SavedDesignModel> saveDesign(SaveDesignRequestModel request);
   Future<List<String>> getPresetNotes();
   Future<List<RoomCustomerRendersModel>> getCustomerRenders(int apartmentId);
+  Future<bool> toggleCustomerRenderFavorite(int apartmentId, String imageUrl);
 }
 
 class ProjectRemoteDataSourceImpl implements ProjectRemoteDataSource {
@@ -154,6 +155,23 @@ class ProjectRemoteDataSourceImpl implements ProjectRemoteDataSource {
           .toList();
     } else {
       throw ServerException(message: 'Failed to load customer renders');
+    }
+  }
+
+  @override
+  Future<bool> toggleCustomerRenderFavorite(int apartmentId, String imageUrl) async {
+    final response = await apiClient.post(
+      ApiEndpoints.savedDesigns,
+      data: {
+        "finishing_order_id": apartmentId,
+        "image_url": imageUrl,
+      },
+    );
+    
+    if (response != null && response['success'] == true && response['data'] != null) {
+      return response['data']['saved'] ?? false;
+    } else {
+      throw ServerException(message: response?['message'] ?? 'Failed to toggle favorite design');
     }
   }
 }

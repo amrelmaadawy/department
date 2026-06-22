@@ -142,4 +142,16 @@ class ProjectRepositoryImpl implements ProjectRepository {
       return Left(ServerFailure('An unexpected error occurred: ${e.toString()}'));
     }
   }
+
+  @override
+  Future<Either<Failure, bool>> toggleCustomerRenderFavorite(int apartmentId, String imageUrl) async {
+    try {
+      final result = await remoteDataSource.toggleCustomerRenderFavorite(apartmentId, imageUrl);
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure('An unexpected error occurred: ${e.toString()}'));
+    }
+  }
 }

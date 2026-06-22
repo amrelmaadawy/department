@@ -14,6 +14,7 @@ import '../../../cubit/room_details_cubit.dart';
 import '../../../cubit/room_details_state.dart';
 import '../../../cubit/unit_details_cubit.dart';
 import 'finishing_options_section.dart';
+import 'ai_design_settings_section.dart';
 import 'room_customer_renders_carousel.dart';
 import '../../../../domain/entities/customer_render_entity.dart';
 import 'unified_room_bottom_bar.dart';
@@ -141,6 +142,13 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> with AutomaticKeepAli
                 RoomCustomerRendersCarousel(
                   renders: renders,
                   roomName: widget.room.name,
+                  onFavoriteToggled: (render) {
+                    context.read<UnitDetailsCubit>().toggleRenderFavorite(
+                      int.parse(widget.unit.id),
+                      widget.room.id,
+                      render.url,
+                    );
+                  },
                 ),
                 const SizedBox(height: AppSpacing.lg),
               ],
@@ -149,6 +157,12 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> with AutomaticKeepAli
                 unitRooms: widget.unit.rooms,
                 currentRoom: widget.room,
               ),
+              const SizedBox(height: AppSpacing.lg),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: AppSpacing.md),
+                child: AiDesignSettingsSection(),
+              ),
+              const SizedBox(height: AppSpacing.xxl),
             ],
           );
         },

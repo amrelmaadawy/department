@@ -1,16 +1,14 @@
-import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:apartment/features/home/domain/entities/project_unit_entity.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/core/theme/app_radius.dart';
 
-import '../widgets/details/unit/unit_rooms_progress_bar.dart';
+import '../widgets/details/unit/wizard_progress_header.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../cubit/unit_details_cubit.dart';
 import 'package:apartment/core/di/injection_container.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
-import 'package:apartment/l10n/app_localizations.dart';
 
 import '../widgets/details/room/room_details_page.dart';
 
@@ -62,56 +60,25 @@ class _UnitCustomizationScreenContentState extends State<_UnitCustomizationScree
           child: Builder(
             builder: (context) {
               final tabController = DefaultTabController.of(context);
-              final l10n = AppLocalizations.of(context)!;
               return Scaffold(
                 backgroundColor: context.colors.background,
-                appBar: AppBar(
-                  title: AnimatedBuilder(
-                    animation: tabController,
-                    builder: (context, child) {
-                      final currentIndex = tabController.index;
-                      final roomName = currentUnit.rooms.isNotEmpty 
-                        ? currentUnit.rooms[currentIndex].name 
-                        : l10n.room;
-                      final totalRooms = currentUnit.rooms.length;
-                      return Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            roomName,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: AppFonts.headlineSmall,
-                              color: context.colors.textPrimary,
-                            ),
-                          ),
-                          if (totalRooms > 0)
-                            Text(
-                              l10n.roomXOfY((currentIndex + 1).toString(), totalRooms.toString()),
-                              style: TextStyle(
-                                fontSize: AppFonts.labelSmall,
-                                color: context.colors.textSecondary,
-                              ),
-                            ),
-                        ],
-                      );
-                    },
-                  ),
-                  backgroundColor: context.colors.background,
-                  elevation: 0,
-                  scrolledUnderElevation: 0,
-                  centerTitle: true,
-                  iconTheme: IconThemeData(color: context.colors.textPrimary),
-                ),
                 body: currentUnit.rooms.isEmpty
                     ? _buildFullPageShimmer(context)
                     : Column(
                         children: [
-                          UnitRoomsProgressBar(
-                            rooms: currentUnit.rooms,
-                            completedRoomIds: state.completedRoomIds,
-                            onRoomSelected: (index) {
-                              tabController.animateTo(index);
+                          AnimatedBuilder(
+                            animation: tabController,
+                            builder: (context, child) {
+                              return WizardProgressHeader(
+                                currentUnit: currentUnit,
+                                completedRoomIds: state.completedRoomIds,
+                                currentRoomIndex: tabController.index,
+                                roomCosts: state.roomCosts,
+                                onRoomSelected: (index) {
+                                  tabController.animateTo(index);
+                                },
+                                onBack: () => Navigator.pop(context),
+                              );
                             },
                           ),
                           Expanded(

@@ -1352,6 +1352,25 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get materialDetails => 'Material Details';
+
+  @override
+  String get selectThisMaterial => 'Select This Material';
+
+  @override
+  String get unselectMaterial => 'Unselect Material';
+
+  @override
+  String pricePerUnitLabel(String price, String unit) {
+    return 'Price: $price SAR / $unit';
+  }
+
+  @override
+  String totalRoomCostLabel(String cost) {
+    return 'Room Cost: $cost SAR';
+  }
+
+  @override
   String get noMaterialsAvailable =>
       'No materials available in this section currently';
 

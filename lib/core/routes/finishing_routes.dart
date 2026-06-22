@@ -1,14 +1,11 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:go_router/go_router.dart';
 import 'package:apartment/core/routes/app_router.dart';
 import 'package:apartment/core/routes/app_router_transitions.dart';
 
-import 'package:apartment/features/custom_finishing/presentation/screens/custom_finishing_screen.dart';
-import 'package:apartment/features/custom_finishing/presentation/screens/booking_success_screen.dart';
-import 'package:apartment/features/custom_finishing/presentation/screens/contracts_review_screen.dart';
+import 'package:apartment/features/contracts/presentation/screens/booking_success_screen.dart';
+import 'package:apartment/features/contracts/presentation/screens/contracts_review_screen.dart';
 import '../../../features/packages/presentation/screens/packages_screen.dart';
-import '../di/injection_container.dart';
-import '../../features/custom_finishing/presentation/cubit/custom_finishing_cubit.dart';
 
 class FinishingRoutes {
   static final List<RouteBase> routes = [
@@ -23,28 +20,16 @@ class FinishingRoutes {
         );
       },
     ),
-    GoRoute(
-      path: AppRouter.customFinishing,
-      pageBuilder: (context, state) {
-        return CustomTransitionPage(
-          key: state.pageKey,
-          child: BlocProvider(
-            create: (context) => sl<CustomFinishingCubit>()..loadMaterials(),
-            child: const CustomFinishingScreen(),
-          ),
-          transitionsBuilder: AppRouterTransitions.slideFromRight,
-        );
-      },
-    ),
+
     GoRoute(
       path: AppRouter.contractsReview,
-      redirect: (context, state) => state.extra == null ? AppRouter.customFinishing : null,
+      redirect: (context, state) => state.extra == null ? AppRouter.layout : null,
       pageBuilder: (context, state) {
         final extra = state.extra as Map<String, dynamic>?;
         if (extra == null) {
           return CustomTransitionPage(
             key: state.pageKey,
-            child: const RedirectFallback(route: AppRouter.customFinishing),
+            child: const RedirectFallback(route: AppRouter.layout),
             transitionsBuilder: AppRouterTransitions.fadeTransition,
           );
         }

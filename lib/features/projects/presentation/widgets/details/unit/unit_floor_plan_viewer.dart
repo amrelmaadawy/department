@@ -71,14 +71,14 @@ class _UnitFloorPlanViewerState extends State<UnitFloorPlanViewer> {
 
   void _zoomIn() {
     final controller = _transformationControllers[_currentIndex];
-    controller.value = controller.value.clone()..scale(1.5);
+    controller.value = controller.value.clone()..multiply(Matrix4.diagonal3Values(1.5, 1.5, 1.0));
   }
 
   void _zoomOut() {
     final controller = _transformationControllers[_currentIndex];
     final currentScale = controller.value.getMaxScaleOnAxis();
     if (currentScale > 1.0) {
-      final matrix = controller.value.clone()..scale(0.66);
+      final matrix = controller.value.clone()..multiply(Matrix4.diagonal3Values(0.66, 0.66, 1.0));
       if (matrix.getMaxScaleOnAxis() < 1.0) {
         controller.value = Matrix4.identity();
       } else {

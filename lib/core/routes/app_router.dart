@@ -24,7 +24,7 @@ class AppRouter {
   static const String contractSigning = '/contract-signing';
   static const String contractPreview = '/contract-preview';
   static const String packages = '/packages';
-  static const String customFinishing = '/custom-finishing';
+
   static const String bookingSuccess = '/booking-success';
   static const String contractsReview = '/contracts-review';
   static const String checkout = '/checkout';

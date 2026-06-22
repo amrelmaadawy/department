@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../home/domain/entities/project_unit_entity.dart';
 import '../../domain/usecases/get_unit_details_usecase.dart';
 import '../../domain/usecases/get_customer_renders_use_case.dart';
+import '../../domain/usecases/toggle_customer_render_favorite_use_case.dart';
 import '../../domain/entities/customer_render_entity.dart';
 import '../../data/datasources/local/room_design_cache_service.dart';
 import '../../../../core/error/failures.dart';
@@ -14,11 +15,13 @@ part 'unit_details_state.dart';
 class UnitDetailsCubit extends Cubit<UnitDetailsState> {
   final GetUnitDetailsUseCase getUnitDetailsUseCase;
   final GetCustomerRendersUseCase getCustomerRendersUseCase;
+  final ToggleCustomerRenderFavoriteUseCase toggleCustomerRenderFavoriteUseCase;
   final RoomDesignCacheService cacheService;
 
   UnitDetailsCubit({
     required this.getUnitDetailsUseCase,
     required this.getCustomerRendersUseCase,
+    required this.toggleCustomerRenderFavoriteUseCase,
     required this.cacheService,
   }) : super(UnitDetailsInitial());
 
@@ -40,7 +43,8 @@ class UnitDetailsCubit extends Cubit<UnitDetailsState> {
         unit: initialUnit,
       )),
       (unit) {
-        final totalFinishingCost = _calculateTotalFinishingCost(unit);
+        final roomCosts = _calculateRoomCosts(unit);
+        final totalFinishingCost = roomCosts.values.fold(0.0, (sum, cost) => sum + cost);
         final completedRoomIds = _calculateCompletedRoomIds(unit);
         
         List<RoomCustomerRendersEntity> customerRenders = [];
@@ -52,6 +56,7 @@ class UnitDetailsCubit extends Cubit<UnitDetailsState> {
         emit(UnitDetailsLoaded(
           unit: unit, 
           totalFinishingCost: totalFinishingCost,
+          roomCosts: roomCosts,
           completedRoomIds: completedRoomIds,
           customerRenders: customerRenders,
         ));
@@ -59,18 +64,16 @@ class UnitDetailsCubit extends Cubit<UnitDetailsState> {
     );
   }
 
-  double _calculateTotalFinishingCost(ProjectUnitEntity unit) {
-    double total = 0.0;
+  Map<int, double> _calculateRoomCosts(ProjectUnitEntity unit) {
+    Map<int, double> costs = {};
     for (final room in unit.rooms) {
       final cachedData = cacheService.getRoomDesignProgress(room.id);
       if (cachedData != null) {
         final roomCost = (cachedData['selectedMaterialsCost'] ?? 0.0).toDouble();
-        // Since roomCost already includes per-sqm multiplication when user selected in RoomDetailsScreen,
-        // we just sum the total cost of each room from cache.
-        total += roomCost;
+        costs[room.id] = roomCost;
       }
     }
-    return total;
+    return costs;
   }
 
   Set<int> _calculateCompletedRoomIds(ProjectUnitEntity unit) {
@@ -86,12 +89,14 @@ class UnitDetailsCubit extends Cubit<UnitDetailsState> {
 
   void refreshFinishingCost() {
     if (state.unit != null) {
-      final total = _calculateTotalFinishingCost(state.unit!);
+      final roomCosts = _calculateRoomCosts(state.unit!);
+      final total = roomCosts.values.fold(0.0, (sum, cost) => sum + cost);
       final completedRoomIds = _calculateCompletedRoomIds(state.unit!);
       if (state is UnitDetailsLoaded) {
         emit(UnitDetailsLoaded(
           unit: state.unit!, 
           totalFinishingCost: total,
+          roomCosts: roomCosts,
           completedRoomIds: completedRoomIds,
           customerRenders: state.customerRenders,
         ));
@@ -112,10 +117,85 @@ class UnitDetailsCubit extends Cubit<UnitDetailsState> {
           emit(UnitDetailsLoaded(
             unit: state.unit!,
             totalFinishingCost: state.totalFinishingCost,
+            roomCosts: state.roomCosts,
             completedRoomIds: state.completedRoomIds,
             customerRenders: renders,
           ));
         }
+      },
+    );
+  }
+
+  Future<void> toggleRenderFavorite(int apartmentId, int roomId, String imageUrl) async {
+    if (state is! UnitDetailsLoaded) return;
+    final currentState = state as UnitDetailsLoaded;
+
+    // Optimistic UI update
+    final currentRenders = currentState.customerRenders;
+    List<RoomCustomerRendersEntity> updatedRenders = [];
+
+    for (var roomRender in currentRenders) {
+      if (roomRender.id == roomId) {
+        List<CustomerRenderEntity> newRenders = [];
+        for (var render in roomRender.renders) {
+          if (render.url == imageUrl) {
+            newRenders.add(CustomerRenderEntity(
+              url: render.url,
+              isSaved: !render.isSaved,
+              roomName: render.roomName,
+            ));
+          } else {
+            newRenders.add(render);
+          }
+        }
+        updatedRenders.add(RoomCustomerRendersEntity(
+          id: roomRender.id,
+          name: roomRender.name,
+          type: roomRender.type,
+          typeLabel: roomRender.typeLabel,
+          area: roomRender.area,
+          renders: newRenders,
+        ));
+      } else {
+        updatedRenders.add(roomRender);
+      }
+    }
+
+    emit(UnitDetailsLoaded(
+      unit: currentState.unit!,
+      totalFinishingCost: currentState.totalFinishingCost,
+      roomCosts: currentState.roomCosts,
+      completedRoomIds: currentState.completedRoomIds,
+      customerRenders: updatedRenders,
+    ));
+
+    // Extract order_id from image_url (e.g., .../order_21_room_148_...jpg)
+    int targetOrderId = apartmentId;
+    try {
+      final uri = Uri.parse(imageUrl);
+      final filename = uri.pathSegments.last;
+      if (filename.startsWith('order_')) {
+        final parts = filename.split('_');
+        if (parts.length > 1) {
+          targetOrderId = int.parse(parts[1]);
+        }
+      }
+    } catch (_) {
+      // Keep fallback targetOrderId
+    }
+
+    // API call
+    final result = await toggleCustomerRenderFavoriteUseCase(targetOrderId, imageUrl);
+
+    result.fold(
+      (failure) {
+        // Rollback on failure
+        if (!isClosed) {
+          emit(currentState);
+        }
+      },
+      (_) {
+        // Success, nothing more to do
       },
     );
   }

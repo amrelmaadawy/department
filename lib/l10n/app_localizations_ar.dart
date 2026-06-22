@@ -1343,6 +1343,25 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get materialDetails => 'تفاصيل الخامة';
+
+  @override
+  String get selectThisMaterial => 'اختيار هذه الخامة';
+
+  @override
+  String get unselectMaterial => 'إلغاء اختيار الخامة';
+
+  @override
+  String pricePerUnitLabel(String price, String unit) {
+    return 'السعر: $price ر.س / $unit';
+  }
+
+  @override
+  String totalRoomCostLabel(String cost) {
+    return 'تكلفة الغرفة: $cost ر.س';
+  }
+
+  @override
   String get noMaterialsAvailable => 'لا توجد خامات متاحة في هذا القسم حالياً';
 
   @override

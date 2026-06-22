@@ -19,6 +19,7 @@ import 'room_selection_bottom_sheet.dart';
 import 'room_linear_progress_bar.dart';
 import 'subtype_tab_item.dart';
 import 'finishing_empty_state.dart';
+import 'material_preview_sheet.dart';
 
 class FinishingOptionsSection extends StatefulWidget {
   final List<FinishingCategoryEntity> options;
@@ -39,6 +40,7 @@ class FinishingOptionsSection extends StatefulWidget {
 class _FinishingOptionsSectionState extends State<FinishingOptionsSection> {
   late List<FinishingSubtypeEntity> _allSubtypes;
   int _selectedTabIndex = 0;
+  int? _highlightedTabIndex;
 
   @override
   void initState() {
@@ -92,12 +94,14 @@ class _FinishingOptionsSectionState extends State<FinishingOptionsSection> {
                 separatorBuilder: (context, index) => const SizedBox(width: AppSpacing.sm),
                 itemBuilder: (context, index) {
                   final isSelected = index == _selectedTabIndex;
+                  final isHighlighted = index == _highlightedTabIndex;
                   final subtype = _allSubtypes[index];
                   final isCompleted = subtype.materials.any((m) => state.selectedMaterialIds.contains(m.id));
                   return SubtypeTabItem(
                     subtype: subtype,
                     isSelected: isSelected,
                     isCompleted: isCompleted,
+                    isHighlighted: isHighlighted,
                     onTap: () {
                       setState(() {
                         _selectedTabIndex = index;
@@ -156,20 +160,31 @@ class _FinishingOptionsSectionState extends State<FinishingOptionsSection> {
                             roomArea: widget.currentRoom?.area,
                             onTap: () {
                               HapticFeedback.lightImpact();
-                              context.read<AiRoomDesignCubit>().toggleMaterial(
-                                material,
-                                selectedSubtype.materials,
-                              );
-                              
-                              if (!isSelected && _selectedTabIndex < _allSubtypes.length - 1) {
-                                Future.delayed(const Duration(milliseconds: 500), () {
-                                  if (mounted) {
+                              MaterialPreviewSheet.show(
+                                context,
+                                material: material,
+                                isSelected: isSelected,
+                                roomArea: widget.currentRoom?.area,
+                                onToggleSelection: () {
+                                  context.read<AiRoomDesignCubit>().toggleMaterial(
+                                    material,
+                                    selectedSubtype.materials,
+                                  );
+                                  
+                                  if (!isSelected && _selectedTabIndex < _allSubtypes.length - 1) {
                                     setState(() {
-                                      _selectedTabIndex++;
+                                      _highlightedTabIndex = _selectedTabIndex + 1;
+                                    });
+                                    Future.delayed(const Duration(seconds: 2), () {
+                                      if (mounted) {
+                                        setState(() {
+                                          _highlightedTabIndex = null;
+                                        });
+                                      }
                                     });
                                   }
-                                });
-                              }
+                                },
+                              );
                             },
                           );
                         },

@@ -538,6 +538,22 @@
       "typeName": { "type": "String" }
     }
   },
+  "materialDetails": "Material Details",
+  "selectThisMaterial": "Select This Material",
+  "unselectMaterial": "Unselect Material",
+  "pricePerUnitLabel": "Price: {price} SAR / {unit}",
+  "@pricePerUnitLabel": {
+    "placeholders": {
+      "price": {"type": "String"},
+      "unit": {"type": "String"}
+    }
+  },
+  "totalRoomCostLabel": "Room Cost: {cost} SAR",
+  "@totalRoomCostLabel": {
+    "placeholders": {
+      "cost": {"type": "String"}
+    }
+  },
   "noMaterialsAvailable": "No materials available in this section currently",
   "unitFeatures": "Unit Features",
   "startFinishingJourney": "Start Finishing Journey",

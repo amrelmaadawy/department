@@ -12,11 +12,13 @@ import '../../../../domain/entities/customer_render_entity.dart';
 class RoomCustomerRendersCarousel extends StatelessWidget {
   final List<CustomerRenderEntity> renders;
   final String roomName;
+  final void Function(CustomerRenderEntity)? onFavoriteToggled;
 
   const RoomCustomerRendersCarousel({
     super.key,
     required this.renders,
     required this.roomName,
+    this.onFavoriteToggled,
   });
 
   @override
@@ -118,16 +120,23 @@ class RoomCustomerRendersCarousel extends StatelessWidget {
               Positioned(
                 top: AppSpacing.sm,
                 right: AppSpacing.sm,
-                child: Container(
-                  padding: const EdgeInsets.all(6),
-                  decoration: BoxDecoration(
-                    color: Colors.black.withValues(alpha: 0.5),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(
-                    render.isSaved ? FluentIcons.heart_24_filled : FluentIcons.heart_24_regular,
-                    color: render.isSaved ? Colors.red : Colors.white,
-                    size: 16,
+                child: GestureDetector(
+                  onTap: () {
+                    if (onFavoriteToggled != null) {
+                      onFavoriteToggled!(render);
+                    }
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withValues(alpha: 0.5),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      render.isSaved ? FluentIcons.heart_24_filled : FluentIcons.heart_24_regular,
+                      color: render.isSaved ? Colors.red : Colors.white,
+                      size: 16,
+                    ),
                   ),
                 ),
               ),
