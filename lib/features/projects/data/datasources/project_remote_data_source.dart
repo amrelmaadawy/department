@@ -10,6 +10,7 @@ import 'package:apartment/features/projects/data/models/finishing_order_request_
 import 'package:apartment/features/projects/data/models/ai_renders_model.dart';
 import 'package:apartment/features/projects/data/models/save_design_request_model.dart';
 import 'package:apartment/features/projects/data/models/saved_design_model.dart';
+import 'package:apartment/features/projects/data/models/customer_render_model.dart';
 
 import '../../../../core/network/app_cancel_token.dart';
 
@@ -23,6 +24,7 @@ abstract class ProjectRemoteDataSource {
   Future<AiRendersModel> getAiRenders(int orderId);
   Future<SavedDesignModel> saveDesign(SaveDesignRequestModel request);
   Future<List<String>> getPresetNotes();
+  Future<List<RoomCustomerRendersModel>> getCustomerRenders(int apartmentId);
 }
 
 class ProjectRemoteDataSourceImpl implements ProjectRemoteDataSource {
@@ -139,6 +141,19 @@ class ProjectRemoteDataSourceImpl implements ProjectRemoteDataSource {
       return List<String>.from(response['data']['preset_notes']);
     } else {
       throw ServerException(message: 'Failed to load preset notes');
+    }
+  }
+
+  @override
+  Future<List<RoomCustomerRendersModel>> getCustomerRenders(int apartmentId) async {
+    final response = await apiClient.get(ApiEndpoints.customerRenders(apartmentId));
+
+    if (response != null && response['data'] != null && response['data'] is List) {
+      return (response['data'] as List)
+          .map((item) => RoomCustomerRendersModel.fromJson(item))
+          .toList();
+    } else {
+      throw ServerException(message: 'Failed to load customer renders');
     }
   }
 }

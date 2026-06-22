@@ -51,7 +51,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appearance => 'Appearance';
 
   @override
-  String get applyFilters => 'Apply Filters';
+  String get applyFilters => 'Apply';
 
   @override
   String get arabicLang => 'Arabic';
@@ -1252,7 +1252,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get stepMaterials => 'Materials';
 
   @override
+  String get stepDesign => 'Design';
+
+  @override
   String get stepApproval => 'Approval';
+
+  @override
+  String get yourRoomDesigns => 'Your Room Designs';
+
+  @override
+  String designsCount(Object count) {
+    return '$count Designs';
+  }
 
   @override
   String get checkoutTitle => 'Checkout';

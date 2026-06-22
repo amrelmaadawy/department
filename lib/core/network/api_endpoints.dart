@@ -15,7 +15,8 @@ class ApiEndpoints {
   static const String rooms = '/rooms';
   static const String finishingOrders = '/finishing-orders';
   static String getAiRenders(int orderId) => '/finishing-orders/$orderId/ai-renders';
-  
+  static String customerRenders(int apartmentId) => '/apartments/$apartmentId/customer-renders';
+
   // Future endpoints can be added here
   static const String savedDesigns = '/saved-designs';
   

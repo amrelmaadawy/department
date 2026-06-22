@@ -50,7 +50,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get appearance => 'المظهر';
 
   @override
-  String get applyFilters => 'تطبيق الفلاتر';
+  String get applyFilters => 'تطبيق';
 
   @override
   String get arabicLang => 'العربية';
@@ -1243,7 +1243,18 @@ class AppLocalizationsAr extends AppLocalizations {
   String get stepMaterials => 'الخامات';
 
   @override
+  String get stepDesign => 'التصميم';
+
+  @override
   String get stepApproval => 'الاعتماد';
+
+  @override
+  String get yourRoomDesigns => 'تصاميمك الخاصة للغرفة';
+
+  @override
+  String designsCount(Object count) {
+    return '$count تصميم';
+  }
 
   @override
   String get checkoutTitle => 'إتمام الدفع';

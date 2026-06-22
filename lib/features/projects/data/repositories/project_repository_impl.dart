@@ -13,6 +13,7 @@ import 'package:apartment/features/projects/domain/entities/finishing_order_requ
 import 'package:apartment/features/projects/domain/entities/ai_renders_entity.dart';
 import 'package:apartment/features/projects/domain/entities/saved_design_entity.dart';
 import 'package:apartment/features/projects/data/models/save_design_request_model.dart';
+import 'package:apartment/features/projects/domain/entities/customer_render_entity.dart';
 
 import '../../../../core/network/app_cancel_token.dart';
 
@@ -123,6 +124,18 @@ class ProjectRepositoryImpl implements ProjectRepository {
     try {
       final notes = await remoteDataSource.getPresetNotes();
       return Right(notes);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure('An unexpected error occurred: ${e.toString()}'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<RoomCustomerRendersEntity>>> getCustomerRenders(int apartmentId) async {
+    try {
+      final renders = await remoteDataSource.getCustomerRenders(apartmentId);
+      return Right(renders.cast<RoomCustomerRendersEntity>());
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     } catch (e) {

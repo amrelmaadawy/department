@@ -10,6 +10,7 @@ import 'package:apartment/features/projects/domain/entities/ai_renders_entity.da
 
 import 'package:apartment/features/projects/domain/entities/saved_design_entity.dart';
 import 'package:apartment/features/projects/data/models/save_design_request_model.dart';
+import 'package:apartment/features/projects/domain/entities/customer_render_entity.dart';
 import '../../../../core/network/app_cancel_token.dart';
 
 abstract class ProjectRepository {
@@ -22,4 +23,5 @@ abstract class ProjectRepository {
   Future<Either<Failure, AiRendersEntity>> getAiRenders(int orderId);
   Future<Either<Failure, SavedDesignEntity>> saveDesign(SaveDesignRequestModel request);
   Future<Either<Failure, List<String>>> getPresetNotes();
+  Future<Either<Failure, List<RoomCustomerRendersEntity>>> getCustomerRenders(int apartmentId);
 }

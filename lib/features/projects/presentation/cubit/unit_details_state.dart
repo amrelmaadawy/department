@@ -4,31 +4,33 @@ abstract class UnitDetailsState extends Equatable {
   final ProjectUnitEntity? unit;
   final double totalFinishingCost;
   final Set<int> completedRoomIds;
+  final List<RoomCustomerRendersEntity> customerRenders;
   
   const UnitDetailsState({
     this.unit, 
     this.totalFinishingCost = 0.0,
     this.completedRoomIds = const {},
+    this.customerRenders = const [],
   });
 
   @override
-  List<Object?> get props => [unit, totalFinishingCost, completedRoomIds];
+  List<Object?> get props => [unit, totalFinishingCost, completedRoomIds, customerRenders];
 }
 
 class UnitDetailsInitial extends UnitDetailsState {}
 
 class UnitDetailsLoading extends UnitDetailsState {
-  const UnitDetailsLoading({super.unit, super.totalFinishingCost, super.completedRoomIds});
+  const UnitDetailsLoading({super.unit, super.totalFinishingCost, super.completedRoomIds, super.customerRenders});
 }
 
 class UnitDetailsLoaded extends UnitDetailsState {
-  const UnitDetailsLoaded({required ProjectUnitEntity unit, super.totalFinishingCost, super.completedRoomIds}) : super(unit: unit);
+  const UnitDetailsLoaded({required ProjectUnitEntity unit, super.totalFinishingCost, super.completedRoomIds, super.customerRenders}) : super(unit: unit);
 }
 
 class UnitDetailsError extends UnitDetailsState {
   final String message;
-  const UnitDetailsError({required this.message, super.unit, super.totalFinishingCost, super.completedRoomIds});
+  const UnitDetailsError({required this.message, super.unit, super.totalFinishingCost, super.completedRoomIds, super.customerRenders});
 
   @override
-  List<Object?> get props => [message, unit, totalFinishingCost, completedRoomIds];
+  List<Object?> get props => [message, unit, totalFinishingCost, completedRoomIds, customerRenders];
 }

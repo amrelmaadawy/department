@@ -12,6 +12,7 @@ import 'package:apartment/features/projects/domain/usecases/submit_finishing_ord
 import 'package:apartment/features/projects/domain/usecases/get_ai_renders_use_case.dart';
 import 'package:apartment/features/projects/domain/usecases/save_design_use_case.dart';
 import 'package:apartment/features/projects/domain/usecases/get_preset_notes_use_case.dart';
+import 'package:apartment/features/projects/domain/usecases/get_customer_renders_use_case.dart';
 import 'package:apartment/features/projects/presentation/cubit/projects_cubit.dart';
 import 'package:apartment/features/projects/presentation/cubit/project_details_cubit.dart';
 import 'package:apartment/features/projects/presentation/cubit/unit_details_cubit.dart';
@@ -46,6 +47,7 @@ Future<void> registerProjectsDi(GetIt sl) async {
   sl.registerLazySingleton(() => SaveDesignUseCase(sl()));
   sl.registerLazySingleton(() => GetPresetNotesUseCase(sl()));
   sl.registerLazySingleton(() => ShareDesignUseCase(shareService: sl()));
+  sl.registerLazySingleton(() => GetCustomerRendersUseCase(sl()));
 
   // Cubits
   sl.registerFactory(() => ProjectsCubit(getProjectsUseCase: sl()));
@@ -59,6 +61,7 @@ Future<void> registerProjectsDi(GetIt sl) async {
   sl.registerFactory(
     () => UnitDetailsCubit(
       getUnitDetailsUseCase: sl(),
+      getCustomerRendersUseCase: sl(),
       cacheService: sl(),
     ),
   );

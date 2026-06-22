@@ -179,7 +179,7 @@ abstract class AppLocalizations {
   /// No description provided for @applyFilters.
   ///
   /// In en, this message translates to:
-  /// **'Apply Filters'**
+  /// **'Apply'**
   String get applyFilters;
 
   /// No description provided for @arabicLang.
@@ -2444,11 +2444,29 @@ abstract class AppLocalizations {
   /// **'Materials'**
   String get stepMaterials;
 
+  /// No description provided for @stepDesign.
+  ///
+  /// In en, this message translates to:
+  /// **'Design'**
+  String get stepDesign;
+
   /// No description provided for @stepApproval.
   ///
   /// In en, this message translates to:
   /// **'Approval'**
   String get stepApproval;
+
+  /// No description provided for @yourRoomDesigns.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Room Designs'**
+  String get yourRoomDesigns;
+
+  /// No description provided for @designsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Designs'**
+  String designsCount(Object count);
 
   /// No description provided for @checkoutTitle.
   ///

@@ -1,3 +1,4 @@
+import 'package:apartment/features/projects/presentation/cubit/unit_details_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -285,7 +286,11 @@ class UnifiedRoomBottomBar extends StatelessWidget {
                     if (state.status == AiDesignStatus.success) {
                       AppToast.showSuccess(context, l10n.requestSentSuccessfully);
                       if (state.resultOrder != null) {
-                        context.push('/ai-renders/${state.resultOrder!.id}');
+                        context.push('/ai-renders/${state.resultOrder!.id}').then((_) {
+                          if (context.mounted) {
+                            context.read<UnitDetailsCubit>().refreshCustomerRenders();
+                          }
+                        });
                       }
                     } else if (state.status == AiDesignStatus.failure) {
                       AppToast.showError(context, state.errorMessage ?? l10n.unexpectedError);

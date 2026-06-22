@@ -14,6 +14,8 @@ import '../../../cubit/room_details_cubit.dart';
 import '../../../cubit/room_details_state.dart';
 import '../../../cubit/unit_details_cubit.dart';
 import 'finishing_options_section.dart';
+import 'room_customer_renders_carousel.dart';
+import '../../../../domain/entities/customer_render_entity.dart';
 import 'unified_room_bottom_bar.dart';
 
 import 'package:apartment/features/projects/presentation/cubit/ai_room_design_cubit.dart';
@@ -121,10 +123,35 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> with AutomaticKeepAli
         ),
       );
     } else if (state is RoomDetailsLoaded) {
-      return FinishingOptionsSection(
-        options: state.roomDetails.finishingOptions,
-        unitRooms: widget.unit.rooms,
-        currentRoom: widget.room,
+      return BlocBuilder<UnitDetailsCubit, UnitDetailsState>(
+        builder: (context, unitState) {
+          List<CustomerRenderEntity> renders = [];
+          if (unitState is UnitDetailsLoaded) {
+            final roomRenders = unitState.customerRenders.where((r) => r.id == widget.room.id).toList();
+            if (roomRenders.isNotEmpty) {
+              renders = roomRenders.first.renders;
+            }
+          }
+          
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              if (renders.isNotEmpty) ...[
+                const SizedBox(height: AppSpacing.md),
+                RoomCustomerRendersCarousel(
+                  renders: renders,
+                  roomName: widget.room.name,
+                ),
+                const SizedBox(height: AppSpacing.lg),
+              ],
+              FinishingOptionsSection(
+                options: state.roomDetails.finishingOptions,
+                unitRooms: widget.unit.rooms,
+                currentRoom: widget.room,
+              ),
+            ],
+          );
+        },
       );
     }
     return const SizedBox.shrink();
