@@ -515,5 +515,54 @@
   "applePay": "Apple Pay",
   "creditCard": "Credit Card / Mada",
   "bankTransfer": "Bank Transfer",
-  "securePayment": "Secure Electronic Payment"
+  "securePayment": "Secure Electronic Payment",
+  "roomsProgress": "Rooms Progress",
+  "roomProgressLabel": "Room Progress",
+  "roomXOfY": "Room {current} of {total}",
+  "@roomXOfY": {
+    "placeholders": {
+      "current": { "type": "String" },
+      "total": { "type": "String" }
+    }
+  },
+  "room": "Room",
+  "nextRoom": "Next Room",
+  "designOptions": "Design Options",
+  "designWarningTitle": "Warning Before Design",
+  "designWarningMessage": "You have not selected materials for some available sections. Would you like to continue without them or go back to select?",
+  "designAnyway": "Design Anyway",
+  "cancelAndContinueSelection": "Cancel & Continue Selection",
+  "chooseTypeOf": "Choose {typeName} Type",
+  "@chooseTypeOf": {
+    "placeholders": {
+      "typeName": { "type": "String" }
+    }
+  },
+  "noMaterialsAvailable": "No materials available in this section currently",
+  "unitFeatures": "Unit Features",
+  "startFinishingJourney": "Start Finishing Journey",
+  "applyMaterialToOtherRooms": "Would you like to apply this material to other rooms?",
+  "applyToAll": "Apply to All",
+  "selectRooms": "Select Rooms",
+  "roomArea": "Area",
+  "roomDimensions": "Dimensions",
+  "areaNotSpecified": "Not specified",
+  "appliedSuccessfully": "{materialName} applied to all rooms successfully",
+  "@appliedSuccessfully": {
+    "placeholders": {
+      "materialName": { "type": "String" }
+    }
+  },
+  "appliedToSelectedRooms": "{materialName} applied to selected rooms successfully",
+  "@appliedToSelectedRooms": {
+    "placeholders": {
+      "materialName": { "type": "String" }
+    }
+  },
+  "pricePerRoom": "{price} SAR for room",
+  "@pricePerRoom": {
+    "placeholders": {
+      "price": { "type": "String" }
+    }
+  }
 }

@@ -5,6 +5,8 @@ import 'package:apartment/core/theme/theme_extension.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 
+import 'package:apartment/l10n/app_localizations.dart';
+
 class MaterialApplyBanner extends StatelessWidget {
   final VoidCallback onApplyToAll;
   final VoidCallback onSelectSpecific;
@@ -17,6 +19,7 @@ class MaterialApplyBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
       padding: const EdgeInsets.all(AppSpacing.lg),
@@ -51,7 +54,7 @@ class MaterialApplyBanner extends StatelessWidget {
               const SizedBox(width: AppSpacing.md),
               Expanded(
                 child: Text(
-                  'هل ترغب بتطبيق هذه الخامة على غرف أخرى؟',
+                  l10n.applyMaterialToOtherRooms,
                   style: TextStyle(
                     fontSize: AppFonts.bodyMedium,
                     fontWeight: FontWeight.bold,
@@ -76,8 +79,8 @@ class MaterialApplyBanner extends StatelessWidget {
                       borderRadius: BorderRadius.circular(AppRadius.md),
                     ),
                   ),
-                  child: const Text(
-                    'تطبيق على الكل',
+                  child: Text(
+                    l10n.applyToAll,
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -94,7 +97,7 @@ class MaterialApplyBanner extends StatelessWidget {
                       borderRadius: BorderRadius.circular(AppRadius.md),
                     ),
                   ),
-                  child: const Text('تحديد غرف'),
+                  child: Text(l10n.selectRooms),
                 ),
               ),
             ],

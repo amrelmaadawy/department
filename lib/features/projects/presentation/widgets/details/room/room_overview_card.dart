@@ -6,6 +6,7 @@ import '../../../../../../core/theme/app_radius.dart';
 import '../../../../../../core/theme/app_spacing.dart';
 import '../../../../../../core/theme/theme_extension.dart';
 import '../../../../../home/domain/entities/unit_room_entity.dart';
+import 'package:apartment/l10n/app_localizations.dart';
 
 class RoomOverviewCard extends StatelessWidget {
   final UnitRoomEntity room;
@@ -14,6 +15,7 @@ class RoomOverviewCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       margin: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
       padding: EdgeInsets.all(AppSpacing.lg),
@@ -78,8 +80,8 @@ class RoomOverviewCard extends StatelessWidget {
               _buildStatItem(
                 context,
                 icon: Icons.aspect_ratio,
-                label: 'المساحة',
-                value: room.area > 0 ? '${room.area} م²' : 'غير محددة',
+                label: l10n.roomArea,
+                value: room.area > 0 ? '${room.area} م²' : l10n.areaNotSpecified,
               ),
               if (room.length != null && room.width != null) ...[
                 Container(
@@ -90,7 +92,7 @@ class RoomOverviewCard extends StatelessWidget {
                 _buildStatItem(
                   context,
                   icon: Icons.straighten,
-                  label: 'الأبعاد',
+                  label: l10n.roomDimensions,
                   value: '${room.length} × ${room.width} م',
                 ),
               ],

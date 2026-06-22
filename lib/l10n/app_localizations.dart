@@ -2557,6 +2557,144 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Secure Electronic Payment'**
   String get securePayment;
+
+  /// No description provided for @roomsProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Rooms Progress'**
+  String get roomsProgress;
+
+  /// No description provided for @roomProgressLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Room Progress'**
+  String get roomProgressLabel;
+
+  /// No description provided for @roomXOfY.
+  ///
+  /// In en, this message translates to:
+  /// **'Room {current} of {total}'**
+  String roomXOfY(String current, String total);
+
+  /// No description provided for @room.
+  ///
+  /// In en, this message translates to:
+  /// **'Room'**
+  String get room;
+
+  /// No description provided for @nextRoom.
+  ///
+  /// In en, this message translates to:
+  /// **'Next Room'**
+  String get nextRoom;
+
+  /// No description provided for @designOptions.
+  ///
+  /// In en, this message translates to:
+  /// **'Design Options'**
+  String get designOptions;
+
+  /// No description provided for @designWarningTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Warning Before Design'**
+  String get designWarningTitle;
+
+  /// No description provided for @designWarningMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You have not selected materials for some available sections. Would you like to continue without them or go back to select?'**
+  String get designWarningMessage;
+
+  /// No description provided for @designAnyway.
+  ///
+  /// In en, this message translates to:
+  /// **'Design Anyway'**
+  String get designAnyway;
+
+  /// No description provided for @cancelAndContinueSelection.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel & Continue Selection'**
+  String get cancelAndContinueSelection;
+
+  /// No description provided for @chooseTypeOf.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose {typeName} Type'**
+  String chooseTypeOf(String typeName);
+
+  /// No description provided for @noMaterialsAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'No materials available in this section currently'**
+  String get noMaterialsAvailable;
+
+  /// No description provided for @unitFeatures.
+  ///
+  /// In en, this message translates to:
+  /// **'Unit Features'**
+  String get unitFeatures;
+
+  /// No description provided for @startFinishingJourney.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Finishing Journey'**
+  String get startFinishingJourney;
+
+  /// No description provided for @applyMaterialToOtherRooms.
+  ///
+  /// In en, this message translates to:
+  /// **'Would you like to apply this material to other rooms?'**
+  String get applyMaterialToOtherRooms;
+
+  /// No description provided for @applyToAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply to All'**
+  String get applyToAll;
+
+  /// No description provided for @selectRooms.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Rooms'**
+  String get selectRooms;
+
+  /// No description provided for @roomArea.
+  ///
+  /// In en, this message translates to:
+  /// **'Area'**
+  String get roomArea;
+
+  /// No description provided for @roomDimensions.
+  ///
+  /// In en, this message translates to:
+  /// **'Dimensions'**
+  String get roomDimensions;
+
+  /// No description provided for @areaNotSpecified.
+  ///
+  /// In en, this message translates to:
+  /// **'Not specified'**
+  String get areaNotSpecified;
+
+  /// No description provided for @appliedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'{materialName} applied to all rooms successfully'**
+  String appliedSuccessfully(String materialName);
+
+  /// No description provided for @appliedToSelectedRooms.
+  ///
+  /// In en, this message translates to:
+  /// **'{materialName} applied to selected rooms successfully'**
+  String appliedToSelectedRooms(String materialName);
+
+  /// No description provided for @pricePerRoom.
+  ///
+  /// In en, this message translates to:
+  /// **'{price} SAR for room'**
+  String pricePerRoom(String price);
 }
 
 class _AppLocalizationsDelegate

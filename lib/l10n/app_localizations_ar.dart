@@ -1303,4 +1303,85 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get securePayment => 'دفع إلكتروني آمن';
+
+  @override
+  String get roomsProgress => 'تقدم الغرف';
+
+  @override
+  String get roomProgressLabel => 'تقدم الغرفة';
+
+  @override
+  String roomXOfY(String current, String total) {
+    return 'غرفة $current من $total';
+  }
+
+  @override
+  String get room => 'الغرفة';
+
+  @override
+  String get nextRoom => 'الغرفة التالية';
+
+  @override
+  String get designOptions => 'خيارات التصميم';
+
+  @override
+  String get designWarningTitle => 'تنبيه قبل التصميم';
+
+  @override
+  String get designWarningMessage =>
+      'لم تقم باختيار خامات لبعض الأقسام المتاحة. هل ترغب في متابعة التصميم بدونها أم العودة للاختيار؟';
+
+  @override
+  String get designAnyway => 'تصميم على أي حال';
+
+  @override
+  String get cancelAndContinueSelection => 'إلغاء وتكملة الاختيار';
+
+  @override
+  String chooseTypeOf(String typeName) {
+    return 'اختر نوع $typeName';
+  }
+
+  @override
+  String get noMaterialsAvailable => 'لا توجد خامات متاحة في هذا القسم حالياً';
+
+  @override
+  String get unitFeatures => 'مميزات الوحدة';
+
+  @override
+  String get startFinishingJourney => 'ابدأ رحلة التشطيب';
+
+  @override
+  String get applyMaterialToOtherRooms =>
+      'هل ترغب بتطبيق هذه الخامة على غرف أخرى؟';
+
+  @override
+  String get applyToAll => 'تطبيق على الكل';
+
+  @override
+  String get selectRooms => 'تحديد غرف';
+
+  @override
+  String get roomArea => 'المساحة';
+
+  @override
+  String get roomDimensions => 'الأبعاد';
+
+  @override
+  String get areaNotSpecified => 'غير محددة';
+
+  @override
+  String appliedSuccessfully(String materialName) {
+    return 'تم تطبيق $materialName على جميع الغرف بنجاح';
+  }
+
+  @override
+  String appliedToSelectedRooms(String materialName) {
+    return 'تم تطبيق $materialName على الغرف المحددة بنجاح';
+  }
+
+  @override
+  String pricePerRoom(String price) {
+    return '$price ر.س للغرفة';
+  }
 }

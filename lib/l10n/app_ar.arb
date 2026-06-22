@@ -518,5 +518,54 @@
   "applePay": "أبل باي",
   "creditCard": "البطاقة الائتمانية / مدى",
   "bankTransfer": "تحويل بنكي",
-  "securePayment": "دفع إلكتروني آمن"
+  "securePayment": "دفع إلكتروني آمن",
+  "roomsProgress": "تقدم الغرف",
+  "roomProgressLabel": "تقدم الغرفة",
+  "roomXOfY": "غرفة {current} من {total}",
+  "@roomXOfY": {
+    "placeholders": {
+      "current": { "type": "String" },
+      "total": { "type": "String" }
+    }
+  },
+  "room": "الغرفة",
+  "nextRoom": "الغرفة التالية",
+  "designOptions": "خيارات التصميم",
+  "designWarningTitle": "تنبيه قبل التصميم",
+  "designWarningMessage": "لم تقم باختيار خامات لبعض الأقسام المتاحة. هل ترغب في متابعة التصميم بدونها أم العودة للاختيار؟",
+  "designAnyway": "تصميم على أي حال",
+  "cancelAndContinueSelection": "إلغاء وتكملة الاختيار",
+  "chooseTypeOf": "اختر نوع {typeName}",
+  "@chooseTypeOf": {
+    "placeholders": {
+      "typeName": { "type": "String" }
+    }
+  },
+  "noMaterialsAvailable": "لا توجد خامات متاحة في هذا القسم حالياً",
+  "unitFeatures": "مميزات الوحدة",
+  "startFinishingJourney": "ابدأ رحلة التشطيب",
+  "applyMaterialToOtherRooms": "هل ترغب بتطبيق هذه الخامة على غرف أخرى؟",
+  "applyToAll": "تطبيق على الكل",
+  "selectRooms": "تحديد غرف",
+  "roomArea": "المساحة",
+  "roomDimensions": "الأبعاد",
+  "areaNotSpecified": "غير محددة",
+  "appliedSuccessfully": "تم تطبيق {materialName} على جميع الغرف بنجاح",
+  "@appliedSuccessfully": {
+    "placeholders": {
+      "materialName": { "type": "String" }
+    }
+  },
+  "appliedToSelectedRooms": "تم تطبيق {materialName} على الغرف المحددة بنجاح",
+  "@appliedToSelectedRooms": {
+    "placeholders": {
+      "materialName": { "type": "String" }
+    }
+  },
+  "pricePerRoom": "{price} ر.س للغرفة",
+  "@pricePerRoom": {
+    "placeholders": {
+      "price": { "type": "String" }
+    }
+  }
 }

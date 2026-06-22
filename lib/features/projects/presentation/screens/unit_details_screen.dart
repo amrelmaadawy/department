@@ -64,7 +64,7 @@ class UnitDetailsScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
                     child: Text(
-                      'مميزات الوحدة',
+                      l10n.unitFeatures,
                       style: TextStyle(
                         fontSize: AppFonts.headlineSmall,
                         fontWeight: FontWeight.bold,
@@ -127,7 +127,7 @@ class UnitDetailsScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: CustomButton(
-                  text: 'ابدأ رحلة التشطيب',
+                  text: l10n.startFinishingJourney,
                   onPressed: () {
                     context.push(
                       AppRouter.unitCustomization,

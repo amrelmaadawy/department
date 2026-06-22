@@ -1312,4 +1312,86 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get securePayment => 'Secure Electronic Payment';
+
+  @override
+  String get roomsProgress => 'Rooms Progress';
+
+  @override
+  String get roomProgressLabel => 'Room Progress';
+
+  @override
+  String roomXOfY(String current, String total) {
+    return 'Room $current of $total';
+  }
+
+  @override
+  String get room => 'Room';
+
+  @override
+  String get nextRoom => 'Next Room';
+
+  @override
+  String get designOptions => 'Design Options';
+
+  @override
+  String get designWarningTitle => 'Warning Before Design';
+
+  @override
+  String get designWarningMessage =>
+      'You have not selected materials for some available sections. Would you like to continue without them or go back to select?';
+
+  @override
+  String get designAnyway => 'Design Anyway';
+
+  @override
+  String get cancelAndContinueSelection => 'Cancel & Continue Selection';
+
+  @override
+  String chooseTypeOf(String typeName) {
+    return 'Choose $typeName Type';
+  }
+
+  @override
+  String get noMaterialsAvailable =>
+      'No materials available in this section currently';
+
+  @override
+  String get unitFeatures => 'Unit Features';
+
+  @override
+  String get startFinishingJourney => 'Start Finishing Journey';
+
+  @override
+  String get applyMaterialToOtherRooms =>
+      'Would you like to apply this material to other rooms?';
+
+  @override
+  String get applyToAll => 'Apply to All';
+
+  @override
+  String get selectRooms => 'Select Rooms';
+
+  @override
+  String get roomArea => 'Area';
+
+  @override
+  String get roomDimensions => 'Dimensions';
+
+  @override
+  String get areaNotSpecified => 'Not specified';
+
+  @override
+  String appliedSuccessfully(String materialName) {
+    return '$materialName applied to all rooms successfully';
+  }
+
+  @override
+  String appliedToSelectedRooms(String materialName) {
+    return '$materialName applied to selected rooms successfully';
+  }
+
+  @override
+  String pricePerRoom(String price) {
+    return '$price SAR for room';
+  }
 }

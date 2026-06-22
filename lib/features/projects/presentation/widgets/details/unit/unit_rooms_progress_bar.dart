@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
+import 'package:apartment/l10n/app_localizations.dart';
 
 class UnitRoomsProgressBar extends StatelessWidget {
   final List<UnitRoomEntity> rooms;
@@ -21,6 +22,7 @@ class UnitRoomsProgressBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (rooms.isEmpty) return const SizedBox.shrink();
+    final l10n = AppLocalizations.of(context)!;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
@@ -33,7 +35,7 @@ class UnitRoomsProgressBar extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'تقدم الغرف',
+                  l10n.roomsProgress,
                   style: TextStyle(
                     fontSize: AppFonts.headlineSmall,
                     fontWeight: FontWeight.bold,

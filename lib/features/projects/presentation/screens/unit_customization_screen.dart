@@ -10,6 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../cubit/unit_details_cubit.dart';
 import 'package:apartment/core/di/injection_container.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
+import 'package:apartment/l10n/app_localizations.dart';
 
 import '../widgets/details/room/room_details_page.dart';
 
@@ -61,6 +62,7 @@ class _UnitCustomizationScreenContentState extends State<_UnitCustomizationScree
           child: Builder(
             builder: (context) {
               final tabController = DefaultTabController.of(context);
+              final l10n = AppLocalizations.of(context)!;
               return Scaffold(
                 backgroundColor: context.colors.background,
                 appBar: AppBar(
@@ -70,7 +72,7 @@ class _UnitCustomizationScreenContentState extends State<_UnitCustomizationScree
                       final currentIndex = tabController.index;
                       final roomName = currentUnit.rooms.isNotEmpty 
                         ? currentUnit.rooms[currentIndex].name 
-                        : 'الغرفة';
+                        : l10n.room;
                       final totalRooms = currentUnit.rooms.length;
                       return Column(
                         mainAxisSize: MainAxisSize.min,
@@ -85,7 +87,7 @@ class _UnitCustomizationScreenContentState extends State<_UnitCustomizationScree
                           ),
                           if (totalRooms > 0)
                             Text(
-                              'غرفة ${currentIndex + 1} من $totalRooms',
+                              l10n.roomXOfY((currentIndex + 1).toString(), totalRooms.toString()),
                               style: TextStyle(
                                 fontSize: AppFonts.labelSmall,
                                 color: context.colors.textSecondary,
