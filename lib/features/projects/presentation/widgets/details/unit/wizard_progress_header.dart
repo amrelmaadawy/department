@@ -59,7 +59,7 @@ class WizardProgressHeader extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(
-                top: AppSpacing.md,
+                top: AppSpacing.sm,
                 left: AppSpacing.sm,
                 right: AppSpacing.sm,
               ),
@@ -76,7 +76,7 @@ class WizardProgressHeader extends StatelessWidget {
                         Text(
                           roomName,
                           style: TextStyle(
-                            fontSize: AppFonts.headlineSmall,
+                            fontSize: AppFonts.bodyLarge,
                             fontWeight: FontWeight.bold,
                             color: context.colors.textPrimary,
                           ),
@@ -91,30 +91,21 @@ class WizardProgressHeader extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
-                    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: context.colors.gold.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(AppRadius.round),
-                      border: Border.all(color: context.colors.gold.withValues(alpha: 0.2)),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(FluentIcons.checkmark_circle_16_filled, color: context.colors.gold, size: 16),
-                        const SizedBox(width: 4),
-                        Text(
-                          '$completedCount / $totalRooms ($percentage%)',
-                          style: TextStyle(
-                            fontSize: AppFonts.labelMedium,
-                            fontWeight: FontWeight.bold,
-                            color: context.colors.gold,
-                          ),
-                          textDirection: TextDirection.ltr,
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(FluentIcons.checkmark_circle_16_filled, color: context.colors.gold.withValues(alpha: 0.8), size: 14),
+                      const SizedBox(width: 4),
+                      Text(
+                        '$percentage%',
+                        style: TextStyle(
+                          fontSize: AppFonts.labelSmall,
+                          fontWeight: FontWeight.bold,
+                          color: context.colors.gold.withValues(alpha: 0.8),
                         ),
-                      ],
-                    ),
+                        textDirection: TextDirection.ltr,
+                      ),
+                    ],
                   ),
                 ],
               ),

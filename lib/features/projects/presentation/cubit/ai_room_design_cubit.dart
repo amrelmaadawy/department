@@ -159,11 +159,12 @@ class AiRoomDesignCubit extends Cubit<AiRoomDesignState> {
     required FinishingMaterialEntity material,
     required List<FinishingMaterialEntity> siblingMaterials,
     required List<int> targetRoomIds,
+    required List<int> allOtherRoomIds,
   }) {
-    for (final targetRoomId in targetRoomIds) {
-      if (targetRoomId == state.roomId) continue;
+    for (final roomId in allOtherRoomIds) {
+      if (roomId == state.roomId) continue;
 
-      final cachedData = cacheService.getRoomDesignProgress(targetRoomId);
+      final cachedData = cacheService.getRoomDesignProgress(roomId);
       List<int> currentIds = [];
       double currentCost = 0.0;
       String? currentStyle;
@@ -178,30 +179,29 @@ class AiRoomDesignCubit extends Cubit<AiRoomDesignState> {
         isCompleted = cachedData['isCompleted'] == true;
       }
 
-      // Check if the material is already selected in the target room
+      // Check if the material should be selected in the target room
+      final shouldBeSelected = targetRoomIds.contains(roomId);
       final isCurrentlySelected = currentIds.contains(material.id);
 
-      if (!isCurrentlySelected) {
-        // Remove any sibling materials
+      if (shouldBeSelected && !isCurrentlySelected) {
+        // Remove any sibling materials first
         for (final sibling in siblingMaterials) {
           if (currentIds.contains(sibling.id)) {
             currentIds.remove(sibling.id);
-            currentCost -= sibling.finalPrice; // Note: In a real app this cost calculation needs to consider the target room's area
+            currentCost -= sibling.finalPrice; 
           }
         }
-        
         // Add the new material
         currentIds.add(material.id);
-        
-        // IMPORTANT: We need the area of the target room to correctly calculate cost.
-        // However, for simplicity here, we add the base finalPrice, or if material price is per m2, 
-        // it should be recalculated in UnitDetailsCubit. Actually, AiRoomDesignCubit toggles cost for the CURRENT room based on its area.
-        // Let's assume finalPrice is already calculated or we just add the base price.
         currentCost += material.finalPrice;
+      } else if (!shouldBeSelected && isCurrentlySelected) {
+        // Remove the material if it was deselected
+        currentIds.remove(material.id);
+        currentCost -= material.finalPrice;
       }
 
       cacheService.saveRoomDesignProgress(
-        roomId: targetRoomId,
+        roomId: roomId,
         selectedMaterialIds: currentIds,
         selectedMaterialsCost: currentCost,
         selectedStyle: currentStyle,
@@ -209,5 +209,10 @@ class AiRoomDesignCubit extends Cubit<AiRoomDesignState> {
         isCompleted: isCompleted,
       );
     }
+    
+    // Force UI to rebuild so it picks up the cache changes
+    emit(state.copyWith(
+      updateKey: state.updateKey + 1,
+    ));
   }
 }

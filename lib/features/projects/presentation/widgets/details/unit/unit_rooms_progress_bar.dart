@@ -32,7 +32,7 @@ class UnitRoomsProgressBar extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+      padding: const EdgeInsets.symmetric(vertical: 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -72,7 +72,7 @@ class UnitRoomsProgressBar extends StatelessWidget {
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             clipBehavior: Clip.none,
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.sm),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: List.generate(rooms.length * 2 - 1, (index) {
@@ -86,8 +86,8 @@ class UnitRoomsProgressBar extends StatelessWidget {
                   final isLineGold = isLeftCompleted && isRightCompleted;
 
                   return Container(
-                    width: 40,
-                    margin: const EdgeInsets.only(top: 14), 
+                    width: 30,
+                    margin: const EdgeInsets.only(top: 10), 
                     height: 2,
                     color: isLineGold ? context.colors.gold : context.colors.border,
                   );
@@ -135,10 +135,10 @@ class UnitRoomsProgressBar extends StatelessWidget {
         children: [
           AnimatedContainer(
             duration: const Duration(milliseconds: 300),
-            transform: Matrix4.diagonal3Values(isCurrent ? 1.2 : 1.0, isCurrent ? 1.2 : 1.0, 1.0),
+            transform: Matrix4.diagonal3Values(isCurrent ? 1.1 : 1.0, isCurrent ? 1.1 : 1.0, 1.0),
             transformAlignment: Alignment.center,
-            width: 28,
-            height: 28,
+            width: 20,
+            height: 20,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: isCompleted ? context.colors.gold : context.colors.background,
@@ -160,7 +160,7 @@ class UnitRoomsProgressBar extends StatelessWidget {
             ),
             child: Icon(
               FluentIcons.checkmark_12_filled,
-              size: 16,
+              size: 12,
               color: isCompleted ? context.colors.white : Colors.transparent,
             ),
           ),

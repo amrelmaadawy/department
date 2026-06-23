@@ -5,7 +5,6 @@ import '../../../../../../core/theme/app_spacing.dart';
 import '../../../../../../core/theme/theme_extension.dart';
 
 
-import 'room_price_display.dart';
 import 'room_action_buttons.dart';
 
 class UnifiedRoomBottomBar extends StatelessWidget {
@@ -48,11 +47,6 @@ class UnifiedRoomBottomBar extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                RoomPriceDisplay(
-                  unit: unit,
-                  finishingCost: finishingCost,
-                ),
-                const SizedBox(height: AppSpacing.md),
                 RoomActionButtons(
                   isLastRoom: isLastRoom,
                   finishingCost: finishingCost,

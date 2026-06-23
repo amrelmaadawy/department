@@ -9,13 +9,11 @@ import '../../../../../../core/theme/app_spacing.dart';
 import '../../../../../../core/theme/theme_extension.dart';
 import '../../../../../home/domain/entities/finishing_category_entity.dart';
 import '../../../../../home/domain/entities/finishing_subtype_entity.dart';
-import '../../../../../../core/widgets/app_toast.dart';
 import '../../../../../home/domain/entities/unit_room_entity.dart';
 import 'package:apartment/l10n/app_localizations.dart';
 
 import 'finishing_material_grid_card.dart';
-import 'material_apply_banner.dart';
-import 'room_selection_bottom_sheet.dart';
+import 'inline_material_apply.dart';
 import 'room_linear_progress_bar.dart';
 import 'subtype_tab_item.dart';
 import 'finishing_empty_state.dart';
@@ -206,39 +204,21 @@ class _FinishingOptionsSectionState extends State<FinishingOptionsSection> {
               
               return AnimatedSize(
                 duration: const Duration(milliseconds: 300),
-                child: MaterialApplyBanner(
-                  onApplyToAll: () {
-                    HapticFeedback.mediumImpact();
+                child: InlineMaterialApply(
+                  selectedMaterial: selectedMaterial,
+                  otherRooms: widget.unitRooms.where((r) => r.id != widget.currentRoom?.id).toList(),
+                  currentlyAppliedRoomIds: widget.unitRooms.where((r) {
+                    final cachedData = context.read<AiRoomDesignCubit>().cacheService.getRoomDesignProgress(r.id);
+                    if (cachedData == null) return false;
+                    final ids = List<int>.from(cachedData['selectedMaterialIds'] ?? []);
+                    return ids.contains(selectedMaterial.id);
+                  }).map((r) => r.id).toList(),
+                  onApplyChanged: (applyToAll, specificRoomIds) {
                     context.read<AiRoomDesignCubit>().applyMaterialToOtherRooms(
                       material: selectedMaterial,
                       siblingMaterials: selectedSubtype.materials,
-                      targetRoomIds: widget.unitRooms.map((r) => r.id).toList(),
-                    );
-                    AppToast.showSuccess(
-                      context,
-                      'تم تطبيق ${selectedMaterial.name} على جميع الغرف بنجاح',
-                    );
-                  },
-                  onSelectSpecific: () {
-                    HapticFeedback.lightImpact();
-                    showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      backgroundColor: Colors.transparent,
-                      builder: (bottomSheetContext) => RoomSelectionBottomSheet(
-                        availableRooms: widget.unitRooms.where((r) => r.id != widget.currentRoom?.id).toList(),
-                        onApply: (selectedRoomIds) {
-                          context.read<AiRoomDesignCubit>().applyMaterialToOtherRooms(
-                            material: selectedMaterial,
-                            siblingMaterials: selectedSubtype.materials,
-                            targetRoomIds: selectedRoomIds,
-                          );
-                          AppToast.showSuccess(
-                            context,
-                            'تم تطبيق ${selectedMaterial.name} على الغرف المحددة بنجاح',
-                          );
-                        },
-                      ),
+                      targetRoomIds: specificRoomIds,
+                      allOtherRoomIds: widget.unitRooms.where((r) => r.id != widget.currentRoom?.id).map((r) => r.id).toList(),
                     );
                   },
                 ),

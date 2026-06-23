@@ -20,6 +20,7 @@ class AiRoomDesignState extends Equatable {
   final List<String> presetNotes;
   final PresetNotesStatus presetNotesStatus;
   final int totalSubtypesCount;
+  final int updateKey;
 
   const AiRoomDesignState({
     this.apartmentId = 0,
@@ -36,6 +37,7 @@ class AiRoomDesignState extends Equatable {
     this.presetNotes = const [],
     this.presetNotesStatus = PresetNotesStatus.initial,
     this.totalSubtypesCount = 0,
+    this.updateKey = 0,
   });
 
   double get expectedTotalCost => (baseRoomCost + selectedMaterialsCost) * roomArea;
@@ -55,6 +57,7 @@ class AiRoomDesignState extends Equatable {
     List<String>? presetNotes,
     PresetNotesStatus? presetNotesStatus,
     int? totalSubtypesCount,
+    int? updateKey,
   }) {
     return AiRoomDesignState(
       apartmentId: apartmentId ?? this.apartmentId,
@@ -71,6 +74,7 @@ class AiRoomDesignState extends Equatable {
       presetNotes: presetNotes ?? this.presetNotes,
       presetNotesStatus: presetNotesStatus ?? this.presetNotesStatus,
       totalSubtypesCount: totalSubtypesCount ?? this.totalSubtypesCount,
+      updateKey: updateKey ?? this.updateKey,
     );
   }
 
@@ -90,5 +94,6 @@ class AiRoomDesignState extends Equatable {
         presetNotes,
         presetNotesStatus,
         totalSubtypesCount,
+        updateKey,
       ];
 }

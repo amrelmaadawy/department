@@ -64,7 +64,7 @@ class RoomActionButtons extends StatelessWidget {
                 onPressed: () {
                   if (isLastRoom) {
                     context.push(
-                      AppRouter.contractsReview,
+                      AppRouter.finishingSummary,
                       extra: {
                         'totalFinishingCost': finishingCost,
                         'unit': unit,
@@ -82,7 +82,7 @@ class RoomActionButtons extends StatelessWidget {
                   ),
                 ),
                 child: Text(
-                  isLastRoom ? l10n.reviewAndSignContracts : l10n.nextRoom,
+                  isLastRoom ? 'عرض الملخص' : l10n.nextRoom,
                   style: TextStyle(
                     fontSize: AppFonts.bodyMedium,
                     fontWeight: FontWeight.bold,

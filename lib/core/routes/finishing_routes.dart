@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:apartment/core/routes/app_router.dart';
 import 'package:apartment/core/routes/app_router_transitions.dart';
 
+import 'package:apartment/features/projects/presentation/screens/finishing_summary_screen.dart';
 import 'package:apartment/features/contracts/presentation/screens/booking_success_screen.dart';
 import 'package:apartment/features/contracts/presentation/screens/contracts_review_screen.dart';
 import '../../../features/packages/presentation/screens/packages_screen.dart';
@@ -16,6 +17,31 @@ class FinishingRoutes {
           key: state.pageKey,
           transitionDuration: const Duration(milliseconds: 400),
           child: const PackagesScreen(),
+          transitionsBuilder: AppRouterTransitions.slideFromRight,
+        );
+      },
+    ),
+    GoRoute(
+      path: AppRouter.finishingSummary,
+      redirect: (context, state) => state.extra == null ? AppRouter.layout : null,
+      pageBuilder: (context, state) {
+        final extra = state.extra as Map<String, dynamic>?;
+        if (extra == null) {
+          return CustomTransitionPage(
+            key: state.pageKey,
+            child: const RedirectFallback(route: AppRouter.layout),
+            transitionsBuilder: AppRouterTransitions.fadeTransition,
+          );
+        }
+        final totalFinishingCost = extra['totalFinishingCost'] as double? ?? 0.0;
+        final unit = extra['unit'];
+        return CustomTransitionPage(
+          key: state.pageKey,
+          transitionDuration: const Duration(milliseconds: 600),
+          child: FinishingSummaryScreen(
+            totalFinishingCost: totalFinishingCost,
+            unit: unit,
+          ),
           transitionsBuilder: AppRouterTransitions.slideFromRight,
         );
       },
