@@ -18,14 +18,6 @@ class AiDesignSettingsSection extends StatefulWidget {
 class _AiDesignSettingsSectionState extends State<AiDesignSettingsSection> {
   final TextEditingController _notesController = TextEditingController();
 
-  final List<String> _availableStyles = [
-    'Modern',
-    'Classic',
-    'Japandi',
-    'Industrial',
-    'Bohemian',
-    'Minimalist',
-  ];
 
   @override
   void initState() {
@@ -71,63 +63,7 @@ class _AiDesignSettingsSectionState extends State<AiDesignSettingsSection> {
             ],
           ),
           const SizedBox(height: AppSpacing.md),
-          
-          /*
-          // Style Selection
-          Text(
-            'اختر الستايل (اختياري)',
-            style: TextStyle(
-              fontSize: AppFonts.bodyMedium,
-              fontWeight: FontWeight.bold,
-              color: context.colors.textPrimary,
-            ),
-          ),
-          SizedBox(height: AppSpacing.sm),
-          SizedBox(
-            height: 40,
-            child: BlocBuilder<AiRoomDesignCubit, AiRoomDesignState>(
-              builder: (context, state) {
-                return ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: _availableStyles.length,
-                  separatorBuilder: (context, index) => SizedBox(width: AppSpacing.sm),
-                  itemBuilder: (context, index) {
-                    final style = _availableStyles[index];
-                    final isSelected = state.selectedStyle == style;
-
-                    return GestureDetector(
-                      onTap: () {
-                        context.read<AiRoomDesignCubit>().updateStyle(isSelected ? null : style);
-                      },
-                      child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 300),
-                        padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: isSelected ? context.colors.primary : context.colors.white,
-                          borderRadius: BorderRadius.circular(AppRadius.round),
-                          border: Border.all(
-                            color: isSelected ? context.colors.primary : context.colors.border,
-                          ),
-                        ),
-                        child: Text(
-                          style,
-                          style: TextStyle(
-                            color: isSelected ? context.colors.white : context.colors.textPrimary,
-                            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                );
-              },
-            ),
-          ),
-          
-          SizedBox(height: AppSpacing.lg),
-          */
-          
+        
           // Notes TextField
           Text(
             l10n.additionalNotesOptional,
