@@ -36,7 +36,7 @@ class _TypingIndicatorState extends State<TypingIndicator>
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.md,
         vertical: AppSpacing.sm,
       ),
@@ -47,9 +47,9 @@ class _TypingIndicatorState extends State<TypingIndicator>
             radius: 16,
             backgroundImage: NetworkImage(widget.avatarUrl),
           ),
-          SizedBox(width: AppSpacing.sm),
+          const SizedBox(width: AppSpacing.sm),
           Container(
-            padding: EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
               horizontal: AppSpacing.md,
               vertical: 12,
             ),
@@ -76,7 +76,7 @@ class _TypingIndicatorState extends State<TypingIndicator>
                     return Transform.translate(
                       offset: Offset(0, offset),
                       child: Container(
-                        margin: EdgeInsets.symmetric(horizontal: 2),
+                        margin: const EdgeInsets.symmetric(horizontal: 2),
                         width: 6,
                         height: 6,
                         decoration: BoxDecoration(

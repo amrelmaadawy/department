@@ -62,7 +62,7 @@ class SupportScreen extends StatelessWidget {
             ),
             onPressed: () {},
           ),
-          SizedBox(width: AppSpacing.sm),
+          const SizedBox(width: AppSpacing.sm),
         ],
       ),
       body: Column(
@@ -74,16 +74,16 @@ class SupportScreen extends StatelessWidget {
               physics: const BouncingScrollPhysics(),
               reverse:
                   true, // Latest message at the bottom, auto-adjusts with keyboard
-              padding: EdgeInsets.symmetric(vertical: AppSpacing.md),
+              padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
               children: [
                 // Extra space so the FAB doesn't hide the last message
-                SizedBox(height: 80),
+                const SizedBox(height: 80),
 
                 // Typing Indicator
                 const TypingIndicator(avatarUrl: agentAvatar),
 
                 // Agent Reply
-                ChatBubble(
+                const ChatBubble(
                   text: 'Hello, how can I help you?',
                   time: '10:00 AM',
                   isUser: false,
@@ -91,14 +91,14 @@ class SupportScreen extends StatelessWidget {
                 ),
 
                 // User Reply
-                ChatBubble(
+                const ChatBubble(
                   text: 'I need help with my unit.',
                   time: '10:05 AM',
                   isUser: true,
                 ),
 
                 // Agent Welcome
-                ChatBubble(
+                const ChatBubble(
                   text: 'Sure, what seems to be the problem?',
                   time: '10:06 AM',
                   isUser: false,
@@ -108,8 +108,8 @@ class SupportScreen extends StatelessWidget {
                 // Date Separator
                 Center(
                   child: Container(
-                    margin: EdgeInsets.symmetric(vertical: AppSpacing.md),
-                    padding: EdgeInsets.symmetric(
+                    margin: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+                    padding: const EdgeInsets.symmetric(
                       horizontal: AppSpacing.lg,
                       vertical: 4,
                     ),
@@ -135,7 +135,7 @@ class SupportScreen extends StatelessWidget {
         ],
       ),
       floatingActionButton: Padding(
-        padding: EdgeInsets.only(
+        padding: const EdgeInsets.only(
           bottom: 70.0,
         ), // Push FAB above the ChatInputBar
         child: FloatingActionButton.extended(

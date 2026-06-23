@@ -17,43 +17,78 @@ import 'package:apartment/features/projects/domain/entities/customer_render_enti
 
 import '../../../../core/network/app_cancel_token.dart';
 
+class _CacheEntry<T> {
+  final T data;
+  final DateTime timestamp;
+
+  _CacheEntry({required this.data, required this.timestamp});
+
+  bool get isValid => DateTime.now().difference(timestamp) < const Duration(minutes: 10);
+}
+
 class ProjectRepositoryImpl implements ProjectRepository {
   final ProjectRemoteDataSource remoteDataSource;
+
+  // Cache Storage
+  _CacheEntry<List<ProjectEntity>>? _cachedProjects;
+  final Map<int, _CacheEntry<ProjectEntity>> _cachedProjectDetails = {};
+  final Map<int, _CacheEntry<List<ProjectUnitEntity>>> _cachedProjectUnits = {};
 
   ProjectRepositoryImpl({required this.remoteDataSource});
 
   @override
   Future<Either<Failure, List<ProjectEntity>>> getProjects({AppCancelToken? cancelToken}) async {
+    if (_cachedProjects != null && _cachedProjects!.isValid) {
+      return Right(_cachedProjects!.data);
+    }
+
     try {
       final projects = await remoteDataSource.getProjects(cancelToken: cancelToken);
+      _cachedProjects = _CacheEntry(data: projects, timestamp: DateTime.now());
       return Right(projects);
     } on ServerException catch (e) {
+      if (_cachedProjects != null) return Right(_cachedProjects!.data);
       return Left(ServerFailure(e.message));
     } catch (e) {
+      if (_cachedProjects != null) return Right(_cachedProjects!.data);
       return Left(ServerFailure('An unexpected error occurred: ${e.toString()}'));
     }
   }
 
   @override
   Future<Either<Failure, ProjectEntity>> getProjectDetails(int id) async {
+    if (_cachedProjectDetails.containsKey(id) && _cachedProjectDetails[id]!.isValid) {
+      return Right(_cachedProjectDetails[id]!.data);
+    }
+
     try {
       final project = await remoteDataSource.getProjectDetails(id);
+      _cachedProjectDetails[id] = _CacheEntry(data: project, timestamp: DateTime.now());
       return Right(project);
     } on ServerException catch (e) {
+      if (_cachedProjectDetails.containsKey(id)) return Right(_cachedProjectDetails[id]!.data);
       return Left(ServerFailure(e.message));
     } catch (e) {
+      if (_cachedProjectDetails.containsKey(id)) return Right(_cachedProjectDetails[id]!.data);
       return Left(ServerFailure('An unexpected error occurred: ${e.toString()}'));
     }
   }
 
   @override
   Future<Either<Failure, List<ProjectUnitEntity>>> getProjectUnits(int id) async {
+    if (_cachedProjectUnits.containsKey(id) && _cachedProjectUnits[id]!.isValid) {
+      return Right(_cachedProjectUnits[id]!.data);
+    }
+
     try {
       final units = await remoteDataSource.getProjectUnits(id);
+      _cachedProjectUnits[id] = _CacheEntry(data: units, timestamp: DateTime.now());
       return Right(units);
     } on ServerException catch (e) {
+      if (_cachedProjectUnits.containsKey(id)) return Right(_cachedProjectUnits[id]!.data);
       return Left(ServerFailure(e.message));
     } catch (e) {
+      if (_cachedProjectUnits.containsKey(id)) return Right(_cachedProjectUnits[id]!.data);
       return Left(ServerFailure('An unexpected error occurred: ${e.toString()}'));
     }
   }

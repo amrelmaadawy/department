@@ -102,7 +102,7 @@ class RoomDesignBottomBar extends StatelessWidget {
                   size: 24,
                 ),
               ),
-              SizedBox(width: AppSpacing.md),
+              const SizedBox(width: AppSpacing.md),
               Expanded(
                 child: ElevatedButton.icon(
                   onPressed: state.status == AiDesignStatus.loading
@@ -128,7 +128,7 @@ class RoomDesignBottomBar extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: context.colors.primary,
                     foregroundColor: context.colors.white,
-                    padding: EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                       vertical: AppSpacing.md,
                     ),
                     shape: RoundedRectangleBorder(
@@ -148,7 +148,7 @@ class RoomDesignBottomBar extends StatelessWidget {
                       : const Icon(FluentIcons.sparkle_24_filled, size: 20),
                   label: Text(
                     state.status == AiDesignStatus.loading ? l10n.sending : l10n.smartDesign,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: AppFonts.bodyMedium,
                       fontWeight: FontWeight.bold,
                     ),

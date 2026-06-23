@@ -22,7 +22,7 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
     if (response != null && response['data'] != null) {
       return ProfileModel.fromJson(response['data']);
     } else {
-      throw ServerException(message: 'Failed to load profile data');
+      throw const ServerException(message: 'Failed to load profile data');
     }
   }
 
@@ -35,7 +35,7 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
       }
       return ProfileModel.fromJson(response['data']);
     } else {
-      throw ServerException(message: 'Failed to update profile data');
+      throw const ServerException(message: 'Failed to update profile data');
     }
   }
 
@@ -44,8 +44,8 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
     final response = await apiClient.post(
       ApiEndpoints.savedDesigns,
       data: {
-        "finishing_order_id": orderId,
-        "image_url": imageUrl,
+        'finishing_order_id': orderId,
+        'image_url': imageUrl,
       },
     );
     

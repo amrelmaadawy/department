@@ -11,7 +11,7 @@ class SettingsSectionTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(bottom: AppSpacing.md, right: AppSpacing.sm),
+      padding: const EdgeInsets.only(bottom: AppSpacing.md, right: AppSpacing.sm),
       child: Text(
         title,
         style: TextStyle(

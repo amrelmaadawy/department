@@ -22,7 +22,7 @@ class BookingSuccessActions extends StatelessWidget {
           height: 60,
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [context.colors.gold, Color(0xFFC99B40)],
+              colors: [context.colors.gold, const Color(0xFFC99B40)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
@@ -54,7 +54,7 @@ class BookingSuccessActions extends StatelessWidget {
                       letterSpacing: 0.5,
                     ),
                   ),
-                  SizedBox(width: AppSpacing.sm),
+                  const SizedBox(width: AppSpacing.sm),
                   Icon(
                     FluentIcons.chevron_left_24_regular,
                     color: context.colors.white,
@@ -65,14 +65,14 @@ class BookingSuccessActions extends StatelessWidget {
           ),
         ),
 
-        SizedBox(height: AppSpacing.lg),
+        const SizedBox(height: AppSpacing.lg),
 
         OutlinedButton(
           onPressed: () {
             context.go('/'); // Clear stack and go to root
           },
           style: OutlinedButton.styleFrom(
-            padding: EdgeInsets.symmetric(vertical: 18),
+            padding: const EdgeInsets.symmetric(vertical: 18),
             side: BorderSide(
               color: context.colors.primary.withValues(alpha: 0.2),
               width: 1.5,

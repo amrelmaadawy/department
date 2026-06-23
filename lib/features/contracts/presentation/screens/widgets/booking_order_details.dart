@@ -29,7 +29,7 @@ class BookingOrderDetails extends StatelessWidget {
         '${expectedDate.day} / ${expectedDate.month} / ${expectedDate.year}';
 
     return Container(
-      padding: EdgeInsets.all(AppSpacing.xxl),
+      padding: const EdgeInsets.all(AppSpacing.xxl),
       decoration: BoxDecoration(
         color: context.colors.white.withValues(alpha: 0.9),
         borderRadius: BorderRadius.circular(AppRadius.xl),
@@ -57,7 +57,7 @@ class BookingOrderDetails extends StatelessWidget {
                   color: context.colors.textPrimary.withValues(alpha: 0.7),
                 ),
               ),
-              SizedBox(width: AppSpacing.md),
+              const SizedBox(width: AppSpacing.md),
               Expanded(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -75,12 +75,12 @@ class BookingOrderDetails extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(width: AppSpacing.sm),
+                    const SizedBox(width: AppSpacing.sm),
                     InkWell(
                       onTap: () => _copyOrderId(context),
                       borderRadius: BorderRadius.circular(AppRadius.sm),
                       child: Padding(
-                        padding: EdgeInsets.all(4.0),
+                        padding: const EdgeInsets.all(4.0),
                         child: Icon(
                           FluentIcons.copy_20_regular,
                           color: context.colors.gold,
@@ -95,7 +95,7 @@ class BookingOrderDetails extends StatelessWidget {
           ),
 
           Padding(
-            padding: EdgeInsets.symmetric(vertical: AppSpacing.xl),
+            padding: const EdgeInsets.symmetric(vertical: AppSpacing.xl),
             child: Row(
               children: List.generate(
                 150 ~/ 4,
@@ -123,7 +123,7 @@ class BookingOrderDetails extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(width: AppSpacing.sm),
+              const SizedBox(width: AppSpacing.sm),
               Text(
                 expectedDateStr,
                 style: TextStyle(

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:apartment/features/home/data/models/room_details_model.dart';
 import '../../../../core/error/exceptions.dart';
 
@@ -28,6 +29,19 @@ abstract class ProjectRemoteDataSource {
   Future<bool> toggleCustomerRenderFavorite(int apartmentId, String imageUrl);
 }
 
+// Top-level functions for Isolate parsing
+List<ProjectModel> _parseProjectsList(List data) {
+  return data.map((item) => ProjectModel.fromJson(item)).toList();
+}
+
+List<ProjectUnitModel> _parseProjectUnitsList(List data) {
+  return data.map((item) => ProjectUnitModel.fromJson(item)).toList();
+}
+
+List<RoomCustomerRendersModel> _parseCustomerRendersList(List data) {
+  return data.map((item) => RoomCustomerRendersModel.fromJson(item)).toList();
+}
+
 class ProjectRemoteDataSourceImpl implements ProjectRemoteDataSource {
   final ApiClient apiClient;
 
@@ -41,11 +55,9 @@ class ProjectRemoteDataSourceImpl implements ProjectRemoteDataSource {
     );
     
     if (response != null && response['data'] != null && response['data'] is List) {
-      return (response['data'] as List)
-          .map((item) => ProjectModel.fromJson(item))
-          .toList();
+      return compute(_parseProjectsList, response['data'] as List);
     } else {
-      throw ServerException(message: 'Failed to load projects');
+      throw const ServerException(message: 'Failed to load projects');
     }
   }
 
@@ -56,7 +68,7 @@ class ProjectRemoteDataSourceImpl implements ProjectRemoteDataSource {
     if (response != null && response['data'] != null) {
       return ProjectModel.fromJson(response['data']);
     } else {
-      throw ServerException(message: 'Failed to load project details');
+      throw const ServerException(message: 'Failed to load project details');
     }
   }
 
@@ -65,11 +77,9 @@ class ProjectRemoteDataSourceImpl implements ProjectRemoteDataSource {
     final response = await apiClient.get('${ApiEndpoints.projects}/$id/apartments');
     
     if (response != null && response['data'] != null && response['data'] is List) {
-      return (response['data'] as List)
-          .map((item) => ProjectUnitModel.fromJson(item))
-          .toList();
+      return compute(_parseProjectUnitsList, response['data'] as List);
     } else {
-      throw ServerException(message: 'Failed to load project units');
+      throw const ServerException(message: 'Failed to load project units');
     }
   }
 
@@ -80,7 +90,7 @@ class ProjectRemoteDataSourceImpl implements ProjectRemoteDataSource {
     if (response != null && response['data'] != null && response['data']['apartment'] != null) {
       return ProjectUnitModel.fromJson(response['data']['apartment']);
     } else {
-      throw ServerException(message: 'Failed to load unit details');
+      throw const ServerException(message: 'Failed to load unit details');
     }
   }
 
@@ -91,7 +101,7 @@ class ProjectRemoteDataSourceImpl implements ProjectRemoteDataSource {
     if (response != null && response['data'] != null) {
       return RoomDetailsModel.fromJson(response['data']);
     } else {
-      throw ServerException(message: 'Failed to load room details');
+      throw const ServerException(message: 'Failed to load room details');
     }
   }
 
@@ -105,7 +115,7 @@ class ProjectRemoteDataSourceImpl implements ProjectRemoteDataSource {
     if (response != null && response['data'] != null) {
       return FinishingOrderModel.fromJson(response['data']);
     } else {
-      throw ServerException(message: 'Failed to submit finishing order');
+      throw const ServerException(message: 'Failed to submit finishing order');
     }
   }
 
@@ -116,7 +126,7 @@ class ProjectRemoteDataSourceImpl implements ProjectRemoteDataSource {
     if (response != null && response['data'] != null) {
       return AiRendersModel.fromJson(response['data']);
     } else {
-      throw ServerException(message: 'Failed to load AI renders');
+      throw const ServerException(message: 'Failed to load AI renders');
     }
   }
 
@@ -130,7 +140,7 @@ class ProjectRemoteDataSourceImpl implements ProjectRemoteDataSource {
     if (response != null && response['data'] != null && response['data']['saved_design'] != null) {
       return SavedDesignModel.fromJson(response['data']['saved_design']);
     } else {
-      throw ServerException(message: 'Failed to save design');
+      throw const ServerException(message: 'Failed to save design');
     }
   }
 
@@ -141,7 +151,7 @@ class ProjectRemoteDataSourceImpl implements ProjectRemoteDataSource {
     if (response != null && response['data'] != null && response['data']['preset_notes'] != null) {
       return List<String>.from(response['data']['preset_notes']);
     } else {
-      throw ServerException(message: 'Failed to load preset notes');
+      throw const ServerException(message: 'Failed to load preset notes');
     }
   }
 
@@ -150,11 +160,9 @@ class ProjectRemoteDataSourceImpl implements ProjectRemoteDataSource {
     final response = await apiClient.get(ApiEndpoints.customerRenders(apartmentId));
 
     if (response != null && response['data'] != null && response['data'] is List) {
-      return (response['data'] as List)
-          .map((item) => RoomCustomerRendersModel.fromJson(item))
-          .toList();
+      return compute(_parseCustomerRendersList, response['data'] as List);
     } else {
-      throw ServerException(message: 'Failed to load customer renders');
+      throw const ServerException(message: 'Failed to load customer renders');
     }
   }
 
@@ -163,8 +171,8 @@ class ProjectRemoteDataSourceImpl implements ProjectRemoteDataSource {
     final response = await apiClient.post(
       ApiEndpoints.savedDesigns,
       data: {
-        "finishing_order_id": apartmentId,
-        "image_url": imageUrl,
+        'finishing_order_id': apartmentId,
+        'image_url': imageUrl,
       },
     );
     

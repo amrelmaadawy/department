@@ -41,8 +41,8 @@ class ContractSummaryCard extends StatelessWidget {
         ? (unit?.price ?? 0.0) 
         : (finishingTotal ?? 0.0);
     return Container(
-      margin: EdgeInsets.all(AppSpacing.md),
-      padding: EdgeInsets.all(AppSpacing.lg),
+      margin: const EdgeInsets.all(AppSpacing.md),
+      padding: const EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
         color: context.colors.white,
         borderRadius: BorderRadius.circular(AppRadius.lg),
@@ -60,7 +60,7 @@ class ContractSummaryCard extends StatelessWidget {
           Row(
             children: [
               Icon(icon, color: context.colors.primary),
-              SizedBox(width: AppSpacing.sm),
+              const SizedBox(width: AppSpacing.sm),
               Text(
                 title,
                 style: TextStyle(
@@ -71,30 +71,30 @@ class ContractSummaryCard extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: AppSpacing.md),
+          const SizedBox(height: AppSpacing.md),
           Divider(color: context.colors.background),
-          SizedBox(height: AppSpacing.md),
+          const SizedBox(height: AppSpacing.md),
           
           if (unit != null) ...[
             _buildInfoRow(context, l10n.project, 'Riyadh Project', FluentIcons.location_24_regular),
-            SizedBox(height: AppSpacing.sm),
+            const SizedBox(height: AppSpacing.sm),
             _buildInfoRow(context, l10n.unitType, l10n.unitTypeDesc(unit.title, unit.area.toString()), FluentIcons.home_24_regular),
-            SizedBox(height: AppSpacing.sm),
+            const SizedBox(height: AppSpacing.sm),
             _buildInfoRow(context, l10n.floor, l10n.floorDesc(unit.floor.toString()), FluentIcons.layer_24_regular),
           ] else ...[
             _buildInfoRow(context, l10n.project, 'Riyadh Project', FluentIcons.location_24_regular),
-            SizedBox(height: AppSpacing.sm),
+            const SizedBox(height: AppSpacing.sm),
             _buildInfoRow(context, l10n.details, l10n.loadingStatus, FluentIcons.info_24_regular),
           ],
           
           if (contractType == ContractType.finishing) ...[
-            SizedBox(height: AppSpacing.sm),
+            const SizedBox(height: AppSpacing.sm),
             _buildInfoRow(context, l10n.finishingType, l10n.fullCustomFinishing, FluentIcons.color_24_regular),
           ],
           
-          SizedBox(height: AppSpacing.md),
+          const SizedBox(height: AppSpacing.md),
           Container(
-            padding: EdgeInsets.all(AppSpacing.md),
+            padding: const EdgeInsets.all(AppSpacing.md),
             decoration: BoxDecoration(
               color: context.colors.background,
               borderRadius: BorderRadius.circular(AppRadius.md),
@@ -129,7 +129,7 @@ class ContractSummaryCard extends StatelessWidget {
     return Row(
       children: [
         Icon(icon, size: 20, color: context.colors.textSecondary),
-        SizedBox(width: AppSpacing.sm),
+        const SizedBox(width: AppSpacing.sm),
         Expanded(
           child: Text(
             label,

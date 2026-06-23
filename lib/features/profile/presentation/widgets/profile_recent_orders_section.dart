@@ -1,6 +1,6 @@
 import 'package:apartment/features/projects/presentation/cubit/share_design_cubit.dart' as import_share;
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:apartment/core/widgets/app_cached_network_image.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 import '../../../../core/theme/app_fonts.dart';
@@ -55,21 +55,21 @@ class ProfileRecentOrdersSection extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(height: AppSpacing.sm),
+        const SizedBox(height: AppSpacing.sm),
         SizedBox(
           height: 165,
           child: ListView.separated(
-            padding: EdgeInsets.symmetric(horizontal: AppSpacing.xl),
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl),
             scrollDirection: Axis.horizontal,
             itemCount: recentOrders.length,
-            separatorBuilder: (context, index) => SizedBox(width: AppSpacing.md),
+            separatorBuilder: (context, index) => const SizedBox(width: AppSpacing.md),
             itemBuilder: (context, index) {
               final order = recentOrders[index];
               return _buildOrderCard(context, order);
             },
           ),
         ),
-        SizedBox(height: AppSpacing.xxl),
+        const SizedBox(height: AppSpacing.xxl),
       ],
     );
   }
@@ -97,7 +97,7 @@ class ProfileRecentOrdersSection extends StatelessWidget {
       },
       child: Container(
         width: 260,
-        padding: EdgeInsets.all(AppSpacing.md),
+        padding: const EdgeInsets.all(AppSpacing.md),
         decoration: BoxDecoration(
           color: context.colors.white,
           borderRadius: BorderRadius.circular(AppRadius.xl),
@@ -122,7 +122,7 @@ class ProfileRecentOrdersSection extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                   decoration: BoxDecoration(
                     color: statusColor.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(AppRadius.sm),
@@ -159,7 +159,7 @@ class ProfileRecentOrdersSection extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
-                SizedBox(height: 2),
+                const SizedBox(height: 2),
                 if (order.projectName.isNotEmpty)
                   Text(
                     '${order.projectName} - ${order.unitName.isNotEmpty ? order.unitName : "غير محدد"}',
@@ -170,7 +170,7 @@ class ProfileRecentOrdersSection extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                SizedBox(height: 2),
+                const SizedBox(height: 2),
                 Text(
                   'النمط: ${order.style.isEmpty ? 'غير محدد' : order.style}',
                   style: TextStyle(
@@ -320,7 +320,7 @@ class ProfileRecentOrdersSection extends StatelessWidget {
                               )
                             : ClipRRect(
                                 borderRadius: BorderRadius.circular(AppRadius.xl),
-                                child: CachedNetworkImage(
+                                child: AppCachedNetworkImage(
                                   imageUrl: order.imageUrl,
                                   fit: BoxFit.cover,
                                   progressIndicatorBuilder: (context, url, progress) {

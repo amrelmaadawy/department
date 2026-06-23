@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:apartment/core/widgets/app_cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
@@ -87,7 +87,7 @@ class _ProjectDetailsHeaderState extends State<ProjectDetailsHeader> {
       leading: GestureDetector(
         onTap: () => context.pop(),
         child: Container(
-          margin: EdgeInsets.only(left: AppSpacing.md, right: AppSpacing.md),
+          margin: const EdgeInsets.only(left: AppSpacing.md, right: AppSpacing.md),
           decoration: BoxDecoration(
             color: context.colors.white.withValues(alpha: 0.85),
             shape: BoxShape.circle,
@@ -120,7 +120,7 @@ class _ProjectDetailsHeaderState extends State<ProjectDetailsHeader> {
                   
                   if (imagePath.isNotEmpty) {
                     if (imagePath.startsWith('http')) {
-                      imageWidget = CachedNetworkImage(
+                      imageWidget = AppCachedNetworkImage(
                         imageUrl: Uri.encodeFull(imagePath),
                         fit: BoxFit.cover,
                         errorWidget: (context, url, error) =>
@@ -229,7 +229,7 @@ class _ProjectDetailsHeaderState extends State<ProjectDetailsHeader> {
                 height: 30,
                 decoration: BoxDecoration(
                   color: context.colors.background,
-                  borderRadius: BorderRadius.vertical(
+                  borderRadius: const BorderRadius.vertical(
                     top: Radius.circular(AppRadius.xl),
                   ),
                 ),

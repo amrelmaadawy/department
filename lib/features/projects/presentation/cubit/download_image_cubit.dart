@@ -12,7 +12,7 @@ class DownloadImageCubit extends Cubit<DownloadImageState> {
     
     emit(DownloadImageLoading());
     try {
-      final fileName = "ai_design_${DateTime.now().millisecondsSinceEpoch}";
+      final fileName = 'ai_design_${DateTime.now().millisecondsSinceEpoch}';
       await downloadService.downloadAndSaveImage(url, fileName: fileName);
       emit(DownloadImageSuccess(message: successMessage));
     } catch (e) {

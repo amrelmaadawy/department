@@ -1,6 +1,6 @@
 import 'package:apartment/features/projects/domain/entities/saved_design_entity.dart';
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:apartment/core/widgets/app_cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:shimmer/shimmer.dart';
@@ -53,7 +53,7 @@ class SavedDesignCard extends StatelessWidget {
               child: design.imageUrls.isNotEmpty
                   ? ClipRRect(
                       borderRadius: BorderRadius.circular(AppRadius.lg),
-                      child: CachedNetworkImage(
+                      child: AppCachedNetworkImage(
                         imageUrl: design.imageUrls.first,
                         fit: BoxFit.cover,
                         progressIndicatorBuilder: (context, url, progress) {

@@ -36,7 +36,7 @@ class ChatInputBar extends StatelessWidget {
         children: [
           // Input field
           Container(
-            padding: EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
               horizontal: AppSpacing.sm,
               vertical: 4,
             ),
@@ -58,7 +58,7 @@ class ChatInputBar extends StatelessWidget {
               children: [
                 // Send Button (Left side in RTL)
                 Container(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: context.colors.primary, // Professional primary color
@@ -69,7 +69,7 @@ class ChatInputBar extends StatelessWidget {
                     size: 20,
                   ),
                 ),
-                SizedBox(width: AppSpacing.md),
+                const SizedBox(width: AppSpacing.md),
 
                 // Text Field
                 Expanded(

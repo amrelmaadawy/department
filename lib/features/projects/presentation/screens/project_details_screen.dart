@@ -136,7 +136,7 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
                     ),
 
                     // Bottom Padding
-                    SliverToBoxAdapter(
+                    const SliverToBoxAdapter(
                       child: SizedBox(height: 100), // Extra padding for comparison bar
                     ),
                   ],
@@ -171,7 +171,7 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       physics: const NeverScrollableScrollPhysics(),
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         vertical: AppSpacing.md,
         horizontal: AppSpacing.lg,
       ),
@@ -193,12 +193,12 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
                     Container(
                       width: 52, // 26 * 2 (radius)
                       height: 52,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Colors.white,
                         shape: BoxShape.circle,
                       ),
                     ),
-                    SizedBox(height: AppSpacing.sm),
+                    const SizedBox(height: AppSpacing.sm),
                     Container(
                       width: 50,
                       height: 12,
@@ -223,7 +223,7 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
     final highlightColor = isDark ? Colors.grey[700]! : Colors.grey[100]!;
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
       child: Shimmer.fromColors(
         baseColor: baseColor,
         highlightColor: highlightColor,

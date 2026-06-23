@@ -20,7 +20,7 @@ class HomeCubit extends Cubit<HomeState> {
     final result = await getProjectsUseCase(cancelToken: _cancelToken);
 
     result.fold(
-      (failure) => emit(HomeLoaded(featuredProjects: const [])), // Or handle error state appropriately
+      (failure) => emit(const HomeLoaded(featuredProjects: [])), // Or handle error state appropriately
       (projects) {
         // Filter for featured projects only
         final featured = projects.where((p) => p.isFeatured).toList();

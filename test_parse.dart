@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:apartment/features/projects/data/models/project_model.dart';
 
 void main() {
-  final jsonStr = '''{
+  const jsonStr = '''{
     "success": true,
     "message": "تفاصيل المشروع",
     "data": {

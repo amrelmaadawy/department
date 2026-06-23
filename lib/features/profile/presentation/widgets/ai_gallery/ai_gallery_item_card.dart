@@ -1,6 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:apartment/core/widgets/app_cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:shimmer/shimmer.dart';
@@ -55,7 +55,7 @@ class AiGalleryItemCard extends StatelessWidget {
             children: [
               Hero(
                 tag: heroTag,
-                child: CachedNetworkImage(
+                child: AppCachedNetworkImage(
                   imageUrl: item.url,
                   fit: BoxFit.cover,
                   progressIndicatorBuilder: (context, url, progress) {

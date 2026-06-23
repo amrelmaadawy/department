@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:apartment/core/widgets/app_cached_network_image.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
 import '../../../../core/theme/app_fonts.dart';
@@ -25,7 +25,7 @@ class ProfileHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.only(
+      padding: const EdgeInsets.only(
         top: AppSpacing.xxxl * 1.5,
         bottom: AppSpacing.xxxl * 1.5, // Extra space for the floating card
       ),
@@ -130,7 +130,7 @@ class ProfileHeader extends StatelessWidget {
                     child: ClipOval(
                       child: (avatarUrl != null && avatarUrl!.isNotEmpty)
                           ? (avatarUrl!.startsWith('http')
-                              ? CachedNetworkImage(
+                              ? AppCachedNetworkImage(
                                   imageUrl: avatarUrl!,
                                   fit: BoxFit.cover,
                                   errorWidget: (_, _, _) => _buildFallbackAvatar(context),
@@ -146,7 +146,7 @@ class ProfileHeader extends StatelessWidget {
                 ),
               ),
 
-              SizedBox(height: AppSpacing.md),
+              const SizedBox(height: AppSpacing.md),
 
               // User Name
               Text(
@@ -159,17 +159,17 @@ class ProfileHeader extends StatelessWidget {
                 ),
               ),
 
-              SizedBox(height: AppSpacing.sm),
+              const SizedBox(height: AppSpacing.sm),
 
               // Premium Badge & AI Credits
               Container(
-                padding: EdgeInsets.symmetric(
+                padding: const EdgeInsets.symmetric(
                   horizontal: AppSpacing.xl,
                   vertical: 6,
                 ),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [context.colors.gold, Color(0xFFC99B40)],
+                    colors: [context.colors.gold, const Color(0xFFC99B40)],
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,
                   ),
@@ -190,7 +190,7 @@ class ProfileHeader extends StatelessWidget {
                       color: context.colors.white,
                       size: 16,
                     ),
-                    SizedBox(width: AppSpacing.xs),
+                    const SizedBox(width: AppSpacing.xs),
                     Text(
                       userType,
                       style: TextStyle(
@@ -200,19 +200,19 @@ class ProfileHeader extends StatelessWidget {
                       ),
                     ),
                     if (aiCredits > 0) ...[
-                      SizedBox(width: AppSpacing.md),
+                      const SizedBox(width: AppSpacing.md),
                       Container(
                         width: 1,
                         height: 16,
                         color: context.colors.white.withValues(alpha: 0.3),
                       ),
-                      SizedBox(width: AppSpacing.md),
+                      const SizedBox(width: AppSpacing.md),
                       Icon(
                         FluentIcons.sparkle_24_filled,
                         color: context.colors.white,
                         size: 16,
                       ),
-                      SizedBox(width: AppSpacing.xs),
+                      const SizedBox(width: AppSpacing.xs),
                       Text(
                         '$aiCredits رصيد AI',
                         style: TextStyle(

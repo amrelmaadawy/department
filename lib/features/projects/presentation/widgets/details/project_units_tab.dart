@@ -278,7 +278,7 @@ class _ProjectUnitsTabState extends State<ProjectUnitsTab> {
         const SizedBox(height: AppSpacing.md),
         // Units List / Grid
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
           child: AnimatedSize(
             duration: const Duration(milliseconds: 400),
             curve: Curves.easeInOutCubic,
@@ -320,7 +320,7 @@ class _ProjectUnitsTabState extends State<ProjectUnitsTab> {
                           )
                         else
                           ListView.builder(
-                            padding: EdgeInsets.symmetric(vertical: AppSpacing.sm),
+                            padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: unitsInFloor.length,
@@ -334,7 +334,7 @@ class _ProjectUnitsTabState extends State<ProjectUnitsTab> {
             ),
           ),
         ),
-        SizedBox(height: AppSpacing.xl),
+        const SizedBox(height: AppSpacing.xl),
       ],
     );
   }
@@ -485,8 +485,8 @@ class _ProjectUnitsTabState extends State<ProjectUnitsTab> {
                   _activeFilter = const UnitFilterModel();
                 });
               },
-              icon: Icon(FluentIcons.arrow_counterclockwise_24_regular, size: 20),
-              label: Text(AppLocalizations.of(context)!.clearFilters, style: TextStyle(fontWeight: FontWeight.bold)),
+              icon: const Icon(FluentIcons.arrow_counterclockwise_24_regular, size: 20),
+              label: Text(AppLocalizations.of(context)!.clearFilters, style: const TextStyle(fontWeight: FontWeight.bold)),
               style: OutlinedButton.styleFrom(
                 foregroundColor: context.colors.error,
                 side: BorderSide(color: context.colors.error.withValues(alpha: 0.5)),

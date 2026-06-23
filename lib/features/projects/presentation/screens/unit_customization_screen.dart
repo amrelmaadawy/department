@@ -11,6 +11,7 @@ import 'package:apartment/core/di/injection_container.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 
 import '../widgets/details/room/room_details_page.dart';
+import 'package:apartment/core/widgets/error_state_view.dart';
 
 class UnitCustomizationScreen extends StatefulWidget {
   final ProjectUnitEntity unit;
@@ -51,55 +52,78 @@ class _UnitCustomizationScreenContent extends StatefulWidget {
 class _UnitCustomizationScreenContentState extends State<_UnitCustomizationScreenContent> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UnitDetailsCubit, UnitDetailsState>(
-      builder: (context, state) {
-        final currentUnit = state.unit ?? widget.initialUnit;
+    return Scaffold(
+      backgroundColor: context.colors.background,
+      body: BlocBuilder<UnitDetailsCubit, UnitDetailsState>(
+        buildWhen: (previous, current) {
+          return previous.runtimeType != current.runtimeType || previous.unit != current.unit;
+        },
+        builder: (context, state) {
+          if (state is UnitDetailsLoading || state is UnitDetailsInitial) {
+            if (state.unit == null || state.unit!.rooms.isEmpty) {
+              return _buildFullPageShimmer(context);
+            }
+          }
+          if (state is UnitDetailsError && (state.unit == null || state.unit!.rooms.isEmpty)) {
+            return ErrorStateView(
+              message: state.message,
+              onRetry: () => context.read<UnitDetailsCubit>().loadUnitDetails(int.parse(widget.initialUnit.id)),
+            );
+          }
 
-        return DefaultTabController(
-          length: currentUnit.rooms.isNotEmpty ? currentUnit.rooms.length : 1,
-          child: Builder(
-            builder: (context) {
-              final tabController = DefaultTabController.of(context);
-              return Scaffold(
-                backgroundColor: context.colors.background,
-                body: currentUnit.rooms.isEmpty
-                    ? _buildFullPageShimmer(context)
-                    : Column(
-                        children: [
-                          AnimatedBuilder(
-                            animation: tabController,
-                            builder: (context, child) {
-                              return WizardProgressHeader(
-                                currentUnit: currentUnit,
-                                completedRoomIds: state.completedRoomIds,
-                                currentRoomIndex: tabController.index,
-                                roomCosts: state.roomCosts,
-                                onRoomSelected: (index) {
-                                  tabController.animateTo(index);
-                                },
-                                onBack: () => Navigator.pop(context),
-                              );
-                            },
-                          ),
-                          Expanded(
-                            child: TabBarView(
-                              children: currentUnit.rooms.map((room) {
-                                return RoomDetailsPage(
-                                  room: room,
-                                  unit: currentUnit,
-                                  tabController: tabController,
-                                  unitFinishingCost: state.totalFinishingCost,
-                                );
-                              }).toList(),
-                            ),
-                          ),
-                        ],
+          final currentUnit = state.unit ?? widget.initialUnit;
+          if (currentUnit.rooms.isEmpty) {
+            return _buildFullPageShimmer(context);
+          }
+
+          return DefaultTabController(
+            length: currentUnit.rooms.length,
+            child: Builder(
+              builder: (context) {
+                final tabController = DefaultTabController.of(context);
+                return Column(
+                  children: [
+                    AnimatedBuilder(
+                      animation: tabController,
+                      builder: (context, child) {
+                        return BlocBuilder<UnitDetailsCubit, UnitDetailsState>(
+                          buildWhen: (previous, current) => 
+                              previous.completedRoomIds != current.completedRoomIds || 
+                              previous.roomCosts != current.roomCosts ||
+                              previous.unit != current.unit,
+                          builder: (context, headerState) {
+                            return WizardProgressHeader(
+                              currentUnit: headerState.unit ?? currentUnit,
+                              completedRoomIds: headerState.completedRoomIds,
+                              currentRoomIndex: tabController.index,
+                              roomCosts: headerState.roomCosts,
+                              onRoomSelected: (index) {
+                                tabController.animateTo(index);
+                              },
+                              onBack: () => Navigator.pop(context),
+                            );
+                          }
+                        );
+                      },
+                    ),
+                    Expanded(
+                      child: TabBarView(
+                        children: currentUnit.rooms.map((room) {
+                          return RoomDetailsPage(
+                            room: room,
+                            unit: currentUnit,
+                            tabController: tabController,
+                          );
+                        }).toList(),
                       ),
-              );
-            },
-          ),
-        );
-      },
+                    ),
+                  ],
+                );
+              },
+            ),
+          );
+        },
+      ),
     );
   }
 
@@ -123,7 +147,7 @@ class _UnitCustomizationScreenContentState extends State<_UnitCustomizationScree
                 Container(
                   width: 40,
                   height: 40,
-                  decoration: BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+                  decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
                 )
               ),
             ),
@@ -135,18 +159,18 @@ class _UnitCustomizationScreenContentState extends State<_UnitCustomizationScree
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: AppSpacing.md),
+                  const SizedBox(height: AppSpacing.md),
                   Container(width: double.infinity, height: 4, decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(2))),
-                  SizedBox(height: AppSpacing.xl),
+                  const SizedBox(height: AppSpacing.xl),
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
                       children: List.generate(4, (index) => 
-                        Container(margin: EdgeInsets.only(left: AppSpacing.md), width: 80, height: 36, decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(AppRadius.round)))
+                        Container(margin: const EdgeInsets.only(left: AppSpacing.md), width: 80, height: 36, decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(AppRadius.round)))
                       ),
                     ),
                   ),
-                  SizedBox(height: AppSpacing.xxl),
+                  const SizedBox(height: AppSpacing.xxl),
                   Expanded(
                     child: GridView.builder(
                       shrinkWrap: true,
@@ -168,7 +192,7 @@ class _UnitCustomizationScreenContentState extends State<_UnitCustomizationScree
           
           // Bottom Bar Shimmer
           Container(
-            padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
             decoration: BoxDecoration(
               color: Colors.white,
               boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 20, offset: const Offset(0, -5))],
@@ -184,18 +208,18 @@ class _UnitCustomizationScreenContentState extends State<_UnitCustomizationScree
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(width: 80, height: 12, decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(2))),
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
                           Container(width: 120, height: 24, decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(4))),
                         ],
                       ),
-                      Container(width: 40, height: 40, decoration: BoxDecoration(color: Colors.white, shape: BoxShape.circle)),
+                      Container(width: 40, height: 40, decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle)),
                     ],
                   ),
-                  SizedBox(height: AppSpacing.md),
+                  const SizedBox(height: AppSpacing.md),
                   Row(
                     children: [
                       Expanded(child: Container(height: 48, decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(AppRadius.lg)))),
-                      SizedBox(width: AppSpacing.md),
+                      const SizedBox(width: AppSpacing.md),
                       Expanded(child: Container(height: 48, decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(AppRadius.lg)))),
                     ],
                   )

@@ -21,7 +21,7 @@ class UnitComparisonBar extends StatelessWidget {
     final canCompare = selectedUnits.length >= 2;
 
     return Container(
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.lg,
         vertical: AppSpacing.md,
       ),
@@ -99,13 +99,13 @@ class UnitComparisonBar extends StatelessWidget {
                 children: [
                   Text(
                     l10n.compareNow,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: AppFonts.bodyMedium,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   const SizedBox(width: AppSpacing.sm),
-                  Icon(FluentIcons.arrow_right_24_regular, size: 20),
+                  const Icon(FluentIcons.arrow_right_24_regular, size: 20),
                 ],
               ),
             ),

@@ -53,10 +53,10 @@ class PackagesView extends StatelessWidget {
             );
           } else if (state is PackagesLoaded) {
             return ListView(
-              padding: EdgeInsets.symmetric(vertical: AppSpacing.md),
+              padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
               children: [
                 Padding(
-                  padding: EdgeInsets.symmetric(
+                  padding: const EdgeInsets.symmetric(
                     horizontal: AppSpacing.lg,
                   ),
                   child: Text(
@@ -69,10 +69,10 @@ class PackagesView extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                 ),
-                SizedBox(height: AppSpacing.xl),
+                const SizedBox(height: AppSpacing.xl),
                 ...state.packages.map(
                   (package) => Padding(
-                    padding: EdgeInsets.only(bottom: AppSpacing.xl),
+                    padding: const EdgeInsets.only(bottom: AppSpacing.xl),
                     child: PackageCard(package: package),
                   ),
                 ),

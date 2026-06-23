@@ -34,7 +34,7 @@ class ContractBottomActions extends StatelessWidget {
     final isFormValid = isAgreed && signatureController.isNotEmpty;
 
     return Container(
-      padding: EdgeInsets.all(AppSpacing.lg),
+      padding: const EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
         color: context.colors.white,
         boxShadow: [

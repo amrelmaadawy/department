@@ -1,7 +1,7 @@
 import 'package:apartment/features/projects/domain/entities/saved_design_entity.dart';
 import 'package:apartment/features/projects/presentation/cubit/share_design_cubit.dart' as import_share;
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:apartment/core/widgets/app_cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:shimmer/shimmer.dart';
@@ -160,7 +160,7 @@ class SavedDesignDetailsSheet extends StatelessWidget {
                           )
                         : ClipRRect(
                             borderRadius: BorderRadius.circular(AppRadius.xl),
-                            child: CachedNetworkImage(
+                            child: AppCachedNetworkImage(
                               imageUrl: design.imageUrls.first,
                               fit: BoxFit.cover,
                               progressIndicatorBuilder: (context, url, progress) {

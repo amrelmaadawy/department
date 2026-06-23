@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:apartment/core/widgets/app_cached_network_image.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import '../../../../../core/theme/app_spacing.dart';
 import '../../../../../core/theme/app_radius.dart';
@@ -35,7 +35,7 @@ class AiRendersPageView extends StatelessWidget {
                 child: InteractiveViewer(
                   minScale: 1.0,
                   maxScale: 4.0,
-                  child: CachedNetworkImage(
+                  child: AppCachedNetworkImage(
                     imageUrl: renders[index],
                     fit: BoxFit.cover,
                     progressIndicatorBuilder: (context, url, downloadProgress) {

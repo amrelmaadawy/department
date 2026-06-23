@@ -1,7 +1,7 @@
 import 'package:apartment/l10n/app_localizations.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:apartment/core/widgets/app_cached_network_image.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/routes/app_router.dart';
@@ -32,7 +32,7 @@ class ProjectListCard extends StatelessWidget {
       ),
       child: Container(
         height: cardHeight,
-        margin: EdgeInsets.symmetric(
+        margin: const EdgeInsets.symmetric(
           horizontal: AppSpacing.lg,
           vertical: AppSpacing.sm,
         ),
@@ -68,7 +68,7 @@ class ProjectListCard extends StatelessWidget {
                                 color: context.colors.textSecondary, size: 30),
                           )
                         : project.imagePath.startsWith('http')
-                            ? CachedNetworkImage(
+                            ? AppCachedNetworkImage(
                                 imageUrl: Uri.encodeFull(project.imagePath),
                                 width: imageWidth,
                                 height: double.infinity,
@@ -131,7 +131,7 @@ class ProjectListCard extends StatelessWidget {
             // Details (Trailing edge)
             Expanded(
               child: Padding(
-                padding: EdgeInsets.all(AppSpacing.md),
+                padding: const EdgeInsets.all(AppSpacing.md),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -146,7 +146,7 @@ class ProjectListCard extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    SizedBox(height: AppSpacing.xs),
+                    const SizedBox(height: AppSpacing.xs),
                     Row(
                       children: [
                         Icon(FluentIcons.location_16_regular, size: 14, color: context.colors.textSecondary),
@@ -164,7 +164,7 @@ class ProjectListCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Wrap(
                       spacing: AppSpacing.sm,
                       runSpacing: 4,
@@ -178,7 +178,7 @@ class ProjectListCard extends StatelessWidget {
                               size: 16,
                               color: context.colors.textSecondary,
                             ),
-                            SizedBox(width: AppSpacing.xs),
+                            const SizedBox(width: AppSpacing.xs),
                             Text(
                               AppLocalizations.of(context)!.projectUnitsCount(project.apartmentsCount),
                               style: TextStyle(
@@ -196,7 +196,7 @@ class ProjectListCard extends StatelessWidget {
                               size: 16,
                               color: context.colors.textSecondary,
                             ),
-                            SizedBox(width: AppSpacing.xs),
+                            const SizedBox(width: AppSpacing.xs),
                             Text(
                               '${project.buildingArea.toStringAsFixed(0)} م²',
                               style: TextStyle(

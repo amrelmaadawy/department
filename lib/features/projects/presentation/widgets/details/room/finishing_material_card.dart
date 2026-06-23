@@ -1,6 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:apartment/core/widgets/app_cached_network_image.dart';
 
 import '../../../../../../core/theme/app_fonts.dart';
 import '../../../../../../core/theme/app_radius.dart';
@@ -26,8 +26,8 @@ class FinishingMaterialCard extends StatelessWidget {
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
-        margin: EdgeInsets.only(bottom: AppSpacing.md),
-        padding: EdgeInsets.all(AppSpacing.md),
+        margin: const EdgeInsets.only(bottom: AppSpacing.md),
+        padding: const EdgeInsets.all(AppSpacing.md),
         decoration: BoxDecoration(
           color: isSelected ? context.colors.primary.withValues(alpha: 0.05) : context.colors.white,
           borderRadius: BorderRadius.circular(AppRadius.md),
@@ -50,7 +50,7 @@ class FinishingMaterialCard extends StatelessWidget {
               child: material.imageUrl != null && material.imageUrl!.isNotEmpty
                   ? ClipRRect(
                       borderRadius: BorderRadius.circular(AppRadius.sm),
-                      child: CachedNetworkImage(
+                      child: AppCachedNetworkImage(
                         imageUrl: material.imageUrl!,
                         fit: BoxFit.cover,
                         errorWidget: (context, url, error) =>
@@ -59,7 +59,7 @@ class FinishingMaterialCard extends StatelessWidget {
                     )
                   : _buildPlaceholder(context),
             ),
-            SizedBox(width: AppSpacing.md),
+            const SizedBox(width: AppSpacing.md),
             
             // Details
             Expanded(
@@ -87,7 +87,7 @@ class FinishingMaterialCard extends StatelessWidget {
                         ),
                     ],
                   ),
-                  SizedBox(height: AppSpacing.xs),
+                  const SizedBox(height: AppSpacing.xs),
                   Text(
                     material.description,
                     style: TextStyle(
@@ -97,7 +97,7 @@ class FinishingMaterialCard extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  SizedBox(height: AppSpacing.sm),
+                  const SizedBox(height: AppSpacing.sm),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

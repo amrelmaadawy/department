@@ -15,13 +15,13 @@ class ProjectInfoSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           if (project.isFeatured) ...[
             Container(
-              padding: EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.xs),
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.xs),
               decoration: BoxDecoration(
                 color: context.colors.gold.withValues(alpha: 0.15),
                 borderRadius: BorderRadius.circular(AppRadius.md),
@@ -31,7 +31,7 @@ class ProjectInfoSection extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(FluentIcons.star_16_filled, color: context.colors.gold, size: 16),
-                  SizedBox(width: AppSpacing.xs),
+                  const SizedBox(width: AppSpacing.xs),
                   Text(
                     'مُميز',
                     style: TextStyle(
@@ -43,7 +43,7 @@ class ProjectInfoSection extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: AppSpacing.md),
+            const SizedBox(height: AppSpacing.md),
           ],
           Text(
             project.name,
@@ -54,7 +54,7 @@ class ProjectInfoSection extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: AppSpacing.sm),
+          const SizedBox(height: AppSpacing.sm),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -63,7 +63,7 @@ class ProjectInfoSection extends StatelessWidget {
                 color: context.colors.textSecondary,
                 size: 18,
               ),
-              SizedBox(width: AppSpacing.xs),
+              const SizedBox(width: AppSpacing.xs),
               Text(
                 project.location,
                 style: TextStyle(
@@ -73,7 +73,7 @@ class ProjectInfoSection extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: AppSpacing.xs),
+          const SizedBox(height: AppSpacing.xs),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -82,7 +82,7 @@ class ProjectInfoSection extends StatelessWidget {
                 color: context.colors.textSecondary,
                 size: 16,
               ),
-              SizedBox(width: AppSpacing.xs),
+              const SizedBox(width: AppSpacing.xs),
               Text(
                 'مساحة البناء: ${project.buildingArea.toStringAsFixed(0)} م²',
                 style: TextStyle(
@@ -92,7 +92,7 @@ class ProjectInfoSection extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: AppSpacing.md),
+          const SizedBox(height: AppSpacing.md),
         ],
       ),
     );

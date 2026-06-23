@@ -34,7 +34,7 @@ class ProjectFeaturesRow extends StatelessWidget {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       physics: const BouncingScrollPhysics(),
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         vertical: AppSpacing.md,
         horizontal: AppSpacing.lg,
       ),
@@ -61,7 +61,7 @@ class ProjectFeaturesRow extends StatelessWidget {
                       size: 24,
                     ),
                   ),
-                  SizedBox(height: AppSpacing.sm),
+                  const SizedBox(height: AppSpacing.sm),
                   Text(
                     feature,
                     textAlign: TextAlign.center,

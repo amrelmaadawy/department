@@ -28,8 +28,8 @@ class ProfileStatsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: AppSpacing.xl),
-      padding: EdgeInsets.symmetric(vertical: AppSpacing.lg),
+      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.xl),
+      padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
       decoration: BoxDecoration(
         color: context.colors.white,
         borderRadius: BorderRadius.circular(AppRadius.xl),
@@ -68,7 +68,7 @@ class ProfileStatsCard extends StatelessWidget {
               color: context.colors.gold,
             ),
           ),
-          SizedBox(height: AppSpacing.xs),
+          const SizedBox(height: AppSpacing.xs),
           Text(
             label,
             style: TextStyle(

@@ -39,7 +39,7 @@ class ChatBubble extends StatelessWidget {
         );
       },
       child: Padding(
-        padding: EdgeInsets.symmetric(
+        padding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.md,
           vertical: AppSpacing.sm,
         ),
@@ -50,14 +50,14 @@ class ChatBubble extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             if (isUser)
-              SizedBox(width: AppSpacing.xxxl * 2), // Margin for user
+              const SizedBox(width: AppSpacing.xxxl * 2), // Margin for user
 
             if (!isUser && avatarUrl != null) ...[
               CircleAvatar(
                 radius: 16,
                 backgroundImage: NetworkImage(avatarUrl!),
               ),
-              SizedBox(width: AppSpacing.sm),
+              const SizedBox(width: AppSpacing.sm),
             ],
 
             Flexible(
@@ -65,7 +65,7 @@ class ChatBubble extends StatelessWidget {
                 constraints: BoxConstraints(
                   maxWidth: context.isDesktop ? 600 : context.screenWidth * 0.85,
                 ),
-                padding: EdgeInsets.all(AppSpacing.lg),
+                padding: const EdgeInsets.all(AppSpacing.lg),
                 decoration: BoxDecoration(
                   color: isUser
                       ? context.colors.primary
@@ -109,7 +109,7 @@ class ChatBubble extends StatelessWidget {
                             : FontWeight.normal,
                       ),
                     ),
-                    SizedBox(height: AppSpacing.xs),
+                    const SizedBox(height: AppSpacing.xs),
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -126,7 +126,7 @@ class ChatBubble extends StatelessWidget {
                           ),
                         ),
                         if (isUser) ...[
-                          SizedBox(width: 4),
+                          const SizedBox(width: 4),
                           Icon(
                             FluentIcons
                                 .checkmark_12_filled, // Simulate read receipt
@@ -148,7 +148,7 @@ class ChatBubble extends StatelessWidget {
             ),
 
             if (!isUser)
-              SizedBox(width: AppSpacing.xxxl * 2), // Margin for agent
+              const SizedBox(width: AppSpacing.xxxl * 2), // Margin for agent
           ],
         ),
       ),

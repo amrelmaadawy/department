@@ -56,9 +56,9 @@ class MyUnitsScreen extends StatelessWidget {
         ),
       ),
       body: ListView.separated(
-        padding: EdgeInsets.all(AppSpacing.xl),
+        padding: const EdgeInsets.all(AppSpacing.xl),
         itemCount: myUnits.length,
-        separatorBuilder: (context, index) => SizedBox(height: AppSpacing.lg),
+        separatorBuilder: (context, index) => const SizedBox(height: AppSpacing.lg),
         itemBuilder: (context, index) {
           final unit = myUnits[index];
           return _buildUnitCard(context, unit, l10n);
@@ -110,7 +110,7 @@ class MyUnitsScreen extends StatelessWidget {
                   top: AppSpacing.sm,
                   right: AppSpacing.sm,
                   child: Container(
-                    padding: EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                       horizontal: AppSpacing.md,
                       vertical: AppSpacing.xs,
                     ),
@@ -134,7 +134,7 @@ class MyUnitsScreen extends StatelessWidget {
           
           // Details
           Padding(
-            padding: EdgeInsets.all(AppSpacing.lg),
+            padding: const EdgeInsets.all(AppSpacing.lg),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -146,7 +146,7 @@ class MyUnitsScreen extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                SizedBox(height: AppSpacing.xs),
+                const SizedBox(height: AppSpacing.xs),
                 Text(
                   unit['unitName'],
                   style: TextStyle(
@@ -156,7 +156,7 @@ class MyUnitsScreen extends StatelessWidget {
                   ),
                 ),
                 
-                SizedBox(height: AppSpacing.lg),
+                const SizedBox(height: AppSpacing.lg),
                 
                 // Action Buttons
                 Row(
@@ -180,16 +180,16 @@ class MyUnitsScreen extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(AppRadius.lg),
                           ),
-                          padding: EdgeInsets.symmetric(vertical: AppSpacing.md),
+                          padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
                         ),
                       ),
                     ),
-                    SizedBox(width: AppSpacing.md),
+                    const SizedBox(width: AppSpacing.md),
                     OutlinedButton.icon(
                       onPressed: () {
                         context.push('/unit-contract');
                       },
-                      icon: Icon(FluentIcons.document_pdf_24_regular, size: 20),
+                      icon: const Icon(FluentIcons.document_pdf_24_regular, size: 20),
                       label: Text(l10n.contractBtn),
                       style: OutlinedButton.styleFrom(
                         foregroundColor: context.colors.textPrimary,
@@ -197,7 +197,7 @@ class MyUnitsScreen extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(AppRadius.lg),
                         ),
-                        padding: EdgeInsets.symmetric(vertical: AppSpacing.md, horizontal: AppSpacing.lg),
+                        padding: const EdgeInsets.symmetric(vertical: AppSpacing.md, horizontal: AppSpacing.lg),
                       ),
                     ),
                   ],

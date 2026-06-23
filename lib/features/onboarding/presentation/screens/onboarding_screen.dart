@@ -106,7 +106,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             child: Align(
               alignment: AlignmentDirectional.topEnd,
               child: Padding(
-                padding: EdgeInsets.symmetric(
+                padding: const EdgeInsets.symmetric(
                   horizontal: AppSpacing.lg,
                   vertical: AppSpacing.md,
                 ),
@@ -132,13 +132,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             alignment: Alignment.bottomCenter,
             child: SafeArea(
               child: Padding(
-                padding: EdgeInsets.all(AppSpacing.lg),
+                padding: const EdgeInsets.all(AppSpacing.lg),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(24),
                   child: BackdropFilter(
                     filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
                     child: Container(
-                      padding: EdgeInsets.all(AppSpacing.xl),
+                      padding: const EdgeInsets.all(AppSpacing.xl),
                       decoration: BoxDecoration(
                         color: Colors.white.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(24),
@@ -200,7 +200,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               onboardingData[_currentIndex]['subtitle']!,
                               key: ValueKey<String>(onboardingData[_currentIndex]['subtitle']!),
                               textAlign: TextAlign.center,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: AppFonts.bodyMedium,
                                 height: 1.5,
@@ -221,7 +221,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                     onboardingData.length,
                                     (index) => AnimatedContainer(
                                       duration: const Duration(milliseconds: 300),
-                                      margin: EdgeInsetsDirectional.only(end: 8),
+                                      margin: const EdgeInsetsDirectional.only(end: 8),
                                       height: 8,
                                       width: _currentIndex == index ? 24 : 8,
                                       decoration: BoxDecoration(
@@ -249,13 +249,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                     child: _currentIndex == onboardingData.length - 1
                                         ? Text(
                                             l10n.startNow,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               color: Colors.white,
                                               fontSize: AppFonts.bodyMedium,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           )
-                                        : Icon(
+                                        : const Icon(
                                             Icons.arrow_forward_ios,
                                                 color: Colors.white,
                                             size: 20,

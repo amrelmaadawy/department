@@ -23,10 +23,10 @@ class FilterChipsRow extends StatelessWidget {
       height: 40,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
-        padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
         itemCount: filters.length,
         separatorBuilder: (context, index) =>
-            SizedBox(width: AppSpacing.sm),
+            const SizedBox(width: AppSpacing.sm),
         itemBuilder: (context, index) {
           final filter = filters[index];
           final isSelected = filter == selectedFilter;
@@ -35,7 +35,7 @@ class FilterChipsRow extends StatelessWidget {
             onTap: () => onFilterSelected(filter),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),
-              padding: EdgeInsets.symmetric(horizontal: AppSpacing.xl),
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl),
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 color: isSelected ? context.colors.gold : context.colors.white,

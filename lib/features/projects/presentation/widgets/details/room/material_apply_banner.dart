@@ -55,7 +55,7 @@ class MaterialApplyBanner extends StatelessWidget {
               Expanded(
                 child: Text(
                   l10n.applyMaterialToOtherRooms,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: AppFonts.bodyMedium,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
@@ -81,7 +81,7 @@ class MaterialApplyBanner extends StatelessWidget {
                   ),
                   child: Text(
                     l10n.applyToAll,
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
               ),

@@ -75,7 +75,7 @@ class CustomTextField extends StatelessWidget {
               ),
               prefixIcon: Icon(icon, color: context.colors.primary, size: 22),
               border: InputBorder.none,
-              contentPadding: EdgeInsets.symmetric(
+              contentPadding: const EdgeInsets.symmetric(
                 vertical: AppSpacing.md,
                 horizontal: AppSpacing.lg,
               ),

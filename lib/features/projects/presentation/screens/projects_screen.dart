@@ -64,7 +64,7 @@ class _ProjectsViewState extends State<ProjectsView> {
               slivers: [
                 // Title
                 SliverPadding(
-                  padding: EdgeInsets.all(AppSpacing.lg),
+                  padding: const EdgeInsets.all(AppSpacing.lg),
                   sliver: SliverToBoxAdapter(
                     child: Center(
                       child: Text(
@@ -90,7 +90,7 @@ class _ProjectsViewState extends State<ProjectsView> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Padding(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                               horizontal: AppSpacing.lg,
                             ),
                             child: CustomSearchBar(
@@ -99,7 +99,7 @@ class _ProjectsViewState extends State<ProjectsView> {
                                   _onSearchChanged(context, query),
                             ),
                           ),
-                          SizedBox(height: AppSpacing.md),
+                          const SizedBox(height: AppSpacing.md),
                           if (state is ProjectsLoaded)
                             Builder(
                               builder: (context) {
@@ -118,7 +118,7 @@ class _ProjectsViewState extends State<ProjectsView> {
                                 );
                               }
                             ),
-                          SizedBox(height: AppSpacing.sm),
+                          const SizedBox(height: AppSpacing.sm),
                         ],
                       ),
                     ),
@@ -184,7 +184,7 @@ class _ProjectsViewState extends State<ProjectsView> {
           highlightColor: isDark ? Colors.grey[700]! : Colors.grey[100]!,
           child: Container(
             height: cardHeight,
-            margin: EdgeInsets.symmetric(
+            margin: const EdgeInsets.symmetric(
               horizontal: AppSpacing.lg,
               vertical: AppSpacing.sm,
             ),

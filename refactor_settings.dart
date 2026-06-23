@@ -1,7 +1,7 @@
 import 'dart:io';
 
 void main() {
-  final path = 'lib/features/profile/presentation/widgets/settings';
+  const path = 'lib/features/profile/presentation/widgets/settings';
   final dir = Directory(path);
   if (!dir.existsSync()) {
     dir.createSync(recursive: true);

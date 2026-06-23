@@ -1,6 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:apartment/core/widgets/app_cached_network_image.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/routes/app_router.dart';
@@ -62,7 +62,7 @@ class FeaturedProjectCard extends StatelessWidget {
                                   color: context.colors.textSecondary, size: 40),
                             )
                           : project.imagePath.startsWith('http')
-                            ? CachedNetworkImage(
+                            ? AppCachedNetworkImage(
                                 imageUrl: Uri.encodeFull(project.imagePath),
                                   width: double.infinity,
                                   fit: BoxFit.cover,
@@ -123,7 +123,7 @@ class FeaturedProjectCard extends StatelessWidget {
 
             // Details
             Padding(
-              padding: EdgeInsets.all(AppSpacing.md),
+              padding: const EdgeInsets.all(AppSpacing.md),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -163,7 +163,7 @@ class FeaturedProjectCard extends StatelessWidget {
                         size: 16,
                         color: context.colors.textSecondary,
                       ),
-                      SizedBox(width: 4),
+                      const SizedBox(width: 4),
                       Text(
                         '${project.apartmentsCount} وحدات',
                         style: TextStyle(
@@ -181,7 +181,7 @@ class FeaturedProjectCard extends StatelessWidget {
                         size: 16,
                         color: context.colors.textSecondary,
                       ),
-                      SizedBox(width: 4),
+                      const SizedBox(width: 4),
                       Text(
                         'مساحة البناء: ${project.buildingArea.toStringAsFixed(0)} م²',
                         style: TextStyle(

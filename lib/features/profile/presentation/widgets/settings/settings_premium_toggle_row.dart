@@ -23,11 +23,11 @@ class SettingsPremiumToggleRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(AppSpacing.lg),
+      padding: const EdgeInsets.all(AppSpacing.lg),
       child: Row(
         children: [
           Container(
-            padding: EdgeInsets.all(AppSpacing.md),
+            padding: const EdgeInsets.all(AppSpacing.md),
             decoration: BoxDecoration(
               color: context.colors.white,
               borderRadius: BorderRadius.circular(AppRadius.lg),
@@ -41,7 +41,7 @@ class SettingsPremiumToggleRow extends StatelessWidget {
             ),
             child: Icon(icon, color: context.colors.primary, size: 22),
           ),
-          SizedBox(width: AppSpacing.lg),
+          const SizedBox(width: AppSpacing.lg),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,7 +54,7 @@ class SettingsPremiumToggleRow extends StatelessWidget {
                     color: context.colors.textPrimary,
                   ),
                 ),
-                SizedBox(height: 2),
+                const SizedBox(height: 2),
                 Text(
                   subtitle,
                   maxLines: 3,
@@ -68,7 +68,7 @@ class SettingsPremiumToggleRow extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(width: AppSpacing.lg),
+          const SizedBox(width: AppSpacing.lg),
           GestureDetector(
             onTap: () => onChanged(!value),
             child: AnimatedContainer(
@@ -76,7 +76,7 @@ class SettingsPremiumToggleRow extends StatelessWidget {
               curve: Curves.easeOutCubic,
               width: 50,
               height: 28,
-              padding: EdgeInsets.all(3),
+              padding: const EdgeInsets.all(3),
               decoration: BoxDecoration(
                 color: value ? context.colors.gold : context.colors.border.withValues(alpha: 0.5),
                 borderRadius: BorderRadius.circular(20),

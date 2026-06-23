@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:apartment/core/widgets/app_cached_network_image.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:apartment/l10n/app_localizations.dart';
@@ -101,7 +101,7 @@ class RoomCustomerRendersCarousel extends StatelessWidget {
           child: Stack(
             fit: StackFit.expand,
             children: [
-              CachedNetworkImage(
+              AppCachedNetworkImage(
                 imageUrl: render.url,
                 fit: BoxFit.cover,
                 placeholder: (context, url) => Shimmer.fromColors(
@@ -158,7 +158,7 @@ class RoomCustomerRendersCarousel extends StatelessWidget {
             iconTheme: const IconThemeData(color: Colors.white),
             title: Text(
               roomName,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: AppFonts.headlineSmall,
               ),
@@ -169,7 +169,7 @@ class RoomCustomerRendersCarousel extends StatelessWidget {
               panEnabled: true,
               minScale: 1.0,
               maxScale: 4.0,
-              child: CachedNetworkImage(
+              child: AppCachedNetworkImage(
                 imageUrl: render.url,
                 fit: BoxFit.contain,
                 width: double.infinity,

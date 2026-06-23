@@ -66,7 +66,7 @@ class HomeView extends StatelessWidget {
                           height: 280,
                           child: ListView.separated(
                             scrollDirection: Axis.horizontal,
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                               horizontal: AppSpacing.lg,
                             ),
                             itemCount: state.featuredProjects.length,
@@ -106,7 +106,7 @@ class HomeView extends StatelessWidget {
           Container(
             width: double.infinity,
             height: 180,
-            margin: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+            margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
             decoration: BoxDecoration(
               color: context.colors.white,
               borderRadius: BorderRadius.circular(AppRadius.lg),
@@ -115,7 +115,7 @@ class HomeView extends StatelessWidget {
           const SizedBox(height: AppSpacing.lg),
           // Section Title Shimmer
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
             child: Container(
               width: 150,
               height: 24,
@@ -131,7 +131,7 @@ class HomeView extends StatelessWidget {
             height: 280,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
-              padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
               itemCount: 3,
               separatorBuilder: (context, index) =>
                   const SizedBox(width: AppSpacing.lg),

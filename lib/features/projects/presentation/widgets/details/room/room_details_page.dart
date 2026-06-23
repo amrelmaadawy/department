@@ -25,14 +25,11 @@ class RoomDetailsPage extends StatefulWidget {
   final UnitRoomEntity room;
   final ProjectUnitEntity unit;
   final TabController tabController;
-  final double unitFinishingCost;
-
   const RoomDetailsPage({
     super.key,
     required this.room,
     required this.unit,
     required this.tabController,
-    required this.unitFinishingCost,
   });
 
   @override
@@ -87,10 +84,15 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> with AutomaticKeepAli
                     ),
                   ),
                   if (state is RoomDetailsLoaded)
-                    UnifiedRoomBottomBar(
-                      tabController: widget.tabController,
-                      unit: widget.unit,
-                      finishingCost: widget.unitFinishingCost,
+                    BlocSelector<UnitDetailsCubit, UnitDetailsState, double>(
+                      selector: (unitState) => unitState.totalFinishingCost,
+                      builder: (context, finishingCost) {
+                        return UnifiedRoomBottomBar(
+                          tabController: widget.tabController,
+                          unit: widget.unit,
+                          finishingCost: finishingCost,
+                        );
+                      },
                     )
                   else if (state is RoomDetailsLoading || state is RoomDetailsInitial)
                     _buildBottomBarShimmer(context),
@@ -113,7 +115,7 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> with AutomaticKeepAli
           child: Column(
             children: [
               Icon(Icons.error_outline, size: 48, color: Colors.red.withValues(alpha: 0.5)),
-              SizedBox(height: AppSpacing.md),
+              const SizedBox(height: AppSpacing.md),
               Text(
                 state.message,
                 textAlign: TextAlign.center,
@@ -124,16 +126,17 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> with AutomaticKeepAli
         ),
       );
     } else if (state is RoomDetailsLoaded) {
-      return BlocBuilder<UnitDetailsCubit, UnitDetailsState>(
-        builder: (context, unitState) {
-          List<CustomerRenderEntity> renders = [];
+      return BlocSelector<UnitDetailsCubit, UnitDetailsState, List<CustomerRenderEntity>>(
+        selector: (unitState) {
           if (unitState is UnitDetailsLoaded) {
             final roomRenders = unitState.customerRenders.where((r) => r.id == widget.room.id).toList();
             if (roomRenders.isNotEmpty) {
-              renders = roomRenders.first.renders;
+              return roomRenders.first.renders;
             }
           }
-          
+          return const <CustomerRenderEntity>[];
+        },
+        builder: (context, renders) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -177,21 +180,21 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> with AutomaticKeepAli
     final highlightColor = isDark ? Colors.grey[700]! : Colors.grey[100]!;
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
       child: Shimmer.fromColors(
         baseColor: baseColor,
         highlightColor: highlightColor,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: AppSpacing.md),
+            const SizedBox(height: AppSpacing.md),
             // Progress Bar Shimmer
             Container(
                width: double.infinity,
                height: 4,
                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(2)),
             ),
-            SizedBox(height: AppSpacing.xl),
+            const SizedBox(height: AppSpacing.xl),
             
             // Tabs Shimmer
             SingleChildScrollView(
@@ -199,7 +202,7 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> with AutomaticKeepAli
               child: Row(
                 children: List.generate(4, (index) => 
                   Container(
-                    margin: EdgeInsets.only(left: AppSpacing.md),
+                    margin: const EdgeInsets.only(left: AppSpacing.md),
                     width: 80,
                     height: 36,
                     decoration: BoxDecoration(
@@ -210,7 +213,7 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> with AutomaticKeepAli
                 ),
               ),
             ),
-            SizedBox(height: AppSpacing.xxl),
+            const SizedBox(height: AppSpacing.xxl),
             
             // Grid Shimmer
             GridView.builder(
@@ -244,7 +247,7 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> with AutomaticKeepAli
     final highlightColor = isDark ? Colors.grey[700]! : Colors.grey[100]!;
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
       decoration: BoxDecoration(
         color: context.colors.white,
         boxShadow: [
@@ -265,18 +268,18 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> with AutomaticKeepAli
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(width: 80, height: 12, decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(2))),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       Container(width: 120, height: 24, decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(4))),
                     ],
                   ),
-                  Container(width: 40, height: 40, decoration: BoxDecoration(color: Colors.white, shape: BoxShape.circle)),
+                  Container(width: 40, height: 40, decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle)),
                 ],
               ),
-              SizedBox(height: AppSpacing.md),
+              const SizedBox(height: AppSpacing.md),
               Row(
                 children: [
                   Expanded(child: Container(height: 48, decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(AppRadius.lg)))),
-                  SizedBox(width: AppSpacing.md),
+                  const SizedBox(width: AppSpacing.md),
                   Expanded(child: Container(height: 48, decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(AppRadius.lg)))),
                 ],
               )

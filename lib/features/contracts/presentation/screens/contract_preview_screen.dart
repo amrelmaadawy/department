@@ -75,7 +75,7 @@ class ContractPreviewScreen extends StatelessWidget {
                   );
                 },
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
             ],
             leading: IconButton(
               icon: Icon(Icons.arrow_back_ios, color: context.colors.primary, size: 20),
@@ -110,7 +110,7 @@ class ContractPreviewScreen extends StatelessWidget {
             ),
           ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.lg),
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.lg),
             decoration: BoxDecoration(
               color: context.colors.white,
               borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
@@ -129,14 +129,14 @@ class ContractPreviewScreen extends StatelessWidget {
                   Row(
                     children: [
                       Container(
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           color: context.colors.gold.withValues(alpha: 0.15),
                           shape: BoxShape.circle,
                         ),
                         child: Icon(Icons.verified_user_rounded, color: context.colors.gold, size: 24),
                       ),
-                      SizedBox(width: 15),
+                      const SizedBox(width: 15),
                       Expanded(
                         child: Text(
                           l10n.contractGeneratedSuccess,
@@ -149,7 +149,7 @@ class ContractPreviewScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   CustomButton(
                     text: l10n.confirmReturnContracts,
                     backgroundColor: context.colors.primary,

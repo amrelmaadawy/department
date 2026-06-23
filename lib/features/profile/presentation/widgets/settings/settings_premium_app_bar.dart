@@ -14,13 +14,13 @@ class SettingsPremiumAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           IconButton(
             icon: Container(
-              padding: EdgeInsets.all(AppSpacing.sm),
+              padding: const EdgeInsets.all(AppSpacing.sm),
               decoration: BoxDecoration(
                 color: context.colors.white.withValues(alpha: 0.5),
                 shape: BoxShape.circle,
@@ -39,7 +39,7 @@ class SettingsPremiumAppBar extends StatelessWidget {
               letterSpacing: 0.5,
             ),
           ),
-          SizedBox(width: 48),
+          const SizedBox(width: 48),
         ],
       ),
     );

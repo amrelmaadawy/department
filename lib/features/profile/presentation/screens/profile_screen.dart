@@ -144,12 +144,12 @@ class _ProfileViewState extends State<ProfileView>
               return RefreshIndicator(
                 onRefresh: _onRefresh,
                 color: context.colors.primary,
-                child: SingleChildScrollView(
-                  physics: const AlwaysScrollableScrollPhysics(),
+                child: const SingleChildScrollView(
+                  physics: AlwaysScrollableScrollPhysics(),
                   child: Column(
                     children: [
-                      const ProfileShimmerLoading(),
-                      ProfileMenuList(listAnim: const AlwaysStoppedAnimation(1.0)),
+                      ProfileShimmerLoading(),
+                      ProfileMenuList(listAnim: AlwaysStoppedAnimation(1.0)),
                     ],
                   ),
                 ),

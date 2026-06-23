@@ -114,7 +114,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
               // Content Layout
               SafeArea(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(
+                  padding: const EdgeInsets.symmetric(
                     horizontal: AppSpacing.lg,
                     vertical: AppSpacing.xxl,
                   ),
@@ -130,7 +130,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                           child: BackdropFilter(
                             filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                             child: Container(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                 vertical: AppSpacing.xl,
                                 horizontal: AppSpacing.lg,
                               ),
@@ -174,7 +174,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                         Text(
                                           l10n.welcomeSubtitle,
                                           textAlign: TextAlign.center,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             color: Colors.white,
                                             fontSize: AppFonts.bodyMedium,
                                           ),

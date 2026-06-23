@@ -17,8 +17,8 @@ class RoomOverviewCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-      padding: EdgeInsets.all(AppSpacing.lg),
+      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+      padding: const EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
         color: context.colors.white,
         borderRadius: BorderRadius.circular(AppRadius.lg),
@@ -36,7 +36,7 @@ class RoomOverviewCard extends StatelessWidget {
           Row(
             children: [
               Container(
-                padding: EdgeInsets.all(AppSpacing.md),
+                padding: const EdgeInsets.all(AppSpacing.md),
                 decoration: BoxDecoration(
                   color: context.colors.primary.withValues(alpha: 0.05),
                   shape: BoxShape.circle,
@@ -47,7 +47,7 @@ class RoomOverviewCard extends StatelessWidget {
                   size: 24,
                 ),
               ),
-              SizedBox(width: AppSpacing.md),
+              const SizedBox(width: AppSpacing.md),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,7 +73,7 @@ class RoomOverviewCard extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: AppSpacing.lg),
+          const SizedBox(height: AppSpacing.lg),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -116,7 +116,7 @@ class RoomOverviewCard extends StatelessWidget {
           color: context.colors.primary,
           size: 24,
         ),
-        SizedBox(height: AppSpacing.sm),
+        const SizedBox(height: AppSpacing.sm),
         Text(
           label,
           style: TextStyle(
@@ -124,7 +124,7 @@ class RoomOverviewCard extends StatelessWidget {
             color: context.colors.textSecondary,
           ),
         ),
-        SizedBox(height: AppSpacing.xs),
+        const SizedBox(height: AppSpacing.xs),
         Text(
           value,
           style: TextStyle(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:apartment/core/widgets/app_cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
@@ -64,7 +64,7 @@ class HomeHeaderView extends StatelessWidget {
         }
 
         return Padding(
-          padding: EdgeInsets.symmetric(
+          padding: const EdgeInsets.symmetric(
             horizontal: AppSpacing.lg,
             vertical: AppSpacing.md,
           ),
@@ -107,7 +107,7 @@ class HomeHeaderView extends StatelessWidget {
                     child: ClipOval(
                       child: avatarUrl != null && avatarUrl.isNotEmpty
                           ? (avatarUrl.startsWith('http')
-                              ? CachedNetworkImage(
+                              ? AppCachedNetworkImage(
                                   imageUrl: avatarUrl,
                                   fit: BoxFit.cover,
                                   errorWidget: (_, _, _) => _buildHomeFallbackAvatar(context),
@@ -115,7 +115,7 @@ class HomeHeaderView extends StatelessWidget {
                               : Image.asset(
                                   avatarUrl,
                                   fit: BoxFit.cover,
-                                  errorBuilder: (_, __, ___) => _buildHomeFallbackAvatar(context),
+                                  errorBuilder: (_, _, _) => _buildHomeFallbackAvatar(context),
                                 ))
                           : _buildHomeFallbackAvatar(context),
                     ),

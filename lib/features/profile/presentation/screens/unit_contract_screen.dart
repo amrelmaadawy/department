@@ -87,7 +87,7 @@ class _UnitContractScreenState extends State<UnitContractScreen> {
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
-        padding: EdgeInsets.all(AppSpacing.xl),
+        padding: const EdgeInsets.all(AppSpacing.xl),
         child: Column(
           children: [
             // Status Header
@@ -95,7 +95,7 @@ class _UnitContractScreenState extends State<UnitContractScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(FluentIcons.shield_checkmark_24_filled, color: context.colors.success, size: 28),
-                SizedBox(width: AppSpacing.sm),
+                const SizedBox(width: AppSpacing.sm),
                 Text(
                   contractData['status'],
                   style: TextStyle(
@@ -106,21 +106,21 @@ class _UnitContractScreenState extends State<UnitContractScreen> {
                 ),
               ],
             ),
-            SizedBox(height: AppSpacing.xxl),
+            const SizedBox(height: AppSpacing.xxl),
             
             // Details Card
             ContractDetailsCard(unitData: contractData),
-            SizedBox(height: AppSpacing.xl),
+            const SizedBox(height: AppSpacing.xl),
             
             // Financial Card
             ContractFinancialCard(financialData: contractData),
-            SizedBox(height: AppSpacing.xxxl),
+            const SizedBox(height: AppSpacing.xxxl),
           ],
         ),
       ),
       bottomNavigationBar: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(AppSpacing.xl),
+          padding: const EdgeInsets.all(AppSpacing.xl),
           child: CustomButton(
             text: _isGeneratingPdf ? l10n.generatingPdf : l10n.downloadPdf,
             backgroundColor: context.colors.primary,

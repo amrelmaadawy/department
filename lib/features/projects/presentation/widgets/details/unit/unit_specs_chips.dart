@@ -19,7 +19,7 @@ class UnitSpecsChips extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
       child: Wrap(
         spacing: AppSpacing.sm,
         runSpacing: AppSpacing.sm,
@@ -56,7 +56,7 @@ class UnitSpecsChips extends StatelessWidget {
 
   Widget _buildChip(BuildContext context, String label, IconData icon) {
     return Container(
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.md + 4,
         vertical: AppSpacing.sm + 2,
       ),
@@ -79,7 +79,7 @@ class UnitSpecsChips extends StatelessWidget {
               color: context.colors.textPrimary,
             ),
           ),
-          SizedBox(width: AppSpacing.sm),
+          const SizedBox(width: AppSpacing.sm),
           Icon(icon, size: 18, color: context.colors.gold),
         ],
       ),

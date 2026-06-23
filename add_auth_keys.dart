@@ -6,7 +6,7 @@ void main() async {
   var arContent = await arFile.readAsString();
   
   if (!arContent.contains('"loginSuccess"')) {
-    final newArKeys = '''  "loginSuccess": "تم تسجيل الدخول بنجاح!",
+    const newArKeys = '''  "loginSuccess": "تم تسجيل الدخول بنجاح!",
   "registerSuccess": "تم إنشاء الحساب بنجاح!"''';
     // Insert before the last closing brace
     final lastBraceIndex = arContent.lastIndexOf('}');
@@ -19,7 +19,7 @@ void main() async {
   var enContent = await enFile.readAsString();
   
   if (!enContent.contains('"loginSuccess"')) {
-    final newEnKeys = '''  "loginSuccess": "Logged in Successfully!",
+    const newEnKeys = '''  "loginSuccess": "Logged in Successfully!",
   "registerSuccess": "Account Created Successfully!"''';
     // Insert before the last closing brace
     final lastBraceIndex = enContent.lastIndexOf('}');

@@ -70,12 +70,12 @@ class ProgressTimelineTile extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(width: AppSpacing.sm),
+          const SizedBox(width: AppSpacing.sm),
           
           // Content Card
           Expanded(
             child: Padding(
-              padding: EdgeInsets.only(bottom: AppSpacing.xl),
+              padding: const EdgeInsets.only(bottom: AppSpacing.xl),
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 300),
                 decoration: BoxDecoration(
@@ -95,7 +95,7 @@ class ProgressTimelineTile extends StatelessWidget {
                     width: isActive ? 1.5 : 1,
                   ),
                 ),
-                padding: EdgeInsets.all(AppSpacing.lg),
+                padding: const EdgeInsets.all(AppSpacing.lg),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -113,7 +113,7 @@ class ProgressTimelineTile extends StatelessWidget {
                         ),
                         if (isActive)
                           Container(
-                            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                             decoration: BoxDecoration(
                               color: context.colors.gold.withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(AppRadius.md),
@@ -129,7 +129,7 @@ class ProgressTimelineTile extends StatelessWidget {
                           ),
                       ],
                     ),
-                    SizedBox(height: AppSpacing.sm),
+                    const SizedBox(height: AppSpacing.sm),
                     
                     // Title
                     Text(
@@ -140,7 +140,7 @@ class ProgressTimelineTile extends StatelessWidget {
                         color: isActive || isCompleted ? context.colors.textPrimary : context.colors.textSecondary,
                       ),
                     ),
-                    SizedBox(height: AppSpacing.xs),
+                    const SizedBox(height: AppSpacing.xs),
                     
                     // Subtitle
                     Text(
@@ -154,13 +154,13 @@ class ProgressTimelineTile extends StatelessWidget {
                     
                     // Images Gallery
                     if (images.isNotEmpty && (isActive || isCompleted)) ...[
-                      SizedBox(height: AppSpacing.md),
+                      const SizedBox(height: AppSpacing.md),
                       SizedBox(
                         height: 90,
                         child: ListView.separated(
                           scrollDirection: Axis.horizontal,
                           itemCount: images.length,
-                          separatorBuilder: (context, index) => SizedBox(width: AppSpacing.sm),
+                          separatorBuilder: (context, index) => const SizedBox(width: AppSpacing.sm),
                           itemBuilder: (context, index) {
                             return ClipRRect(
                               borderRadius: BorderRadius.circular(AppRadius.md),

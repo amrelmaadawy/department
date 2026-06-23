@@ -72,7 +72,7 @@ class _AuthViewState extends State<AuthView> {
           child: ConstrainedBox(
             constraints: BoxConstraints(maxWidth: context.isDesktop ? 500 : (context.isTablet ? 450 : double.infinity)),
             child: SingleChildScrollView(
-              padding: EdgeInsets.all(AppSpacing.lg),
+              padding: const EdgeInsets.all(AppSpacing.lg),
               child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [

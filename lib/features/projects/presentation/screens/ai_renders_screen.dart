@@ -89,14 +89,14 @@ class AiRendersScreen extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(FluentIcons.error_circle_24_regular, color: Colors.red, size: 64),
-                      SizedBox(height: AppSpacing.md),
+                      const Icon(FluentIcons.error_circle_24_regular, color: Colors.red, size: 64),
+                      const SizedBox(height: AppSpacing.md),
                       Text(
                         state.message,
                         style: TextStyle(fontSize: AppFonts.bodyLarge, color: context.colors.textPrimary),
                         textAlign: TextAlign.center,
                       ),
-                      SizedBox(height: AppSpacing.lg),
+                      const SizedBox(height: AppSpacing.lg),
                       ElevatedButton(
                         onPressed: () => context.read<AiRendersCubit>().fetchAiRenders(orderId),
                         child: Text(AppLocalizations.of(context)!.aiRendersRetry),

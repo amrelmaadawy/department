@@ -45,7 +45,7 @@ class _AiDesignSettingsSectionState extends State<AiDesignSettingsSection> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -59,7 +59,7 @@ class _AiDesignSettingsSectionState extends State<AiDesignSettingsSection> {
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
-              SizedBox(width: AppSpacing.sm),
+              const SizedBox(width: AppSpacing.sm),
               Text(
                 l10n.aiSettings,
                 style: TextStyle(
@@ -70,7 +70,7 @@ class _AiDesignSettingsSectionState extends State<AiDesignSettingsSection> {
               ),
             ],
           ),
-          SizedBox(height: AppSpacing.md),
+          const SizedBox(height: AppSpacing.md),
           
           /*
           // Style Selection
@@ -137,7 +137,7 @@ class _AiDesignSettingsSectionState extends State<AiDesignSettingsSection> {
               color: context.colors.textPrimary,
             ),
           ),
-          SizedBox(height: AppSpacing.sm),
+          const SizedBox(height: AppSpacing.sm),
           TextField(
             controller: _notesController,
             maxLines: 4,
@@ -160,7 +160,7 @@ class _AiDesignSettingsSectionState extends State<AiDesignSettingsSection> {
               ),
             ),
           ),
-          SizedBox(height: AppSpacing.sm),
+          const SizedBox(height: AppSpacing.sm),
           BlocBuilder<AiRoomDesignCubit, AiRoomDesignState>(
             builder: (context, state) {
               if (state.presetNotesStatus == PresetNotesStatus.loading) {
@@ -169,7 +169,7 @@ class _AiDesignSettingsSectionState extends State<AiDesignSettingsSection> {
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     itemCount: 3,
-                    separatorBuilder: (context, index) => SizedBox(width: AppSpacing.sm),
+                    separatorBuilder: (context, index) => const SizedBox(width: AppSpacing.sm),
                     itemBuilder: (context, index) => Shimmer.fromColors(
                       baseColor: context.colors.border.withValues(alpha: 0.5),
                       highlightColor: context.colors.border.withValues(alpha: 0.1),
@@ -200,13 +200,13 @@ class _AiDesignSettingsSectionState extends State<AiDesignSettingsSection> {
                       color: context.colors.textSecondary,
                     ),
                   ),
-                  SizedBox(height: AppSpacing.xs),
+                  const SizedBox(height: AppSpacing.xs),
                   SizedBox(
                     height: 40,
                     child: ListView.separated(
                       scrollDirection: Axis.horizontal,
                       itemCount: state.presetNotes.length,
-                      separatorBuilder: (context, index) => SizedBox(width: AppSpacing.sm),
+                      separatorBuilder: (context, index) => const SizedBox(width: AppSpacing.sm),
                       itemBuilder: (context, index) {
                         final note = state.presetNotes[index];
                         return ActionChip(

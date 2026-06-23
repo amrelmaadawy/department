@@ -27,8 +27,8 @@ class ContractTermsCard extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: AppSpacing.md),
-      padding: EdgeInsets.all(AppSpacing.lg),
+      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+      padding: const EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
         color: context.colors.white,
         borderRadius: BorderRadius.circular(AppRadius.lg),
@@ -46,7 +46,7 @@ class ContractTermsCard extends StatelessWidget {
           Row(
             children: [
               Icon(FluentIcons.document_text_24_regular, color: context.colors.primary),
-              SizedBox(width: AppSpacing.sm),
+              const SizedBox(width: AppSpacing.sm),
               Text(
                 l10n.contractTermsTitle,
                 style: TextStyle(
@@ -57,13 +57,13 @@ class ContractTermsCard extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: AppSpacing.md),
+          const SizedBox(height: AppSpacing.md),
           Divider(color: context.colors.background),
-          SizedBox(height: AppSpacing.md),
+          const SizedBox(height: AppSpacing.md),
           
           Container(
             height: 150,
-            padding: EdgeInsets.all(AppSpacing.sm),
+            padding: const EdgeInsets.all(AppSpacing.sm),
             decoration: BoxDecoration(
               color: context.colors.background,
               borderRadius: BorderRadius.circular(AppRadius.md),
@@ -82,7 +82,7 @@ class ContractTermsCard extends StatelessWidget {
             ),
           ),
           
-          SizedBox(height: AppSpacing.md),
+          const SizedBox(height: AppSpacing.md),
           
           Row(
             children: [

@@ -23,7 +23,7 @@ class PackageCard extends StatelessWidget {
         package.tier == PackageTier.luxury;
 
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
       child: Stack(
         clipBehavior: Clip.none,
         children: [
@@ -84,13 +84,13 @@ class PackageCard extends StatelessWidget {
               top: -12,
               right: 24, // RTL friendly position (usually top left or right)
               child: Container(
-                padding: EdgeInsets.symmetric(
+                padding: const EdgeInsets.symmetric(
                   horizontal: AppSpacing.lg,
                   vertical: 8,
                 ),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [context.colors.gold, Color(0xFFD4AF37)],
+                    colors: [context.colors.gold, const Color(0xFFD4AF37)],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),

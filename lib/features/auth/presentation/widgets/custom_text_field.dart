@@ -56,7 +56,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         ),
         filled: true,
         fillColor: context.colors.white,
-        contentPadding: EdgeInsets.symmetric(
+        contentPadding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.md,
           vertical: AppSpacing.md,
         ),

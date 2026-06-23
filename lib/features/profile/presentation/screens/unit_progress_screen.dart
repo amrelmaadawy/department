@@ -76,7 +76,7 @@ class _UnitProgressScreenState extends State<UnitProgressScreen> {
         ),
       ),
       body: ListView.builder(
-        padding: EdgeInsets.only(top: 24, left: 16, right: 16, bottom: 40),
+        padding: const EdgeInsets.only(top: 24, left: 16, right: 16, bottom: 40),
         physics: const BouncingScrollPhysics(),
         itemCount: _phases.length,
         itemBuilder: (context, index) {

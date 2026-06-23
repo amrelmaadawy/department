@@ -123,14 +123,14 @@ class _BookingSuccessScreenState extends State<BookingSuccessScreen>
                     ),
                     child: IntrinsicHeight(
                       child: Padding(
-                        padding: EdgeInsets.symmetric(
+                        padding: const EdgeInsets.symmetric(
                           horizontal: AppSpacing.xl,
                         ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            Spacer(flex: 2),
+                            const Spacer(flex: 2),
 
                             // Animated Success Icon with pulsing glow
                             BookingSuccessIcon(
@@ -138,7 +138,7 @@ class _BookingSuccessScreenState extends State<BookingSuccessScreen>
                               pulseAnimation: _pulseAnimation,
                             ),
 
-                            Spacer(flex: 1),
+                            const Spacer(flex: 1),
 
                             // Text Content
                             FadeTransition(
@@ -154,7 +154,7 @@ class _BookingSuccessScreenState extends State<BookingSuccessScreen>
                                       color: context.colors.gold,
                                     ),
                                   ),
-                                  SizedBox(height: AppSpacing.lg),
+                                  const SizedBox(height: AppSpacing.lg),
                                   Text(
                                     l10n.bookingSuccessSubtitle,
                                     textAlign: TextAlign.center,
@@ -169,7 +169,7 @@ class _BookingSuccessScreenState extends State<BookingSuccessScreen>
                               ),
                             ),
 
-                            SizedBox(height: AppSpacing.xxl),
+                            const SizedBox(height: AppSpacing.xxl),
 
                             // Order Details Card
                             FadeTransition(
@@ -179,7 +179,7 @@ class _BookingSuccessScreenState extends State<BookingSuccessScreen>
                               ),
                             ),
 
-                            Spacer(flex: 2),
+                            const Spacer(flex: 2),
 
                             // Action Buttons
                             FadeTransition(
@@ -187,7 +187,7 @@ class _BookingSuccessScreenState extends State<BookingSuccessScreen>
                               child: const BookingSuccessActions(),
                             ),
 
-                            SizedBox(height: AppSpacing.xxl),
+                            const SizedBox(height: AppSpacing.xxl),
 
                             // Watermark
                             FadeTransition(
@@ -205,7 +205,7 @@ class _BookingSuccessScreenState extends State<BookingSuccessScreen>
                                 ),
                               ),
                             ),
-                            SizedBox(height: AppSpacing.xl),
+                            const SizedBox(height: AppSpacing.xl),
                           ],
                         ),
                       ),

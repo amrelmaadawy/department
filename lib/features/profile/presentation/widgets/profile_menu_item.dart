@@ -44,14 +44,14 @@ class ProfileMenuItem extends StatelessWidget {
                 : context.colors.gold.withValues(alpha: 0.1),
             highlightColor: Colors.transparent,
             child: Padding(
-              padding: EdgeInsets.symmetric(
+              padding: const EdgeInsets.symmetric(
                 horizontal: AppSpacing.lg,
                 vertical: AppSpacing.md, // slightly tighter vertical padding
               ),
               child: Row(
                 children: [
                   Container(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       color: iconBgColor,
                       shape: BoxShape.circle,
@@ -64,7 +64,7 @@ class ProfileMenuItem extends StatelessWidget {
                       size: 24,
                     ),
                   ),
-                  SizedBox(width: AppSpacing.md),
+                  const SizedBox(width: AppSpacing.md),
                   Expanded(
                     child: Text(
                       title,
@@ -84,7 +84,7 @@ class ProfileMenuItem extends StatelessWidget {
                         color: context.colors.textSecondary.withValues(alpha: 0.8),
                       ),
                     ),
-                    SizedBox(width: AppSpacing.sm),
+                    const SizedBox(width: AppSpacing.sm),
                   ],
                   if (!isDestructive)
                     Icon(
@@ -99,7 +99,7 @@ class ProfileMenuItem extends StatelessWidget {
         ),
         if (showDivider)
           Padding(
-            padding: EdgeInsets.only(
+            padding: const EdgeInsets.only(
               left: AppSpacing.xxxl * 1.5,
               right: AppSpacing.lg,
             ), // offset divider

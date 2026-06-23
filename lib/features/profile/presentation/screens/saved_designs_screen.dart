@@ -116,7 +116,7 @@ class _SavedDesignsScreenState extends State<SavedDesignsScreen> {
                           padding: const EdgeInsets.all(AppSpacing.xl),
                           physics: const BouncingScrollPhysics(),
                           itemCount: filterState.filteredDesigns.length,
-                          separatorBuilder: (_, __) => const SizedBox(height: AppSpacing.md),
+                          separatorBuilder: (_, _) => const SizedBox(height: AppSpacing.md),
                           itemBuilder: (context, index) {
                             return SavedDesignCard(
                               design: filterState.filteredDesigns[index],
@@ -226,7 +226,7 @@ class _SavedDesignsScreenState extends State<SavedDesignsScreen> {
       padding: const EdgeInsets.all(AppSpacing.xl),
       physics: const NeverScrollableScrollPhysics(),
       itemCount: 6,
-      separatorBuilder: (_, __) => const SizedBox(height: AppSpacing.md),
+      separatorBuilder: (_, _) => const SizedBox(height: AppSpacing.md),
       itemBuilder: (context, index) {
         return Shimmer.fromColors(
           baseColor: context.colors.border.withValues(alpha: 0.5),

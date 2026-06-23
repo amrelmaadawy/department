@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:apartment/core/widgets/app_cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:shimmer/shimmer.dart';
@@ -127,7 +127,7 @@ class AiGalleryDetailsSheet extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: context.colors.border.withValues(alpha: 0.1),
                       ),
-                      child: CachedNetworkImage(
+                      child: AppCachedNetworkImage(
                         imageUrl: item.url,
                         fit: BoxFit.contain,
                         progressIndicatorBuilder: (context, url, progress) {

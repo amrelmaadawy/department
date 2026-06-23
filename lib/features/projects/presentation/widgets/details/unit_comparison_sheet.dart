@@ -138,7 +138,7 @@ class UnitComparisonSheet extends StatelessWidget {
                               ),
                               child: Text(
                                 l10n.bookUnit,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: AppFonts.labelMedium,
                                   fontWeight: FontWeight.bold,
                                 ),

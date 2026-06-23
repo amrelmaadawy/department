@@ -56,14 +56,14 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
         ),
       ),
       body: ListView(
-        padding: EdgeInsets.all(AppSpacing.xl),
+        padding: const EdgeInsets.all(AppSpacing.xl),
         children: [
           // Total Amount Header
           Container(
-            padding: EdgeInsets.all(AppSpacing.xl),
+            padding: const EdgeInsets.all(AppSpacing.xl),
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [context.colors.primary, Color(0xFF1A1A1A)],
+                colors: [context.colors.primary, const Color(0xFF1A1A1A)],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
@@ -78,7 +78,7 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
                     color: context.colors.textSecondary,
                   ),
                 ),
-                SizedBox(height: AppSpacing.sm),
+                const SizedBox(height: AppSpacing.sm),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.baseline,
@@ -97,7 +97,7 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
                         color: context.colors.gold,
                       ),
                     ),
-                    SizedBox(width: 8),
+                    const SizedBox(width: 8),
                     Text(
                       l10n.sar,
                       style: TextStyle(
@@ -111,7 +111,7 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
               ],
             ),
           ),
-          SizedBox(height: AppSpacing.xxl),
+          const SizedBox(height: AppSpacing.xxl),
 
           // Contracts List
           Text(
@@ -122,7 +122,7 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
               color: context.colors.primary,
             ),
           ),
-          SizedBox(height: AppSpacing.lg),
+          const SizedBox(height: AppSpacing.lg),
 
           _buildContractCard(
             context: context,
@@ -141,7 +141,7 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
               }
             },
           ),
-          SizedBox(height: AppSpacing.md),
+          const SizedBox(height: AppSpacing.md),
           _buildContractCard(
             context: context,
             title: l10n.finishingContract,
@@ -162,7 +162,7 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
             },
           ),
 
-          SizedBox(height: AppSpacing.xxxl),
+          const SizedBox(height: AppSpacing.xxxl),
 
           CustomButton(
             text: l10n.completeBookingAndPayment,
@@ -176,7 +176,7 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
                     );
                   },
           ),
-          SizedBox(height: AppSpacing.xxl),
+          const SizedBox(height: AppSpacing.xxl),
         ],
       ),
     );
@@ -191,7 +191,7 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
   }) {
     final l10nCard = AppLocalizations.of(context)!;
     return Container(
-      padding: EdgeInsets.all(AppSpacing.lg),
+      padding: const EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
         color: context.colors.white,
         borderRadius: BorderRadius.circular(AppRadius.lg),
@@ -203,7 +203,7 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
       child: Row(
         children: [
           Container(
-            padding: EdgeInsets.all(12),
+            padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
               color: isSigned
                   ? context.colors.success.withValues(alpha: 0.1)
@@ -218,7 +218,7 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
               size: 24,
             ),
           ),
-          SizedBox(width: AppSpacing.md),
+          const SizedBox(width: AppSpacing.md),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -231,7 +231,7 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
                     color: context.colors.textPrimary,
                   ),
                 ),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Text(
                   subtitle,
                   style: TextStyle(
@@ -254,7 +254,7 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
               style: TextButton.styleFrom(foregroundColor: context.colors.gold),
               child: Text(
                 l10nCard.signNow,
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: AppFonts.bodyLarge,
                 ),

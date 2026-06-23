@@ -50,7 +50,7 @@ class _AgentStatusBarState extends State<AgentStatusBar>
     final l10n = AppLocalizations.of(context)!;
 
     return Container(
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.lg,
         vertical: AppSpacing.md,
       ),
@@ -69,7 +69,7 @@ class _AgentStatusBarState extends State<AgentStatusBar>
         children: [
           // LIVE Badge
           Container(
-            padding: EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
               horizontal: AppSpacing.md,
               vertical: AppSpacing.xs,
             ),
@@ -90,7 +90,7 @@ class _AgentStatusBarState extends State<AgentStatusBar>
                     ),
                   ),
                 ),
-                SizedBox(width: AppSpacing.xs),
+                const SizedBox(width: AppSpacing.xs),
                 Text(
                   l10n.liveBadge,
                   style: TextStyle(
@@ -125,7 +125,7 @@ class _AgentStatusBarState extends State<AgentStatusBar>
                       color: context.colors.textSecondary.withValues(alpha: 0.8),
                     ),
                   ),
-                  SizedBox(height: 2),
+                  const SizedBox(height: 2),
                   Row(
                     children: [
                       Text(
@@ -135,7 +135,7 @@ class _AgentStatusBarState extends State<AgentStatusBar>
                           color: context.colors.gold,
                         ),
                       ),
-                      SizedBox(width: 4),
+                      const SizedBox(width: 4),
                       Container(
                         width: 6,
                         height: 6,
@@ -155,7 +155,7 @@ class _AgentStatusBarState extends State<AgentStatusBar>
                   ),
                 ],
               ),
-              SizedBox(width: AppSpacing.md),
+              const SizedBox(width: AppSpacing.md),
               CircleAvatar(
                 radius: 22,
                 backgroundColor: context.colors.border,

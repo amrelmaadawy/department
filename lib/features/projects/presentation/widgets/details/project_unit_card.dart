@@ -1,5 +1,5 @@
 import 'package:apartment/core/theme/theme_extension.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:apartment/core/widgets/app_cached_network_image.dart';
 import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
@@ -54,7 +54,7 @@ class ProjectUnitCard extends StatelessWidget {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
-        margin: EdgeInsets.only(bottom: AppSpacing.md),
+        margin: const EdgeInsets.only(bottom: AppSpacing.md),
         decoration: BoxDecoration(
           color: isSelected
               ? context.colors.gold.withValues(alpha: 0.05)
@@ -90,7 +90,7 @@ class ProjectUnitCard extends StatelessWidget {
                       children: [
                         unit.imagePath.isNotEmpty
                             ? (unit.imagePath.startsWith('http')
-                                ? CachedNetworkImage(
+                                ? AppCachedNetworkImage(
                                     imageUrl: Uri.encodeFull(unit.imagePath),
                                     fit: BoxFit.cover,
                                     errorWidget: (context, url, error) =>
@@ -139,7 +139,7 @@ class ProjectUnitCard extends StatelessWidget {
                   Expanded(
                     flex: 7,
                     child: Padding(
-                      padding: EdgeInsets.all(AppSpacing.sm),
+                      padding: const EdgeInsets.all(AppSpacing.sm),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -162,7 +162,7 @@ class ProjectUnitCard extends StatelessWidget {
                               ),
                               // Status Badge
                               Container(
-                                padding: EdgeInsets.symmetric(
+                                padding: const EdgeInsets.symmetric(
                                   horizontal: AppSpacing.xs,
                                   vertical: 2,
                                 ),
@@ -191,7 +191,7 @@ class ProjectUnitCard extends StatelessWidget {
                               ),
                             ],
                           ),
-                          SizedBox(height: AppSpacing.xs),
+                          const SizedBox(height: AppSpacing.xs),
 
                           // Specs
                           Wrap(
@@ -227,7 +227,7 @@ class ProjectUnitCard extends StatelessWidget {
                               ),
                             ],
                           ),
-                          Spacer(),
+                          const Spacer(),
 
                           // Price
                           Wrap(
@@ -268,7 +268,7 @@ class ProjectUnitCard extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Icon(icon, size: 14, color: context.colors.textSecondary),
-        SizedBox(width: 4),
+        const SizedBox(width: 4),
         Text(
           text,
           style: TextStyle(

@@ -1,4 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:apartment/core/widgets/app_cached_network_image.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -93,7 +93,7 @@ class MaterialPreviewSheet extends StatelessWidget {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(AppRadius.lg),
-                child: CachedNetworkImage(
+                child: AppCachedNetworkImage(
                   imageUrl: material.imageUrl!,
                   fit: BoxFit.cover,
                   placeholder: (context, url) => _buildPlaceholder(context),

@@ -23,7 +23,7 @@ class UnitZoomControls extends StatelessWidget {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: Container(
-          padding: EdgeInsets.symmetric(
+          padding: const EdgeInsets.symmetric(
             horizontal: AppSpacing.sm,
             vertical: AppSpacing.xs,
           ),
@@ -38,7 +38,7 @@ class UnitZoomControls extends StatelessWidget {
           child: Row(
             children: [
               _buildIconButton(context, FluentIcons.zoom_out_24_regular, onZoomOut),
-              SizedBox(width: AppSpacing.xs),
+              const SizedBox(width: AppSpacing.xs),
               _buildIconButton(context, FluentIcons.zoom_in_24_regular, onZoomIn),
             ],
           ),
@@ -54,7 +54,7 @@ class UnitZoomControls extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(AppRadius.sm),
         child: Padding(
-          padding: EdgeInsets.all(6.0),
+          padding: const EdgeInsets.all(6.0),
           child: Icon(icon, size: 20, color: context.colors.primary),
         ),
       ),

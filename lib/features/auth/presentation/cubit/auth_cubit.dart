@@ -52,7 +52,7 @@ class AuthCubit extends Cubit<AuthState> {
       )),
       (user) => emit(state.copyWith(
         status: AuthStatus.success,
-        successMessage: "تم إنشاء الحساب بنجاح، يرجى الانتظار حتى يتم تفعيل حسابك من قبل الإدارة",
+        successMessage: 'تم إنشاء الحساب بنجاح، يرجى الانتظار حتى يتم تفعيل حسابك من قبل الإدارة',
       )),
     );
   }

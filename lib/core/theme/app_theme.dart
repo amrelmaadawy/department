@@ -14,8 +14,8 @@ class AppTheme {
         elevation: 0,
         centerTitle: true,
       ),
-      extensions: <ThemeExtension<dynamic>>[
-        const AppColorsExtension(
+      extensions: const <ThemeExtension<dynamic>>[
+        AppColorsExtension(
           primary: AppColors.primary,
           secondary: AppColors.secondary,
           background: AppColors.background,
@@ -43,8 +43,8 @@ class AppTheme {
         elevation: 0,
         centerTitle: true,
       ),
-      extensions: <ThemeExtension<dynamic>>[
-        const AppColorsExtension(
+      extensions: const <ThemeExtension<dynamic>>[
+        AppColorsExtension(
           primary: Color(0xFF4A89DC), // Bright professional blue for contrast
           secondary: AppColors.secondary,
           background: Color(0xFF0B132B),

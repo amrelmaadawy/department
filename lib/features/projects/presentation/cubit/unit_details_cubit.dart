@@ -6,7 +6,7 @@ import '../../domain/usecases/get_unit_details_usecase.dart';
 import '../../domain/usecases/get_customer_renders_use_case.dart';
 import '../../domain/usecases/toggle_customer_render_favorite_use_case.dart';
 import '../../domain/entities/customer_render_entity.dart';
-import '../../data/datasources/local/room_design_cache_service.dart';
+import '../../domain/usecases/calculate_unit_costs_use_case.dart';
 import '../../../../core/error/failures.dart';
 import 'package:dartz/dartz.dart' as dartz;
 
@@ -16,13 +16,13 @@ class UnitDetailsCubit extends Cubit<UnitDetailsState> {
   final GetUnitDetailsUseCase getUnitDetailsUseCase;
   final GetCustomerRendersUseCase getCustomerRendersUseCase;
   final ToggleCustomerRenderFavoriteUseCase toggleCustomerRenderFavoriteUseCase;
-  final RoomDesignCacheService cacheService;
+  final CalculateUnitCostsUseCase calculateUnitCostsUseCase;
 
   UnitDetailsCubit({
     required this.getUnitDetailsUseCase,
     required this.getCustomerRendersUseCase,
     required this.toggleCustomerRenderFavoriteUseCase,
-    required this.cacheService,
+    required this.calculateUnitCostsUseCase,
   }) : super(UnitDetailsInitial());
 
   Future<void> loadUnitDetails(int id, {ProjectUnitEntity? initialUnit}) async {
@@ -42,65 +42,47 @@ class UnitDetailsCubit extends Cubit<UnitDetailsState> {
         message: failure.message,
         unit: initialUnit,
       )),
-      (unit) {
-        final roomCosts = _calculateRoomCosts(unit);
-        final totalFinishingCost = roomCosts.values.fold(0.0, (sum, cost) => sum + cost);
-        final completedRoomIds = _calculateCompletedRoomIds(unit);
-        
-        List<RoomCustomerRendersEntity> customerRenders = [];
-        rendersResult.fold(
-          (failure) {}, // Ignore renders failure silently or handle it
-          (renders) => customerRenders = renders,
-        );
+      (unit) async {
+        final costsResult = await calculateUnitCostsUseCase(unit);
+        costsResult.fold(
+          (failure) => emit(UnitDetailsError(message: failure.message, unit: unit)),
+          (costs) {
+            List<RoomCustomerRendersEntity> customerRenders = [];
+            rendersResult.fold(
+              (failure) {}, // Ignore renders failure silently or handle it
+              (renders) => customerRenders = renders,
+            );
 
-        emit(UnitDetailsLoaded(
-          unit: unit, 
-          totalFinishingCost: totalFinishingCost,
-          roomCosts: roomCosts,
-          completedRoomIds: completedRoomIds,
-          customerRenders: customerRenders,
-        ));
+            emit(UnitDetailsLoaded(
+              unit: unit, 
+              totalFinishingCost: costs.totalFinishingCost,
+              roomCosts: costs.roomCosts,
+              completedRoomIds: costs.completedRoomIds,
+              customerRenders: customerRenders,
+            ));
+          }
+        );
       },
     );
   }
 
-  Map<int, double> _calculateRoomCosts(ProjectUnitEntity unit) {
-    Map<int, double> costs = {};
-    for (final room in unit.rooms) {
-      final cachedData = cacheService.getRoomDesignProgress(room.id);
-      if (cachedData != null) {
-        final roomCost = (cachedData['selectedMaterialsCost'] ?? 0.0).toDouble();
-        costs[room.id] = roomCost;
-      }
-    }
-    return costs;
-  }
-
-  Set<int> _calculateCompletedRoomIds(ProjectUnitEntity unit) {
-    Set<int> ids = {};
-    for (final room in unit.rooms) {
-      final cachedData = cacheService.getRoomDesignProgress(room.id);
-      if (cachedData != null && cachedData['isCompleted'] == true) {
-        ids.add(room.id);
-      }
-    }
-    return ids;
-  }
-
-  void refreshFinishingCost() {
+  void refreshFinishingCost() async {
     if (state.unit != null) {
-      final roomCosts = _calculateRoomCosts(state.unit!);
-      final total = roomCosts.values.fold(0.0, (sum, cost) => sum + cost);
-      final completedRoomIds = _calculateCompletedRoomIds(state.unit!);
-      if (state is UnitDetailsLoaded) {
-        emit(UnitDetailsLoaded(
-          unit: state.unit!, 
-          totalFinishingCost: total,
-          roomCosts: roomCosts,
-          completedRoomIds: completedRoomIds,
-          customerRenders: state.customerRenders,
-        ));
-      }
+      final costsResult = await calculateUnitCostsUseCase(state.unit!);
+      costsResult.fold(
+        (failure) {}, // Ignore silent failure on refresh
+        (costs) {
+          if (state is UnitDetailsLoaded) {
+            emit(UnitDetailsLoaded(
+              unit: state.unit!, 
+              totalFinishingCost: costs.totalFinishingCost,
+              roomCosts: costs.roomCosts,
+              completedRoomIds: costs.completedRoomIds,
+              customerRenders: state.customerRenders,
+            ));
+          }
+        }
+      );
     }
   }
 

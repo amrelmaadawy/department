@@ -24,8 +24,8 @@ class ContractSignatureCard extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: AppSpacing.md),
-      padding: EdgeInsets.all(AppSpacing.lg),
+      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+      padding: const EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
         color: context.colors.white,
         borderRadius: BorderRadius.circular(AppRadius.lg),
@@ -46,7 +46,7 @@ class ContractSignatureCard extends StatelessWidget {
               Row(
                 children: [
                   Icon(FluentIcons.pen_24_regular, color: context.colors.primary),
-                  SizedBox(width: AppSpacing.sm),
+                  const SizedBox(width: AppSpacing.sm),
                   Text(
                     l10n.signature, // Make sure this exists in ARB
                     style: TextStyle(
@@ -67,9 +67,9 @@ class ContractSignatureCard extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: AppSpacing.md),
+          const SizedBox(height: AppSpacing.md),
           Divider(color: context.colors.background),
-          SizedBox(height: AppSpacing.md),
+          const SizedBox(height: AppSpacing.md),
           
           Container(
             decoration: BoxDecoration(
@@ -86,7 +86,7 @@ class ContractSignatureCard extends StatelessWidget {
             ),
           ),
           
-          SizedBox(height: AppSpacing.sm),
+          const SizedBox(height: AppSpacing.sm),
           Center(
             child: Text(
               l10n.signAbove,

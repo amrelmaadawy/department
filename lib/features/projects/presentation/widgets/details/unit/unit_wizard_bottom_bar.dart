@@ -65,7 +65,7 @@ class _UnitWizardBottomBarState extends State<UnitWizardBottomBar> {
     final isFirstRoom = totalRooms == 0 || currentIndex == 0;
 
     return Container(
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.lg,
         vertical: AppSpacing.md,
       ),
@@ -82,7 +82,7 @@ class _UnitWizardBottomBarState extends State<UnitWizardBottomBar> {
       child: SafeArea(
         child: Container(
           width: double.infinity,
-          padding: EdgeInsets.symmetric(vertical: AppSpacing.xs),
+          padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -135,7 +135,7 @@ class _UnitWizardBottomBarState extends State<UnitWizardBottomBar> {
                 ),
               ],
               
-              SizedBox(height: AppSpacing.md),
+              const SizedBox(height: AppSpacing.md),
               
               // Wizard Actions Row
               Row(

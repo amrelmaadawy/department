@@ -97,7 +97,7 @@ class PaymentSuccessScreen extends StatelessWidget {
                   ),
                   child: Text(
                     l10n.goToDashboard,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: AppFonts.headlineSmall,
                       fontWeight: FontWeight.bold,
                     ),
