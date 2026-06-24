@@ -1413,4 +1413,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String pricePerRoom(String price) {
     return '$price SAR for room';
   }
+
+  @override
+  String get readFullContract => 'Read Full Contract';
+
+  @override
+  String get contractSummary => 'Contract Summary';
+
+  @override
+  String get confirmAndAgree => 'Confirm & Agree';
+
+  @override
+  String get slideToSign => 'Slide to Agree & Sign';
+
+  @override
+  String get viewDetailedLegalTerms => 'View Detailed Legal Terms';
+
+  @override
+  String get signedSuccessfully => 'Signed Successfully';
 }

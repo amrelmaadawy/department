@@ -583,5 +583,11 @@
     "placeholders": {
       "price": { "type": "String" }
     }
-  }
+  },
+  "readFullContract": "قراءة العقد بالكامل",
+  "contractSummary": "ملخص العقد",
+  "confirmAndAgree": "تأكيد وموافقة",
+  "slideToSign": "اسحب للموافقة والتوقيع",
+  "viewDetailedLegalTerms": "عرض الشروط القانونية المفصلة",
+  "signedSuccessfully": "تم التوقيع بنجاح"
 }

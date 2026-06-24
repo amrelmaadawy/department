@@ -5,7 +5,10 @@ import 'package:apartment/core/routes/app_router_transitions.dart';
 
 import 'package:apartment/features/projects/presentation/screens/finishing_summary_screen.dart';
 import 'package:apartment/features/contracts/presentation/screens/booking_success_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:apartment/features/contracts/presentation/screens/contracts_review_screen.dart';
+import 'package:apartment/features/contracts/presentation/cubit/contracts_cubit.dart';
+import 'package:apartment/core/di/injection_container.dart';
 import '../../../features/packages/presentation/screens/packages_screen.dart';
 
 class FinishingRoutes {
@@ -64,9 +67,12 @@ class FinishingRoutes {
         return CustomTransitionPage(
           key: state.pageKey,
           transitionDuration: const Duration(milliseconds: 600),
-          child: ContractsReviewScreen(
-            totalFinishingCost: totalFinishingCost,
-            unit: unit,
+          child: BlocProvider(
+            create: (context) => sl<ContractsCubit>(),
+            child: ContractsReviewScreen(
+              totalFinishingCost: totalFinishingCost,
+              unit: unit,
+            ),
           ),
           transitionsBuilder: AppRouterTransitions.slideFromRight,
         );

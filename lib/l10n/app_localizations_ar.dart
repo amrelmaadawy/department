@@ -1403,4 +1403,22 @@ class AppLocalizationsAr extends AppLocalizations {
   String pricePerRoom(String price) {
     return '$price ر.س للغرفة';
   }
+
+  @override
+  String get readFullContract => 'قراءة العقد بالكامل';
+
+  @override
+  String get contractSummary => 'ملخص العقد';
+
+  @override
+  String get confirmAndAgree => 'تأكيد وموافقة';
+
+  @override
+  String get slideToSign => 'اسحب للموافقة والتوقيع';
+
+  @override
+  String get viewDetailedLegalTerms => 'عرض الشروط القانونية المفصلة';
+
+  @override
+  String get signedSuccessfully => 'تم التوقيع بنجاح';
 }

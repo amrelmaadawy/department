@@ -580,5 +580,11 @@
     "placeholders": {
       "price": { "type": "String" }
     }
-  }
+  },
+  "readFullContract": "Read Full Contract",
+  "contractSummary": "Contract Summary",
+  "confirmAndAgree": "Confirm & Agree",
+  "slideToSign": "Slide to Agree & Sign",
+  "viewDetailedLegalTerms": "View Detailed Legal Terms",
+  "signedSuccessfully": "Signed Successfully"
 }

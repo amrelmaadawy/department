@@ -9,20 +9,17 @@ import 'package:apartment/core/widgets/custom_button.dart';
 import 'package:apartment/features/projects/domain/services/contract_pdf_generator.dart';
 import 'package:apartment/l10n/app_localizations.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
+import '../../../contracts/domain/entities/contract_entity.dart';
 
 
 class ContractPreviewScreen extends StatelessWidget {
   final Uint8List signatureImage;
-  final dynamic contractType;
-  final double price;
-  final dynamic unit;
+  final ContractEntity contract;
 
   const ContractPreviewScreen({
     super.key,
     required this.signatureImage,
-    required this.contractType,
-    required this.price,
-    this.unit,
+    required this.contract,
   });
 
   @override
@@ -65,9 +62,7 @@ class ContractPreviewScreen extends StatelessWidget {
                   final bytes = await ContractPdfGenerator.generateContractBytes(
                     PdfPageFormat.a4,
                     signatureImage,
-                    contractType,
-                    price,
-                    unit,
+                    contract,
                   );
                   await Printing.sharePdf(
                     bytes: bytes,
@@ -96,9 +91,7 @@ class ContractPreviewScreen extends StatelessWidget {
                 build: (format) => ContractPdfGenerator.generateContractBytes(
                   format,
                   signatureImage,
-                  contractType,
-                  price,
-                  unit,
+                  contract,
                 ),
                 useActions: false, // Hides the big internal toolbar completely
                 canDebug: false,

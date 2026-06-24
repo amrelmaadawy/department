@@ -2725,6 +2725,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{price} SAR for room'**
   String pricePerRoom(String price);
+
+  /// No description provided for @readFullContract.
+  ///
+  /// In en, this message translates to:
+  /// **'Read Full Contract'**
+  String get readFullContract;
+
+  /// No description provided for @contractSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Contract Summary'**
+  String get contractSummary;
+
+  /// No description provided for @confirmAndAgree.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm & Agree'**
+  String get confirmAndAgree;
+
+  /// No description provided for @slideToSign.
+  ///
+  /// In en, this message translates to:
+  /// **'Slide to Agree & Sign'**
+  String get slideToSign;
+
+  /// No description provided for @viewDetailedLegalTerms.
+  ///
+  /// In en, this message translates to:
+  /// **'View Detailed Legal Terms'**
+  String get viewDetailedLegalTerms;
+
+  /// No description provided for @signedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Signed Successfully'**
+  String get signedSuccessfully;
 }
 
 class _AppLocalizationsDelegate

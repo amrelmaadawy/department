@@ -12,7 +12,7 @@ import '../../../projects/domain/services/contract_pdf_generator.dart';
 import '../widgets/contract_details_card.dart';
 import '../widgets/contract_financial_card.dart';
 import '../../../../l10n/app_localizations.dart';
-import '../../../contracts/domain/entities/contract_type.dart';
+import '../../../contracts/domain/entities/contract_entity.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 
 
@@ -36,9 +36,27 @@ class _UnitContractScreenState extends State<UnitContractScreen> {
       final bytes = await ContractPdfGenerator.generateContractBytes(
         PdfPageFormat.a4,
         emptySignature,
-        ContractType.unit,
-        1250000.0,
-        null,
+        const ContractEntity(
+          id: 0,
+          contractNumber: 'DUMMY-000',
+          type: 'unit',
+          typeLabel: 'عقد حجز وحدة سكنية',
+          totalAmount: 1250000.0,
+          executionDuration: 0,
+          status: 'signed',
+          statusLabel: 'موقع',
+          contractBody: [
+             ContractBodyItemEntity(
+               type: 'paragraph',
+               content: 'عقد الشراء: رقم الوحدة: 402\nالسعر: 1,250,000 ريال',
+             ),
+          ],
+          apartmentId: 1,
+          customerId: 1,
+          createdAt: '2026-01-01',
+          signUrl: '',
+          hasCustomerSignature: true,
+        ),
       );
       await Printing.sharePdf(
         bytes: bytes,

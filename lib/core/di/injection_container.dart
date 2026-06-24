@@ -4,6 +4,7 @@ import 'modules/auth_di.dart';
 import 'modules/core_di.dart';
 import 'modules/profile_di.dart';
 import 'modules/projects_di.dart';
+import 'modules/contracts_di.dart';
 
 final sl = GetIt.instance;
 
@@ -12,4 +13,5 @@ Future<void> init() async {
   await registerAuthDi(sl);
   await registerProjectsDi(sl);
   await registerProfileDi(sl);
+  await initContractsModule();
 }

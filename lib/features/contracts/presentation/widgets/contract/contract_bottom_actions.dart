@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'dart:convert';
 
 import 'package:signature/signature.dart';
 
@@ -18,6 +19,9 @@ class ContractBottomActions extends StatelessWidget {
   final double price;
   final dynamic unit;
 
+  final bool isLoading;
+  final Future<void> Function(String base64Signature)? onSign;
+
   const ContractBottomActions({
     super.key,
     required this.isAgreed,
@@ -25,6 +29,8 @@ class ContractBottomActions extends StatelessWidget {
     required this.contractType,
     required this.price,
     this.unit,
+    this.isLoading = false,
+    this.onSign,
   });
 
   @override
@@ -57,12 +63,18 @@ class ContractBottomActions extends StatelessWidget {
                       final signatureImage = await signatureController.toPngBytes();
                       
                       if (signatureImage != null) {
-                        // 2. Navigate to PDF Preview Screen and await result
-                        if (context.mounted) {
-                          final result = await context.push(AppRouter.contractPreview, extra: {'signatureImage': signatureImage, 'contractType': contractType, 'price': price, 'unit': unit});
-                          if (result == true && context.mounted) {
-                            // If user confirmed in preview screen, pop back to review screen
-                            context.pop(true);
+                        if (onSign != null) {
+                          // Pass Base64 image to the callback
+                          final base64String = base64Encode(signatureImage);
+                          await onSign!(base64String);
+                        } else {
+                          // 2. Navigate to PDF Preview Screen and await result (Legacy Fallback)
+                          if (context.mounted) {
+                            final result = await context.push(AppRouter.contractPreview, extra: {'signatureImage': signatureImage, 'contractType': contractType, 'price': price, 'unit': unit});
+                            if (result == true && context.mounted) {
+                              // If user confirmed in preview screen, pop back to review screen
+                              context.pop(true);
+                            }
                           }
                         }
                       }
@@ -76,6 +88,7 @@ class ContractBottomActions extends StatelessWidget {
                     }, 
               backgroundColor: isFormValid ? context.colors.primary : context.colors.border,
               textColor: context.colors.white,
+              isLoading: isLoading,
             ),
           ],
         ),
