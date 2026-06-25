@@ -63,6 +63,28 @@ class RoomActionButtons extends StatelessWidget {
               child: OutlinedButton(
                 onPressed: () {
                   if (isLastRoom) {
+                    final unitState = context.read<UnitDetailsCubit>().state;
+                    final totalRooms = unit.rooms.length;
+                    final completedRooms = unitState.completedRoomIds.length;
+
+                    final aiDesignedRoomIds = unitState.customerRenders
+                        .where((cr) => cr.renders.isNotEmpty)
+                        .map((cr) => cr.id)
+                        .toSet();
+
+                    final allRoomsCompleted = completedRooms == totalRooms;
+                    final allRoomsAiDesigned = unit.rooms.every((r) => aiDesignedRoomIds.contains(r.id));
+
+                    if (!allRoomsCompleted) {
+                      AppToast.showError(context, 'يجب تشطيب جميع غرف الشقة أولاً قبل المتابعة');
+                      return;
+                    }
+
+                    if (!allRoomsAiDesigned) {
+                      AppToast.showError(context, 'لضمان دقة العقود، نرجو استكمال التصميم النهائي لباقي الغرف لتأكيد اختياراتك');
+                      return;
+                    }
+
                     context.push(
                       AppRouter.finishingSummary,
                       extra: {
