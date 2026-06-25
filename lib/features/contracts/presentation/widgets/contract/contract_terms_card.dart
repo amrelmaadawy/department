@@ -84,7 +84,7 @@ class _ContractTermsCardState extends State<ContractTermsCard> {
               
               const SizedBox(height: AppSpacing.md),
               
-              // Article Reader Body (Medium Style)
+              // Article Reader Body (Premium Style)
               Expanded(
                 child: SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
@@ -95,28 +95,37 @@ class _ContractTermsCardState extends State<ContractTermsCard> {
                           children: widget.contract!.contractBody.map((item) {
                             if (item.type == 'title') {
                               return Padding(
-                                padding: const EdgeInsets.only(top: AppSpacing.xl, bottom: AppSpacing.md),
-                                child: Text(
-                                  item.content ?? '',
-                                  style: TextStyle(
-                                    fontSize: AppFonts.headlineSmall,
-                                    fontWeight: FontWeight.bold,
-                                    color: context.colors.textPrimary,
-                                    height: 1.5,
+                                padding: const EdgeInsets.only(top: AppSpacing.xxl, bottom: AppSpacing.md),
+                                child: Container(
+                                  padding: const EdgeInsets.only(right: AppSpacing.md),
+                                  decoration: BoxDecoration(
+                                    border: Border(
+                                      right: BorderSide(color: context.colors.primary, width: 4),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    item.content ?? '',
+                                    style: TextStyle(
+                                      fontSize: AppFonts.headlineSmall,
+                                      fontWeight: FontWeight.bold,
+                                      color: context.colors.primary,
+                                      height: 1.5,
+                                    ),
                                   ),
                                 ),
                               );
                             } else if (item.type == 'paragraph') {
                               return Padding(
-                                padding: const EdgeInsets.only(bottom: AppSpacing.lg),
+                                padding: const EdgeInsets.only(bottom: AppSpacing.md),
                                 child: Text(
                                   item.content ?? '',
                                   style: TextStyle(
-                                    fontSize: AppFonts.bodyLarge,
-                                    color: context.colors.textSecondary,
-                                    height: 2.2, // Very high line height for comfortable reading
+                                    fontSize: AppFonts.bodyMedium,
+                                    color: context.colors.textPrimary,
+                                    height: 1.8,
                                     letterSpacing: 0.2,
                                   ),
+                                  textAlign: TextAlign.justify,
                                 ),
                               );
                             } else if (item.type == 'list') {
@@ -133,12 +142,19 @@ class _ContractTermsCardState extends State<ContractTermsCard> {
                                           children: [
                                             if (listItem.type == 'list_item') ...[
                                               Container(
-                                                margin: const EdgeInsets.only(top: 10, left: 8),
-                                                width: 6,
-                                                height: 6,
+                                                margin: const EdgeInsets.only(top: 6, left: 12),
+                                                padding: const EdgeInsets.all(3),
                                                 decoration: BoxDecoration(
-                                                  color: context.colors.textSecondary,
+                                                  color: context.colors.primary.withValues(alpha: 0.1),
                                                   shape: BoxShape.circle,
+                                                ),
+                                                child: Container(
+                                                  width: 6,
+                                                  height: 6,
+                                                  decoration: BoxDecoration(
+                                                    color: context.colors.primary,
+                                                    shape: BoxShape.circle,
+                                                  ),
                                                 ),
                                               ),
                                             ],
@@ -146,10 +162,11 @@ class _ContractTermsCardState extends State<ContractTermsCard> {
                                               child: Text(
                                                 listItem.content,
                                                 style: TextStyle(
-                                                  fontSize: AppFonts.bodyLarge,
-                                                  color: context.colors.textSecondary,
+                                                  fontSize: AppFonts.bodyMedium,
+                                                  color: context.colors.textPrimary,
                                                   height: 1.8,
                                                 ),
+                                                textAlign: TextAlign.justify,
                                               ),
                                             ),
                                           ],
@@ -164,9 +181,9 @@ class _ContractTermsCardState extends State<ContractTermsCard> {
                                   child: HtmlWidget(
                                     item.html ?? '',
                                     textStyle: TextStyle(
-                                      fontSize: AppFonts.bodyLarge,
-                                      color: context.colors.textSecondary,
-                                      height: 2.2,
+                                      fontSize: AppFonts.bodyMedium,
+                                      color: context.colors.textPrimary,
+                                      height: 1.8,
                                       letterSpacing: 0.2,
                                     ),
                                   ),
@@ -175,48 +192,62 @@ class _ContractTermsCardState extends State<ContractTermsCard> {
                             } else if (item.type == 'table' && item.data != null) {
                               final tableData = item.data!;
                               return Padding(
-                                padding: const EdgeInsets.only(bottom: AppSpacing.lg),
+                                padding: const EdgeInsets.only(top: AppSpacing.md, bottom: AppSpacing.xl),
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    border: Border.all(color: context.colors.border),
-                                    borderRadius: BorderRadius.circular(AppRadius.sm),
+                                    border: Border.all(color: context.colors.primary.withValues(alpha: 0.2)),
+                                    borderRadius: BorderRadius.circular(AppRadius.lg),
+                                    color: context.colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: context.colors.border.withValues(alpha: 0.05),
+                                        blurRadius: 10,
+                                        offset: const Offset(0, 4),
+                                      ),
+                                    ],
                                   ),
+                                  clipBehavior: Clip.antiAlias,
                                   child: Column(
                                     children: [
                                       Table(
                                         border: TableBorder.symmetric(
-                                          inside: BorderSide(color: context.colors.border),
+                                          inside: BorderSide(color: context.colors.primary.withValues(alpha: 0.1)),
                                         ),
                                         children: [
                                           TableRow(
                                             decoration: BoxDecoration(
-                                              color: context.colors.primary.withValues(alpha: 0.05),
+                                              color: context.colors.primary,
                                             ),
                                             children: tableData.headers.map((header) {
                                               return Padding(
-                                                padding: const EdgeInsets.all(AppSpacing.sm),
+                                                padding: const EdgeInsets.symmetric(vertical: AppSpacing.md, horizontal: AppSpacing.sm),
                                                 child: Text(
                                                   header,
                                                   style: TextStyle(
                                                     fontSize: AppFonts.bodySmall,
                                                     fontWeight: FontWeight.bold,
-                                                    color: context.colors.textPrimary,
+                                                    color: context.colors.white,
                                                   ),
                                                   textAlign: TextAlign.center,
                                                 ),
                                               );
                                             }).toList(),
                                           ),
-                                          ...tableData.rows.map((row) {
+                                          ...tableData.rows.asMap().entries.map((entry) {
+                                            final isEven = entry.key % 2 == 0;
                                             return TableRow(
-                                              children: row.map((cell) {
+                                              decoration: BoxDecoration(
+                                                color: isEven ? context.colors.background : context.colors.white,
+                                              ),
+                                              children: entry.value.map((cell) {
                                                 return Padding(
-                                                  padding: const EdgeInsets.all(AppSpacing.sm),
+                                                  padding: const EdgeInsets.all(AppSpacing.md),
                                                   child: Text(
                                                     cell,
                                                     style: TextStyle(
                                                       fontSize: AppFonts.bodySmall,
-                                                      color: context.colors.textSecondary,
+                                                      fontWeight: FontWeight.w600,
+                                                      color: context.colors.textPrimary,
                                                     ),
                                                     textAlign: TextAlign.center,
                                                   ),
@@ -228,10 +259,10 @@ class _ContractTermsCardState extends State<ContractTermsCard> {
                                       ),
                                       if (tableData.footer.isNotEmpty)
                                         Container(
-                                          padding: const EdgeInsets.all(AppSpacing.sm),
+                                          padding: const EdgeInsets.all(AppSpacing.md),
                                           decoration: BoxDecoration(
                                             color: context.colors.primary.withValues(alpha: 0.05),
-                                            border: Border(top: BorderSide(color: context.colors.border)),
+                                            border: Border(top: BorderSide(color: context.colors.primary.withValues(alpha: 0.2))),
                                           ),
                                           child: Row(
                                             children: tableData.footer.map((footerItem) {
@@ -242,7 +273,7 @@ class _ContractTermsCardState extends State<ContractTermsCard> {
                                                   style: TextStyle(
                                                     fontSize: AppFonts.bodySmall,
                                                     fontWeight: FontWeight.bold,
-                                                    color: context.colors.textPrimary,
+                                                    color: context.colors.primary,
                                                   ),
                                                   textAlign: footerItem == tableData.footer.last && tableData.footer.length > 1
                                                       ? TextAlign.center
