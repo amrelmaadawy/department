@@ -30,7 +30,9 @@ class ProjectDetailsCubit extends Cubit<ProjectDetailsState> {
 
     if (detailsResult.isLeft()) {
       detailsResult.fold(
-        (failure) => emit(ProjectDetailsError(message: failure.message)),
+        (failure) {
+          if (!isClosed) emit(ProjectDetailsError(message: failure.message));
+        },
         (_) {},
       );
       return;
@@ -38,7 +40,9 @@ class ProjectDetailsCubit extends Cubit<ProjectDetailsState> {
 
     if (unitsResult.isLeft()) {
       unitsResult.fold(
-        (failure) => emit(ProjectDetailsError(message: failure.message)),
+        (failure) {
+          if (!isClosed) emit(ProjectDetailsError(message: failure.message));
+        },
         (_) {},
       );
       return;
@@ -68,9 +72,11 @@ class ProjectDetailsCubit extends Cubit<ProjectDetailsState> {
       units: List.from(units),
     );
 
-    emit(ProjectDetailsLoaded(
-      project: projectWithUnits,
-      features: projectWithUnits.features,
-    ));
+    if (!isClosed) {
+      emit(ProjectDetailsLoaded(
+        project: projectWithUnits,
+        features: projectWithUnits.features,
+      ));
+    }
   }
 }
