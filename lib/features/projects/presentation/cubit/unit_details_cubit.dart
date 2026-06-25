@@ -53,11 +53,19 @@ class UnitDetailsCubit extends Cubit<UnitDetailsState> {
               (renders) => customerRenders = renders,
             );
 
+            // Rehydrate completed rooms from server data in case local cache is wiped
+            final Set<int> syncedCompletedRooms = Set.from(costs.completedRoomIds);
+            for (var render in customerRenders) {
+              if (render.renders.isNotEmpty) {
+                syncedCompletedRooms.add(render.id);
+              }
+            }
+
             emit(UnitDetailsLoaded(
               unit: unit, 
               totalFinishingCost: costs.totalFinishingCost,
               roomCosts: costs.roomCosts,
-              completedRoomIds: costs.completedRoomIds,
+              completedRoomIds: syncedCompletedRooms,
               customerRenders: customerRenders,
             ));
           }
@@ -73,12 +81,22 @@ class UnitDetailsCubit extends Cubit<UnitDetailsState> {
         (failure) {}, // Ignore silent failure on refresh
         (costs) {
           if (state is UnitDetailsLoaded) {
+            final currentState = state as UnitDetailsLoaded;
+            
+            // Rehydrate completed rooms from server data in case local cache is wiped
+            final Set<int> syncedCompletedRooms = Set.from(costs.completedRoomIds);
+            for (var render in currentState.customerRenders) {
+              if (render.renders.isNotEmpty) {
+                syncedCompletedRooms.add(render.id);
+              }
+            }
+            
             emit(UnitDetailsLoaded(
-              unit: state.unit!, 
+              unit: currentState.unit!, 
               totalFinishingCost: costs.totalFinishingCost,
               roomCosts: costs.roomCosts,
-              completedRoomIds: costs.completedRoomIds,
-              customerRenders: state.customerRenders,
+              completedRoomIds: syncedCompletedRooms,
+              customerRenders: currentState.customerRenders,
             ));
           }
         }
@@ -96,11 +114,21 @@ class UnitDetailsCubit extends Cubit<UnitDetailsState> {
       (failure) {}, // Silently ignore failures on background refresh
       (renders) {
         if (state is UnitDetailsLoaded) {
+          final currentState = state as UnitDetailsLoaded;
+          
+          // Rehydrate completed rooms from server data
+          final Set<int> syncedCompletedRooms = Set.from(currentState.completedRoomIds);
+          for (var render in renders) {
+            if (render.renders.isNotEmpty) {
+              syncedCompletedRooms.add(render.id);
+            }
+          }
+          
           emit(UnitDetailsLoaded(
-            unit: state.unit!,
-            totalFinishingCost: state.totalFinishingCost,
-            roomCosts: state.roomCosts,
-            completedRoomIds: state.completedRoomIds,
+            unit: currentState.unit!,
+            totalFinishingCost: currentState.totalFinishingCost,
+            roomCosts: currentState.roomCosts,
+            completedRoomIds: syncedCompletedRooms,
             customerRenders: renders,
           ));
         }
