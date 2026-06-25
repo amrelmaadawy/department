@@ -33,6 +33,39 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
   bool _isFinishingContractSigned = false;
 
   @override
+  void initState() {
+    super.initState();
+    _loadSignatureStatus();
+  }
+
+  Future<void> _loadSignatureStatus() async {
+    final prefs = sl<SharedPreferences>();
+    final unit = widget.unit ?? sl<DesignContextCubit>().state.selectedUnit;
+    if (unit != null) {
+      setState(() {
+        _isUnitContractSigned = prefs.getBool('unit_contract_signed_${unit.id}') ?? false;
+        _isFinishingContractSigned = prefs.getBool('finishing_contract_signed_${unit.id}') ?? false;
+      });
+    }
+  }
+
+  Future<void> _saveUnitSignatureStatus(bool status) async {
+    final prefs = sl<SharedPreferences>();
+    final unit = widget.unit ?? sl<DesignContextCubit>().state.selectedUnit;
+    if (unit != null) {
+      await prefs.setBool('unit_contract_signed_${unit.id}', status);
+    }
+  }
+
+  Future<void> _saveFinishingSignatureStatus(bool status) async {
+    final prefs = sl<SharedPreferences>();
+    final unit = widget.unit ?? sl<DesignContextCubit>().state.selectedUnit;
+    if (unit != null) {
+      await prefs.setBool('finishing_contract_signed_${unit.id}', status);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final unit = widget.unit ?? sl<DesignContextCubit>().state.selectedUnit;
@@ -136,18 +169,20 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
               } else if (state is BoneContractCreated) {
                 final result = await context.push(
                   AppRouter.contractSigning,
-                  extra: {'type': ContractType.unit, 'unit': unit, 'contract': state.contract},
+                  extra: {'type': ContractType.unit, 'unit': unit, 'contract': state.contract, 'finishingTotal': widget.totalFinishingCost},
                 );
                 if (result == true) {
                   setState(() => _isUnitContractSigned = true);
+                  _saveUnitSignatureStatus(true);
                 }
               } else if (state is FinishingContractCreated) {
                 final result = await context.push(
                   AppRouter.contractSigning,
-                  extra: {'type': ContractType.finishing, 'unit': unit, 'contract': state.contract},
+                  extra: {'type': ContractType.finishing, 'unit': unit, 'contract': state.contract, 'finishingTotal': widget.totalFinishingCost},
                 );
                 if (result == true) {
                   setState(() => _isFinishingContractSigned = true);
+                  _saveFinishingSignatureStatus(true);
                 }
               }
             },

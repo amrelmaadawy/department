@@ -120,15 +120,139 @@ class _ContractTermsCardState extends State<ContractTermsCard> {
                                 ),
                               );
                             } else if (item.type == 'list') {
+                              if (item.items != null && item.items!.isNotEmpty) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(bottom: AppSpacing.lg),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: item.items!.map((listItem) {
+                                      return Padding(
+                                        padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+                                        child: Row(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            if (listItem.type == 'list_item') ...[
+                                              Container(
+                                                margin: const EdgeInsets.only(top: 10, left: 8),
+                                                width: 6,
+                                                height: 6,
+                                                decoration: BoxDecoration(
+                                                  color: context.colors.textSecondary,
+                                                  shape: BoxShape.circle,
+                                                ),
+                                              ),
+                                            ],
+                                            Expanded(
+                                              child: Text(
+                                                listItem.content,
+                                                style: TextStyle(
+                                                  fontSize: AppFonts.bodyLarge,
+                                                  color: context.colors.textSecondary,
+                                                  height: 1.8,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    }).toList(),
+                                  ),
+                                );
+                              } else {
+                                return Padding(
+                                  padding: const EdgeInsets.only(bottom: AppSpacing.lg),
+                                  child: HtmlWidget(
+                                    item.html ?? '',
+                                    textStyle: TextStyle(
+                                      fontSize: AppFonts.bodyLarge,
+                                      color: context.colors.textSecondary,
+                                      height: 2.2,
+                                      letterSpacing: 0.2,
+                                    ),
+                                  ),
+                                );
+                              }
+                            } else if (item.type == 'table' && item.data != null) {
+                              final tableData = item.data!;
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: AppSpacing.lg),
-                                child: HtmlWidget(
-                                  item.html ?? '',
-                                  textStyle: TextStyle(
-                                    fontSize: AppFonts.bodyLarge,
-                                    color: context.colors.textSecondary,
-                                    height: 2.2,
-                                    letterSpacing: 0.2,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: context.colors.border),
+                                    borderRadius: BorderRadius.circular(AppRadius.sm),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Table(
+                                        border: TableBorder.symmetric(
+                                          inside: BorderSide(color: context.colors.border),
+                                        ),
+                                        children: [
+                                          TableRow(
+                                            decoration: BoxDecoration(
+                                              color: context.colors.primary.withValues(alpha: 0.05),
+                                            ),
+                                            children: tableData.headers.map((header) {
+                                              return Padding(
+                                                padding: const EdgeInsets.all(AppSpacing.sm),
+                                                child: Text(
+                                                  header,
+                                                  style: TextStyle(
+                                                    fontSize: AppFonts.bodySmall,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: context.colors.textPrimary,
+                                                  ),
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                              );
+                                            }).toList(),
+                                          ),
+                                          ...tableData.rows.map((row) {
+                                            return TableRow(
+                                              children: row.map((cell) {
+                                                return Padding(
+                                                  padding: const EdgeInsets.all(AppSpacing.sm),
+                                                  child: Text(
+                                                    cell,
+                                                    style: TextStyle(
+                                                      fontSize: AppFonts.bodySmall,
+                                                      color: context.colors.textSecondary,
+                                                    ),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                );
+                                              }).toList(),
+                                            );
+                                          }),
+                                        ],
+                                      ),
+                                      if (tableData.footer.isNotEmpty)
+                                        Container(
+                                          padding: const EdgeInsets.all(AppSpacing.sm),
+                                          decoration: BoxDecoration(
+                                            color: context.colors.primary.withValues(alpha: 0.05),
+                                            border: Border(top: BorderSide(color: context.colors.border)),
+                                          ),
+                                          child: Row(
+                                            children: tableData.footer.map((footerItem) {
+                                              return Expanded(
+                                                flex: footerItem.colspan,
+                                                child: Text(
+                                                  footerItem.content,
+                                                  style: TextStyle(
+                                                    fontSize: AppFonts.bodySmall,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: context.colors.textPrimary,
+                                                  ),
+                                                  textAlign: footerItem == tableData.footer.last && tableData.footer.length > 1
+                                                      ? TextAlign.center
+                                                      : TextAlign.start,
+                                                ),
+                                              );
+                                            }).toList(),
+                                          ),
+                                        ),
+                                    ],
                                   ),
                                 ),
                               );

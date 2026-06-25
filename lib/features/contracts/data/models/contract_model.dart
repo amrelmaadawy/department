@@ -1,10 +1,83 @@
 import '../../domain/entities/contract_entity.dart';
 
+class ContractListItemModel extends ContractListItemEntity {
+  const ContractListItemModel({
+    required super.type,
+    required super.content,
+  });
+
+  factory ContractListItemModel.fromJson(Map<String, dynamic> json) {
+    return ContractListItemModel(
+      type: json['type'] as String,
+      content: json['content'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'type': type,
+      'content': content,
+    };
+  }
+}
+
+class ContractTableFooterModel extends ContractTableFooterEntity {
+  const ContractTableFooterModel({
+    required super.content,
+    required super.colspan,
+  });
+
+  factory ContractTableFooterModel.fromJson(Map<String, dynamic> json) {
+    return ContractTableFooterModel(
+      content: json['content'] as String,
+      colspan: json['colspan'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'content': content,
+      'colspan': colspan,
+    };
+  }
+}
+
+class ContractTableDataModel extends ContractTableDataEntity {
+  const ContractTableDataModel({
+    required super.headers,
+    required super.rows,
+    required super.footer,
+  });
+
+  factory ContractTableDataModel.fromJson(Map<String, dynamic> json) {
+    return ContractTableDataModel(
+      headers: (json['headers'] as List<dynamic>?)?.map((e) => e.toString()).toList() ?? [],
+      rows: (json['rows'] as List<dynamic>?)?.map((row) {
+        return (row as List<dynamic>).map((e) => e.toString()).toList();
+      }).toList() ?? [],
+      footer: (json['footer'] as List<dynamic>?)
+              ?.map((e) => ContractTableFooterModel.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'headers': headers,
+      'rows': rows,
+      'footer': footer.map((e) => (e as ContractTableFooterModel).toJson()).toList(),
+    };
+  }
+}
+
 class ContractBodyItemModel extends ContractBodyItemEntity {
   const ContractBodyItemModel({
     required super.type,
     super.content,
     super.html,
+    super.items,
+    super.data,
   });
 
   factory ContractBodyItemModel.fromJson(Map<String, dynamic> json) {
@@ -12,6 +85,10 @@ class ContractBodyItemModel extends ContractBodyItemEntity {
       type: json['type'] as String,
       content: json['content'] as String?,
       html: json['html'] as String?,
+      items: (json['items'] as List<dynamic>?)
+          ?.map((e) => ContractListItemModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      data: json['data'] != null ? ContractTableDataModel.fromJson(json['data'] as Map<String, dynamic>) : null,
     );
   }
 
@@ -20,6 +97,8 @@ class ContractBodyItemModel extends ContractBodyItemEntity {
       'type': type,
       'content': content,
       'html': html,
+      if (items != null) 'items': items?.map((e) => (e as ContractListItemModel).toJson()).toList(),
+      if (data != null) 'data': (data as ContractTableDataModel).toJson(),
     };
   }
 }

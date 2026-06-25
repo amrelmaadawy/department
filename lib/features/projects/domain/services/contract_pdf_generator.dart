@@ -97,6 +97,156 @@ class ContractPdfGenerator {
                   ),
                 ),
               );
+            } else if (item.type == 'list' && item.items != null) {
+              final listWidgets = <pw.Widget>[];
+              for (final listItem in item.items!) {
+                if (listItem.type == 'text') {
+                  listWidgets.add(
+                    pw.Padding(
+                      padding: const pw.EdgeInsets.only(bottom: 4, top: 4),
+                      child: pw.Text(
+                        listItem.content,
+                        style: pw.TextStyle(font: ttf, fontSize: 12, color: PdfColors.grey800),
+                        textAlign: pw.TextAlign.justify,
+                      ),
+                    ),
+                  );
+                } else if (listItem.type == 'list_item') {
+                  listWidgets.add(
+                    pw.Padding(
+                      padding: const pw.EdgeInsets.only(right: 15, bottom: 4),
+                      child: pw.Row(
+                        crossAxisAlignment: pw.CrossAxisAlignment.start,
+                        children: [
+                          pw.Container(
+                            margin: const pw.EdgeInsets.only(top: 5, left: 8),
+                            width: 4,
+                            height: 4,
+                            decoration: const pw.BoxDecoration(
+                              color: PdfColors.grey600,
+                              shape: pw.BoxShape.circle,
+                            ),
+                          ),
+                          pw.Expanded(
+                            child: pw.Text(
+                              listItem.content,
+                              style: pw.TextStyle(font: ttf, fontSize: 12, color: PdfColors.grey800),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }
+              }
+              contentWidgets.add(
+                pw.Padding(
+                  padding: const pw.EdgeInsets.only(bottom: 12),
+                  child: pw.Column(
+                    crossAxisAlignment: pw.CrossAxisAlignment.start,
+                    children: listWidgets,
+                  ),
+                ),
+              );
+            } else if (item.type == 'table' && item.data != null) {
+              final tableData = item.data!;
+              
+              final List<pw.TableRow> tableRows = [];
+              
+              // Headers
+              tableRows.add(
+                pw.TableRow(
+                  decoration: const pw.BoxDecoration(color: PdfColors.grey100),
+                  children: tableData.headers.map((header) {
+                    return pw.Padding(
+                      padding: const pw.EdgeInsets.all(8),
+                      child: pw.Text(
+                        header,
+                        style: pw.TextStyle(font: ttfBold, fontSize: 10, color: PdfColors.blueGrey900),
+                        textAlign: pw.TextAlign.center,
+                      ),
+                    );
+                  }).toList(),
+                ),
+              );
+
+              // Rows
+              for (final row in tableData.rows) {
+                tableRows.add(
+                  pw.TableRow(
+                    children: row.map((cell) {
+                      return pw.Padding(
+                        padding: const pw.EdgeInsets.all(8),
+                        child: pw.Text(
+                          cell,
+                          style: pw.TextStyle(font: ttf, fontSize: 10, color: PdfColors.grey800),
+                          textAlign: pw.TextAlign.center,
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                );
+              }
+
+              // Footer
+              if (tableData.footer.isNotEmpty) {
+                // Since pw.Table doesn't strictly support colspan natively without complex table structures,
+                // we'll simulate the footer row by manually constructing a pw.Row or using a simple TableRow with adjusted cells.
+                // Alternatively, we can use TableHelper, but let's build a custom row for the footer.
+                contentWidgets.add(
+                  pw.Container(
+                    margin: const pw.EdgeInsets.only(bottom: 16),
+                    decoration: pw.BoxDecoration(
+                      border: pw.Border.all(color: PdfColors.grey300),
+                    ),
+                    child: pw.Column(
+                      children: [
+                        pw.Table(
+                          border: pw.TableBorder.all(color: PdfColors.grey300),
+                          children: tableRows,
+                        ),
+                        // Footer simulated as a row underneath
+                        pw.Container(
+                          color: PdfColors.grey100,
+                          padding: const pw.EdgeInsets.all(8),
+                          child: pw.Row(
+                            mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                            children: [
+                              pw.Expanded(
+                                flex: tableData.footer.first.colspan,
+                                child: pw.Text(
+                                  tableData.footer.first.content,
+                                  style: pw.TextStyle(font: ttfBold, fontSize: 11, color: PdfColors.blueGrey900),
+                                  textAlign: pw.TextAlign.right,
+                                ),
+                              ),
+                              if (tableData.footer.length > 1)
+                                pw.Expanded(
+                                  flex: tableData.footer.last.colspan,
+                                  child: pw.Text(
+                                    tableData.footer.last.content,
+                                    style: pw.TextStyle(font: ttfBold, fontSize: 11, color: PdfColors.green700),
+                                    textAlign: pw.TextAlign.center,
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              } else {
+                contentWidgets.add(
+                  pw.Padding(
+                    padding: const pw.EdgeInsets.only(bottom: 16),
+                    child: pw.Table(
+                      border: pw.TableBorder.all(color: PdfColors.grey300),
+                      children: tableRows,
+                    ),
+                  ),
+                );
+              }
             }
           }
 

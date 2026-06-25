@@ -1,18 +1,63 @@
 import 'package:equatable/equatable.dart';
 
+class ContractListItemEntity extends Equatable {
+  final String type;
+  final String content;
+
+  const ContractListItemEntity({
+    required this.type,
+    required this.content,
+  });
+
+  @override
+  List<Object?> get props => [type, content];
+}
+
+class ContractTableFooterEntity extends Equatable {
+  final String content;
+  final int colspan;
+
+  const ContractTableFooterEntity({
+    required this.content,
+    required this.colspan,
+  });
+
+  @override
+  List<Object?> get props => [content, colspan];
+}
+
+class ContractTableDataEntity extends Equatable {
+  final List<String> headers;
+  final List<List<String>> rows;
+  final List<ContractTableFooterEntity> footer;
+
+  const ContractTableDataEntity({
+    required this.headers,
+    required this.rows,
+    required this.footer,
+  });
+
+  @override
+  List<Object?> get props => [headers, rows, footer];
+}
+
 class ContractBodyItemEntity extends Equatable {
   final String type;
   final String? content;
   final String? html;
+  final List<ContractListItemEntity>? items;
+  final ContractTableDataEntity? data;
 
   const ContractBodyItemEntity({
     required this.type,
     this.content,
     this.html,
+    this.items,
+    this.data,
   });
 
   @override
-  List<Object?> get props => [type, content, html];
+  List<Object?> get props => [type, content, html, items, data];
 }
 
 class ContractEntity extends Equatable {
