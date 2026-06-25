@@ -65,14 +65,16 @@ class RoomActionButtons extends StatelessWidget {
                   if (isLastRoom) {
                     final unitState = context.read<UnitDetailsCubit>().state;
                     final totalRooms = unit.rooms.length;
-                    final completedRooms = unitState.completedRoomIds.length;
 
                     final aiDesignedRoomIds = unitState.customerRenders
                         .where((cr) => cr.renders.isNotEmpty)
                         .map((cr) => cr.id)
                         .toSet();
 
-                    final allRoomsCompleted = completedRooms == totalRooms;
+                    // A room is completed if it's in the local completed state OR if it already has an AI design from the server
+                    final allRoomsCompleted = unit.rooms.every((r) => 
+                        unitState.completedRoomIds.contains(r.id) || aiDesignedRoomIds.contains(r.id));
+                        
                     final allRoomsAiDesigned = unit.rooms.every((r) => aiDesignedRoomIds.contains(r.id));
 
                     if (!allRoomsCompleted) {
