@@ -25,12 +25,12 @@ class ContractPdfGenerator {
     final PdfColor primaryBlue = PdfColor.fromHex('#1B3358');
     final PdfColor primaryGreen = PdfColor.fromHex('#218A6A');
     final PdfColor lightGreen = PdfColor.fromHex('#AEE0CD');
-    final PdfColor textBlack = PdfColors.black;
+    const PdfColor textBlack = PdfColors.black;
     
     final String currentDate = "${DateTime.now().year}-${DateTime.now().month.toString().padLeft(2, '0')}-${DateTime.now().day.toString().padLeft(2, '0')} ${DateTime.now().hour.toString().padLeft(2, '0')}:${DateTime.now().minute.toString().padLeft(2, '0')}";
     final String signatureDate = contract.signedAt ?? currentDate;
 
-    String _normalizeText(String text) {
+    String normalizeText(String text) {
       const arabicNumbers = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
       const englishNumbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
       String normalized = text;
@@ -164,7 +164,7 @@ class ContractPdfGenerator {
                     border: pw.Border(right: pw.BorderSide(color: primaryBlue, width: 3)),
                   ),
                   child: pw.Text(
-                    _normalizeText(item.content ?? ''),
+                    normalizeText(item.content ?? ''),
                     style: pw.TextStyle(fontSize: 12, font: ttfBold, color: primaryBlue),
                   ),
                 ),
@@ -174,7 +174,7 @@ class ContractPdfGenerator {
                 pw.Padding(
                   padding: const pw.EdgeInsets.only(bottom: 12),
                   child: pw.Text(
-                    _normalizeText(item.content ?? ''),
+                    normalizeText(item.content ?? ''),
                     style: pw.TextStyle(font: ttf, fontSize: 10, lineSpacing: 2, color: textBlack),
                     textAlign: pw.TextAlign.right,
                   ),
@@ -188,7 +188,7 @@ class ContractPdfGenerator {
                     pw.Padding(
                       padding: const pw.EdgeInsets.only(bottom: 4, top: 4),
                       child: pw.Text(
-                        _normalizeText(listItem.content),
+                        normalizeText(listItem.content),
                         style: pw.TextStyle(font: ttf, fontSize: 10, color: textBlack),
                         textAlign: pw.TextAlign.right,
                       ),
@@ -212,7 +212,7 @@ class ContractPdfGenerator {
                           ),
                           pw.Expanded(
                             child: pw.Text(
-                              _normalizeText(listItem.content),
+                              normalizeText(listItem.content),
                               style: pw.TextStyle(font: ttf, fontSize: 10, color: textBlack),
                             ),
                           ),
@@ -244,7 +244,7 @@ class ContractPdfGenerator {
                     return pw.Padding(
                       padding: const pw.EdgeInsets.symmetric(vertical: 8, horizontal: 4),
                       child: pw.Text(
-                        _normalizeText(header),
+                        normalizeText(header),
                         style: pw.TextStyle(font: ttfBold, fontSize: 9, color: primaryBlue),
                         textAlign: pw.TextAlign.center,
                       ),
@@ -266,7 +266,7 @@ class ContractPdfGenerator {
                       return pw.Padding(
                         padding: const pw.EdgeInsets.symmetric(vertical: 8, horizontal: 4),
                         child: pw.Text(
-                          _normalizeText(cell),
+                          normalizeText(cell),
                           style: pw.TextStyle(font: ttfBold, fontSize: 9, color: textBlack),
                           textAlign: pw.TextAlign.center,
                         ),
@@ -281,12 +281,12 @@ class ContractPdfGenerator {
                   pw.Padding(
                     padding: const pw.EdgeInsets.only(bottom: 20),
                     child: pw.Table(
-                      border: pw.TableBorder(
-                        verticalInside: const pw.BorderSide(color: PdfColors.grey300, width: 0.5),
-                        top: const pw.BorderSide(color: PdfColors.grey300, width: 1),
-                        bottom: const pw.BorderSide(color: PdfColors.grey300, width: 1),
-                        left: const pw.BorderSide(color: PdfColors.grey300, width: 1),
-                        right: const pw.BorderSide(color: PdfColors.grey300, width: 1),
+                      border: const pw.TableBorder(
+                        verticalInside: pw.BorderSide(color: PdfColors.grey300, width: 0.5),
+                        top: pw.BorderSide(color: PdfColors.grey300, width: 1),
+                        bottom: pw.BorderSide(color: PdfColors.grey300, width: 1),
+                        left: pw.BorderSide(color: PdfColors.grey300, width: 1),
+                        right: pw.BorderSide(color: PdfColors.grey300, width: 1),
                       ),
                       children: tableRows,
                     ),

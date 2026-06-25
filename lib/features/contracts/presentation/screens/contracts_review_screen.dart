@@ -165,6 +165,7 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
                   AppRouter.contractSigning,
                   extra: {'type': ContractType.unit, 'unit': unit, 'contract': state.contract, 'finishingTotal': widget.totalFinishingCost},
                 );
+                if (!context.mounted) return;
                 if (result == true) {
                   context.read<ContractsCubit>().markContractAsSigned(unit!.id, 'unit');
                 }
@@ -173,6 +174,7 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
                   AppRouter.contractSigning,
                   extra: {'type': ContractType.finishing, 'unit': unit, 'contract': state.contract, 'finishingTotal': widget.totalFinishingCost},
                 );
+                if (!context.mounted) return;
                 if (result == true) {
                   context.read<ContractsCubit>().markContractAsSigned(unit!.id, 'finishing');
                 }

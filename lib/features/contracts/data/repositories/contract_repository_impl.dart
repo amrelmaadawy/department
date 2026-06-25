@@ -37,7 +37,7 @@ class ContractRepositoryImpl implements ContractRepository {
       final isSigned = await localDataSource.getSignatureStatus(unitId, contractType);
       return Right(isSigned);
     } catch (e) {
-      return Left(ServerFailure('Failed to read signature status'));
+      return const Left(ServerFailure('Failed to read signature status'));
     }
   }
 
@@ -47,7 +47,7 @@ class ContractRepositoryImpl implements ContractRepository {
       await localDataSource.saveSignatureStatus(unitId, contractType, status);
       return const Right(null);
     } catch (e) {
-      return Left(ServerFailure('Failed to save signature status'));
+      return const Left(ServerFailure('Failed to save signature status'));
     }
   }
 
