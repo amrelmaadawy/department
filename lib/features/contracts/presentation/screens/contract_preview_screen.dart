@@ -57,16 +57,16 @@ class ContractPreviewScreen extends StatelessWidget {
             centerTitle: true,
             actions: [
               IconButton(
-                icon: Icon(Icons.share_outlined, color: context.colors.primary, size: 22),
+                icon: Icon(Icons.print_outlined, color: context.colors.primary, size: 22),
                 onPressed: () async {
                   final bytes = await ContractPdfGenerator.generateContractBytes(
                     PdfPageFormat.a4,
                     signatureImage,
                     contract,
                   );
-                  await Printing.sharePdf(
-                    bytes: bytes,
-                    filename: 'Unit_Booking_Contract.pdf',
+                  await Printing.layoutPdf(
+                    onLayout: (PdfPageFormat format) async => bytes,
+                    name: 'Unit_Booking_Contract',
                   );
                 },
               ),
