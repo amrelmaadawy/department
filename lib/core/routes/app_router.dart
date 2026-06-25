@@ -41,6 +41,7 @@ class AppRouter {
   static const String support = '/support';
   static const String aiGallery = '/ai-gallery';
   static const String savedDesigns = '/saved-designs';
+  static const String finishingGuide = '/finishing-guide';
 
   static final router = GoRouter(
     initialLocation: initial,

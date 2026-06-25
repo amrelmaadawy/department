@@ -1421,4 +1421,41 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get signedSuccessfully => 'تم التوقيع بنجاح';
+
+  @override
+  String get guideTitle => 'رحلة التشطيب بالذكاء الاصطناعي';
+
+  @override
+  String get guideSubtitle => 'خطوات بسيطة لتحويل خيالك إلى واقع ملموس';
+
+  @override
+  String get guideStep1Title => 'اختر الخامات';
+
+  @override
+  String get guideStep1Desc =>
+      'تصفح الغرف واختر ألوان الدهانات، الأرضيات، وتفاصيل الديكور لتناسب ذوقك.';
+
+  @override
+  String get guideStep2Title => 'تصميم بالذكاء الاصطناعي';
+
+  @override
+  String get guideStep2Desc =>
+      'بمجرد اختيار الخامات، سيقوم نظامنا بتوليد تصميم واقعي للغرفة لتراه قبل التنفيذ.';
+
+  @override
+  String get guideStep3Title => 'حفظ ومقارنة';
+
+  @override
+  String get guideStep3Desc =>
+      'يمكنك حفظ التصاميم المفضلة لكل غرفة والمقارنة بينها لاختيار الأفضل.';
+
+  @override
+  String get guideStep4Title => 'العقد النهائي';
+
+  @override
+  String get guideStep4Desc =>
+      'بعد الانتهاء من جميع الغرف، سيتم حساب التكلفة النهائية وتجهيز العقد لتوقيعه.';
+
+  @override
+  String get guideStartBtn => 'ابدأ رحلة التشطيب الآن';
 }

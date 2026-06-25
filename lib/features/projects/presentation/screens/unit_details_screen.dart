@@ -130,7 +130,7 @@ class UnitDetailsScreen extends StatelessWidget {
                   text: l10n.startFinishingJourney,
                   onPressed: () {
                     context.push(
-                      AppRouter.unitCustomization,
+                      AppRouter.finishingGuide,
                       extra: {
                         'unit': unit,
                       },

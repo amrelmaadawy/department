@@ -2761,6 +2761,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Signed Successfully'**
   String get signedSuccessfully;
+
+  /// No description provided for @guideTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Finishing Journey'**
+  String get guideTitle;
+
+  /// No description provided for @guideSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Simple steps to turn your imagination into reality'**
+  String get guideSubtitle;
+
+  /// No description provided for @guideStep1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Materials'**
+  String get guideStep1Title;
+
+  /// No description provided for @guideStep1Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse rooms and select paint colors, flooring, and decor details to match your taste.'**
+  String get guideStep1Desc;
+
+  /// No description provided for @guideStep2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Design'**
+  String get guideStep2Title;
+
+  /// No description provided for @guideStep2Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Once materials are selected, our system generates a realistic room design to view before execution.'**
+  String get guideStep2Desc;
+
+  /// No description provided for @guideStep3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Save & Compare'**
+  String get guideStep3Title;
+
+  /// No description provided for @guideStep3Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Save your favorite designs for each room and compare them to choose the best.'**
+  String get guideStep3Desc;
+
+  /// No description provided for @guideStep4Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Final Contract'**
+  String get guideStep4Title;
+
+  /// No description provided for @guideStep4Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'After finishing all rooms, the final cost will be calculated and the contract prepared for signature.'**
+  String get guideStep4Desc;
+
+  /// No description provided for @guideStartBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Finishing Journey Now'**
+  String get guideStartBtn;
 }
 
 class _AppLocalizationsDelegate

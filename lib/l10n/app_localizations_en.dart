@@ -1431,4 +1431,42 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get signedSuccessfully => 'Signed Successfully';
+
+  @override
+  String get guideTitle => 'AI Finishing Journey';
+
+  @override
+  String get guideSubtitle =>
+      'Simple steps to turn your imagination into reality';
+
+  @override
+  String get guideStep1Title => 'Select Materials';
+
+  @override
+  String get guideStep1Desc =>
+      'Browse rooms and select paint colors, flooring, and decor details to match your taste.';
+
+  @override
+  String get guideStep2Title => 'AI Design';
+
+  @override
+  String get guideStep2Desc =>
+      'Once materials are selected, our system generates a realistic room design to view before execution.';
+
+  @override
+  String get guideStep3Title => 'Save & Compare';
+
+  @override
+  String get guideStep3Desc =>
+      'Save your favorite designs for each room and compare them to choose the best.';
+
+  @override
+  String get guideStep4Title => 'Final Contract';
+
+  @override
+  String get guideStep4Desc =>
+      'After finishing all rooms, the final cost will be calculated and the contract prepared for signature.';
+
+  @override
+  String get guideStartBtn => 'Start Finishing Journey Now';
 }

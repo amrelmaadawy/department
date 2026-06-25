@@ -7,6 +7,7 @@ import '../../../features/projects/presentation/screens/unit_details_screen.dart
 import '../../../features/projects/presentation/screens/unit_customization_screen.dart';
 
 import '../../../features/projects/presentation/screens/ai_renders_screen.dart';
+import '../../../features/projects/presentation/screens/finishing_journey_guide_screen.dart';
 import '../../../features/home/domain/entities/project_entity.dart';
 import '../../../features/home/domain/entities/project_unit_entity.dart';
 
@@ -92,6 +93,28 @@ class ProjectRoutes {
           orderId: orderId,
           projectFeatures: features,
           projectName: projectName,
+        );
+      },
+    ),
+    GoRoute(
+      path: AppRouter.finishingGuide,
+      redirect: (context, state) => state.extra == null ? AppRouter.layout : null,
+      pageBuilder: (context, state) {
+        final extra = state.extra as Map<String, dynamic>?;
+        if (extra == null) {
+          return CustomTransitionPage(
+            key: state.pageKey,
+            child: const RedirectFallback(route: AppRouter.layout),
+            transitionsBuilder: AppRouterTransitions.fadeTransition,
+          );
+        }
+        return CustomTransitionPage(
+          key: state.pageKey,
+          transitionDuration: const Duration(milliseconds: 400),
+          child: FinishingJourneyGuideScreen(
+            unit: extra['unit'] as ProjectUnitEntity,
+          ),
+          transitionsBuilder: AppRouterTransitions.slideUpFromBottom,
         );
       },
     ),
