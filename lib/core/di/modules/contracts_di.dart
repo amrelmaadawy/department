@@ -4,6 +4,7 @@ import '../../../features/contracts/data/datasources/contract_remote_datasource.
 import '../../../features/contracts/data/repositories/contract_repository_impl.dart';
 import '../../../features/contracts/domain/repositories/contract_repository.dart';
 import '../../../features/contracts/domain/usecases/create_bone_contract_usecase.dart';
+import '../../../features/contracts/domain/usecases/create_finishing_contract_usecase.dart';
 import '../../../features/contracts/domain/usecases/sign_contract_usecase.dart';
 import '../../../features/contracts/domain/usecases/get_apartment_finishing_orders_use_case.dart';
 import '../../../features/contracts/presentation/cubit/contracts_cubit.dart';
@@ -26,6 +27,9 @@ Future<void> initContractsModule() async {
     () => CreateBoneContractUseCase(sl()),
   );
   sl.registerLazySingleton(
+    () => CreateFinishingContractUseCase(sl()),
+  );
+  sl.registerLazySingleton(
     () => SignContractUseCase(sl()),
   );
   sl.registerLazySingleton(
@@ -36,6 +40,8 @@ Future<void> initContractsModule() async {
   sl.registerFactory(
     () => ContractsCubit(
       createBoneContractUseCase: sl(),
+      createFinishingContractUseCase: sl(),
+      getApartmentFinishingOrdersUseCase: sl(),
       signContractUseCase: sl(),
     ),
   );

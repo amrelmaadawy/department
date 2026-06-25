@@ -5,6 +5,7 @@ import '../models/apartment_finishing_order_model.dart';
 
 abstract class ContractRemoteDataSource {
   Future<ContractModel> createBoneContract(int apartmentId, int customerId);
+  Future<ContractModel> createFinishingContract(List<int> finishingOrderIds);
   Future<ContractModel> signContract(int contractId, String signatureBase64);
   Future<List<ApartmentFinishingOrderRoomModel>> getApartmentFinishingOrders(int apartmentId);
 }
@@ -30,6 +31,23 @@ class ContractRemoteDataSourceImpl implements ContractRemoteDataSource {
       throw Exception(response.data['message'] ?? 'Failed to create contract');
     }
   }
+
+  @override
+  Future<ContractModel> createFinishingContract(List<int> finishingOrderIds) async {
+    final response = await dio.post(
+      '${ApiEndpoints.baseUrl}/contracts/finishing',
+      data: {
+        'finishing_order_ids': finishingOrderIds,
+      },
+    );
+
+    if (response.data['success'] == true && response.data['data'] != null) {
+      return ContractModel.fromJson(response.data['data']);
+    } else {
+      throw Exception(response.data['message'] ?? 'Failed to create finishing contract');
+    }
+  }
+
   @override
   Future<ContractModel> signContract(int contractId, String signatureBase64) async {
     final response = await dio.post(
@@ -48,9 +66,11 @@ class ContractRemoteDataSourceImpl implements ContractRemoteDataSource {
 
   @override
   Future<List<ApartmentFinishingOrderRoomModel>> getApartmentFinishingOrders(int apartmentId) async {
-    final response = await dio.get(
-      '${ApiEndpoints.baseUrl}/apartments/$apartmentId/finishing-orders',
-    );
+    final url = '${ApiEndpoints.baseUrl}/apartments/$apartmentId/finishing-orders';
+    print('DEBUG: Fetching finishing orders from $url');
+    final response = await dio.get(url);
+    print('DEBUG: Response status: ${response.statusCode}');
+    print('DEBUG: Response data: ${response.data}');
 
     if (response.data['success'] == true && response.data['data'] != null) {
       final List<dynamic> data = response.data['data'];

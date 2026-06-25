@@ -141,51 +141,59 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
                 if (result == true) {
                   setState(() => _isUnitContractSigned = true);
                 }
+              } else if (state is FinishingContractCreated) {
+                final result = await context.push(
+                  AppRouter.contractSigning,
+                  extra: {'type': ContractType.finishing, 'unit': unit, 'contract': state.contract},
+                );
+                if (result == true) {
+                  setState(() => _isFinishingContractSigned = true);
+                }
               }
             },
             builder: (context, state) {
-              final isLoading = state is ContractsLoading;
+              final isBoneLoading = state is BoneContractLoading;
+              final isFinishingLoading = state is FinishingContractLoading;
               
-              return _buildContractCard(
-                context: context,
+              return Column(
+                children: [
+                  _buildContractCard(
+                    context: context,
                 title: l10n.propertySaleContract,
                 subtitle: unit != null
                     ? l10n.unitDetailsWithArea(unit.title, unit.area.toString())
                     : l10n.unitDetailsDefault,
                 isSigned: _isUnitContractSigned,
-                isLoading: isLoading,
-                onSign: () {
-                  if (unit != null) {
-                    final prefs = sl<SharedPreferences>();
-                    final customerIdStr = prefs.getString('user_id');
-                    final customerId = int.tryParse(customerIdStr ?? '1') ?? 1; // Fallback to 1 if not available
-                    context.read<ContractsCubit>().createBoneContract(
-                      apartmentId: int.tryParse(unit.id) ?? 0,
-                      customerId: customerId,
-                    );
-                  }
-                },
+                    isLoading: isBoneLoading,
+                    onSign: () {
+                      if (unit != null) {
+                        final prefs = sl<SharedPreferences>();
+                        final customerIdStr = prefs.getString('user_id');
+                        final customerId = int.tryParse(customerIdStr ?? '1') ?? 1;
+                        context.read<ContractsCubit>().createBoneContract(
+                          apartmentId: int.tryParse(unit.id) ?? 0,
+                          customerId: customerId,
+                        );
+                      }
+                    },
+                  ),
+                  const SizedBox(height: AppSpacing.md),
+                  _buildContractCard(
+                    context: context,
+                    title: l10n.finishingContract,
+                    subtitle: l10n.customFinishingComprehensive,
+                    isSigned: _isFinishingContractSigned,
+                    isLoading: isFinishingLoading,
+                    onSign: () {
+                      if (unit != null) {
+                        context.read<ContractsCubit>().createFinishingContract(
+                          apartmentId: int.tryParse(unit.id) ?? 0,
+                        );
+                      }
+                    },
+                  ),
+                ],
               );
-            },
-          ),
-          const SizedBox(height: AppSpacing.md),
-          _buildContractCard(
-            context: context,
-            title: l10n.finishingContract,
-            subtitle: l10n.customFinishingComprehensive,
-            isSigned: _isFinishingContractSigned,
-            onSign: () async {
-              final result = await context.push(
-                AppRouter.contractSigning,
-                extra: {
-                  'type': ContractType.finishing,
-                  'finishingTotal': widget.totalFinishingCost,
-                  'unit': unit,
-                },
-              );
-              if (result == true) {
-                setState(() => _isFinishingContractSigned = true);
-              }
             },
           ),
 

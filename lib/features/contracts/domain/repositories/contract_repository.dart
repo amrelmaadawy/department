@@ -5,6 +5,7 @@ import '../entities/apartment_finishing_order_entity.dart';
 
 abstract class ContractRepository {
   Future<Either<Failure, ContractEntity>> createBoneContract(int apartmentId, int customerId);
+  Future<Either<Failure, ContractEntity>> createFinishingContract(List<int> finishingOrderIds);
   Future<Either<Failure, ContractEntity>> signContract(int contractId, String signatureBase64);
   Future<Either<Failure, List<ApartmentFinishingOrderRoomEntity>>> getApartmentFinishingOrders(int apartmentId);
 }

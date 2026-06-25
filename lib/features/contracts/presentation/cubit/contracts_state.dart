@@ -10,12 +10,23 @@ abstract class ContractsState extends Equatable {
 
 class ContractsInitial extends ContractsState {}
 
-class ContractsLoading extends ContractsState {}
+class BoneContractLoading extends ContractsState {}
+
+class FinishingContractLoading extends ContractsState {}
 
 class BoneContractCreated extends ContractsState {
   final ContractEntity contract;
 
   const BoneContractCreated(this.contract);
+
+  @override
+  List<Object?> get props => [contract];
+}
+
+class FinishingContractCreated extends ContractsState {
+  final ContractEntity contract;
+
+  const FinishingContractCreated(this.contract);
 
   @override
   List<Object?> get props => [contract];
