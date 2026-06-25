@@ -128,20 +128,22 @@ class ApiClient {
             final List<String> errorMessages = [];
             for (var key in errors.keys) {
               if (errors[key] is List) {
-                errorMessages.addAll(List<String>.from(errors[key]));
+                for (var msg in List<String>.from(errors[key])) {
+                  errorMessages.add(_translateErrorMessage(msg));
+                }
               } else if (errors[key] is String) {
-                errorMessages.add(errors[key]);
+                errorMessages.add(_translateErrorMessage(errors[key] as String));
               }
             }
             if (errorMessages.isNotEmpty) {
               message = errorMessages.join('\n');
             } else if (responseData.containsKey('message')) {
-              message = responseData['message'] is String ? responseData['message'] : responseData['message'].toString();
+              message = _translateErrorMessage(responseData['message'] is String ? responseData['message'] : responseData['message'].toString());
             }
           } else if (responseData.containsKey('message')) {
-            message = responseData['message'] is String ? responseData['message'] : responseData['message'].toString();
+            message = _translateErrorMessage(responseData['message'] is String ? responseData['message'] : responseData['message'].toString());
           } else if (responseData.containsKey('error')) {
-            message = responseData['error'] is String ? responseData['error'] : responseData['error'].toString();
+            message = _translateErrorMessage(responseData['error'] is String ? responseData['error'] : responseData['error'].toString());
           }
         }
 
@@ -157,5 +159,23 @@ class ApiClient {
       default:
         return const NetworkException(message: 'Unknown network error occurred');
     }
+  }
+
+  String _translateErrorMessage(String msg) {
+    String lowerMsg = msg.toLowerCase();
+    
+    // Check for the specific backend error regarding missing materials in selection
+    if (lowerMsg.contains('selecation') || lowerMsg.contains('selection')) {
+      if (lowerMsg.contains('material_ids')) {
+        return 'يرجى التأكد من اختيار جميع الخامات المطلوبة للغرفة قبل المتابعة.';
+      }
+    }
+    
+    // Additional common fallbacks
+    if (lowerMsg.contains('material_ids')) {
+      return 'يرجى اختيار الخامات بشكل صحيح.';
+    }
+
+    return msg;
   }
 }
