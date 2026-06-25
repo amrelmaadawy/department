@@ -148,9 +148,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get clearComparison => 'مسح';
 
   @override
-  String get clearFilters => 'مسح الفلاتر';
-
-  @override
   String get clearSignature => 'مسح التوقيع';
 
   @override
@@ -1169,6 +1166,9 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get unitsWillBeAddedSoon =>
       'سيتم إضافة وحدات لهذا المشروع قريباً، يرجى العودة لاحقاً.';
+
+  @override
+  String get clearFilters => 'مسح الفلاتر';
 
   @override
   String get apartments => 'شقق';

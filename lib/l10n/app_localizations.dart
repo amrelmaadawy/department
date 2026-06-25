@@ -362,12 +362,6 @@ abstract class AppLocalizations {
   /// **'Clear'**
   String get clearComparison;
 
-  /// No description provided for @clearFilters.
-  ///
-  /// In en, this message translates to:
-  /// **'Clear Filters'**
-  String get clearFilters;
-
   /// No description provided for @clearSignature.
   ///
   /// In en, this message translates to:
@@ -2305,6 +2299,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Units will be added to this project soon. Please check back later.'**
   String get unitsWillBeAddedSoon;
+
+  /// No description provided for @clearFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear Filters'**
+  String get clearFilters;
 
   /// No description provided for @apartments.
   ///

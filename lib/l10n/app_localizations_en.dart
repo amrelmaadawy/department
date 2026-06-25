@@ -149,9 +149,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clearComparison => 'Clear';
 
   @override
-  String get clearFilters => 'Clear Filters';
-
-  @override
   String get clearSignature => 'Clear Signature';
 
   @override
@@ -1177,6 +1174,9 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get unitsWillBeAddedSoon =>
       'Units will be added to this project soon. Please check back later.';
+
+  @override
+  String get clearFilters => 'Clear Filters';
 
   @override
   String get apartments => 'Apartments';
