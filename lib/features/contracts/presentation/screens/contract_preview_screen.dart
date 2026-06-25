@@ -12,6 +12,8 @@ import 'package:apartment/core/theme/theme_extension.dart';
 import '../../../contracts/domain/entities/contract_entity.dart';
 
 
+import 'package:shimmer/shimmer.dart';
+
 class ContractPreviewScreen extends StatelessWidget {
   final Uint8List signatureImage;
   final ContractEntity contract;
@@ -98,6 +100,35 @@ class ContractPreviewScreen extends StatelessWidget {
                 pdfFileName: 'Unit_Booking_Contract.pdf',
                 scrollViewDecoration: BoxDecoration(
                   color: context.colors.background,
+                ),
+                loadingWidget: Center(
+                  child: Shimmer.fromColors(
+                    baseColor: Colors.grey[300]!,
+                    highlightColor: Colors.grey[100]!,
+                    child: Container(
+                      width: 250,
+                      height: 350,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(height: 30, width: double.infinity, color: Colors.white),
+                          const SizedBox(height: 20),
+                          Container(height: 15, width: 200, color: Colors.white),
+                          const SizedBox(height: 10),
+                          Container(height: 15, width: double.infinity, color: Colors.white),
+                          const SizedBox(height: 10),
+                          Container(height: 15, width: double.infinity, color: Colors.white),
+                          const SizedBox(height: 30),
+                          Expanded(child: Container(width: double.infinity, color: Colors.white)),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),

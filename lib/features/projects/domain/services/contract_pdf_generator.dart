@@ -30,6 +30,16 @@ class ContractPdfGenerator {
     final String currentDate = "${DateTime.now().year}-${DateTime.now().month.toString().padLeft(2, '0')}-${DateTime.now().day.toString().padLeft(2, '0')} ${DateTime.now().hour.toString().padLeft(2, '0')}:${DateTime.now().minute.toString().padLeft(2, '0')}";
     final String signatureDate = contract.signedAt ?? currentDate;
 
+    String _normalizeText(String text) {
+      const arabicNumbers = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+      const englishNumbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+      String normalized = text;
+      for (int i = 0; i < arabicNumbers.length; i++) {
+        normalized = normalized.replaceAll(arabicNumbers[i], englishNumbers[i]);
+      }
+      return normalized;
+    }
+
     pdf.addPage(
       pw.MultiPage(
         pageFormat: format,
@@ -154,7 +164,7 @@ class ContractPdfGenerator {
                     border: pw.Border(right: pw.BorderSide(color: primaryBlue, width: 3)),
                   ),
                   child: pw.Text(
-                    item.content ?? '',
+                    _normalizeText(item.content ?? ''),
                     style: pw.TextStyle(fontSize: 12, font: ttfBold, color: primaryBlue),
                   ),
                 ),
@@ -164,9 +174,9 @@ class ContractPdfGenerator {
                 pw.Padding(
                   padding: const pw.EdgeInsets.only(bottom: 12),
                   child: pw.Text(
-                    item.content ?? '',
+                    _normalizeText(item.content ?? ''),
                     style: pw.TextStyle(font: ttf, fontSize: 10, lineSpacing: 2, color: textBlack),
-                    textAlign: pw.TextAlign.justify,
+                    textAlign: pw.TextAlign.right,
                   ),
                 ),
               );
@@ -178,9 +188,9 @@ class ContractPdfGenerator {
                     pw.Padding(
                       padding: const pw.EdgeInsets.only(bottom: 4, top: 4),
                       child: pw.Text(
-                        listItem.content,
+                        _normalizeText(listItem.content),
                         style: pw.TextStyle(font: ttf, fontSize: 10, color: textBlack),
-                        textAlign: pw.TextAlign.justify,
+                        textAlign: pw.TextAlign.right,
                       ),
                     ),
                   );
@@ -202,7 +212,7 @@ class ContractPdfGenerator {
                           ),
                           pw.Expanded(
                             child: pw.Text(
-                              listItem.content,
+                              _normalizeText(listItem.content),
                               style: pw.TextStyle(font: ttf, fontSize: 10, color: textBlack),
                             ),
                           ),
@@ -234,7 +244,7 @@ class ContractPdfGenerator {
                     return pw.Padding(
                       padding: const pw.EdgeInsets.symmetric(vertical: 8, horizontal: 4),
                       child: pw.Text(
-                        header,
+                        _normalizeText(header),
                         style: pw.TextStyle(font: ttfBold, fontSize: 9, color: primaryBlue),
                         textAlign: pw.TextAlign.center,
                       ),
@@ -256,7 +266,7 @@ class ContractPdfGenerator {
                       return pw.Padding(
                         padding: const pw.EdgeInsets.symmetric(vertical: 8, horizontal: 4),
                         child: pw.Text(
-                          cell,
+                          _normalizeText(cell),
                           style: pw.TextStyle(font: ttfBold, fontSize: 9, color: textBlack),
                           textAlign: pw.TextAlign.center,
                         ),
@@ -300,9 +310,11 @@ class ContractPdfGenerator {
                         ),
                         // Footer simulated as a row underneath
                         pw.Container(
-                          color: PdfColors.grey100,
                           padding: const pw.EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-                          decoration: const pw.BoxDecoration(border: pw.Border(top: pw.BorderSide(color: PdfColors.grey300))),
+                          decoration: const pw.BoxDecoration(
+                            color: PdfColors.grey100,
+                            border: pw.Border(top: pw.BorderSide(color: PdfColors.grey300)),
+                          ),
                           child: pw.Row(
                             mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                             children: [

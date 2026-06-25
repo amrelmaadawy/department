@@ -7,6 +7,7 @@ import 'package:apartment/l10n/app_localizations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:apartment/features/contracts/domain/entities/apartment_finishing_order_entity.dart';
+import 'package:apartment/core/network/api_endpoints.dart';
 import 'package:shimmer/shimmer.dart';
 
 class OrderSelectionCard extends StatelessWidget {
@@ -27,10 +28,13 @@ class OrderSelectionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     
-    // We expect the backend to provide a full URL or a relative path that we need to prefix.
-    // Assuming backend returns a full URL or we use a base URL approach.
-    // For now we just use the url from the model.
-    final String? imageUrl = order.aiRenders.isNotEmpty ? order.aiRenders.first.url : null;
+    // We expect the backend to provide a relative path that we need to prefix with the storage url.
+    String? imageUrl = order.aiRenders.isNotEmpty ? order.aiRenders.first.url : null;
+    if (imageUrl != null && !imageUrl.startsWith('http')) {
+      // Import needed at top: import 'package:apartment/core/network/api_endpoints.dart';
+      // Wait, since I'm doing this in the build method, I just need to make sure I add the import.
+      imageUrl = '${ApiEndpoints.imageBaseUrl}$imageUrl';
+    }
     final String roomName = order.aiRenders.isNotEmpty ? order.aiRenders.first.roomName : fallbackRoomName;
 
     return GestureDetector(

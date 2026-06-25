@@ -16,6 +16,7 @@ import 'package:apartment/features/contracts/presentation/cubit/contracts_cubit.
 import 'package:apartment/features/contracts/presentation/cubit/contracts_state.dart';
 import 'package:apartment/features/contracts/domain/entities/apartment_finishing_order_entity.dart';
 import 'package:apartment/features/projects/presentation/widgets/summary/room_orders_section.dart';
+import 'package:apartment/features/projects/presentation/widgets/summary/finishing_summary_shimmer.dart';
 
 class FinishingSummaryScreen extends StatefulWidget {
   final ProjectUnitEntity unit;
@@ -117,10 +118,6 @@ class _FinishingSummaryScreenState extends State<FinishingSummaryScreen> {
           }
         },
         builder: (context, state) {
-          if (state is FinishingOrdersLoading) {
-            return Center(child: CircularProgressIndicator(color: context.colors.gold));
-          }
-          
           if (state is ContractsError && !_isOrdersLoaded) {
             return Center(
               child: Padding(
@@ -136,90 +133,14 @@ class _FinishingSummaryScreenState extends State<FinishingSummaryScreen> {
 
           return Column(
             children: [
-              Expanded(
-                child: ListView(
-                  padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
-                  children: [
-                    // Unit Info Card
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-                      child: Container(
-                        padding: const EdgeInsets.all(AppSpacing.lg),
-                        decoration: BoxDecoration(
-                          color: context.colors.white,
-                          borderRadius: BorderRadius.circular(AppRadius.xl),
-                          border: Border.all(color: context.colors.border.withValues(alpha: 0.5)),
-                        ),
-                        child: Row(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(AppSpacing.md),
-                              decoration: BoxDecoration(
-                                color: context.colors.primary.withValues(alpha: 0.1),
-                                shape: BoxShape.circle,
-                              ),
-                              child: Icon(FluentIcons.building_home_24_regular, color: context.colors.primary),
-                            ),
-                            const SizedBox(width: AppSpacing.md),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    widget.unit.title,
-                                    style: TextStyle(
-                                      fontSize: AppFonts.bodyLarge,
-                                      fontWeight: FontWeight.bold,
-                                      color: context.colors.textPrimary,
-                                    ),
-                                  ),
-                                  Text(
-                                    widget.unit.locationTypeLabel,
-                                    style: TextStyle(
-                                      fontSize: AppFonts.bodySmall,
-                                      color: context.colors.textSecondary,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Text(
-                              '${formatter.format(widget.unit.price).trim()} ${l10n.sar}',
-                              style: TextStyle(
-                                fontSize: AppFonts.bodyMedium,
-                                fontWeight: FontWeight.bold,
-                                color: context.colors.textPrimary,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: AppSpacing.xl),
-                    
-                    // Details Header
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-                      child: Text(
-                        'طلبات التشطيب الخاصة بك',
-                        style: TextStyle(
-                          fontSize: AppFonts.headlineSmall,
-                          fontWeight: FontWeight.bold,
-                          color: context.colors.textPrimary,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: AppSpacing.md),
-                    
-                    if (_isOrdersLoaded && _rooms.isNotEmpty) ...[
-                      // List of rooms and their orders
-                      ..._rooms.map((room) => RoomOrdersSection(
-                            room: room,
-                            selectedOrderId: _selectedOrders[room.roomName],
-                            onOrderSelected: (orderId) => _onOrderSelected(room.roomName, orderId),
-                          )),
-                    ] else ...[
-                      // Fallback Finishing Details if no orders fetched yet or none exist
+              if (state is FinishingOrdersLoading)
+                const Expanded(child: FinishingSummaryShimmer())
+              else
+                Expanded(
+                  child: ListView(
+                    padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
+                    children: [
+                      // Unit Info Card
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
                         child: Container(
@@ -227,38 +148,117 @@ class _FinishingSummaryScreenState extends State<FinishingSummaryScreen> {
                           decoration: BoxDecoration(
                             color: context.colors.white,
                             borderRadius: BorderRadius.circular(AppRadius.xl),
-                            border: Border.all(color: context.colors.gold.withValues(alpha: 0.3)),
+                            border: Border.all(color: context.colors.border.withValues(alpha: 0.5)),
                           ),
-                          child: Column(
+                          child: Row(
                             children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'إجمالي التكلفة الإضافية',
-                                    style: TextStyle(
-                                      fontSize: AppFonts.bodyLarge,
-                                      color: context.colors.textPrimary,
+                              Container(
+                                padding: const EdgeInsets.all(AppSpacing.md),
+                                decoration: BoxDecoration(
+                                  color: context.colors.primary.withValues(alpha: 0.1),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Icon(FluentIcons.building_home_24_regular, color: context.colors.primary),
+                              ),
+                              const SizedBox(width: AppSpacing.md),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      widget.unit.title,
+                                      style: TextStyle(
+                                        fontSize: AppFonts.bodyLarge,
+                                        fontWeight: FontWeight.bold,
+                                        color: context.colors.textPrimary,
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    '+${formatter.format(_dynamicTotalFinishingCost).trim()} ${l10n.sar}',
-                                    style: TextStyle(
-                                      fontSize: AppFonts.bodyLarge,
-                                      fontWeight: FontWeight.bold,
-                                      color: context.colors.success,
+                                    Text(
+                                      widget.unit.locationTypeLabel,
+                                      style: TextStyle(
+                                        fontSize: AppFonts.bodySmall,
+                                        color: context.colors.textSecondary,
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
+                              ),
+                              Text(
+                                '${formatter.format(widget.unit.price).trim()} ${l10n.sar}',
+                                style: TextStyle(
+                                  fontSize: AppFonts.bodyMedium,
+                                  fontWeight: FontWeight.bold,
+                                  color: context.colors.textPrimary,
+                                ),
                               ),
                             ],
                           ),
                         ),
                       ),
+                      const SizedBox(height: AppSpacing.xl),
+                      
+                      // Details Header
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                        child: Text(
+                          'طلبات التشطيب الخاصة بك',
+                          style: TextStyle(
+                            fontSize: AppFonts.headlineSmall,
+                            fontWeight: FontWeight.bold,
+                            color: context.colors.textPrimary,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: AppSpacing.md),
+                      
+                      if (_isOrdersLoaded && _rooms.isNotEmpty) ...[
+                        // List of rooms and their orders
+                        ..._rooms.map((room) => RoomOrdersSection(
+                              room: room,
+                              selectedOrderId: _selectedOrders[room.roomName],
+                              onOrderSelected: (orderId) => _onOrderSelected(room.roomName, orderId),
+                            )),
+                      ] else ...[
+                        // Fallback Finishing Details if no orders fetched yet or none exist
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                          child: Container(
+                            padding: const EdgeInsets.all(AppSpacing.lg),
+                            decoration: BoxDecoration(
+                              color: context.colors.white,
+                              borderRadius: BorderRadius.circular(AppRadius.xl),
+                              border: Border.all(color: context.colors.gold.withValues(alpha: 0.3)),
+                            ),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'إجمالي التكلفة الإضافية',
+                                      style: TextStyle(
+                                        fontSize: AppFonts.bodyLarge,
+                                        color: context.colors.textPrimary,
+                                      ),
+                                    ),
+                                    Text(
+                                      '+${formatter.format(_dynamicTotalFinishingCost).trim()} ${l10n.sar}',
+                                      style: TextStyle(
+                                        fontSize: AppFonts.bodyLarge,
+                                        fontWeight: FontWeight.bold,
+                                        color: context.colors.success,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
                     ],
-                  ],
+                  ),
                 ),
-              ),
               
               // Grand Total & Submit
               Container(

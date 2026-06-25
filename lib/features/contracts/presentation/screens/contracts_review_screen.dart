@@ -261,11 +261,7 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
             onPressed: (!_isUnitContractSigned || !_isFinishingContractSigned)
                 ? null
                 : () {
-                    // Proceed to checkout screen passing the total cost
-                    context.pushReplacement(
-                      AppRouter.checkout,
-                      extra: totalCost,
-                    );
+                    AppToast.showSuccess(context, 'هذه الخاصية ستتوفر قريباً');
                   },
           ),
           const SizedBox(height: AppSpacing.xxl),
