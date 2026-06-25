@@ -66,12 +66,12 @@ class ContractPdfGenerator {
               crossAxisAlignment: pw.CrossAxisAlignment.center,
               children: [
                 pw.Text(
-                  'عـقـد إيـجـار',
+                  contractTitleStr,
                   style: pw.TextStyle(font: ttfBold, fontSize: 18, color: primaryBlue),
                 ),
                 pw.SizedBox(height: 2),
                 pw.Text(
-                  'TENANCY CONTRACT',
+                  'OFFICIAL CONTRACT',
                   style: pw.TextStyle(font: ttfBold, fontSize: 10, color: PdfColor.fromHex('#4A4A4A')),
                 ),
                 pw.SizedBox(height: 8),
