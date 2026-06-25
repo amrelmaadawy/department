@@ -17,7 +17,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../cubit/contracts_cubit.dart';
 import '../cubit/contracts_state.dart';
 import '../../../../core/widgets/app_toast.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ContractsReviewScreen extends StatefulWidget {
   final double totalFinishingCost;
@@ -30,39 +29,12 @@ class ContractsReviewScreen extends StatefulWidget {
 }
 
 class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
-  bool _isUnitContractSigned = false;
-  bool _isFinishingContractSigned = false;
-
   @override
   void initState() {
     super.initState();
-    _loadSignatureStatus();
-  }
-
-  Future<void> _loadSignatureStatus() async {
-    final prefs = sl<SharedPreferences>();
     final unit = widget.unit ?? sl<DesignContextCubit>().state.selectedUnit;
     if (unit != null) {
-      setState(() {
-        _isUnitContractSigned = prefs.getBool('unit_contract_signed_${unit.id}') ?? false;
-        _isFinishingContractSigned = prefs.getBool('finishing_contract_signed_${unit.id}') ?? false;
-      });
-    }
-  }
-
-  Future<void> _saveUnitSignatureStatus(bool status) async {
-    final prefs = sl<SharedPreferences>();
-    final unit = widget.unit ?? sl<DesignContextCubit>().state.selectedUnit;
-    if (unit != null) {
-      await prefs.setBool('unit_contract_signed_${unit.id}', status);
-    }
-  }
-
-  Future<void> _saveFinishingSignatureStatus(bool status) async {
-    final prefs = sl<SharedPreferences>();
-    final unit = widget.unit ?? sl<DesignContextCubit>().state.selectedUnit;
-    if (unit != null) {
-      await prefs.setBool('finishing_contract_signed_${unit.id}', status);
+      context.read<ContractsCubit>().loadSignatureStatuses(unit.id);
     }
   }
 
@@ -194,8 +166,7 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
                   extra: {'type': ContractType.unit, 'unit': unit, 'contract': state.contract, 'finishingTotal': widget.totalFinishingCost},
                 );
                 if (result == true) {
-                  setState(() => _isUnitContractSigned = true);
-                  _saveUnitSignatureStatus(true);
+                  context.read<ContractsCubit>().markContractAsSigned(unit!.id, 'unit');
                 }
               } else if (state is FinishingContractCreated) {
                 final result = await context.push(
@@ -203,33 +174,30 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
                   extra: {'type': ContractType.finishing, 'unit': unit, 'contract': state.contract, 'finishingTotal': widget.totalFinishingCost},
                 );
                 if (result == true) {
-                  setState(() => _isFinishingContractSigned = true);
-                  _saveFinishingSignatureStatus(true);
+                  context.read<ContractsCubit>().markContractAsSigned(unit!.id, 'finishing');
                 }
               }
             },
             builder: (context, state) {
               final isBoneLoading = state is BoneContractLoading;
               final isFinishingLoading = state is FinishingContractLoading;
-              
+              final isUnitSigned = context.read<ContractsCubit>().isUnitContractSigned;
+              final isFinishingSigned = context.read<ContractsCubit>().isFinishingContractSigned;
+
               return Column(
                 children: [
                   _buildContractCard(
                     context: context,
-                title: l10n.propertySaleContract,
-                subtitle: unit != null
-                    ? l10n.unitDetailsWithArea(unit.title, unit.area.toString())
-                    : l10n.unitDetailsDefault,
-                isSigned: _isUnitContractSigned,
+                    title: l10n.propertySaleContract,
+                    subtitle: unit != null
+                        ? l10n.unitDetailsWithArea(unit.title, unit.area.toString())
+                        : l10n.unitDetailsDefault,
+                    isSigned: isUnitSigned,
                     isLoading: isBoneLoading,
                     onSign: () {
                       if (unit != null) {
-                        final prefs = sl<SharedPreferences>();
-                        final customerIdStr = prefs.getString('user_id');
-                        final customerId = int.tryParse(customerIdStr ?? '1') ?? 1;
                         context.read<ContractsCubit>().createBoneContract(
                           apartmentId: int.tryParse(unit.id) ?? 0,
-                          customerId: customerId,
                         );
                       }
                     },
@@ -239,7 +207,7 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
                     context: context,
                     title: l10n.finishingContract,
                     subtitle: l10n.customFinishingComprehensive,
-                    isSigned: _isFinishingContractSigned,
+                    isSigned: isFinishingSigned,
                     isLoading: isFinishingLoading,
                     onSign: () {
                       if (unit != null) {
@@ -256,13 +224,19 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
 
           const SizedBox(height: AppSpacing.xxxl),
 
-          CustomButton(
-            text: l10n.completeBookingAndPayment,
-            onPressed: (!_isUnitContractSigned || !_isFinishingContractSigned)
-                ? null
-                : () {
-                    AppToast.showSuccess(context, 'هذه الخاصية ستتوفر قريباً');
-                  },
+          BlocBuilder<ContractsCubit, ContractsState>(
+            builder: (context, state) {
+              final isUnitSigned = context.read<ContractsCubit>().isUnitContractSigned;
+              final isFinishingSigned = context.read<ContractsCubit>().isFinishingContractSigned;
+              return CustomButton(
+                text: l10n.completeBookingAndPayment,
+                onPressed: (!isUnitSigned || !isFinishingSigned)
+                    ? null
+                    : () {
+                        AppToast.showSuccess(context, 'هذه الخاصية ستتوفر قريباً');
+                      },
+              );
+            },
           ),
           const SizedBox(height: AppSpacing.xxl),
         ],

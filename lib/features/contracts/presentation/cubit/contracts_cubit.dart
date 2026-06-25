@@ -3,6 +3,8 @@ import '../../domain/usecases/create_bone_contract_usecase.dart';
 import '../../domain/usecases/create_finishing_contract_usecase.dart';
 import '../../domain/usecases/get_apartment_finishing_orders_use_case.dart';
 import '../../domain/usecases/sign_contract_usecase.dart';
+import '../../domain/usecases/get_contract_signature_status_usecase.dart';
+import '../../domain/usecases/mark_contract_as_signed_usecase.dart';
 import 'contracts_state.dart';
 
 class ContractsCubit extends Cubit<ContractsState> {
@@ -10,20 +12,43 @@ class ContractsCubit extends Cubit<ContractsState> {
   final CreateFinishingContractUseCase createFinishingContractUseCase;
   final GetApartmentFinishingOrdersUseCase getApartmentFinishingOrdersUseCase;
   final SignContractUseCase signContractUseCase;
+  final GetContractSignatureStatusUseCase getContractSignatureStatusUseCase;
+  final MarkContractAsSignedUseCase markContractAsSignedUseCase;
+
+  bool isUnitContractSigned = false;
+  bool isFinishingContractSigned = false;
 
   ContractsCubit({
     required this.createBoneContractUseCase,
     required this.createFinishingContractUseCase,
     required this.getApartmentFinishingOrdersUseCase,
     required this.signContractUseCase,
+    required this.getContractSignatureStatusUseCase,
+    required this.markContractAsSignedUseCase,
   }) : super(ContractsInitial());
 
-  Future<void> createBoneContract({required int apartmentId, required int customerId}) async {
+  Future<void> loadSignatureStatuses(String unitId) async {
+    final unitResult = await getContractSignatureStatusUseCase(unitId, 'unit');
+    final finishingResult = await getContractSignatureStatusUseCase(unitId, 'finishing');
+    
+    isUnitContractSigned = unitResult.fold((l) => false, (r) => r);
+    isFinishingContractSigned = finishingResult.fold((l) => false, (r) => r);
+    
+    emit(ContractSignatureStatusesLoaded(isUnitContractSigned, isFinishingContractSigned));
+  }
+
+  Future<void> markContractAsSigned(String unitId, String contractType) async {
+    await markContractAsSignedUseCase(unitId, contractType, true);
+    if (contractType == 'unit') isUnitContractSigned = true;
+    if (contractType == 'finishing') isFinishingContractSigned = true;
+    emit(ContractSignatureStatusesLoaded(isUnitContractSigned, isFinishingContractSigned));
+  }
+
+  Future<void> createBoneContract({required int apartmentId}) async {
     emit(BoneContractLoading());
 
     final result = await createBoneContractUseCase(
       apartmentId: apartmentId,
-      customerId: customerId,
     );
 
     result.fold(

@@ -6,22 +6,48 @@ import '../../domain/repositories/contract_repository.dart';
 import '../../domain/entities/apartment_finishing_order_entity.dart';
 import '../datasources/contract_remote_datasource.dart';
 
+import '../datasources/contract_local_datasource.dart';
+
 class ContractRepositoryImpl implements ContractRepository {
   final ContractRemoteDataSource remoteDataSource;
+  final ContractLocalDataSource localDataSource;
 
-  ContractRepositoryImpl({required this.remoteDataSource});
+  ContractRepositoryImpl({
+    required this.remoteDataSource,
+    required this.localDataSource,
+  });
 
   @override
-  Future<Either<Failure, ContractEntity>> createBoneContract(int apartmentId, int customerId) async {
+  Future<Either<Failure, ContractEntity>> createBoneContract(int apartmentId) async {
     try {
+      final customerId = await localDataSource.getCustomerId();
       final contract = await remoteDataSource.createBoneContract(apartmentId, customerId);
       return Right(contract);
     } on DioException catch (e) {
       return Left(ServerFailure(e.response?.data?['message']?.toString() ?? e.message ?? 'Network error'));
     } catch (e) {
-      // Extract clean message if it's a standard exception
       final msg = e.toString().replaceAll('Exception: ', '');
       return Left(ServerFailure(msg));
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> isContractSigned(String unitId, String contractType) async {
+    try {
+      final isSigned = await localDataSource.getSignatureStatus(unitId, contractType);
+      return Right(isSigned);
+    } catch (e) {
+      return Left(ServerFailure('Failed to read signature status'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> markContractAsSigned(String unitId, String contractType, bool status) async {
+    try {
+      await localDataSource.saveSignatureStatus(unitId, contractType, status);
+      return const Right(null);
+    } catch (e) {
+      return Left(ServerFailure('Failed to save signature status'));
     }
   }
 

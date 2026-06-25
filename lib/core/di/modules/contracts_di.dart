@@ -9,6 +9,10 @@ import '../../../features/contracts/domain/usecases/sign_contract_usecase.dart';
 import '../../../features/contracts/domain/usecases/get_apartment_finishing_orders_use_case.dart';
 import '../../../features/contracts/presentation/cubit/contracts_cubit.dart';
 
+import '../../../features/contracts/data/datasources/contract_local_datasource.dart';
+import '../../../features/contracts/domain/usecases/get_contract_signature_status_usecase.dart';
+import '../../../features/contracts/domain/usecases/mark_contract_as_signed_usecase.dart';
+
 final sl = GetIt.instance;
 
 Future<void> initContractsModule() async {
@@ -16,10 +20,16 @@ Future<void> initContractsModule() async {
   sl.registerLazySingleton<ContractRemoteDataSource>(
     () => ContractRemoteDataSourceImpl(dio: sl()),
   );
+  sl.registerLazySingleton<ContractLocalDataSource>(
+    () => ContractLocalDataSourceImpl(sharedPreferences: sl()),
+  );
 
   // Repositories
   sl.registerLazySingleton<ContractRepository>(
-    () => ContractRepositoryImpl(remoteDataSource: sl()),
+    () => ContractRepositoryImpl(
+      remoteDataSource: sl(),
+      localDataSource: sl(),
+    ),
   );
 
   // Use Cases
@@ -35,6 +45,12 @@ Future<void> initContractsModule() async {
   sl.registerLazySingleton(
     () => GetApartmentFinishingOrdersUseCase(sl()),
   );
+  sl.registerLazySingleton(
+    () => GetContractSignatureStatusUseCase(sl()),
+  );
+  sl.registerLazySingleton(
+    () => MarkContractAsSignedUseCase(sl()),
+  );
 
   // Cubits
   sl.registerFactory(
@@ -43,6 +59,8 @@ Future<void> initContractsModule() async {
       createFinishingContractUseCase: sl(),
       getApartmentFinishingOrdersUseCase: sl(),
       signContractUseCase: sl(),
+      getContractSignatureStatusUseCase: sl(),
+      markContractAsSignedUseCase: sl(),
     ),
   );
 }

@@ -8,7 +8,7 @@ class CreateBoneContractUseCase {
 
   CreateBoneContractUseCase(this.repository);
 
-  Future<Either<Failure, ContractEntity>> call({required int apartmentId, required int customerId}) async {
-    return await repository.createBoneContract(apartmentId, customerId);
+  Future<Either<Failure, ContractEntity>> call({required int apartmentId}) async {
+    return await repository.createBoneContract(apartmentId);
   }
 }

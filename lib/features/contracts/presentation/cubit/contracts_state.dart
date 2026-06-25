@@ -62,3 +62,13 @@ class ContractSignedSuccess extends ContractsState {
   @override
   List<Object?> get props => [contract];
 }
+
+class ContractSignatureStatusesLoaded extends ContractsState {
+  final bool isUnitSigned;
+  final bool isFinishingSigned;
+
+  const ContractSignatureStatusesLoaded(this.isUnitSigned, this.isFinishingSigned);
+
+  @override
+  List<Object?> get props => [isUnitSigned, isFinishingSigned];
+}
