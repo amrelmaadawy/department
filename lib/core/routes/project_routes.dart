@@ -85,7 +85,14 @@ class ProjectRoutes {
       builder: (context, state) {
         final orderIdStr = state.pathParameters['orderId'];
         final orderId = int.tryParse(orderIdStr ?? '0') ?? 0;
-        return AiRendersScreen(orderId: orderId);
+        final extra = state.extra as Map<String, dynamic>?;
+        final features = (extra?['features'] as List<dynamic>?)?.cast<String>() ?? [];
+        final projectName = extra?['projectName'] as String? ?? '';
+        return AiRendersScreen(
+          orderId: orderId,
+          projectFeatures: features,
+          projectName: projectName,
+        );
       },
     ),
   ];

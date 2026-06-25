@@ -49,6 +49,29 @@ class AiRoomDesignCubit extends Cubit<AiRoomDesignState> {
     }
   }
 
+  void reloadFromCache() {
+    final cachedData = cacheService.getRoomDesignProgress(state.roomId);
+    if (cachedData != null) {
+      final selectedMaterialIds = List<int>.from(cachedData['selectedMaterialIds'] ?? []);
+      final selectedMaterialsCost = (cachedData['selectedMaterialsCost'] ?? 0.0).toDouble();
+      final selectedStyle = cachedData['selectedStyle'] as String?;
+      final notes = cachedData['notes'] as String? ?? '';
+
+      // Only emit if there is a change to prevent unnecessary rebuilds
+      if (selectedMaterialsCost != state.selectedMaterialsCost || 
+          selectedMaterialIds.length != state.selectedMaterialIds.length ||
+          selectedStyle != state.selectedStyle ||
+          notes != state.notes) {
+        emit(state.copyWith(
+          selectedMaterialIds: selectedMaterialIds,
+          selectedMaterialsCost: selectedMaterialsCost,
+          selectedStyle: selectedStyle,
+          notes: notes,
+        ));
+      }
+    }
+  }
+
   Future<void> _loadPresetNotes() async {
     emit(state.copyWith(presetNotesStatus: PresetNotesStatus.loading));
     final result = await getPresetNotesUseCase();

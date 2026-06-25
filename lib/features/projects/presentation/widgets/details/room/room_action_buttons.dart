@@ -44,7 +44,13 @@ class RoomActionButtons extends StatelessWidget {
         if (state.status == AiDesignStatus.success) {
           AppToast.showSuccess(context, l10n.requestSentSuccessfully);
           if (state.resultOrder != null) {
-            context.push('/ai-renders/${state.resultOrder!.id}').then((_) {
+            context.push(
+              '/ai-renders/${state.resultOrder!.id}',
+              extra: {
+                'features': unit.extras,
+                'projectName': unit.title,
+              },
+            ).then((_) {
               if (context.mounted) {
                 context.read<UnitDetailsCubit>().refreshCustomerRenders();
               }

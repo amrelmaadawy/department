@@ -37,25 +37,46 @@ class RoomDetailsPage extends StatefulWidget {
 }
 
 class _RoomDetailsPageState extends State<RoomDetailsPage> with AutomaticKeepAliveClientMixin {
-  @override
-  bool get wantKeepAlive => true; 
+  AiRoomDesignCubit? _aiRoomDesignCubit;
 
   @override
+  void initState() {
+    super.initState();
+    widget.tabController.addListener(_handleTabSelection);
+  }
+
+  @override
+  void dispose() {
+    widget.tabController.removeListener(_handleTabSelection);
+    super.dispose();
+  }
+
+  void _handleTabSelection() {
+    // When this tab becomes active, reload from cache in case other tabs modified it (e.g. Apply to All)
+    if (widget.tabController.index == widget.unit.rooms.indexOf(widget.room)) {
+      _aiRoomDesignCubit?.reloadFromCache();
+    }
+  }
+
+  @override
+  bool get wantKeepAlive => true; 
   Widget build(BuildContext context) {
     super.build(context);
     
+    _aiRoomDesignCubit ??= sl<AiRoomDesignCubit>()
+      ..init(
+        apartmentId: int.parse(widget.unit.id),
+        roomId: widget.room.id,
+        roomArea: widget.room.area,
+      );
+      
     return MultiBlocProvider(
       providers: [
         BlocProvider(
           create: (context) => sl<RoomDetailsCubit>()..loadRoomDetails(widget.room),
         ),
-        BlocProvider(
-          create: (context) => sl<AiRoomDesignCubit>()
-            ..init(
-              apartmentId: int.parse(widget.unit.id),
-              roomId: widget.room.id,
-              roomArea: widget.room.area,
-            ),
+        BlocProvider.value(
+          value: _aiRoomDesignCubit!,
         ),
       ],
       child: BlocListener<AiRoomDesignCubit, AiRoomDesignState>(

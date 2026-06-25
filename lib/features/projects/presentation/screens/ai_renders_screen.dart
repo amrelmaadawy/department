@@ -18,8 +18,15 @@ import '../widgets/ai_renders/ai_renders_completed_view.dart';
 
 class AiRendersScreen extends StatelessWidget {
   final int orderId;
+  final List<String> projectFeatures;
+  final String projectName;
 
-  const AiRendersScreen({super.key, required this.orderId});
+  const AiRendersScreen({
+    super.key,
+    required this.orderId,
+    this.projectFeatures = const [],
+    this.projectName = '',
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +40,7 @@ class AiRendersScreen extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: context.colors.background,
           elevation: 0,
+          scrolledUnderElevation: 0,
           leading: IconButton(
             icon: Icon(
               Directionality.of(context) == TextDirection.rtl 
@@ -70,7 +78,11 @@ class AiRendersScreen extends StatelessWidget {
                 ),
               );
             } else if (state is AiRendersPending) {
-              return AiRendersPendingView(statusLabel: state.aiRenders.aiStatusLabel);
+              return AiRendersPendingView(
+                statusLabel: state.aiRenders.aiStatusLabel,
+                projectFeatures: projectFeatures,
+                projectName: projectName,
+              );
             } else if (state is AiRendersCompleted) {
               return MultiBlocProvider(
                 providers: [
@@ -113,3 +125,4 @@ class AiRendersScreen extends StatelessWidget {
     );
   }
 }
+

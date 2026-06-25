@@ -69,7 +69,14 @@ class RoomDesignBottomBar extends StatelessWidget {
         if (state.status == AiDesignStatus.success) {
           AppToast.showSuccess(context, l10n.requestSentSuccessfully);
           if (state.resultOrder != null) {
-            context.push('/ai-renders/${state.resultOrder!.id}').then((_) {
+            final unitState = context.read<UnitDetailsCubit>().state;
+            context.push(
+              '/ai-renders/${state.resultOrder!.id}',
+              extra: {
+                'features': unitState.unit?.extras ?? [],
+                'projectName': unitState.unit?.title ?? '',
+              },
+            ).then((_) {
               if (context.mounted) {
                 context.read<UnitDetailsCubit>().refreshCustomerRenders();
               }
