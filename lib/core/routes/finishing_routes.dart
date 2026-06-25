@@ -41,9 +41,12 @@ class FinishingRoutes {
         return CustomTransitionPage(
           key: state.pageKey,
           transitionDuration: const Duration(milliseconds: 600),
-          child: FinishingSummaryScreen(
-            totalFinishingCost: totalFinishingCost,
-            unit: unit,
+          child: BlocProvider(
+            create: (context) => sl<ContractsCubit>(),
+            child: FinishingSummaryScreen(
+              totalFinishingCost: totalFinishingCost,
+              unit: unit,
+            ),
           ),
           transitionsBuilder: AppRouterTransitions.slideFromRight,
         );
@@ -64,6 +67,7 @@ class FinishingRoutes {
         }
         final totalFinishingCost = extra['totalFinishingCost'] as double? ?? 0.0;
         final unit = extra['unit'];
+        final selectedFinishingOrderIds = extra['selectedFinishingOrderIds'] as List<int>? ?? [];
         return CustomTransitionPage(
           key: state.pageKey,
           transitionDuration: const Duration(milliseconds: 600),
@@ -72,6 +76,7 @@ class FinishingRoutes {
             child: ContractsReviewScreen(
               totalFinishingCost: totalFinishingCost,
               unit: unit,
+              selectedFinishingOrderIds: selectedFinishingOrderIds,
             ),
           ),
           transitionsBuilder: AppRouterTransitions.slideFromRight,

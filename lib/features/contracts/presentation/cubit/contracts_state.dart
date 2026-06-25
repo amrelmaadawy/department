@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import '../../domain/entities/apartment_finishing_order_entity.dart';
 import '../../domain/entities/contract_entity.dart';
 
 abstract class ContractsState extends Equatable {
@@ -10,6 +11,16 @@ abstract class ContractsState extends Equatable {
 
 class ContractsInitial extends ContractsState {}
 
+class FinishingOrdersLoading extends ContractsState {}
+
+class FinishingOrdersLoaded extends ContractsState {
+  final List<ApartmentFinishingOrderRoomEntity> rooms;
+
+  const FinishingOrdersLoaded(this.rooms);
+
+  @override
+  List<Object?> get props => [rooms];
+}
 class BoneContractLoading extends ContractsState {}
 
 class FinishingContractLoading extends ContractsState {}

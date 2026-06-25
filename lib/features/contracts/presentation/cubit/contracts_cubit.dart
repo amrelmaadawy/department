@@ -32,35 +32,29 @@ class ContractsCubit extends Cubit<ContractsState> {
     );
   }
 
-  Future<void> createFinishingContract({required int apartmentId}) async {
-    emit(FinishingContractLoading());
+  Future<void> fetchFinishingOrders(int apartmentId) async {
+    emit(FinishingOrdersLoading());
 
-    // 1. Get finishing orders for the apartment
     final ordersResult = await getApartmentFinishingOrdersUseCase(apartmentId);
     
     ordersResult.fold(
       (failure) => emit(ContractsError(failure.message)),
-      (rooms) async {
-         // Extract order IDs
-         final List<int> orderIds = [];
-         for (var room in rooms) {
-           for (var order in room.orders) {
-             orderIds.add(order.id);
-           }
-         }
+      (rooms) => emit(FinishingOrdersLoaded(rooms)),
+    );
+  }
 
-         if (orderIds.isEmpty) {
-           emit(const ContractsError('لا توجد طلبات تشطيب لهذه الشقة'));
-           return;
-         }
+  Future<void> createFinishingContract({required List<int> orderIds}) async {
+    emit(FinishingContractLoading());
 
-         // 2. Create finishing contract
-         final result = await createFinishingContractUseCase(orderIds);
-         result.fold(
-           (failure) => emit(ContractsError(failure.message)),
-           (contract) => emit(FinishingContractCreated(contract)),
-         );
-      }
+    if (orderIds.isEmpty) {
+      emit(const ContractsError('لا توجد طلبات تشطيب محددة لهذه الشقة'));
+      return;
+    }
+
+    final result = await createFinishingContractUseCase(orderIds);
+    result.fold(
+      (failure) => emit(ContractsError(failure.message)),
+      (contract) => emit(FinishingContractCreated(contract)),
     );
   }
 

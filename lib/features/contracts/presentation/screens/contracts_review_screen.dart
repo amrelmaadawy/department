@@ -22,7 +22,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ContractsReviewScreen extends StatefulWidget {
   final double totalFinishingCost;
   final ProjectUnitEntity? unit;
-  const ContractsReviewScreen({super.key, required this.totalFinishingCost, this.unit});
+  final List<int> selectedFinishingOrderIds;
+  const ContractsReviewScreen({super.key, required this.totalFinishingCost, this.unit, this.selectedFinishingOrderIds = const []});
 
   @override
   State<ContractsReviewScreen> createState() => _ContractsReviewScreenState();
@@ -100,20 +101,41 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
           Container(
             padding: const EdgeInsets.all(AppSpacing.xl),
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [context.colors.primary, const Color(0xFF1A1A1A)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
+              color: context.colors.white,
               borderRadius: BorderRadius.circular(AppRadius.xl),
+              border: Border.all(
+                color: context.colors.gold.withValues(alpha: 0.3),
+                width: 1.5,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: context.colors.gold.withValues(alpha: 0.08),
+                  blurRadius: 24,
+                  offset: const Offset(0, 8),
+                ),
+              ],
             ),
             child: Column(
               children: [
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: context.colors.gold.withValues(alpha: 0.1),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    FluentIcons.receipt_money_24_filled,
+                    color: context.colors.gold,
+                    size: 32,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.md),
                 Text(
                   l10n.finalTotalCost,
                   style: TextStyle(
-                    fontSize: AppFonts.bodyMedium,
-                    color: context.colors.textSecondary,
+                    fontSize: AppFonts.headlineSmall,
+                    fontWeight: FontWeight.bold,
+                    color: context.colors.textPrimary,
                   ),
                 ),
                 const SizedBox(height: AppSpacing.sm),
@@ -132,7 +154,7 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
                       style: TextStyle(
                         fontSize: AppFonts.displayLarge,
                         fontWeight: FontWeight.w900,
-                        color: context.colors.gold,
+                        color: context.colors.primary,
                       ),
                     ),
                     const SizedBox(width: 8),
@@ -222,7 +244,7 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
                     onSign: () {
                       if (unit != null) {
                         context.read<ContractsCubit>().createFinishingContract(
-                          apartmentId: int.tryParse(unit.id) ?? 0,
+                          orderIds: widget.selectedFinishingOrderIds,
                         );
                       }
                     },
