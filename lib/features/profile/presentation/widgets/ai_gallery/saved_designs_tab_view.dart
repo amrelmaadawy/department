@@ -1,32 +1,30 @@
+import 'package:apartment/core/theme/app_fonts.dart';
+import 'package:apartment/core/theme/app_radius.dart';
+import 'package:apartment/core/theme/app_spacing.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
+import 'package:apartment/core/widgets/app_toast.dart';
+import 'package:apartment/core/widgets/error_state_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:shimmer/shimmer.dart';
-import '../../../../core/theme/app_fonts.dart';
-import '../../../../core/theme/app_spacing.dart';
-import '../../../../core/theme/theme_extension.dart';
-import '../../../../core/widgets/app_toast.dart';
-import '../../../../core/theme/app_radius.dart';
-import '../../../../core/widgets/error_state_view.dart';
-import '../../../../core/di/injection_container.dart';
-import '../../../../../l10n/app_localizations.dart';
+import 'package:apartment/l10n/app_localizations.dart';
 
-import '../cubit/profile_cubit.dart';
-import '../cubit/profile_state.dart';
-import '../cubit/saved_designs_filter_cubit.dart';
-import '../cubit/saved_designs_filter_state.dart';
-import '../widgets/saved_design_card.dart';
-import '../widgets/saved_designs_filter_sheet.dart';
+import '../../cubit/profile_cubit.dart';
+import '../../cubit/profile_state.dart';
+import '../../cubit/saved_designs_filter_cubit.dart';
+import '../../cubit/saved_designs_filter_state.dart';
+import '../saved_design_card.dart';
+import '../saved_designs_filter_sheet.dart';
 
-class SavedDesignsScreen extends StatefulWidget {
-  const SavedDesignsScreen({super.key});
+class SavedDesignsTabView extends StatefulWidget {
+  const SavedDesignsTabView({super.key});
 
   @override
-  State<SavedDesignsScreen> createState() => _SavedDesignsScreenState();
+  State<SavedDesignsTabView> createState() => _SavedDesignsTabViewState();
 }
 
-class _SavedDesignsScreenState extends State<SavedDesignsScreen> {
+class _SavedDesignsTabViewState extends State<SavedDesignsTabView> {
   final _searchController = TextEditingController();
   late final SavedDesignsFilterCubit _filterCubit;
 
@@ -34,6 +32,10 @@ class _SavedDesignsScreenState extends State<SavedDesignsScreen> {
   void initState() {
     super.initState();
     _filterCubit = SavedDesignsFilterCubit();
+    final profileState = context.read<ProfileCubit>().state;
+    if (profileState is ProfileLoaded) {
+      _filterCubit.init(profileState.profile.savedDesigns);
+    }
   }
 
   @override
@@ -46,92 +48,69 @@ class _SavedDesignsScreenState extends State<SavedDesignsScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (_) => sl<ProfileCubit>()..loadProfileIfNeeded()),
-        BlocProvider.value(value: _filterCubit),
-      ],
-      child: Scaffold(
-        backgroundColor: context.colors.background,
-        appBar: AppBar(
-          title: Text(
-            'المفضلة',
-            style: TextStyle(
-              fontSize: AppFonts.headlineSmall,
-              fontWeight: FontWeight.bold,
-              color: context.colors.textPrimary,
-            ),
-          ),
-          centerTitle: true,
-          backgroundColor: context.colors.background,
-          elevation: 0,
-          leading: IconButton(
-            icon: Icon(FluentIcons.ios_arrow_rtl_24_regular, color: context.colors.textPrimary),
-            onPressed: () => context.pop(),
-          ),
-        ),
-        body: BlocConsumer<ProfileCubit, ProfileState>(
-          listener: (context, state) {
-            if (state is ProfileError) {
-              AppToast.show(context, message: state.message, isError: true);
-            } else if (state is ProfileLoaded) {
-              _filterCubit.init(state.profile.savedDesigns);
-            }
-          },
-          builder: (context, profileState) {
-            if (profileState is ProfileLoading || profileState is ProfileInitial) {
-              return _buildLoadingState(context);
+    return BlocProvider.value(
+      value: _filterCubit,
+      child: BlocConsumer<ProfileCubit, ProfileState>(
+        listener: (context, state) {
+          if (state is ProfileError) {
+            AppToast.show(context, message: state.message, isError: true);
+          } else if (state is ProfileLoaded) {
+            _filterCubit.init(state.profile.savedDesigns);
+          }
+        },
+        builder: (context, profileState) {
+          if (profileState is ProfileLoading || profileState is ProfileInitial) {
+            return _buildLoadingState(context);
+          }
+          
+          if (profileState is ProfileError) {
+            return ErrorStateView(
+              message: profileState.message,
+              onRetry: () => context.read<ProfileCubit>().getProfile(),
+            );
+          }
+          
+          if (profileState is ProfileLoaded) {
+            if (profileState.profile.savedDesigns.isEmpty) {
+              return _buildEmptyState(context);
             }
             
-            if (profileState is ProfileError) {
-              return ErrorStateView(
-                message: profileState.message,
-                onRetry: () => context.read<ProfileCubit>().getProfile(),
-              );
-            }
-            
-            if (profileState is ProfileLoaded) {
-              if (profileState.profile.savedDesigns.isEmpty) {
-                return _buildEmptyState(context);
-              }
-              
-              return Column(
-                children: [
-                  _buildSearchBar(context, l10n),
-                  Expanded(
-                    child: BlocBuilder<SavedDesignsFilterCubit, SavedDesignsFilterState>(
-                      builder: (context, filterState) {
-                        if (filterState.filteredDesigns.isEmpty) {
-                          return Center(
-                            child: Text(
-                              l10n.noDesignsFound,
-                              style: TextStyle(
-                                fontSize: AppFonts.bodyLarge,
-                                color: context.colors.textSecondary,
-                              ),
+            return Column(
+              children: [
+                _buildSearchBar(context, l10n),
+                Expanded(
+                  child: BlocBuilder<SavedDesignsFilterCubit, SavedDesignsFilterState>(
+                    builder: (context, filterState) {
+                      if (filterState.filteredDesigns.isEmpty) {
+                        return Center(
+                          child: Text(
+                            l10n.noDesignsFound,
+                            style: TextStyle(
+                              fontSize: AppFonts.bodyLarge,
+                              color: context.colors.textSecondary,
                             ),
-                          );
-                        }
-                        return ListView.separated(
-                          padding: const EdgeInsets.all(AppSpacing.xl),
-                          physics: const BouncingScrollPhysics(),
-                          itemCount: filterState.filteredDesigns.length,
-                          separatorBuilder: (_, _) => const SizedBox(height: AppSpacing.md),
-                          itemBuilder: (context, index) {
-                            return SavedDesignCard(
-                              design: filterState.filteredDesigns[index],
-                            );
-                          },
+                          ),
                         );
-                      },
-                    ),
+                      }
+                      return ListView.separated(
+                        padding: const EdgeInsets.all(AppSpacing.xl),
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: filterState.filteredDesigns.length,
+                        separatorBuilder: (_, _) => const SizedBox(height: AppSpacing.md),
+                        itemBuilder: (context, index) {
+                          return SavedDesignCard(
+                            design: filterState.filteredDesigns[index],
+                          );
+                        },
+                      );
+                    },
                   ),
-                ],
-              );
-            }
-            return const SizedBox.shrink();
-          },
-        ),
+                ),
+              ],
+            );
+          }
+          return const SizedBox.shrink();
+        },
       ),
     );
   }

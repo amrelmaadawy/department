@@ -1,6 +1,8 @@
 import 'package:apartment/features/home/presentation/screens/home_screen.dart';
 import 'package:apartment/features/projects/presentation/screens/projects_screen.dart';
 import 'package:apartment/features/profile/presentation/screens/profile_screen.dart';
+import 'package:apartment/features/profile/presentation/screens/ai_gallery_screen.dart';
+import 'package:apartment/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:apartment/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:apartment/features/layout/presentation/widgets/custom_bottom_nav_bar.dart';
 import 'package:apartment/l10n/app_localizations.dart';
@@ -44,7 +46,11 @@ class LayoutView extends StatelessWidget {
         icon: FluentIcons.building_24_regular, // Fluent UI Building icon
         activeIcon: FluentIcons.building_24_filled,
       ),
-
+      NavBarItem(
+        label: l10n.navDesignStudio,
+        icon: FluentIcons.sparkle_24_regular,
+        activeIcon: FluentIcons.sparkle_24_filled,
+      ),
       NavBarItem(
         label: l10n.navAccount,
         icon: FluentIcons.person_24_regular,
@@ -56,7 +62,10 @@ class LayoutView extends StatelessWidget {
     final List<Widget> screens = [
       const HomeScreen(),
       const ProjectsScreen(),
-
+      BlocProvider(
+        create: (_) => sl<ProfileCubit>()..getProfile(),
+        child: const AiGalleryScreen(),
+      ),
       BlocProvider(
         create: (_) => sl<AuthCubit>(),
         child: const ProfileScreen(),

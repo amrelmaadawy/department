@@ -521,7 +521,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get myDesigns => 'تصاميمي';
 
   @override
-  String get mySavedDesigns => 'تصميماتي المحفوظة';
+  String get mySavedDesigns => 'المفضلة';
 
   @override
   String get myUnits => 'وحداتي';
@@ -531,6 +531,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get navDesign => 'صمم شقتك';
+
+  @override
+  String get navDesignStudio => 'التصميمات';
 
   @override
   String get navHome => 'الرئيسية';

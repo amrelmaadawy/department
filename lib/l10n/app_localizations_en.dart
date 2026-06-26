@@ -524,7 +524,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get myDesigns => 'My Designs';
 
   @override
-  String get mySavedDesigns => 'My Saved Designs';
+  String get mySavedDesigns => 'Favorites';
 
   @override
   String get myUnits => 'My Units';
@@ -534,6 +534,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get navDesign => 'Design';
+
+  @override
+  String get navDesignStudio => 'Studio';
 
   @override
   String get navHome => 'Home';

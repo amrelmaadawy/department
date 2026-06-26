@@ -1073,7 +1073,7 @@ abstract class AppLocalizations {
   /// No description provided for @mySavedDesigns.
   ///
   /// In en, this message translates to:
-  /// **'My Saved Designs'**
+  /// **'Favorites'**
   String get mySavedDesigns;
 
   /// No description provided for @myUnits.
@@ -1093,6 +1093,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Design'**
   String get navDesign;
+
+  /// No description provided for @navDesignStudio.
+  ///
+  /// In en, this message translates to:
+  /// **'Studio'**
+  String get navDesignStudio;
 
   /// No description provided for @navHome.
   ///

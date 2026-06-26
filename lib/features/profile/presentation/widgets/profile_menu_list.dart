@@ -74,23 +74,7 @@ class ProfileMenuList extends StatelessWidget {
 
               const SizedBox(height: AppSpacing.xl),
 
-              // Section: Design Studio
-              _buildSectionTitle(context, 'استوديو التصميمات'),
-              _buildMenuGroup(context, [
-                ProfileMenuItem(
-                  icon: FluentIcons.sparkle_24_regular,
-                  title: 'معرض الذكاء الاصطناعي',
-                  onTap: () => context.push('/ai-gallery'),
-                ),
-                ProfileMenuItem(
-                  icon: FluentIcons.heart_24_regular,
-                  title: 'المفضلة',
-                  showDivider: false,
-                  onTap: () => context.push('/saved-designs'),
-                ),
-              ]),
 
-              const SizedBox(height: AppSpacing.xl),
 
               /*
               // Section: App Settings
