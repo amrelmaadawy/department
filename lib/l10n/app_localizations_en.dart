@@ -1421,6 +1421,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get contractSummary => 'Contract Summary';
 
   @override
+  String get printContract => 'Print Contract';
+
+  @override
+  String get contractNumber => 'Contract No.';
+
+  @override
+  String get contractTypeLabel => 'Contract Type';
+
+  @override
+  String get contractStatus => 'Status';
+
+  @override
+  String get contractDate => 'Contract Date';
+
+  @override
   String get confirmAndAgree => 'Confirm & Agree';
 
   @override

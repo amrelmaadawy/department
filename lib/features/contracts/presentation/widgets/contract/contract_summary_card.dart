@@ -41,8 +41,8 @@ class ContractSummaryCard extends StatelessWidget {
         ? (unit?.price ?? 0.0) 
         : (finishingTotal ?? 0.0);
     return Container(
-      margin: const EdgeInsets.all(AppSpacing.md),
-      padding: const EdgeInsets.all(AppSpacing.lg),
+      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
+      padding: const EdgeInsets.all(AppSpacing.md),
       decoration: BoxDecoration(
         color: context.colors.white,
         borderRadius: BorderRadius.circular(AppRadius.lg),
@@ -71,9 +71,9 @@ class ContractSummaryCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: AppSpacing.md),
+          const SizedBox(height: AppSpacing.sm),
           Divider(color: context.colors.background),
-          const SizedBox(height: AppSpacing.md),
+          const SizedBox(height: AppSpacing.sm),
           
           if (unit != null) ...[
             _buildInfoRow(context, l10n.project, 'Riyadh Project', FluentIcons.location_24_regular),
@@ -92,9 +92,9 @@ class ContractSummaryCard extends StatelessWidget {
             _buildInfoRow(context, l10n.finishingType, l10n.fullCustomFinishing, FluentIcons.color_24_regular),
           ],
           
-          const SizedBox(height: AppSpacing.md),
+          const SizedBox(height: AppSpacing.sm),
           Container(
-            padding: const EdgeInsets.all(AppSpacing.md),
+            padding: const EdgeInsets.all(AppSpacing.sm),
             decoration: BoxDecoration(
               color: context.colors.background,
               borderRadius: BorderRadius.circular(AppRadius.md),

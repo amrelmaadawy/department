@@ -2738,6 +2738,36 @@ abstract class AppLocalizations {
   /// **'Contract Summary'**
   String get contractSummary;
 
+  /// No description provided for @printContract.
+  ///
+  /// In en, this message translates to:
+  /// **'Print Contract'**
+  String get printContract;
+
+  /// No description provided for @contractNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Contract No.'**
+  String get contractNumber;
+
+  /// No description provided for @contractTypeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Contract Type'**
+  String get contractTypeLabel;
+
+  /// No description provided for @contractStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get contractStatus;
+
+  /// No description provided for @contractDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Contract Date'**
+  String get contractDate;
+
   /// No description provided for @confirmAndAgree.
   ///
   /// In en, this message translates to:

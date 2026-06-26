@@ -24,8 +24,8 @@ class ContractSignatureCard extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-      padding: const EdgeInsets.all(AppSpacing.lg),
+      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
+      padding: const EdgeInsets.all(AppSpacing.md),
       decoration: BoxDecoration(
         color: context.colors.white,
         borderRadius: BorderRadius.circular(AppRadius.lg),
@@ -67,9 +67,9 @@ class ContractSignatureCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: AppSpacing.md),
+          const SizedBox(height: AppSpacing.sm),
           Divider(color: context.colors.background),
-          const SizedBox(height: AppSpacing.md),
+          const SizedBox(height: AppSpacing.sm),
           
           Container(
             decoration: BoxDecoration(

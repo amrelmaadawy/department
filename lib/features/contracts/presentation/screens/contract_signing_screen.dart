@@ -1,4 +1,7 @@
+import 'dart:typed_data';
+
 import 'package:apartment/core/theme/app_spacing.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:apartment/l10n/app_localizations.dart';
@@ -40,6 +43,7 @@ class ContractSigningScreen extends StatefulWidget {
 class _ContractSigningScreenState extends State<ContractSigningScreen> {
   bool _isAgreed = false;
   late SignatureController _signatureController;
+  Uint8List? _capturedSignatureBytes;
 
   @override
   void initState() {
@@ -47,7 +51,7 @@ class _ContractSigningScreenState extends State<ContractSigningScreen> {
     _signatureController = SignatureController(
       penStrokeWidth: 3,
       penColor: Colors.black,
-      exportBackgroundColor: Colors.transparent,
+      exportBackgroundColor: Colors.white,
     );
   }
 
@@ -102,30 +106,28 @@ class _ContractSigningScreenState extends State<ContractSigningScreen> {
               isAgreed: _isAgreed,
               onChanged: _toggleAgreement,
             ),
-            const SizedBox(height: AppSpacing.md),
+            const SizedBox(height: AppSpacing.sm),
             ContractSignatureCard(controller: _signatureController),
-            const SizedBox(height: 24),
+            const SizedBox(height: AppSpacing.md),
           ],
         ),
       ),
       bottomNavigationBar: BlocConsumer<ContractsCubit, ContractsState>(
-        listener: (context, state) async {
+        listener: (context, state) {
           if (state is ContractSignedSuccess) {
-            // Get the signature image bytes
-            final signatureImage = await _signatureController.toPngBytes();
-            if (signatureImage != null && context.mounted) {
-              // Navigate to Preview Screen to show the local PDF
-              final result = await context.push(
-                AppRouter.contractPreview, 
+            // Use the already-captured bytes — captured BEFORE the API call
+            // to avoid any race condition with controller disposal.
+            final signatureBytes = _capturedSignatureBytes;
+            if (signatureBytes != null && signatureBytes.isNotEmpty && context.mounted) {
+              context.pushReplacement(
+                AppRouter.contractReview,
                 extra: {
-                  'signatureImage': signatureImage, 
                   'contract': state.contract,
-                }
+                  'signatureImage': signatureBytes,
+                },
               );
-              if (result == true && context.mounted) {
-                // If user confirmed in preview screen, pop back to review screen or go to success
-                context.pop(true);
-              }
+            } else if (context.mounted) {
+              context.pop(true);
             }
           } else if (state is ContractsError) {
             AppToast.showError(context, state.message);
@@ -143,7 +145,9 @@ class _ContractSigningScreenState extends State<ContractSigningScreen> {
                 price: widget.contractType == ContractType.unit ? (widget.unit?.price ?? 0.0) : (widget.finishingTotal ?? 0.0),
                 unit: widget.unit,
                 isLoading: isLoading,
-                onSign: (base64Signature) async {
+                onSign: (base64Signature, capturedBytes) async {
+                  // Store the captured bytes immediately before API call
+                  _capturedSignatureBytes = capturedBytes;
                   if (widget.contract != null) {
                     context.read<ContractsCubit>().signContract(
                       contractId: widget.contract!.id,

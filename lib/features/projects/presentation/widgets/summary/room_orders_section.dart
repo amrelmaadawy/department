@@ -26,7 +26,7 @@ class RoomOrdersSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
           child: Row(
             children: [
               Icon(FluentIcons.conference_room_24_regular, color: context.colors.primary, size: 20),
@@ -63,7 +63,7 @@ class RoomOrdersSection extends StatelessWidget {
           height: 180, // Fixed height for the horizontal list
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
             itemCount: room.orders.length,
             itemBuilder: (context, index) {
               final order = room.orders[index];
@@ -76,7 +76,7 @@ class RoomOrdersSection extends StatelessWidget {
             },
           ),
         ),
-        const SizedBox(height: AppSpacing.xl),
+        const SizedBox(height: AppSpacing.lg),
       ],
     );
   }

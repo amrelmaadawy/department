@@ -2,13 +2,13 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pdf/pdf.dart';
+
 import 'package:printing/printing.dart';
 
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/widgets/custom_button.dart';
-import '../../../projects/domain/services/contract_pdf_generator.dart';
+import '../../../contracts/domain/services/contract_pdf_generator.dart';
 import '../widgets/contract_details_card.dart';
 import '../widgets/contract_financial_card.dart';
 import '../../../../l10n/app_localizations.dart';
@@ -33,10 +33,9 @@ class _UnitContractScreenState extends State<UnitContractScreen> {
     try {
       // Create an empty dummy signature since it's already a finalized contract
       final emptySignature = Uint8List(0);
-      final bytes = await ContractPdfGenerator.generateContractBytes(
-        PdfPageFormat.a4,
-        emptySignature,
-        const ContractEntity(
+      final bytes = await ContractPdfGenerator.generate(
+        signatureImage: emptySignature,
+        contract: const ContractEntity(
           id: 0,
           contractNumber: 'DUMMY-000',
           type: 'unit',

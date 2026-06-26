@@ -138,13 +138,13 @@ class _FinishingSummaryScreenState extends State<FinishingSummaryScreen> {
               else
                 Expanded(
                   child: ListView(
-                    padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
+                    padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
                     children: [
                       // Unit Info Card
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
                         child: Container(
-                          padding: const EdgeInsets.all(AppSpacing.lg),
+                          padding: const EdgeInsets.all(AppSpacing.md),
                           decoration: BoxDecoration(
                             color: context.colors.white,
                             borderRadius: BorderRadius.circular(AppRadius.xl),
@@ -195,11 +195,11 @@ class _FinishingSummaryScreenState extends State<FinishingSummaryScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: AppSpacing.xl),
+                      const SizedBox(height: AppSpacing.lg),
                       
                       // Details Header
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
                         child: Text(
                           'طلبات التشطيب الخاصة بك',
                           style: TextStyle(
@@ -221,9 +221,9 @@ class _FinishingSummaryScreenState extends State<FinishingSummaryScreen> {
                       ] else ...[
                         // Fallback Finishing Details if no orders fetched yet or none exist
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
                           child: Container(
-                            padding: const EdgeInsets.all(AppSpacing.lg),
+                            padding: const EdgeInsets.all(AppSpacing.md),
                             decoration: BoxDecoration(
                               color: context.colors.white,
                               borderRadius: BorderRadius.circular(AppRadius.xl),
@@ -262,7 +262,7 @@ class _FinishingSummaryScreenState extends State<FinishingSummaryScreen> {
               
               // Grand Total & Submit
               Container(
-                padding: const EdgeInsets.all(AppSpacing.xl),
+                padding: const EdgeInsets.all(AppSpacing.md),
                 decoration: BoxDecoration(
                   color: context.colors.white,
                   boxShadow: [
@@ -295,7 +295,7 @@ class _FinishingSummaryScreenState extends State<FinishingSummaryScreen> {
                           color: context.colors.gold,
                         ),
                       ),
-                      const SizedBox(height: AppSpacing.xl),
+                      const SizedBox(height: AppSpacing.md),
                       ElevatedButton(
                         onPressed: () {
                           context.push(

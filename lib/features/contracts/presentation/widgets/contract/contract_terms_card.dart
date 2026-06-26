@@ -95,33 +95,45 @@ class _ContractTermsCardState extends State<ContractTermsCard> {
                           children: widget.contract!.contractBody.map((item) {
                             if (item.type == 'title') {
                               return Padding(
-                                padding: const EdgeInsets.only(top: AppSpacing.xxl, bottom: AppSpacing.md),
+                                padding: const EdgeInsets.only(top: AppSpacing.md, bottom: AppSpacing.sm),
                                 child: Container(
-                                  padding: const EdgeInsets.only(right: AppSpacing.md),
+                                  padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
                                   decoration: BoxDecoration(
-                                    border: Border(
-                                      right: BorderSide(color: context.colors.primary, width: 4),
-                                    ),
+                                    color: context.colors.primary.withValues(alpha: 0.05),
+                                    borderRadius: BorderRadius.circular(AppRadius.md),
+                                    border: Border.all(color: context.colors.primary.withValues(alpha: 0.1)),
                                   ),
-                                  child: Text(
-                                    item.content ?? '',
-                                    style: TextStyle(
-                                      fontSize: AppFonts.headlineSmall,
-                                      fontWeight: FontWeight.bold,
-                                      color: context.colors.primary,
-                                      height: 1.5,
-                                    ),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        FluentIcons.bookmark_16_regular,
+                                        color: context.colors.primary,
+                                        size: 20,
+                                      ),
+                                      const SizedBox(width: AppSpacing.sm),
+                                      Expanded(
+                                        child: Text(
+                                          item.content ?? '',
+                                          style: TextStyle(
+                                            fontSize: AppFonts.headlineSmall,
+                                            fontWeight: FontWeight.bold,
+                                            color: context.colors.primary,
+                                            height: 1.5,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               );
                             } else if (item.type == 'paragraph') {
                               return Padding(
-                                padding: const EdgeInsets.only(bottom: AppSpacing.md),
+                                padding: const EdgeInsets.only(bottom: AppSpacing.sm),
                                 child: Text(
                                   item.content ?? '',
                                   style: TextStyle(
                                     fontSize: AppFonts.bodyMedium,
-                                    color: context.colors.textPrimary,
+                                    color: context.colors.textPrimary.withValues(alpha: 0.9),
                                     height: 1.8,
                                     letterSpacing: 0.2,
                                   ),
@@ -131,30 +143,23 @@ class _ContractTermsCardState extends State<ContractTermsCard> {
                             } else if (item.type == 'list') {
                               if (item.items != null && item.items!.isNotEmpty) {
                                 return Padding(
-                                  padding: const EdgeInsets.only(bottom: AppSpacing.lg),
+                                  padding: const EdgeInsets.only(bottom: AppSpacing.md),
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: item.items!.map((listItem) {
                                       return Padding(
-                                        padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+                                        padding: const EdgeInsets.only(bottom: AppSpacing.xs),
                                         child: Row(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             if (listItem.type == 'list_item') ...[
                                               Container(
-                                                margin: const EdgeInsets.only(top: 6, left: 12),
-                                                padding: const EdgeInsets.all(3),
+                                                margin: const EdgeInsets.only(top: 8, left: 12, right: 4),
+                                                width: 6,
+                                                height: 6,
                                                 decoration: BoxDecoration(
-                                                  color: context.colors.primary.withValues(alpha: 0.1),
+                                                  color: context.colors.primary,
                                                   shape: BoxShape.circle,
-                                                ),
-                                                child: Container(
-                                                  width: 6,
-                                                  height: 6,
-                                                  decoration: BoxDecoration(
-                                                    color: context.colors.primary,
-                                                    shape: BoxShape.circle,
-                                                  ),
                                                 ),
                                               ),
                                             ],
@@ -163,7 +168,7 @@ class _ContractTermsCardState extends State<ContractTermsCard> {
                                                 listItem.content,
                                                 style: TextStyle(
                                                   fontSize: AppFonts.bodyMedium,
-                                                  color: context.colors.textPrimary,
+                                                  color: context.colors.textPrimary.withValues(alpha: 0.9),
                                                   height: 1.8,
                                                 ),
                                                 textAlign: TextAlign.justify,
@@ -354,8 +359,8 @@ class _ContractTermsCardState extends State<ContractTermsCard> {
     final isUnitContract = widget.contractType == ContractType.unit;
 
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-      padding: const EdgeInsets.all(AppSpacing.lg),
+      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
+      padding: const EdgeInsets.all(AppSpacing.md),
       decoration: BoxDecoration(
         color: context.colors.white,
         borderRadius: BorderRadius.circular(AppRadius.xl),
@@ -392,7 +397,7 @@ class _ContractTermsCardState extends State<ContractTermsCard> {
             ],
           ),
           
-          const SizedBox(height: AppSpacing.lg),
+          const SizedBox(height: AppSpacing.md),
           
           // Bento Summary Boxes
           Row(
@@ -419,7 +424,7 @@ class _ContractTermsCardState extends State<ContractTermsCard> {
             ],
           ),
           
-          const SizedBox(height: AppSpacing.lg),
+          const SizedBox(height: AppSpacing.md),
           
           // View Full Terms Button (Subtle & Elegant)
           Center(
@@ -442,13 +447,13 @@ class _ContractTermsCardState extends State<ContractTermsCard> {
             ),
           ),
           
-          const SizedBox(height: AppSpacing.lg),
+          const SizedBox(height: AppSpacing.sm),
           const Divider(),
-          const SizedBox(height: AppSpacing.lg),
+          const SizedBox(height: AppSpacing.sm),
           
           // Status Indicator
           Container(
-            padding: const EdgeInsets.all(AppSpacing.md),
+            padding: const EdgeInsets.all(AppSpacing.sm),
             decoration: BoxDecoration(
               color: widget.isAgreed ? context.colors.success.withValues(alpha: 0.1) : context.colors.error.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(AppRadius.md),
@@ -460,7 +465,7 @@ class _ContractTermsCardState extends State<ContractTermsCard> {
                   widget.isAgreed ? FluentIcons.checkmark_circle_24_filled : FluentIcons.info_24_regular,
                   color: widget.isAgreed ? context.colors.success : context.colors.error,
                 ),
-                const SizedBox(width: AppSpacing.md),
+                const SizedBox(width: AppSpacing.sm),
                 Expanded(
                   child: Text(
                     widget.isAgreed 

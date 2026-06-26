@@ -1411,6 +1411,21 @@ class AppLocalizationsAr extends AppLocalizations {
   String get contractSummary => 'ملخص العقد';
 
   @override
+  String get printContract => 'طباعة العقد';
+
+  @override
+  String get contractNumber => 'رقم العقد';
+
+  @override
+  String get contractTypeLabel => 'نوع العقد';
+
+  @override
+  String get contractStatus => 'حالة العقد';
+
+  @override
+  String get contractDate => 'تاريخ العقد';
+
+  @override
   String get confirmAndAgree => 'تأكيد وموافقة';
 
   @override

@@ -109,8 +109,8 @@ class _FinishingJourneyGuideScreenState extends State<FinishingJourneyGuideScree
                 Expanded(
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.lg,
-                      vertical: AppSpacing.md,
+                      horizontal: AppSpacing.md,
+                      vertical: AppSpacing.sm,
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -170,7 +170,7 @@ class _FinishingJourneyGuideScreenState extends State<FinishingJourneyGuideScree
                             ),
                           ),
                         ),
-                        const SizedBox(height: AppSpacing.xxl),
+                        const SizedBox(height: AppSpacing.lg),
 
                         // Steps List
                         ListView.builder(
@@ -197,7 +197,7 @@ class _FinishingJourneyGuideScreenState extends State<FinishingJourneyGuideScree
                                         end: Offset.zero)
                                     .animate(animation),
                                 child: Padding(
-                                  padding: const EdgeInsets.only(bottom: AppSpacing.xl),
+                                  padding: const EdgeInsets.only(bottom: AppSpacing.lg),
                                   child: Row(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
@@ -238,7 +238,7 @@ class _FinishingJourneyGuideScreenState extends State<FinishingJourneyGuideScree
                                             Container(
                                               width: 2,
                                               height: 40,
-                                              margin: const EdgeInsets.only(top: 8),
+                                              margin: const EdgeInsets.only(top: 4),
                                               decoration: BoxDecoration(
                                                 color: context.colors.border
                                                     .withValues(alpha: 0.5),
@@ -246,7 +246,7 @@ class _FinishingJourneyGuideScreenState extends State<FinishingJourneyGuideScree
                                             ),
                                         ],
                                       ),
-                                      const SizedBox(width: AppSpacing.lg),
+                                      const SizedBox(width: AppSpacing.md),
 
                                       // Step Content
                                       Expanded(

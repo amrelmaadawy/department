@@ -199,7 +199,7 @@ class _AiRendersPendingViewState extends State<AiRendersPendingView>
         return Transform.scale(
           scale: _pulseAnimation.value,
           child: Container(
-            padding: const EdgeInsets.all(AppSpacing.xl),
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
@@ -223,18 +223,18 @@ class _AiRendersPendingViewState extends State<AiRendersPendingView>
                 const Icon(
                   FluentIcons.sparkle_28_filled,
                   color: Colors.white,
-                  size: 40,
+                  size: 28,
                 ),
-                const SizedBox(height: AppSpacing.md),
+                const SizedBox(height: AppSpacing.sm),
                 const Text(
                   'الذكاء الاصطناعي يعمل الآن',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: AppFonts.headlineSmall,
+                    fontSize: AppFonts.bodyLarge,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: AppSpacing.sm),
+                const SizedBox(height: AppSpacing.xs),
                 AnimatedSwitcher(
                   duration: const Duration(milliseconds: 500),
                   transitionBuilder: (child, animation) =>

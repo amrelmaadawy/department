@@ -67,11 +67,11 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
         ),
       ),
       body: ListView(
-        padding: const EdgeInsets.all(AppSpacing.xl),
+        padding: const EdgeInsets.all(AppSpacing.md),
         children: [
           // Total Amount Header
           Container(
-            padding: const EdgeInsets.all(AppSpacing.xl),
+            padding: const EdgeInsets.all(AppSpacing.md),
             decoration: BoxDecoration(
               color: context.colors.white,
               borderRadius: BorderRadius.circular(AppRadius.xl),
@@ -101,7 +101,7 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
                     size: 32,
                   ),
                 ),
-                const SizedBox(height: AppSpacing.md),
+                const SizedBox(height: AppSpacing.sm),
                 Text(
                   l10n.finalTotalCost,
                   style: TextStyle(
@@ -110,7 +110,7 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
                     color: context.colors.textPrimary,
                   ),
                 ),
-                const SizedBox(height: AppSpacing.sm),
+                const SizedBox(height: AppSpacing.xs),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.baseline,
@@ -143,7 +143,7 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
               ],
             ),
           ),
-          const SizedBox(height: AppSpacing.xxl),
+          const SizedBox(height: AppSpacing.md),
 
           // Contracts List
           Text(
@@ -154,7 +154,7 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
               color: context.colors.primary,
             ),
           ),
-          const SizedBox(height: AppSpacing.lg),
+          const SizedBox(height: AppSpacing.md),
 
           BlocConsumer<ContractsCubit, ContractsState>(
             listener: (context, state) async {
@@ -204,7 +204,7 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
                       }
                     },
                   ),
-                  const SizedBox(height: AppSpacing.md),
+                  const SizedBox(height: AppSpacing.sm),
                   _buildContractCard(
                     context: context,
                     title: l10n.finishingContract,
@@ -224,7 +224,7 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
             },
           ),
 
-          const SizedBox(height: AppSpacing.xxxl),
+          const SizedBox(height: AppSpacing.xl),
 
           BlocBuilder<ContractsCubit, ContractsState>(
             builder: (context, state) {
@@ -240,7 +240,7 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
               );
             },
           ),
-          const SizedBox(height: AppSpacing.xxl),
+          const SizedBox(height: AppSpacing.lg),
         ],
       ),
     );
@@ -256,7 +256,7 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
   }) {
     final l10nCard = AppLocalizations.of(context)!;
     return Container(
-      padding: const EdgeInsets.all(AppSpacing.lg),
+      padding: const EdgeInsets.all(AppSpacing.md),
       decoration: BoxDecoration(
         color: context.colors.white,
         borderRadius: BorderRadius.circular(AppRadius.lg),
@@ -283,7 +283,7 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
               size: 24,
             ),
           ),
-          const SizedBox(width: AppSpacing.md),
+          const SizedBox(width: AppSpacing.sm),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
