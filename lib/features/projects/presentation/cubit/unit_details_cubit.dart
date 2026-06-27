@@ -37,6 +37,8 @@ class UnitDetailsCubit extends Cubit<UnitDetailsState> {
     final unitResult = responses[0] as dartz.Either<Failure, ProjectUnitEntity>;
     final rendersResult = responses[1] as dartz.Either<Failure, List<RoomCustomerRendersEntity>>;
 
+    if (isClosed) return;
+
     unitResult.fold(
       (failure) => emit(UnitDetailsError(
         message: failure.message,
@@ -44,6 +46,8 @@ class UnitDetailsCubit extends Cubit<UnitDetailsState> {
       )),
       (unit) async {
         final costsResult = await calculateUnitCostsUseCase(unit);
+        if (isClosed) return;
+
         costsResult.fold(
           (failure) => emit(UnitDetailsError(message: failure.message, unit: unit)),
           (costs) {
@@ -77,6 +81,8 @@ class UnitDetailsCubit extends Cubit<UnitDetailsState> {
   void refreshFinishingCost() async {
     if (state.unit != null) {
       final costsResult = await calculateUnitCostsUseCase(state.unit!);
+      if (isClosed) return;
+
       costsResult.fold(
         (failure) {}, // Ignore silent failure on refresh
         (costs) {
@@ -109,6 +115,7 @@ class UnitDetailsCubit extends Cubit<UnitDetailsState> {
     
     final id = int.parse(state.unit!.id);
     final result = await getCustomerRendersUseCase(id);
+    if (isClosed) return;
 
     result.fold(
       (failure) {}, // Silently ignore failures on background refresh
