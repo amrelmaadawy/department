@@ -72,3 +72,14 @@ class ContractSignatureStatusesLoaded extends ContractsState {
   @override
   List<Object?> get props => [isUnitSigned, isFinishingSigned];
 }
+
+class ContractDetailsLoading extends ContractsState {}
+
+class ContractDetailsLoaded extends ContractsState {
+  final ContractEntity contract;
+
+  const ContractDetailsLoaded(this.contract);
+
+  @override
+  List<Object?> get props => [contract];
+}

@@ -5,6 +5,7 @@ import '../../domain/usecases/get_apartment_finishing_orders_use_case.dart';
 import '../../domain/usecases/sign_contract_usecase.dart';
 import '../../domain/usecases/get_contract_signature_status_usecase.dart';
 import '../../domain/usecases/mark_contract_as_signed_usecase.dart';
+import '../../domain/usecases/get_contract_by_id_usecase.dart';
 import 'contracts_state.dart';
 
 class ContractsCubit extends Cubit<ContractsState> {
@@ -14,6 +15,7 @@ class ContractsCubit extends Cubit<ContractsState> {
   final SignContractUseCase signContractUseCase;
   final GetContractSignatureStatusUseCase getContractSignatureStatusUseCase;
   final MarkContractAsSignedUseCase markContractAsSignedUseCase;
+  final GetContractByIdUseCase getContractByIdUseCase;
 
   bool isUnitContractSigned = false;
   bool isFinishingContractSigned = false;
@@ -25,6 +27,7 @@ class ContractsCubit extends Cubit<ContractsState> {
     required this.signContractUseCase,
     required this.getContractSignatureStatusUseCase,
     required this.markContractAsSignedUseCase,
+    required this.getContractByIdUseCase,
   }) : super(ContractsInitial());
 
   Future<void> loadSignatureStatuses(String unitId) async {
@@ -91,9 +94,22 @@ class ContractsCubit extends Cubit<ContractsState> {
       signatureBase64: signatureBase64,
     );
 
+    if (isClosed) return;
     result.fold(
       (failure) => emit(ContractsError(failure.message)),
       (contract) => emit(ContractSignedSuccess(contract)),
+    );
+  }
+
+  Future<void> loadContractDetails(int contractId) async {
+    emit(ContractDetailsLoading());
+
+    final result = await getContractByIdUseCase(contractId);
+
+    if (isClosed) return;
+    result.fold(
+      (failure) => emit(ContractsError(failure.message)),
+      (contract) => emit(ContractDetailsLoaded(contract)),
     );
   }
 }

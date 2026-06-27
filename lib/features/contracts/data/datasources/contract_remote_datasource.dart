@@ -9,6 +9,7 @@ abstract class ContractRemoteDataSource {
   Future<ContractModel> signContract(int contractId, String signatureBase64);
   Future<List<ApartmentFinishingOrderRoomModel>> getApartmentFinishingOrders(int apartmentId);
   Future<List<ContractModel>> getContracts();
+  Future<ContractModel> getContractById(int id);
 }
 
 class ContractRemoteDataSourceImpl implements ContractRemoteDataSource {
@@ -91,6 +92,17 @@ class ContractRemoteDataSourceImpl implements ContractRemoteDataSource {
       }
     } catch (e) {
       rethrow;
+    }
+  }
+
+  @override
+  Future<ContractModel> getContractById(int id) async {
+    final response = await dio.get('${ApiEndpoints.baseUrl}/contracts/$id');
+
+    if (response.statusCode == 200 && response.data?['data'] != null) {
+      return ContractModel.fromJson(response.data['data'] as Map<String, dynamic>);
+    } else {
+      throw Exception(response.data?['message'] ?? 'Failed to fetch contract details');
     }
   }
 }

@@ -13,4 +13,5 @@ abstract class ContractRepository {
   Future<Either<Failure, void>> markContractAsSigned(String unitId, String contractType, bool status);
   
   Future<Either<Failure, List<ContractEntity>>> getContracts();
+  Future<Either<Failure, ContractEntity>> getContractById(int id);
 }

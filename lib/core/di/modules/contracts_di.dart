@@ -13,6 +13,7 @@ import '../../../features/contracts/data/datasources/contract_local_datasource.d
 import '../../../features/contracts/domain/usecases/get_contract_signature_status_usecase.dart';
 import '../../../features/contracts/domain/usecases/mark_contract_as_signed_usecase.dart';
 import '../../../features/contracts/domain/usecases/get_contracts_usecase.dart';
+import '../../../features/contracts/domain/usecases/get_contract_by_id_usecase.dart';
 
 final sl = GetIt.instance;
 
@@ -55,6 +56,9 @@ Future<void> initContractsModule() async {
   sl.registerLazySingleton(
     () => GetContractsUseCase(sl()),
   );
+  sl.registerLazySingleton(
+    () => GetContractByIdUseCase(sl()),
+  );
 
   // Cubits
   sl.registerFactory(
@@ -65,6 +69,7 @@ Future<void> initContractsModule() async {
       signContractUseCase: sl(),
       getContractSignatureStatusUseCase: sl(),
       markContractAsSignedUseCase: sl(),
+      getContractByIdUseCase: sl(),
     ),
   );
 }
