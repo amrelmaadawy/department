@@ -145,11 +145,9 @@ class ContractTermsBottomSheet extends StatelessWidget {
       itemCount: body.length,
       separatorBuilder: (context, index) {
         final nextType = index < body.length - 1 ? body[index + 1].type : '';
-        // Add more space before a new heading
         if (nextType == 'heading') {
           return const SizedBox(height: AppSpacing.xxl);
         }
-        // Normal spacing between paragraphs and lists
         return const SizedBox(height: AppSpacing.md);
       },
       itemBuilder: (context, index) {
@@ -158,28 +156,68 @@ class ContractTermsBottomSheet extends StatelessWidget {
           case 'heading':
             return Container(
               width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl, vertical: AppSpacing.lg),
               decoration: BoxDecoration(
-                color: context.colors.primary.withValues(alpha: 0.05),
-                border: BorderDirectional(
-                  start: BorderSide(
-                    color: context.colors.primary,
-                    width: 4,
+                gradient: LinearGradient(
+                  colors: [
+                    context.colors.primary,
+                    context.colors.primary.withValues(alpha: 0.8),
+                  ],
+                  begin: Alignment.centerRight,
+                  end: Alignment.centerLeft,
+                ),
+                borderRadius: BorderRadius.circular(AppRadius.lg),
+                boxShadow: [
+                  BoxShadow(
+                    color: context.colors.primary.withValues(alpha: 0.3),
+                    blurRadius: 12,
+                    offset: const Offset(0, 4),
                   ),
-                ),
+                ],
               ),
-              child: Text(
-                item.content ?? '',
-                style: TextStyle(
-                  fontSize: AppFonts.headlineSmall,
-                  fontWeight: FontWeight.bold,
-                  color: context.colors.primary,
-                ),
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(AppSpacing.sm),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.2),
+                      borderRadius: BorderRadius.circular(AppRadius.md),
+                    ),
+                    child: const Icon(
+                      FluentIcons.document_text_24_filled,
+                      color: Colors.white,
+                      size: 24,
+                    ),
+                  ),
+                  const SizedBox(width: AppSpacing.md),
+                  Expanded(
+                    child: Text(
+                      item.content ?? '',
+                      style: const TextStyle(
+                        fontSize: AppFonts.headlineSmall,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             );
           case 'paragraph':
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
+            return Container(
+              padding: const EdgeInsets.all(AppSpacing.lg),
+              decoration: BoxDecoration(
+                color: context.colors.white,
+                borderRadius: BorderRadius.circular(AppRadius.lg),
+                border: Border.all(color: context.colors.border.withValues(alpha: 0.5)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.02),
+                    blurRadius: 5,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
               child: Text(
                 item.content ?? '',
                 style: TextStyle(
@@ -192,8 +230,20 @@ class ContractTermsBottomSheet extends StatelessWidget {
             );
           case 'list':
             if (item.items == null || item.items!.isEmpty) return const SizedBox();
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+            return Container(
+              padding: const EdgeInsets.all(AppSpacing.lg),
+              decoration: BoxDecoration(
+                color: context.colors.white,
+                borderRadius: BorderRadius.circular(AppRadius.lg),
+                border: Border.all(color: context.colors.border.withValues(alpha: 0.5)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.02),
+                    blurRadius: 5,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: item.items!.map((listItem) {
@@ -202,11 +252,16 @@ class ContractTermsBottomSheet extends StatelessWidget {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8.0, left: 12.0),
+                        Container(
+                          margin: const EdgeInsets.only(top: 4, left: 12),
+                          padding: const EdgeInsets.all(4),
+                          decoration: BoxDecoration(
+                            color: context.colors.primary.withValues(alpha: 0.1),
+                            shape: BoxShape.circle,
+                          ),
                           child: Icon(
-                            FluentIcons.square_12_regular,
-                            size: 10,
+                            FluentIcons.checkmark_12_filled,
+                            size: 12,
                             color: context.colors.primary,
                           ),
                         ),
@@ -215,7 +270,7 @@ class ContractTermsBottomSheet extends StatelessWidget {
                             listItem.content,
                             style: TextStyle(
                               fontSize: AppFonts.bodyLarge,
-                              color: context.colors.textSecondary,
+                              color: context.colors.textPrimary,
                               height: 1.8,
                             ),
                           ),
@@ -228,9 +283,24 @@ class ContractTermsBottomSheet extends StatelessWidget {
             );
           case 'table':
             if (item.data == null) return const SizedBox();
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
-              child: _buildTable(context, item.data!),
+            return Container(
+              margin: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+              decoration: BoxDecoration(
+                color: context.colors.white,
+                borderRadius: BorderRadius.circular(AppRadius.lg),
+                border: Border.all(color: context.colors.border.withValues(alpha: 0.5)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.02),
+                    blurRadius: 5,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(AppRadius.lg),
+                child: _buildTable(context, item.data!),
+              ),
             );
           default:
             if (item.content != null) {
@@ -238,7 +308,7 @@ class ContractTermsBottomSheet extends StatelessWidget {
                 item.content!,
                 style: TextStyle(
                   fontSize: AppFonts.bodyLarge,
-                  color: context.colors.textSecondary,
+                  color: context.colors.textPrimary,
                   height: 1.8,
                 ),
               );
@@ -250,112 +320,112 @@ class ContractTermsBottomSheet extends StatelessWidget {
   }
 
   Widget _buildTable(BuildContext context, ContractTableDataEntity tableData) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(color: context.colors.border),
-        borderRadius: BorderRadius.circular(AppRadius.md),
-      ),
-      child: Column(
-        children: [
-          // Headers
-          if (tableData.headers.isNotEmpty)
-            Container(
-              decoration: BoxDecoration(
-                color: context.colors.background,
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(AppRadius.md)),
-              ),
-              child: IntrinsicHeight(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: tableData.headers.asMap().entries.map((entry) {
-                    final isLast = entry.key == tableData.headers.length - 1;
-                    return Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: isLast ? null : Border(left: BorderSide(color: context.colors.border)),
-                        ),
-                        padding: const EdgeInsets.all(AppSpacing.sm),
-                        child: Text(
-                          entry.value,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: context.colors.textPrimary,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
+    return Column(
+      children: [
+        // Headers
+        if (tableData.headers.isNotEmpty)
+          Container(
+            decoration: BoxDecoration(
+              color: context.colors.primary.withValues(alpha: 0.05),
+              border: Border(bottom: BorderSide(color: context.colors.border.withValues(alpha: 0.5))),
+            ),
+            child: IntrinsicHeight(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: tableData.headers.asMap().entries.map((entry) {
+                  final isLast = entry.key == tableData.headers.length - 1;
+                  return Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: isLast ? null : Border(left: BorderSide(color: context.colors.border.withValues(alpha: 0.5))),
                       ),
-                    );
-                  }).toList(),
-                ),
+                      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.md),
+                      child: Text(
+                        entry.value,
+                        style: TextStyle(
+                          fontSize: AppFonts.bodyMedium,
+                          fontWeight: FontWeight.bold,
+                          color: context.colors.primary,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  );
+                }).toList(),
               ),
             ),
-          
-          // Rows
-          ...tableData.rows.map((row) {
-            return Container(
-              decoration: BoxDecoration(
-                border: Border(top: BorderSide(color: context.colors.border)),
-              ),
-              child: IntrinsicHeight(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: row.asMap().entries.map((entry) {
-                    final isLast = entry.key == row.length - 1;
-                    return Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: isLast ? null : Border(left: BorderSide(color: context.colors.border)),
-                        ),
-                        padding: const EdgeInsets.all(AppSpacing.sm),
-                        child: Text(
-                          entry.value,
-                          style: TextStyle(color: context.colors.textSecondary),
-                          textAlign: TextAlign.center,
-                        ),
+          ),
+        
+        // Rows
+        ...tableData.rows.asMap().entries.map((rowEntry) {
+          final isEven = rowEntry.key % 2 == 0;
+          final row = rowEntry.value;
+          return Container(
+            decoration: BoxDecoration(
+              color: isEven ? context.colors.white : context.colors.background.withValues(alpha: 0.5),
+              border: Border(bottom: BorderSide(color: context.colors.border.withValues(alpha: 0.5))),
+            ),
+            child: IntrinsicHeight(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: row.asMap().entries.map((entry) {
+                  final isLast = entry.key == row.length - 1;
+                  return Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: isLast ? null : Border(left: BorderSide(color: context.colors.border.withValues(alpha: 0.5))),
                       ),
-                    );
-                  }).toList(),
-                ),
-              ),
-            );
-          }),
-          
-          // Footer
-          if (tableData.footer.isNotEmpty)
-            Container(
-              decoration: BoxDecoration(
-                color: context.colors.background,
-                border: Border(top: BorderSide(color: context.colors.border)),
-                borderRadius: const BorderRadius.vertical(bottom: Radius.circular(AppRadius.md)),
-              ),
-              child: IntrinsicHeight(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: tableData.footer.asMap().entries.map((entry) {
-                    final isLast = entry.key == tableData.footer.length - 1;
-                    return Expanded(
-                      flex: entry.value.colspan > 0 ? entry.value.colspan : 1,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: isLast ? null : Border(left: BorderSide(color: context.colors.border)),
+                      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.md),
+                      child: Text(
+                        entry.value,
+                        style: TextStyle(
+                          fontSize: AppFonts.bodyMedium,
+                          color: context.colors.textPrimary
                         ),
-                        padding: const EdgeInsets.all(AppSpacing.sm),
-                        child: Text(
-                          entry.value.content,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: context.colors.textPrimary,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
+                        textAlign: TextAlign.center,
                       ),
-                    );
-                  }).toList(),
-                ),
+                    ),
+                  );
+                }).toList(),
               ),
             ),
-        ],
-      ),
+          );
+        }),
+        
+        // Footer
+        if (tableData.footer.isNotEmpty)
+          Container(
+            decoration: BoxDecoration(
+              color: context.colors.primary.withValues(alpha: 0.05),
+            ),
+            child: IntrinsicHeight(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: tableData.footer.asMap().entries.map((entry) {
+                  final isLast = entry.key == tableData.footer.length - 1;
+                  return Expanded(
+                    flex: entry.value.colspan > 0 ? entry.value.colspan : 1,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: isLast ? null : Border(left: BorderSide(color: context.colors.border.withValues(alpha: 0.5))),
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.md),
+                      child: Text(
+                        entry.value.content,
+                        style: TextStyle(
+                          fontSize: AppFonts.bodyMedium,
+                          fontWeight: FontWeight.bold,
+                          color: context.colors.textPrimary,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
+          ),
+      ],
     );
   }
 
@@ -395,7 +465,7 @@ class ContractTermsBottomSheet extends StatelessWidget {
                 terms[index],
                 style: TextStyle(
                   fontSize: AppFonts.bodyLarge,
-                  color: context.colors.textSecondary,
+                  color: context.colors.textPrimary,
                   height: 1.5,
                 ),
               ),

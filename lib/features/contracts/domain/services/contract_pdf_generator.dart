@@ -259,9 +259,12 @@ class ContractPdfGenerator {
       pw.Page(
         pageFormat: PdfPageFormat.a4,
         margin: const pw.EdgeInsets.fromLTRB(18, 14, 18, 14),
+        textDirection: pw.TextDirection.rtl,
         theme: pw.ThemeData.withFont(base: ttf, bold: ttfBold),
         build: (ctx) {
-          return pw.Column(
+          return pw.Directionality(
+            textDirection: pw.TextDirection.rtl,
+            child: pw.Column(
             crossAxisAlignment: pw.CrossAxisAlignment.stretch,
             children: [
               // ══ HEADER BAR ═══════════════════════════════════════════════
@@ -487,7 +490,7 @@ class ContractPdfGenerator {
                 ),
               ),
             ],
-          );
+          ));
         },
       ),
     );
