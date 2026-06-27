@@ -7,6 +7,7 @@ import 'package:apartment/features/profile/domain/usecases/get_profile_usecase.d
 import 'package:apartment/features/profile/domain/usecases/toggle_favorite_design_usecase.dart';
 import 'package:apartment/features/profile/domain/usecases/update_profile_usecase.dart';
 import 'package:apartment/features/profile/presentation/cubit/profile_cubit.dart';
+import 'package:apartment/features/profile/presentation/cubit/my_contracts_cubit.dart';
 
 Future<void> registerProfileDi(GetIt sl) async {
   // Data Source
@@ -29,5 +30,9 @@ Future<void> registerProfileDi(GetIt sl) async {
     getProfileUseCase: sl(),
     toggleFavoriteDesignUseCase: sl(),
     updateProfileUseCase: sl(),
+  ));
+  
+  sl.registerFactory(() => MyContractsCubit(
+    getContractsUseCase: sl(),
   ));
 }

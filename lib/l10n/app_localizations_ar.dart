@@ -527,6 +527,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get myUnits => 'وحداتي';
 
   @override
+  String get noContractsFound => 'لا توجد عقود';
+
+  @override
   String get navAccount => 'حسابي';
 
   @override

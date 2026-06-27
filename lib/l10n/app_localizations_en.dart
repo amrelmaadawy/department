@@ -530,6 +530,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get myUnits => 'My Units';
 
   @override
+  String get noContractsFound => 'No contracts found';
+
+  @override
   String get navAccount => 'Account';
 
   @override

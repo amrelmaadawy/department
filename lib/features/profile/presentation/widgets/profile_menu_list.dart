@@ -33,25 +33,23 @@ class ProfileMenuList extends StatelessWidget {
             children: [
 
 
-              /*
               // Section: My Real Estate
               _buildSectionTitle(context, l10n.profileSectionRealEstate),
               _buildMenuGroup(context, [
-                ProfileMenuItem(
+                /*ProfileMenuItem(
                   icon: FluentIcons.building_24_regular,
                   title: l10n.profileMenuMyUnits,
                   onTap: () => context.push('/my-units'),
-                ),
+                ),*/
                 ProfileMenuItem(
-                  icon: FluentIcons.money_24_regular,
-                  title: l10n.profileMenuInstallments,
+                  icon: FluentIcons.document_text_24_regular,
+                  title: l10n.myContracts,
                   showDivider: false,
-                  onTap: () {},
+                  onTap: () => context.push('/my-contracts'),
                 ),
               ]),
 
               const SizedBox(height: AppSpacing.xl),
-              */
 
               // Section: Account Settings
               _buildSectionTitle(context, l10n.profileSectionAccount),

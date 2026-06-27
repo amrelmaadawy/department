@@ -11,4 +11,6 @@ abstract class ContractRepository {
   
   Future<Either<Failure, bool>> isContractSigned(String unitId, String contractType);
   Future<Either<Failure, void>> markContractAsSigned(String unitId, String contractType, bool status);
+  
+  Future<Either<Failure, List<ContractEntity>>> getContracts();
 }

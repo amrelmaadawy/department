@@ -43,6 +43,7 @@ class AppRouter {
   static const String aiGallery = '/ai-gallery';
   static const String savedDesigns = '/saved-designs';
   static const String finishingGuide = '/finishing-guide';
+  static const String myContracts = '/my-contracts';
 
   // ── Auth Cache ─────────────────────────────────────────────────────────────
   // Caches auth status so SecureStorage is only read once per session.

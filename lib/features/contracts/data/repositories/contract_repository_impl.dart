@@ -88,4 +88,17 @@ class ContractRepositoryImpl implements ContractRepository {
       return Left(ServerFailure(msg));
     }
   }
+
+  @override
+  Future<Either<Failure, List<ContractEntity>>> getContracts() async {
+    try {
+      final contracts = await remoteDataSource.getContracts();
+      return Right(contracts);
+    } on DioException catch (e) {
+      return Left(ServerFailure(e.response?.data?['message']?.toString() ?? e.message ?? 'Network error'));
+    } catch (e) {
+      final msg = e.toString().replaceAll('Exception: ', '');
+      return Left(ServerFailure(msg));
+    }
+  }
 }

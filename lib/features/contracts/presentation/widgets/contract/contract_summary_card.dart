@@ -16,30 +16,37 @@ class ContractSummaryCard extends StatelessWidget {
   final ContractType contractType;
   final double? finishingTotal;
   final dynamic unit;
+  /// Shown when navigating from profile contracts (overrides generic title)
+  final String? contractNumber;
+  final String? contractTypeLabel;
 
   const ContractSummaryCard({
-    super.key, 
+    super.key,
     required this.contractType,
     this.finishingTotal,
     this.unit,
+    this.contractNumber,
+    this.contractTypeLabel,
   });
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final unit = this.unit ?? sl<DesignContextCubit>().state.selectedUnit;
-    
-    final title = contractType == ContractType.unit 
-        ? l10n.unitSummaryTitle 
-        : l10n.finishingContractSummary;
-        
-    final icon = contractType == ContractType.unit 
-        ? FluentIcons.building_retail_24_regular 
+
+    final title = contractTypeLabel
+        ?? (contractType == ContractType.unit
+            ? l10n.unitSummaryTitle
+            : l10n.finishingContractSummary);
+
+    final icon = contractType == ContractType.unit
+        ? FluentIcons.building_retail_24_regular
         : FluentIcons.paint_brush_24_regular;
-        
-    final price = contractType == ContractType.unit 
-        ? (unit?.price ?? 0.0) 
-        : (finishingTotal ?? 0.0);
+
+    final price = finishingTotal
+        ?? (contractType == ContractType.unit
+            ? (unit?.price ?? 0.0)
+            : 0.0);
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
       padding: const EdgeInsets.all(AppSpacing.md),
@@ -74,14 +81,22 @@ class ContractSummaryCard extends StatelessWidget {
           const SizedBox(height: AppSpacing.sm),
           Divider(color: context.colors.background),
           const SizedBox(height: AppSpacing.sm),
-          
+          if (contractNumber != null)
+            _buildInfoRow(
+              context,
+              l10n.contractNumber,
+              contractNumber!,
+              FluentIcons.document_24_regular,
+            ),
+          if (contractNumber != null)
+            const SizedBox(height: AppSpacing.sm),
           if (unit != null) ...[
             _buildInfoRow(context, l10n.project, 'Riyadh Project', FluentIcons.location_24_regular),
             const SizedBox(height: AppSpacing.sm),
             _buildInfoRow(context, l10n.unitType, l10n.unitTypeDesc(unit.title, unit.area.toString()), FluentIcons.home_24_regular),
             const SizedBox(height: AppSpacing.sm),
             _buildInfoRow(context, l10n.floor, l10n.floorDesc(unit.floor.toString()), FluentIcons.layer_24_regular),
-          ] else ...[
+          ] else if (contractNumber == null) ...[
             _buildInfoRow(context, l10n.project, 'Riyadh Project', FluentIcons.location_24_regular),
             const SizedBox(height: AppSpacing.sm),
             _buildInfoRow(context, l10n.details, l10n.loadingStatus, FluentIcons.info_24_regular),

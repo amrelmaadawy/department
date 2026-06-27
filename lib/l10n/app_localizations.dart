@@ -1082,6 +1082,12 @@ abstract class AppLocalizations {
   /// **'My Units'**
   String get myUnits;
 
+  /// No description provided for @noContractsFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No contracts found'**
+  String get noContractsFound;
+
   /// No description provided for @navAccount.
   ///
   /// In en, this message translates to:

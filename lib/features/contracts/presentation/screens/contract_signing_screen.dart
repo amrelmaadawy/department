@@ -27,13 +27,17 @@ class ContractSigningScreen extends StatefulWidget {
   final double? finishingTotal;
   final dynamic unit;
   final ContractEntity? contract;
-  
+  /// When coming from profile contracts list, pass the amount directly
+  /// to avoid depending on DesignContextCubit state.
+  final double? overrideTotalAmount;
+
   const ContractSigningScreen({
-    super.key, 
+    super.key,
     required this.contractType,
     this.finishingTotal,
     this.unit,
     this.contract,
+    this.overrideTotalAmount,
   });
 
   @override
@@ -97,8 +101,10 @@ class _ContractSigningScreenState extends State<ContractSigningScreen> {
           children: [
             ContractSummaryCard(
               contractType: widget.contractType,
-              finishingTotal: widget.finishingTotal,
+              finishingTotal: widget.overrideTotalAmount ?? widget.finishingTotal,
               unit: widget.unit,
+              contractNumber: widget.contract?.contractNumber,
+              contractTypeLabel: widget.contract?.typeLabel,
             ),
             const SizedBox(height: AppSpacing.sm),
             ContractSignatureCard(

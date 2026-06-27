@@ -14,6 +14,7 @@ import '../../../features/profile/presentation/screens/unit_contract_screen.dart
 import '../../../features/profile/presentation/screens/unit_progress_screen.dart';
 import '../../../features/auth/presentation/cubit/auth_cubit.dart';
 import '../../../features/support/presentation/screens/support_screen.dart';
+import '../../../features/profile/presentation/screens/profile_contracts_screen.dart';
 
 class ProfileRoutes {
   static final List<RouteBase> routes = [
@@ -56,6 +57,10 @@ class ProfileRoutes {
     GoRoute(
       path: AppRouter.support,
       builder: (context, state) => const SupportScreen(),
+    ),
+    GoRoute(
+      path: AppRouter.myContracts,
+      builder: (context, state) => const ProfileContractsScreen(),
     ),
   ];
 }

@@ -21,9 +21,9 @@ class ContractRoutes {
         final contractType = args['type'] as ContractType? ?? ContractType.unit;
         final finishingTotal = args['finishingTotal'] as double?;
         final unit = args['unit'];
-        
         final contract = args['contract'];
-        
+        final overrideTotalAmount = args['overrideTotalAmount'] as double?;
+
         return CustomTransitionPage(
           key: state.pageKey,
           transitionDuration: const Duration(milliseconds: 600),
@@ -34,6 +34,7 @@ class ContractRoutes {
               finishingTotal: finishingTotal,
               unit: unit,
               contract: contract,
+              overrideTotalAmount: overrideTotalAmount,
             ),
           ),
           transitionsBuilder: AppRouterTransitions.slideFromRight,

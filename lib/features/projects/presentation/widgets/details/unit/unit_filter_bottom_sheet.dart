@@ -86,14 +86,6 @@ class _UnitFilterBottomSheetState extends State<UnitFilterBottomSheet> {
     });
   }
 
-  Widget _buildDivider() {
-    return Divider(
-      height: 24,
-      thickness: 1,
-      color: context.colors.border.withValues(alpha: 0.3),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;

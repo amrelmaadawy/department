@@ -8,6 +8,7 @@ abstract class ContractRemoteDataSource {
   Future<ContractModel> createFinishingContract(List<int> finishingOrderIds);
   Future<ContractModel> signContract(int contractId, String signatureBase64);
   Future<List<ApartmentFinishingOrderRoomModel>> getApartmentFinishingOrders(int apartmentId);
+  Future<List<ContractModel>> getContracts();
 }
 
 class ContractRemoteDataSourceImpl implements ContractRemoteDataSource {
@@ -67,16 +68,29 @@ class ContractRemoteDataSourceImpl implements ContractRemoteDataSource {
   @override
   Future<List<ApartmentFinishingOrderRoomModel>> getApartmentFinishingOrders(int apartmentId) async {
     final url = '${ApiEndpoints.baseUrl}/apartments/$apartmentId/finishing-orders';
-    print('DEBUG: Fetching finishing orders from $url');
     final response = await dio.get(url);
-    print('DEBUG: Response status: ${response.statusCode}');
-    print('DEBUG: Response data: ${response.data}');
 
     if (response.data['success'] == true && response.data['data'] != null) {
       final List<dynamic> data = response.data['data'];
       return data.map((e) => ApartmentFinishingOrderRoomModel.fromJson(e as Map<String, dynamic>)).toList();
     } else {
       throw Exception(response.data['message'] ?? 'Failed to fetch finishing orders');
+    }
+  }
+
+  @override
+  Future<List<ContractModel>> getContracts() async {
+    try {
+      final response = await dio.get('${ApiEndpoints.baseUrl}/contracts');
+
+      if (response.statusCode == 200 && response.data != null && response.data['data'] != null) {
+        final List<dynamic> data = response.data['data'];
+        return data.map((e) => ContractModel.fromJson(e as Map<String, dynamic>)).toList();
+      } else {
+        throw Exception(response.data?['message'] ?? 'Failed to fetch contracts');
+      }
+    } catch (e) {
+      rethrow;
     }
   }
 }
