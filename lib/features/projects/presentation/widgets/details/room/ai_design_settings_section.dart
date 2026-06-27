@@ -41,28 +41,7 @@ class _AiDesignSettingsSectionState extends State<AiDesignSettingsSection> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Container(
-                width: 4,
-                height: 24,
-                decoration: BoxDecoration(
-                  color: context.colors.primary,
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-              const SizedBox(width: AppSpacing.sm),
-              Text(
-                l10n.aiSettings,
-                style: TextStyle(
-                  fontSize: AppFonts.headlineSmall,
-                  fontWeight: FontWeight.bold,
-                  color: context.colors.textPrimary,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: AppSpacing.md),
+
         
           // Notes TextField
           Text(

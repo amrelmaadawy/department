@@ -1482,4 +1482,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get agreeToTerms => 'أوافق على الشروط والأحكام';
+
+  @override
+  String get roomDesigns => 'تصاميم الغرفة';
+
+  @override
+  String get createNewDesign => 'تصميم ذكي جديد';
+
+  @override
+  String get startDesign => 'ابدأ التصميم';
 }

@@ -2875,6 +2875,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'I Agree to Terms & Conditions'**
   String get agreeToTerms;
+
+  /// No description provided for @roomDesigns.
+  ///
+  /// In en, this message translates to:
+  /// **'Room Designs'**
+  String get roomDesigns;
+
+  /// No description provided for @createNewDesign.
+  ///
+  /// In en, this message translates to:
+  /// **'Create New AI Design'**
+  String get createNewDesign;
+
+  /// No description provided for @startDesign.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Design'**
+  String get startDesign;
 }
 
 class _AppLocalizationsDelegate

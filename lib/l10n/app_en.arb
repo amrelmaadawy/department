@@ -604,5 +604,8 @@
   "guideStep4Desc": "After finishing all rooms, the final cost will be calculated and the contract prepared for signature.",
   "guideStartBtn": "Start Finishing Journey Now",
   "legalTerms": "Legal Terms",
-  "agreeToTerms": "I Agree to Terms & Conditions"
+  "agreeToTerms": "I Agree to Terms & Conditions",
+  "roomDesigns": "Room Designs",
+  "createNewDesign": "Create New AI Design",
+  "startDesign": "Start Design"
 }

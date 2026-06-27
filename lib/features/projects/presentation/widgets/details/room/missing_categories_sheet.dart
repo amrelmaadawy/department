@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:apartment/l10n/app_localizations.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
@@ -8,10 +7,13 @@ import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 
 import '../../../../../home/domain/entities/finishing_subtype_entity.dart';
-import '../../../cubit/ai_room_design_cubit.dart';
 
 class MissingCategoriesSheet {
-  static void show(BuildContext context, List<FinishingSubtypeEntity> missingSubtypes) {
+  static void show({
+    required BuildContext context,
+    required List<FinishingSubtypeEntity> missingSubtypes,
+    required VoidCallback onContinueAnyway,
+  }) {
     final l10n = AppLocalizations.of(context)!;
     showModalBottomSheet(
       context: context,
@@ -81,7 +83,7 @@ class MissingCategoriesSheet {
                       child: OutlinedButton(
                         onPressed: () {
                           Navigator.pop(bottomSheetContext);
-                          context.read<AiRoomDesignCubit>().submitOrder();
+                          onContinueAnyway();
                         },
                         style: OutlinedButton.styleFrom(
                           foregroundColor: context.colors.textPrimary,

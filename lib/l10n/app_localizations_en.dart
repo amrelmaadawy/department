@@ -1493,4 +1493,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get agreeToTerms => 'I Agree to Terms & Conditions';
+
+  @override
+  String get roomDesigns => 'Room Designs';
+
+  @override
+  String get createNewDesign => 'Create New AI Design';
+
+  @override
+  String get startDesign => 'Start Design';
 }

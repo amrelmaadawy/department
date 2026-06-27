@@ -14,9 +14,6 @@ import '../../../cubit/room_details_cubit.dart';
 import '../../../cubit/room_details_state.dart';
 import '../../../cubit/unit_details_cubit.dart';
 import 'finishing_options_section.dart';
-import 'ai_design_settings_section.dart';
-import 'room_customer_renders_carousel.dart';
-import '../../../../domain/entities/customer_render_entity.dart';
 import 'unified_room_bottom_bar.dart';
 
 import 'package:apartment/features/projects/presentation/cubit/ai_room_design_cubit.dart';
@@ -60,6 +57,8 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> with AutomaticKeepAli
 
   @override
   bool get wantKeepAlive => true; 
+  
+  @override
   Widget build(BuildContext context) {
     super.build(context);
     
@@ -147,49 +146,16 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> with AutomaticKeepAli
         ),
       );
     } else if (state is RoomDetailsLoaded) {
-      return BlocSelector<UnitDetailsCubit, UnitDetailsState, List<CustomerRenderEntity>>(
-        selector: (unitState) {
-          if (unitState is UnitDetailsLoaded) {
-            final roomRenders = unitState.customerRenders.where((r) => r.id == widget.room.id).toList();
-            if (roomRenders.isNotEmpty) {
-              return roomRenders.first.renders;
-            }
-          }
-          return const <CustomerRenderEntity>[];
-        },
-        builder: (context, renders) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              if (renders.isNotEmpty) ...[
-                const SizedBox(height: AppSpacing.md),
-                RoomCustomerRendersCarousel(
-                  renders: renders,
-                  roomName: widget.room.name,
-                  onFavoriteToggled: (render) {
-                    context.read<UnitDetailsCubit>().toggleRenderFavorite(
-                      int.parse(widget.unit.id),
-                      widget.room.id,
-                      render.url,
-                    );
-                  },
-                ),
-                const SizedBox(height: AppSpacing.lg),
-              ],
-              FinishingOptionsSection(
-                options: state.roomDetails.finishingOptions,
-                unitRooms: widget.unit.rooms,
-                currentRoom: widget.room,
-              ),
-              const SizedBox(height: AppSpacing.lg),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: AppSpacing.md),
-                child: AiDesignSettingsSection(),
-              ),
-              const SizedBox(height: AppSpacing.xxl),
-            ],
-          );
-        },
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          FinishingOptionsSection(
+            options: state.roomDetails.finishingOptions,
+            unitRooms: widget.unit.rooms,
+            currentRoom: widget.room,
+          ),
+          const SizedBox(height: AppSpacing.xxl),
+        ],
       );
     }
     return const SizedBox.shrink();

@@ -17,6 +17,8 @@ import '../../../cubit/room_details_cubit.dart';
 import '../../../cubit/room_details_state.dart';
 import '../../../cubit/unit_details_cubit.dart';
 import 'missing_categories_sheet.dart';
+import 'room_designs_bottom_sheet.dart';
+import 'ai_design_settings_bottom_sheet.dart';
 
 class RoomActionButtons extends StatelessWidget {
   final bool isLastRoom;
@@ -70,7 +72,6 @@ class RoomActionButtons extends StatelessWidget {
                 onPressed: () {
                   if (isLastRoom) {
                     final unitState = context.read<UnitDetailsCubit>().state;
-                    final totalRooms = unit.rooms.length;
 
                     final aiDesignedRoomIds = unitState.customerRenders
                         .where((cr) => cr.renders.isNotEmpty)
@@ -126,53 +127,102 @@ class RoomActionButtons extends StatelessWidget {
             // AI Design Button
             Expanded(
               flex: 1,
-              child: ElevatedButton.icon(
-                onPressed: state.status == AiDesignStatus.loading
-                    ? null
-                    : () {
-                        final roomDetailsState = context.read<RoomDetailsCubit>().state;
-                        if (roomDetailsState is RoomDetailsLoaded) {
-                          final options = roomDetailsState.roomDetails.finishingOptions;
-                          final allSubtypes = options.expand((c) => c.subtypes).toList();
-                          
-                          final missingSubtypes = allSubtypes.where((subtype) {
-                            if (subtype.materials.isEmpty) return false;
-                            return !subtype.materials.any((m) => state.selectedMaterialIds.contains(m.id));
-                          }).toList();
+              child: BlocSelector<UnitDetailsCubit, UnitDetailsState, bool>(
+                selector: (unitState) {
+                  if (unitState is UnitDetailsLoaded) {
+                    final roomRenders = unitState.customerRenders.where((r) => r.id == unit.rooms[currentTabIndex].id).toList();
+                    return roomRenders.isNotEmpty && roomRenders.first.renders.isNotEmpty;
+                  }
+                  return false;
+                },
+                builder: (context, hasRenders) {
+                  final isLoading = state.status == AiDesignStatus.loading;
+                  final buttonText = isLoading ? l10n.sending : (hasRenders ? l10n.roomDesigns : l10n.smartDesign);
+                  final buttonIcon = isLoading
+                      ? SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            color: context.colors.white,
+                            strokeWidth: 2,
+                          ),
+                        )
+                      : Icon(hasRenders ? FluentIcons.image_multiple_24_regular : FluentIcons.sparkle_24_filled, size: 20);
 
-                          if (missingSubtypes.isNotEmpty) {
-                            MissingCategoriesSheet.show(context, missingSubtypes);
-                            return;
-                          }
-                        }
-                        context.read<AiRoomDesignCubit>().submitOrder();
-                      },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: context.colors.primary,
-                  foregroundColor: context.colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(AppRadius.lg),
-                  ),
-                  elevation: 0,
-                ),
-                icon: state.status == AiDesignStatus.loading
-                    ? SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(
-                          color: context.colors.white,
-                          strokeWidth: 2,
-                        ),
-                      )
-                    : const Icon(FluentIcons.sparkle_24_filled, size: 20),
-                label: Text(
-                  state.status == AiDesignStatus.loading ? l10n.sending : l10n.smartDesign,
-                  style: const TextStyle(
-                    fontSize: AppFonts.bodyMedium,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                  return ElevatedButton.icon(
+                    onPressed: isLoading
+                        ? null
+                        : () {
+                            void triggerNewDesign() {
+                              void showAiSettingsSheet() {
+                                AiDesignSettingsBottomSheet.show(
+                                  context: context,
+                                  aiRoomDesignCubit: context.read<AiRoomDesignCubit>(),
+                                  onStartDesign: () {
+                                    context.read<AiRoomDesignCubit>().submitOrder();
+                                  },
+                                );
+                              }
+
+                              final roomDetailsState = context.read<RoomDetailsCubit>().state;
+                              if (roomDetailsState is RoomDetailsLoaded) {
+                                final options = roomDetailsState.roomDetails.finishingOptions;
+                                final allSubtypes = options.expand((c) => c.subtypes).toList();
+                                
+                                final missingSubtypes = allSubtypes.where((subtype) {
+                                  if (subtype.materials.isEmpty) return false;
+                                  return !subtype.materials.any((m) => state.selectedMaterialIds.contains(m.id));
+                                }).toList();
+
+                                if (missingSubtypes.isNotEmpty) {
+                                  MissingCategoriesSheet.show(
+                                    context: context,
+                                    missingSubtypes: missingSubtypes,
+                                    onContinueAnyway: showAiSettingsSheet,
+                                  );
+                                  return;
+                                }
+                              }
+                              
+                              showAiSettingsSheet();
+                            }
+
+                            if (hasRenders) {
+                              final unitState = context.read<UnitDetailsCubit>().state as UnitDetailsLoaded;
+                              final currentRoom = unit.rooms[currentTabIndex];
+                              final roomRenders = unitState.customerRenders.firstWhere((r) => r.id == currentRoom.id).renders;
+                              
+                              RoomDesignsBottomSheet.show(
+                                context: context,
+                                roomName: currentRoom.name,
+                                roomId: currentRoom.id,
+                                unitId: unit.id,
+                                renders: roomRenders,
+                                onNewDesignPressed: triggerNewDesign,
+                              );
+                            } else {
+                              triggerNewDesign();
+                            }
+                          },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: context.colors.primary,
+                      foregroundColor: context.colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(AppRadius.lg),
+                      ),
+                      elevation: 0,
+                    ),
+                    icon: buttonIcon,
+                    label: Text(
+                      buttonText,
+                      style: const TextStyle(
+                        fontSize: AppFonts.bodyMedium,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
           ],
