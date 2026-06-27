@@ -1487,4 +1487,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get guideStartBtn => 'Start Finishing Journey Now';
+
+  @override
+  String get legalTerms => 'Legal Terms';
+
+  @override
+  String get agreeToTerms => 'I Agree to Terms & Conditions';
 }

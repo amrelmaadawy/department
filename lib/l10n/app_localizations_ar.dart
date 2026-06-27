@@ -1476,4 +1476,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get guideStartBtn => 'ابدأ رحلة التشطيب الآن';
+
+  @override
+  String get legalTerms => 'الشروط والأحكام القانونية';
+
+  @override
+  String get agreeToTerms => 'أوافق على الشروط والأحكام';
 }

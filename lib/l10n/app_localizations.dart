@@ -2863,6 +2863,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Start Finishing Journey Now'**
   String get guideStartBtn;
+
+  /// No description provided for @legalTerms.
+  ///
+  /// In en, this message translates to:
+  /// **'Legal Terms'**
+  String get legalTerms;
+
+  /// No description provided for @agreeToTerms.
+  ///
+  /// In en, this message translates to:
+  /// **'I Agree to Terms & Conditions'**
+  String get agreeToTerms;
 }
 
 class _AppLocalizationsDelegate

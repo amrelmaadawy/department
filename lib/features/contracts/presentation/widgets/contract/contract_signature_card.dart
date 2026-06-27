@@ -1,3 +1,5 @@
+import 'package:apartment/features/contracts/domain/entities/contract_entity.dart';
+import 'package:apartment/features/contracts/domain/entities/contract_type.dart';
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:signature/signature.dart';
@@ -8,19 +10,26 @@ import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/l10n/app_localizations.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 
+import 'contract_terms_bottom_sheet.dart';
 
 class ContractSignatureCard extends StatelessWidget {
   final SignatureController controller;
+  final bool isAgreed;
+  final ContractType contractType;
+  final ContractEntity? contract;
+  final ValueChanged<bool?> onAgreementChanged;
 
   const ContractSignatureCard({
     super.key,
     required this.controller,
+    required this.isAgreed,
+    required this.contractType,
+    this.contract,
+    required this.onAgreementChanged,
   });
 
   @override
   Widget build(BuildContext context) {
-    // We will reuse some localization from terms or create a generic title if none exists.
-    // Assuming we have 'signature' from previous ARB updates: "Signature" / "التوقيع"
     final l10n = AppLocalizations.of(context)!;
 
     return Container(
@@ -48,7 +57,7 @@ class ContractSignatureCard extends StatelessWidget {
                   Icon(FluentIcons.pen_24_regular, color: context.colors.primary),
                   const SizedBox(width: AppSpacing.sm),
                   Text(
-                    l10n.signature, // Make sure this exists in ARB
+                    l10n.signature, 
                     style: TextStyle(
                       fontSize: AppFonts.headlineSmall,
                       fontWeight: FontWeight.bold,
@@ -57,13 +66,72 @@ class ContractSignatureCard extends StatelessWidget {
                   ),
                 ],
               ),
-              TextButton.icon(
-                onPressed: () => controller.clear(),
-                icon: Icon(FluentIcons.delete_24_regular, size: 16, color: context.colors.error),
-                label: Text(
-                  l10n.clearSignature,
-                  style: TextStyle(color: context.colors.error),
-                ),
+              Row(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      if (isAgreed) {
+                        onAgreementChanged(false);
+                      } else {
+                        ContractTermsBottomSheet.show(
+                          context,
+                          contractType: contractType,
+                          contract: contract,
+                          isAgreed: isAgreed,
+                          onAgreed: (val) {
+                            onAgreementChanged(val);
+                          },
+                        );
+                      }
+                    },
+                    borderRadius: BorderRadius.circular(AppRadius.md),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(
+                          width: 32,
+                          height: 32,
+                          child: Checkbox(
+                            value: isAgreed,
+                            onChanged: (val) {
+                              if (val == true) {
+                                ContractTermsBottomSheet.show(
+                                  context,
+                                  contractType: contractType,
+                                  contract: contract,
+                                  isAgreed: isAgreed,
+                                  onAgreed: (val) => onAgreementChanged(val),
+                                );
+                              } else {
+                                onAgreementChanged(false);
+                              }
+                            },
+                            activeColor: context.colors.success,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                          ),
+                        ),
+                        Text(
+                          'الشروط والأحكام',
+                          style: TextStyle(
+                            fontSize: AppFonts.bodyMedium,
+                            fontWeight: isAgreed ? FontWeight.bold : FontWeight.normal,
+                            color: isAgreed ? context.colors.success : context.colors.textSecondary,
+                            decoration: TextDecoration.underline,
+                            decorationColor: isAgreed ? context.colors.success : context.colors.textSecondary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: AppSpacing.xs),
+                  IconButton(
+                    onPressed: () => controller.clear(),
+                    icon: Icon(FluentIcons.delete_24_regular, size: 20, color: context.colors.error),
+                    tooltip: l10n.clearSignature,
+                  ),
+                ],
               ),
             ],
           ),

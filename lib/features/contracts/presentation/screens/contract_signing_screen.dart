@@ -12,7 +12,7 @@ import 'package:signature/signature.dart';
 import '../widgets/contract/contract_bottom_actions.dart';
 import '../widgets/contract/contract_signature_card.dart';
 import '../widgets/contract/contract_summary_card.dart';
-import '../widgets/contract/contract_terms_card.dart';
+
 import '../../domain/entities/contract_type.dart';
 import '../../domain/entities/contract_entity.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
@@ -100,14 +100,14 @@ class _ContractSigningScreenState extends State<ContractSigningScreen> {
               finishingTotal: widget.finishingTotal,
               unit: widget.unit,
             ),
-            ContractTermsCard(
+            const SizedBox(height: AppSpacing.sm),
+            ContractSignatureCard(
+              controller: _signatureController,
+              isAgreed: _isAgreed,
               contractType: widget.contractType,
               contract: widget.contract,
-              isAgreed: _isAgreed,
-              onChanged: _toggleAgreement,
+              onAgreementChanged: _toggleAgreement,
             ),
-            const SizedBox(height: AppSpacing.sm),
-            ContractSignatureCard(controller: _signatureController),
             const SizedBox(height: AppSpacing.md),
           ],
         ),

@@ -602,5 +602,7 @@
   "guideStep3Desc": "Save your favorite designs for each room and compare them to choose the best.",
   "guideStep4Title": "Final Contract",
   "guideStep4Desc": "After finishing all rooms, the final cost will be calculated and the contract prepared for signature.",
-  "guideStartBtn": "Start Finishing Journey Now"
+  "guideStartBtn": "Start Finishing Journey Now",
+  "legalTerms": "Legal Terms",
+  "agreeToTerms": "I Agree to Terms & Conditions"
 }
