@@ -44,12 +44,29 @@ class AppRouter {
   static const String savedDesigns = '/saved-designs';
   static const String finishingGuide = '/finishing-guide';
 
+  // ── Auth Cache ─────────────────────────────────────────────────────────────
+  // Caches auth status so SecureStorage is only read once per session.
+  static bool? _cachedAuthStatus;
+
+  /// Call this after a successful login to update the cache.
+  static void setAuthenticated() => _cachedAuthStatus = true;
+
+  /// Call this on logout to invalidate the cache.
+  static void clearAuthCache() => _cachedAuthStatus = null;
+
+  static Future<bool> _resolveAuth() async {
+    if (_cachedAuthStatus != null) return _cachedAuthStatus!;
+    final secureStorage = sl<FlutterSecureStorage>();
+    final token = await secureStorage.read(key: 'auth_token');
+    _cachedAuthStatus = token != null && token.isNotEmpty;
+    return _cachedAuthStatus!;
+  }
+  // ──────────────────────────────────────────────────────────────────────────
+
   static final router = GoRouter(
     initialLocation: initial,
     redirect: (context, state) async {
-      final secureStorage = sl<FlutterSecureStorage>();
-      final token = await secureStorage.read(key: 'auth_token');
-      final isAuth = token != null && token.isNotEmpty;
+      final isAuth = await _resolveAuth();
 
       final isGoingToAuth = state.uri.path == auth;
       final isGoingToOnboarding = state.uri.path == onboarding;

@@ -8,6 +8,7 @@ import '../../domain/usecases/toggle_customer_render_favorite_use_case.dart';
 import '../../domain/entities/customer_render_entity.dart';
 import '../../domain/usecases/calculate_unit_costs_use_case.dart';
 import '../../../../core/error/failures.dart';
+import '../../../../core/network/app_cancel_token.dart';
 import 'package:dartz/dartz.dart' as dartz;
 
 part 'unit_details_state.dart';
@@ -18,12 +19,20 @@ class UnitDetailsCubit extends Cubit<UnitDetailsState> {
   final ToggleCustomerRenderFavoriteUseCase toggleCustomerRenderFavoriteUseCase;
   final CalculateUnitCostsUseCase calculateUnitCostsUseCase;
 
+  final _cancelToken = AppCancelToken();
+
   UnitDetailsCubit({
     required this.getUnitDetailsUseCase,
     required this.getCustomerRendersUseCase,
     required this.toggleCustomerRenderFavoriteUseCase,
     required this.calculateUnitCostsUseCase,
   }) : super(UnitDetailsInitial());
+
+  @override
+  Future<void> close() {
+    _cancelToken.cancel('UnitDetailsCubit disposed');
+    return super.close();
+  }
 
   Future<void> loadUnitDetails(int id, {ProjectUnitEntity? initialUnit}) async {
     emit(UnitDetailsLoading(unit: initialUnit));

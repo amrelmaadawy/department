@@ -53,108 +53,109 @@ class _UnitDetailsScreenContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    return BlocBuilder<UnitDetailsCubit, UnitDetailsState>(
-      builder: (context, state) {
-        final currentUnit = state.unit ?? context.read<UnitDetailsCubit>().state.unit;
+    // Read the unit once — it is available from the initial loading state
+    // (passed as initialUnit) and never changes after that.
+    final unit = context.select<UnitDetailsCubit, ProjectUnitEntity?>(
+      (cubit) => cubit.state.unit,
+    );
 
-        if (currentUnit == null) {
-          return const Scaffold(body: Center(child: CircularProgressIndicator()));
-        }
+    if (unit == null) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
 
-        return Scaffold(
-          backgroundColor: context.colors.background,
-          body: CustomScrollView(
-            slivers: [
-              SliverAppBar(
-                title: Text(
-                  l10n.unitDetailsTitle,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: context.colors.textPrimary,
+    return Scaffold(
+      backgroundColor: context.colors.background,
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            title: Text(
+              l10n.unitDetailsTitle,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: context.colors.textPrimary,
+              ),
+            ),
+            backgroundColor: context.colors.background,
+            elevation: 0,
+            scrolledUnderElevation: 0,
+            centerTitle: true,
+            iconTheme: IconThemeData(color: context.colors.textPrimary),
+            pinned: true,
+            floating: true,
+          ),
+          SliverToBoxAdapter(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                UnitFloorPlanViewer(unit: unit, heroTag: heroTag),
+                const SizedBox(height: AppSpacing.lg),
+                UnitBentoGrid(unit: unit),
+                const SizedBox(height: AppSpacing.md),
+                UnitPricingCard(unit: unit),
+                if (unit.extras.isNotEmpty) ...[
+                  const SizedBox(height: AppSpacing.lg),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                    child: Text(
+                      l10n.unitFeatures,
+                      style: TextStyle(
+                        fontSize: AppFonts.headlineSmall,
+                        fontWeight: FontWeight.bold,
+                        color: context.colors.textPrimary,
+                      ),
+                    ),
+                  ),
+                  ProjectFeaturesRow(features: unit.extras),
+                ],
+                const SizedBox(height: AppSpacing.md),
+                UnitOverviewCard(unit: unit),
+                const SizedBox(height: AppSpacing.lg),
+                // Only this widget re-renders when loading state changes
+                BlocSelector<UnitDetailsCubit, UnitDetailsState, bool>(
+                  selector: (state) => state is UnitDetailsLoading,
+                  builder: (context, isLoading) => UnitRoomsList(
+                    unit: unit,
+                    isLoading: isLoading,
                   ),
                 ),
-                backgroundColor: context.colors.background,
-                elevation: 0,
-                scrolledUnderElevation: 0,
-                centerTitle: true,
-                iconTheme: IconThemeData(color: context.colors.textPrimary),
-                pinned: true,
-                floating: true,
-              ),
-              SliverToBoxAdapter(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    UnitFloorPlanViewer(
-                      unit: currentUnit,
-                      heroTag: heroTag,
-                    ),
-                    const SizedBox(height: AppSpacing.lg),
-                    UnitBentoGrid(unit: currentUnit),
-                    const SizedBox(height: AppSpacing.md),
-                    UnitPricingCard(unit: currentUnit),
-                    if (currentUnit.extras.isNotEmpty) ...[
-                      const SizedBox(height: AppSpacing.lg),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-                        child: Text(
-                          l10n.unitFeatures,
-                          style: TextStyle(
-                            fontSize: AppFonts.headlineSmall,
-                            fontWeight: FontWeight.bold,
-                            color: context.colors.textPrimary,
-                          ),
-                        ),
-                      ),
-                      ProjectFeaturesRow(features: currentUnit.extras),
-                    ],
-                    const SizedBox(height: AppSpacing.md),
-                    UnitOverviewCard(unit: currentUnit),
-                    const SizedBox(height: AppSpacing.lg),
-                    UnitRoomsList(
-                      unit: currentUnit,
-                      isLoading: state is UnitDetailsLoading,
-                    ),
-                    const SizedBox(height: AppSpacing.xxl),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          bottomNavigationBar: Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.lg,
-              vertical: AppSpacing.md,
-            ),
-            decoration: BoxDecoration(
-              color: context.colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.05),
-                  blurRadius: 20,
-                  offset: const Offset(0, -5),
-                ),
+                const SizedBox(height: AppSpacing.xxl),
               ],
             ),
-            child: SafeArea(
-              child: SizedBox(
-                width: double.infinity,
-                child: CustomButton(
-                  text: l10n.startFinishingJourney,
-                  onPressed: () {
-                    context.push(
-                      AppRouter.finishingGuide,
-                      extra: {
-                        'unit': currentUnit,
-                      },
-                    );
+          ),
+        ],
+      ),
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.lg,
+          vertical: AppSpacing.md,
+        ),
+        decoration: BoxDecoration(
+          color: context.colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.05),
+              blurRadius: 20,
+              offset: const Offset(0, -5),
+            ),
+          ],
+        ),
+        child: SafeArea(
+          child: SizedBox(
+            width: double.infinity,
+            child: CustomButton(
+              text: l10n.startFinishingJourney,
+              onPressed: () {
+                context.push(
+                  AppRouter.finishingGuide,
+                  extra: {
+                    'unit': unit,
                   },
-                ),
-              ),
+                );
+              },
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }

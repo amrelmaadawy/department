@@ -33,6 +33,8 @@ class ProjectRepositoryImpl implements ProjectRepository {
   _CacheEntry<List<ProjectEntity>>? _cachedProjects;
   final Map<int, _CacheEntry<ProjectEntity>> _cachedProjectDetails = {};
   final Map<int, _CacheEntry<List<ProjectUnitEntity>>> _cachedProjectUnits = {};
+  final Map<int, _CacheEntry<ProjectUnitEntity>> _cachedUnitDetails = {};
+  final Map<int, _CacheEntry<RoomDetailsEntity>> _cachedRoomDetails = {};
 
   ProjectRepositoryImpl({required this.remoteDataSource});
 
@@ -95,26 +97,50 @@ class ProjectRepositoryImpl implements ProjectRepository {
 
   @override
   Future<Either<Failure, ProjectUnitEntity>> getUnitDetails(int id) async {
+    if (_cachedUnitDetails[id]?.isValid == true) {
+      return Right(_cachedUnitDetails[id]!.data);
+    }
+
     try {
       final unit = await remoteDataSource.getUnitDetails(id);
+      _cachedUnitDetails[id] = _CacheEntry(data: unit, timestamp: DateTime.now());
       return Right(unit);
     } on ServerException catch (e) {
+      if (_cachedUnitDetails.containsKey(id)) return Right(_cachedUnitDetails[id]!.data);
       return Left(ServerFailure(e.message));
     } catch (e) {
+      if (_cachedUnitDetails.containsKey(id)) return Right(_cachedUnitDetails[id]!.data);
       return Left(ServerFailure('An unexpected error occurred: ${e.toString()}'));
     }
   }
 
   @override
   Future<Either<Failure, RoomDetailsEntity>> getRoomDetails(int id) async {
+    if (_cachedRoomDetails[id]?.isValid == true) {
+      return Right(_cachedRoomDetails[id]!.data);
+    }
+
     try {
       final roomDetails = await remoteDataSource.getRoomDetails(id);
+      _cachedRoomDetails[id] = _CacheEntry(data: roomDetails, timestamp: DateTime.now());
       return Right(roomDetails);
     } on ServerException catch (e) {
+      if (_cachedRoomDetails.containsKey(id)) return Right(_cachedRoomDetails[id]!.data);
       return Left(ServerFailure(e.message));
     } catch (e) {
+      if (_cachedRoomDetails.containsKey(id)) return Right(_cachedRoomDetails[id]!.data);
       return Left(ServerFailure('An unexpected error occurred: ${e.toString()}'));
     }
+  }
+
+  /// Invalidates unit detail cache entry — call after write operations (e.g. submit order).
+  void invalidateUnitCache(int id) {
+    _cachedUnitDetails.remove(id);
+  }
+
+  /// Invalidates room detail cache entry — call after material selection changes.
+  void invalidateRoomCache(int id) {
+    _cachedRoomDetails.remove(id);
   }
 
   @override

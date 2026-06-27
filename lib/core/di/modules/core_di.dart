@@ -25,7 +25,11 @@ Future<void> registerCoreDi(GetIt sl) async {
   final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton(() => sharedPreferences);
   sl.registerLazySingleton(() => RoomDesignCacheService(sharedPreferences: sl()));
-  sl.registerLazySingleton(() => const FlutterSecureStorage());
+  sl.registerLazySingleton(() => const FlutterSecureStorage(
+    iOptions: IOSOptions(
+      accessibility: KeychainAccessibility.first_unlock,
+    ),
+  ));
   sl.registerLazySingleton<IShareService>(() => ShareServiceImpl(dio: sl()));
   sl.registerLazySingleton<IDownloadService>(() => DownloadServiceImpl(dio: sl()));
 
@@ -62,6 +66,6 @@ Future<void> registerCoreDi(GetIt sl) async {
 
   // Feature Cubits (Layout, Home, Design Studio)
   sl.registerFactory(() => LayoutCubit());
-  sl.registerFactory(() => HomeCubit(getProjectsUseCase: sl()));
+  sl.registerLazySingleton(() => HomeCubit(getProjectsUseCase: sl()));
   sl.registerLazySingleton(() => DesignContextCubit());
 }

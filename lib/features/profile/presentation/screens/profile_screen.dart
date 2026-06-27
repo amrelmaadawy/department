@@ -114,8 +114,9 @@ class _ProfileViewState extends State<ProfileView>
                   isError: false,
                 );
                 
-                // Clear global states and caches on logout
+                // Clear global states, router auth cache, and caches on logout
                 sl<DesignContextCubit>().clearUnitSelection();
+                AppRouter.clearAuthCache();
                 
                 context.go(AppRouter.auth);
               }
