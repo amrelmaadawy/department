@@ -162,6 +162,7 @@ class _AuthViewState extends State<AuthView> {
                       // Switch to login tab after successful registration
                       context.read<AuthCubit>().toggleTab(true);
                     } else {
+                      AppRouter.setAuthenticated();
                       context.go(AppRouter.layout);
                     }
                   }

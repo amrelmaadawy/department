@@ -66,6 +66,6 @@ Future<void> registerCoreDi(GetIt sl) async {
 
   // Feature Cubits (Layout, Home, Design Studio)
   sl.registerFactory(() => LayoutCubit());
-  sl.registerLazySingleton(() => HomeCubit(getProjectsUseCase: sl()));
+  sl.registerFactory(() => HomeCubit(getProjectsUseCase: sl()));
   sl.registerLazySingleton(() => DesignContextCubit());
 }
