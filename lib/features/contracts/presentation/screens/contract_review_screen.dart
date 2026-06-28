@@ -100,7 +100,7 @@ class _ContractReviewScreenState extends State<ContractReviewScreen> {
             isPrinting: _isPrinting,
             pdfReady: _pdfReady,
             onPrint: _print,
-            onBack: () => context.pop(),
+            onBack: () => context.pop(true),
             l10n: l10n,
           ),
         ],
@@ -124,7 +124,7 @@ class _ContractReviewScreenState extends State<ContractReviewScreen> {
       leading: IconButton(
         icon: Icon(FluentIcons.arrow_left_24_filled,
             color: context.colors.primary),
-        onPressed: () => context.pop(),
+        onPressed: () => context.pop(true),
       ),
       actions: [
         _pdfReady

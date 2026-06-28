@@ -125,13 +125,17 @@ class _ContractSigningScreenState extends State<ContractSigningScreen> {
             // to avoid any race condition with controller disposal.
             final signatureBytes = _capturedSignatureBytes;
             if (signatureBytes != null && signatureBytes.isNotEmpty && context.mounted) {
-              context.pushReplacement(
+              context.push(
                 AppRouter.contractReview,
                 extra: {
                   'contract': state.contract,
                   'signatureImage': signatureBytes,
                 },
-              );
+              ).then((_) {
+                if (context.mounted) {
+                  context.pop(true);
+                }
+              });
             } else if (context.mounted) {
               context.pop(true);
             }
