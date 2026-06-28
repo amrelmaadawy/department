@@ -170,6 +170,10 @@ class AiRoomDesignCubit extends Cubit<AiRoomDesignState> {
         ));
       },
       (order) {
+        cacheService.saveSubmittedAiDesignMaterials(
+          state.roomId,
+          state.selectedMaterialIds,
+        );
         emit(state.copyWith(
           status: AiDesignStatus.success,
           resultOrder: order,

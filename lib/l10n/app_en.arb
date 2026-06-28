@@ -619,5 +619,9 @@
   "packageRoomLabel": "Room",
   "noPackagesAvailable": "No packages available currently",
   "packagesLoadError": "Error loading packages",
-  "retryLoad": "Retry"
+  "retryLoad": "Retry",
+  "duplicateDesignTitle": "Warning: Duplicate Design",
+  "duplicateDesignMessage": "The currently selected materials are identical to the ones used in your previous AI design for this room.",
+  "viewPreviousDesignsBtn": "View Previous Designs",
+  "continueAnywayBtn": "Create New Design Anyway"
 }

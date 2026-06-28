@@ -623,5 +623,9 @@
   "packageRoomLabel": "غرفة",
   "noPackagesAvailable": "لا توجد باقات متاحة حالياً",
   "packagesLoadError": "حدث خطأ في تحميل الباقات",
-  "retryLoad": "إعادة المحاولة"
+  "retryLoad": "إعادة المحاولة",
+  "duplicateDesignTitle": "تنبيه: تصميم مكرر",
+  "duplicateDesignMessage": "الخامات المختارة حالياً هي نفسها التي قمت بإنشاء تصميم ذكي لها سابقاً لهذه الغرفة.",
+  "viewPreviousDesignsBtn": "عرض التصاميم السابقة",
+  "continueAnywayBtn": "إنشاء تصميم جديد على أي حال"
 }

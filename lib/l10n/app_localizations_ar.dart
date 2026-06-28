@@ -1528,4 +1528,17 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get retryLoad => 'إعادة المحاولة';
+
+  @override
+  String get duplicateDesignTitle => 'تنبيه: تصميم مكرر';
+
+  @override
+  String get duplicateDesignMessage =>
+      'الخامات المختارة حالياً هي نفسها التي قمت بإنشاء تصميم ذكي لها سابقاً لهذه الغرفة.';
+
+  @override
+  String get viewPreviousDesignsBtn => 'عرض التصاميم السابقة';
+
+  @override
+  String get continueAnywayBtn => 'إنشاء تصميم جديد على أي حال';
 }

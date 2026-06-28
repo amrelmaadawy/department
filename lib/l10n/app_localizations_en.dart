@@ -1539,4 +1539,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get retryLoad => 'Retry';
+
+  @override
+  String get duplicateDesignTitle => 'Warning: Duplicate Design';
+
+  @override
+  String get duplicateDesignMessage =>
+      'The currently selected materials are identical to the ones used in your previous AI design for this room.';
+
+  @override
+  String get viewPreviousDesignsBtn => 'View Previous Designs';
+
+  @override
+  String get continueAnywayBtn => 'Create New Design Anyway';
 }

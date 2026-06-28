@@ -2965,6 +2965,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Retry'**
   String get retryLoad;
+
+  /// No description provided for @duplicateDesignTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Warning: Duplicate Design'**
+  String get duplicateDesignTitle;
+
+  /// No description provided for @duplicateDesignMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'The currently selected materials are identical to the ones used in your previous AI design for this room.'**
+  String get duplicateDesignMessage;
+
+  /// No description provided for @viewPreviousDesignsBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'View Previous Designs'**
+  String get viewPreviousDesignsBtn;
+
+  /// No description provided for @continueAnywayBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Create New Design Anyway'**
+  String get continueAnywayBtn;
 }
 
 class _AppLocalizationsDelegate
