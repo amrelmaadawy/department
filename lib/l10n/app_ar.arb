@@ -612,5 +612,16 @@
   "agreeToTerms": "أوافق على الشروط والأحكام",
   "roomDesigns": "تصاميم الغرفة",
   "createNewDesign": "تصميم ذكي جديد",
-  "startDesign": "ابدأ التصميم"
+  "startDesign": "ابدأ التصميم",
+  "selectPackageBtn": "اختر باقة جاهزة",
+  "startManualBtn": "تخصيص يدوي",
+  "packageModeActiveLabel": "وضع الباقة الجاهزة",
+  "packageModeInfo": "الخامات محددة مسبقاً من الباقة المختارة. لا يمكن التعديل.",
+  "viewPackageMaterials": "عرض الخامات",
+  "packageMaterialsTitle": "خامات الباقة",
+  "packageTotalPrice": "السعر الإجمالي للباقة",
+  "packageRoomLabel": "غرفة",
+  "noPackagesAvailable": "لا توجد باقات متاحة حالياً",
+  "packagesLoadError": "حدث خطأ في تحميل الباقات",
+  "retryLoad": "إعادة المحاولة"
 }

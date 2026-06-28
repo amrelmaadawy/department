@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:apartment/features/home/domain/entities/project_unit_entity.dart';
+import 'package:apartment/features/packages/domain/entities/finishing_package_entity.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/core/theme/app_radius.dart';
+import 'package:apartment/core/theme/app_fonts.dart';
+import 'package:apartment/l10n/app_localizations.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
 import '../widgets/details/unit/wizard_progress_header.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,13 +16,16 @@ import 'package:apartment/core/theme/theme_extension.dart';
 
 import '../widgets/details/room/room_details_page.dart';
 import 'package:apartment/core/widgets/error_state_view.dart';
+import 'package:apartment/features/projects/data/datasources/local/room_design_cache_service.dart';
 
 class UnitCustomizationScreen extends StatefulWidget {
   final ProjectUnitEntity unit;
+  final FinishingPackageEntity? selectedPackage;
 
   const UnitCustomizationScreen({
     super.key,
     required this.unit,
+    this.selectedPackage,
   });
 
   @override
@@ -27,12 +34,48 @@ class UnitCustomizationScreen extends StatefulWidget {
 
 class _UnitCustomizationScreenState extends State<UnitCustomizationScreen> {
   @override
+  void initState() {
+    super.initState();
+    if (widget.selectedPackage != null) {
+      _applyPackageToRooms(widget.unit, widget.selectedPackage!);
+    }
+  }
+
+  void _applyPackageToRooms(ProjectUnitEntity unit, FinishingPackageEntity package) {
+    final cacheService = sl<RoomDesignCacheService>();
+    for (final room in unit.rooms) {
+      var items = package.itemsForRoom(room.type);
+      if (items.isEmpty) {
+        if (room.type.toLowerCase() == 'living_room') {
+          items = package.itemsForRoom('salon');
+        } else if (room.type.toLowerCase() == 'salon') {
+          items = package.itemsForRoom('living_room');
+        }
+      }
+
+      if (items.isNotEmpty) {
+        final materialIds = items.map((e) => e.material.id).toList();
+        final cost = items.fold<double>(0.0, (sum, item) => sum + item.material.finalUnitPrice);
+        cacheService.saveRoomDesignProgress(
+          roomId: room.id,
+          selectedMaterialIds: materialIds,
+          selectedMaterialsCost: cost,
+          selectedStyle: null,
+          notes: 'تم الاختيار من باقة ${package.name}',
+          isCompleted: true,
+        );
+      }
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => sl<UnitDetailsCubit>()
         ..loadUnitDetails(int.parse(widget.unit.id), initialUnit: widget.unit),
       child: _UnitCustomizationScreenContent(
         initialUnit: widget.unit,
+        selectedPackage: widget.selectedPackage,
       ),
     );
   }
@@ -40,9 +83,11 @@ class _UnitCustomizationScreenState extends State<UnitCustomizationScreen> {
 
 class _UnitCustomizationScreenContent extends StatefulWidget {
   final ProjectUnitEntity initialUnit;
+  final FinishingPackageEntity? selectedPackage;
 
   const _UnitCustomizationScreenContent({
     required this.initialUnit,
+    this.selectedPackage,
   });
 
   @override
@@ -52,6 +97,8 @@ class _UnitCustomizationScreenContent extends StatefulWidget {
 class _UnitCustomizationScreenContentState extends State<_UnitCustomizationScreenContent> {
   @override
   Widget build(BuildContext context) {
+    final selectedPackage = widget.selectedPackage;
+
     return Scaffold(
       backgroundColor: context.colors.background,
       body: BlocBuilder<UnitDetailsCubit, UnitDetailsState>(
@@ -87,8 +134,8 @@ class _UnitCustomizationScreenContentState extends State<_UnitCustomizationScree
                       animation: tabController,
                       builder: (context, child) {
                         return BlocBuilder<UnitDetailsCubit, UnitDetailsState>(
-                          buildWhen: (previous, current) => 
-                              previous.completedRoomIds != current.completedRoomIds || 
+                          buildWhen: (previous, current) =>
+                              previous.completedRoomIds != current.completedRoomIds ||
                               previous.roomCosts != current.roomCosts ||
                               previous.unit != current.unit,
                           builder: (context, headerState) {
@@ -102,10 +149,13 @@ class _UnitCustomizationScreenContentState extends State<_UnitCustomizationScree
                               },
                               onBack: () => Navigator.pop(context),
                             );
-                          }
+                          },
                         );
                       },
                     ),
+                    // Package mode banner
+                    if (selectedPackage != null)
+                      _PackageModeBanner(packageName: selectedPackage.name),
                     Expanded(
                       child: TabBarView(
                         children: currentUnit.rooms.map((room) {
@@ -113,6 +163,7 @@ class _UnitCustomizationScreenContentState extends State<_UnitCustomizationScree
                             room: room,
                             unit: currentUnit,
                             tabController: tabController,
+                            selectedPackage: selectedPackage,
                           );
                         }).toList(),
                       ),
@@ -226,6 +277,45 @@ class _UnitCustomizationScreenContentState extends State<_UnitCustomizationScree
                 ],
               ),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _PackageModeBanner extends StatelessWidget {
+  final String packageName;
+
+  const _PackageModeBanner({required this.packageName});
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.md,
+        vertical: AppSpacing.sm,
+      ),
+      color: context.colors.gold.withValues(alpha: 0.12),
+      child: Row(
+        children: [
+          Icon(FluentIcons.star_24_filled, size: 16, color: context.colors.gold),
+          const SizedBox(width: AppSpacing.xs),
+          Expanded(
+            child: Text(
+              '${l10n.packageModeActiveLabel}: $packageName',
+              style: TextStyle(
+                fontSize: AppFonts.bodySmall,
+                fontWeight: FontWeight.w600,
+                color: context.colors.gold,
+              ),
+            ),
+          ),
+          Tooltip(
+            message: l10n.packageModeInfo,
+            child: Icon(FluentIcons.info_24_regular, size: 16, color: context.colors.gold),
           ),
         ],
       ),

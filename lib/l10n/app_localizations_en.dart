@@ -1505,4 +1505,38 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get startDesign => 'Start Design';
+
+  @override
+  String get selectPackageBtn => 'Choose a Ready Package';
+
+  @override
+  String get startManualBtn => 'Manual Customization';
+
+  @override
+  String get packageModeActiveLabel => 'Ready Package Mode';
+
+  @override
+  String get packageModeInfo =>
+      'Materials are pre-selected from your chosen package and cannot be changed.';
+
+  @override
+  String get viewPackageMaterials => 'View Materials';
+
+  @override
+  String get packageMaterialsTitle => 'Package Materials';
+
+  @override
+  String get packageTotalPrice => 'Package Total Price';
+
+  @override
+  String get packageRoomLabel => 'Room';
+
+  @override
+  String get noPackagesAvailable => 'No packages available currently';
+
+  @override
+  String get packagesLoadError => 'Error loading packages';
+
+  @override
+  String get retryLoad => 'Retry';
 }

@@ -10,6 +10,7 @@ import '../../../features/projects/presentation/screens/ai_renders_screen.dart';
 import '../../../features/projects/presentation/screens/finishing_journey_guide_screen.dart';
 import '../../../features/home/domain/entities/project_entity.dart';
 import '../../../features/home/domain/entities/project_unit_entity.dart';
+import '../../../features/packages/domain/entities/finishing_package_entity.dart';
 
 class ProjectRoutes {
   static final List<RouteBase> routes = [
@@ -76,6 +77,7 @@ class ProjectRoutes {
           transitionDuration: const Duration(milliseconds: 600),
           child: UnitCustomizationScreen(
             unit: extra['unit'] as ProjectUnitEntity,
+            selectedPackage: extra['selectedPackage'] as FinishingPackageEntity?,
           ),
           transitionsBuilder: AppRouterTransitions.slideUpFromBottom,
         );

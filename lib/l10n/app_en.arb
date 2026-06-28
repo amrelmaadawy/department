@@ -608,5 +608,16 @@
   "agreeToTerms": "I Agree to Terms & Conditions",
   "roomDesigns": "Room Designs",
   "createNewDesign": "Create New AI Design",
-  "startDesign": "Start Design"
+  "startDesign": "Start Design",
+  "selectPackageBtn": "Choose a Ready Package",
+  "startManualBtn": "Manual Customization",
+  "packageModeActiveLabel": "Ready Package Mode",
+  "packageModeInfo": "Materials are pre-selected from your chosen package and cannot be changed.",
+  "viewPackageMaterials": "View Materials",
+  "packageMaterialsTitle": "Package Materials",
+  "packageTotalPrice": "Package Total Price",
+  "packageRoomLabel": "Room",
+  "noPackagesAvailable": "No packages available currently",
+  "packagesLoadError": "Error loading packages",
+  "retryLoad": "Retry"
 }

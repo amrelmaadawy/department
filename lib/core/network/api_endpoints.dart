@@ -19,7 +19,8 @@ class ApiEndpoints {
 
   // Future endpoints can be added here
   static const String savedDesigns = '/saved-designs';
-  
+  static const String packages = '/packages';
+
   // Settings
   static const String presetNotes = '/settings/preset-notes';
 }

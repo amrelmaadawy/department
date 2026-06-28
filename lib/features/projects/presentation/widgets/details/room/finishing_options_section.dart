@@ -11,6 +11,7 @@ import '../../../../../home/domain/entities/finishing_category_entity.dart';
 import '../../../../../home/domain/entities/finishing_subtype_entity.dart';
 import '../../../../../home/domain/entities/unit_room_entity.dart';
 import 'package:apartment/l10n/app_localizations.dart';
+import 'package:apartment/core/widgets/app_toast.dart';
 
 import 'apply_to_other_rooms_sheet.dart';
 import 'category_tab_controller.dart';
@@ -25,6 +26,7 @@ class FinishingOptionsSection extends StatefulWidget {
   final List<UnitRoomEntity> unitRooms;
   final UnitRoomEntity? currentRoom;
   final CategoryTabController categoryTabController;
+  final bool isReadOnly;
 
   const FinishingOptionsSection({
     super.key, 
@@ -32,6 +34,7 @@ class FinishingOptionsSection extends StatefulWidget {
     this.unitRooms = const [],
     this.currentRoom,
     required this.categoryTabController,
+    this.isReadOnly = false,
   });
 
   @override
@@ -175,6 +178,14 @@ class _FinishingOptionsSectionState extends State<FinishingOptionsSection> {
                             isSelected: isSelected,
                             roomArea: widget.currentRoom?.area,
                             onTap: () {
+                              if (widget.isReadOnly) {
+                                AppToast.show(
+                                  context,
+                                  message: 'تم اختيار هذه الخامات تلقائياً من الباقة المختارة ولا يمكن تغييرها.',
+                                  isError: false,
+                                );
+                                return;
+                              }
                               HapticFeedback.lightImpact();
                               MaterialPreviewSheet.show(
                                 context,

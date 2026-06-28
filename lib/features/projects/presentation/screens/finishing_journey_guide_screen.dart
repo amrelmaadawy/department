@@ -5,6 +5,7 @@ import 'package:apartment/l10n/app_localizations.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
+import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/core/widgets/custom_button.dart';
 import 'package:apartment/core/routes/app_router.dart';
 import 'package:apartment/features/home/domain/entities/project_unit_entity.dart';
@@ -322,19 +323,52 @@ class _FinishingJourneyGuideScreenState extends State<FinishingJourneyGuideScree
                         ),
                       ],
                     ),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: CustomButton(
-                        text: l10n.guideStartBtn,
-                        onPressed: () {
-                          // Navigate to UnitCustomization, using replacement to prevent going back to guide
-                          context.pushReplacement(
-                            AppRouter.unitCustomization,
-                            extra: {
-                              'unit': widget.unit,
-                            },
-                          );
-                        },
+                    child: SafeArea(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          // Primary: Choose a ready package
+                          SizedBox(
+                            width: double.infinity,
+                            child: CustomButton(
+                              text: l10n.selectPackageBtn,
+                              onPressed: () {
+                                context.push(
+                                  AppRouter.packages,
+                                  extra: {'unit': widget.unit},
+                                );
+                              },
+                            ),
+                          ),
+                          const SizedBox(height: AppSpacing.sm),
+                          // Secondary: Manual customization
+                          SizedBox(
+                            width: double.infinity,
+                            child: OutlinedButton(
+                              onPressed: () {
+                                context.pushReplacement(
+                                  AppRouter.unitCustomization,
+                                  extra: {'unit': widget.unit},
+                                );
+                              },
+                              style: OutlinedButton.styleFrom(
+                                foregroundColor: context.colors.primary,
+                                side: BorderSide(color: context.colors.primary),
+                                minimumSize: const Size(double.infinity, 52),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(AppRadius.lg),
+                                ),
+                              ),
+                              child: Text(
+                                l10n.startManualBtn,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: AppFonts.bodyLarge,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),

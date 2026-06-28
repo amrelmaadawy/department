@@ -2899,6 +2899,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Start Design'**
   String get startDesign;
+
+  /// No description provided for @selectPackageBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a Ready Package'**
+  String get selectPackageBtn;
+
+  /// No description provided for @startManualBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Manual Customization'**
+  String get startManualBtn;
+
+  /// No description provided for @packageModeActiveLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready Package Mode'**
+  String get packageModeActiveLabel;
+
+  /// No description provided for @packageModeInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Materials are pre-selected from your chosen package and cannot be changed.'**
+  String get packageModeInfo;
+
+  /// No description provided for @viewPackageMaterials.
+  ///
+  /// In en, this message translates to:
+  /// **'View Materials'**
+  String get viewPackageMaterials;
+
+  /// No description provided for @packageMaterialsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Package Materials'**
+  String get packageMaterialsTitle;
+
+  /// No description provided for @packageTotalPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Package Total Price'**
+  String get packageTotalPrice;
+
+  /// No description provided for @packageRoomLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Room'**
+  String get packageRoomLabel;
+
+  /// No description provided for @noPackagesAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'No packages available currently'**
+  String get noPackagesAvailable;
+
+  /// No description provided for @packagesLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading packages'**
+  String get packagesLoadError;
+
+  /// No description provided for @retryLoad.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retryLoad;
 }
 
 class _AppLocalizationsDelegate

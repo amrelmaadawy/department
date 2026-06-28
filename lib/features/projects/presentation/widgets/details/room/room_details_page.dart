@@ -1,4 +1,5 @@
 import 'package:apartment/core/theme/app_radius.dart';
+import 'package:apartment/features/packages/domain/entities/finishing_package_entity.dart';
 import 'package:apartment/features/projects/presentation/cubit/ai_room_design_state.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
@@ -23,11 +24,14 @@ class RoomDetailsPage extends StatefulWidget {
   final UnitRoomEntity room;
   final ProjectUnitEntity unit;
   final TabController tabController;
+  final FinishingPackageEntity? selectedPackage;
+
   const RoomDetailsPage({
     super.key,
     required this.room,
     required this.unit,
     required this.tabController,
+    this.selectedPackage,
   });
 
   @override
@@ -158,6 +162,7 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> with AutomaticKeepAli
             unitRooms: widget.unit.rooms,
             currentRoom: widget.room,
             categoryTabController: _categoryTabController,
+            isReadOnly: widget.selectedPackage != null,
           ),
           const SizedBox(height: AppSpacing.xxl),
         ],

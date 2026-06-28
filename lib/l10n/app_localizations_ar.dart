@@ -1494,4 +1494,38 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get startDesign => 'ابدأ التصميم';
+
+  @override
+  String get selectPackageBtn => 'اختر باقة جاهزة';
+
+  @override
+  String get startManualBtn => 'تخصيص يدوي';
+
+  @override
+  String get packageModeActiveLabel => 'وضع الباقة الجاهزة';
+
+  @override
+  String get packageModeInfo =>
+      'الخامات محددة مسبقاً من الباقة المختارة. لا يمكن التعديل.';
+
+  @override
+  String get viewPackageMaterials => 'عرض الخامات';
+
+  @override
+  String get packageMaterialsTitle => 'خامات الباقة';
+
+  @override
+  String get packageTotalPrice => 'السعر الإجمالي للباقة';
+
+  @override
+  String get packageRoomLabel => 'غرفة';
+
+  @override
+  String get noPackagesAvailable => 'لا توجد باقات متاحة حالياً';
+
+  @override
+  String get packagesLoadError => 'حدث خطأ في تحميل الباقات';
+
+  @override
+  String get retryLoad => 'إعادة المحاولة';
 }

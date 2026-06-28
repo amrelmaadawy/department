@@ -1,37 +1,30 @@
 import 'package:equatable/equatable.dart';
-
-enum PackageTier { economic, standard, luxury, custom }
+import 'package_item_entity.dart';
 
 class FinishingPackageEntity extends Equatable {
-  final String id;
-  final PackageTier tier;
-  final String title;
-  final double pricePerSqm;
-  final List<String> features;
+  final int id;
+  final String name;
   final String? badge;
-  final String buttonText;
-  final String? subtitle;
+  final String description;
+  final double calculatedPrice;
+  final List<PackageItemEntity> items;
 
   const FinishingPackageEntity({
     required this.id,
-    required this.tier,
-    required this.title,
-    required this.pricePerSqm,
-    required this.features,
+    required this.name,
     this.badge,
-    required this.buttonText,
-    this.subtitle,
+    required this.description,
+    required this.calculatedPrice,
+    required this.items,
   });
 
+  /// Returns unique room types present in this package
+  List<String> get roomTypes => items.map((e) => e.roomType).toSet().toList();
+
+  /// Returns all items for a specific room type
+  List<PackageItemEntity> itemsForRoom(String roomType) =>
+      items.where((e) => e.roomType == roomType).toList();
+
   @override
-  List<Object?> get props => [
-    id,
-    tier,
-    title,
-    pricePerSqm,
-    features,
-    badge,
-    buttonText,
-    subtitle,
-  ];
+  List<Object?> get props => [id, name, badge, description, calculatedPrice, items];
 }
