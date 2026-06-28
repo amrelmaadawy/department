@@ -11,7 +11,6 @@ import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
-import 'package:apartment/core/routes/app_router.dart';
 import 'package:apartment/core/widgets/app_toast.dart';
 import 'package:apartment/l10n/app_localizations.dart';
 
@@ -101,7 +100,7 @@ class _ContractReviewScreenState extends State<ContractReviewScreen> {
             isPrinting: _isPrinting,
             pdfReady: _pdfReady,
             onPrint: _print,
-            onHome: () => context.go(AppRouter.layout),
+            onBack: () => context.pop(),
             l10n: l10n,
           ),
         ],
@@ -125,7 +124,7 @@ class _ContractReviewScreenState extends State<ContractReviewScreen> {
       leading: IconButton(
         icon: Icon(FluentIcons.arrow_left_24_filled,
             color: context.colors.primary),
-        onPressed: () => context.go(AppRouter.layout),
+        onPressed: () => context.pop(),
       ),
       actions: [
         _pdfReady
@@ -208,14 +207,14 @@ class _BottomBar extends StatelessWidget {
   final bool isPrinting;
   final bool pdfReady;
   final VoidCallback onPrint;
-  final VoidCallback onHome;
+  final VoidCallback onBack;
   final AppLocalizations l10n;
 
   const _BottomBar({
     required this.isPrinting,
     required this.pdfReady,
     required this.onPrint,
-    required this.onHome,
+    required this.onBack,
     required this.l10n,
   });
 
@@ -238,9 +237,9 @@ class _BottomBar extends StatelessWidget {
       ),
       child: Row(
         children: [
-          // Home button
+          // Back button
           OutlinedButton.icon(
-            onPressed: onHome,
+            onPressed: onBack,
             style: OutlinedButton.styleFrom(
               foregroundColor: context.colors.primary,
               side: BorderSide(
@@ -254,9 +253,9 @@ class _BottomBar extends StatelessWidget {
                 borderRadius: BorderRadius.circular(AppRadius.md),
               ),
             ),
-            icon: const Icon(FluentIcons.home_24_regular, size: 18),
+            icon: const Icon(FluentIcons.arrow_left_24_regular, size: 18),
             label: const Text(
-              'الرئيسية',
+              'رجوع',
               style: TextStyle(
                 fontSize: AppFonts.bodySmall,
                 fontWeight: FontWeight.bold,

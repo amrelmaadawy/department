@@ -42,6 +42,16 @@ class AiRendersPageView extends StatelessWidget {
               }
             }
 
+            Alignment getLoaderAlignment(int quadrant) {
+              switch (quadrant) {
+                case 0: return const Alignment(-0.5, -0.5); // Top Left
+                case 1: return const Alignment(0.5, -0.5);  // Top Right
+                case 2: return const Alignment(-0.5, 0.5);  // Bottom Left
+                case 3: return const Alignment(0.5, 0.5);   // Bottom Right
+                default: return Alignment.center;
+              }
+            }
+
             return Center(
               child: Padding(
                 padding: const EdgeInsets.all(AppSpacing.lg),
@@ -60,7 +70,8 @@ class AiRendersPageView extends StatelessWidget {
                             imageUrl: url,
                             fit: BoxFit.contain,
                             progressIndicatorBuilder: (context, url, downloadProgress) {
-                              return Center(
+                              return Align(
+                                alignment: getLoaderAlignment(quadrantIndex),
                                 child: Transform.scale(
                                   scale: 0.5,
                                   child: SizedBox(
@@ -77,7 +88,8 @@ class AiRendersPageView extends StatelessWidget {
                                 ),
                               );
                             },
-                            errorWidget: (context, url, error) => Center(
+                            errorWidget: (context, url, error) => Align(
+                              alignment: getLoaderAlignment(quadrantIndex),
                               child: Transform.scale(
                                 scale: 0.5,
                                 child: const Icon(FluentIcons.image_off_24_regular, size: 64, color: Colors.grey),
