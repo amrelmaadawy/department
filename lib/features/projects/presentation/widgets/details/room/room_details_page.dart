@@ -17,6 +17,7 @@ import 'finishing_options_section.dart';
 import 'unified_room_bottom_bar.dart';
 
 import 'package:apartment/features/projects/presentation/cubit/ai_room_design_cubit.dart';
+import 'category_tab_controller.dart';
 
 class RoomDetailsPage extends StatefulWidget {
   final UnitRoomEntity room;
@@ -35,6 +36,7 @@ class RoomDetailsPage extends StatefulWidget {
 
 class _RoomDetailsPageState extends State<RoomDetailsPage> with AutomaticKeepAliveClientMixin {
   AiRoomDesignCubit? _aiRoomDesignCubit;
+  final CategoryTabController _categoryTabController = CategoryTabController();
 
   @override
   void initState() {
@@ -45,6 +47,7 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> with AutomaticKeepAli
   @override
   void dispose() {
     widget.tabController.removeListener(_handleTabSelection);
+    _categoryTabController.dispose();
     super.dispose();
   }
 
@@ -109,6 +112,7 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> with AutomaticKeepAli
                       builder: (context, finishingCost) {
                         return UnifiedRoomBottomBar(
                           tabController: widget.tabController,
+                          categoryTabController: _categoryTabController,
                           unit: widget.unit,
                           finishingCost: finishingCost,
                         );
@@ -153,6 +157,7 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> with AutomaticKeepAli
             options: state.roomDetails.finishingOptions,
             unitRooms: widget.unit.rooms,
             currentRoom: widget.room,
+            categoryTabController: _categoryTabController,
           ),
           const SizedBox(height: AppSpacing.xxl),
         ],

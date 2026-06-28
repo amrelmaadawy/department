@@ -19,6 +19,7 @@ import '../../../cubit/unit_details_cubit.dart';
 import 'missing_categories_sheet.dart';
 import 'room_designs_bottom_sheet.dart';
 import 'ai_design_settings_bottom_sheet.dart';
+import 'category_tab_controller.dart';
 
 class RoomActionButtons extends StatelessWidget {
   final bool isLastRoom;
@@ -26,6 +27,7 @@ class RoomActionButtons extends StatelessWidget {
   final ProjectUnitEntity unit;
   final TabController tabController;
   final int currentTabIndex;
+  final CategoryTabController categoryTabController;
 
   const RoomActionButtons({
     super.key,
@@ -34,6 +36,7 @@ class RoomActionButtons extends StatelessWidget {
     required this.unit,
     required this.tabController,
     required this.currentTabIndex,
+    required this.categoryTabController,
   });
 
   @override
@@ -65,61 +68,72 @@ class RoomActionButtons extends StatelessWidget {
       builder: (context, state) {
         return Row(
           children: [
-            // Next Room Button
+            // Next Category / Room Button
             Expanded(
               flex: 1,
-              child: OutlinedButton(
-                onPressed: () {
-                  if (isLastRoom) {
-                    final unitState = context.read<UnitDetailsCubit>().state;
+              child: AnimatedBuilder(
+                animation: categoryTabController,
+                builder: (context, _) {
+                  final isLastCategory = categoryTabController.isLastTab;
+                  
+                  return OutlinedButton(
+                    onPressed: () {
+                      if (!isLastCategory) {
+                        categoryTabController.nextTab();
+                        return;
+                      }
+                      
+                      if (isLastRoom) {
+                        final unitState = context.read<UnitDetailsCubit>().state;
 
-                    final aiDesignedRoomIds = unitState.customerRenders
-                        .where((cr) => cr.renders.isNotEmpty)
-                        .map((cr) => cr.id)
-                        .toSet();
+                        final aiDesignedRoomIds = unitState.customerRenders
+                            .where((cr) => cr.renders.isNotEmpty)
+                            .map((cr) => cr.id)
+                            .toSet();
 
-                    // A room is completed if it's in the local completed state OR if it already has an AI design from the server
-                    final allRoomsCompleted = unit.rooms.every((r) => 
-                        unitState.completedRoomIds.contains(r.id) || aiDesignedRoomIds.contains(r.id));
-                        
-                    final allRoomsAiDesigned = unit.rooms.every((r) => aiDesignedRoomIds.contains(r.id));
+                        final allRoomsCompleted = unit.rooms.every((r) => 
+                            unitState.completedRoomIds.contains(r.id) || aiDesignedRoomIds.contains(r.id));
+                            
+                        final allRoomsAiDesigned = unit.rooms.every((r) => aiDesignedRoomIds.contains(r.id));
 
-                    if (!allRoomsCompleted) {
-                      AppToast.showError(context, 'يجب تشطيب جميع غرف الشقة أولاً قبل المتابعة');
-                      return;
-                    }
+                        if (!allRoomsCompleted) {
+                          AppToast.showError(context, 'يجب تشطيب جميع غرف الشقة أولاً قبل المتابعة');
+                          return;
+                        }
 
-                    if (!allRoomsAiDesigned) {
-                      AppToast.showError(context, 'لضمان دقة العقود، نرجو استكمال التصميم النهائي لباقي الغرف لتأكيد اختياراتك');
-                      return;
-                    }
+                        if (!allRoomsAiDesigned) {
+                          AppToast.showError(context, 'لضمان دقة العقود، نرجو استكمال التصميم النهائي لباقي الغرف لتأكيد اختياراتك');
+                          return;
+                        }
 
-                    context.push(
-                      AppRouter.finishingSummary,
-                      extra: {
-                        'totalFinishingCost': finishingCost,
-                        'unit': unit,
-                      },
-                    );
-                  } else {
-                    tabController.animateTo(currentTabIndex + 1);
-                  }
+                        context.push(
+                          AppRouter.finishingSummary,
+                          extra: {
+                            'totalFinishingCost': finishingCost,
+                            'unit': unit,
+                          },
+                        );
+                      } else {
+                        tabController.animateTo(currentTabIndex + 1);
+                      }
+                    },
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+                      side: BorderSide(color: context.colors.border),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(AppRadius.lg),
+                      ),
+                    ),
+                    child: Text(
+                      !isLastCategory ? 'الخامة التالية' : (isLastRoom ? 'عرض الملخص' : l10n.nextRoom),
+                      style: TextStyle(
+                        fontSize: AppFonts.bodyMedium,
+                        fontWeight: FontWeight.bold,
+                        color: context.colors.textPrimary,
+                      ),
+                    ),
+                  );
                 },
-                style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
-                  side: BorderSide(color: context.colors.border),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(AppRadius.lg),
-                  ),
-                ),
-                child: Text(
-                  isLastRoom ? 'عرض الملخص' : l10n.nextRoom,
-                  style: TextStyle(
-                    fontSize: AppFonts.bodyMedium,
-                    fontWeight: FontWeight.bold,
-                    color: context.colors.textPrimary,
-                  ),
-                ),
               ),
             ),
             const SizedBox(width: AppSpacing.md),

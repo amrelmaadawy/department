@@ -6,15 +6,18 @@ import '../../../../../../core/theme/theme_extension.dart';
 
 
 import 'room_action_buttons.dart';
+import 'category_tab_controller.dart';
 
 class UnifiedRoomBottomBar extends StatelessWidget {
   final TabController tabController;
+  final CategoryTabController categoryTabController;
   final ProjectUnitEntity unit;
   final double finishingCost;
 
   const UnifiedRoomBottomBar({
     super.key,
     required this.tabController,
+    required this.categoryTabController,
     required this.unit,
     required this.finishingCost,
   });
@@ -53,6 +56,7 @@ class UnifiedRoomBottomBar extends StatelessWidget {
                   unit: unit,
                   tabController: tabController,
                   currentTabIndex: currentIndex,
+                  categoryTabController: categoryTabController,
                 ),
               ],
             ),

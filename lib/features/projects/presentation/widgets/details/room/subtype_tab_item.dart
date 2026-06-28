@@ -76,7 +76,7 @@ class _SubtypeTabItemState extends State<SubtypeTabItem> with SingleTickerProvid
         scale: _scaleAnimation,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl),
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: widget.isHighlighted 

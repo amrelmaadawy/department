@@ -25,14 +25,14 @@ class MaterialPreviewSheet extends StatelessWidget {
     required this.onToggleSelection,
   });
 
-  static Future<void> show(
+  static Future<bool?> show(
     BuildContext context, {
     required FinishingMaterialEntity material,
     required bool isSelected,
     double? roomArea,
     required VoidCallback onToggleSelection,
   }) {
-    return showModalBottomSheet(
+    return showModalBottomSheet<bool>(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
@@ -202,7 +202,7 @@ class MaterialPreviewSheet extends StatelessWidget {
               text: isSelected ? l10n.unselectMaterial : l10n.selectThisMaterial,
               onPressed: () {
                 onToggleSelection();
-                Navigator.pop(context);
+                Navigator.pop(context, !isSelected);
               },
               backgroundColor: isSelected ? context.colors.error : context.colors.primary,
               textColor: Colors.white,
