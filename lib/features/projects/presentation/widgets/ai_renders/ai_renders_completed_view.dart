@@ -55,7 +55,7 @@ class _AiRendersCompletedViewState extends State<AiRendersCompletedView> {
         ),
         AiRendersActionBar(
           orderId: widget.orderId,
-          currentRenderUrl: widget.renders[_currentIndex],
+          currentRenderUrl: widget.renders[_currentIndex ~/ 4],
         ),
       ],
     );

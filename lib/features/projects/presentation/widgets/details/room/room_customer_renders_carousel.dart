@@ -63,7 +63,7 @@ class RoomCustomerRendersCarousel extends StatelessWidget {
         ),
         const SizedBox(height: AppSpacing.md),
         SizedBox(
-          height: 220,
+          height: 160,
           child: ListView.separated(
             padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
             scrollDirection: Axis.horizontal,
@@ -84,7 +84,7 @@ class RoomCustomerRendersCarousel extends StatelessWidget {
     return GestureDetector(
       onTap: () => _showFullScreenPreview(context, render),
       child: Container(
-        width: 160,
+        width: 280,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(AppRadius.lg),
           color: context.colors.white,

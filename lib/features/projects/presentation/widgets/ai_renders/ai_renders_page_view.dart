@@ -26,35 +26,66 @@ class AiRendersPageView extends StatelessWidget {
         PageView.builder(
           controller: pageController,
           onPageChanged: onPageChanged,
-          itemCount: renders.length,
+          itemCount: renders.length * 4,
           itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.all(AppSpacing.lg),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(AppRadius.xl),
-                child: InteractiveViewer(
-                  minScale: 1.0,
-                  maxScale: 4.0,
-                  child: AppCachedNetworkImage(
-                    imageUrl: renders[index],
-                    fit: BoxFit.cover,
-                    progressIndicatorBuilder: (context, url, downloadProgress) {
-                      return Center(
-                        child: SizedBox(
-                          width: 48,
-                          height: 48,
-                          child: CircularProgressIndicator(
-                            value: downloadProgress.progress,
-                            strokeWidth: 3,
-                            color: context.colors.primary,
-                            backgroundColor: context.colors.primary.withValues(alpha: 0.1),
-                            strokeCap: StrokeCap.round,
+            final urlIndex = index ~/ 4;
+            final quadrantIndex = index % 4;
+            final url = renders[urlIndex];
+
+            Alignment getQuadrantAlignment(int quadrant) {
+              switch (quadrant) {
+                case 0: return const Alignment(-1.0, -1.0); // Top Left
+                case 1: return const Alignment(1.0, -1.0);  // Top Right
+                case 2: return const Alignment(-1.0, 1.0);  // Bottom Left
+                case 3: return const Alignment(1.0, 1.0);   // Bottom Right
+                default: return Alignment.center;
+              }
+            }
+
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.all(AppSpacing.lg),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(AppRadius.xl),
+                  child: AspectRatio(
+                    aspectRatio: 1.0,
+                    child: InteractiveViewer(
+                      minScale: 1.0,
+                      maxScale: 4.0,
+                      child: ClipRect(
+                        child: Transform.scale(
+                          scale: 2.0,
+                          alignment: getQuadrantAlignment(quadrantIndex),
+                          child: AppCachedNetworkImage(
+                            imageUrl: url,
+                            fit: BoxFit.contain,
+                            progressIndicatorBuilder: (context, url, downloadProgress) {
+                              return Center(
+                                child: Transform.scale(
+                                  scale: 0.5,
+                                  child: SizedBox(
+                                    width: 48,
+                                    height: 48,
+                                    child: CircularProgressIndicator(
+                                      value: downloadProgress.progress,
+                                      strokeWidth: 3,
+                                      color: context.colors.primary,
+                                      backgroundColor: context.colors.primary.withValues(alpha: 0.1),
+                                      strokeCap: StrokeCap.round,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                            errorWidget: (context, url, error) => Center(
+                              child: Transform.scale(
+                                scale: 0.5,
+                                child: const Icon(FluentIcons.image_off_24_regular, size: 64, color: Colors.grey),
+                              ),
+                            ),
                           ),
                         ),
-                      );
-                    },
-                    errorWidget: (context, url, error) => const Center(
-                      child: Icon(FluentIcons.image_off_24_regular, size: 64, color: Colors.grey),
+                      ),
                     ),
                   ),
                 ),
@@ -62,22 +93,23 @@ class AiRendersPageView extends StatelessWidget {
             );
           },
         ),
-        if (renders.length > 1)
+        if (renders.length * 4 > 1)
           Positioned(
             bottom: AppSpacing.xl,
-            left: 0,
-            right: 0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            left: AppSpacing.lg,
+            right: AppSpacing.lg,
+            child: Wrap(
+              alignment: WrapAlignment.center,
+              spacing: AppSpacing.xs,
+              runSpacing: AppSpacing.xs,
               children: List.generate(
-                renders.length,
+                renders.length * 4,
                 (index) => AnimatedContainer(
                   duration: const Duration(milliseconds: 300),
-                  margin: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
                   width: currentIndex == index ? AppSpacing.lg : AppSpacing.sm,
                   height: AppSpacing.sm,
                   decoration: BoxDecoration(
-                    color: currentIndex == index ? context.colors.primary : context.colors.border,
+                    color: currentIndex == index ? context.colors.primary : context.colors.border.withValues(alpha: 0.5),
                     borderRadius: BorderRadius.circular(AppSpacing.xs),
                   ),
                 ),
