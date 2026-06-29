@@ -4,7 +4,10 @@ import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/core/theme/app_sizes.dart';
 import 'package:apartment/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import '../../../settings/presentation/cubit/settings_cubit.dart';
+import '../../../settings/presentation/cubit/settings_state.dart';
 
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_spacing.dart';import '../../../../core/routes/app_router.dart';
@@ -157,32 +160,44 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                   const SizedBox(height: AppSpacing.sm),
 
                                   // Tagline
-                                  Opacity(
-                                    opacity: _taglineOpacity.value,
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          l10n.welcomeTitle,
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            color: context.colors.gold,
-                                            fontSize: AppFonts.bodyLarge,
-                                            letterSpacing: 2.0,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        const SizedBox(height: AppSpacing.sm),
-                                        Text(
-                                          l10n.welcomeSubtitle,
-                                          textAlign: TextAlign.center,
-                                          style: const TextStyle(
-                                            color: AppColors.white,
-                                            fontSize: AppFonts.bodyMedium,
-                                          ),
-                                        ),
-                                      ],
+                                    Opacity(
+                                      opacity: _taglineOpacity.value,
+                                      child: BlocBuilder<SettingsCubit, SettingsState>(
+                                        builder: (context, state) {
+                                          String title = l10n.welcomeTitle;
+                                          String subtitle = l10n.welcomeSubtitle;
+
+                                          if (state is SettingsLoaded) {
+                                            title = state.settings.siteName;
+                                            subtitle = state.settings.siteDescription;
+                                          }
+
+                                          return Column(
+                                            children: [
+                                              Text(
+                                                title,
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  color: context.colors.gold,
+                                                  fontSize: AppFonts.bodyLarge,
+                                                  letterSpacing: 2.0,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              const SizedBox(height: AppSpacing.sm),
+                                              Text(
+                                                subtitle,
+                                                textAlign: TextAlign.center,
+                                                style: const TextStyle(
+                                                  color: AppColors.white,
+                                                  fontSize: AppFonts.bodyMedium,
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      ),
                                     ),
-                                  ),
                                 ],
                               ),
                             ),

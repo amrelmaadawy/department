@@ -14,12 +14,14 @@ import 'core/theme/cubit/theme_cubit.dart';
 import 'core/theme/cubit/theme_state.dart';
 import 'core/network/cubit/network_cubit.dart';
 import 'core/network/cubit/network_state.dart';
+import 'features/settings/presentation/cubit/settings_cubit.dart';
 import 'core/presentation/widgets/offline_banner.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await di.init();
+  await AppRouter.initAuth();
 
   Bloc.observer = AppBlocObserver();
 
@@ -35,6 +37,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => di.sl<LocaleCubit>()),
         BlocProvider(create: (context) => di.sl<ThemeCubit>()),
+        BlocProvider(create: (context) => di.sl<SettingsCubit>()..loadSettings()),
         BlocProvider(create: (context) => di.sl<NetworkCubit>()..startMonitoring()),
       ],
       child: BlocBuilder<LocaleCubit, LocaleState>(

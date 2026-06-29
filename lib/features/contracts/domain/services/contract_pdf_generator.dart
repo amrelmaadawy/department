@@ -7,6 +7,9 @@ import 'package:pdf/widgets.dart' as pw;
 
 import '../../domain/entities/contract_entity.dart';
 import '../../../../features/profile/domain/entities/user_entity.dart';
+import '../../../../features/settings/presentation/cubit/settings_cubit.dart';
+import '../../../../features/settings/presentation/cubit/settings_state.dart';
+import '../../../../core/di/injection_container.dart';
 
 /// Generates a single-page A4 PDF contract with all API data and signature.
 class ContractPdfGenerator {
@@ -102,6 +105,18 @@ class ContractPdfGenerator {
     }
 
     final pdf = pw.Document();
+    
+    // Fetch Settings
+    final settingsState = sl<SettingsCubit>().state;
+    String companyName = 'شركة بروز العقارية';
+    String companyPhone = '920012345';
+    String companyCr = '1010987654';
+    
+    if (settingsState is SettingsLoaded) {
+      companyName = settingsState.settings.siteName;
+      companyPhone = settingsState.settings.contactPhone;
+      companyCr = settingsState.settings.companyCr;
+    }
 
     // ─── Palette ──────────────────────────────────────────────────────────
     const primaryColor = PdfColor.fromInt(0xFF1B3358);
@@ -286,7 +301,7 @@ class ContractPdfGenerator {
                       crossAxisAlignment: pw.CrossAxisAlignment.start,
                       children: [
                         pw.Text('Broz Real Estate', style: b(sz: 8, color: white)),
-                        pw.Text('بروز العقارية', style: b(sz: 8, color: goldColor)),
+                        pw.Text(_ar(companyName), style: b(sz: 8, color: goldColor)),
                       ],
                     ),
                     pw.Column(
@@ -340,9 +355,9 @@ class ContractPdfGenerator {
                               style: b(sz: 6.5, color: primaryColor),
                               textDirection: pw.TextDirection.rtl),
                           pw.SizedBox(height: 2),
-                          _kvRow('الاسم', 'شركة بروز العقارية', ttf, ttfBold),
-                          _kvRow('الهاتف', '920012345', ttf, ttfBold),
-                          _kvRow('السجل التجاري', '1010987654', ttf, ttfBold),
+                          _kvRow('الاسم', companyName, ttf, ttfBold),
+                          _kvRow('الهاتف', companyPhone, ttf, ttfBold),
+                          _kvRow('السجل التجاري', companyCr, ttf, ttfBold),
                         ],
                       ),
                     ),

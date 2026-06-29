@@ -56,12 +56,15 @@ class AppRouter {
   /// Call this on logout to invalidate the cache.
   static void clearAuthCache() => _cachedAuthStatus = null;
 
-  static Future<bool> _resolveAuth() async {
-    if (_cachedAuthStatus != null) return _cachedAuthStatus!;
+  /// Call this to pre-load auth state before runApp to prevent black screen flash.
+  static Future<void> initAuth() async {
     final secureStorage = sl<FlutterSecureStorage>();
     final token = await secureStorage.read(key: 'auth_token');
     _cachedAuthStatus = token != null && token.isNotEmpty;
-    return _cachedAuthStatus!;
+  }
+
+  static bool _resolveAuth() {
+    return _cachedAuthStatus ?? false;
   }
   // ──────────────────────────────────────────────────────────────────────────
 
@@ -70,8 +73,8 @@ class AppRouter {
   static final router = GoRouter(
     navigatorKey: navigatorKey,
     initialLocation: initial,
-    redirect: (context, state) async {
-      final isAuth = await _resolveAuth();
+    redirect: (context, state) {
+      final isAuth = _resolveAuth();
 
       final isGoingToAuth = state.uri.path == auth;
       final isGoingToOnboarding = state.uri.path == onboarding;

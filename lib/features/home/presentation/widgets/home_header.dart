@@ -110,12 +110,12 @@ class HomeHeaderView extends StatelessWidget {
                           ? (avatarUrl.startsWith('http')
                               ? AppCachedNetworkImage(
                                   imageUrl: avatarUrl,
-                                  fit: BoxFit.cover,
+                                  fit: BoxFit.contain, // Changed to contain to prevent logo cropping
                                   errorWidget: (_, _, _) => _buildHomeFallbackAvatar(context),
                                 )
                               : Image.asset(
                                   avatarUrl,
-                                  fit: BoxFit.cover,
+                                  fit: BoxFit.contain, // Changed to contain to prevent logo cropping
                                   errorBuilder: (_, _, _) => _buildHomeFallbackAvatar(context),
                                 ))
                           : _buildHomeFallbackAvatar(context),

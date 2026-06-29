@@ -23,4 +23,6 @@ class ApiEndpoints {
 
   // Settings
   static const String presetNotes = '/settings/preset-notes';
+  // ── Settings ───────────────────────────────────────────────────────────────
+  static const String generalSettings = '/settings/general';
 }

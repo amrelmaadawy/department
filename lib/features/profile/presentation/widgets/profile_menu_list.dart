@@ -1,6 +1,7 @@
 import 'package:apartment/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/theme/theme_extension.dart';
@@ -8,7 +9,6 @@ import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../l10n/app_localizations.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../auth/presentation/cubit/auth_cubit.dart';
 import 'profile_menu_item.dart';
 import '../../../../core/routes/app_router.dart';
@@ -105,7 +105,29 @@ class ProfileMenuList extends StatelessWidget {
                   icon: FluentIcons.chat_bubbles_question_24_regular,
                   title: l10n.profileMenuContactSales,
                   showDivider: false,
-                  onTap: () {},
+                  onTap: () async {
+                    // TODO: Decide on the scenario for contacting sales (e.g. BottomSheet with options)
+                    final cubit = context.read<SettingsCubit>();
+                    final settingsState = cubit.state;
+
+                    if (settingsState is SettingsLoaded) {
+                      final phone = settingsState.settings.contactPhone;
+                      final uri = Uri.parse('tel:$phone');
+                      try {
+                        await launchUrl(uri);
+                      } catch (e) {
+                        if (context.mounted) {
+                          AppToast.show(context, message: 'حدث خطأ: لا يوجد تطبيق للاتصال');
+                        }
+                      }
+                    } else if (settingsState is SettingsError) {
+                      cubit.loadSettings();
+                      if (!context.mounted) return;
+                      AppToast.show(context, message: 'حدث خطأ في تحميل بيانات التواصل، جاري المحاولة مرة أخرى...');
+                    } else {
+                      AppToast.show(context, message: 'الرجاء الانتظار حتى يتم تحميل بيانات التواصل');
+                    }
+                  },
                 ),
               ]),
 
