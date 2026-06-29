@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:apartment/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -127,132 +128,241 @@ class _UnitsList extends StatelessWidget {
   }
 
   Widget _buildUnitCard(BuildContext context, ProjectUnitEntity unit) {
-    return Container(
-      decoration: BoxDecoration(
-        color: context.colors.white,
-        borderRadius: BorderRadius.circular(AppRadius.xl),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.black.withValues(alpha: 0.05),
-            blurRadius: 15,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Image Header
-          ClipRRect(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(AppRadius.xl)),
-            child: Stack(
-              children: [
-                Container(
-                  height: 160,
-                  width: double.infinity,
-                  color: context.colors.border,
-                  child: unit.imagePath.isNotEmpty
-                      ? CachedNetworkImage(
-                          imageUrl: unit.imagePath,
-                          fit: BoxFit.cover,
-                          errorWidget: (context, error, stackTrace) => Icon(
-                            FluentIcons.building_24_regular,
-                            size: 40,
-                            color: context.colors.textSecondary,
-                          ),
-                        )
-                      : Center(child: Icon(FluentIcons.home_24_regular, size: 40, color: context.colors.textSecondary)),
-                ),
-                // Status Badge
-                Positioned(
-                  top: AppSpacing.sm,
-                  right: AppSpacing.sm,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.md,
-                      vertical: AppSpacing.xs,
-                    ),
-                    decoration: BoxDecoration(
-                      color: isSold ? context.colors.success.withValues(alpha: 0.9) : context.colors.gold.withValues(alpha: 0.9),
+    return GestureDetector(
+      onTap: () {
+        context.push(
+          AppRouter.unitDetails,
+          extra: {
+            'unit': unit,
+            'heroTag': 'unit_${unit.id}',
+          },
+        );
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: context.colors.white,
+          borderRadius: BorderRadius.circular(AppRadius.xl),
+          border: Border.all(color: context.colors.border.withValues(alpha: 0.5)),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.black.withValues(alpha: 0.04),
+              blurRadius: 20,
+              offset: const Offset(0, 8),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Image Header
+            ClipRRect(
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(AppRadius.xl)),
+              child: Stack(
+                children: [
+                  Container(
+                    height: 180,
+                    width: double.infinity,
+                    color: context.colors.border,
+                    child: unit.imagePath.isNotEmpty
+                        ? CachedNetworkImage(
+                            imageUrl: unit.imagePath,
+                            fit: BoxFit.cover,
+                            errorWidget: (context, error, stackTrace) => Icon(
+                              FluentIcons.building_24_regular,
+                              size: 40,
+                              color: context.colors.textSecondary,
+                            ),
+                          )
+                        : Center(child: Icon(FluentIcons.home_24_regular, size: 40, color: context.colors.textSecondary)),
+                  ),
+                  // Glassmorphism Status Badge
+                  Positioned(
+                    top: AppSpacing.sm,
+                    right: AppSpacing.sm,
+                    child: ClipRRect(
                       borderRadius: BorderRadius.circular(AppRadius.round),
-                    ),
-                    child: Text(
-                      unit.statusLabel,
-                      style: TextStyle(
-                        color: context.colors.white,
-                        fontSize: AppFonts.bodySmall,
-                        fontWeight: FontWeight.bold,
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: AppSpacing.md,
+                            vertical: AppSpacing.sm,
+                          ),
+                          decoration: BoxDecoration(
+                            color: (isSold ? context.colors.success : context.colors.gold)
+                                .withValues(alpha: 0.85),
+                            borderRadius: BorderRadius.circular(AppRadius.round),
+                            border: Border.all(
+                              color: Colors.white.withValues(alpha: 0.2),
+                              width: 1,
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                isSold ? FluentIcons.checkmark_16_filled : FluentIcons.eye_16_filled,
+                                color: Colors.white,
+                                size: 14,
+                              ),
+                              const SizedBox(width: AppSpacing.xs),
+                              Text(
+                                unit.statusLabel,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: AppFonts.bodySmall,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
+            ),
+            
+            // Details
+            Padding(
+              padding: const EdgeInsets.all(AppSpacing.lg),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Title Area
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          unit.title,
+                          style: TextStyle(
+                            color: context.colors.textPrimary,
+                            fontSize: AppFonts.bodyLarge,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: context.colors.gold.withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(AppRadius.sm),
+                        ),
+                        child: Text(
+                          'وحدة ${unit.unitNumber}',
+                          style: TextStyle(
+                            color: context.colors.gold,
+                            fontSize: AppFonts.bodySmall,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  
+                  const SizedBox(height: AppSpacing.lg),
+                  
+                  // The Bento Grid
+                  Container(
+                    padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+                    decoration: BoxDecoration(
+                      color: context.colors.background,
+                      borderRadius: BorderRadius.circular(AppRadius.md),
+                      border: Border.all(color: context.colors.border.withValues(alpha: 0.5)),
+                    ),
+                    child: Row(
+                      children: [
+                        _buildBentoSpec(
+                          context,
+                          icon: FluentIcons.ruler_20_regular,
+                          label: 'المساحة',
+                          value: '${unit.area} م²',
+                        ),
+                        _buildBentoDivider(context),
+                        _buildBentoSpec(
+                          context,
+                          icon: FluentIcons.bed_20_regular,
+                          label: 'الغرف',
+                          value: unit.roomsCount.toString(),
+                        ),
+                        _buildBentoDivider(context),
+                        _buildBentoSpec(
+                          context,
+                          icon: FluentIcons.building_20_regular,
+                          label: 'الدور',
+                          value: unit.floor.toString(),
+                        ),
+                      ],
+                    ),
+                  ),
+                  
+                  const SizedBox(height: AppSpacing.lg),
+                  
+                  // Text Action Button
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        AppLocalizations.of(context)!.details,
+                        style: TextStyle(
+                          color: context.colors.gold,
+                          fontSize: AppFonts.bodyMedium,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(width: AppSpacing.xs),
+                      Icon(
+                        FluentIcons.arrow_left_16_regular,
+                        color: context.colors.gold,
+                        size: 16,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBentoSpec(BuildContext context, {required IconData icon, required String label, required String value}) {
+    return Expanded(
+      child: Column(
+        children: [
+          Icon(icon, size: 20, color: context.colors.textSecondary),
+          const SizedBox(height: 4),
+          Text(
+            value,
+            style: TextStyle(
+              color: context.colors.textPrimary,
+              fontSize: AppFonts.bodyMedium,
+              fontWeight: FontWeight.bold,
             ),
           ),
-          
-          // Details
-          Padding(
-            padding: const EdgeInsets.all(AppSpacing.lg),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'وحدة ${unit.unitNumber}',
-                  style: TextStyle(
-                    color: context.colors.gold,
-                    fontSize: AppFonts.bodyMedium,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const SizedBox(height: AppSpacing.xs),
-                Text(
-                  unit.title,
-                  style: TextStyle(
-                    color: context.colors.textPrimary,
-                    fontSize: AppFonts.bodyLarge,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                
-                const SizedBox(height: AppSpacing.lg),
-                
-                // Action Buttons
-                Row(
-                  children: [
-                    Expanded(
-                      child: ElevatedButton.icon(
-                        onPressed: () {
-                          context.push(
-                            AppRouter.unitDetails,
-                            extra: {
-                              'unit': unit,
-                              'heroTag': 'unit_${unit.id}',
-                            },
-                          );
-                        },
-                        icon: const Icon(
-                          FluentIcons.building_24_regular,
-                          size: 20,
-                        ),
-                        label: Text(AppLocalizations.of(context)!.details),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: context.colors.gold,
-                          foregroundColor: context.colors.white,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(AppRadius.lg),
-                          ),
-                          padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+          const SizedBox(height: 2),
+          Text(
+            label,
+            style: TextStyle(
+              color: context.colors.textSecondary,
+              fontSize: AppFonts.labelSmall,
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildBentoDivider(BuildContext context) {
+    return Container(
+      width: 1,
+      height: 40,
+      color: context.colors.border.withValues(alpha: 0.5),
     );
   }
 }
