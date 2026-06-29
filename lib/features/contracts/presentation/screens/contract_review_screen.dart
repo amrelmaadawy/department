@@ -126,10 +126,7 @@ class _ContractReviewScreenState extends State<ContractReviewScreen> {
             color: context.colors.primary),
         onPressed: () => context.pop(true),
       ),
-<<<<<<< HEAD
       actions: const [SizedBox(width: 48)],
-=======
->>>>>>> a05a34cc3667314682178cfb8a62e1aca207ce81
     );
   }
 
