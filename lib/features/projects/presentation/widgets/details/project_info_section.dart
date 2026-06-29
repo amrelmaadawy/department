@@ -92,7 +92,7 @@ class ProjectInfoSection extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: AppSpacing.md),
+          const SizedBox(height: AppSpacing.xs),
         ],
       ),
     );

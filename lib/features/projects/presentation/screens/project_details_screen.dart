@@ -115,8 +115,8 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
                         padding: const EdgeInsets.only(
                           left: AppSpacing.lg,
                           right: AppSpacing.lg,
-                          top: AppSpacing.md,
-                          bottom: AppSpacing.sm,
+                          top: AppSpacing.sm,
+                          bottom: AppSpacing.xs,
                         ),
                         child: Text(
                           l10n.tabUnits, // Or "الوحدات المتاحة"

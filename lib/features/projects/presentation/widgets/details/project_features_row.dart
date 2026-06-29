@@ -35,7 +35,7 @@ class ProjectFeaturesRow extends StatelessWidget {
       scrollDirection: Axis.horizontal,
       physics: const BouncingScrollPhysics(),
       padding: const EdgeInsets.symmetric(
-        vertical: AppSpacing.md,
+        vertical: AppSpacing.sm,
         horizontal: AppSpacing.lg,
       ),
       child: Row(

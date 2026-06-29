@@ -26,7 +26,7 @@ Future<void> registerProfileDi(GetIt sl) async {
   sl.registerLazySingleton(() => UpdateProfileUseCase(sl()));
 
   // Cubit
-  sl.registerFactory(() => ProfileCubit(
+  sl.registerLazySingleton(() => ProfileCubit(
     getProfileUseCase: sl(),
     toggleFavoriteDesignUseCase: sl(),
     updateProfileUseCase: sl(),

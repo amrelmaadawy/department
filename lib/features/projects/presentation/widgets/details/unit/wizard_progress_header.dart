@@ -91,19 +91,24 @@ class WizardProgressHeader extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Icon(FluentIcons.checkmark_circle_16_filled, color: context.colors.gold.withValues(alpha: 0.8), size: 14),
-                      const SizedBox(width: 4),
-                      Text(
-                        '$percentage%',
-                        style: TextStyle(
-                          fontSize: AppFonts.labelSmall,
-                          fontWeight: FontWeight.bold,
-                          color: context.colors.gold.withValues(alpha: 0.8),
-                        ),
-                        textDirection: TextDirection.ltr,
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(FluentIcons.checkmark_circle_16_filled, color: context.colors.gold.withValues(alpha: 0.8), size: 14),
+                          const SizedBox(width: 4),
+                          Text(
+                            '$percentage%',
+                            style: TextStyle(
+                              fontSize: AppFonts.labelSmall,
+                              fontWeight: FontWeight.bold,
+                              color: context.colors.gold.withValues(alpha: 0.8),
+                            ),
+                            textDirection: TextDirection.ltr,
+                          ),
+                        ],
                       ),
                     ],
                   ),

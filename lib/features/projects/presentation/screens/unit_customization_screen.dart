@@ -18,6 +18,8 @@ import 'package:apartment/core/theme/theme_extension.dart';
 import '../widgets/details/room/room_details_page.dart';
 import 'package:apartment/core/widgets/error_state_view.dart';
 import 'package:apartment/features/projects/data/datasources/local/room_design_cache_service.dart';
+import 'package:apartment/features/profile/presentation/cubit/profile_cubit.dart';
+import 'package:apartment/features/profile/presentation/cubit/profile_state.dart';
 
 class UnitCustomizationScreen extends StatefulWidget {
   final ProjectUnitEntity unit;
@@ -37,6 +39,7 @@ class _UnitCustomizationScreenState extends State<UnitCustomizationScreen> {
   @override
   void initState() {
     super.initState();
+    sl<ProfileCubit>().loadProfileIfNeeded();
     if (widget.selectedPackage != null) {
       _applyPackageToRooms(widget.unit, widget.selectedPackage!);
     }
@@ -168,6 +171,24 @@ class _UnitCustomizationScreenContentState extends State<_UnitCustomizationScree
                     // Package mode banner
                     if (selectedPackage != null)
                       _PackageModeBanner(packageName: selectedPackage.name),
+                    
+                    // AI Credits Banner
+                    BlocBuilder<ProfileCubit, ProfileState>(
+                      bloc: sl<ProfileCubit>(),
+                      builder: (context, state) {
+                        int? credits;
+                        String? errorMessage;
+                        if (state is ProfileLoaded) {
+                          credits = state.profile.user.aiCredits;
+                        } else if (state is ProfileUpdateSuccess) {
+                          credits = state.profile.user.aiCredits;
+                        } else if (state is ProfileError) {
+                          errorMessage = state.message;
+                          credits = 0; // Fallback so it doesn't spin forever
+                        }
+                        return _AiCreditsBanner(credits: credits, errorMessage: errorMessage);
+                      },
+                    ),
                     Expanded(
                       child: TabBarView(
                         children: currentUnit.rooms.map((room) {
@@ -329,6 +350,73 @@ class _PackageModeBanner extends StatelessWidget {
             message: l10n.packageModeInfo,
             child: Icon(FluentIcons.info_24_regular, size: 16, color: context.colors.gold),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class _AiCreditsBanner extends StatelessWidget {
+  final int? credits;
+  final String? errorMessage;
+
+  const _AiCreditsBanner({required this.credits, this.errorMessage});
+
+  @override
+  Widget build(BuildContext context) {
+    final bool hasError = errorMessage != null;
+    final bool isWarning = credits != null && credits! <= 1 && !hasError;
+    final Color contentColor = hasError || isWarning ? context.colors.error : context.colors.primary;
+    final Color bgColor = contentColor.withValues(alpha: 0.1);
+
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.md,
+        vertical: AppSpacing.sm,
+      ),
+      color: bgColor,
+      child: Row(
+        children: [
+          Icon(hasError ? FluentIcons.error_circle_24_regular : FluentIcons.sparkle_24_filled, size: 18, color: contentColor),
+          const SizedBox(width: AppSpacing.sm),
+          Expanded(
+            child: credits == null && !hasError
+                ? Row(
+                    children: [
+                      Text(
+                        'جاري تحميل رصيد التصميم...',
+                        style: TextStyle(
+                          fontSize: AppFonts.bodySmall,
+                          fontWeight: FontWeight.bold,
+                          color: contentColor,
+                        ),
+                      ),
+                      const SizedBox(width: AppSpacing.sm),
+                      SizedBox(
+                        width: 12,
+                        height: 12,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: contentColor,
+                        ),
+                      ),
+                    ],
+                  )
+                : Text(
+                    hasError ? 'لم يتم جلب الرصيد ($errorMessage)' : 'رصيد التصميم الذكي المتبقي: $credits',
+                    style: TextStyle(
+                      fontSize: AppFonts.bodySmall,
+                      fontWeight: FontWeight.bold,
+                      color: contentColor,
+                    ),
+                  ),
+          ),
+          if (!hasError)
+            Tooltip(
+              message: 'استخدم هذا الرصيد لتوليد تصميمات ذكية لغرفتك',
+              child: Icon(FluentIcons.info_24_regular, size: 16, color: contentColor),
+            ),
         ],
       ),
     );
