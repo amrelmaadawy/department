@@ -1,4 +1,4 @@
-package com.example.apartment
+package com.codra.shatabha
 
 import io.flutter.embedding.android.FlutterFragmentActivity
 
