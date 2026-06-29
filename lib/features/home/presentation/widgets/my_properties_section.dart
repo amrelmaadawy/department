@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:apartment/core/widgets/app_cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
@@ -68,8 +69,98 @@ class MyPropertiesSection extends StatelessWidget {
             ],
           );
         }
+        
+        if (state is ProfileLoading || state is ProfileInitial) {
+          return const _MyPropertiesShimmer();
+        }
+
         return const SizedBox.shrink();
       },
+    );
+  }
+}
+
+class _MyPropertiesShimmer extends StatelessWidget {
+  const _MyPropertiesShimmer();
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+          child: Row(
+            children: [
+              Icon(FluentIcons.home_checkmark_24_filled, color: context.colors.primary.withValues(alpha: 0.5)),
+              const SizedBox(width: AppSpacing.sm),
+              Text(
+                l10n.myProperties,
+                style: TextStyle(
+                  fontSize: AppFonts.headlineSmall,
+                  fontWeight: FontWeight.bold,
+                  color: context.colors.textPrimary,
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: AppSpacing.md),
+        SizedBox(
+          height: 280,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+            itemCount: 3,
+            separatorBuilder: (context, index) => const SizedBox(width: AppSpacing.md),
+            itemBuilder: (context, index) {
+              return Shimmer.fromColors(
+                baseColor: context.colors.border.withValues(alpha: 0.5),
+                highlightColor: context.colors.white.withValues(alpha: 0.5),
+                child: Container(
+                  width: 220,
+                  decoration: BoxDecoration(
+                    color: context.colors.white,
+                    borderRadius: BorderRadius.circular(AppRadius.md),
+                    border: Border.all(color: context.colors.border),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Image
+                      Expanded(
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.vertical(top: Radius.circular(AppRadius.md)),
+                          ),
+                        ),
+                      ),
+                      // Details
+                      Padding(
+                        padding: const EdgeInsets.all(AppSpacing.md),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(width: 120, height: 20, color: Colors.white),
+                            const SizedBox(height: AppSpacing.sm),
+                            Container(width: 80, height: 16, color: Colors.white),
+                            const SizedBox(height: AppSpacing.sm),
+                            Container(width: 60, height: 16, color: Colors.white),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+        const SizedBox(height: AppSpacing.sm),
+      ],
     );
   }
 }

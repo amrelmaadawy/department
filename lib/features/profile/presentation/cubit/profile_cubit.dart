@@ -4,6 +4,8 @@ import '../../domain/usecases/get_profile_usecase.dart';
 import '../../domain/usecases/toggle_favorite_design_usecase.dart';
 import '../../domain/entities/profile_entity.dart';
 import 'profile_state.dart';
+import '../../../../core/events/app_events.dart';
+import 'dart:async';
 
 import '../../domain/usecases/update_profile_usecase.dart';
 import '../../domain/usecases/update_profile_params.dart';
@@ -13,11 +15,17 @@ class ProfileCubit extends Cubit<ProfileState> {
   final ToggleFavoriteDesignUseCase toggleFavoriteDesignUseCase;
   final UpdateProfileUseCase updateProfileUseCase;
 
+  StreamSubscription? _contractSignedSubscription;
+
   ProfileCubit({
     required this.getProfileUseCase,
     required this.toggleFavoriteDesignUseCase,
     required this.updateProfileUseCase,
-  }) : super(ProfileInitial());
+  }) : super(ProfileInitial()) {
+    _contractSignedSubscription = AppEvents.onContractSigned.listen((_) {
+      getProfile();
+    });
+  }
 
   Future<void> getProfile() async {
     emit(ProfileLoading());
@@ -57,6 +65,12 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
   void clearProfile() {
     emit(ProfileInitial());
+  }
+
+  @override
+  Future<void> close() {
+    _contractSignedSubscription?.cancel();
+    return super.close();
   }
 
   Future<void> toggleFavoriteDesign(int orderId, String imageUrl) async {

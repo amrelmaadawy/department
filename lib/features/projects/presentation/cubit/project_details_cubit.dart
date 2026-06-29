@@ -6,18 +6,31 @@ import '../../../home/domain/entities/project_entity.dart';
 import '../../domain/usecases/get_project_details_usecase.dart';
 import '../../domain/usecases/get_project_units_usecase.dart';
 
+import '../../../../core/events/app_events.dart';
+import 'dart:async';
+
 part 'project_details_state.dart';
 
 class ProjectDetailsCubit extends Cubit<ProjectDetailsState> {
   final GetProjectDetailsUseCase getProjectDetailsUseCase;
   final GetProjectUnitsUseCase getProjectUnitsUseCase;
 
+  StreamSubscription? _contractSignedSubscription;
+  int? _currentProjectId;
+
   ProjectDetailsCubit({
     required this.getProjectDetailsUseCase,
     required this.getProjectUnitsUseCase,
-  }) : super(ProjectDetailsInitial());
+  }) : super(ProjectDetailsInitial()) {
+    _contractSignedSubscription = AppEvents.onContractSigned.listen((_) {
+      if (_currentProjectId != null) {
+        loadProjectDetails(_currentProjectId!);
+      }
+    });
+  }
 
   void loadProjectDetails(int id) async {
+    _currentProjectId = id;
     emit(ProjectDetailsLoading());
 
     final results = await Future.wait([
@@ -78,5 +91,11 @@ class ProjectDetailsCubit extends Cubit<ProjectDetailsState> {
         features: projectWithUnits.features,
       ));
     }
+  }
+
+  @override
+  Future<void> close() {
+    _contractSignedSubscription?.cancel();
+    return super.close();
   }
 }

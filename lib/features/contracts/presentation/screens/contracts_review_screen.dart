@@ -17,6 +17,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../cubit/contracts_cubit.dart';
 import '../cubit/contracts_state.dart';
 import '../../../../core/widgets/app_toast.dart';
+import '../../../../core/events/app_events.dart';
 
 class ContractsReviewScreen extends StatefulWidget {
   final double totalFinishingCost;
@@ -167,7 +168,10 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
                 );
                 if (!context.mounted) return;
                 if (result == true) {
-                  context.read<ContractsCubit>().markContractAsSigned(unit!.id, 'unit');
+                  if (unit != null) {
+                    context.read<ContractsCubit>().markContractAsSigned(unit.id, 'unit');
+                    AppEvents.emitContractSigned(unit.id);
+                  }
                 }
               } else if (state is FinishingContractCreated) {
                 final result = await context.push(
@@ -176,7 +180,9 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
                 );
                 if (!context.mounted) return;
                 if (result == true) {
-                  context.read<ContractsCubit>().markContractAsSigned(unit!.id, 'finishing');
+                  if (unit != null) {
+                    context.read<ContractsCubit>().markContractAsSigned(unit.id, 'finishing');
+                  }
                 }
               }
             },

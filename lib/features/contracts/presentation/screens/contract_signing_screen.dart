@@ -102,7 +102,7 @@ class _ContractSigningScreenState extends State<ContractSigningScreen> {
           children: [
             ContractSummaryCard(
               contractType: widget.contractType,
-              finishingTotal: widget.overrideTotalAmount ?? widget.finishingTotal,
+              finishingTotal: widget.overrideTotalAmount ?? (widget.contractType == ContractType.unit ? null : widget.finishingTotal),
               unit: widget.unit,
               contractNumber: widget.contract?.contractNumber,
               contractTypeLabel: widget.contract?.typeLabel,

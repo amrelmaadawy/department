@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:apartment/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -60,7 +61,7 @@ class MyUnitsScreen extends StatelessWidget {
         body: BlocBuilder<ProfileCubit, ProfileState>(
           builder: (context, state) {
             if (state is ProfileLoading || state is ProfileInitial) {
-              return const Center(child: CircularProgressIndicator());
+              return const _MyUnitsShimmer();
             }
 
             if (state is ProfileError) {
@@ -363,6 +364,88 @@ class _UnitsList extends StatelessWidget {
       width: 1,
       height: 40,
       color: context.colors.border.withValues(alpha: 0.5),
+    );
+  }
+}
+
+class _MyUnitsShimmer extends StatelessWidget {
+  const _MyUnitsShimmer();
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.separated(
+      padding: const EdgeInsets.all(AppSpacing.xl),
+      itemCount: 3,
+      separatorBuilder: (context, index) => const SizedBox(height: AppSpacing.lg),
+      itemBuilder: (context, index) {
+        return Shimmer.fromColors(
+          baseColor: context.colors.border.withValues(alpha: 0.5),
+          highlightColor: context.colors.white.withValues(alpha: 0.5),
+          child: Container(
+            decoration: BoxDecoration(
+              color: context.colors.white,
+              borderRadius: BorderRadius.circular(AppRadius.xl),
+              border: Border.all(color: context.colors.border.withValues(alpha: 0.5)),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Image Header
+                Container(
+                  height: 180,
+                  width: double.infinity,
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.vertical(top: Radius.circular(AppRadius.xl)),
+                  ),
+                ),
+                // Details
+                Padding(
+                  padding: const EdgeInsets.all(AppSpacing.lg),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Title Area
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(width: 150, height: 24, color: Colors.white),
+                          Container(width: 32, height: 32, color: Colors.white),
+                        ],
+                      ),
+                      const SizedBox(height: AppSpacing.lg),
+                      // Specs Grid
+                      Container(
+                        padding: const EdgeInsets.symmetric(vertical: AppSpacing.md, horizontal: AppSpacing.md),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(AppRadius.lg),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Container(width: 60, height: 40, color: Colors.white),
+                            Container(width: 60, height: 40, color: Colors.white),
+                            Container(width: 60, height: 40, color: Colors.white),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: AppSpacing.lg),
+                      // Action Row
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Container(width: 80, height: 20, color: Colors.white),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
