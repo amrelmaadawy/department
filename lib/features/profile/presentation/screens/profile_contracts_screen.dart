@@ -13,6 +13,8 @@ import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/core/di/injection_container.dart';
 import 'package:apartment/core/routes/app_router.dart';
 import 'package:apartment/l10n/app_localizations.dart';
+import 'package:apartment/core/network/cubit/network_cubit.dart';
+import 'package:apartment/core/network/cubit/network_state.dart';
 
 import '../../../contracts/domain/entities/contract_entity.dart';
 import '../../../contracts/domain/entities/contract_type.dart';
@@ -40,18 +42,28 @@ class _ProfileContractsView extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: context.colors.background,
-      body: BlocBuilder<MyContractsCubit, MyContractsState>(
-        builder: (context, state) {
-          return CustomScrollView(
-            physics: const BouncingScrollPhysics(),
-            slivers: [
-              _buildAppBar(context, l10n, state),
-              if (state is MyContractsLoaded && state.contracts.isNotEmpty)
-                _buildStatsHeader(context, state.contracts),
-              _buildBody(context, state, l10n),
-            ],
-          );
+      body: BlocListener<NetworkCubit, NetworkState>(
+        listener: (context, networkState) {
+          if (networkState is NetworkOnline) {
+            final s = context.read<MyContractsCubit>().state;
+            if (s is MyContractsError || s is MyContractsInitial) {
+              context.read<MyContractsCubit>().fetchContracts();
+            }
+          }
         },
+        child: BlocBuilder<MyContractsCubit, MyContractsState>(
+          builder: (context, state) {
+            return CustomScrollView(
+              physics: const BouncingScrollPhysics(),
+              slivers: [
+                _buildAppBar(context, l10n, state),
+                if (state is MyContractsLoaded && state.contracts.isNotEmpty)
+                  _buildStatsHeader(context, state.contracts),
+                _buildBody(context, state, l10n),
+              ],
+            );
+          },
+        ),
       ),
     );
   }

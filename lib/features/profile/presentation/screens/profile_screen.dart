@@ -21,6 +21,8 @@ import '../../../../core/di/injection_container.dart';
 import '../../../design_studio/presentation/cubit/design_context_cubit.dart';
 import '../widgets/profile_recent_orders_section.dart';
 import '../../../projects/domain/entities/finishing_order_entity.dart';
+import '../../../../core/network/cubit/network_cubit.dart';
+import '../../../../core/network/cubit/network_state.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -100,6 +102,16 @@ class _ProfileViewState extends State<ProfileView>
       backgroundColor: context.colors.background,
       body: MultiBlocListener(
         listeners: [
+          BlocListener<NetworkCubit, NetworkState>(
+            listener: (context, networkState) {
+              if (networkState is NetworkOnline) {
+                final s = context.read<ProfileCubit>().state;
+                if (s is ProfileError || s is ProfileInitial) {
+                  context.read<ProfileCubit>().getProfile();
+                }
+              }
+            },
+          ),
           BlocListener<AuthCubit, AuthState>(
             listener: (context, state) {
               if (state.status == AuthStatus.failure) {

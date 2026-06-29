@@ -13,6 +13,8 @@ import '../cubit/save_design_cubit.dart';
 import '../cubit/share_design_cubit.dart' as import_share;
 import '../cubit/download_image_cubit.dart';
 import '../../../../../l10n/app_localizations.dart';
+import '../../../../../core/network/cubit/network_cubit.dart';
+import '../../../../../core/network/cubit/network_state.dart';
 
 import '../widgets/ai_renders/ai_renders_pending_view.dart';
 import '../widgets/ai_renders/ai_renders_completed_view.dart';
@@ -63,7 +65,16 @@ class AiRendersScreen extends StatelessWidget {
           ),
           centerTitle: true,
         ),
-        body: BlocBuilder<AiRendersCubit, AiRendersState>(
+        body: BlocListener<NetworkCubit, NetworkState>(
+          listener: (context, networkState) {
+            if (networkState is NetworkOnline) {
+              final s = context.read<AiRendersCubit>().state;
+              if (s is AiRendersError) {
+                context.read<AiRendersCubit>().fetchAiRenders(orderId);
+              }
+            }
+          },
+          child: BlocBuilder<AiRendersCubit, AiRendersState>(
           builder: (context, state) {
             if (state is AiRendersLoading) {
               return Center(
@@ -121,6 +132,7 @@ class AiRendersScreen extends StatelessWidget {
             }
             return const SizedBox.shrink();
           },
+          ),
         ),
       ),
     );

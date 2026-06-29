@@ -13,6 +13,8 @@ import 'package:apartment/core/di/injection_container.dart';
 import 'package:apartment/features/home/domain/entities/project_unit_entity.dart';
 import 'package:apartment/features/packages/domain/entities/finishing_package_entity.dart';
 import 'package:apartment/l10n/app_localizations.dart';
+import 'package:apartment/core/network/cubit/network_cubit.dart';
+import 'package:apartment/core/network/cubit/network_state.dart';
 
 import '../cubit/packages_cubit.dart';
 import '../cubit/packages_state.dart';
@@ -57,61 +59,71 @@ class PackagesView extends StatelessWidget {
         centerTitle: true,
         iconTheme: IconThemeData(color: context.colors.primary),
       ),
-      body: BlocBuilder<PackagesCubit, PackagesState>(
-        builder: (context, state) {
-          if (state is PackagesLoading) {
-            return const _ShimmerLoadingView();
-          }
-
-          if (state is PackagesError) {
-            return _ErrorView(
-              message: state.message,
-              onRetry: () => context.read<PackagesCubit>().loadPackages(),
-            );
-          }
-
-          if (state is PackagesLoaded) {
-            if (state.packages.isEmpty) {
-              return _EmptyView();
+      body: BlocListener<NetworkCubit, NetworkState>(
+        listener: (context, networkState) {
+          if (networkState is NetworkOnline) {
+            final s = context.read<PackagesCubit>().state;
+            if (s is PackagesError || s is PackagesInitial) {
+              context.read<PackagesCubit>().loadPackages();
             }
-            return ListView(
-              padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.lg,
-                    vertical: AppSpacing.sm,
-                  ),
-                  child: Text(
-                    l10n.packageModeInfo,
-                    style: TextStyle(
-                      fontSize: AppFonts.bodyMedium,
-                      color: context.colors.textSecondary,
-                      height: 1.6,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                const SizedBox(height: AppSpacing.md),
-                ...state.packages.map(
-                  (package) => Padding(
-                    padding: const EdgeInsets.only(
-                      bottom: AppSpacing.xl,
-                      left: AppSpacing.lg,
-                      right: AppSpacing.lg,
-                    ),
-                    child: _PackageCard(
-                      package: package,
-                      unit: unit,
-                    ),
-                  ),
-                ),
-              ],
-            );
           }
-
-          return const SizedBox.shrink();
         },
+        child: BlocBuilder<PackagesCubit, PackagesState>(
+          builder: (context, state) {
+            if (state is PackagesLoading) {
+              return const _ShimmerLoadingView();
+            }
+
+            if (state is PackagesError) {
+              return _ErrorView(
+                message: state.message,
+                onRetry: () => context.read<PackagesCubit>().loadPackages(),
+              );
+            }
+
+            if (state is PackagesLoaded) {
+              if (state.packages.isEmpty) {
+                return _EmptyView();
+              }
+              return ListView(
+                padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppSpacing.lg,
+                      vertical: AppSpacing.sm,
+                    ),
+                    child: Text(
+                      l10n.packageModeInfo,
+                      style: TextStyle(
+                        fontSize: AppFonts.bodyMedium,
+                        color: context.colors.textSecondary,
+                        height: 1.6,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.md),
+                  ...state.packages.map(
+                    (package) => Padding(
+                      padding: const EdgeInsets.only(
+                        bottom: AppSpacing.xl,
+                        left: AppSpacing.lg,
+                        right: AppSpacing.lg,
+                      ),
+                      child: _PackageCard(
+                        package: package,
+                        unit: unit,
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            }
+
+            return const SizedBox.shrink();
+          },
+        ),
       ),
     );
   }

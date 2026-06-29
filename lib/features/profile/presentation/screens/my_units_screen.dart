@@ -13,6 +13,8 @@ import '../../../../core/theme/app_spacing.dart';
 import '../../../../l10n/app_localizations.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 import 'package:apartment/core/widgets/error_state_view.dart';
+import '../../../../core/network/cubit/network_cubit.dart';
+import '../../../../core/network/cubit/network_state.dart';
 
 import '../cubit/profile_cubit.dart';
 import '../cubit/profile_state.dart';
@@ -58,33 +60,43 @@ class MyUnitsScreen extends StatelessWidget {
             ],
           ),
         ),
-        body: BlocBuilder<ProfileCubit, ProfileState>(
-          builder: (context, state) {
-            if (state is ProfileLoading || state is ProfileInitial) {
-              return const _MyUnitsShimmer();
+        body: BlocListener<NetworkCubit, NetworkState>(
+          listener: (context, networkState) {
+            if (networkState is NetworkOnline) {
+              final s = context.read<ProfileCubit>().state;
+              if (s is ProfileError || s is ProfileInitial) {
+                context.read<ProfileCubit>().getProfile();
+              }
             }
-
-            if (state is ProfileError) {
-              return ErrorStateView(
-                message: state.message,
-                onRetry: () => context.read<ProfileCubit>().getProfile(),
-              );
-            }
-
-            if (state is ProfileLoaded) {
-              final soldUnits = state.profile.apartments.where((u) => u.status == UnitStatus.sold).toList();
-              final availableUnits = state.profile.apartments.where((u) => u.status == UnitStatus.available).toList();
-
-              return TabBarView(
-                children: [
-                  _UnitsList(units: soldUnits, isSold: true),
-                  _UnitsList(units: availableUnits, isSold: false),
-                ],
-              );
-            }
-
-            return const SizedBox.shrink();
           },
+          child: BlocBuilder<ProfileCubit, ProfileState>(
+            builder: (context, state) {
+              if (state is ProfileLoading || state is ProfileInitial) {
+                return const _MyUnitsShimmer();
+              }
+
+              if (state is ProfileError) {
+                return ErrorStateView(
+                  message: state.message,
+                  onRetry: () => context.read<ProfileCubit>().getProfile(),
+                );
+              }
+
+              if (state is ProfileLoaded) {
+                final soldUnits = state.profile.apartments.where((u) => u.status == UnitStatus.sold).toList();
+                final availableUnits = state.profile.apartments.where((u) => u.status == UnitStatus.available).toList();
+
+                return TabBarView(
+                  children: [
+                    _UnitsList(units: soldUnits, isSold: true),
+                    _UnitsList(units: availableUnits, isSold: false),
+                  ],
+                );
+              }
+
+              return const SizedBox.shrink();
+            },
+          ),
         ),
       ),
     );

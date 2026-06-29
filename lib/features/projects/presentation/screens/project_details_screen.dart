@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:apartment/l10n/app_localizations.dart';
 import 'package:shimmer/shimmer.dart';
+import '../../../../core/network/cubit/network_cubit.dart';
+import '../../../../core/network/cubit/network_state.dart';
+import '../../../../core/widgets/error_state_view.dart';
 
 import '../../../../core/di/injection_container.dart';
 import '../../../../core/theme/app_fonts.dart';
@@ -63,102 +66,118 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
       ],
       child: Scaffold(
         backgroundColor: context.colors.background,
-        body: BlocBuilder<ProjectDetailsCubit, ProjectDetailsState>(
-          builder: (context, state) {
-            ProjectEntity displayProject = widget.project;
-            List<String> features = [];
-            bool isLoading = state is ProjectDetailsLoading || state is ProjectDetailsInitial;
-
-            if (state is ProjectDetailsLoaded) {
-              displayProject = state.project;
-              
-              // Fallback for fields that might be missing in the details API but present in the list API
-              displayProject = displayProject.copyWith(
-                buildingArea: displayProject.buildingArea == 0 ? widget.project.buildingArea : displayProject.buildingArea,
-                apartmentsCount: displayProject.apartmentsCount == 0 ? widget.project.apartmentsCount : displayProject.apartmentsCount,
-                images: displayProject.images.isEmpty ? widget.project.images : displayProject.images,
-              );
-
-              features = state.features;
+        body: BlocListener<NetworkCubit, NetworkState>(
+          listener: (context, networkState) {
+            if (networkState is NetworkOnline) {
+              final s = _cubit.state;
+              if (s is ProjectDetailsError || s is ProjectDetailsInitial) {
+                _cubit.loadProjectDetails(widget.project.id);
+              }
             }
-
-            return Stack(
-              children: [
-                CustomScrollView(
-                  slivers: [
-                    // 1. Hero Header
-                    ProjectDetailsHeader(
-                      project: displayProject,
-                      heroTag: widget.heroTag,
-                    ),
-
-                    // 2. Title & Location
-                    SliverToBoxAdapter(
-                      child: ProjectInfoSection(project: displayProject),
-                    ),
-
-                    // Description Section
-                    SliverToBoxAdapter(
-                      child: ProjectDescriptionSection(project: displayProject),
-                    ),
-
-                    // 3. Features or Loading Indicator
-                    SliverToBoxAdapter(
-                      child: isLoading
-                          ? _buildFeaturesShimmer(context)
-                          : ProjectFeaturesRow(features: features),
-                    ),
-
-                    // 4. Units Section Title
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          left: AppSpacing.lg,
-                          right: AppSpacing.lg,
-                          top: AppSpacing.sm,
-                          bottom: AppSpacing.xs,
+          },
+          child: BlocBuilder<ProjectDetailsCubit, ProjectDetailsState>(
+            builder: (context, state) {
+              // ── Error State ────────────────────────────────────────────────
+              if (state is ProjectDetailsError) {
+                return Stack(
+                  children: [
+                    CustomScrollView(
+                      slivers: [
+                        ProjectDetailsHeader(
+                          project: widget.project,
+                          heroTag: widget.heroTag,
                         ),
-                        child: Text(
-                          l10n.tabUnits, // Or "الوحدات المتاحة"
-                          style: TextStyle(
-                            fontSize: AppFonts.headlineSmall,
-                            fontWeight: FontWeight.bold,
-                            color: context.colors.textPrimary,
+                        SliverFillRemaining(
+                          child: Center(
+                            child: ErrorStateView(
+                              message: state.message,
+                              onRetry: () => _cubit.loadProjectDetails(widget.project.id),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                );
+              }
+
+              ProjectEntity displayProject = widget.project;
+              List<String> features = [];
+              bool isLoading = state is ProjectDetailsLoading || state is ProjectDetailsInitial;
+
+              if (state is ProjectDetailsLoaded) {
+                displayProject = state.project;
+                displayProject = displayProject.copyWith(
+                  buildingArea: displayProject.buildingArea == 0 ? widget.project.buildingArea : displayProject.buildingArea,
+                  apartmentsCount: displayProject.apartmentsCount == 0 ? widget.project.apartmentsCount : displayProject.apartmentsCount,
+                  images: displayProject.images.isEmpty ? widget.project.images : displayProject.images,
+                );
+                features = state.features;
+              }
+
+              return Stack(
+                children: [
+                  CustomScrollView(
+                    slivers: [
+                      ProjectDetailsHeader(
+                        project: displayProject,
+                        heroTag: widget.heroTag,
+                      ),
+                      SliverToBoxAdapter(
+                        child: ProjectInfoSection(project: displayProject),
+                      ),
+                      SliverToBoxAdapter(
+                        child: ProjectDescriptionSection(project: displayProject),
+                      ),
+                      SliverToBoxAdapter(
+                        child: isLoading
+                            ? _buildFeaturesShimmer(context)
+                            : ProjectFeaturesRow(features: features),
+                      ),
+                      SliverToBoxAdapter(
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            left: AppSpacing.lg,
+                            right: AppSpacing.lg,
+                            top: AppSpacing.sm,
+                            bottom: AppSpacing.xs,
+                          ),
+                          child: Text(
+                            l10n.tabUnits,
+                            style: TextStyle(
+                              fontSize: AppFonts.headlineSmall,
+                              fontWeight: FontWeight.bold,
+                              color: context.colors.textPrimary,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-
-                    // 5. Units Content (Filters & List)
-                    SliverToBoxAdapter(
-                      child: isLoading
-                          ? _buildUnitsShimmer(context)
-                          : ProjectUnitsTab(units: displayProject.units),
-                    ),
-
-                    // Bottom Padding
-                    const SliverToBoxAdapter(
-                      child: SizedBox(height: 100), // Extra padding for comparison bar
-                    ),
-                  ],
-                ),
-                
-                // Comparison Bar
-                BlocBuilder<import_comparison.ComparisonCubit, import_comparison.ComparisonState>(
-                  builder: (context, compState) {
-                    return AnimatedPositioned(
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeInOutCubic,
-                      bottom: compState.isComparisonMode ? 0 : -150,
-                      left: 0,
-                      right: 0,
-                      child: UnitComparisonBar(selectedUnits: compState.selectedUnits),
-                    );
-                  },
-                ),
-              ],
-            );
-          },
+                      SliverToBoxAdapter(
+                        child: isLoading
+                            ? _buildUnitsShimmer(context)
+                            : ProjectUnitsTab(units: displayProject.units),
+                      ),
+                      const SliverToBoxAdapter(
+                        child: SizedBox(height: 100),
+                      ),
+                    ],
+                  ),
+                  BlocBuilder<import_comparison.ComparisonCubit, import_comparison.ComparisonState>(
+                    builder: (context, compState) {
+                      return AnimatedPositioned(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOutCubic,
+                        bottom: compState.isComparisonMode ? 0 : -150,
+                        left: 0,
+                        right: 0,
+                        child: UnitComparisonBar(selectedUnits: compState.selectedUnits),
+                      );
+                    },
+                  ),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );

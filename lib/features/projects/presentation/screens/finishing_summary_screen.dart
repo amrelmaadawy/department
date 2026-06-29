@@ -18,6 +18,7 @@ import 'package:apartment/features/contracts/presentation/cubit/contracts_state.
 import 'package:apartment/features/contracts/domain/entities/apartment_finishing_order_entity.dart';
 import 'package:apartment/features/projects/presentation/widgets/summary/room_orders_section.dart';
 import 'package:apartment/features/projects/presentation/widgets/summary/finishing_summary_shimmer.dart';
+import 'package:apartment/core/widgets/error_state_view.dart';
 
 class FinishingSummaryScreen extends StatefulWidget {
   final ProjectUnitEntity unit;
@@ -122,15 +123,14 @@ class _FinishingSummaryScreenState extends State<FinishingSummaryScreen> {
         },
         builder: (context, state) {
           if (state is ContractsError && !_isOrdersLoaded) {
-            return Center(
-              child: Padding(
-                padding: const EdgeInsets.all(AppSpacing.xl),
-                child: Text(
-                  state.message,
-                  style: TextStyle(color: context.colors.error, fontSize: AppFonts.bodyLarge),
-                  textAlign: TextAlign.center,
-                ),
-              ),
+            return ErrorStateView(
+              message: state.message,
+              onRetry: () {
+                final unitId = int.tryParse(widget.unit.id);
+                if (unitId != null) {
+                  context.read<ContractsCubit>().fetchFinishingOrders(unitId);
+                }
+              },
             );
           }
 
