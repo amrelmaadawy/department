@@ -35,6 +35,7 @@ dependencies:
   flutter_widget_from_html: ^0.17.2
   arabic_reshaper: ^0.0.1
   url_launcher: ^6.3.2
+  collection: ^1.19.1
 
 dev_dependencies:
   flutter_test:
@@ -48,6 +49,8 @@ flutter_launcher_icons:
   remove_alpha_ios: true
   image_path: "assets/icons/app_icon_cropped.png"
   min_sdk_android: 21
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: "assets/icons/app_icon_cropped.png"
 
 flutter:
   uses-material-design: true

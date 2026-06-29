@@ -126,7 +126,10 @@ class _ContractReviewScreenState extends State<ContractReviewScreen> {
             color: context.colors.primary),
         onPressed: () => context.pop(true),
       ),
+<<<<<<< HEAD
       actions: const [SizedBox(width: 48)],
+=======
+>>>>>>> a05a34cc3667314682178cfb8a62e1aca207ce81
     );
   }
 
@@ -168,6 +171,7 @@ class _ContractReviewScreenState extends State<ContractReviewScreen> {
           build: (_) => _pdfBytes!,
           initialPageFormat: PdfPageFormat.a4,
           maxPageWidth: 760,
+          dpi: 150,
           allowPrinting: false,
           allowSharing: false,
           canChangeOrientation: false,
@@ -278,6 +282,7 @@ class _BottomBar extends StatelessWidget {
                         ? 'جاري التحضير...'
                         : l10n.printContract,
                 style: const TextStyle(
+                  fontFamily: 'Cairo',
                   fontSize: AppFonts.bodySmall,
                   fontWeight: FontWeight.bold,
                 ),

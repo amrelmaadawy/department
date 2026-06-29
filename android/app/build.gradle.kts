@@ -21,7 +21,11 @@ android {
 
     defaultConfig {
         applicationId = "com.codra.shatabha"
+<<<<<<< HEAD
         minSdk = flutter.minSdkVersion
+=======
+        minSdk = 21
+>>>>>>> a05a34cc3667314682178cfb8a62e1aca207ce81
         targetSdk = 35
         versionCode = flutter.versionCode
         versionName = flutter.versionName
