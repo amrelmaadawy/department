@@ -18,6 +18,7 @@ import '../widgets/featured_project_card.dart';
 import '../widgets/home_header.dart';
 import '../widgets/company_services_carousel.dart';
 import '../widgets/section_header.dart';
+import '../widgets/my_properties_section.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -97,6 +98,7 @@ class HomeView extends StatelessWidget {
                     delegate: SliverChildListDelegate([
                       const CompanyServicesCarousel(),
                       const SizedBox(height: AppSpacing.md),
+                      const MyPropertiesSection(),
                       SectionHeader(
                         title: l10n.featuredProjects,
                       ),

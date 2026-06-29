@@ -125,38 +125,40 @@ class _UnitDetailsScreenContent extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.lg,
-          vertical: AppSpacing.md,
-        ),
-        decoration: BoxDecoration(
-          color: context.colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.black.withValues(alpha: 0.05),
-              blurRadius: 20,
-              offset: const Offset(0, -5),
+      bottomNavigationBar: unit.status == UnitStatus.sold
+          ? null
+          : Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.lg,
+                vertical: AppSpacing.md,
+              ),
+              decoration: BoxDecoration(
+                color: context.colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.black.withValues(alpha: 0.05),
+                    blurRadius: 20,
+                    offset: const Offset(0, -5),
+                  ),
+                ],
+              ),
+              child: SafeArea(
+                child: SizedBox(
+                  width: double.infinity,
+                  child: CustomButton(
+                    text: l10n.startFinishingJourney,
+                    onPressed: () {
+                      context.push(
+                        AppRouter.finishingGuide,
+                        extra: {
+                          'unit': unit,
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ),
             ),
-          ],
-        ),
-        child: SafeArea(
-          child: SizedBox(
-            width: double.infinity,
-            child: CustomButton(
-              text: l10n.startFinishingJourney,
-              onPressed: () {
-                context.push(
-                  AppRouter.finishingGuide,
-                  extra: {
-                    'unit': unit,
-                  },
-                );
-              },
-            ),
-          ),
-        ),
-      ),
     );
   }
 }

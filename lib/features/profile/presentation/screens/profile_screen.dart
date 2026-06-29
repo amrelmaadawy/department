@@ -164,6 +164,7 @@ class _ProfileViewState extends State<ProfileView>
             int contractsCount = 0;
             int unitsCount = 0;
             int aiCredits = 0;
+            double totalSpent = 0.0;
             List<FinishingOrderEntity> recentOrders = [];
 
             if (profileState is ProfileLoaded) {
@@ -173,6 +174,7 @@ class _ProfileViewState extends State<ProfileView>
               contractsCount = profileState.profile.statistics.totalOrders;
               unitsCount = profileState.profile.statistics.totalApartments;
               aiCredits = profileState.profile.user.aiCredits;
+              totalSpent = profileState.profile.statistics.totalSpent;
               recentOrders = profileState.profile.recentOrders;
             }
 
@@ -220,7 +222,7 @@ class _ProfileViewState extends State<ProfileView>
                           ),
                         ),
                         Positioned(
-                          bottom: -40, // Half of the card height approximately
+                          bottom: -80, // Updated for 2x2 grid height
                           left: 0,
                           right: 0,
                           child: ScaleTransition(
@@ -229,9 +231,11 @@ class _ProfileViewState extends State<ProfileView>
                               designsCount: designsCount,
                               contractsCount: contractsCount,
                               unitsCount: unitsCount,
-                              designsLabel: 'تصميماتي', // Using local strings or l10n
+                              totalSpent: totalSpent,
+                              designsLabel: l10n.myDesigns,
                               contractsLabel: l10n.myContracts,
                               unitsLabel: l10n.myUnits,
+                              totalSpentLabel: l10n.totalSpent,
                             ),
                           ),
                         ),
@@ -239,7 +243,7 @@ class _ProfileViewState extends State<ProfileView>
                     ),
 
                     // Provide space for the overlapping card
-                    const SizedBox(height: 60),
+                    const SizedBox(height: 100),
                     const SizedBox(height: AppSpacing.md),
 
                     // Recent Orders

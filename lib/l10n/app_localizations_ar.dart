@@ -1545,4 +1545,25 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get offlineCacheWarning =>
       'أنت تتصفح النسخة المحفوظة مسبقاً. يرجى الاتصال بالإنترنت لتحديث البيانات.';
+
+  @override
+  String get myProperties => 'إدارة عقاراتي';
+
+  @override
+  String get resumeFinishing => 'استكمال التشطيب';
+
+  @override
+  String get ownedUnits => 'الوحدات المملوكة';
+
+  @override
+  String get interestedUnits => 'وحدات مهتم بها';
+
+  @override
+  String get noOwnedUnits => 'لا توجد وحدات مملوكة حالياً';
+
+  @override
+  String get noInterestedUnits => 'لم تقم بحفظ أي وحدات بعد';
+
+  @override
+  String get totalSpent => 'إجمالي الإنفاق';
 }

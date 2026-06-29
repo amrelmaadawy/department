@@ -1556,4 +1556,25 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get offlineCacheWarning =>
       'You are browsing the cached version. Please connect to the internet to update data.';
+
+  @override
+  String get myProperties => 'My Properties';
+
+  @override
+  String get resumeFinishing => 'Resume Finishing';
+
+  @override
+  String get ownedUnits => 'Owned Units';
+
+  @override
+  String get interestedUnits => 'Interested Units';
+
+  @override
+  String get noOwnedUnits => 'No owned units currently';
+
+  @override
+  String get noInterestedUnits => 'You haven\'t saved any units yet';
+
+  @override
+  String get totalSpent => 'Total Spent';
 }

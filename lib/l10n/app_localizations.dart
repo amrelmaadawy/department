@@ -2995,6 +2995,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You are browsing the cached version. Please connect to the internet to update data.'**
   String get offlineCacheWarning;
+
+  /// No description provided for @myProperties.
+  ///
+  /// In en, this message translates to:
+  /// **'My Properties'**
+  String get myProperties;
+
+  /// No description provided for @resumeFinishing.
+  ///
+  /// In en, this message translates to:
+  /// **'Resume Finishing'**
+  String get resumeFinishing;
+
+  /// No description provided for @ownedUnits.
+  ///
+  /// In en, this message translates to:
+  /// **'Owned Units'**
+  String get ownedUnits;
+
+  /// No description provided for @interestedUnits.
+  ///
+  /// In en, this message translates to:
+  /// **'Interested Units'**
+  String get interestedUnits;
+
+  /// No description provided for @noOwnedUnits.
+  ///
+  /// In en, this message translates to:
+  /// **'No owned units currently'**
+  String get noOwnedUnits;
+
+  /// No description provided for @noInterestedUnits.
+  ///
+  /// In en, this message translates to:
+  /// **'You haven\'t saved any units yet'**
+  String get noInterestedUnits;
+
+  /// No description provided for @totalSpent.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Spent'**
+  String get totalSpent;
 }
 
 class _AppLocalizationsDelegate

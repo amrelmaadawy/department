@@ -628,5 +628,12 @@
   "duplicateDesignMessage": "الخامات المختارة حالياً هي نفسها التي قمت بإنشاء تصميم ذكي لها سابقاً لهذه الغرفة.",
   "viewPreviousDesignsBtn": "عرض التصاميم السابقة",
   "continueAnywayBtn": "إنشاء تصميم جديد على أي حال",
-  "offlineCacheWarning": "أنت تتصفح النسخة المحفوظة مسبقاً. يرجى الاتصال بالإنترنت لتحديث البيانات."
+  "offlineCacheWarning": "أنت تتصفح النسخة المحفوظة مسبقاً. يرجى الاتصال بالإنترنت لتحديث البيانات.",
+  "myProperties": "إدارة عقاراتي",
+  "resumeFinishing": "استكمال التشطيب",
+  "ownedUnits": "الوحدات المملوكة",
+  "interestedUnits": "وحدات مهتم بها",
+  "noOwnedUnits": "لا توجد وحدات مملوكة حالياً",
+  "noInterestedUnits": "لم تقم بحفظ أي وحدات بعد",
+  "totalSpent": "إجمالي الإنفاق"
 }

@@ -11,6 +11,7 @@ import '../../../../l10n/app_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../auth/presentation/cubit/auth_cubit.dart';
 import 'profile_menu_item.dart';
+import '../../../../core/routes/app_router.dart';
 
 class ProfileMenuList extends StatelessWidget {
   final Animation<double> listAnim;
@@ -37,11 +38,12 @@ class ProfileMenuList extends StatelessWidget {
               // Section: My Real Estate
               _buildSectionTitle(context, l10n.profileSectionRealEstate),
               _buildMenuGroup(context, [
-                /*ProfileMenuItem(
+                ProfileMenuItem(
                   icon: FluentIcons.building_24_regular,
-                  title: l10n.profileMenuMyUnits,
-                  onTap: () => context.push('/my-units'),
-                ),*/
+                  title: l10n.myProperties,
+                  showDivider: true,
+                  onTap: () => context.push(AppRouter.myUnits),
+                ),
                 ProfileMenuItem(
                   icon: FluentIcons.document_text_24_regular,
                   title: l10n.myContracts,

@@ -20,8 +20,11 @@ class LayoutScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => sl<LayoutCubit>(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => sl<LayoutCubit>()),
+        BlocProvider(create: (_) => sl<ProfileCubit>()..getProfile()),
+      ],
       child: const LayoutView(),
     );
   }
@@ -62,10 +65,7 @@ class LayoutView extends StatelessWidget {
     final List<Widget> screens = [
       const HomeScreen(),
       const ProjectsScreen(),
-      BlocProvider(
-        create: (_) => sl<ProfileCubit>()..getProfile(),
-        child: const AiGalleryScreen(),
-      ),
+      const AiGalleryScreen(),
       BlocProvider(
         create: (_) => sl<AuthCubit>(),
         child: const ProfileScreen(),

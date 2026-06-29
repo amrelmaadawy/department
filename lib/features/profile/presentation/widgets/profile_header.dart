@@ -27,7 +27,7 @@ class ProfileHeader extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.only(
         top: AppSpacing.xxxl * 1.5,
-        bottom: AppSpacing.xxxl * 1.5, // Extra space for the floating card
+        bottom: AppSpacing.xxxl * 2.2, // Increased extra space for the tall floating card
       ),
       decoration: BoxDecoration(
         gradient: LinearGradient(

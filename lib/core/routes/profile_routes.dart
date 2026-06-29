@@ -27,7 +27,10 @@ class ProfileRoutes {
     ),
     GoRoute(
       path: AppRouter.myUnits,
-      builder: (context, state) => const MyUnitsScreen(),
+      builder: (context, state) => BlocProvider(
+        create: (_) => sl<ProfileCubit>()..loadProfileIfNeeded(),
+        child: const MyUnitsScreen(),
+      ),
     ),
 
 
