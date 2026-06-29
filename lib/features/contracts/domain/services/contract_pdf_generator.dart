@@ -74,15 +74,22 @@ class ContractPdfGenerator {
         .replaceAll('\u2265', '>='); // ≥
   }
 
+  static pw.Font? _cachedTtf;
+  static pw.Font? _cachedTtfBold;
+
   static Future<Uint8List> generate({
     required ContractEntity contract,
     required Uint8List signatureImage,
     UserEntity? user,
   }) async {
-    final fontData = await rootBundle.load('assets/font/Cairo-Regular.ttf');
-    final boldData = await rootBundle.load('assets/font/Cairo-Bold.ttf');
-    final ttf = pw.Font.ttf(fontData);
-    final ttfBold = pw.Font.ttf(boldData);
+    if (_cachedTtf == null || _cachedTtfBold == null) {
+      final fontData = await rootBundle.load('assets/font/Cairo-Regular.ttf');
+      final boldData = await rootBundle.load('assets/font/Cairo-Bold.ttf');
+      _cachedTtf = pw.Font.ttf(fontData);
+      _cachedTtfBold = pw.Font.ttf(boldData);
+    }
+    final ttf = _cachedTtf!;
+    final ttfBold = _cachedTtfBold!;
 
     // ─── Decode signature ──────────────────────────────────────────────────
     pw.ImageProvider? signatureProvider;

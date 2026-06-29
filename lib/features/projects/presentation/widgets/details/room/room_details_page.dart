@@ -71,7 +71,7 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> with AutomaticKeepAli
     
     _aiRoomDesignCubit ??= sl<AiRoomDesignCubit>()
       ..init(
-        apartmentId: int.parse(widget.unit.id),
+        apartmentId: int.tryParse(widget.unit.id) ?? 0,
         roomId: widget.room.id,
         roomArea: widget.room.area,
       );

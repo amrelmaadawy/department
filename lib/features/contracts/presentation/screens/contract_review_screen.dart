@@ -75,9 +75,9 @@ class _ContractReviewScreenState extends State<ContractReviewScreen> {
     if (_isPrinting || _pdfBytes == null) return;
     setState(() => _isPrinting = true);
     try {
-      await Printing.sharePdf(
-        bytes: _pdfBytes!,
-        filename: 'contract_${widget.contract.contractNumber}.pdf',
+      await Printing.layoutPdf(
+        onLayout: (PdfPageFormat format) async => _pdfBytes!,
+        name: 'contract_${widget.contract.contractNumber}.pdf',
       );
     } catch (e) {
       if (mounted) AppToast.showError(context, 'فشل في الطباعة');
@@ -126,25 +126,6 @@ class _ContractReviewScreenState extends State<ContractReviewScreen> {
             color: context.colors.primary),
         onPressed: () => context.pop(true),
       ),
-      actions: [
-        _pdfReady
-            ? IconButton(
-                icon: _isPrinting
-                    ? SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          color: context.colors.primary,
-                        ),
-                      )
-                    : Icon(FluentIcons.print_24_regular,
-                        color: context.colors.primary),
-                onPressed: _isPrinting ? null : _print,
-                tooltip: l10n.printContract,
-              )
-            : const SizedBox(width: 48),
-      ],
     );
   }
 
@@ -186,6 +167,7 @@ class _ContractReviewScreenState extends State<ContractReviewScreen> {
           build: (_) => _pdfBytes!,
           initialPageFormat: PdfPageFormat.a4,
           maxPageWidth: 760,
+          dpi: 150,
           allowPrinting: false,
           allowSharing: false,
           canChangeOrientation: false,
@@ -296,6 +278,7 @@ class _BottomBar extends StatelessWidget {
                         ? 'جاري التحضير...'
                         : l10n.printContract,
                 style: const TextStyle(
+                  fontFamily: 'Cairo',
                   fontSize: AppFonts.bodySmall,
                   fontWeight: FontWeight.bold,
                 ),

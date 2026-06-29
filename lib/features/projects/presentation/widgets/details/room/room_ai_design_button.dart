@@ -7,6 +7,7 @@ import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/core/di/injection_container.dart' as di;
+import 'package:collection/collection.dart';
 
 import '../../../../../home/domain/entities/project_unit_entity.dart';
 import 'package:apartment/features/projects/domain/usecases/check_duplicate_ai_design_use_case.dart';
@@ -150,9 +151,15 @@ class RoomAiDesignButton extends StatelessWidget {
   }
 
   void _showRendersSheet(BuildContext context, VoidCallback triggerNewDesign) {
-    final unitState = context.read<UnitDetailsCubit>().state as UnitDetailsLoaded;
+    final unitState = context.read<UnitDetailsCubit>().state;
+    if (unitState is! UnitDetailsLoaded) return;
+
+    if (currentTabIndex >= unit.rooms.length) return;
     final currentRoom = unit.rooms[currentTabIndex];
-    final roomRenders = unitState.customerRenders.firstWhere((r) => r.id == currentRoom.id).renders;
+
+    final roomRenderGroup = unitState.customerRenders
+        .firstWhereOrNull((r) => r.id == currentRoom.id);
+    final roomRenders = roomRenderGroup?.renders ?? [];
 
     RoomDesignsBottomSheet.show(
       context: context,

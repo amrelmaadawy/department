@@ -1,5 +1,5 @@
 name: apartment
-description: "A new Flutter project."
+description: "شطبها — منصة تشطيب وتصميم الوحدات السكنية بالذكاء الاصطناعي"
 publish_to: 'none'
 version: 1.0.1+5
 
@@ -35,6 +35,7 @@ dependencies:
   flutter_widget_from_html: ^0.17.2
   arabic_reshaper: ^0.0.1
   url_launcher: ^6.3.2
+  collection: ^1.19.1
 
 dev_dependencies:
   flutter_test:
@@ -46,8 +47,10 @@ flutter_launcher_icons:
   android: "ic_launcher"
   ios: true
   remove_alpha_ios: true
-  image_path: "assets/icons/launcher icon.png"
+  image_path: "assets/icons/app_icon_optimized.png"
   min_sdk_android: 21
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: "assets/icons/app_icon_foreground_optimized.png"
 
 flutter:
   uses-material-design: true
@@ -61,10 +64,6 @@ flutter:
   fonts:
     - family: Cairo
       fonts:
-        - asset: assets/font/Cairo-ExtraLight.ttf
-          weight: 200
-        - asset: assets/font/Cairo-Light.ttf
-          weight: 300
         - asset: assets/font/Cairo-Regular.ttf
           weight: 400
         - asset: assets/font/Cairo-Medium.ttf
@@ -73,7 +72,3 @@ flutter:
           weight: 600
         - asset: assets/font/Cairo-Bold.ttf
           weight: 700
-        - asset: assets/font/Cairo-ExtraBold.ttf
-          weight: 800
-        - asset: assets/font/Cairo-Black.ttf
-          weight: 900

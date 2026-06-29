@@ -122,7 +122,7 @@ class UnitDetailsCubit extends Cubit<UnitDetailsState> {
   Future<void> refreshCustomerRenders() async {
     if (state.unit == null) return;
     
-    final id = int.parse(state.unit!.id);
+    final id = int.tryParse(state.unit!.id) ?? 0;
     final result = await getCustomerRendersUseCase(id);
     if (isClosed) return;
 
