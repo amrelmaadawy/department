@@ -38,15 +38,6 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
     }
-
-    splits {
-        abi {
-            isEnable = true
-            reset()
-            include("arm64-v8a", "armeabi-v7a")
-            isUniversalApk = true
-        }
-    }
 }
 
 flutter {
