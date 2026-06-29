@@ -1,4 +1,5 @@
 import '../../domain/entities/apartment_finishing_order_entity.dart';
+import 'cost_breakdown_model.dart';
 
 class ApartmentFinishingOrderAiRenderModel extends ApartmentFinishingOrderAiRenderEntity {
   const ApartmentFinishingOrderAiRenderModel({
@@ -31,18 +32,30 @@ class ApartmentFinishingOrderModel extends ApartmentFinishingOrderEntity {
     required super.aiRenders,
     super.isDraft,
     required super.status,
+    super.statusLabel,
+    super.orderType,
+    super.orderTypeLabel,
+    super.createdAt,
+    super.costBreakdown,
   });
 
   factory ApartmentFinishingOrderModel.fromJson(Map<String, dynamic> json) {
     return ApartmentFinishingOrderModel(
       id: json['id'] as int? ?? 0,
-      totalCost: json['total_cost'] as String? ?? '0.00',
+      totalCost: json['total_cost']?.toString() ?? '0.00',
       aiRenders: (json['ai_renders'] as List<dynamic>?)
               ?.map((e) => ApartmentFinishingOrderAiRenderModel.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
       isDraft: json['is_draft'] as bool?,
       status: json['status'] as String? ?? '',
+      statusLabel: json['status_label'] as String?,
+      orderType: json['order_type'] as String?,
+      orderTypeLabel: json['order_type_label'] as String?,
+      createdAt: json['created_at'] as String?,
+      costBreakdown: json['cost_breakdown'] != null
+          ? CostBreakdownModel.fromJson(json['cost_breakdown'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -53,6 +66,11 @@ class ApartmentFinishingOrderModel extends ApartmentFinishingOrderEntity {
       'ai_renders': aiRenders.map((e) => (e as ApartmentFinishingOrderAiRenderModel).toJson()).toList(),
       'is_draft': isDraft,
       'status': status,
+      'status_label': statusLabel,
+      'order_type': orderType,
+      'order_type_label': orderTypeLabel,
+      'created_at': createdAt,
+      'cost_breakdown': costBreakdown != null ? (costBreakdown as CostBreakdownModel).toJson() : null,
     };
   }
 }

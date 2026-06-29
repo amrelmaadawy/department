@@ -10,6 +10,8 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:apartment/features/contracts/domain/entities/apartment_finishing_order_entity.dart';
 import 'package:apartment/core/network/api_endpoints.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:intl/intl.dart';
+import 'package:apartment/features/projects/presentation/widgets/summary/cost_breakdown_sheet.dart';
 
 class OrderSelectionCard extends StatelessWidget {
   final ApartmentFinishingOrderEntity order;
@@ -66,7 +68,7 @@ class OrderSelectionCard extends StatelessWidget {
           children: [
             // Image Section
             Expanded(
-              flex: 3,
+              flex: 4,
               child: ClipRRect(
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(AppRadius.lg - 2)),
                 child: Stack(
@@ -85,6 +87,28 @@ class OrderSelectionCard extends StatelessWidget {
                           )
                         : _buildFallbackImage(context, roomName),
                     
+                    // Order Type Badge
+                    if (order.orderTypeLabel != null && order.orderTypeLabel!.isNotEmpty)
+                      Positioned(
+                        top: 8,
+                        left: 8, // Using left to not conflict with checkmark
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: context.colors.darkOverlay,
+                            borderRadius: BorderRadius.circular(AppRadius.sm),
+                          ),
+                          child: Text(
+                            order.orderTypeLabel!,
+                            style: const TextStyle(
+                              color: AppColors.white,
+                              fontSize: AppFonts.labelSmall,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                      
                     // Selection Checkmark
                     if (isSelected)
                       Positioned(
@@ -109,21 +133,36 @@ class OrderSelectionCard extends StatelessWidget {
             ),
             // Price & Details Section
             Expanded(
-              flex: 2,
+              flex: 4,
               child: Padding(
                 padding: const EdgeInsets.all(AppSpacing.sm),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'طلب #${order.id}',
-                      style: TextStyle(
-                        fontSize: AppFonts.bodySmall,
-                        color: context.colors.textSecondary,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            'طلب #${order.id}',
+                            style: TextStyle(
+                              fontSize: AppFonts.bodySmall,
+                              color: context.colors.textSecondary,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        if (order.createdAt != null)
+                          Text(
+                            _formatDate(order.createdAt!),
+                            style: TextStyle(
+                              fontSize: AppFonts.labelSmall,
+                              color: context.colors.textSecondary,
+                            ),
+                          ),
+                      ],
                     ),
                     const SizedBox(height: 2),
                     Row(
@@ -148,6 +187,33 @@ class OrderSelectionCard extends StatelessWidget {
                         ),
                       ],
                     ),
+                    if (order.costBreakdown != null) ...[
+                      const Spacer(),
+                      SizedBox(
+                        width: double.infinity,
+                        height: 32,
+                        child: OutlinedButton(
+                          onPressed: () => _showCostBreakdown(context),
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: isSelected ? context.colors.primary : context.colors.textSecondary,
+                            side: BorderSide(
+                              color: isSelected ? context.colors.primary : context.colors.border,
+                            ),
+                            padding: EdgeInsets.zero,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(AppRadius.sm),
+                            ),
+                          ),
+                          child: const Text(
+                            'عرض التفاصيل',
+                            style: TextStyle(
+                              fontSize: AppFonts.labelMedium,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ],
                 ),
               ),
@@ -179,5 +245,33 @@ class OrderSelectionCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _showCostBreakdown(BuildContext context) {
+    if (order.costBreakdown == null) return;
+    
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => DraggableScrollableSheet(
+        initialChildSize: 0.7,
+        maxChildSize: 0.9,
+        minChildSize: 0.5,
+        builder: (context, scrollController) => Container(
+          color: context.colors.background,
+          child: CostBreakdownSheet(breakdown: order.costBreakdown!),
+        ),
+      ),
+    );
+  }
+
+  String _formatDate(String dateStr) {
+    try {
+      final date = DateTime.parse(dateStr).toLocal();
+      return DateFormat('MMM dd, yy').format(date);
+    } catch (e) {
+      return '';
+    }
   }
 }

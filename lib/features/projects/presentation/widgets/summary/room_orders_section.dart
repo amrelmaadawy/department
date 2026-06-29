@@ -60,7 +60,7 @@ class RoomOrdersSection extends StatelessWidget {
         ),
         const SizedBox(height: AppSpacing.md),
         SizedBox(
-          height: 180, // Fixed height for the horizontal list
+          height: 230, // Increased height to fit new details and button
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
