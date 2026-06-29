@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'dart:typed_data';
 import 'dart:convert';
 
@@ -45,7 +46,7 @@ class ContractBottomActions extends StatelessWidget {
         color: context.colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: AppColors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, -4),
           ),

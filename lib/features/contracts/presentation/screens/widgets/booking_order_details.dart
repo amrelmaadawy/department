@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
@@ -103,7 +104,7 @@ class BookingOrderDetails extends StatelessWidget {
                   child: Container(
                     color: index % 2 == 0
                         ? context.colors.border.withValues(alpha: 0.5)
-                        : Colors.transparent,
+                        : AppColors.transparent,
                     height: 1.5,
                   ),
                 ),

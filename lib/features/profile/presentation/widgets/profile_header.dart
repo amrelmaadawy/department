@@ -34,7 +34,7 @@ class ProfileHeader extends StatelessWidget {
           colors: [
             context.colors.primary,
             context.colors.primary.withValues(alpha: 0.85),
-            const Color(0xFF1E242B), // Very dark slate
+            context.colors.darkSlate,
           ],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
@@ -169,7 +169,7 @@ class ProfileHeader extends StatelessWidget {
                 ),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [context.colors.gold, const Color(0xFFC99B40)],
+                    colors: [context.colors.gold, context.colors.goldDark],
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,
                   ),

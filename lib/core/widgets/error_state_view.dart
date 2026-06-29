@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
@@ -73,7 +74,7 @@ class _ErrorStateViewState extends State<ErrorStateView> with SingleTickerProvid
                 borderRadius: BorderRadius.circular(AppRadius.xl),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.04),
+                    color: AppColors.black.withValues(alpha: 0.04),
                     blurRadius: 30,
                     spreadRadius: 0,
                     offset: const Offset(0, 10),

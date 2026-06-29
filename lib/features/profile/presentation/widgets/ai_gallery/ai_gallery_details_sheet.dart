@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:apartment/core/widgets/app_cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,7 +27,7 @@ class AiGalleryDetailsSheet extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.transparent,
       builder: (bottomSheetContext) {
         return BlocProvider.value(
           value: profileCubit,
@@ -91,7 +92,7 @@ class AiGalleryDetailsSheet extends StatelessWidget {
                         return IconButton(
                           icon: Icon(
                             isFavorite ? FluentIcons.heart_24_filled : FluentIcons.heart_24_regular,
-                            color: isFavorite ? Colors.red : context.colors.textSecondary,
+                            color: isFavorite ? AppColors.error : context.colors.textSecondary,
                           ),
                           onPressed: () {
                             profileCubit.toggleFavoriteDesign(item.orderId, item.url);
@@ -134,7 +135,7 @@ class AiGalleryDetailsSheet extends StatelessWidget {
                           return Shimmer.fromColors(
                             baseColor: context.colors.border.withValues(alpha: 0.3),
                             highlightColor: context.colors.border.withValues(alpha: 0.1),
-                            child: Container(color: Colors.white),
+                            child: Container(color: AppColors.white),
                           );
                         },
                         errorWidget: (context, url, error) => Center(
@@ -169,7 +170,7 @@ class AiGalleryDetailsSheet extends StatelessWidget {
                   borderRadius: BorderRadius.circular(AppRadius.xl),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.03),
+                      color: AppColors.black.withValues(alpha: 0.03),
                       blurRadius: 15,
                       offset: const Offset(0, 4),
                     ),

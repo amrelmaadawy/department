@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:apartment/core/theme/app_fonts.dart';
@@ -44,7 +45,7 @@ class WizardProgressHeader extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.02),
+            color: AppColors.black.withValues(alpha: 0.02),
             blurRadius: 8,
             offset: const Offset(0, 4),
           )

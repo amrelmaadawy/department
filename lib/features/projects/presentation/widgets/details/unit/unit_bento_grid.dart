@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
@@ -30,7 +31,7 @@ class UnitBentoGrid extends StatelessWidget {
           border: Border.all(color: context.colors.border.withValues(alpha: 0.5), width: 1),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.02),
+              color: AppColors.black.withValues(alpha: 0.02),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),

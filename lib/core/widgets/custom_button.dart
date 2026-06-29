@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 import 'package:flutter/material.dart';
 import '../theme/app_fonts.dart';
@@ -25,7 +26,7 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final effectiveBgColor = backgroundColor ?? context.colors.gold;
-    final effectiveTextColor = textColor ?? Colors.white;
+    final effectiveTextColor = textColor ?? AppColors.white;
 
     return SizedBox(
       width: width,

@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'dart:async';
 import 'package:apartment/core/widgets/app_cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -165,8 +166,8 @@ class _ProjectDetailsHeaderState extends State<ProjectDetailsHeader> {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Colors.black.withValues(alpha: 0.4),
-                      Colors.transparent,
+                      AppColors.black.withValues(alpha: 0.4),
+                      AppColors.transparent,
                     ],
                   ),
                 ),
@@ -186,8 +187,8 @@ class _ProjectDetailsHeaderState extends State<ProjectDetailsHeader> {
                       begin: Alignment.bottomCenter,
                       end: Alignment.topCenter,
                       colors: [
-                        Colors.black.withValues(alpha: 0.5),
-                        Colors.transparent,
+                        AppColors.black.withValues(alpha: 0.5),
+                        AppColors.transparent,
                       ],
                     ),
                   ),
@@ -212,7 +213,7 @@ class _ProjectDetailsHeaderState extends State<ProjectDetailsHeader> {
                       decoration: BoxDecoration(
                         color: isActive
                             ? context.colors.gold
-                            : Colors.white.withValues(alpha: 0.5),
+                            : AppColors.white.withValues(alpha: 0.5),
                         borderRadius: BorderRadius.circular(4),
                       ),
                     );

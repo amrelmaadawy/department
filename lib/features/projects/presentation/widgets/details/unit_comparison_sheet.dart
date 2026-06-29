@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
@@ -20,7 +21,7 @@ class UnitComparisonSheet extends StatelessWidget {
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.transparent,
       constraints: BoxConstraints(
         maxWidth: context.maxContainerWidth,
       ),
@@ -183,9 +184,9 @@ class UnitComparisonSheet extends StatelessWidget {
       padding: const EdgeInsets.only(left: AppSpacing.sm),
       child: Text(
         text,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: AppFonts.labelMedium,
-          color: Colors.grey.shade600, // Fixed color to ensure readability
+          color: AppColors.grey700, // Fixed color to ensure readability
           fontWeight: FontWeight.w600,
         ),
         maxLines: 1,

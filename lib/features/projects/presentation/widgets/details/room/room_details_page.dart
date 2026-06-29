@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/features/packages/domain/entities/finishing_package_entity.dart';
 import 'package:apartment/features/projects/presentation/cubit/ai_room_design_state.dart';
@@ -162,8 +163,8 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> with AutomaticKeepAli
 
   Widget _buildShimmer(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final baseColor = isDark ? Colors.grey[800]! : Colors.grey[300]!;
-    final highlightColor = isDark ? Colors.grey[700]! : Colors.grey[100]!;
+    final baseColor = isDark ? AppColors.grey800 : AppColors.grey300;
+    final highlightColor = isDark ? AppColors.grey700 : AppColors.grey100;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
@@ -178,7 +179,7 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> with AutomaticKeepAli
             Container(
                width: double.infinity,
                height: 4,
-               decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(2)),
+               decoration: BoxDecoration(color: AppColors.white, borderRadius: BorderRadius.circular(2)),
             ),
             const SizedBox(height: AppSpacing.xl),
             
@@ -192,7 +193,7 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> with AutomaticKeepAli
                     width: 80,
                     height: 36,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: AppColors.white,
                       borderRadius: BorderRadius.circular(AppRadius.round),
                     ),
                   )
@@ -215,7 +216,7 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> with AutomaticKeepAli
               itemBuilder: (context, index) {
                 return Container(
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: AppColors.white,
                     borderRadius: BorderRadius.circular(AppRadius.lg),
                   ),
                 );
@@ -229,15 +230,15 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> with AutomaticKeepAli
 
   Widget _buildBottomBarShimmer(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final baseColor = isDark ? Colors.grey[800]! : Colors.grey[300]!;
-    final highlightColor = isDark ? Colors.grey[700]! : Colors.grey[100]!;
+    final baseColor = isDark ? AppColors.grey800 : AppColors.grey300;
+    final highlightColor = isDark ? AppColors.grey700 : AppColors.grey100;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
       decoration: BoxDecoration(
         color: context.colors.white,
         boxShadow: [
-          BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 20, offset: const Offset(0, -5)),
+          BoxShadow(color: AppColors.black.withValues(alpha: 0.05), blurRadius: 20, offset: const Offset(0, -5)),
         ],
       ),
       child: SafeArea(
@@ -253,20 +254,20 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> with AutomaticKeepAli
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(width: 80, height: 12, decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(2))),
+                      Container(width: 80, height: 12, decoration: BoxDecoration(color: AppColors.white, borderRadius: BorderRadius.circular(2))),
                       const SizedBox(height: 8),
-                      Container(width: 120, height: 24, decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(4))),
+                      Container(width: 120, height: 24, decoration: BoxDecoration(color: AppColors.white, borderRadius: BorderRadius.circular(4))),
                     ],
                   ),
-                  Container(width: 40, height: 40, decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle)),
+                  Container(width: 40, height: 40, decoration: const BoxDecoration(color: AppColors.white, shape: BoxShape.circle)),
                 ],
               ),
               const SizedBox(height: AppSpacing.md),
               Row(
                 children: [
-                  Expanded(child: Container(height: 48, decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(AppRadius.lg)))),
+                  Expanded(child: Container(height: 48, decoration: BoxDecoration(color: AppColors.white, borderRadius: BorderRadius.circular(AppRadius.lg)))),
                   const SizedBox(width: AppSpacing.md),
-                  Expanded(child: Container(height: 48, decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(AppRadius.lg)))),
+                  Expanded(child: Container(height: 48, decoration: BoxDecoration(color: AppColors.white, borderRadius: BorderRadius.circular(AppRadius.lg)))),
                 ],
               )
             ],

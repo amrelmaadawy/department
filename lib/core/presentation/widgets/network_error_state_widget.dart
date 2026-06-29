@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
@@ -111,7 +112,7 @@ class NetworkErrorStateWidget extends StatelessWidget {
                   style: TextStyle(
                     fontSize: AppFonts.bodyLarge,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: AppColors.white,
                   ),
                 ),
               ),

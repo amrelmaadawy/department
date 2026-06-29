@@ -37,7 +37,7 @@ class BookingSuccessIcon extends StatelessWidget {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   gradient: LinearGradient(
-                    colors: [context.colors.gold, const Color(0xFFE5B962)],
+                    colors: [context.colors.gold, context.colors.goldLight],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),

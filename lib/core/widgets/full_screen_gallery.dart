@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:apartment/core/widgets/app_cached_network_image.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
@@ -26,7 +27,7 @@ class FullScreenGallery extends StatefulWidget {
     Navigator.of(context).push(
       PageRouteBuilder(
         opaque: false,
-        barrierColor: Colors.black.withValues(alpha: 0.9),
+        barrierColor: AppColors.black.withValues(alpha: 0.9),
         pageBuilder: (BuildContext context, _, _) {
           return FullScreenGallery(
             images: images,
@@ -98,7 +99,7 @@ class _FullScreenGalleryState extends State<FullScreenGallery> {
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.transparent,
       body: Stack(
         children: [
           // PageView for swiping
@@ -131,11 +132,11 @@ class _FullScreenGalleryState extends State<FullScreenGallery> {
                     ? AppCachedNetworkImage(
                         imageUrl: Uri.encodeFull(imagePath),
                         fit: BoxFit.contain,
-                        errorWidget: (context, url, error) => const Center(
+                        errorWidget: (context, url, error) => Center(
                           child: Icon(
                             FluentIcons.image_off_24_regular,
                             size: 64,
-                            color: Colors.white54,
+                            color: AppColors.white.withValues(alpha: 0.54),
                           ),
                         ),
                       )
@@ -168,11 +169,11 @@ class _FullScreenGalleryState extends State<FullScreenGallery> {
                     // Close button
                     Container(
                       decoration: BoxDecoration(
-                        color: Colors.black.withValues(alpha: 0.5),
+                        color: AppColors.black.withValues(alpha: 0.5),
                         shape: BoxShape.circle,
                       ),
                       child: IconButton(
-                        icon: const Icon(FluentIcons.dismiss_24_regular, color: Colors.white),
+                        icon: const Icon(FluentIcons.dismiss_24_regular, color: AppColors.white),
                         onPressed: () => Navigator.of(context).pop(),
                         tooltip: l10n.closeGallery,
                       ),
@@ -183,13 +184,13 @@ class _FullScreenGalleryState extends State<FullScreenGallery> {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                         decoration: BoxDecoration(
-                          color: Colors.black.withValues(alpha: 0.5),
+                          color: AppColors.black.withValues(alpha: 0.5),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Text(
                           l10n.imageCountOf((_currentIndex + 1).toString(), widget.images.length.toString()),
                           style: const TextStyle(
-                            color: Colors.white,
+                            color: AppColors.white,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -219,7 +220,7 @@ class _FullScreenGalleryState extends State<FullScreenGallery> {
                       decoration: BoxDecoration(
                         color: isActive
                             ? context.colors.gold
-                            : Colors.white.withValues(alpha: 0.5),
+                            : AppColors.white.withValues(alpha: 0.5),
                         borderRadius: BorderRadius.circular(4),
                       ),
                     );

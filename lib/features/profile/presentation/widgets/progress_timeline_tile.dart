@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
@@ -45,7 +46,7 @@ class ProgressTimelineTile extends StatelessWidget {
                 Container(
                   width: 2,
                   height: 24,
-                  color: isFirst ? Colors.transparent : (isCompleted || isActive ? context.colors.success : context.colors.border),
+                  color: isFirst ? AppColors.transparent : (isCompleted || isActive ? context.colors.success : context.colors.border),
                 ),
                 // Indicator Dot
                 Container(
@@ -64,7 +65,7 @@ class ProgressTimelineTile extends StatelessWidget {
                 Expanded(
                   child: Container(
                     width: 2,
-                    color: isLast ? Colors.transparent : (isCompleted ? context.colors.success : context.colors.border),
+                    color: isLast ? AppColors.transparent : (isCompleted ? context.colors.success : context.colors.border),
                   ),
                 ),
               ],
@@ -85,7 +86,7 @@ class ProgressTimelineTile extends StatelessWidget {
                     BoxShadow(
                       color: isActive 
                           ? context.colors.gold.withValues(alpha: 0.15) 
-                          : Colors.black.withValues(alpha: 0.03),
+                          : AppColors.black.withValues(alpha: 0.03),
                       blurRadius: isActive ? 20 : 10,
                       offset: const Offset(0, 5),
                     ),

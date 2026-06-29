@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/theme/app_fonts.dart';
@@ -16,7 +17,7 @@ class SavedDesignsFilterSheet extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.transparent,
       constraints: BoxConstraints(
         maxWidth: context.maxContainerWidth,
       ),
@@ -177,7 +178,7 @@ class SavedDesignsFilterSheet extends StatelessWidget {
                     style: const TextStyle(
                       fontSize: AppFonts.bodyLarge,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: AppColors.white,
                     ),
                   ),
                 ),
@@ -211,7 +212,7 @@ class SavedDesignsFilterSheet extends StatelessWidget {
       selected: isSelected,
       onSelected: onSelected,
       labelStyle: TextStyle(
-        color: isSelected ? Colors.white : context.colors.textPrimary,
+        color: isSelected ? AppColors.white : context.colors.textPrimary,
         fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
       ),
       backgroundColor: context.colors.border.withValues(alpha: 0.2),
@@ -219,7 +220,7 @@ class SavedDesignsFilterSheet extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppRadius.md),
         side: BorderSide(
-          color: isSelected ? context.colors.primary : Colors.transparent,
+          color: isSelected ? context.colors.primary : AppColors.transparent,
         ),
       ),
       showCheckmark: false,

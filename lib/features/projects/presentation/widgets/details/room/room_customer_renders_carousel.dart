@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:apartment/core/widgets/app_cached_network_image.dart';
 import 'package:shimmer/shimmer.dart';
@@ -91,7 +92,7 @@ class RoomCustomerRendersCarousel extends StatelessWidget {
           color: context.colors.white,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.05),
+              color: AppColors.black.withValues(alpha: 0.05),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
@@ -106,9 +107,9 @@ class RoomCustomerRendersCarousel extends StatelessWidget {
                 imageUrl: render.url,
                 fit: BoxFit.cover,
                 placeholder: (context, url) => Shimmer.fromColors(
-                  baseColor: Colors.grey[300]!,
-                  highlightColor: Colors.grey[100]!,
-                  child: Container(color: Colors.white),
+                  baseColor: AppColors.grey300,
+                  highlightColor: AppColors.grey100,
+                  child: Container(color: AppColors.white),
                 ),
                 errorWidget: (context, url, error) => Container(
                   color: context.colors.border,
@@ -131,12 +132,12 @@ class RoomCustomerRendersCarousel extends StatelessWidget {
                     child: Container(
                       padding: const EdgeInsets.all(6),
                       decoration: BoxDecoration(
-                        color: Colors.black.withValues(alpha: 0.5),
+                        color: AppColors.black.withValues(alpha: 0.5),
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
                         render.isSaved ? FluentIcons.heart_24_filled : FluentIcons.heart_24_regular,
-                        color: render.isSaved ? Colors.red : Colors.white,
+                        color: render.isSaved ? AppColors.error : AppColors.white,
                         size: 16,
                       ),
                     ),
@@ -154,15 +155,15 @@ class RoomCustomerRendersCarousel extends StatelessWidget {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => Scaffold(
-          backgroundColor: Colors.black,
+          backgroundColor: AppColors.black,
           appBar: AppBar(
-            backgroundColor: Colors.transparent,
+            backgroundColor: AppColors.transparent,
             elevation: 0,
-            iconTheme: const IconThemeData(color: Colors.white),
+            iconTheme: const IconThemeData(color: AppColors.white),
             title: Text(
               roomName,
               style: const TextStyle(
-                color: Colors.white,
+                color: AppColors.white,
                 fontSize: AppFonts.headlineSmall,
               ),
             ),
@@ -177,11 +178,11 @@ class RoomCustomerRendersCarousel extends StatelessWidget {
                 fit: BoxFit.contain,
                 width: double.infinity,
                 placeholder: (context, url) => const Center(
-                  child: CircularProgressIndicator(color: Colors.white),
+                  child: CircularProgressIndicator(color: AppColors.white),
                 ),
                 errorWidget: (context, url, error) => const Icon(
                   FluentIcons.error_circle_24_regular,
-                  color: Colors.red,
+                  color: AppColors.error,
                   size: 48,
                 ),
               ),

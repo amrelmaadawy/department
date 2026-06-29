@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
@@ -31,7 +32,7 @@ class AiRendersActionBar extends StatelessWidget {
         borderRadius: const BorderRadius.vertical(top: Radius.circular(AppRadius.xl)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: AppColors.black.withValues(alpha: 0.05),
             blurRadius: 20,
             offset: const Offset(0, -5),
           ),
@@ -138,7 +139,7 @@ class AiRendersActionBar extends StatelessWidget {
                         ? const SizedBox(
                             width: 24,
                             height: 24,
-                            child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                            child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.white),
                           )
                         : const Icon(FluentIcons.save_24_regular, size: 24),
                     label: Builder(

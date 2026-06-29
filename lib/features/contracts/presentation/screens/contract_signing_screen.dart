@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'dart:typed_data';
 
 import 'package:apartment/core/theme/app_spacing.dart';
@@ -54,8 +55,8 @@ class _ContractSigningScreenState extends State<ContractSigningScreen> {
     super.initState();
     _signatureController = SignatureController(
       penStrokeWidth: 3,
-      penColor: Colors.black,
-      exportBackgroundColor: Colors.white,
+      penColor: AppColors.black,
+      exportBackgroundColor: AppColors.white,
     );
   }
 

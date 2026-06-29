@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/features/home/domain/entities/unit_room_entity.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
@@ -158,7 +159,7 @@ class UnitRoomsProgressBar extends StatelessWidget {
             child: Icon(
               FluentIcons.checkmark_12_filled,
               size: 12,
-              color: isCompleted ? context.colors.white : Colors.transparent,
+              color: isCompleted ? context.colors.white : AppColors.transparent,
             ),
           ),
           const SizedBox(height: AppSpacing.sm),

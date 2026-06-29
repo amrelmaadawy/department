@@ -22,7 +22,7 @@ class BookingSuccessActions extends StatelessWidget {
           height: 60,
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [context.colors.gold, const Color(0xFFC99B40)],
+              colors: [context.colors.gold, context.colors.goldLight],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
@@ -36,7 +36,7 @@ class BookingSuccessActions extends StatelessWidget {
             ],
           ),
           child: Material(
-            color: Colors.transparent,
+            color: context.colors.transparent,
             child: InkWell(
               borderRadius: BorderRadius.circular(AppRadius.xl),
               onTap: () {

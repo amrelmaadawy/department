@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'dart:ui';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,7 @@ class FinishingMaterialGridCard extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(AppRadius.lg),
           border: Border.all(
-            color: isSelected ? context.colors.gold : Colors.transparent,
+            color: isSelected ? context.colors.gold : AppColors.transparent,
             width: isSelected ? 2.0 : 1.0,
           ),
           boxShadow: isSelected
@@ -47,7 +48,7 @@ class FinishingMaterialGridCard extends StatelessWidget {
                 ]
               : [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.1),
+                    color: AppColors.black.withValues(alpha: 0.1),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   )
@@ -77,9 +78,9 @@ class FinishingMaterialGridCard extends StatelessWidget {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        Colors.transparent,
-                        Colors.black.withValues(alpha: 0.4),
-                        Colors.black.withValues(alpha: 0.8),
+                        AppColors.transparent,
+                        AppColors.black.withValues(alpha: 0.4),
+                        AppColors.black.withValues(alpha: 0.8),
                       ],
                       stops: const [0.4, 0.7, 1.0],
                     ),
@@ -106,13 +107,13 @@ class FinishingMaterialGridCard extends StatelessWidget {
                             color: context.colors.gold.withValues(alpha: 0.8),
                             shape: BoxShape.circle,
                             border: Border.all(
-                              color: Colors.white.withValues(alpha: 0.5),
+                              color: AppColors.white.withValues(alpha: 0.5),
                               width: 1,
                             ),
                           ),
                           child: const Icon(
                             FluentIcons.checkmark_16_filled,
-                            color: Colors.white,
+                            color: AppColors.white,
                             size: 16,
                           ),
                         ),
@@ -132,16 +133,16 @@ class FinishingMaterialGridCard extends StatelessWidget {
                   children: [
                     Text(
                       material.name,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: AppFonts.bodyMedium,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: AppColors.white,
                         height: 1.2,
                         shadows: [
                           Shadow(
-                            color: Colors.black54,
+                            color: AppColors.black.withValues(alpha: 0.54),
                             blurRadius: 4,
-                            offset: Offset(0, 1),
+                            offset: const Offset(0, 1),
                           ),
                         ],
                       ),
@@ -157,11 +158,11 @@ class FinishingMaterialGridCard extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                           color: context.colors.gold,
                           height: 1.2,
-                          shadows: const [
+                          shadows: [
                             Shadow(
-                              color: Colors.black54,
+                              color: AppColors.black.withValues(alpha: 0.54),
                               blurRadius: 2,
-                              offset: Offset(0, 1),
+                              offset: const Offset(0, 1),
                             ),
                           ],
                         ),

@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_fonts.dart';
@@ -58,7 +59,7 @@ class _AgentStatusBarState extends State<AgentStatusBar>
         color: context.colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.03),
+            color: AppColors.black.withValues(alpha: 0.03),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),

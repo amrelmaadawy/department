@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
@@ -34,7 +35,7 @@ class ApplyToOtherRoomsSheet extends StatefulWidget {
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.transparent,
       builder: (context) => ApplyToOtherRoomsSheet(
         selectedMaterial: selectedMaterial,
         otherRooms: otherRooms,
@@ -174,7 +175,7 @@ class _ApplyToOtherRoomsSheetState extends State<ApplyToOtherRoomsSheet> {
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
                       fillColor: WidgetStateProperty.resolveWith((states) {
                         if (states.contains(WidgetState.selected)) return context.colors.primary;
-                        return Colors.transparent;
+                        return AppColors.transparent;
                       }),
                     ),
                   ),
@@ -265,7 +266,7 @@ class _ApplyToOtherRoomsSheetState extends State<ApplyToOtherRoomsSheet> {
                     Navigator.pop(context);
                   },
                   backgroundColor: context.colors.primary,
-                  textColor: Colors.white,
+                  textColor: AppColors.white,
                 ),
                 const SizedBox(height: AppSpacing.md),
                 TextButton(

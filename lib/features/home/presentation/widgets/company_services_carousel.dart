@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'dart:async';
 import 'package:apartment/l10n/app_localizations.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
@@ -90,7 +91,7 @@ class _CompanyServicesCarouselState extends State<CompanyServicesCarousel> {
                 height: 150,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.white.withValues(alpha: 0.05),
+                  color: AppColors.white.withValues(alpha: 0.05),
                 ),
               ),
             ),
@@ -122,7 +123,7 @@ class _CompanyServicesCarouselState extends State<CompanyServicesCarousel> {
                       width: 70,
                       height: 70,
                       decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.1),
+                        color: AppColors.white.withValues(alpha: 0.1),
                         shape: BoxShape.circle,
                         border: Border.all(color: context.colors.gold.withValues(alpha: 0.3)),
                       ),
@@ -160,7 +161,7 @@ class _CompanyServicesCarouselState extends State<CompanyServicesCarousel> {
                             style: const TextStyle(
                               fontSize: AppFonts.headlineMedium,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                              color: AppColors.white,
                             ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -170,7 +171,7 @@ class _CompanyServicesCarouselState extends State<CompanyServicesCarousel> {
                             currentService.subtitle,
                             style: TextStyle(
                               fontSize: AppFonts.bodyMedium,
-                              color: Colors.white.withValues(alpha: 0.8),
+                              color: AppColors.white.withValues(alpha: 0.8),
                               height: 1.3,
                             ),
                             maxLines: 2,
@@ -199,7 +200,7 @@ class _CompanyServicesCarouselState extends State<CompanyServicesCarousel> {
                     width: _currentIndex == index ? 20 : 6,
                     height: 6,
                     decoration: BoxDecoration(
-                      color: _currentIndex == index ? context.colors.gold : Colors.white.withValues(alpha: 0.2),
+                      color: _currentIndex == index ? context.colors.gold : AppColors.white.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(3),
                     ),
                   ),

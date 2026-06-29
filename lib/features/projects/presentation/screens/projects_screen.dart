@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'dart:async';
 import 'package:apartment/core/constants/app_constants.dart';
 import 'package:apartment/features/projects/presentation/widgets/custom_search_bar.dart';
@@ -61,11 +62,25 @@ class _ProjectsViewState extends State<ProjectsView> {
     return Scaffold(
       backgroundColor: context.colors.background,
       body: SafeArea(
-        child: BlocBuilder<ProjectsCubit, ProjectsState>(
-          builder: (context, state) {
-            return CustomScrollView(
-              slivers: [
-                // Title
+        child: BlocListener<NetworkCubit, NetworkState>(
+          listener: (context, networkState) {
+            if (networkState is NetworkOnline) {
+              final state = context.read<ProjectsCubit>().state;
+              if (state is ProjectsError || (state is ProjectsLoaded && state.allProjects.isEmpty)) {
+                context.read<ProjectsCubit>().loadProjects();
+              }
+            }
+          },
+          child: BlocBuilder<ProjectsCubit, ProjectsState>(
+            builder: (context, state) {
+              return RefreshIndicator(
+                onRefresh: () async {
+                  await context.read<ProjectsCubit>().loadProjects();
+                },
+                color: context.colors.primary,
+                child: CustomScrollView(
+                  slivers: [
+                    // Title
                 SliverPadding(
                   padding: const EdgeInsets.all(AppSpacing.lg),
                   sliver: SliverToBoxAdapter(
@@ -89,15 +104,15 @@ class _ProjectsViewState extends State<ProjectsView> {
                       return SliverToBoxAdapter(
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: AppSpacing.lg),
-                          color: Colors.amber.withValues(alpha: 0.1),
+                          color: context.colors.warning.withValues(alpha: 0.1),
                           child: Row(
                             children: [
-                              Icon(Icons.wifi_off_rounded, size: 16, color: Colors.amber[700]),
+                              Icon(Icons.wifi_off_rounded, size: 16, color: context.colors.warning),
                               const SizedBox(width: AppSpacing.sm),
                               Expanded(
                                 child: Text(
                                   l10n.offlineCacheWarning,
-                                  style: TextStyle(fontSize: 12, color: Colors.amber[800], fontWeight: FontWeight.bold),
+                                  style: TextStyle(fontSize: 12, color: context.colors.warning, fontWeight: FontWeight.bold),
                                 ),
                               ),
                             ],
@@ -203,11 +218,12 @@ class _ProjectsViewState extends State<ProjectsView> {
                   child: SizedBox(height: 100),
                 ), // Bottom padding
               ],
-            );
-          },
+            ),
+          );
+        },
         ),
       ),
-    );
+    ));
   }
 
   Widget _buildShimmerCard() {
@@ -218,8 +234,8 @@ class _ProjectsViewState extends State<ProjectsView> {
 
         final isDark = Theme.of(context).brightness == Brightness.dark;
         return Shimmer.fromColors(
-          baseColor: isDark ? Colors.grey[800]! : Colors.grey[300]!,
-          highlightColor: isDark ? Colors.grey[700]! : Colors.grey[100]!,
+          baseColor: isDark ? AppColors.grey800 : AppColors.grey300,
+          highlightColor: isDark ? AppColors.grey700 : AppColors.grey100,
           child: Container(
             height: cardHeight,
             margin: const EdgeInsets.symmetric(

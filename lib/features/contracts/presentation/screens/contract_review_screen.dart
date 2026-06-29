@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -252,10 +253,10 @@ class _BottomBar extends StatelessWidget {
               onPressed: (isPrinting || !pdfReady) ? null : onPrint,
               style: ElevatedButton.styleFrom(
                 backgroundColor: context.colors.primary,
-                foregroundColor: Colors.white,
+                foregroundColor: AppColors.white,
                 disabledBackgroundColor:
                     context.colors.primary.withValues(alpha: 0.35),
-                disabledForegroundColor: Colors.white,
+                disabledForegroundColor: AppColors.white,
                 padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(AppRadius.md),
@@ -268,7 +269,7 @@ class _BottomBar extends StatelessWidget {
                       height: 16,
                       child: CircularProgressIndicator(
                         strokeWidth: 2,
-                        color: Colors.white,
+                        color: AppColors.white,
                       ),
                     )
                   : const Icon(FluentIcons.print_24_regular, size: 18),

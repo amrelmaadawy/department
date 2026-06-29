@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
@@ -30,7 +31,7 @@ class PaymentMethodSelector extends StatelessWidget {
           type: PaymentMethodType.applePay,
           title: l10n.applePay,
           icon: FluentIcons.payment_24_regular,
-          iconColor: Colors.black, // Apple pay is usually black/white
+          iconColor: AppColors.black, // Apple pay is usually black/white
         ),
         const SizedBox(height: AppSpacing.sm),
         _buildMethodItem(

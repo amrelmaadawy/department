@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:apartment/core/theme/app_fonts.dart';
@@ -14,7 +15,7 @@ class AiCreditsDepletedDialog extends StatelessWidget {
     return PopScope(
       canPop: false,
       child: Dialog(
-        backgroundColor: Colors.transparent,
+        backgroundColor: AppColors.transparent,
         elevation: 0,
         insetPadding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
         child: ClipRRect(
@@ -32,7 +33,7 @@ class AiCreditsDepletedDialog extends StatelessWidget {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.2),
+                    color: AppColors.black.withValues(alpha: 0.2),
                     blurRadius: 24,
                     offset: const Offset(0, 10),
                   ),
@@ -108,8 +109,8 @@ class AiCreditsDepletedDialog extends StatelessWidget {
                       ),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.transparent,
-                          shadowColor: Colors.transparent,
+                          backgroundColor: AppColors.transparent,
+                          shadowColor: AppColors.transparent,
                           padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(AppRadius.md),
@@ -124,7 +125,7 @@ class AiCreditsDepletedDialog extends StatelessWidget {
                           style: TextStyle(
                             fontSize: AppFonts.bodyLarge,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                            color: AppColors.white,
                           ),
                         ),
                       ),

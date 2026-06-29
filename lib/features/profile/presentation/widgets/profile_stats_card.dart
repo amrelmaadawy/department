@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/theme_extension.dart';
@@ -35,7 +36,7 @@ class ProfileStatsCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppRadius.xl),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.08),
+            color: AppColors.black.withValues(alpha: 0.08),
             blurRadius: 24,
             spreadRadius: -4,
             offset: const Offset(0, 12),

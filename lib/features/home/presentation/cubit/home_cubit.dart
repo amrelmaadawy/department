@@ -14,13 +14,13 @@ class HomeCubit extends Cubit<HomeState> {
 
   HomeCubit({required this.getProjectsUseCase}) : super(HomeInitial());
 
-  void loadHomeData() async {
+  Future<void> loadHomeData() async {
     emit(HomeLoading());
 
     final result = await getProjectsUseCase(cancelToken: _cancelToken);
 
     result.fold(
-      (failure) => emit(const HomeLoaded(featuredProjects: [])), // Or handle error state appropriately
+      (failure) => emit(HomeError(message: failure.message)),
       (projects) {
         // Filter for featured projects only
         final featured = projects.where((p) => p.isFeatured).toList();

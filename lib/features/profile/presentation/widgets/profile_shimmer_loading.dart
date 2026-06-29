@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../../core/theme/theme_extension.dart';
@@ -45,8 +46,8 @@ class ProfileShimmerLoading extends StatelessWidget {
         ),
       ),
       child: Shimmer.fromColors(
-        baseColor: Colors.white.withValues(alpha: 0.1),
-        highlightColor: Colors.white.withValues(alpha: 0.3),
+        baseColor: AppColors.white.withValues(alpha: 0.1),
+        highlightColor: AppColors.white.withValues(alpha: 0.3),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -55,7 +56,7 @@ class ProfileShimmerLoading extends StatelessWidget {
               height: 116,
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.white,
+                color: AppColors.white,
               ),
             ),
             const SizedBox(height: AppSpacing.md),
@@ -63,7 +64,7 @@ class ProfileShimmerLoading extends StatelessWidget {
               width: 150,
               height: 24,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColors.white,
                 borderRadius: BorderRadius.circular(4),
               ),
             ),
@@ -72,7 +73,7 @@ class ProfileShimmerLoading extends StatelessWidget {
               width: 100,
               height: 24,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColors.white,
                 borderRadius: BorderRadius.circular(AppRadius.xl),
               ),
             ),
@@ -81,7 +82,7 @@ class ProfileShimmerLoading extends StatelessWidget {
               width: 120,
               height: 40,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColors.white,
                 borderRadius: BorderRadius.circular(AppRadius.xl),
               ),
             ),
@@ -100,7 +101,7 @@ class ProfileShimmerLoading extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppRadius.xl),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: AppColors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -132,7 +133,7 @@ class ProfileShimmerLoading extends StatelessWidget {
             width: 40,
             height: 28,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.white,
               borderRadius: BorderRadius.circular(4),
             ),
           ),
@@ -141,7 +142,7 @@ class ProfileShimmerLoading extends StatelessWidget {
             width: 60,
             height: 16,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.white,
               borderRadius: BorderRadius.circular(4),
             ),
           ),
@@ -171,7 +172,7 @@ class ProfileShimmerLoading extends StatelessWidget {
               width: 120,
               height: 24,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColors.white,
                 borderRadius: BorderRadius.circular(4),
               ),
             ),
@@ -192,7 +193,7 @@ class ProfileShimmerLoading extends StatelessWidget {
                 child: Container(
                   width: 260,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: AppColors.white,
                     borderRadius: BorderRadius.circular(AppRadius.xl),
                   ),
                 ),

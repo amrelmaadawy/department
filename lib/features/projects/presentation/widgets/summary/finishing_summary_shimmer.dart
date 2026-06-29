@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
@@ -8,8 +9,8 @@ class FinishingSummaryShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final shimmerBaseColor = Colors.grey[300]!;
-    final shimmerHighlightColor = Colors.grey[100]!;
+    const shimmerBaseColor = AppColors.grey300;
+    const shimmerHighlightColor = AppColors.grey100;
 
     return ListView(
       padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
@@ -24,9 +25,9 @@ class FinishingSummaryShimmer extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.all(AppSpacing.lg),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColors.white,
                 borderRadius: BorderRadius.circular(AppRadius.xl),
-                border: Border.all(color: Colors.grey.shade300),
+                border: Border.all(color: AppColors.grey300),
               ),
               child: Row(
                 children: [
@@ -34,7 +35,7 @@ class FinishingSummaryShimmer extends StatelessWidget {
                     width: 48,
                     height: 48,
                     decoration: const BoxDecoration(
-                      color: Colors.white,
+                      color: AppColors.white,
                       shape: BoxShape.circle,
                     ),
                   ),
@@ -46,13 +47,13 @@ class FinishingSummaryShimmer extends StatelessWidget {
                         Container(
                           width: double.infinity,
                           height: 16,
-                          color: Colors.white,
+                          color: AppColors.white,
                         ),
                         const SizedBox(height: 8),
                         Container(
                           width: 100,
                           height: 12,
-                          color: Colors.white,
+                          color: AppColors.white,
                         ),
                       ],
                     ),
@@ -61,7 +62,7 @@ class FinishingSummaryShimmer extends StatelessWidget {
                   Container(
                     width: 80,
                     height: 16,
-                    color: Colors.white,
+                    color: AppColors.white,
                   ),
                 ],
               ),
@@ -79,7 +80,7 @@ class FinishingSummaryShimmer extends StatelessWidget {
             child: Container(
               width: 180,
               height: 24,
-              color: Colors.white,
+              color: AppColors.white,
             ),
           ),
         ),
@@ -104,7 +105,7 @@ class FinishingSummaryShimmer extends StatelessWidget {
             child: Container(
               width: 100,
               height: 20,
-              color: Colors.white,
+              color: AppColors.white,
             ),
           ),
         ),
@@ -124,7 +125,7 @@ class FinishingSummaryShimmer extends StatelessWidget {
                 child: Container(
                   width: 160,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: AppColors.white,
                     borderRadius: BorderRadius.circular(AppRadius.lg),
                   ),
                 ),

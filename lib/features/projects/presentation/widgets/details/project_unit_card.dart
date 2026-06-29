@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 import 'package:apartment/core/widgets/app_cached_network_image.dart';
 import 'package:apartment/core/theme/app_fonts.dart';
@@ -66,14 +67,14 @@ class ProjectUnitCard extends StatelessWidget {
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.05),
+              color: AppColors.black.withValues(alpha: 0.05),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
           ],
         ),
         child: Material(
-          color: Colors.transparent,
+          color: AppColors.transparent,
           borderRadius: BorderRadius.circular(AppRadius.md),
           clipBehavior: Clip.antiAlias,
           child: InkWell(
@@ -117,7 +118,7 @@ class ProjectUnitCard extends StatelessWidget {
                                 ),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.black.withValues(alpha: 0.1),
+                                    color: AppColors.black.withValues(alpha: 0.1),
                                     blurRadius: 4,
                                   )
                                 ],
@@ -126,7 +127,7 @@ class ProjectUnitCard extends StatelessWidget {
                                 child: Icon(
                                   FluentIcons.checkmark_16_filled,
                                   size: 14,
-                                  color: isSelected ? context.colors.white : Colors.transparent,
+                                  color: isSelected ? context.colors.white : AppColors.transparent,
                                 ),
                               ),
                             ),
@@ -171,7 +172,7 @@ class ProjectUnitCard extends StatelessWidget {
                                       ? context.colors.textSecondary.withValues(
                                           alpha: 0.1,
                                         )
-                                      : Colors.green.withValues(alpha: 0.1),
+                                      : AppColors.success.withValues(alpha: 0.1),
                                   borderRadius: BorderRadius.circular(
                                     AppRadius.sm,
                                   ),
@@ -184,7 +185,7 @@ class ProjectUnitCard extends StatelessWidget {
                                     fontSize: AppFonts.labelSmall,
                                     color: isSold
                                         ? context.colors.textSecondary
-                                        : Colors.green.shade700,
+                                        : AppColors.success,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),

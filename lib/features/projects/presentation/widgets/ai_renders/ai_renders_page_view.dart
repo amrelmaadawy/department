@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:apartment/core/widgets/app_cached_network_image.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
@@ -92,7 +93,7 @@ class AiRendersPageView extends StatelessWidget {
                               alignment: getLoaderAlignment(quadrantIndex),
                               child: Transform.scale(
                                 scale: 0.5,
-                                child: const Icon(FluentIcons.image_off_24_regular, size: 64, color: Colors.grey),
+                                child: const Icon(FluentIcons.image_off_24_regular, size: 64, color: AppColors.grey),
                               ),
                             ),
                           ),

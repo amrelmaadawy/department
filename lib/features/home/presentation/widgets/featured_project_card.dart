@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:apartment/core/widgets/app_cached_network_image.dart';
@@ -92,7 +93,7 @@ class FeaturedProjectCard extends StatelessWidget {
                           vertical: 4,
                         ),
                         decoration: BoxDecoration(
-                          color: Colors.black.withValues(alpha: 0.6),
+                          color: AppColors.black.withValues(alpha: 0.6),
                           borderRadius: BorderRadius.circular(AppRadius.sm),
                         ),
                         child: Row(
@@ -100,14 +101,14 @@ class FeaturedProjectCard extends StatelessWidget {
                           children: [
                             const Icon(
                               Icons.photo_library_outlined,
-                              color: Colors.white,
+                              color: AppColors.white,
                               size: 14,
                             ),
                             const SizedBox(width: 4),
                             Text(
                               '${project.images.length}',
                               style: const TextStyle(
-                                color: Colors.white,
+                                color: AppColors.white,
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
                               ),

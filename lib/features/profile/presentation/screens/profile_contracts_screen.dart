@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -58,7 +59,7 @@ class _ProfileContractsView extends StatelessWidget {
   Widget _buildAppBar(BuildContext context, AppLocalizations l10n, MyContractsState state) {
     return SliverAppBar(
       backgroundColor: context.colors.background,
-      surfaceTintColor: Colors.transparent,
+      surfaceTintColor: AppColors.transparent,
       elevation: 0,
       pinned: true,
       centerTitle: true,
@@ -393,14 +394,14 @@ class _ContractCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppRadius.xl),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: AppColors.black.withValues(alpha: 0.05),
             blurRadius: 16,
             offset: const Offset(0, 4),
           ),
         ],
       ),
       child: Material(
-        color: Colors.transparent,
+        color: AppColors.transparent,
         borderRadius: BorderRadius.circular(AppRadius.xl),
         child: InkWell(
           borderRadius: BorderRadius.circular(AppRadius.xl),

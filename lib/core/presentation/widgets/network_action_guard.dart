@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:apartment/core/network/cubit/network_cubit.dart';
@@ -42,10 +43,10 @@ class NetworkActionGuard extends StatelessWidget {
             // The intercepting layer
             Positioned.fill(
               child: Material(
-                color: Colors.transparent,
+                color: AppColors.transparent,
                 child: InkWell(
-                  splashColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
+                  splashColor: AppColors.transparent,
+                  highlightColor: AppColors.transparent,
                   onTap: () {
                     if (onOfflineTap != null) {
                       onOfflineTap!();

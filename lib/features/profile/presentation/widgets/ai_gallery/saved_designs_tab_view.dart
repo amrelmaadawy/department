@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
@@ -213,7 +214,7 @@ class _SavedDesignsTabViewState extends State<SavedDesignsTabView> {
           child: Container(
             height: 110,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.white,
               borderRadius: BorderRadius.circular(AppRadius.xl),
             ),
           ),

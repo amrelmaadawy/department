@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -50,7 +51,7 @@ class CustomTextField extends StatelessWidget {
             border: Border.all(color: context.colors.border),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.02),
+                color: AppColors.black.withValues(alpha: 0.02),
                 blurRadius: 10,
                 offset: const Offset(0, 2),
               ),

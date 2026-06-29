@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:apartment/core/widgets/app_cached_network_image.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +36,7 @@ class MaterialPreviewSheet extends StatelessWidget {
     return showModalBottomSheet<bool>(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.transparent,
       builder: (context) => MaterialPreviewSheet(
         material: material,
         isSelected: isSelected,
@@ -85,7 +86,7 @@ class MaterialPreviewSheet extends StatelessWidget {
                 borderRadius: BorderRadius.circular(AppRadius.lg),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.1),
+                    color: AppColors.black.withValues(alpha: 0.1),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   )
@@ -185,7 +186,7 @@ class MaterialPreviewSheet extends StatelessWidget {
                 Navigator.pop(context, !isSelected);
               },
               backgroundColor: isSelected ? context.colors.error : context.colors.primary,
-              textColor: Colors.white,
+              textColor: AppColors.white,
             ),
           ),
         ],

@@ -25,7 +25,7 @@ class PackageCardFeatures extends StatelessWidget {
         vertical: AppSpacing.xl,
       ),
       decoration: const BoxDecoration(
-        color: Colors.transparent,
+        color: AppColors.transparent,
       ),
       child: Column(
         children: features

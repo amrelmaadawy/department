@@ -140,7 +140,7 @@ class _PackageCard extends StatelessWidget {
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.05),
+                color: context.colors.black.withValues(alpha: 0.05),
                 blurRadius: 30,
                 offset: const Offset(0, 10),
               ),
@@ -443,7 +443,7 @@ class _PackageCard extends StatelessWidget {
               ),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [context.colors.gold, const Color(0xFFB8860B)],
+                  colors: [context.colors.gold, context.colors.goldDark],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
@@ -608,9 +608,9 @@ class _ShimmerLoadingView extends StatelessWidget {
                 children: [
                   Container(
                     height: 180,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.vertical(
+                    decoration: BoxDecoration(
+                      color: context.colors.white,
+                      borderRadius: const BorderRadius.vertical(
                         top: Radius.circular(AppRadius.xl),
                       ),
                     ),
@@ -624,23 +624,23 @@ class _ShimmerLoadingView extends StatelessWidget {
                           width: 150,
                           height: 24,
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: context.colors.white,
                             borderRadius: BorderRadius.circular(4),
                           ),
                         ),
                         const SizedBox(height: AppSpacing.md),
                         Row(
                           children: [
-                            Container(width: 80, height: 32, decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16))),
+                            Container(width: 80, height: 32, decoration: BoxDecoration(color: context.colors.white, borderRadius: BorderRadius.circular(16))),
                             const SizedBox(width: AppSpacing.sm),
-                            Container(width: 100, height: 32, decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16))),
+                            Container(width: 100, height: 32, decoration: BoxDecoration(color: context.colors.white, borderRadius: BorderRadius.circular(16))),
                           ],
                         ),
                         const SizedBox(height: AppSpacing.xl),
                         Container(
                           height: 50,
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: context.colors.white,
                             borderRadius: BorderRadius.circular(AppRadius.lg),
                           ),
                         ),

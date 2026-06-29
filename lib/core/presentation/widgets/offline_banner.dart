@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 import 'package:apartment/core/theme/app_fonts.dart';
@@ -74,7 +75,7 @@ class OfflineBanner {
       right: 16,
       child: SafeArea(
         child: Material(
-          color: Colors.transparent,
+          color: AppColors.transparent,
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: BoxDecoration(
@@ -82,7 +83,7 @@ class OfflineBanner {
               borderRadius: BorderRadius.circular(12),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.1),
+                  color: AppColors.black.withValues(alpha: 0.1),
                   blurRadius: 10,
                   offset: const Offset(0, 4),
                 ),
@@ -91,12 +92,12 @@ class OfflineBanner {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(icon, color: Colors.white, size: 20),
+                Icon(icon, color: AppColors.white, size: 20),
                 const SizedBox(width: 8),
                 Text(
                   message,
                   style: const TextStyle(
-                    color: Colors.white,
+                    color: AppColors.white,
                     fontSize: AppFonts.bodyMedium,
                     fontWeight: FontWeight.w600,
                   ),

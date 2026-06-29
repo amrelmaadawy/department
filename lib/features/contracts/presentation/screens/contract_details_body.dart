@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -59,7 +60,7 @@ class ContractDetailsBody extends StatelessWidget {
   Widget _buildAppBar(BuildContext context) {
     return SliverAppBar(
       backgroundColor: context.colors.background,
-      surfaceTintColor: Colors.transparent,
+      surfaceTintColor: AppColors.transparent,
       iconTheme: IconThemeData(color: context.colors.textPrimary),
       pinned: true,
       centerTitle: true,
@@ -110,7 +111,7 @@ class ContractDetailsBody extends StatelessWidget {
         border: Border(right: BorderSide(color: accent, width: 4)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: AppColors.black.withValues(alpha: 0.05),
             blurRadius: 16,
             offset: const Offset(0, 4),
           ),
@@ -385,7 +386,7 @@ class _ContractTableItem extends StatelessWidget {
               final isEven = entry.key.isEven;
               return Container(
                 color: isEven
-                    ? Colors.transparent
+                    ? AppColors.transparent
                     : context.colors.background.withValues(alpha: 0.5),
                 child: Row(
                   children: entry.value.map((cell) {

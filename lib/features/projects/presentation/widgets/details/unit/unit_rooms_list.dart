@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:shimmer/shimmer.dart';
@@ -22,8 +23,8 @@ class UnitRoomsList extends StatelessWidget {
 
   Widget _buildShimmer(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final baseColor = isDark ? Colors.grey[800]! : Colors.grey[300]!;
-    final highlightColor = isDark ? Colors.grey[700]! : Colors.grey[100]!;
+    final baseColor = isDark ? AppColors.grey800 : AppColors.grey300;
+    final highlightColor = isDark ? AppColors.grey700 : AppColors.grey100;
 
     return Shimmer.fromColors(
       baseColor: baseColor,
@@ -36,9 +37,9 @@ class UnitRoomsList extends StatelessWidget {
         itemBuilder: (context, index) => Container(
           height: 80,
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppColors.white,
             borderRadius: BorderRadius.circular(AppRadius.lg),
-            border: Border.all(color: Colors.white),
+            border: Border.all(color: AppColors.white),
           ),
         ),
       ),
@@ -176,7 +177,7 @@ class _RoomItemCard extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.02),
+            color: AppColors.black.withValues(alpha: 0.02),
             blurRadius: 5,
             offset: const Offset(0, 2),
           ),

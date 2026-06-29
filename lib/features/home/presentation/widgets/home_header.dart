@@ -9,6 +9,7 @@ import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../profile/presentation/cubit/profile_cubit.dart';
 import '../../../profile/presentation/cubit/profile_state.dart';
+import 'package:apartment/core/theme/app_colors.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({super.key});
@@ -56,11 +57,11 @@ class HomeHeaderView extends StatelessWidget {
         if (hour >= 5 && hour < 12) {
           greeting = 'صباح الخير';
           timeIcon = FluentIcons.weather_sunny_24_regular;
-          timeColor = const Color(0xFFFDB813); // Sun yellow/gold
+          timeColor = AppColors.sunYellow;
         } else {
           greeting = 'مساء الخير';
           timeIcon = FluentIcons.weather_moon_24_regular;
-          timeColor = const Color(0xFF7B68EE); // Moon purple/blue
+          timeColor = AppColors.moonPurple;
         }
 
         return Padding(

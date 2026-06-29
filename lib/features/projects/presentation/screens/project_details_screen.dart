@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:apartment/features/projects/presentation/cubit/comparison_state.dart' as import_comparison;
 import 'package:apartment/features/projects/presentation/widgets/details/unit_comparison_bar.dart';
 import 'package:flutter/material.dart';
@@ -165,8 +166,8 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
 
   Widget _buildFeaturesShimmer(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final baseColor = isDark ? Colors.grey[800]! : Colors.grey[300]!;
-    final highlightColor = isDark ? Colors.grey[700]! : Colors.grey[100]!;
+    final baseColor = isDark ? AppColors.grey800 : AppColors.grey300;
+    final highlightColor = isDark ? AppColors.grey700 : AppColors.grey100;
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
@@ -194,7 +195,7 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
                       width: 52, // 26 * 2 (radius)
                       height: 52,
                       decoration: const BoxDecoration(
-                        color: Colors.white,
+                        color: AppColors.white,
                         shape: BoxShape.circle,
                       ),
                     ),
@@ -203,7 +204,7 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
                       width: 50,
                       height: 12,
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: AppColors.white,
                         borderRadius: BorderRadius.circular(AppRadius.sm),
                       ),
                     ),
@@ -219,8 +220,8 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
 
   Widget _buildUnitsShimmer(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final baseColor = isDark ? Colors.grey[800]! : Colors.grey[300]!;
-    final highlightColor = isDark ? Colors.grey[700]! : Colors.grey[100]!;
+    final baseColor = isDark ? AppColors.grey800 : AppColors.grey300;
+    final highlightColor = isDark ? AppColors.grey700 : AppColors.grey100;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
@@ -236,7 +237,7 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
               height: 140, // Approximate height of a unit card
               margin: const EdgeInsets.only(bottom: AppSpacing.md),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColors.white,
                 borderRadius: BorderRadius.circular(AppRadius.md),
               ),
             );

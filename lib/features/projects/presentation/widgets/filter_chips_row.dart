@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_fonts.dart';
@@ -47,7 +48,7 @@ class FilterChipsRow extends StatelessWidget {
               child: Text(
                 filter,
                 style: TextStyle(
-                  color: isSelected ? Colors.white : context.colors.textPrimary,
+                  color: isSelected ? AppColors.white : context.colors.textPrimary,
                   fontSize: AppFonts.bodySmall,
                   fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                 ),

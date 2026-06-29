@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
@@ -72,7 +73,7 @@ class _FinishingJourneyGuideScreenState extends State<FinishingJourneyGuideScree
     return Scaffold(
       backgroundColor: context.colors.background,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: AppColors.transparent,
         elevation: 0,
         scrolledUnderElevation: 0,
         leading: IconButton(
@@ -217,7 +218,7 @@ class _FinishingJourneyGuideScreenState extends State<FinishingJourneyGuideScree
                                               ),
                                               boxShadow: [
                                                 BoxShadow(
-                                                  color: Colors.black
+                                                  color: AppColors.black
                                                       .withValues(alpha: 0.03),
                                                   blurRadius: 8,
                                                   offset: const Offset(0, 4),
@@ -317,7 +318,7 @@ class _FinishingJourneyGuideScreenState extends State<FinishingJourneyGuideScree
                       color: context.colors.white,
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.05),
+                          color: AppColors.black.withValues(alpha: 0.05),
                           blurRadius: 20,
                           offset: const Offset(0, -5),
                         ),

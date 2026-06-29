@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:apartment/features/home/domain/entities/project_unit_entity.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:apartment/l10n/app_localizations.dart';
@@ -51,7 +52,7 @@ class UnitFilterBottomSheet extends StatefulWidget {
     return showModalBottomSheet<UnitFilterModel>(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.transparent,
       builder: (context) => UnitFilterBottomSheet(
         initialFilter: initialFilter,
         minProjectPrice: minProjectPrice,
@@ -96,7 +97,7 @@ class _UnitFilterBottomSheetState extends State<UnitFilterBottomSheet> {
         borderRadius: const BorderRadius.vertical(top: Radius.circular(AppRadius.xl)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
+            color: AppColors.black.withValues(alpha: 0.1),
             blurRadius: 20,
             offset: const Offset(0, -5),
           ),

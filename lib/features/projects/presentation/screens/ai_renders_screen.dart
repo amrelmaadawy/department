@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
@@ -101,7 +102,7 @@ class AiRendersScreen extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(FluentIcons.error_circle_24_regular, color: Colors.red, size: 64),
+                      const Icon(FluentIcons.error_circle_24_regular, color: AppColors.error, size: 64),
                       const SizedBox(height: AppSpacing.md),
                       Text(
                         state.message,

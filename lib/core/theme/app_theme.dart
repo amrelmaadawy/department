@@ -22,12 +22,20 @@ class AppTheme {
           textPrimary: AppColors.textPrimary,
           textSecondary: AppColors.textSecondary,
           gold: AppColors.gold,
+          goldLight: AppColors.goldLight,
+          goldDark: AppColors.goldDark,
           white: AppColors.white,
+          darkSlate: AppColors.darkSlate,
+          whatsapp: AppColors.whatsapp,
           darkOverlay: AppColors.darkOverlay,
           border: AppColors.border,
           buttonDark: AppColors.buttonDark,
           error: AppColors.error,
           success: AppColors.success,
+          warning: AppColors.warning,
+          transparent: AppColors.transparent,
+          black: AppColors.black,
+          grey: AppColors.grey,
         ),
       ],
     );
@@ -51,12 +59,20 @@ class AppTheme {
           textPrimary: Color(0xFFF0F4F8), // Icy white text
           textSecondary: Color(0xFF8B9BB4), // Blue-grey secondary text
           gold: AppColors.gold, // Keep original brand gold
+          goldLight: AppColors.goldLight,
+          goldDark: AppColors.goldDark,
           white: Color(0xFF152243), // Elevated navy for cards
+          darkSlate: AppColors.darkSlate,
+          whatsapp: AppColors.whatsapp,
           darkOverlay: AppColors.darkOverlay,
           border: Color(0xFF233559), // Blue-tinted border
           buttonDark: Color(0xFFF0F4F8), // Invert button text
           error: AppColors.error,
           success: AppColors.success,
+          warning: AppColors.warning,
+          transparent: AppColors.transparent,
+          black: AppColors.black,
+          grey: AppColors.grey,
         ),
       ],
     );

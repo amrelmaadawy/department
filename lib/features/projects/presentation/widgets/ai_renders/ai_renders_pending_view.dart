@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
@@ -222,14 +223,14 @@ class _AiRendersPendingViewState extends State<AiRendersPendingView>
               children: [
                 const Icon(
                   FluentIcons.sparkle_28_filled,
-                  color: Colors.white,
+                  color: AppColors.white,
                   size: 28,
                 ),
                 const SizedBox(height: AppSpacing.sm),
                 const Text(
                   'الذكاء الاصطناعي يعمل الآن',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: AppColors.white,
                     fontSize: AppFonts.bodyLarge,
                     fontWeight: FontWeight.bold,
                   ),
@@ -245,7 +246,7 @@ class _AiRendersPendingViewState extends State<AiRendersPendingView>
                         : _aiStatuses[_currentStatusIndex],
                     key: ValueKey(_currentStatusIndex),
                     style: TextStyle(
-                      color: Colors.white.withValues(alpha: 0.85),
+                      color: AppColors.white.withValues(alpha: 0.85),
                       fontSize: AppFonts.bodyMedium,
                       fontWeight: FontWeight.w500,
                     ),
@@ -271,9 +272,9 @@ class _AiRendersPendingViewState extends State<AiRendersPendingView>
                               (_shimmerAnimation.value + 0.3).clamp(0.0, 1.0),
                             ],
                             colors: [
-                              Colors.white.withValues(alpha: 0.2),
-                              Colors.white.withValues(alpha: 0.8),
-                              Colors.white.withValues(alpha: 0.2),
+                              AppColors.white.withValues(alpha: 0.2),
+                              AppColors.white.withValues(alpha: 0.8),
+                              AppColors.white.withValues(alpha: 0.2),
                             ],
                           ),
                         ),
@@ -377,7 +378,7 @@ class _AiRendersPendingViewState extends State<AiRendersPendingView>
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
+            color: AppColors.black.withValues(alpha: 0.04),
             blurRadius: 16,
             offset: const Offset(0, 4),
           ),

@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'dart:ui';
 import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/core/theme/app_sizes.dart';
@@ -109,7 +110,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
               ),
 
               // Subtle global dark overlay so the glass pops out
-              Container(color: Colors.black.withValues(alpha: 0.3)),
+              Container(color: AppColors.black.withValues(alpha: 0.3)),
 
               // Content Layout
               SafeArea(
@@ -135,10 +136,10 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                 horizontal: AppSpacing.lg,
                               ),
                               decoration: BoxDecoration(
-                                color: Colors.white.withValues(alpha: 0.1),
+                                color: AppColors.white.withValues(alpha: 0.1),
                                 borderRadius: BorderRadius.circular(AppRadius.xl),
                                 border: Border.all(
-                                  color: Colors.white.withValues(alpha: 0.2),
+                                  color: AppColors.white.withValues(alpha: 0.2),
                                   width: 1,
                                 ),
                               ),
@@ -175,7 +176,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                           l10n.welcomeSubtitle,
                                           textAlign: TextAlign.center,
                                           style: const TextStyle(
-                                            color: Colors.white,
+                                            color: AppColors.white,
                                             fontSize: AppFonts.bodyMedium,
                                           ),
                                         ),

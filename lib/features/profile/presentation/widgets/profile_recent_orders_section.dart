@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:apartment/features/projects/presentation/cubit/share_design_cubit.dart' as import_share;
 import 'package:flutter/material.dart';
 import 'package:apartment/core/widgets/app_cached_network_image.dart';
@@ -78,7 +79,7 @@ class ProfileRecentOrdersSection extends StatelessWidget {
     // Determine status color
     Color statusColor = context.colors.primary;
     if (order.status == 'completed') {
-      statusColor = Colors.green;
+      statusColor = AppColors.success;
     } else if (order.status == 'pending') {
       statusColor = Colors.orange;
     }
@@ -103,7 +104,7 @@ class ProfileRecentOrdersSection extends StatelessWidget {
           borderRadius: BorderRadius.circular(AppRadius.xl),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.03),
+              color: AppColors.black.withValues(alpha: 0.03),
               blurRadius: 20,
               spreadRadius: -5,
               offset: const Offset(0, 8),
@@ -213,7 +214,7 @@ class ProfileRecentOrdersSection extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.transparent,
       builder: (context) {
         return Container(
           height: MediaQuery.of(context).size.height * 0.85,
@@ -328,7 +329,7 @@ class ProfileRecentOrdersSection extends StatelessWidget {
                                       baseColor: context.colors.border.withValues(alpha: 0.5),
                                       highlightColor: context.colors.border.withValues(alpha: 0.1),
                                       child: Container(
-                                        color: Colors.white,
+                                        color: AppColors.white,
                                       ),
                                     );
                                   },

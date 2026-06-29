@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 import 'dart:ui';
 import 'package:flutter/material.dart';
@@ -118,7 +119,7 @@ class _ToastWidgetState extends State<_ToastWidget>
           child: FadeTransition(
             opacity: _opacityAnimation,
             child: Material(
-              color: Colors.transparent,
+              color: AppColors.transparent,
               child: Directionality(
                 textDirection: TextDirection.rtl,
                 child: ClipRRect(

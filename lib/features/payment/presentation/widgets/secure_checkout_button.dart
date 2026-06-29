@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:intl/intl.dart';
@@ -31,7 +32,7 @@ class SecureCheckoutButton extends StatelessWidget {
         color: context.colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: AppColors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, -5),
           ),
@@ -67,7 +68,7 @@ class SecureCheckoutButton extends StatelessWidget {
                 onPressed: isLoading ? null : onPressed,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: context.colors.primary,
-                  foregroundColor: Colors.white,
+                  foregroundColor: AppColors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(AppRadius.md),
                   ),
@@ -79,7 +80,7 @@ class SecureCheckoutButton extends StatelessWidget {
                         height: 24,
                         child: CircularProgressIndicator(
                           strokeWidth: 2.5,
-                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                          valueColor: AlwaysStoppedAnimation<Color>(AppColors.white),
                         ),
                       )
                     : Text(

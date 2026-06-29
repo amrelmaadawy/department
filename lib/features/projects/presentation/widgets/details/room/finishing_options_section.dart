@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:apartment/features/projects/presentation/cubit/ai_room_design_cubit.dart';
 import 'package:apartment/features/projects/presentation/cubit/ai_room_design_state.dart';
 import 'package:flutter/material.dart';
@@ -97,10 +98,10 @@ class _FinishingOptionsSectionState extends State<FinishingOptionsSection> {
                 shaderCallback: (Rect bounds) {
                   return const LinearGradient(
                     colors: [
-                      Colors.transparent,
-                      Colors.white,
-                      Colors.white,
-                      Colors.transparent,
+                      AppColors.transparent,
+                      AppColors.white,
+                      AppColors.white,
+                      AppColors.transparent,
                     ],
                     stops: [0.0, 0.05, 0.95, 1.0],
                   ).createShader(bounds);

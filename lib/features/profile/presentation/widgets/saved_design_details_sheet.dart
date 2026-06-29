@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:apartment/features/projects/domain/entities/saved_design_entity.dart';
 import 'package:apartment/features/projects/presentation/cubit/share_design_cubit.dart' as import_share;
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class SavedDesignDetailsSheet extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.transparent,
       constraints: BoxConstraints(
         maxWidth: context.maxContainerWidth,
       ),
@@ -86,7 +87,7 @@ class SavedDesignDetailsSheet extends StatelessWidget {
                 Row(
                   children: [
                     IconButton(
-                      icon: const Icon(FluentIcons.heart_24_filled, color: Colors.red),
+                      icon: const Icon(FluentIcons.heart_24_filled, color: AppColors.error),
                       onPressed: () {
                         final targetId = design.finishingOrderId > 0 ? design.finishingOrderId : design.id;
                         context.read<ProfileCubit>().toggleFavoriteDesign(
@@ -167,7 +168,7 @@ class SavedDesignDetailsSheet extends StatelessWidget {
                                 return Shimmer.fromColors(
                                   baseColor: context.colors.border.withValues(alpha: 0.5),
                                   highlightColor: context.colors.border.withValues(alpha: 0.1),
-                                  child: Container(color: Colors.white),
+                                  child: Container(color: AppColors.white),
                                 );
                               },
                               errorWidget: (context, url, error) => const Center(
@@ -186,7 +187,7 @@ class SavedDesignDetailsSheet extends StatelessWidget {
                       borderRadius: BorderRadius.circular(AppRadius.xl),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.03),
+                          color: AppColors.black.withValues(alpha: 0.03),
                           blurRadius: 15,
                           offset: const Offset(0, 4),
                         ),

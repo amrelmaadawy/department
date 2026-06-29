@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:apartment/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,11 +41,25 @@ class HomeView extends StatelessWidget {
     return Scaffold(
       backgroundColor: context.colors.background,
       body: SafeArea(
-        child: BlocBuilder<HomeCubit, HomeState>(
-          builder: (context, state) {
-            return CustomScrollView(
-              slivers: [
-                // Collapsable Header
+        child: BlocListener<NetworkCubit, NetworkState>(
+          listener: (context, networkState) {
+            if (networkState is NetworkOnline) {
+              final state = context.read<HomeCubit>().state;
+              if (state is HomeError || (state is HomeLoaded && state.featuredProjects.isEmpty)) {
+                context.read<HomeCubit>().loadHomeData();
+              }
+            }
+          },
+          child: BlocBuilder<HomeCubit, HomeState>(
+            builder: (context, state) {
+              return RefreshIndicator(
+                onRefresh: () async {
+                  await context.read<HomeCubit>().loadHomeData();
+                },
+                color: context.colors.primary,
+                child: CustomScrollView(
+                  slivers: [
+                    // Collapsable Header
                 const SliverToBoxAdapter(child: HomeHeader()),
 
                 // Cached Data Warning Banner
@@ -54,15 +69,15 @@ class HomeView extends StatelessWidget {
                       return SliverToBoxAdapter(
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: AppSpacing.lg),
-                          color: Colors.amber.withValues(alpha: 0.1),
+                          color: context.colors.warning.withValues(alpha: 0.1),
                           child: Row(
                             children: [
-                              Icon(Icons.wifi_off_rounded, size: 16, color: Colors.amber[700]),
+                              Icon(Icons.wifi_off_rounded, size: 16, color: context.colors.warning),
                               const SizedBox(width: AppSpacing.sm),
                               Expanded(
                                 child: Text(
                                   l10n.offlineCacheWarning,
-                                  style: TextStyle(fontSize: 12, color: Colors.amber[800], fontWeight: FontWeight.bold),
+                                  style: TextStyle(fontSize: 12, color: context.colors.warning, fontWeight: FontWeight.bold),
                                 ),
                               ),
                             ],
@@ -122,18 +137,19 @@ class HomeView extends StatelessWidget {
                     ),
                   ),
               ],
-            );
-          },
+            ),
+          );
+        },
         ),
       ),
-    );
+    ));
   }
 
   Widget _buildShimmerLoading(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return Shimmer.fromColors(
-      baseColor: isDark ? Colors.grey[800]! : Colors.grey[300]!,
-      highlightColor: isDark ? Colors.grey[700]! : Colors.grey[100]!,
+      baseColor: isDark ? AppColors.grey800: AppColors.grey300,
+      highlightColor: isDark ? AppColors.grey700: AppColors.grey100,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

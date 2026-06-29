@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_radius.dart';
@@ -95,7 +96,7 @@ class FloorZonesTabs extends StatelessWidget {
             color: isSelected ? null : context.colors.background,
             borderRadius: BorderRadius.circular(AppRadius.xl), // Pill shape for tabs
             border: Border.all(
-              color: isSelected ? Colors.transparent : context.colors.border.withValues(alpha: 0.3),
+              color: isSelected ? AppColors.transparent : context.colors.border.withValues(alpha: 0.3),
               width: 1.0,
             ),
             boxShadow: isSelected

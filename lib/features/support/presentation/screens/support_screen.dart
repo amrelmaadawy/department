@@ -140,7 +140,7 @@ class SupportScreen extends StatelessWidget {
         ), // Push FAB above the ChatInputBar
         child: FloatingActionButton.extended(
           onPressed: () {},
-          backgroundColor: const Color(0xFF25D366), // WhatsApp Green
+          backgroundColor: context.colors.whatsapp, // WhatsApp Green
           elevation: 4,
           icon: Icon(FluentIcons.chat_24_regular, color: context.colors.white),
           label: Text(

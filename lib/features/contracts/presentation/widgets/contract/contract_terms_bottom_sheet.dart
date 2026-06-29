@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:apartment/core/theme/app_fonts.dart';
@@ -33,7 +34,7 @@ class ContractTermsBottomSheet extends StatelessWidget {
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.transparent,
       builder: (context) => ContractTermsBottomSheet(
         contractType: contractType,
         contract: contract,
@@ -108,7 +109,7 @@ class ContractTermsBottomSheet extends StatelessWidget {
               color: context.colors.white,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.05),
+                  color: AppColors.black.withValues(alpha: 0.05),
                   blurRadius: 10,
                   offset: const Offset(0, -5),
                 ),
@@ -180,12 +181,12 @@ class ContractTermsBottomSheet extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(AppSpacing.sm),
                     decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.2),
+                      color: AppColors.white.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(AppRadius.md),
                     ),
                     child: const Icon(
                       FluentIcons.document_text_24_filled,
-                      color: Colors.white,
+                      color: AppColors.white,
                       size: 24,
                     ),
                   ),
@@ -196,7 +197,7 @@ class ContractTermsBottomSheet extends StatelessWidget {
                       style: const TextStyle(
                         fontSize: AppFonts.headlineSmall,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: AppColors.white,
                       ),
                     ),
                   ),
@@ -212,7 +213,7 @@ class ContractTermsBottomSheet extends StatelessWidget {
                 border: Border.all(color: context.colors.border.withValues(alpha: 0.5)),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.02),
+                    color: AppColors.black.withValues(alpha: 0.02),
                     blurRadius: 5,
                     offset: const Offset(0, 2),
                   ),
@@ -238,7 +239,7 @@ class ContractTermsBottomSheet extends StatelessWidget {
                 border: Border.all(color: context.colors.border.withValues(alpha: 0.5)),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.02),
+                    color: AppColors.black.withValues(alpha: 0.02),
                     blurRadius: 5,
                     offset: const Offset(0, 2),
                   ),
@@ -291,7 +292,7 @@ class ContractTermsBottomSheet extends StatelessWidget {
                 border: Border.all(color: context.colors.border.withValues(alpha: 0.5)),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.02),
+                    color: AppColors.black.withValues(alpha: 0.02),
                     blurRadius: 5,
                     offset: const Offset(0, 2),
                   ),

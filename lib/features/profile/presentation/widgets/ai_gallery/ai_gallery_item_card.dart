@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:apartment/core/widgets/app_cached_network_image.dart';
@@ -41,7 +42,7 @@ class AiGalleryItemCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(AppRadius.xl),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.08),
+              color: AppColors.black.withValues(alpha: 0.08),
               blurRadius: 15,
               spreadRadius: -2,
               offset: const Offset(0, 8),
@@ -62,7 +63,7 @@ class AiGalleryItemCard extends StatelessWidget {
                     return Shimmer.fromColors(
                       baseColor: context.colors.border.withValues(alpha: 0.3),
                       highlightColor: context.colors.border.withValues(alpha: 0.1),
-                      child: Container(color: Colors.white),
+                      child: Container(color: AppColors.white),
                     );
                   },
                   errorWidget: (context, url, error) => Container(
@@ -83,12 +84,12 @@ class AiGalleryItemCard extends StatelessWidget {
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.md),
                       decoration: BoxDecoration(
-                        color: Colors.black.withValues(alpha: 0.4),
+                        color: AppColors.black.withValues(alpha: 0.4),
                       ),
                       child: Text(
                         item.roomName.isNotEmpty ? item.roomName : 'غرفة بدون اسم',
                         style: const TextStyle(
-                          color: Colors.white,
+                          color: AppColors.white,
                           fontSize: AppFonts.bodyMedium,
                           fontWeight: FontWeight.bold,
                         ),
@@ -105,10 +106,10 @@ class AiGalleryItemCard extends StatelessWidget {
                 child: IconButton(
                   icon: Icon(
                     isFavorite ? FluentIcons.heart_24_filled : FluentIcons.heart_24_regular,
-                    color: isFavorite ? Colors.red : Colors.white,
+                    color: isFavorite ? AppColors.error : AppColors.white,
                     shadows: [
                       Shadow(
-                        color: Colors.black.withValues(alpha: 0.5),
+                        color: AppColors.black.withValues(alpha: 0.5),
                         blurRadius: 10,
                       ),
                     ],

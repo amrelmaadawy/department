@@ -19,7 +19,7 @@ class ProjectsCubit extends Cubit<ProjectsState> {
   String _currentFilter = AppConstants.filterAll;
   String _currentSearchQuery = '';
 
-  void loadProjects() async {
+  Future<void> loadProjects() async {
     emit(ProjectsLoading());
 
     final result = await getProjectsUseCase(cancelToken: _cancelToken);

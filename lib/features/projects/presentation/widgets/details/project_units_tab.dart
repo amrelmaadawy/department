@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/features/home/domain/entities/project_unit_entity.dart';
 import 'package:apartment/features/projects/presentation/cubit/comparison_cubit.dart' as import_comparison;
@@ -434,7 +435,7 @@ class _ProjectUnitsTabState extends State<ProjectUnitsTab> {
         border: Border.all(color: context.colors.border.withValues(alpha: 0.5)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.02),
+            color: AppColors.black.withValues(alpha: 0.02),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -545,7 +546,7 @@ class _ProjectUnitsTabState extends State<ProjectUnitsTab> {
             color: isSelected ? null : context.colors.background,
             borderRadius: BorderRadius.circular(AppRadius.xl),
             border: Border.all(
-              color: isSelected ? Colors.transparent : context.colors.border.withValues(alpha: 0.5),
+              color: isSelected ? AppColors.transparent : context.colors.border.withValues(alpha: 0.5),
             ),
             boxShadow: isSelected
                 ? [

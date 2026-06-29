@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 import 'package:apartment/core/theme/app_fonts.dart';
@@ -76,9 +77,9 @@ class OrderSelectionCard extends StatelessWidget {
                             imageUrl: imageUrl, // Assuming full URL or handled by network layer
                             fit: BoxFit.cover,
                             placeholder: (context, url) => Shimmer.fromColors(
-                              baseColor: Colors.grey[300]!,
-                              highlightColor: Colors.grey[100]!,
-                              child: Container(color: Colors.white),
+                              baseColor: AppColors.grey300,
+                              highlightColor: AppColors.grey100,
+                              child: Container(color: AppColors.white),
                             ),
                             errorWidget: (context, url, error) => _buildFallbackImage(context, roomName),
                           )

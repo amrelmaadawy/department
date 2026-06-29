@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -90,8 +91,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [
-                          Colors.black.withValues(alpha: 0.2),
-                          Colors.black.withValues(alpha: 0.6),
+                          AppColors.black.withValues(alpha: 0.2),
+                          AppColors.black.withValues(alpha: 0.6),
                         ],
                       ),
                     ),
@@ -113,7 +114,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 child: TextButton(
                   onPressed: _onSkipPressed,
                   style: TextButton.styleFrom(
-                    foregroundColor: Colors.white,
+                    foregroundColor: AppColors.white,
                   ),
                   child: Text(
                     l10n.skip,
@@ -140,10 +141,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     child: Container(
                       padding: const EdgeInsets.all(AppSpacing.xl),
                       decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.1),
+                        color: AppColors.white.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(24),
                         border: Border.all(
-                          color: Colors.white.withValues(alpha: 0.2),
+                          color: AppColors.white.withValues(alpha: 0.2),
                         ),
                       ),
                       child: Column(
@@ -201,7 +202,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               key: ValueKey<String>(onboardingData[_currentIndex]['subtitle']!),
                               textAlign: TextAlign.center,
                               style: const TextStyle(
-                                color: Colors.white,
+                                color: AppColors.white,
                                 fontSize: AppFonts.bodyMedium,
                                 height: 1.5,
                               ),
@@ -227,7 +228,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                       decoration: BoxDecoration(
                                         color: _currentIndex == index
                                             ? context.colors.gold
-                                            : Colors.white.withValues(alpha: 0.3),
+                                            : AppColors.white.withValues(alpha: 0.3),
                                         borderRadius: BorderRadius.circular(4),
                                       ),
                                     ),
@@ -250,14 +251,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                         ? Text(
                                             l10n.startNow,
                                             style: const TextStyle(
-                                              color: Colors.white,
+                                              color: AppColors.white,
                                               fontSize: AppFonts.bodyMedium,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           )
                                         : const Icon(
                                             Icons.arrow_forward_ios,
-                                                color: Colors.white,
+                                                color: AppColors.white,
                                             size: 20,
                                           ),
                                   ),

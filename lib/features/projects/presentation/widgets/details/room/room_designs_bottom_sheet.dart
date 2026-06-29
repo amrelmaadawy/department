@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
@@ -40,7 +41,7 @@ class RoomDesignsBottomSheet extends StatelessWidget {
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.transparent,
       builder: (bottomSheetContext) => BlocProvider.value(
         value: context.read<UnitDetailsCubit>(), // Pass the cubit to the bottom sheet context
         child: RoomDesignsBottomSheet(

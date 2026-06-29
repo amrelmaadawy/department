@@ -27,22 +27,22 @@ class ProfileMenuItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = isDestructive
-        ? const Color(0xFFE53935)
+        ? context.colors.error
         : context.colors.textPrimary;
     final iconBgColor = isDestructive
-        ? const Color(0xFFE53935).withValues(alpha: 0.1)
+        ? context.colors.error.withValues(alpha: 0.1)
         : context.colors.primary.withValues(alpha: 0.05);
 
     return Column(
       children: [
         Material(
-          color: Colors.transparent,
+          color: context.colors.transparent,
           child: InkWell(
             onTap: onTap,
             splashColor: isDestructive
-                ? const Color(0xFFE53935).withValues(alpha: 0.1)
+                ? context.colors.error.withValues(alpha: 0.1)
                 : context.colors.gold.withValues(alpha: 0.1),
-            highlightColor: Colors.transparent,
+            highlightColor: context.colors.transparent,
             child: Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: AppSpacing.lg,
@@ -59,7 +59,7 @@ class ProfileMenuItem extends StatelessWidget {
                     child: Icon(
                       icon,
                       color: isDestructive
-                          ? const Color(0xFFE53935)
+                          ? context.colors.error
                           : context.colors.primary,
                       size: 24,
                     ),

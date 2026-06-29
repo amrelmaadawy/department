@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:apartment/l10n/app_localizations.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
@@ -100,7 +101,7 @@ class ProjectListCard extends StatelessWidget {
                         vertical: 2,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.black.withValues(alpha: 0.6),
+                        color: AppColors.black.withValues(alpha: 0.6),
                         borderRadius: BorderRadius.circular(AppRadius.sm),
                       ),
                       child: Row(
@@ -108,14 +109,14 @@ class ProjectListCard extends StatelessWidget {
                         children: [
                           const Icon(
                             Icons.photo_library_outlined,
-                            color: Colors.white,
+                            color: AppColors.white,
                             size: 12,
                           ),
                           const SizedBox(width: AppSpacing.xs),
                           Text(
                             '${project.images.length}',
                             style: const TextStyle(
-                              color: Colors.white,
+                              color: AppColors.white,
                               fontSize: 10,
                               fontWeight: FontWeight.bold,
                             ),

@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:apartment/features/projects/presentation/cubit/ai_room_design_cubit.dart';
 import 'package:apartment/features/projects/presentation/cubit/ai_room_design_state.dart';
 import 'package:flutter/material.dart';
@@ -92,7 +93,7 @@ class _AiDesignSettingsSectionState extends State<AiDesignSettingsSection> {
                         width: 150,
                         height: 40,
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: AppColors.white,
                           borderRadius: BorderRadius.circular(AppRadius.round),
                         ),
                       ),

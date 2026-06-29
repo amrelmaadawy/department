@@ -1,3 +1,4 @@
+import 'package:apartment/core/theme/app_colors.dart';
 import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
@@ -36,7 +37,7 @@ class AiGalleryTabView extends StatelessWidget {
                 highlightColor: context.colors.border.withValues(alpha: 0.1),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: AppColors.white,
                     borderRadius: BorderRadius.circular(AppRadius.xl),
                   ),
                 ),
