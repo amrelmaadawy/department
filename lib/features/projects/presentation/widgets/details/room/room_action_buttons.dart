@@ -10,6 +10,7 @@ import '../../../cubit/ai_room_design_cubit.dart';
 import '../../../cubit/ai_room_design_state.dart';
 import '../../../cubit/unit_details_cubit.dart';
 import 'category_tab_controller.dart';
+import '../../ai_renders/ai_credits_depleted_dialog.dart';
 import 'room_next_navigation_button.dart';
 import 'room_ai_design_button.dart';
 
@@ -54,7 +55,16 @@ class RoomActionButtons extends StatelessWidget {
             });
           }
         } else if (state.status == AiDesignStatus.failure) {
-          AppToast.showError(context, state.errorMessage ?? l10n.unexpectedError);
+          final errorMessage = state.errorMessage?.toLowerCase() ?? '';
+          if (errorMessage.contains('credit') || errorMessage.contains('رصيد')) {
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) => const AiCreditsDepletedDialog(),
+            );
+          } else {
+            AppToast.showError(context, state.errorMessage ?? l10n.unexpectedError);
+          }
         }
       },
       child: Row(

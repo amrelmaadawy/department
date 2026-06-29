@@ -178,18 +178,6 @@ class UnitRoomsProgressBar extends StatelessWidget {
                   : isCompleted ? context.colors.textPrimary : context.colors.textSecondary,
             ),
           ),
-          if (cost > 0) ...[
-            const SizedBox(height: 2),
-            Text(
-              '+${formatter.format(cost)}',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 10,
-                fontWeight: FontWeight.bold,
-                color: context.colors.success,
-              ),
-            ),
-          ],
         ],
       ),
     );

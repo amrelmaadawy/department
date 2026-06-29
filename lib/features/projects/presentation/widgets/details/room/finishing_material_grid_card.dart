@@ -3,7 +3,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:apartment/core/widgets/app_cached_network_image.dart';
 import 'package:intl/intl.dart';
-
+import 'package:apartment/l10n/app_localizations.dart';
 import '../../../../../../core/theme/app_fonts.dart';
 import '../../../../../../core/theme/app_radius.dart';
 import '../../../../../../core/theme/app_spacing.dart';
@@ -130,28 +130,6 @@ class FinishingMaterialGridCard extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    if (roomArea != null && roomArea! > 0)
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 6, vertical: 2),
-                        margin: const EdgeInsets.only(bottom: AppSpacing.xs),
-                        decoration: BoxDecoration(
-                          color: context.colors.gold.withValues(alpha: 0.2),
-                          borderRadius: BorderRadius.circular(AppRadius.sm),
-                          border: Border.all(
-                            color: context.colors.gold.withValues(alpha: 0.3),
-                            width: 0.5,
-                          ),
-                        ),
-                        child: Text(
-                          '${NumberFormat.currency(symbol: '', decimalDigits: 0).format(material.finalPrice * roomArea!).trim()} ر.س للغرفة',
-                          style: const TextStyle(
-                            fontSize: AppFonts.labelSmall,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
                     Text(
                       material.name,
                       style: const TextStyle(
@@ -171,24 +149,25 @@ class FinishingMaterialGridCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: AppSpacing.xs),
-                    Text(
-                      '${material.finalPrice} ر.س / ${material.unit}',
-                      style: TextStyle(
-                        fontSize: AppFonts.bodySmall,
-                        fontWeight: FontWeight.w600,
-                        color: context.colors.gold,
-                        height: 1.2,
-                        shadows: const [
-                          Shadow(
-                            color: Colors.black54,
-                            blurRadius: 2,
-                            offset: Offset(0, 1),
-                          ),
-                        ],
+                    if (roomArea != null && roomArea! > 0)
+                      Text(
+                        '${NumberFormat.currency(symbol: '', decimalDigits: 0).format(material.finalPrice * roomArea!).trim()} ${AppLocalizations.of(context)!.sar} للغرفة',
+                        style: TextStyle(
+                          fontSize: AppFonts.bodySmall,
+                          fontWeight: FontWeight.w600,
+                          color: context.colors.gold,
+                          height: 1.2,
+                          shadows: const [
+                            Shadow(
+                              color: Colors.black54,
+                              blurRadius: 2,
+                              offset: Offset(0, 1),
+                            ),
+                          ],
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
                   ],
                 ),
               ),

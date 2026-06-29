@@ -46,10 +46,21 @@ class _UnitCustomizationScreenState extends State<UnitCustomizationScreen> {
     for (final room in unit.rooms) {
       var items = package.itemsForRoom(room.type);
       if (items.isEmpty) {
-        if (room.type.toLowerCase() == 'living_room') {
+        final normalizedType = room.type.trim().toLowerCase();
+        if (normalizedType.contains('living') || normalizedType == 'livingroom') {
           items = package.itemsForRoom('salon');
-        } else if (room.type.toLowerCase() == 'salon') {
+          if (items.isEmpty) items = package.itemsForRoom('living_room');
+          if (items.isEmpty) items = package.itemsForRoom('living');
+        } else if (normalizedType.contains('salon') || normalizedType.contains('reception')) {
           items = package.itemsForRoom('living_room');
+          if (items.isEmpty) items = package.itemsForRoom('salon');
+          if (items.isEmpty) items = package.itemsForRoom('livingroom');
+        } else if (normalizedType.contains('bed') || normalizedType.contains('master')) {
+          items = package.itemsForRoom('bedroom');
+          if (items.isEmpty) items = package.itemsForRoom('bed_room');
+        } else if (normalizedType.contains('bath') || normalizedType.contains('guest') || normalizedType.contains('toilet')) {
+          items = package.itemsForRoom('bathroom');
+          if (items.isEmpty) items = package.itemsForRoom('bath_room');
         }
       }
 

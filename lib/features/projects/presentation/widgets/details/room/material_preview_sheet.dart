@@ -145,49 +145,29 @@ class MaterialPreviewSheet extends StatelessWidget {
                   const SizedBox(height: AppSpacing.lg),
                 ],
                 
-                Container(
-                  padding: const EdgeInsets.all(AppSpacing.md),
-                  decoration: BoxDecoration(
-                    color: context.colors.background,
-                    borderRadius: BorderRadius.circular(AppRadius.md),
-                    border: Border.all(color: context.colors.border),
-                  ),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            l10n.pricePerUnitLabel(fullFormatter.format(material.finalPrice).trim(), material.unit),
-                            style: TextStyle(
-                              fontSize: AppFonts.bodyMedium,
-                              fontWeight: FontWeight.w600,
-                              color: context.colors.textPrimary,
-                            ),
+                if (totalCost != null)
+                  Container(
+                    padding: const EdgeInsets.all(AppSpacing.md),
+                    decoration: BoxDecoration(
+                      color: context.colors.background,
+                      borderRadius: BorderRadius.circular(AppRadius.md),
+                      border: Border.all(color: context.colors.border),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          l10n.totalRoomCostLabel(fullFormatter.format(totalCost).trim()),
+                          style: TextStyle(
+                            fontSize: AppFonts.bodyLarge,
+                            fontWeight: FontWeight.bold,
+                            color: context.colors.gold,
                           ),
-                          Icon(FluentIcons.tag_20_regular, color: context.colors.textSecondary, size: 20),
-                        ],
-                      ),
-                      if (totalCost != null) ...[
-                        const Divider(height: AppSpacing.lg),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              l10n.totalRoomCostLabel(fullFormatter.format(totalCost).trim()),
-                              style: TextStyle(
-                                fontSize: AppFonts.bodyLarge,
-                                fontWeight: FontWeight.bold,
-                                color: context.colors.gold,
-                              ),
-                            ),
-                            Icon(FluentIcons.money_20_filled, color: context.colors.gold, size: 20),
-                          ],
                         ),
+                        Icon(FluentIcons.money_20_filled, color: context.colors.gold, size: 20),
                       ],
-                    ],
+                    ),
                   ),
-                ),
               ],
             ),
           ),

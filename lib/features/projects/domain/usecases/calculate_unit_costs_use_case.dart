@@ -29,7 +29,8 @@ class CalculateUnitCostsUseCase {
       for (final room in unit.rooms) {
         final cachedData = cacheService.getRoomDesignProgress(room.id);
         if (cachedData != null) {
-          final roomCost = (cachedData['selectedMaterialsCost'] ?? 0.0).toDouble();
+          final selectedMaterialsCost = (cachedData['selectedMaterialsCost'] ?? 0.0).toDouble();
+          final roomCost = selectedMaterialsCost * room.area;
           costs[room.id] = roomCost;
           total += roomCost;
 
