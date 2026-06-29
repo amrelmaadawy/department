@@ -36,6 +36,8 @@ dependencies:
   arabic_reshaper: ^0.0.1
   url_launcher: ^6.3.2
   collection: ^1.19.1
+  connectivity_plus: ^7.2.0
+  internet_connection_checker_plus: ^3.1.0
 
 dev_dependencies:
   flutter_test:

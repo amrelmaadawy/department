@@ -36,7 +36,10 @@ Future<void> registerProjectsDi(GetIt sl) async {
 
   // Repository
   sl.registerLazySingleton<ProjectRepository>(
-    () => ProjectRepositoryImpl(remoteDataSource: sl()),
+    () => ProjectRepositoryImpl(
+      remoteDataSource: sl(),
+      networkInfo: sl(),
+    ),
   );
 
   // Use Cases

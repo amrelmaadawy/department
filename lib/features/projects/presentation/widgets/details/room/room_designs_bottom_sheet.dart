@@ -9,6 +9,7 @@ import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_radius.dart';
 
 import '../../../../domain/entities/customer_render_entity.dart';
+import '../../../../../../core/presentation/widgets/network_action_guard.dart';
 import 'room_customer_renders_carousel.dart';
 import '../../../cubit/unit_details_cubit.dart';
 
@@ -137,27 +138,29 @@ class RoomDesignsBottomSheet extends StatelessWidget {
           // New Design Button
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-            child: ElevatedButton.icon(
-              onPressed: () {
-                Navigator.pop(context); // Close sheet
-                onNewDesignPressed(); // Trigger new design in main page
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: context.colors.primary.withValues(alpha: 0.1),
-                foregroundColor: context.colors.primary,
-                padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(AppRadius.lg),
-                  side: BorderSide(color: context.colors.primary.withValues(alpha: 0.2)),
+            child: NetworkActionGuard(
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.pop(context); // Close sheet
+                  onNewDesignPressed(); // Trigger new design in main page
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: context.colors.primary.withValues(alpha: 0.1),
+                  foregroundColor: context.colors.primary,
+                  padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(AppRadius.lg),
+                    side: BorderSide(color: context.colors.primary.withValues(alpha: 0.2)),
+                  ),
+                  elevation: 0,
                 ),
-                elevation: 0,
-              ),
-              icon: const Icon(FluentIcons.sparkle_24_filled, size: 20),
-              label: Text(
-                l10n.createNewDesign,
-                style: const TextStyle(
-                  fontSize: AppFonts.bodyMedium,
-                  fontWeight: FontWeight.bold,
+                icon: const Icon(FluentIcons.sparkle_24_filled, size: 20),
+                label: Text(
+                  l10n.createNewDesign,
+                  style: const TextStyle(
+                    fontSize: AppFonts.bodyMedium,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),

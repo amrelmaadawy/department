@@ -7,6 +7,7 @@ import '../../../../l10n/app_localizations.dart';
 import '../widgets/payment_summary_card.dart';
 import '../widgets/payment_method_selector.dart';
 import '../widgets/secure_checkout_button.dart';
+import '../../../../core/presentation/widgets/network_action_guard.dart';
 import 'payment_success_screen.dart';
 
 class CheckoutScreen extends StatefulWidget {
@@ -105,10 +106,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: SecureCheckoutButton(
-        amount: amountToPay,
-        isLoading: _isLoading,
-        onPressed: _handlePayment,
+      bottomNavigationBar: NetworkActionGuard(
+        child: SecureCheckoutButton(
+          amount: amountToPay,
+          isLoading: _isLoading,
+          onPressed: _handlePayment,
+        ),
       ),
     );
   }

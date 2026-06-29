@@ -65,7 +65,10 @@ class AppRouter {
   }
   // ──────────────────────────────────────────────────────────────────────────
 
+  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
   static final router = GoRouter(
+    navigatorKey: navigatorKey,
     initialLocation: initial,
     redirect: (context, state) async {
       final isAuth = await _resolveAuth();

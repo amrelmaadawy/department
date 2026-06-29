@@ -6,6 +6,7 @@ import 'package:signature/signature.dart';
 
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/core/widgets/custom_button.dart';
+import 'package:apartment/core/presentation/widgets/network_action_guard.dart';
 import 'package:apartment/l10n/app_localizations.dart';
 import 'package:apartment/core/widgets/app_toast.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
@@ -54,32 +55,34 @@ class ContractBottomActions extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            CustomButton(
-              text: l10n.confirmBookingAndProceed,
-              onPressed: isFormValid
-                  ? () async {
-                      // Export signature ONCE with explicit dimensions for a crisp PDF render.
-                      // The same bytes are reused for both: API (base64) and PDF (raw PNG).
-                      final rawBytes = await signatureController.toPngBytes(
-                        width: 800,
-                        height: 300,
-                      );
+            NetworkActionGuard(
+              child: CustomButton(
+                text: l10n.confirmBookingAndProceed,
+                onPressed: isFormValid
+                    ? () async {
+                        // Export signature ONCE with explicit dimensions for a crisp PDF render.
+                        // The same bytes are reused for both: API (base64) and PDF (raw PNG).
+                        final rawBytes = await signatureController.toPngBytes(
+                          width: 800,
+                          height: 300,
+                        );
 
-                      if (rawBytes != null && rawBytes.isNotEmpty && onSign != null) {
-                        final base64String = base64Encode(rawBytes);
-                        await onSign!(base64String, rawBytes);
+                        if (rawBytes != null && rawBytes.isNotEmpty && onSign != null) {
+                          final base64String = base64Encode(rawBytes);
+                          await onSign!(base64String, rawBytes);
+                        }
                       }
-                    }
-                  : () {
-                      if (!isAgreed) {
-                        AppToast.showError(context, l10n.errAgreeTerms);
-                      } else if (signatureController.isEmpty) {
-                        AppToast.showError(context, l10n.errSignBox);
-                      }
-                    },
-              backgroundColor: isFormValid ? context.colors.primary : context.colors.border,
-              textColor: context.colors.white,
-              isLoading: isLoading,
+                    : () {
+                        if (!isAgreed) {
+                          AppToast.showError(context, l10n.errAgreeTerms);
+                        } else if (signatureController.isEmpty) {
+                          AppToast.showError(context, l10n.errSignBox);
+                        }
+                      },
+                backgroundColor: isFormValid ? context.colors.primary : context.colors.border,
+                textColor: context.colors.white,
+                isLoading: isLoading,
+              ),
             ),
           ],
         ),

@@ -7,6 +7,7 @@ import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/core/di/injection_container.dart' as di;
+import 'package:apartment/core/presentation/widgets/network_action_guard.dart';
 import 'package:collection/collection.dart';
 
 import '../../../../../home/domain/entities/project_unit_entity.dart';
@@ -67,23 +68,25 @@ class RoomAiDesignButton extends StatelessWidget {
                 size: 20,
               );
 
-        return ElevatedButton.icon(
-          onPressed: isLoading ? null : () => _handlePressed(context, state, hasRenders),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: context.colors.primary,
-            foregroundColor: context.colors.white,
-            padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(AppRadius.lg),
+        return NetworkActionGuard(
+          child: ElevatedButton.icon(
+            onPressed: isLoading ? null : () => _handlePressed(context, state, hasRenders),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: context.colors.primary,
+              foregroundColor: context.colors.white,
+              padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(AppRadius.lg),
+              ),
+              elevation: 0,
             ),
-            elevation: 0,
-          ),
-          icon: buttonIcon,
-          label: Text(
-            buttonText,
-            style: const TextStyle(
-              fontSize: AppFonts.bodyMedium,
-              fontWeight: FontWeight.bold,
+            icon: buttonIcon,
+            label: Text(
+              buttonText,
+              style: const TextStyle(
+                fontSize: AppFonts.bodyMedium,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         );

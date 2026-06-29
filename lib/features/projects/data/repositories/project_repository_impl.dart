@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
-import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failures.dart';
+import '../../../../core/network/base_repository.dart';
 import '../../../home/domain/entities/project_entity.dart';
 import '../../../home/domain/entities/project_unit_entity.dart';
 import '../../../home/domain/entities/room_details_entity.dart';
@@ -26,7 +26,7 @@ class _CacheEntry<T> {
   bool get isValid => DateTime.now().difference(timestamp) < const Duration(minutes: 10);
 }
 
-class ProjectRepositoryImpl implements ProjectRepository {
+class ProjectRepositoryImpl extends BaseRepository implements ProjectRepository {
   final ProjectRemoteDataSource remoteDataSource;
 
   // Cache Storage
@@ -36,7 +36,10 @@ class ProjectRepositoryImpl implements ProjectRepository {
   final Map<int, _CacheEntry<ProjectUnitEntity>> _cachedUnitDetails = {};
   final Map<int, _CacheEntry<RoomDetailsEntity>> _cachedRoomDetails = {};
 
-  ProjectRepositoryImpl({required this.remoteDataSource});
+  ProjectRepositoryImpl({
+    required this.remoteDataSource,
+    required super.networkInfo,
+  });
 
   @override
   Future<Either<Failure, List<ProjectEntity>>> getProjects({AppCancelToken? cancelToken}) async {
@@ -44,17 +47,17 @@ class ProjectRepositoryImpl implements ProjectRepository {
       return Right(_cachedProjects!.data);
     }
 
-    try {
-      final projects = await remoteDataSource.getProjects(cancelToken: cancelToken);
-      _cachedProjects = _CacheEntry(data: projects, timestamp: DateTime.now());
-      return Right(projects);
-    } on ServerException catch (e) {
-      if (_cachedProjects != null) return Right(_cachedProjects!.data);
-      return Left(ServerFailure(e.message));
-    } catch (e) {
-      if (_cachedProjects != null) return Right(_cachedProjects!.data);
-      return Left(ServerFailure('An unexpected error occurred: ${e.toString()}'));
-    }
+    return executeWithNetwork(
+      onlineCall: () async {
+        final projects = await remoteDataSource.getProjects(cancelToken: cancelToken);
+        _cachedProjects = _CacheEntry(data: projects, timestamp: DateTime.now());
+        return projects;
+      },
+      offlineFallback: () async {
+        if (_cachedProjects != null) return _cachedProjects!.data;
+        throw Exception('Cache missing');
+      },
+    );
   }
 
   @override
@@ -63,17 +66,17 @@ class ProjectRepositoryImpl implements ProjectRepository {
       return Right(_cachedProjectDetails[id]!.data);
     }
 
-    try {
-      final project = await remoteDataSource.getProjectDetails(id);
-      _cachedProjectDetails[id] = _CacheEntry(data: project, timestamp: DateTime.now());
-      return Right(project);
-    } on ServerException catch (e) {
-      if (_cachedProjectDetails.containsKey(id)) return Right(_cachedProjectDetails[id]!.data);
-      return Left(ServerFailure(e.message));
-    } catch (e) {
-      if (_cachedProjectDetails.containsKey(id)) return Right(_cachedProjectDetails[id]!.data);
-      return Left(ServerFailure('An unexpected error occurred: ${e.toString()}'));
-    }
+    return executeWithNetwork(
+      onlineCall: () async {
+        final project = await remoteDataSource.getProjectDetails(id);
+        _cachedProjectDetails[id] = _CacheEntry(data: project, timestamp: DateTime.now());
+        return project;
+      },
+      offlineFallback: () async {
+        if (_cachedProjectDetails.containsKey(id)) return _cachedProjectDetails[id]!.data;
+        throw Exception('Cache missing');
+      },
+    );
   }
 
   @override
@@ -82,17 +85,17 @@ class ProjectRepositoryImpl implements ProjectRepository {
       return Right(_cachedProjectUnits[id]!.data);
     }
 
-    try {
-      final units = await remoteDataSource.getProjectUnits(id);
-      _cachedProjectUnits[id] = _CacheEntry(data: units, timestamp: DateTime.now());
-      return Right(units);
-    } on ServerException catch (e) {
-      if (_cachedProjectUnits.containsKey(id)) return Right(_cachedProjectUnits[id]!.data);
-      return Left(ServerFailure(e.message));
-    } catch (e) {
-      if (_cachedProjectUnits.containsKey(id)) return Right(_cachedProjectUnits[id]!.data);
-      return Left(ServerFailure('An unexpected error occurred: ${e.toString()}'));
-    }
+    return executeWithNetwork(
+      onlineCall: () async {
+        final units = await remoteDataSource.getProjectUnits(id);
+        _cachedProjectUnits[id] = _CacheEntry(data: units, timestamp: DateTime.now());
+        return units;
+      },
+      offlineFallback: () async {
+        if (_cachedProjectUnits.containsKey(id)) return _cachedProjectUnits[id]!.data;
+        throw Exception('Cache missing');
+      },
+    );
   }
 
   @override
@@ -101,17 +104,17 @@ class ProjectRepositoryImpl implements ProjectRepository {
       return Right(_cachedUnitDetails[id]!.data);
     }
 
-    try {
-      final unit = await remoteDataSource.getUnitDetails(id);
-      _cachedUnitDetails[id] = _CacheEntry(data: unit, timestamp: DateTime.now());
-      return Right(unit);
-    } on ServerException catch (e) {
-      if (_cachedUnitDetails.containsKey(id)) return Right(_cachedUnitDetails[id]!.data);
-      return Left(ServerFailure(e.message));
-    } catch (e) {
-      if (_cachedUnitDetails.containsKey(id)) return Right(_cachedUnitDetails[id]!.data);
-      return Left(ServerFailure('An unexpected error occurred: ${e.toString()}'));
-    }
+    return executeWithNetwork(
+      onlineCall: () async {
+        final unit = await remoteDataSource.getUnitDetails(id);
+        _cachedUnitDetails[id] = _CacheEntry(data: unit, timestamp: DateTime.now());
+        return unit;
+      },
+      offlineFallback: () async {
+        if (_cachedUnitDetails.containsKey(id)) return _cachedUnitDetails[id]!.data;
+        throw Exception('Cache missing');
+      },
+    );
   }
 
   @override
@@ -120,99 +123,75 @@ class ProjectRepositoryImpl implements ProjectRepository {
       return Right(_cachedRoomDetails[id]!.data);
     }
 
-    try {
-      final roomDetails = await remoteDataSource.getRoomDetails(id);
-      _cachedRoomDetails[id] = _CacheEntry(data: roomDetails, timestamp: DateTime.now());
-      return Right(roomDetails);
-    } on ServerException catch (e) {
-      if (_cachedRoomDetails.containsKey(id)) return Right(_cachedRoomDetails[id]!.data);
-      return Left(ServerFailure(e.message));
-    } catch (e) {
-      if (_cachedRoomDetails.containsKey(id)) return Right(_cachedRoomDetails[id]!.data);
-      return Left(ServerFailure('An unexpected error occurred: ${e.toString()}'));
-    }
+    return executeWithNetwork(
+      onlineCall: () async {
+        final roomDetails = await remoteDataSource.getRoomDetails(id);
+        _cachedRoomDetails[id] = _CacheEntry(data: roomDetails, timestamp: DateTime.now());
+        return roomDetails;
+      },
+      offlineFallback: () async {
+        if (_cachedRoomDetails.containsKey(id)) return _cachedRoomDetails[id]!.data;
+        throw Exception('Cache missing');
+      },
+    );
   }
 
-  /// Invalidates unit detail cache entry — call after write operations (e.g. submit order).
   void invalidateUnitCache(int id) {
     _cachedUnitDetails.remove(id);
   }
 
-  /// Invalidates room detail cache entry — call after material selection changes.
   void invalidateRoomCache(int id) {
     _cachedRoomDetails.remove(id);
   }
 
   @override
   Future<Either<Failure, FinishingOrderEntity>> submitFinishingOrder(FinishingOrderRequestEntity request) async {
-    try {
-      final requestModel = FinishingOrderRequestModel.fromEntity(request);
-      final response = await remoteDataSource.submitFinishingOrder(requestModel);
-      return Right(response);
-    } on ServerException catch (e) {
-      return Left(ServerFailure(e.message));
-    } catch (e) {
-      return Left(ServerFailure('An unexpected error occurred: ${e.toString()}'));
-    }
+    return executeWithNetwork(
+      isMutation: true,
+      onlineCall: () async {
+        final requestModel = FinishingOrderRequestModel.fromEntity(request);
+        return await remoteDataSource.submitFinishingOrder(requestModel);
+      },
+    );
   }
 
   @override
   Future<Either<Failure, AiRendersEntity>> getAiRenders(int orderId) async {
-    try {
-      final response = await remoteDataSource.getAiRenders(orderId);
-      return Right(response);
-    } on ServerException catch (e) {
-      return Left(ServerFailure(e.message));
-    } catch (e) {
-      return Left(ServerFailure('An unexpected error occurred: ${e.toString()}'));
-    }
+    return executeWithNetwork(
+      onlineCall: () => remoteDataSource.getAiRenders(orderId),
+    );
   }
 
   @override
   Future<Either<Failure, SavedDesignEntity>> saveDesign(SaveDesignRequestModel request) async {
-    try {
-      final response = await remoteDataSource.saveDesign(request);
-      return Right(response);
-    } on ServerException catch (e) {
-      return Left(ServerFailure(e.message));
-    } catch (e) {
-      return Left(ServerFailure('An unexpected error occurred: ${e.toString()}'));
-    }
+    return executeWithNetwork(
+      isMutation: true,
+      onlineCall: () => remoteDataSource.saveDesign(request),
+    );
   }
 
   @override
   Future<Either<Failure, List<String>>> getPresetNotes() async {
-    try {
-      final notes = await remoteDataSource.getPresetNotes();
-      return Right(notes);
-    } on ServerException catch (e) {
-      return Left(ServerFailure(e.message));
-    } catch (e) {
-      return Left(ServerFailure('An unexpected error occurred: ${e.toString()}'));
-    }
+    return executeWithNetwork(
+      onlineCall: () => remoteDataSource.getPresetNotes(),
+    );
   }
 
   @override
   Future<Either<Failure, List<RoomCustomerRendersEntity>>> getCustomerRenders(int apartmentId) async {
-    try {
-      final renders = await remoteDataSource.getCustomerRenders(apartmentId);
-      return Right(renders.cast<RoomCustomerRendersEntity>());
-    } on ServerException catch (e) {
-      return Left(ServerFailure(e.message));
-    } catch (e) {
-      return Left(ServerFailure('An unexpected error occurred: ${e.toString()}'));
-    }
+    return executeWithNetwork(
+      onlineCall: () async {
+        final renders = await remoteDataSource.getCustomerRenders(apartmentId);
+        return renders.cast<RoomCustomerRendersEntity>();
+      },
+    );
   }
 
   @override
   Future<Either<Failure, bool>> toggleCustomerRenderFavorite(int apartmentId, String imageUrl) async {
-    try {
-      final result = await remoteDataSource.toggleCustomerRenderFavorite(apartmentId, imageUrl);
-      return Right(result);
-    } on ServerException catch (e) {
-      return Left(ServerFailure(e.message));
-    } catch (e) {
-      return Left(ServerFailure('An unexpected error occurred: ${e.toString()}'));
-    }
+    return executeWithNetwork(
+      isMutation: true,
+      onlineCall: () => remoteDataSource.toggleCustomerRenderFavorite(apartmentId, imageUrl),
+    );
   }
 }

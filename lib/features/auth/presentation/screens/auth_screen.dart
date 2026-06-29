@@ -13,6 +13,7 @@ import '../../../../core/theme/app_sizes.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/widgets/app_toast.dart';
 import '../../../../core/widgets/custom_button.dart';
+import '../../../../core/presentation/widgets/network_action_guard.dart';
 import '../cubit/auth_cubit.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 import 'package:apartment/core/utils/responsive_builder.dart';
@@ -169,41 +170,43 @@ class _AuthViewState extends State<AuthView> {
                   }
                 },
                 builder: (context, state) {
-                  return CustomButton(
-                    text: state.status == AuthStatus.loading 
-                        ? '...' // Or you can keep text and add isLoading inside CustomButton if supported
-                        : (state.isLoginTab ? l10n.login : l10n.createAccount),
-                    backgroundColor: Theme.of(context).brightness == Brightness.dark 
-                        ? context.colors.gold 
-                        : context.colors.primary,
-                    textColor: context.colors.white,
-                    onPressed: state.status == AuthStatus.loading 
-                        ? null 
-                        : () {
-                      bool isValid = false;
-                      if (state.isLoginTab) {
-                        isValid = _loginFormKey.currentState?.validate() ?? false;
-                      } else {
-                        isValid = _registerFormKey.currentState?.validate() ?? false;
-                      }
-                      
-                      if (isValid) {
-                        if (!state.isLoginTab) {
-                          context.read<AuthCubit>().register(
-                            name: _regNameController.text.trim(),
-                            email: _regEmailController.text.trim(),
-                            phone: _regPhoneController.text.trim(),
-                            password: _regPasswordController.text,
-                            passwordConfirmation: _regConfirmPasswordController.text,
-                          );
+                  return NetworkActionGuard(
+                    child: CustomButton(
+                      text: state.status == AuthStatus.loading 
+                          ? '...' // Or you can keep text and add isLoading inside CustomButton if supported
+                          : (state.isLoginTab ? l10n.login : l10n.createAccount),
+                      backgroundColor: Theme.of(context).brightness == Brightness.dark 
+                          ? context.colors.gold 
+                          : context.colors.primary,
+                      textColor: context.colors.white,
+                      onPressed: state.status == AuthStatus.loading 
+                          ? null 
+                          : () {
+                        bool isValid = false;
+                        if (state.isLoginTab) {
+                          isValid = _loginFormKey.currentState?.validate() ?? false;
                         } else {
-                          context.read<AuthCubit>().login(
-                            email: _emailController.text.trim(),
-                            password: _passwordController.text,
-                          );
+                          isValid = _registerFormKey.currentState?.validate() ?? false;
                         }
-                      }
-                    },
+                        
+                        if (isValid) {
+                          if (!state.isLoginTab) {
+                            context.read<AuthCubit>().register(
+                              name: _regNameController.text.trim(),
+                              email: _regEmailController.text.trim(),
+                              phone: _regPhoneController.text.trim(),
+                              password: _regPasswordController.text,
+                              passwordConfirmation: _regConfirmPasswordController.text,
+                            );
+                          } else {
+                            context.read<AuthCubit>().login(
+                              email: _emailController.text.trim(),
+                              password: _passwordController.text,
+                            );
+                          }
+                        }
+                      },
+                    ),
                   );
                 },
               ),

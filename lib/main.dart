@@ -12,6 +12,9 @@ import 'core/localization/cubit/locale_state.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/cubit/theme_cubit.dart';
 import 'core/theme/cubit/theme_state.dart';
+import 'core/network/cubit/network_cubit.dart';
+import 'core/network/cubit/network_state.dart';
+import 'core/presentation/widgets/offline_banner.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,6 +35,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => di.sl<LocaleCubit>()),
         BlocProvider(create: (context) => di.sl<ThemeCubit>()),
+        BlocProvider(create: (context) => di.sl<NetworkCubit>()..startMonitoring()),
       ],
       child: BlocBuilder<LocaleCubit, LocaleState>(
         builder: (context, localeState) {
@@ -59,7 +63,28 @@ class MyApp extends StatelessWidget {
 
                   return MediaQuery(
                     data: mediaQuery.copyWith(textScaler: TextScaler.linear(textScale)),
-                    child: child!,
+                    child: BlocListener<NetworkCubit, NetworkState>(
+                      listener: (context, state) {
+                        int retries = 0;
+                        void showBanner() {
+                          final overlayContext = AppRouter.navigatorKey.currentContext;
+                          if (overlayContext != null && Overlay.maybeOf(overlayContext) != null) {
+                            if (state is NetworkOffline || state is NetworkNoInternet) {
+                              OfflineBanner.showOffline(overlayContext);
+                            } else if (state is NetworkOnline) {
+                              OfflineBanner.showRestored(overlayContext);
+                            }
+                          } else {
+                            if (retries < 5) {
+                              retries++;
+                              Future.delayed(const Duration(milliseconds: 500), showBanner);
+                            }
+                          }
+                        }
+                        showBanner();
+                      },
+                      child: child!,
+                    ),
                   );
                 },
               );

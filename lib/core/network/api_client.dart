@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import '../error/exceptions.dart';
+import '../error/failures.dart';
 
 class ApiClient {
   final Dio _dio;
@@ -21,6 +22,9 @@ class ApiClient {
       );
       return _processResponse(response);
     } on DioException catch (e) {
+      if (e.error is Failure) {
+        throw FailureException(e.error as Failure);
+      }
       throw _handleDioError(e);
     } catch (e) {
       throw ServerException(message: 'Unexpected error occurred: ${e.toString()}');
@@ -44,6 +48,9 @@ class ApiClient {
       );
       return _processResponse(response);
     } on DioException catch (e) {
+      if (e.error is Failure) {
+        throw FailureException(e.error as Failure);
+      }
       throw _handleDioError(e);
     } catch (e) {
       throw ServerException(message: 'Unexpected error occurred: ${e.toString()}');
@@ -67,6 +74,9 @@ class ApiClient {
       );
       return _processResponse(response);
     } on DioException catch (e) {
+      if (e.error is Failure) {
+        throw FailureException(e.error as Failure);
+      }
       throw _handleDioError(e);
     } catch (e) {
       throw ServerException(message: 'Unexpected error occurred: ${e.toString()}');
@@ -90,6 +100,9 @@ class ApiClient {
       );
       return _processResponse(response);
     } on DioException catch (e) {
+      if (e.error is Failure) {
+        throw FailureException(e.error as Failure);
+      }
       throw _handleDioError(e);
     } catch (e) {
       throw ServerException(message: 'Unexpected error occurred: ${e.toString()}');

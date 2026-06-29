@@ -14,6 +14,7 @@ import '../../../../../home/domain/entities/project_unit_entity.dart';
 import '../../../cubit/room_details_cubit.dart';
 import '../../../cubit/room_details_state.dart';
 import '../../../cubit/unit_details_cubit.dart';
+import '../../../../../../core/widgets/error_state_view.dart';
 import 'finishing_options_section.dart';
 import 'unified_room_bottom_bar.dart';
 
@@ -137,21 +138,9 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> with AutomaticKeepAli
     if (state is RoomDetailsLoading || state is RoomDetailsInitial) {
       return _buildShimmer(context);
     } else if (state is RoomDetailsError) {
-      return Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Center(
-          child: Column(
-            children: [
-              Icon(Icons.error_outline, size: 48, color: Colors.red.withValues(alpha: 0.5)),
-              const SizedBox(height: AppSpacing.md),
-              Text(
-                state.message,
-                textAlign: TextAlign.center,
-                style: TextStyle(color: context.colors.textSecondary),
-              ),
-            ],
-          ),
-        ),
+      return ErrorStateView(
+        message: state.message,
+        onRetry: () => context.read<RoomDetailsCubit>().loadRoomDetails(widget.room),
       );
     } else if (state is RoomDetailsLoaded) {
       return Column(

@@ -2989,6 +2989,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Create New Design Anyway'**
   String get continueAnywayBtn;
+
+  /// No description provided for @offlineCacheWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'You are browsing the cached version. Please connect to the internet to update data.'**
+  String get offlineCacheWarning;
 }
 
 class _AppLocalizationsDelegate

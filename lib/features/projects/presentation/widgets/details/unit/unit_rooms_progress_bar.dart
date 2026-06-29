@@ -6,7 +6,6 @@ import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 import 'package:apartment/l10n/app_localizations.dart';
-import 'package:intl/intl.dart';
 
 class UnitRoomsProgressBar extends StatelessWidget {
   final List<UnitRoomEntity> rooms;
@@ -126,8 +125,6 @@ class UnitRoomsProgressBar extends StatelessWidget {
     required bool isCurrent,
     required double cost,
   }) {
-    final formatter = NumberFormat.compact();
-    
     return SizedBox(
       width: 70, 
       child: Column(

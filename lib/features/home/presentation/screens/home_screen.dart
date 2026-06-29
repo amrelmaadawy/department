@@ -6,9 +6,12 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
 import '../../../../core/di/injection_container.dart';
 import '../../../../core/widgets/empty_state_view.dart';
+import '../../../../core/widgets/error_state_view.dart';
 import '../../../../core/theme/theme_extension.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/network/cubit/network_cubit.dart';
+import '../../../../core/network/cubit/network_state.dart';
 import '../cubit/home_cubit.dart';
 import '../widgets/featured_project_card.dart';
 import '../widgets/home_header.dart';
@@ -43,6 +46,33 @@ class HomeView extends StatelessWidget {
               slivers: [
                 // Collapsable Header
                 const SliverToBoxAdapter(child: HomeHeader()),
+
+                // Cached Data Warning Banner
+                BlocBuilder<NetworkCubit, NetworkState>(
+                  builder: (context, networkState) {
+                    if (networkState is NetworkOffline && state is HomeLoaded) {
+                      return SliverToBoxAdapter(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: AppSpacing.lg),
+                          color: Colors.amber.withValues(alpha: 0.1),
+                          child: Row(
+                            children: [
+                              Icon(Icons.wifi_off_rounded, size: 16, color: Colors.amber[700]),
+                              const SizedBox(width: AppSpacing.sm),
+                              Expanded(
+                                child: Text(
+                                  l10n.offlineCacheWarning,
+                                  style: TextStyle(fontSize: 12, color: Colors.amber[800], fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }
+                    return const SliverToBoxAdapter(child: SizedBox.shrink());
+                  },
+                ),
 
                 // Content based on state
                 if (state is HomeLoading || state is HomeInitial)
@@ -84,7 +114,12 @@ class HomeView extends StatelessWidget {
                   )
                 else if (state is HomeError)
                   SliverFillRemaining(
-                    child: Center(child: Text(state.message)),
+                    child: Center(
+                      child: ErrorStateView(
+                        message: state.message,
+                        onRetry: () => context.read<HomeCubit>().loadHomeData(),
+                      ),
+                    ),
                   ),
               ],
             );

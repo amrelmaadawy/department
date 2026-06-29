@@ -627,5 +627,6 @@
   "duplicateDesignTitle": "تنبيه: تصميم مكرر",
   "duplicateDesignMessage": "الخامات المختارة حالياً هي نفسها التي قمت بإنشاء تصميم ذكي لها سابقاً لهذه الغرفة.",
   "viewPreviousDesignsBtn": "عرض التصاميم السابقة",
-  "continueAnywayBtn": "إنشاء تصميم جديد على أي حال"
+  "continueAnywayBtn": "إنشاء تصميم جديد على أي حال",
+  "offlineCacheWarning": "أنت تتصفح النسخة المحفوظة مسبقاً. يرجى الاتصال بالإنترنت لتحديث البيانات."
 }

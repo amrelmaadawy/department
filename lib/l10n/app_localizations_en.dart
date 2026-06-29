@@ -1552,4 +1552,8 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get continueAnywayBtn => 'Create New Design Anyway';
+
+  @override
+  String get offlineCacheWarning =>
+      'You are browsing the cached version. Please connect to the internet to update data.';
 }

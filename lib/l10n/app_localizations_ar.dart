@@ -1541,4 +1541,8 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get continueAnywayBtn => 'إنشاء تصميم جديد على أي حال';
+
+  @override
+  String get offlineCacheWarning =>
+      'أنت تتصفح النسخة المحفوظة مسبقاً. يرجى الاتصال بالإنترنت لتحديث البيانات.';
 }

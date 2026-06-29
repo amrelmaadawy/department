@@ -13,6 +13,7 @@ import 'category_tab_controller.dart';
 import '../../ai_renders/ai_credits_depleted_dialog.dart';
 import 'room_next_navigation_button.dart';
 import 'room_ai_design_button.dart';
+import 'package:apartment/core/presentation/widgets/network_action_guard.dart';
 
 class RoomActionButtons extends StatelessWidget {
   final bool isLastRoom;
@@ -83,9 +84,11 @@ class RoomActionButtons extends StatelessWidget {
           const SizedBox(width: AppSpacing.md),
           Expanded(
             flex: 1,
-            child: RoomAiDesignButton(
-              unit: unit,
-              currentTabIndex: currentTabIndex,
+            child: NetworkActionGuard(
+              child: RoomAiDesignButton(
+                unit: unit,
+                currentTabIndex: currentTabIndex,
+              ),
             ),
           ),
         ],

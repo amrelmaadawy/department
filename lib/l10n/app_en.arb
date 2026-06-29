@@ -623,5 +623,6 @@
   "duplicateDesignTitle": "Warning: Duplicate Design",
   "duplicateDesignMessage": "The currently selected materials are identical to the ones used in your previous AI design for this room.",
   "viewPreviousDesignsBtn": "View Previous Designs",
-  "continueAnywayBtn": "Create New Design Anyway"
+  "continueAnywayBtn": "Create New Design Anyway",
+  "offlineCacheWarning": "You are browsing the cached version. Please connect to the internet to update data."
 }

@@ -8,6 +8,7 @@ import '../../../../../../core/theme/app_radius.dart';
 import '../../../../../../core/theme/app_spacing.dart';
 import '../../../../../../core/theme/theme_extension.dart';
 import '../../../../domain/entities/customer_render_entity.dart';
+import '../../../../../../core/presentation/widgets/network_action_guard.dart';
 
 class RoomCustomerRendersCarousel extends StatelessWidget {
   final List<CustomerRenderEntity> renders;
@@ -120,22 +121,24 @@ class RoomCustomerRendersCarousel extends StatelessWidget {
               Positioned(
                 top: AppSpacing.sm,
                 right: AppSpacing.sm,
-                child: GestureDetector(
-                  onTap: () {
-                    if (onFavoriteToggled != null) {
-                      onFavoriteToggled!(render);
-                    }
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(6),
-                    decoration: BoxDecoration(
-                      color: Colors.black.withValues(alpha: 0.5),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      render.isSaved ? FluentIcons.heart_24_filled : FluentIcons.heart_24_regular,
-                      color: render.isSaved ? Colors.red : Colors.white,
-                      size: 16,
+                child: NetworkActionGuard(
+                  child: GestureDetector(
+                    onTap: () {
+                      if (onFavoriteToggled != null) {
+                        onFavoriteToggled!(render);
+                      }
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withValues(alpha: 0.5),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        render.isSaved ? FluentIcons.heart_24_filled : FluentIcons.heart_24_regular,
+                        color: render.isSaved ? Colors.red : Colors.white,
+                        size: 16,
+                      ),
                     ),
                   ),
                 ),

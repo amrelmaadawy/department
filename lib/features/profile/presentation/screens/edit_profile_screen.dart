@@ -9,6 +9,7 @@ import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/widgets/custom_button.dart';
 import '../../../../core/widgets/custom_text_field.dart';
 import '../../../../core/widgets/app_toast.dart';
+import '../../../../core/presentation/widgets/network_action_guard.dart';
 import '../../../../l10n/app_localizations.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 
@@ -252,10 +253,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     const SizedBox(height: AppSpacing.xxxl * 1.5),
 
                     // Save Button
-                    CustomButton(
-                      text: l10n.saveChanges,
-                      isLoading: isLoading,
-                      onPressed: () => _onSave(context),
+                    NetworkActionGuard(
+                      child: CustomButton(
+                        text: l10n.saveChanges,
+                        isLoading: isLoading,
+                        onPressed: () => _onSave(context),
+                      ),
                     ),
                   ],
                 ),

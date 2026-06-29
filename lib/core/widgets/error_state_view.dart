@@ -59,14 +59,15 @@ class _ErrorStateViewState extends State<ErrorStateView> with SingleTickerProvid
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(AppSpacing.xxxl),
-        child: FadeTransition(
-          opacity: _fadeAnim,
-          child: ScaleTransition(
-            scale: _scaleAnim,
-            child: Container(
-              padding: const EdgeInsets.all(AppSpacing.xxxl),
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(AppSpacing.lg),
+          child: FadeTransition(
+            opacity: _fadeAnim,
+            child: ScaleTransition(
+              scale: _scaleAnim,
+              child: Container(
+                padding: const EdgeInsets.all(AppSpacing.xl),
               decoration: BoxDecoration(
                 color: context.colors.white,
                 borderRadius: BorderRadius.circular(AppRadius.xl),
@@ -190,6 +191,6 @@ class _ErrorStateViewState extends State<ErrorStateView> with SingleTickerProvid
           ),
         ),
       ),
-    );
+    ));
   }
 }

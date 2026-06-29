@@ -29,3 +29,18 @@ class UnauthorizedException extends ServerException {
 class BadRequestException extends ServerException {
   const BadRequestException({required super.message});
 }
+
+/// Exception that wraps a [Failure]. Used to seamlessly pass Failures through the exception-throwing layers.
+class FailureException implements Exception {
+  final dynamic failure; // Uses dynamic to avoid import cycles, but expects a Failure
+  const FailureException(this.failure);
+
+  @override
+  String toString() {
+    try {
+      return failure.message as String;
+    } catch (_) {
+      return failure.toString();
+    }
+  }
+}

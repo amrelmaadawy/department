@@ -2,7 +2,10 @@ import 'package:get_it/get_it.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:dio/dio.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
+import 'package:apartment/core/network/network_info.dart';
+import 'package:apartment/core/network/dio_factory.dart';
 
 import 'package:apartment/core/network/api_client.dart';
 import 'package:apartment/core/network/api_endpoints.dart';
@@ -11,6 +14,7 @@ import 'package:apartment/core/network/interceptors/error_interceptor.dart';
 import 'package:apartment/core/network/interceptors/logging_interceptor.dart';
 import 'package:apartment/core/localization/cubit/locale_cubit.dart';
 import 'package:apartment/core/theme/cubit/theme_cubit.dart';
+import 'package:apartment/core/network/cubit/network_cubit.dart';
 import 'package:apartment/core/services/share/share_service.dart';
 import 'package:apartment/core/services/share/share_service_impl.dart';
 import 'package:apartment/core/services/download/download_service.dart';
@@ -33,6 +37,13 @@ Future<void> registerCoreDi(GetIt sl) async {
   sl.registerLazySingleton<IShareService>(() => ShareServiceImpl(dio: sl()));
   sl.registerLazySingleton<IDownloadService>(() => DownloadServiceImpl(dio: sl()));
 
+  // Network Monitoring
+  sl.registerLazySingleton(() => Connectivity());
+  sl.registerLazySingleton(() => InternetConnection());
+  sl.registerLazySingleton<NetworkInfo>(
+    () => NetworkInfoImpl(sl(), sl()),
+  );
+
   // Network Interceptors
   sl.registerLazySingleton(() => AuthInterceptor(secureStorage: sl()));
   sl.registerLazySingleton(() => ErrorInterceptor());
@@ -41,12 +52,9 @@ Future<void> registerCoreDi(GetIt sl) async {
   // Network Dio
   sl.registerLazySingleton(
     () {
-      final dio = Dio(
-        BaseOptions(
-          baseUrl: ApiEndpoints.baseUrl,
-          connectTimeout: const Duration(seconds: 30),
-          receiveTimeout: const Duration(seconds: 30),
-        ),
+      final dio = DioFactory.createDio(
+        RequestType.fetch, 
+        baseUrl: ApiEndpoints.baseUrl,
       );
       dio.interceptors.addAll([
         sl<AuthInterceptor>(),
@@ -60,9 +68,10 @@ Future<void> registerCoreDi(GetIt sl) async {
   // Network API Client
   sl.registerLazySingleton(() => ApiClient(dio: sl()));
 
-  // Core Cubits (Locale, Theme)
+  // Core Cubits (Locale, Theme, Network)
   sl.registerLazySingleton(() => LocaleCubit(sharedPreferences: sl()));
   sl.registerLazySingleton(() => ThemeCubit(sharedPreferences: sl()));
+  sl.registerFactory(() => NetworkCubit(sl()));
 
   // Feature Cubits (Layout, Home, Design Studio)
   sl.registerFactory(() => LayoutCubit());

@@ -8,6 +8,7 @@ import '../widgets/profile_header.dart';
 import '../widgets/profile_stats_card.dart';
 import '../widgets/profile_menu_list.dart';
 import '../widgets/profile_shimmer_loading.dart';
+import '../../../../core/widgets/error_state_view.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -173,8 +174,23 @@ class _ProfileViewState extends State<ProfileView>
               unitsCount = profileState.profile.statistics.totalApartments;
               aiCredits = profileState.profile.user.aiCredits;
               recentOrders = profileState.profile.recentOrders;
-            } else if (profileState is ProfileError) {
-              userName = profileState.message;
+            }
+
+            if (profileState is ProfileError) {
+              return RefreshIndicator(
+                onRefresh: _onRefresh,
+                color: context.colors.primary,
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.7,
+                    child: ErrorStateView(
+                      message: profileState.message,
+                      onRetry: _onRefresh,
+                    ),
+                  ),
+                ),
+              );
             }
 
             return RefreshIndicator(
