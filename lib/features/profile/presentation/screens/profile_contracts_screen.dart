@@ -222,6 +222,7 @@ class _ProfileContractsView extends StatelessWidget {
   }
 
   Widget _buildErrorState(BuildContext context, String error) {
+    final l10n = AppLocalizations.of(context)!;
     return SliverFillRemaining(
       hasScrollBody: false,
       child: Center(
@@ -266,8 +267,9 @@ class _ProfileContractsView extends StatelessWidget {
                 onPressed: () => context.read<MyContractsCubit>().fetchContracts(),
                 icon: Icon(Icons.refresh_rounded, color: context.colors.white, size: 20),
                 label: Text(
-                  'إعادة المحاولة',
+                  l10n.retryLoad,
                   style: TextStyle(
+                    fontFamily: 'Cairo',
                     fontSize: AppFonts.bodyLarge,
                     fontWeight: FontWeight.bold,
                     color: context.colors.white,
@@ -581,21 +583,25 @@ class _ContractCard extends StatelessWidget {
   }
 
   Widget _buildSignButton(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton.icon(
         onPressed: () => _navigateToSigning(context),
         icon: const Icon(Icons.draw_rounded, size: 18),
-        label: const Text('وقّع الآن'),
+        label: Text(
+          l10n.signNow,
+          style: const TextStyle(
+            fontFamily: 'Cairo',
+            fontSize: AppFonts.bodyMedium,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         style: ElevatedButton.styleFrom(
           backgroundColor: context.colors.gold,
           foregroundColor: context.colors.white,
           elevation: 0,
           padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
-          textStyle: const TextStyle(
-            fontSize: AppFonts.bodyMedium,
-            fontWeight: FontWeight.bold,
-          ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppRadius.lg),
           ),

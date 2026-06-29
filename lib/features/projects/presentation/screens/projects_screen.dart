@@ -112,7 +112,10 @@ class _ProjectsViewState extends State<ProjectsView> {
                                   filters: dynamicFilters.map((e) => e['label'] as String).toList(),
                                   selectedFilter: dynamicFilters.firstWhere((e) => e['key'] == state.selectedFilter, orElse: () => dynamicFilters.first)['label'] as String,
                                   onFilterSelected: (label) {
-                                    final key = dynamicFilters.firstWhere((e) => e['label'] == label)['key'] as String;
+                                    final key = dynamicFilters.firstWhere(
+                                      (e) => e['label'] == label,
+                                      orElse: () => dynamicFilters.first,
+                                    )['key'] as String;
                                     context.read<ProjectsCubit>().filterByCity(key);
                                   },
                                 );

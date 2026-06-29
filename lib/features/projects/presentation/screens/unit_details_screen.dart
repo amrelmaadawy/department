@@ -38,7 +38,7 @@ class _UnitDetailsScreenState extends State<UnitDetailsScreen> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => sl<UnitDetailsCubit>()
-        ..loadUnitDetails(int.parse(widget.unit.id), initialUnit: widget.unit),
+        ..loadUnitDetails(int.tryParse(widget.unit.id) ?? 0, initialUnit: widget.unit),
       child: _UnitDetailsScreenContent(heroTag: widget.heroTag),
     );
   }

@@ -54,7 +54,7 @@ class _FinishingSummaryScreenState extends State<FinishingSummaryScreen> {
     double total = 0;
     for (var room in _rooms) {
       final selectedId = _selectedOrders[room.roomName];
-      if (selectedId != null) {
+      if (selectedId != null && room.orders.isNotEmpty) {
         var order = room.orders.last;
         for (var o in room.orders) {
           if (o.id == selectedId) {
@@ -65,9 +65,11 @@ class _FinishingSummaryScreenState extends State<FinishingSummaryScreen> {
         total += double.tryParse(order.totalCost) ?? 0.0;
       }
     }
-    setState(() {
-      _dynamicTotalFinishingCost = total;
-    });
+    if (mounted) {
+      setState(() {
+        _dynamicTotalFinishingCost = total;
+      });
+    }
   }
 
   void _onOrderSelected(String roomName, int orderId) {

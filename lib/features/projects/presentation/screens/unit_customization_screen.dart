@@ -72,7 +72,7 @@ class _UnitCustomizationScreenState extends State<UnitCustomizationScreen> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => sl<UnitDetailsCubit>()
-        ..loadUnitDetails(int.parse(widget.unit.id), initialUnit: widget.unit),
+        ..loadUnitDetails(int.tryParse(widget.unit.id) ?? 0, initialUnit: widget.unit),
       child: _UnitCustomizationScreenContent(
         initialUnit: widget.unit,
         selectedPackage: widget.selectedPackage,
@@ -114,7 +114,7 @@ class _UnitCustomizationScreenContentState extends State<_UnitCustomizationScree
           if (state is UnitDetailsError && (state.unit == null || state.unit!.rooms.isEmpty)) {
             return ErrorStateView(
               message: state.message,
-              onRetry: () => context.read<UnitDetailsCubit>().loadUnitDetails(int.parse(widget.initialUnit.id)),
+              onRetry: () => context.read<UnitDetailsCubit>().loadUnitDetails(int.tryParse(widget.initialUnit.id) ?? 0),
             );
           }
 

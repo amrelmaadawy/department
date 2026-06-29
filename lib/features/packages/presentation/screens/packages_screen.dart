@@ -345,23 +345,42 @@ class _PackageCard extends StatelessWidget {
                             PackageItemsBottomSheet.show(context, package),
                         style: OutlinedButton.styleFrom(
                           foregroundColor: context.colors.primary,
-                          side: BorderSide(color: context.colors.border),
-                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          side: BorderSide(color: context.colors.primary),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 14, horizontal: 8),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(AppRadius.lg),
                           ),
                         ),
-                        child: Icon(
-                          FluentIcons.list_24_regular,
-                          size: 24,
-                          color: context.colors.primary,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              FluentIcons.box_24_regular,
+                              size: 18,
+                              color: context.colors.primary,
+                            ),
+                            const SizedBox(width: AppSpacing.xs),
+                            Flexible(
+                              child: Text(
+                                l10n.viewPackageMaterials,
+                                style: TextStyle(
+                                  fontFamily: 'Cairo',
+                                  fontSize: AppFonts.bodyMedium,
+                                  fontWeight: FontWeight.bold,
+                                  color: context.colors.primary,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                    const SizedBox(width: AppSpacing.md),
+                    const SizedBox(width: AppSpacing.sm),
                     // Select package button (Primary)
                     Expanded(
-                      flex: 3,
+                      flex: 1,
                       child: ElevatedButton(
                         onPressed: () {
                           context.push(
@@ -374,7 +393,8 @@ class _PackageCard extends StatelessWidget {
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: context.colors.gold,
-                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 14, horizontal: 8),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(AppRadius.lg),
                           ),
@@ -383,18 +403,22 @@ class _PackageCard extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
-                              l10n.selectPackageBtn,
-                              style: TextStyle(
-                                fontSize: AppFonts.bodyLarge,
-                                fontWeight: FontWeight.bold,
-                                color: context.colors.white,
+                            Flexible(
+                              child: Text(
+                                l10n.selectPackageBtn,
+                                style: TextStyle(
+                                  fontFamily: 'Cairo',
+                                  fontSize: AppFonts.bodyMedium,
+                                  fontWeight: FontWeight.bold,
+                                  color: context.colors.white,
+                                ),
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
-                            const SizedBox(width: AppSpacing.sm),
+                            const SizedBox(width: AppSpacing.xs),
                             Icon(
                               FluentIcons.arrow_right_24_filled,
-                              size: 20,
+                              size: 18,
                               color: context.colors.white,
                             ),
                           ],

@@ -123,7 +123,7 @@ class RoomDesignsBottomSheet extends StatelessWidget {
                 roomName: roomName,
                 onFavoriteToggled: (render) {
                   context.read<UnitDetailsCubit>().toggleRenderFavorite(
-                    int.parse(unitId),
+                    int.tryParse(unitId) ?? 0,
                     roomId,
                     render.url,
                   );

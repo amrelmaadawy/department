@@ -10,6 +10,7 @@ import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
+import 'package:apartment/l10n/app_localizations.dart';
 
 import '../../domain/entities/contract_entity.dart';
 import '../../domain/entities/contract_type.dart';
@@ -155,8 +156,12 @@ class _ContractDetailsView extends StatelessWidget {
               onPressed: () => context.read<ContractsCubit>().loadContractDetails(0),
               icon: Icon(Icons.refresh_rounded, color: context.colors.white),
               label: Text(
-                'إعادة المحاولة',
-                style: TextStyle(color: context.colors.white, fontWeight: FontWeight.bold),
+                AppLocalizations.of(context)!.retryLoad,
+                style: TextStyle(
+                  fontFamily: 'Cairo',
+                  color: context.colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: context.colors.primary,
