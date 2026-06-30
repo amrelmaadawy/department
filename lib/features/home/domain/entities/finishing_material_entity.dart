@@ -7,6 +7,8 @@ class FinishingMaterialEntity extends Equatable {
   final String unit;
   final double finalPrice;
   final String? imageUrl;
+  final int? companyId;
+  final String? companyName;
 
   const FinishingMaterialEntity({
     required this.id,
@@ -15,6 +17,8 @@ class FinishingMaterialEntity extends Equatable {
     required this.unit,
     required this.finalPrice,
     this.imageUrl,
+    this.companyId,
+    this.companyName,
   });
 
   @override
@@ -25,5 +29,7 @@ class FinishingMaterialEntity extends Equatable {
         unit,
         finalPrice,
         imageUrl,
+        companyId,
+        companyName,
       ];
 }

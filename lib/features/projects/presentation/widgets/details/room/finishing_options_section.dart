@@ -1,26 +1,21 @@
-import 'package:apartment/core/theme/app_colors.dart';
 import 'package:apartment/features/projects/presentation/cubit/ai_room_design_cubit.dart';
-import 'package:apartment/features/projects/presentation/cubit/ai_room_design_state.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:apartment/l10n/app_localizations.dart';
 
 import '../../../../../../core/theme/app_fonts.dart';
 import '../../../../../../core/theme/app_spacing.dart';
 import '../../../../../../core/theme/theme_extension.dart';
 import '../../../../../home/domain/entities/finishing_category_entity.dart';
+import '../../../../../home/domain/entities/finishing_material_entity.dart';
 import '../../../../../home/domain/entities/finishing_subtype_entity.dart';
 import '../../../../../home/domain/entities/unit_room_entity.dart';
-import 'package:apartment/l10n/app_localizations.dart';
-import 'package:apartment/core/widgets/app_toast.dart';
 
-import 'apply_to_other_rooms_sheet.dart';
 import 'category_tab_controller.dart';
-import 'finishing_material_grid_card.dart';
+import 'company_filter_chips.dart';
+import 'finishing_material_grid_section.dart';
+import 'finishing_subtype_tabs_row.dart';
 import 'room_linear_progress_bar.dart';
-import 'subtype_tab_item.dart';
-import 'finishing_empty_state.dart';
-import 'material_preview_sheet.dart';
 
 class FinishingOptionsSection extends StatefulWidget {
   final List<FinishingCategoryEntity> options;
@@ -30,7 +25,7 @@ class FinishingOptionsSection extends StatefulWidget {
   final bool isReadOnly;
 
   const FinishingOptionsSection({
-    super.key, 
+    super.key,
     required this.options,
     this.unitRooms = const [],
     this.currentRoom,
@@ -45,6 +40,8 @@ class FinishingOptionsSection extends StatefulWidget {
 class _FinishingOptionsSectionState extends State<FinishingOptionsSection> {
   late List<FinishingSubtypeEntity> _allSubtypes;
   int? _highlightedTabIndex;
+  int _lastSubtypeIndex = 0;
+  int? _selectedCompanyId = -1;
 
   @override
   void initState() {
@@ -73,187 +70,99 @@ class _FinishingOptionsSectionState extends State<FinishingOptionsSection> {
     widget.categoryTabController.setTotalTabs(_allSubtypes.length);
   }
 
+  void _triggerHighlightNextTab() {
+    if (widget.categoryTabController.currentIndex < _allSubtypes.length - 1) {
+      setState(() => _highlightedTabIndex = widget.categoryTabController.currentIndex + 1);
+      Future.delayed(const Duration(seconds: 2), () {
+        if (mounted) setState(() => _highlightedTabIndex = null);
+      });
+    }
+  }
+
+  List<CompanyOption> _getAvailableCompanies(List<FinishingMaterialEntity> materials) {
+    final Map<int?, String> uniqueMap = {};
+    bool hasGeneral = false;
+    for (final m in materials) {
+      if (m.companyId != null && m.companyName != null && m.companyName!.isNotEmpty) {
+        uniqueMap[m.companyId] = m.companyName!;
+      } else {
+        hasGeneral = true;
+      }
+    }
+    return [
+      const CompanyOption(id: -1, name: 'الكل'),
+      if (hasGeneral && uniqueMap.isNotEmpty) const CompanyOption(id: null, name: 'عام'),
+      ...uniqueMap.entries.map((e) => CompanyOption(id: e.key, name: e.value)),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_allSubtypes.isEmpty) return const SizedBox.shrink();
     final l10n = AppLocalizations.of(context)!;
+
     return AnimatedBuilder(
       animation: widget.categoryTabController,
       builder: (context, _) {
         final selectedSubtype = _allSubtypes[widget.categoryTabController.currentIndex];
+        if (widget.categoryTabController.currentIndex != _lastSubtypeIndex) {
+          _lastSubtypeIndex = widget.categoryTabController.currentIndex;
+          _selectedCompanyId = -1;
+        }
+
+        final availableCompanies = _getAvailableCompanies(selectedSubtype.materials);
+        final filteredMaterials = selectedSubtype.materials.where((m) {
+          if (_selectedCompanyId == -1) return true;
+          return m.companyId == _selectedCompanyId;
+        }).toList();
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-        RoomLinearProgressBar(allSubtypes: _allSubtypes),
-        const SizedBox(height: AppSpacing.md),
-        
-        // Tabs Section
-        BlocBuilder<AiRoomDesignCubit, AiRoomDesignState>(
-          buildWhen: (previous, current) => previous.selectedMaterialIds != current.selectedMaterialIds,
-          builder: (context, state) {
-            return SizedBox(
-              height: 40,
-              child: ShaderMask(
-                shaderCallback: (Rect bounds) {
-                  return const LinearGradient(
-                    colors: [
-                      AppColors.transparent,
-                      AppColors.white,
-                      AppColors.white,
-                      AppColors.transparent,
-                    ],
-                    stops: [0.0, 0.05, 0.95, 1.0],
-                  ).createShader(bounds);
-                },
-                blendMode: BlendMode.dstIn,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: _allSubtypes.length,
-                  separatorBuilder: (context, index) => const SizedBox(width: AppSpacing.sm),
-                  itemBuilder: (context, index) {
-                    final isSelected = index == widget.categoryTabController.currentIndex;
-                    final isHighlighted = index == _highlightedTabIndex;
-                    final subtype = _allSubtypes[index];
-                    final isCompleted = subtype.materials.any((m) => state.selectedMaterialIds.contains(m.id));
-                    return SubtypeTabItem(
-                      subtype: subtype,
-                      isSelected: isSelected,
-                      isCompleted: isCompleted,
-                      isHighlighted: isHighlighted,
-                      onTap: () {
-                        widget.categoryTabController.setIndex(index);
-                      },
-                    );
-                  },
+            RoomLinearProgressBar(allSubtypes: _allSubtypes),
+            const SizedBox(height: AppSpacing.md),
+
+            FinishingSubtypeTabsRow(
+              allSubtypes: _allSubtypes,
+              categoryTabController: widget.categoryTabController,
+              highlightedTabIndex: _highlightedTabIndex,
+            ),
+            const SizedBox(height: AppSpacing.lg),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+              child: Text(
+                l10n.chooseTypeOf(selectedSubtype.subtypeName),
+                style: TextStyle(
+                  fontSize: AppFonts.headlineSmall,
+                  fontWeight: FontWeight.bold,
+                  color: context.colors.textPrimary,
                 ),
               ),
-            );
-          },
-        ),
-        
-        const SizedBox(height: AppSpacing.lg),
-        
-        // Header Section
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-          child: Text(
-            l10n.chooseTypeOf(selectedSubtype.subtypeName),
-            style: TextStyle(
-              fontSize: AppFonts.headlineSmall,
-              fontWeight: FontWeight.bold,
-              color: context.colors.textPrimary,
             ),
-          ),
-        ),
-        
-        const SizedBox(height: AppSpacing.md),
-        
-        // Grid Section
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-          child: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 300),
-            child: selectedSubtype.materials.isEmpty
-                ? const FinishingEmptyState()
-                : GridView.builder(
-                    key: ValueKey<int>(selectedSubtype.subtypeId),
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: 220,
-                      mainAxisSpacing: AppSpacing.md,
-                      crossAxisSpacing: AppSpacing.md,
-                      childAspectRatio: 0.75,
-                    ),
-                    itemCount: selectedSubtype.materials.length,
-                    itemBuilder: (context, index) {
-                      final material = selectedSubtype.materials[index];
-                      return BlocBuilder<AiRoomDesignCubit, AiRoomDesignState>(
-                        builder: (context, state) {
-                          final isSelected = state.selectedMaterialIds.contains(material.id);
-                          return FinishingMaterialGridCard(
-                            material: material,
-                            isSelected: isSelected,
-                            roomArea: widget.currentRoom?.area,
-                            onTap: () {
-                              if (widget.isReadOnly) {
-                                AppToast.show(
-                                  context,
-                                  message: 'تم اختيار هذه الخامات تلقائياً من الباقة المختارة ولا يمكن تغييرها.',
-                                  isError: false,
-                                );
-                                return;
-                              }
-                              HapticFeedback.lightImpact();
-                              MaterialPreviewSheet.show(
-                                context,
-                                material: material,
-                                isSelected: isSelected,
-                                roomArea: widget.currentRoom?.area,
-                                onToggleSelection: () {
-                                  context.read<AiRoomDesignCubit>().toggleMaterial(
-                                    material,
-                                    selectedSubtype.materials,
-                                  );
-                                  
-                                  if (!isSelected && widget.categoryTabController.currentIndex < _allSubtypes.length - 1) {
-                                    setState(() {
-                                      _highlightedTabIndex = widget.categoryTabController.currentIndex + 1;
-                                    });
-                                    Future.delayed(const Duration(seconds: 2), () {
-                                      if (mounted) {
-                                        setState(() {
-                                          _highlightedTabIndex = null;
-                                        });
-                                      }
-                                    });
-                                  }
-                                },
-                              ).then((wasSelected) {
-                                if (wasSelected == true && widget.unitRooms.length > 1 && mounted) {
-                                  final otherRooms = widget.unitRooms.where((r) => r.id != widget.currentRoom?.id).toList();
-                                  if (otherRooms.isEmpty) return;
-                                  
-                                  final currentlyAppliedRoomIds = widget.unitRooms.where((r) {
-                                    final cachedData = context.read<AiRoomDesignCubit>().cacheService.getRoomDesignProgress(r.id);
-                                    if (cachedData == null) return false;
-                                    final ids = List<int>.from(cachedData['selectedMaterialIds'] ?? []);
-                                    return ids.contains(material.id);
-                                  }).map((r) => r.id).toList();
 
-                                  Future.delayed(const Duration(milliseconds: 300), () {
-                                    if (!context.mounted) return;
-                                    ApplyToOtherRoomsSheet.show(
-                                      context,
-                                      selectedMaterial: material,
-                                      otherRooms: otherRooms,
-                                      currentlyAppliedRoomIds: currentlyAppliedRoomIds,
-                                      onApply: (specificRoomIds) {
-                                        context.read<AiRoomDesignCubit>().applyMaterialToOtherRooms(
-                                          material: material,
-                                          siblingMaterials: selectedSubtype.materials,
-                                          targetRoomIds: specificRoomIds,
-                                          allOtherRoomIds: otherRooms.map((r) => r.id).toList(),
-                                        );
-                                      },
-                                    );
-                                  });
-                                }
-                              });
-                            },
-                          );
-                        },
-                      );
-                    },
-                  ),
-          ),
-        ),
-      ],
+            if (availableCompanies.length > 1) ...[
+              const SizedBox(height: AppSpacing.sm),
+              CompanyFilterChips(
+                companies: availableCompanies,
+                selectedCompanyId: _selectedCompanyId,
+                onSelectCompany: (id) => setState(() => _selectedCompanyId = id),
+              ),
+            ],
+
+            const SizedBox(height: AppSpacing.md),
+            FinishingMaterialGridSection(
+              selectedSubtype: selectedSubtype,
+              filteredMaterials: filteredMaterials,
+              unitRooms: widget.unitRooms,
+              currentRoom: widget.currentRoom,
+              categoryTabController: widget.categoryTabController,
+              isReadOnly: widget.isReadOnly,
+              onHighlightNextTab: _triggerHighlightNextTab,
+            ),
+          ],
+        );
+      },
     );
-  },
-);
   }
 }

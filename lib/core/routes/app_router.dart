@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -56,31 +57,40 @@ class AppRouter {
   /// Call this on logout to invalidate the cache.
   static void clearAuthCache() => _cachedAuthStatus = null;
 
-  /// Call this to pre-load auth state before runApp to prevent black screen flash.
+  /// Pre-resolves authentication state during app initialization.
   static Future<void> initAuth() async {
-    final secureStorage = sl<FlutterSecureStorage>();
-    final token = await secureStorage.read(key: 'auth_token');
-    _cachedAuthStatus = token != null && token.isNotEmpty;
+    await _resolveAuth();
   }
 
-  static bool _resolveAuth() {
-    return _cachedAuthStatus ?? false;
+  static Future<bool> _resolveAuth() async {
+    if (_cachedAuthStatus != null) return _cachedAuthStatus!;
+    try {
+      final secureStorage = sl<FlutterSecureStorage>();
+      final token = await secureStorage.read(key: 'auth_token');
+      _cachedAuthStatus = token != null && token.isNotEmpty;
+    } catch (e) {
+      log('Error resolving authentication status: $e', name: 'AppRouter');
+      _cachedAuthStatus = false;
+    }
+    return _cachedAuthStatus!;
   }
   // ──────────────────────────────────────────────────────────────────────────
 
-  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> navigatorKey =
+      GlobalKey<NavigatorState>();
 
   static final router = GoRouter(
     navigatorKey: navigatorKey,
     initialLocation: initial,
-    redirect: (context, state) {
-      final isAuth = _resolveAuth();
+    redirect: (context, state) async {
+      final isAuth = await _resolveAuth();
 
       final isGoingToAuth = state.uri.path == auth;
       final isGoingToOnboarding = state.uri.path == onboarding;
       final isGoingToInitial = state.uri.path == initial;
-      
-      final isPublicRoute = isGoingToInitial || isGoingToOnboarding || isGoingToAuth;
+
+      final isPublicRoute =
+          isGoingToInitial || isGoingToOnboarding || isGoingToAuth;
 
       if (!isAuth && !isPublicRoute) {
         return auth;
@@ -129,10 +139,6 @@ class _RedirectFallbackState extends State<RedirectFallback> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: CircularProgressIndicator(),
-      ),
-    );
+    return const Scaffold(body: Center(child: CircularProgressIndicator()));
   }
 }

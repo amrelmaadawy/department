@@ -8,6 +8,8 @@ class FinishingMaterialModel extends FinishingMaterialEntity {
     required super.unit,
     required super.finalPrice,
     super.imageUrl,
+    super.companyId,
+    super.companyName,
   });
 
   factory FinishingMaterialModel.fromJson(Map<String, dynamic> json) {
@@ -18,6 +20,8 @@ class FinishingMaterialModel extends FinishingMaterialEntity {
       unit: json['unit'] ?? '',
       finalPrice: json['final_price'] != null ? (json['final_price'] as num).toDouble() : 0.0,
       imageUrl: json['image_url'],
+      companyId: json['company_id'],
+      companyName: json['company_name'],
     );
   }
 }

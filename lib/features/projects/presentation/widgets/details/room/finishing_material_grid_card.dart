@@ -122,6 +122,52 @@ class FinishingMaterialGridCard extends StatelessWidget {
                   ),
                 ),
 
+              // 4. Company Badge
+              if (material.companyName != null && material.companyName!.isNotEmpty)
+                Positioned(
+                  top: AppSpacing.sm,
+                  left: AppSpacing.sm,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(AppRadius.sm),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppSpacing.sm,
+                          vertical: AppSpacing.xs - 2,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.black.withValues(alpha: 0.6),
+                          borderRadius: BorderRadius.circular(AppRadius.sm),
+                          border: Border.all(
+                            color: context.colors.gold.withValues(alpha: 0.5),
+                            width: 0.5,
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              FluentIcons.building_shop_16_regular,
+                              size: 12,
+                              color: context.colors.gold,
+                            ),
+                            const SizedBox(width: AppSpacing.xs),
+                            Text(
+                              material.companyName!,
+                              style: const TextStyle(
+                                fontSize: AppFonts.labelSmall,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+
               // 4. Details Section
               Positioned(
                 left: AppSpacing.md,
