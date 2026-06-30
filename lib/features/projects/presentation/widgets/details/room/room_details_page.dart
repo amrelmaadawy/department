@@ -77,6 +77,10 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> with AutomaticKeepAli
         roomId: widget.room.id,
         roomArea: widget.room.area,
       );
+
+    if (widget.selectedPackage != null) {
+      _aiRoomDesignCubit?.reloadFromCache();
+    }
       
     return MultiBlocProvider(
       providers: [

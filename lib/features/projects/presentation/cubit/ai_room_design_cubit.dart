@@ -57,9 +57,13 @@ class AiRoomDesignCubit extends Cubit<AiRoomDesignState> {
       final selectedStyle = cachedData['selectedStyle'] as String?;
       final notes = cachedData['notes'] as String? ?? '';
 
+      final bool idsChanged = selectedMaterialIds.length != state.selectedMaterialIds.length ||
+          !selectedMaterialIds.toSet().containsAll(state.selectedMaterialIds) ||
+          !state.selectedMaterialIds.toSet().containsAll(selectedMaterialIds);
+
       // Only emit if there is a change to prevent unnecessary rebuilds
       if (selectedMaterialsCost != state.selectedMaterialsCost || 
-          selectedMaterialIds.length != state.selectedMaterialIds.length ||
+          idsChanged ||
           selectedStyle != state.selectedStyle ||
           notes != state.notes) {
         emit(state.copyWith(

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 import 'package:apartment/features/packages/domain/entities/finishing_package_entity.dart';
+import 'package:apartment/features/packages/domain/utils/room_type_helper.dart';
 import 'package:apartment/l10n/app_localizations.dart';
 
 class PackageCardRooms extends StatelessWidget {
@@ -49,13 +49,13 @@ class PackageCardRooms extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(
-                      _getRoomIcon(roomType),
+                      RoomTypeHelper.getIcon(roomType),
                       size: 16,
                       color: context.colors.textSecondary,
                     ),
                     const SizedBox(width: AppSpacing.xs),
                     Text(
-                      '${_translateRoomType(roomType)} ($count)',
+                      '${RoomTypeHelper.translate(roomType)} ($count)',
                       style: TextStyle(
                         fontSize: AppFonts.bodySmall,
                         fontWeight: FontWeight.w600,
@@ -70,33 +70,5 @@ class PackageCardRooms extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  IconData _getRoomIcon(String type) {
-    switch (type.toLowerCase()) {
-      case 'kitchen':
-        return FluentIcons.food_24_regular;
-      case 'salon':
-      case 'living_room':
-        return FluentIcons.tv_24_regular;
-      case 'bedroom':
-        return FluentIcons.bed_24_regular;
-      case 'bathroom':
-        return FluentIcons.drop_24_regular;
-      default:
-        return FluentIcons.home_24_regular;
-    }
-  }
-
-  String _translateRoomType(String type) {
-    const translations = {
-      'kitchen': 'المطبخ',
-      'salon': 'الصالون',
-      'bedroom': 'غرفة النوم',
-      'bathroom': 'الحمام',
-      'balcony': 'البلكونة',
-      'living_room': 'غرفة المعيشة',
-    };
-    return translations[type.toLowerCase()] ?? type;
   }
 }
