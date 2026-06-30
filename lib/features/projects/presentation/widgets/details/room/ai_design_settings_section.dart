@@ -116,36 +116,66 @@ class _AiDesignSettingsSectionState extends State<AiDesignSettingsSection> {
                       color: context.colors.textSecondary,
                     ),
                   ),
-                  const SizedBox(height: AppSpacing.xs),
-                  SizedBox(
-                    height: 40,
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: state.presetNotes.length,
-                      separatorBuilder: (context, index) => const SizedBox(width: AppSpacing.sm),
-                      itemBuilder: (context, index) {
-                        final note = state.presetNotes[index];
-                        return ActionChip(
-                          label: Text(note),
-                          labelStyle: TextStyle(
-                            fontSize: AppFonts.bodySmall,
-                            color: context.colors.primary,
-                          ),
-                          backgroundColor: context.colors.primary.withValues(alpha: 0.05),
-                          side: BorderSide(color: context.colors.primary.withValues(alpha: 0.2)),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.round)),
-                          onPressed: () {
-                            final currentText = _notesController.text;
-                            final newText = currentText.isEmpty ? note : '$currentText\n$note';
-                            _notesController.text = newText;
-                            _notesController.selection = TextSelection.fromPosition(
-                              TextPosition(offset: newText.length),
+                  ValueListenableBuilder<TextEditingValue>(
+                    valueListenable: _notesController,
+                    builder: (context, value, child) {
+                      final currentText = value.text;
+                      return SizedBox(
+                        height: 40,
+                        child: ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: state.presetNotes.length,
+                          separatorBuilder: (context, index) => const SizedBox(width: AppSpacing.sm),
+                          itemBuilder: (context, index) {
+                            final note = state.presetNotes[index];
+                            final bool isAlreadySelected = currentText.contains(note);
+
+                            return FilterChip(
+                              label: Text(note),
+                              selected: isAlreadySelected,
+                              showCheckmark: true,
+                              checkmarkColor: isAlreadySelected ? context.colors.white : context.colors.primary,
+                              labelStyle: TextStyle(
+                                fontSize: AppFonts.bodySmall,
+                                fontWeight: isAlreadySelected ? FontWeight.w700 : FontWeight.normal,
+                                color: isAlreadySelected ? context.colors.white : context.colors.primary,
+                              ),
+                              backgroundColor: context.colors.primary.withValues(alpha: 0.05),
+                              selectedColor: context.colors.primary,
+                              side: BorderSide(
+                                color: isAlreadySelected
+                                    ? context.colors.primary
+                                    : context.colors.primary.withValues(alpha: 0.2),
+                              ),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.round)),
+                              onSelected: (selected) {
+                                final textNow = _notesController.text;
+                                if (selected) {
+                                  if (!textNow.contains(note)) {
+                                    final newText = textNow.trim().isEmpty ? note : '${textNow.trim()}\n$note';
+                                    _notesController.text = newText;
+                                    _notesController.selection = TextSelection.fromPosition(
+                                      TextPosition(offset: newText.length),
+                                    );
+                                  }
+                                } else {
+                                  final lines = textNow
+                                      .split('\n')
+                                      .map((e) => e.trim())
+                                      .where((e) => e.isNotEmpty && e != note)
+                                      .toList();
+                                  final newText = lines.join('\n');
+                                  _notesController.text = newText;
+                                  _notesController.selection = TextSelection.fromPosition(
+                                    TextPosition(offset: newText.length),
+                                  );
+                                }
+                              },
                             );
-                            // Cubit is updated via the controller's listener set in initState
                           },
-                        );
-                      },
-                    ),
+                        ),
+                      );
+                    },
                   ),
                 ],
               );

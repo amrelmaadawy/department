@@ -54,7 +54,7 @@ class HomeHeaderView extends StatelessWidget {
         IconData timeIcon = FluentIcons.hand_wave_24_regular;
         Color timeColor = context.colors.primary;
 
-        if (hour >= 5 && hour < 12) {
+        if (hour >= 5 && hour < 17) {
           greeting = 'صباح الخير';
           timeIcon = FluentIcons.weather_sunny_24_regular;
           timeColor = AppColors.sunYellow;
