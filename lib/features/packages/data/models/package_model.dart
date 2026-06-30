@@ -15,12 +15,12 @@ class PackageMaterialModel extends PackageMaterialEntity {
 
   factory PackageMaterialModel.fromJson(Map<String, dynamic> json) {
     return PackageMaterialModel(
-      id: json['id'] as int,
-      name: json['name'] as String,
-      unit: json['unit'] as String,
-      priceMaterial: double.tryParse(json['price_material'].toString()) ?? 0.0,
-      priceLabor: (json['price_labor'] as num).toDouble(),
-      finalUnitPrice: (json['final_unit_price'] as num).toDouble(),
+      id: int.tryParse(json['id']?.toString() ?? '') ?? 0,
+      name: json['name']?.toString() ?? '',
+      unit: json['unit']?.toString() ?? '',
+      priceMaterial: double.tryParse(json['price_material']?.toString() ?? '') ?? 0.0,
+      priceLabor: double.tryParse(json['price_labor']?.toString() ?? '') ?? 0.0,
+      finalUnitPrice: double.tryParse(json['final_unit_price']?.toString() ?? '') ?? 0.0,
       images: (json['images'] as List<dynamic>?)
               ?.map((e) => e.toString())
               .toList() ??
@@ -36,11 +36,20 @@ class PackageItemModel extends PackageItemEntity {
   });
 
   factory PackageItemModel.fromJson(Map<String, dynamic> json) {
+    final matJson = json['material'];
     return PackageItemModel(
-      roomType: json['room_type'] as String,
-      material: PackageMaterialModel.fromJson(
-        json['material'] as Map<String, dynamic>,
-      ),
+      roomType: json['room_type']?.toString() ?? '',
+      material: matJson is Map<String, dynamic>
+          ? PackageMaterialModel.fromJson(matJson)
+          : const PackageMaterialModel(
+              id: 0,
+              name: '',
+              unit: '',
+              priceMaterial: 0.0,
+              priceLabor: 0.0,
+              finalUnitPrice: 0.0,
+              images: [],
+            ),
     );
   }
 }
@@ -70,13 +79,14 @@ class PackageModel extends FinishingPackageEntity {
             : []);
 
     return PackageModel(
-      id: json['id'] as int,
-      name: json['name'] as String,
+      id: int.tryParse(json['id']?.toString() ?? '') ?? 0,
+      name: json['name']?.toString() ?? '',
       badges: parsedBadges,
-      description: json['description'] as String? ?? '',
-      calculatedPrice: (json['calculated_price'] as num).toDouble(),
+      description: json['description']?.toString() ?? '',
+      calculatedPrice: double.tryParse(json['calculated_price']?.toString() ?? '') ?? 0.0,
       items: rawItems
-          .map((e) => PackageItemModel.fromJson(e as Map<String, dynamic>))
+          .whereType<Map<String, dynamic>>()
+          .map((e) => PackageItemModel.fromJson(e))
           .toList(),
     );
   }

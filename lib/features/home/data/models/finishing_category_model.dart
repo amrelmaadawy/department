@@ -10,15 +10,16 @@ class FinishingCategoryModel extends FinishingCategoryEntity {
 
   factory FinishingCategoryModel.fromJson(Map<String, dynamic> json) {
     List<FinishingSubtypeModel> subtypesList = [];
-    if (json['subtypes'] != null) {
+    if (json['subtypes'] != null && json['subtypes'] is List) {
       subtypesList = (json['subtypes'] as List)
+          .whereType<Map<String, dynamic>>()
           .map((s) => FinishingSubtypeModel.fromJson(s))
           .toList();
     }
 
     return FinishingCategoryModel(
-      categoryId: json['category_id'] ?? 0,
-      categoryName: json['category_name'] ?? '',
+      categoryId: int.tryParse(json['category_id']?.toString() ?? '') ?? 0,
+      categoryName: json['category_name']?.toString() ?? '',
       subtypes: subtypesList,
     );
   }

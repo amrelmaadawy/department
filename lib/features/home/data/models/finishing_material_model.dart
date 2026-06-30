@@ -14,14 +14,14 @@ class FinishingMaterialModel extends FinishingMaterialEntity {
 
   factory FinishingMaterialModel.fromJson(Map<String, dynamic> json) {
     return FinishingMaterialModel(
-      id: json['id'] ?? 0,
-      name: json['name'] ?? '',
-      description: json['description'] ?? '',
-      unit: json['unit'] ?? '',
-      finalPrice: json['final_price'] != null ? (json['final_price'] as num).toDouble() : 0.0,
-      imageUrl: json['image_url'],
-      companyId: json['company_id'],
-      companyName: json['company_name'],
+      id: int.tryParse(json['id']?.toString() ?? '') ?? 0,
+      name: json['name']?.toString() ?? '',
+      description: json['description']?.toString() ?? '',
+      unit: json['unit']?.toString() ?? '',
+      finalPrice: double.tryParse(json['final_price']?.toString() ?? '') ?? 0.0,
+      imageUrl: json['image_url']?.toString(),
+      companyId: int.tryParse(json['company_id']?.toString() ?? ''),
+      companyName: json['company_name']?.toString(),
     );
   }
 }

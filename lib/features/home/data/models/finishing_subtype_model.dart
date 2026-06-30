@@ -10,15 +10,16 @@ class FinishingSubtypeModel extends FinishingSubtypeEntity {
 
   factory FinishingSubtypeModel.fromJson(Map<String, dynamic> json) {
     List<FinishingMaterialModel> materialsList = [];
-    if (json['materials'] != null) {
+    if (json['materials'] != null && json['materials'] is List) {
       materialsList = (json['materials'] as List)
+          .whereType<Map<String, dynamic>>()
           .map((m) => FinishingMaterialModel.fromJson(m))
           .toList();
     }
 
     return FinishingSubtypeModel(
-      subtypeId: json['subtype_id'] ?? 0,
-      subtypeName: json['subtype_name'] ?? '',
+      subtypeId: int.tryParse(json['subtype_id']?.toString() ?? '') ?? 0,
+      subtypeName: json['subtype_name']?.toString() ?? '',
       materials: materialsList,
     );
   }

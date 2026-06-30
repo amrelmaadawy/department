@@ -13,13 +13,13 @@ class UnitRoomModel extends UnitRoomEntity {
 
   factory UnitRoomModel.fromJson(Map<String, dynamic> json) {
     return UnitRoomModel(
-      id: json['id'] ?? 0,
-      name: json['name'] ?? '',
-      type: json['type'] ?? '',
-      typeLabel: json['type_label'] ?? '',
-      area: (json['area'] ?? 0).toDouble(),
-      length: json['length'] != null ? (json['length'] as num).toDouble() : null,
-      width: json['width'] != null ? (json['width'] as num).toDouble() : null,
+      id: int.tryParse(json['id']?.toString() ?? '') ?? 0,
+      name: json['name']?.toString() ?? '',
+      type: json['type']?.toString() ?? '',
+      typeLabel: json['type_label']?.toString() ?? '',
+      area: double.tryParse(json['area']?.toString() ?? '') ?? 0.0,
+      length: double.tryParse(json['length']?.toString() ?? ''),
+      width: double.tryParse(json['width']?.toString() ?? ''),
     );
   }
 
