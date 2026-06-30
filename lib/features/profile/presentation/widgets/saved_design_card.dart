@@ -33,20 +33,21 @@ class SavedDesignCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(AppRadius.xl),
           boxShadow: [
             BoxShadow(
-              color: AppColors.black.withValues(alpha: 0.03),
-              blurRadius: 10,
+              color: AppColors.black.withValues(alpha: 0.04),
+              blurRadius: 14,
               offset: const Offset(0, 4),
             ),
           ],
           border: Border.all(
-            color: context.colors.border.withValues(alpha: 0.2),
+            color: context.colors.border.withValues(alpha: 0.3),
           ),
         ),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              width: 80,
-              height: 80,
+              width: 95,
+              height: 95,
               decoration: BoxDecoration(
                 color: context.colors.background,
                 borderRadius: BorderRadius.circular(AppRadius.lg),
@@ -67,7 +68,7 @@ class SavedDesignCard extends StatelessWidget {
                         errorWidget: (context, url, error) => const Icon(FluentIcons.image_off_24_regular),
                       ),
                     )
-                  : const Icon(FluentIcons.image_24_regular),
+                  : const Icon(FluentIcons.image_24_regular, size: 32),
             ),
             const SizedBox(width: AppSpacing.md),
             Expanded(
@@ -80,35 +81,32 @@ class SavedDesignCard extends StatelessWidget {
                       fontSize: AppFonts.bodyLarge,
                       fontWeight: FontWeight.bold,
                       color: context.colors.textPrimary,
+                      height: 1.3,
                     ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
                   ),
-                  const SizedBox(height: AppSpacing.xs),
-                  if (design.projectName.isNotEmpty)
-                    Text(
-                      '${design.projectName} - ${design.unitName.isNotEmpty ? design.unitName : "غير محدد"}',
-                      style: TextStyle(
-                        fontSize: AppFonts.labelMedium,
-                        color: context.colors.textSecondary,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  const SizedBox(height: AppSpacing.xs),
-                  Text(
-                    'النمط: ${design.style.isNotEmpty ? design.style : "غير محدد"}',
-                    style: TextStyle(
-                      fontSize: AppFonts.bodyMedium,
-                      color: context.colors.textSecondary,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                  const SizedBox(height: AppSpacing.sm),
+                  Wrap(
+                    spacing: AppSpacing.xs,
+                    runSpacing: AppSpacing.xs,
+                    children: [
+                      if (design.projectName.isNotEmpty)
+                        _buildBadge(
+                          context,
+                          FluentIcons.building_home_16_regular,
+                          '${design.projectName}${design.unitName.isNotEmpty ? " - ${design.unitName}" : ""}',
+                        ),
+                      if (design.style.isNotEmpty)
+                        _buildBadge(
+                          context,
+                          FluentIcons.color_fill_16_regular,
+                          design.style,
+                        ),
+                    ],
                   ),
                 ],
               ),
             ),
-            // Toggle Favorite Button
             IconButton(
               icon: const Icon(
                 FluentIcons.heart_24_filled,
@@ -124,6 +122,33 @@ class SavedDesignCard extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildBadge(BuildContext context, IconData icon, String label) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: context.colors.primary.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(AppRadius.round),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 14, color: context.colors.primary),
+          const SizedBox(width: 4),
+          Flexible(
+            child: Text(
+              label,
+              style: TextStyle(
+                fontSize: AppFonts.bodySmall,
+                fontWeight: FontWeight.w600,
+                color: context.colors.primary,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
