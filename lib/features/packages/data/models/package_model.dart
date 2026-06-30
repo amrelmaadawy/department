@@ -49,7 +49,7 @@ class PackageModel extends FinishingPackageEntity {
   const PackageModel({
     required super.id,
     required super.name,
-    super.badge,
+    super.badges = const [],
     required super.description,
     required super.calculatedPrice,
     required super.items,
@@ -57,10 +57,22 @@ class PackageModel extends FinishingPackageEntity {
 
   factory PackageModel.fromJson(Map<String, dynamic> json) {
     final rawItems = json['items'] as List<dynamic>? ?? [];
+    final rawBadges = json['badges'] as List<dynamic>?;
+    final singleBadge = json['badge'] as String?;
+
+    final List<String> parsedBadges = rawBadges != null
+        ? rawBadges
+            .map((e) => e.toString().trim())
+            .where((e) => e.isNotEmpty)
+            .toList()
+        : (singleBadge != null && singleBadge.trim().isNotEmpty
+            ? [singleBadge.trim()]
+            : []);
+
     return PackageModel(
       id: json['id'] as int,
       name: json['name'] as String,
-      badge: json['badge'] as String?,
+      badges: parsedBadges,
       description: json['description'] as String? ?? '',
       calculatedPrice: (json['calculated_price'] as num).toDouble(),
       items: rawItems
@@ -69,3 +81,4 @@ class PackageModel extends FinishingPackageEntity {
     );
   }
 }
+
