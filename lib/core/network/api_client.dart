@@ -27,7 +27,7 @@ class ApiClient {
       }
       throw _handleDioError(e);
     } catch (e) {
-      throw ServerException(message: 'Unexpected error occurred: ${e.toString()}');
+      throw ServerException(message: 'حدث خطأ غير متوقع: ${e.toString().replaceAll('Exception: ', '')}');
     }
   }
 
@@ -53,7 +53,7 @@ class ApiClient {
       }
       throw _handleDioError(e);
     } catch (e) {
-      throw ServerException(message: 'Unexpected error occurred: ${e.toString()}');
+      throw ServerException(message: 'حدث خطأ غير متوقع: ${e.toString().replaceAll('Exception: ', '')}');
     }
   }
 
@@ -79,7 +79,7 @@ class ApiClient {
       }
       throw _handleDioError(e);
     } catch (e) {
-      throw ServerException(message: 'Unexpected error occurred: ${e.toString()}');
+      throw ServerException(message: 'حدث خطأ غير متوقع: ${e.toString().replaceAll('Exception: ', '')}');
     }
   }
 
@@ -105,7 +105,7 @@ class ApiClient {
       }
       throw _handleDioError(e);
     } catch (e) {
-      throw ServerException(message: 'Unexpected error occurred: ${e.toString()}');
+      throw ServerException(message: 'حدث خطأ غير متوقع: ${e.toString().replaceAll('Exception: ', '')}');
     }
   }
 
@@ -129,12 +129,12 @@ class ApiClient {
       case DioExceptionType.sendTimeout:
       case DioExceptionType.receiveTimeout:
       case DioExceptionType.connectionError:
-        return const NetworkException(message: 'Connection timeout. Please check your internet connection.');
+        return const NetworkException(message: 'انتهت مهلة الاتصال، يرجى التحقق من اتصال الإنترنت');
       case DioExceptionType.badResponse:
         final statusCode = error.response?.statusCode;
         final responseData = error.response?.data;
         
-        String message = 'Server Error';
+        String message = 'حدث خطأ في الخادم';
         if (responseData is Map<String, dynamic>) {
           if (responseData.containsKey('errors') && responseData['errors'] is Map) {
             final Map<String, dynamic> errors = responseData['errors'];
@@ -167,10 +167,10 @@ class ApiClient {
         }
         return ServerException(message: message, statusCode: statusCode, data: responseData);
       case DioExceptionType.cancel:
-        return const ServerException(message: 'Request was cancelled');
+        return const ServerException(message: 'تم إلغاء الطلب');
       case DioExceptionType.unknown:
       default:
-        return const NetworkException(message: 'Unknown network error occurred');
+        return const NetworkException(message: 'حدث خطأ غير معروف في الشبكة');
     }
   }
 

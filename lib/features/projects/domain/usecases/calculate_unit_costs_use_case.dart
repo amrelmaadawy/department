@@ -46,7 +46,7 @@ class CalculateUnitCostsUseCase {
         completedRoomIds: completedIds,
       ));
     } catch (e) {
-      return const Left(CacheFailure('Failed to calculate unit costs'));
+      return const Left(CacheFailure('فشل في حساب تكاليف الوحدة'));
     }
   }
 }

@@ -14,7 +14,7 @@ class SignContractUseCase {
   }) async {
     // Basic validation before hitting the repository
     if (signatureBase64.isEmpty) {
-      return const Left(ServerFailure('Signature cannot be empty'));
+      return const Left(ServerFailure('لا يمكن أن يكون التوقيع فارغاً'));
     }
     
     // Add data URI prefix if it's missing and required by convention, 

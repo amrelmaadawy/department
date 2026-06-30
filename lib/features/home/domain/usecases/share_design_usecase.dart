@@ -12,7 +12,7 @@ class ShareDesignUseCase {
       await _shareService.shareImage(imagePath: imagePath, text: text);
       return const Right(null);
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return const Left(ServerFailure('فشل في مشاركة التصميم'));
     }
   }
 }

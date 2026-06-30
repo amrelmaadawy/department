@@ -8,6 +8,7 @@ import 'package:apartment/features/home/domain/entities/project_unit_entity.dart
 import 'package:flutter/material.dart';
 import 'package:apartment/l10n/app_localizations.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'unit/unit_status_badge.dart';
 
 class ProjectUnitCard extends StatelessWidget {
   final ProjectUnitEntity unit;
@@ -39,6 +40,14 @@ class ProjectUnitCard extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     final isSold = unit.status == UnitStatus.sold;
 
+    final int effectiveRoomsCount = unit.roomsCount > 0
+        ? unit.roomsCount
+        : (unit.rooms.isNotEmpty
+            ? unit.rooms.length
+            : (unit.bedrooms > 0
+                ? unit.bedrooms
+                : (unit.area > 0 ? (unit.area / 35).ceil().clamp(1, 10) : 1)));
+
     return TweenAnimationBuilder<double>(
       tween: Tween<double>(begin: 0, end: 1),
       duration: Duration(milliseconds: 400 + (index * 150)),
@@ -47,7 +56,7 @@ class ProjectUnitCard extends StatelessWidget {
         return Transform.translate(
           offset: Offset(0, 50 * (1 - value)),
           child: Opacity(
-            opacity: value * (isSold ? 0.6 : 1.0), // Faded if sold
+            opacity: value * (isSold ? 0.85 : 1.0),
             child: child,
           ),
         );
@@ -100,6 +109,17 @@ class ProjectUnitCard extends StatelessWidget {
                                 : Image.asset(unit.imagePath, fit: BoxFit.cover))
                             : _buildImagePlaceholder(context),
                         
+                        // Status Overlay Badge
+                        Positioned(
+                          top: AppSpacing.sm,
+                          left: AppSpacing.sm,
+                          child: UnitStatusBadge(
+                            status: unit.status,
+                            statusLabel: unit.statusLabel,
+                            isOverlay: true,
+                          ),
+                        ),
+
                         // Comparison Checkbox Overlay
                         if (isComparisonMode)
                           Positioned(
@@ -144,53 +164,17 @@ class ProjectUnitCard extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  unit.unitNumber.isNotEmpty 
-                                      ? '${unit.title} - وحدة ${unit.unitNumber}'
-                                      : unit.title,
-                                  style: TextStyle(
-                                    fontSize: AppFonts.bodyLarge,
-                                    fontWeight: FontWeight.bold,
-                                    color: context.colors.textPrimary,
-                                  ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              // Status Badge
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: AppSpacing.xs,
-                                  vertical: 2,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: isSold
-                                      ? context.colors.textSecondary.withValues(
-                                          alpha: 0.1,
-                                        )
-                                      : AppColors.success.withValues(alpha: 0.1),
-                                  borderRadius: BorderRadius.circular(
-                                    AppRadius.sm,
-                                  ),
-                                ),
-                                child: Text(
-                                  unit.statusLabel.isNotEmpty 
-                                      ? unit.statusLabel 
-                                      : (isSold ? l10n.unitSoldOut : l10n.unitAvailable),
-                                  style: TextStyle(
-                                    fontSize: AppFonts.labelSmall,
-                                    color: isSold
-                                        ? context.colors.textSecondary
-                                        : AppColors.success,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ],
+                          Text(
+                            unit.unitNumber.isNotEmpty 
+                                ? '${unit.title} - وحدة ${unit.unitNumber}'
+                                : unit.title,
+                            style: TextStyle(
+                              fontSize: AppFonts.bodyLarge,
+                              fontWeight: FontWeight.bold,
+                              color: context.colors.textPrimary,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                           const SizedBox(height: AppSpacing.xs),
 
@@ -208,7 +192,7 @@ class ProjectUnitCard extends StatelessWidget {
                               _buildSpecItem(
                                 context,
                                 FluentIcons.conference_room_24_regular,
-                                '${unit.roomsCount} ${l10n.unitBeds}',
+                                '$effectiveRoomsCount ${l10n.unitBeds}',
                               ),
                               if (unit.locationTypeLabel.isNotEmpty)
                                 _buildSpecItem(

@@ -5,6 +5,7 @@ import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/features/home/domain/entities/project_unit_entity.dart';
+import 'unit/unit_status_badge.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
 class ComparisonUnitCard extends StatelessWidget {
@@ -23,16 +24,30 @@ class ComparisonUnitCard extends StatelessWidget {
           aspectRatio: 4 / 3,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(AppRadius.md),
-            child: unit.imagePath.isNotEmpty
-                ? (unit.imagePath.startsWith('http')
-                    ? AppCachedNetworkImage(
-                        imageUrl: Uri.encodeFull(unit.imagePath),
-                        fit: BoxFit.cover,
-                        errorWidget: (context, url, error) =>
-                            _buildImagePlaceholder(context),
-                      )
-                    : Image.asset(unit.imagePath, fit: BoxFit.cover))
-                : _buildImagePlaceholder(context),
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                unit.imagePath.isNotEmpty
+                    ? (unit.imagePath.startsWith('http')
+                        ? AppCachedNetworkImage(
+                            imageUrl: Uri.encodeFull(unit.imagePath),
+                            fit: BoxFit.cover,
+                            errorWidget: (context, url, error) =>
+                                _buildImagePlaceholder(context),
+                          )
+                        : Image.asset(unit.imagePath, fit: BoxFit.cover))
+                    : _buildImagePlaceholder(context),
+                Positioned(
+                  top: AppSpacing.xs,
+                  right: AppSpacing.xs,
+                  child: UnitStatusBadge(
+                    status: unit.status,
+                    statusLabel: unit.statusLabel,
+                    isOverlay: true,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
         const SizedBox(height: AppSpacing.sm),

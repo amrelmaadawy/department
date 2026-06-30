@@ -45,12 +45,15 @@ class AuthRepositoryImpl implements AuthRepository {
       }
 
       return Right(user);
+    } on FailureException catch (e) {
+      return Left(e.failure as Failure);
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     } on NetworkException {
-      return const Left(NetworkFailure('Network connection failed'));
+      return const Left(NetworkFailure('فشل الاتصال بالشبكة، يرجى التحقق من اتصال الإنترنت'));
     } catch (e) {
-      return Left(ServerFailure('An unexpected error occurred: ${e.toString()}'));
+      final msg = e.toString().replaceAll('Exception: ', '').replaceAll('ServerException(message: ', '');
+      return Left(ServerFailure(msg));
     }
   }
 
@@ -75,12 +78,15 @@ class AuthRepositoryImpl implements AuthRepository {
       }
 
       return Right(user);
+    } on FailureException catch (e) {
+      return Left(e.failure as Failure);
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     } on NetworkException {
-      return const Left(NetworkFailure('Network connection failed'));
+      return const Left(NetworkFailure('فشل الاتصال بالشبكة، يرجى التحقق من اتصال الإنترنت'));
     } catch (e) {
-      return Left(ServerFailure('An unexpected error occurred: ${e.toString()}'));
+      final msg = e.toString().replaceAll('Exception: ', '').replaceAll('ServerException(message: ', '');
+      return Left(ServerFailure(msg));
     }
   }
 
@@ -92,12 +98,15 @@ class AuthRepositoryImpl implements AuthRepository {
       await secureStorage.delete(key: 'user_id');
       await sharedPreferences.remove('user_id');
       return const Right(null);
+    } on FailureException catch (e) {
+      return Left(e.failure as Failure);
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     } on NetworkException {
-      return const Left(NetworkFailure('Network connection failed'));
+      return const Left(NetworkFailure('فشل الاتصال بالشبكة، يرجى التحقق من اتصال الإنترنت'));
     } catch (e) {
-      return Left(ServerFailure('An unexpected error occurred: ${e.toString()}'));
+      final msg = e.toString().replaceAll('Exception: ', '').replaceAll('ServerException(message: ', '');
+      return Left(ServerFailure(msg));
     }
   }
 }

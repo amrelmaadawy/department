@@ -17,7 +17,8 @@ class ProfileRepositoryImpl implements ProfileRepository {
       final profile = await remoteDataSource.getProfile();
       return Right(profile);
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      final msg = e.toString().replaceAll('Exception: ', '').replaceAll('ServerException(message: ', '');
+      return Left(ServerFailure(msg));
     }
   }
 
@@ -35,7 +36,8 @@ class ProfileRepositoryImpl implements ProfileRepository {
       final profile = await remoteDataSource.updateProfile(formData as dynamic); // Passing FormData directly
       return Right(profile);
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      final msg = e.toString().replaceAll('Exception: ', '').replaceAll('ServerException(message: ', '');
+      return Left(ServerFailure(msg));
     }
   }
 
@@ -45,7 +47,8 @@ class ProfileRepositoryImpl implements ProfileRepository {
       final result = await remoteDataSource.toggleFavoriteDesign(orderId, imageUrl);
       return Right(result);
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      final msg = e.toString().replaceAll('Exception: ', '').replaceAll('ServerException(message: ', '');
+      return Left(ServerFailure(msg));
     }
   }
 }

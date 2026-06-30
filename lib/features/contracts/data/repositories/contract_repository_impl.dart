@@ -24,7 +24,7 @@ class ContractRepositoryImpl implements ContractRepository {
       final contract = await remoteDataSource.createBoneContract(apartmentId, customerId);
       return Right(contract);
     } on DioException catch (e) {
-      return Left(ServerFailure(e.response?.data?['message']?.toString() ?? e.message ?? 'Network error'));
+      return Left(ServerFailure(e.response?.data?['message']?.toString() ?? e.message ?? 'خطأ في الاتصال بالشبكة'));
     } catch (e) {
       final msg = e.toString().replaceAll('Exception: ', '');
       return Left(ServerFailure(msg));
@@ -37,7 +37,7 @@ class ContractRepositoryImpl implements ContractRepository {
       final isSigned = await localDataSource.getSignatureStatus(unitId, contractType);
       return Right(isSigned);
     } catch (e) {
-      return const Left(ServerFailure('Failed to read signature status'));
+      return const Left(ServerFailure('فشل في قراءة حالة التوقيع'));
     }
   }
 
@@ -47,7 +47,7 @@ class ContractRepositoryImpl implements ContractRepository {
       await localDataSource.saveSignatureStatus(unitId, contractType, status);
       return const Right(null);
     } catch (e) {
-      return const Left(ServerFailure('Failed to save signature status'));
+      return const Left(ServerFailure('فشل في حفظ حالة التوقيع'));
     }
   }
 
@@ -57,7 +57,7 @@ class ContractRepositoryImpl implements ContractRepository {
       final contract = await remoteDataSource.createFinishingContract(finishingOrderIds);
       return Right(contract);
     } on DioException catch (e) {
-      return Left(ServerFailure(e.response?.data?['message']?.toString() ?? e.message ?? 'Network error'));
+      return Left(ServerFailure(e.response?.data?['message']?.toString() ?? e.message ?? 'خطأ في الاتصال بالشبكة'));
     } catch (e) {
       final msg = e.toString().replaceAll('Exception: ', '');
       return Left(ServerFailure(msg));
@@ -69,7 +69,7 @@ class ContractRepositoryImpl implements ContractRepository {
       final contract = await remoteDataSource.signContract(contractId, signatureBase64);
       return Right(contract);
     } on DioException catch (e) {
-      return Left(ServerFailure(e.response?.data?['message']?.toString() ?? e.message ?? 'Network error'));
+      return Left(ServerFailure(e.response?.data?['message']?.toString() ?? e.message ?? 'خطأ في الاتصال بالشبكة'));
     } catch (e) {
       final msg = e.toString().replaceAll('Exception: ', '');
       return Left(ServerFailure(msg));
@@ -82,7 +82,7 @@ class ContractRepositoryImpl implements ContractRepository {
       final orders = await remoteDataSource.getApartmentFinishingOrders(apartmentId);
       return Right(orders);
     } on DioException catch (e) {
-      return Left(ServerFailure(e.response?.data?['message']?.toString() ?? e.message ?? 'Network error'));
+      return Left(ServerFailure(e.response?.data?['message']?.toString() ?? e.message ?? 'خطأ في الاتصال بالشبكة'));
     } catch (e) {
       final msg = e.toString().replaceAll('Exception: ', '');
       return Left(ServerFailure(msg));
@@ -95,7 +95,7 @@ class ContractRepositoryImpl implements ContractRepository {
       final contracts = await remoteDataSource.getContracts();
       return Right(contracts);
     } on DioException catch (e) {
-      return Left(ServerFailure(e.response?.data?['message']?.toString() ?? e.message ?? 'Network error'));
+      return Left(ServerFailure(e.response?.data?['message']?.toString() ?? e.message ?? 'خطأ في الاتصال بالشبكة'));
     } catch (e) {
       final msg = e.toString().replaceAll('Exception: ', '');
       return Left(ServerFailure(msg));
@@ -108,7 +108,7 @@ class ContractRepositoryImpl implements ContractRepository {
       final contract = await remoteDataSource.getContractById(id);
       return Right(contract);
     } on DioException catch (e) {
-      return Left(ServerFailure(e.response?.data?['message']?.toString() ?? e.message ?? 'Network error'));
+      return Left(ServerFailure(e.response?.data?['message']?.toString() ?? e.message ?? 'خطأ في الاتصال بالشبكة'));
     } catch (e) {
       final msg = e.toString().replaceAll('Exception: ', '');
       return Left(ServerFailure(msg));

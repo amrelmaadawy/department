@@ -43,6 +43,20 @@ class ProjectUnitModel extends ProjectUnitEntity {
           .toList();
     }
 
+    int parsedRoomsCount = int.tryParse(json['rooms_count']?.toString() ?? '') ??
+        int.tryParse(json['rooms_number']?.toString() ?? '') ??
+        int.tryParse(json['bedrooms']?.toString() ?? '') ??
+        0;
+
+    if (parsedRoomsCount == 0 && roomsList.isNotEmpty) {
+      parsedRoomsCount = roomsList.length;
+    }
+
+    final double parsedArea = (json['area'] ?? 0).toDouble();
+    if (parsedRoomsCount == 0 && parsedArea > 0) {
+      parsedRoomsCount = (parsedArea / 35).ceil().clamp(1, 10);
+    }
+
     return ProjectUnitModel(
       id: json['id']?.toString() ?? '',
       title: json['name'] ?? '',
@@ -50,12 +64,14 @@ class ProjectUnitModel extends ProjectUnitEntity {
       buildingNumber: json['building_number'] ?? 1,
       locationType: json['location_type'] ?? '',
       locationTypeLabel: json['location_type_label'] ?? '',
-      roomsCount: json['rooms_count'] ?? 0,
-      area: (json['area'] ?? 0).toDouble(),
+      roomsCount: parsedRoomsCount > 0 ? parsedRoomsCount : 1,
+      area: parsedArea,
       price: (json['base_price'] ?? 0).toDouble(),
       floor: json['floor_number'] ?? 0,
       status: json['status'] == 'sold' ? UnitStatus.sold : UnitStatus.available,
-      statusLabel: json['status_label'] ?? '',
+      statusLabel: json['status_label']?.toString().trim().isNotEmpty == true
+          ? json['status_label'].toString().trim()
+          : (json['status'] == 'sold' ? 'مباعة' : 'متاحة'),
       imagePath: mainImage,
       images: imagesList,
       rooms: roomsList,

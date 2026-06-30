@@ -29,10 +29,15 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => sl<ProfileCubit>(),
-      child: const ProfileView(),
-    );
+    try {
+      context.read<ProfileCubit>();
+      return const ProfileView();
+    } catch (_) {
+      return BlocProvider(
+        create: (context) => sl<ProfileCubit>(),
+        child: const ProfileView(),
+      );
+    }
   }
 }
 

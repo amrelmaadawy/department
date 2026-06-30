@@ -10,6 +10,7 @@ import '../../../../features/home/domain/entities/project_unit_entity.dart';
 import '../cubit/design_context_cubit.dart';
 import '../cubit/design_context_state.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
+import 'package:apartment/features/projects/presentation/widgets/details/unit/unit_status_badge.dart';
 
 
 class UnitSelectionBottomSheet extends StatelessWidget {
@@ -144,12 +145,22 @@ class UnitSelectionBottomSheet extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 2),
-                      Text(
-                        l10n.areaSquareMeters(unit.area.toString()),
-                        style: TextStyle(
-                          fontSize: AppFonts.bodySmall,
-                          color: context.colors.textSecondary,
-                        ),
+                      Row(
+                        children: [
+                          Text(
+                            l10n.areaSquareMeters(unit.area.toString()),
+                            style: TextStyle(
+                              fontSize: AppFonts.bodySmall,
+                              color: context.colors.textSecondary,
+                            ),
+                          ),
+                          const SizedBox(width: AppSpacing.sm),
+                          UnitStatusBadge(
+                            status: unit.status,
+                            statusLabel: unit.statusLabel,
+                            isOverlay: false,
+                          ),
+                        ],
                       ),
                     ],
                   ),

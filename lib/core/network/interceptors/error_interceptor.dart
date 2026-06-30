@@ -42,7 +42,7 @@ class ErrorInterceptor extends Interceptor {
     final statusCode = response?.statusCode;
     final responseData = response?.data;
 
-    String message = 'Server Error';
+    String message = 'حدث خطأ في الخادم';
     if (responseData is Map<String, dynamic>) {
       if (responseData.containsKey('errors') && responseData['errors'] is Map) {
         final Map<String, dynamic> errors = responseData['errors'];
