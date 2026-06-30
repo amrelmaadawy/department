@@ -73,6 +73,13 @@ class AiRoomDesignCubit extends Cubit<AiRoomDesignState> {
           notes: notes,
         ));
       }
+    } else if (state.selectedMaterialIds.isNotEmpty || state.selectedMaterialsCost > 0) {
+      emit(state.copyWith(
+        selectedMaterialIds: const [],
+        selectedMaterialsCost: 0.0,
+        selectedStyle: null,
+        notes: '',
+      ));
     }
   }
 

@@ -33,9 +33,6 @@ class _UnitCustomizationScreenState extends State<UnitCustomizationScreen> {
   void initState() {
     super.initState();
     sl<ProfileCubit>().loadProfileIfNeeded();
-    if (widget.selectedPackage != null && widget.unit.rooms.isNotEmpty) {
-      PackageHelper.applyPackageToRooms(widget.unit, widget.selectedPackage!);
-    }
   }
 
   @override
@@ -61,19 +58,44 @@ class _UnitCustomizationScreenContent extends StatefulWidget {
   });
 
   @override
-  State<_UnitCustomizationScreenContent> createState() => _UnitCustomizationScreenContentState();
+  State<_UnitCustomizationScreenContent> createState() =>
+      _UnitCustomizationScreenContentState();
 }
 
-class _UnitCustomizationScreenContentState extends State<_UnitCustomizationScreenContent> {
+class _UnitCustomizationScreenContentState
+    extends State<_UnitCustomizationScreenContent> {
+  // Guard: ensures package is applied exactly once per screen instance
+  bool _packageApplied = false;
+
+  void _applyPackageOnce(ProjectUnitEntity unit) {
+    final pkg = widget.selectedPackage;
+    if (pkg == null || _packageApplied) return;
+    if (unit.rooms.isEmpty) return;
+    _packageApplied = true;
+    PackageHelper.applyPackageToRooms(unit, pkg);
+  }
+
   @override
   Widget build(BuildContext context) {
     final selectedPackage = widget.selectedPackage;
 
     return Scaffold(
       backgroundColor: context.colors.background,
-      body: BlocBuilder<UnitDetailsCubit, UnitDetailsState>(
+      body: BlocConsumer<UnitDetailsCubit, UnitDetailsState>(
+        listenWhen: (previous, current) {
+          // Trigger package application exactly once when rooms become available
+          final prevRoomsEmpty = previous.unit == null || previous.unit!.rooms.isEmpty;
+          final currRoomsLoaded = current.unit != null && current.unit!.rooms.isNotEmpty;
+          return prevRoomsEmpty && currRoomsLoaded;
+        },
+        listener: (context, state) {
+          if (state.unit != null) {
+            _applyPackageOnce(state.unit!);
+          }
+        },
         buildWhen: (previous, current) {
-          return previous.runtimeType != current.runtimeType || previous.unit != current.unit;
+          return previous.runtimeType != current.runtimeType ||
+              previous.unit != current.unit;
         },
         builder: (context, state) {
           if (state is UnitDetailsLoading || state is UnitDetailsInitial) {
@@ -81,10 +103,13 @@ class _UnitCustomizationScreenContentState extends State<_UnitCustomizationScree
               return const UnitCustomizationShimmer();
             }
           }
-          if (state is UnitDetailsError && (state.unit == null || state.unit!.rooms.isEmpty)) {
+          if (state is UnitDetailsError &&
+              (state.unit == null || state.unit!.rooms.isEmpty)) {
             return ErrorStateView(
               message: state.message,
-              onRetry: () => context.read<UnitDetailsCubit>().loadUnitDetails(int.tryParse(widget.initialUnit.id) ?? 0),
+              onRetry: () => context.read<UnitDetailsCubit>().loadUnitDetails(
+                    int.tryParse(widget.initialUnit.id) ?? 0,
+                  ),
             );
           }
 
@@ -93,9 +118,8 @@ class _UnitCustomizationScreenContentState extends State<_UnitCustomizationScree
             return const UnitCustomizationShimmer();
           }
 
-          if (selectedPackage != null) {
-            PackageHelper.applyPackageToRooms(currentUnit, selectedPackage);
-          }
+          // Apply package once in case rooms were already available from initialUnit
+          _applyPackageOnce(currentUnit);
 
           return DefaultTabController(
             length: currentUnit.rooms.length,

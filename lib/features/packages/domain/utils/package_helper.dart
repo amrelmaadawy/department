@@ -22,6 +22,8 @@ class PackageHelper {
           notes: 'تم الاختيار من باقة ${package.name}',
           isCompleted: true,
         );
+      } else {
+        cacheService.clearRoomDesignProgress(room.id);
       }
     }
   }
