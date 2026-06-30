@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:apartment/l10n/app_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
 import '../../../../core/theme/app_fonts.dart';
-import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
-import '../../../../features/home/domain/entities/project_unit_entity.dart';
+import '../../../../core/theme/theme_extension.dart';
 import '../cubit/design_context_cubit.dart';
-import '../cubit/design_context_state.dart';
-import 'package:apartment/core/theme/theme_extension.dart';
-import 'package:apartment/features/projects/presentation/widgets/details/unit/unit_status_badge.dart';
-
+import 'unit_selection_item.dart';
 
 class UnitSelectionBottomSheet extends StatelessWidget {
   const UnitSelectionBottomSheet({super.key});
@@ -32,7 +27,6 @@ class UnitSelectionBottomSheet extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Handle
           Center(
             child: Container(
               width: 40,
@@ -44,8 +38,6 @@ class UnitSelectionBottomSheet extends StatelessWidget {
             ),
           ),
           const SizedBox(height: AppSpacing.xl),
-
-          // Title
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl),
             child: Text(
@@ -58,8 +50,6 @@ class UnitSelectionBottomSheet extends StatelessWidget {
             ),
           ),
           const SizedBox(height: AppSpacing.lg),
-
-          // Units List
           Flexible(
             child: ListView.separated(
               shrinkWrap: true,
@@ -67,178 +57,20 @@ class UnitSelectionBottomSheet extends StatelessWidget {
               itemCount: units.length,
               separatorBuilder: (context, index) => const SizedBox(height: AppSpacing.md),
               itemBuilder: (context, index) {
-                return _buildUnitItem(context, units[index]);
+                return UnitSelectionItem(unit: units[index]);
               },
             ),
           ),
-
           const SizedBox(height: AppSpacing.lg),
           Divider(color: context.colors.border),
           const SizedBox(height: AppSpacing.sm),
-
-          // Custom Area Option
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl),
-            child: _buildCustomAreaItem(context),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: AppSpacing.xl),
+            child: CustomAreaItem(),
           ),
           const SizedBox(height: AppSpacing.xl),
         ],
       ),
-    );
-  }
-
-  Widget _buildUnitItem(BuildContext context, ProjectUnitEntity unit) {
-    final l10n = AppLocalizations.of(context)!;
-    return BlocBuilder<DesignContextCubit, DesignContextState>(
-      builder: (context, state) {
-        final isSelected = state.selectedUnit?.id == unit.id;
-
-        return GestureDetector(
-          onTap: () {
-            context.read<DesignContextCubit>().selectUnit(unit);
-            Navigator.pop(context);
-          },
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
-            padding: const EdgeInsets.all(AppSpacing.md),
-            decoration: BoxDecoration(
-              color: isSelected ? context.colors.gold.withValues(alpha: 0.1) : context.colors.white,
-              borderRadius: BorderRadius.circular(AppRadius.lg),
-              border: Border.all(
-                color: isSelected ? context.colors.gold : context.colors.border.withValues(alpha: 0.5),
-                width: isSelected ? 1.5 : 1,
-              ),
-            ),
-            child: Row(
-              children: [
-                Container(
-                  width: 50,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: context.colors.background,
-                    borderRadius: BorderRadius.circular(AppRadius.md),
-                    image: unit.imagePath.isNotEmpty
-                        ? DecorationImage(
-                            image: unit.imagePath.startsWith('http')
-                                ? NetworkImage(unit.imagePath) as ImageProvider
-                                : AssetImage(unit.imagePath),
-                            fit: BoxFit.cover,
-                          )
-                        : null,
-                  ),
-                  child: unit.imagePath.isEmpty
-                      ? Icon(FluentIcons.image_off_24_regular,
-                          color: context.colors.textSecondary, size: 24)
-                      : null,
-                ),
-                const SizedBox(width: AppSpacing.md),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        unit.title,
-                        style: TextStyle(
-                          fontSize: AppFonts.bodyLarge,
-                          fontWeight: FontWeight.bold,
-                          color: isSelected ? context.colors.gold : context.colors.primary,
-                        ),
-                      ),
-                      const SizedBox(height: 2),
-                      Row(
-                        children: [
-                          Text(
-                            l10n.areaSquareMeters(unit.area.toString()),
-                            style: TextStyle(
-                              fontSize: AppFonts.bodySmall,
-                              color: context.colors.textSecondary,
-                            ),
-                          ),
-                          const SizedBox(width: AppSpacing.sm),
-                          UnitStatusBadge(
-                            status: unit.status,
-                            statusLabel: unit.statusLabel,
-                            isOverlay: false,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                if (isSelected)
-                  Icon(FluentIcons.checkmark_circle_24_filled, color: context.colors.gold),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildCustomAreaItem(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    return BlocBuilder<DesignContextCubit, DesignContextState>(
-      builder: (context, state) {
-        final isSelected = state.selectedUnit == null;
-
-        return GestureDetector(
-          onTap: () {
-            context.read<DesignContextCubit>().clearUnitSelection();
-            Navigator.pop(context);
-          },
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
-            padding: const EdgeInsets.all(AppSpacing.md),
-            decoration: BoxDecoration(
-              color: isSelected ? context.colors.primary.withValues(alpha: 0.05) : context.colors.white,
-              borderRadius: BorderRadius.circular(AppRadius.lg),
-              border: Border.all(
-                color: isSelected ? context.colors.primary : context.colors.border.withValues(alpha: 0.5),
-                width: isSelected ? 1.5 : 1,
-              ),
-            ),
-            child: Row(
-              children: [
-                Container(
-                  width: 50,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: context.colors.background,
-                    borderRadius: BorderRadius.circular(AppRadius.md),
-                  ),
-                  child: Icon(FluentIcons.ruler_24_regular, color: context.colors.primary),
-                ),
-                const SizedBox(width: AppSpacing.md),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        l10n.estimatedAreaNoUnit,
-                        style: TextStyle(
-                          fontSize: AppFonts.bodyLarge,
-                          fontWeight: FontWeight.bold,
-                          color: isSelected ? context.colors.primary : context.colors.textPrimary,
-                        ),
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        l10n.forInitialCostEstimateOnly,
-                        style: TextStyle(
-                          fontSize: AppFonts.bodySmall,
-                          color: context.colors.textSecondary,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                if (isSelected)
-                  Icon(FluentIcons.checkmark_circle_24_filled, color: context.colors.primary),
-              ],
-            ),
-          ),
-        );
-      },
     );
   }
 }

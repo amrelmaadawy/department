@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:apartment/core/widgets/app_cached_network_image.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/features/home/domain/entities/project_unit_entity.dart';
-import 'unit/unit_status_badge.dart';
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'unit/project_unit_card_image.dart';
 
 class ComparisonUnitCard extends StatelessWidget {
   final ProjectUnitEntity unit;
@@ -24,36 +22,13 @@ class ComparisonUnitCard extends StatelessWidget {
           aspectRatio: 4 / 3,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(AppRadius.md),
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                unit.imagePath.isNotEmpty
-                    ? (unit.imagePath.startsWith('http')
-                        ? AppCachedNetworkImage(
-                            imageUrl: Uri.encodeFull(unit.imagePath),
-                            fit: BoxFit.cover,
-                            errorWidget: (context, url, error) =>
-                                _buildImagePlaceholder(context),
-                          )
-                        : Image.asset(unit.imagePath, fit: BoxFit.cover))
-                    : _buildImagePlaceholder(context),
-                Positioned(
-                  top: AppSpacing.xs,
-                  right: AppSpacing.xs,
-                  child: UnitStatusBadge(
-                    status: unit.status,
-                    statusLabel: unit.statusLabel,
-                    isOverlay: true,
-                  ),
-                ),
-              ],
-            ),
+            child: ProjectUnitCardImage(unit: unit),
           ),
         ),
         const SizedBox(height: AppSpacing.sm),
         // Title
         Text(
-          unit.unitNumber.isNotEmpty 
+          unit.unitNumber.isNotEmpty
               ? '${unit.title} - ${unit.unitNumber}'
               : unit.title,
           style: TextStyle(
@@ -66,19 +41,6 @@ class ComparisonUnitCard extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
       ],
-    );
-  }
-
-  Widget _buildImagePlaceholder(BuildContext context) {
-    return Container(
-      color: context.colors.primary.withValues(alpha: 0.1),
-      child: Center(
-        child: Icon(
-          FluentIcons.image_off_24_regular,
-          size: 24,
-          color: context.colors.textSecondary,
-        ),
-      ),
     );
   }
 }
