@@ -6,6 +6,7 @@ import '../../domain/usecases/sign_contract_usecase.dart';
 import '../../domain/usecases/get_contract_signature_status_usecase.dart';
 import '../../domain/usecases/mark_contract_as_signed_usecase.dart';
 import '../../domain/usecases/get_contract_by_id_usecase.dart';
+import '../../../auth/data/services/session_manager.dart';
 import 'contracts_state.dart';
 
 class ContractsCubit extends Cubit<ContractsState> {
@@ -16,6 +17,7 @@ class ContractsCubit extends Cubit<ContractsState> {
   final GetContractSignatureStatusUseCase getContractSignatureStatusUseCase;
   final MarkContractAsSignedUseCase markContractAsSignedUseCase;
   final GetContractByIdUseCase getContractByIdUseCase;
+  final SessionManager sessionManager;
 
   bool isUnitContractSigned = false;
   bool isFinishingContractSigned = false;
@@ -28,6 +30,7 @@ class ContractsCubit extends Cubit<ContractsState> {
     required this.getContractSignatureStatusUseCase,
     required this.markContractAsSignedUseCase,
     required this.getContractByIdUseCase,
+    required this.sessionManager,
   }) : super(ContractsInitial());
 
   Future<void> loadSignatureStatuses(String unitId) async {
@@ -87,6 +90,12 @@ class ContractsCubit extends Cubit<ContractsState> {
   }
 
   Future<void> signContract({required int contractId, required String signatureBase64}) async {
+    final isValid = await sessionManager.validateAndRefresh(sensitive: true);
+    if (!isValid) {
+      emit(SessionExpiredState());
+      return;
+    }
+
     emit(ContractSigningLoading());
 
     final result = await signContractUseCase(

@@ -83,3 +83,6 @@ class ContractDetailsLoaded extends ContractsState {
   @override
   List<Object?> get props => [contract];
 }
+
+class SessionExpiredState extends ContractsState {}
+

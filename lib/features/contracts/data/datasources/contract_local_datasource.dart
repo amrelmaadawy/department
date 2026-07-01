@@ -1,4 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 abstract class ContractLocalDataSource {
   Future<void> saveSignatureStatus(String unitId, String contractType, bool status);
@@ -8,8 +9,12 @@ abstract class ContractLocalDataSource {
 
 class ContractLocalDataSourceImpl implements ContractLocalDataSource {
   final SharedPreferences sharedPreferences;
+  final FlutterSecureStorage secureStorage;
 
-  ContractLocalDataSourceImpl({required this.sharedPreferences});
+  ContractLocalDataSourceImpl({
+    required this.sharedPreferences,
+    required this.secureStorage,
+  });
 
   @override
   Future<void> saveSignatureStatus(String unitId, String contractType, bool status) async {
@@ -24,7 +29,7 @@ class ContractLocalDataSourceImpl implements ContractLocalDataSource {
 
   @override
   Future<int> getCustomerId() async {
-    final customerIdStr = sharedPreferences.getString('user_id');
+    final customerIdStr = await secureStorage.read(key: 'user_id');
     return int.tryParse(customerIdStr ?? '1') ?? 1;
   }
 }

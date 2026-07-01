@@ -8,7 +8,14 @@ import 'package:apartment/features/auth/domain/usecases/logout_usecase.dart';
 import 'package:apartment/features/auth/domain/usecases/register_usecase.dart';
 import 'package:apartment/features/auth/presentation/cubit/auth_cubit.dart';
 
+import 'package:apartment/features/auth/data/services/session_manager.dart';
+
 Future<void> registerAuthDi(GetIt sl) async {
+  // Services
+  sl.registerLazySingleton<SessionManager>(
+    () => SessionManager(secureStorage: sl()),
+  );
+
   // Data sources
   sl.registerLazySingleton<AuthRemoteDataSource>(
     () => AuthRemoteDataSourceImpl(apiClient: sl()),
@@ -19,7 +26,6 @@ Future<void> registerAuthDi(GetIt sl) async {
     () => AuthRepositoryImpl(
       remoteDataSource: sl(),
       secureStorage: sl(),
-      sharedPreferences: sl(),
     ),
   );
 

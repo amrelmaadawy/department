@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failures.dart';
 import '../../domain/entities/user_entity.dart';
@@ -10,13 +9,28 @@ import '../datasources/auth_remote_data_source.dart';
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource remoteDataSource;
   final FlutterSecureStorage secureStorage;
-  final SharedPreferences sharedPreferences;
+
+  static const _tokenKey = 'auth_token';
+  static const _userIdKey = 'user_id';
+  static const _sessionStartKey = 'session_start';
 
   AuthRepositoryImpl({
     required this.remoteDataSource,
     required this.secureStorage,
-    required this.sharedPreferences,
   });
+
+  Future<void> _saveSessionData(UserEntity user) async {
+    if (user.token != null && user.token!.isNotEmpty) {
+      await secureStorage.write(key: _tokenKey, value: user.token);
+    }
+    if (user.id != null) {
+      await secureStorage.write(key: _userIdKey, value: user.id.toString());
+    }
+    await secureStorage.write(
+      key: _sessionStartKey,
+      value: DateTime.now().toIso8601String(),
+    );
+  }
 
   @override
   Future<Either<Failure, UserEntity>> register({
@@ -35,15 +49,7 @@ class AuthRepositoryImpl implements AuthRepository {
         passwordConfirmation: passwordConfirmation,
       );
 
-      // Save token if returned
-      if (user.token != null && user.token!.isNotEmpty) {
-        await secureStorage.write(key: 'auth_token', value: user.token);
-      }
-      if (user.id != null) {
-        await secureStorage.write(key: 'user_id', value: user.id.toString());
-        await sharedPreferences.setString('user_id', user.id.toString());
-      }
-
+      await _saveSessionData(user);
       return Right(user);
     } on FailureException catch (e) {
       return Left(e.failure as Failure);
@@ -68,15 +74,7 @@ class AuthRepositoryImpl implements AuthRepository {
         password: password,
       );
 
-      // Save token if returned
-      if (user.token != null && user.token!.isNotEmpty) {
-        await secureStorage.write(key: 'auth_token', value: user.token);
-      }
-      if (user.id != null) {
-        await secureStorage.write(key: 'user_id', value: user.id.toString());
-        await sharedPreferences.setString('user_id', user.id.toString());
-      }
-
+      await _saveSessionData(user);
       return Right(user);
     } on FailureException catch (e) {
       return Left(e.failure as Failure);
@@ -94,9 +92,9 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Either<Failure, void>> logout() async {
     try {
       await remoteDataSource.logout();
-      await secureStorage.delete(key: 'auth_token');
-      await secureStorage.delete(key: 'user_id');
-      await sharedPreferences.remove('user_id');
+      await secureStorage.delete(key: _tokenKey);
+      await secureStorage.delete(key: _userIdKey);
+      await secureStorage.delete(key: _sessionStartKey);
       return const Right(null);
     } on FailureException catch (e) {
       return Left(e.failure as Failure);

@@ -23,7 +23,10 @@ Future<void> initContractsModule() async {
     () => ContractRemoteDataSourceImpl(dio: sl()),
   );
   sl.registerLazySingleton<ContractLocalDataSource>(
-    () => ContractLocalDataSourceImpl(sharedPreferences: sl()),
+    () => ContractLocalDataSourceImpl(
+      sharedPreferences: sl(),
+      secureStorage: sl(),
+    ),
   );
 
   // Repositories
@@ -70,6 +73,7 @@ Future<void> initContractsModule() async {
       getContractSignatureStatusUseCase: sl(),
       markContractAsSignedUseCase: sl(),
       getContractByIdUseCase: sl(),
+      sessionManager: sl(),
     ),
   );
 }

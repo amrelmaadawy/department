@@ -11,7 +11,7 @@ import 'package:apartment/core/network/api_client.dart';
 import 'package:apartment/core/network/api_endpoints.dart';
 import 'package:apartment/core/network/interceptors/auth_interceptor.dart';
 import 'package:apartment/core/network/interceptors/error_interceptor.dart';
-import 'package:apartment/core/network/interceptors/logging_interceptor.dart';
+import 'package:apartment/core/network/interceptors/secure_logging_interceptor.dart';
 import 'package:apartment/core/localization/cubit/locale_cubit.dart';
 import 'package:apartment/core/theme/cubit/theme_cubit.dart';
 import 'package:apartment/core/network/cubit/network_cubit.dart';
@@ -47,7 +47,7 @@ Future<void> registerCoreDi(GetIt sl) async {
   // Network Interceptors
   sl.registerLazySingleton(() => AuthInterceptor(secureStorage: sl()));
   sl.registerLazySingleton(() => ErrorInterceptor());
-  sl.registerLazySingleton(() => LoggingInterceptor());
+  sl.registerLazySingleton(() => SecureLoggingInterceptor());
   
   // Network Dio
   sl.registerLazySingleton(
@@ -59,7 +59,7 @@ Future<void> registerCoreDi(GetIt sl) async {
       dio.interceptors.addAll([
         sl<AuthInterceptor>(),
         sl<ErrorInterceptor>(),
-        if (kDebugMode) sl<LoggingInterceptor>(),
+        if (kDebugMode) sl<SecureLoggingInterceptor>(),
       ]);
       return dio;
     },
