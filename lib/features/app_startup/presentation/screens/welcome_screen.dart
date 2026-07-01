@@ -4,12 +4,15 @@ import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/core/theme/app_sizes.dart';
 import 'package:apartment/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/routes/app_router.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
+import 'package:apartment/features/settings/presentation/cubit/settings_cubit.dart';
+import 'package:apartment/features/settings/presentation/cubit/settings_state.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -76,7 +79,6 @@ class _WelcomeScreenState extends State<WelcomeScreen>
       if (status == AnimationStatus.completed) {
         Future.delayed(const Duration(milliseconds: 400), () {
           if (mounted) {
-            // context.go(AppRouter.onboarding);
             context.go(AppRouter.auth);
           }
         });
@@ -145,47 +147,67 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                   width: 1,
                                 ),
                               ),
-                              child: Column(
-                                children: [
-                                  // Logo
-                                  Opacity(
-                                    opacity: _contentOpacity.value,
-                                    child: Image.asset(
-                                      'assets/images/لين فخامة معتمد.png',
-                                      height: AppSizes.logoMedium,
-                                    ),
-                                  ),
+                              child: BlocBuilder<SettingsCubit, SettingsState>(
+                                builder: (context, state) {
+                                  final title = (state is SettingsLoaded && state.settings.siteName.isNotEmpty)
+                                      ? state.settings.siteName
+                                      : l10n.welcomeTitle;
+                                  final description = (state is SettingsLoaded && state.settings.siteDescription.isNotEmpty)
+                                      ? state.settings.siteDescription
+                                      : l10n.welcomeSubtitle;
 
-                                  const SizedBox(height: AppSpacing.sm),
+                                  return Column(
+                                    children: [
+                                      // Logo
+                                      Opacity(
+                                        opacity: _contentOpacity.value,
+                                        child: (state is SettingsLoaded && state.settings.siteLogo.isNotEmpty)
+                                            ? Image.network(
+                                                state.settings.siteLogo,
+                                                height: AppSizes.logoMedium,
+                                                errorBuilder: (context, error, stackTrace) => Image.asset(
+                                                  'assets/images/لين فخامة معتمد.png',
+                                                  height: AppSizes.logoMedium,
+                                                ),
+                                              )
+                                            : Image.asset(
+                                                'assets/images/لين فخامة معتمد.png',
+                                                height: AppSizes.logoMedium,
+                                              ),
+                                      ),
 
-                                  // Tagline
-                                  Opacity(
-                                    opacity: _taglineOpacity.value,
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          l10n.welcomeTitle,
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            color: context.colors.gold,
-                                            fontSize: AppFonts.bodyLarge,
-                                            letterSpacing: 2.0,
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                                      const SizedBox(height: AppSpacing.sm),
+
+                                      // Tagline
+                                      Opacity(
+                                        opacity: _taglineOpacity.value,
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              title,
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                color: context.colors.gold,
+                                                fontSize: AppFonts.bodyLarge,
+                                                letterSpacing: 2.0,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            const SizedBox(height: AppSpacing.sm),
+                                            Text(
+                                              description,
+                                              textAlign: TextAlign.center,
+                                              style: const TextStyle(
+                                                color: AppColors.white,
+                                                fontSize: AppFonts.bodyMedium,
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                        const SizedBox(height: AppSpacing.sm),
-                                        Text(
-                                          l10n.welcomeSubtitle,
-                                          textAlign: TextAlign.center,
-                                          style: const TextStyle(
-                                            color: AppColors.white,
-                                            fontSize: AppFonts.bodyMedium,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
+                                      ),
+                                    ],
+                                  );
+                                },
                               ),
                             ),
                           ),

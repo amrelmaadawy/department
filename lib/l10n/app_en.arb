@@ -411,6 +411,7 @@
   "unitLabel": "Unit",
   "unitPriceWithTitle": "Unit Price ({title})",
   "unitSoldOut": "Sold Out",
+  "unitReserved": "Reserved",
   "unitSqMeter": "sqm",
   "unitStartsFrom": "Starts from",
   "unitSummaryTitle": "Unit Summary",

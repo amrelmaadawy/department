@@ -19,6 +19,7 @@ class ContractSummaryCard extends StatelessWidget {
   /// Shown when navigating from profile contracts (overrides generic title)
   final String? contractNumber;
   final String? contractTypeLabel;
+  final dynamic contract;
 
   const ContractSummaryCard({
     super.key,
@@ -27,53 +28,61 @@ class ContractSummaryCard extends StatelessWidget {
     this.unit,
     this.contractNumber,
     this.contractTypeLabel,
+    this.contract,
   });
+
+  String _resolveProjectName(dynamic unitObj, dynamic contractObj) {
+    if (unitObj != null) {
+      try {
+        final name = unitObj.projectName?.toString().trim() ?? '';
+        if (name.isNotEmpty) return name;
+      } catch (_) {}
+    }
+    if (contractObj != null) {
+      try {
+        final name = contractObj.projectName?.toString().trim() ?? '';
+        if (name.isNotEmpty) return name;
+      } catch (_) {}
+    }
+    return 'غير محدد';
+  }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final unit = this.unit ?? sl<DesignContextCubit>().state.selectedUnit;
-
+    final resolvedProjectName = _resolveProjectName(unit, contract);
+    
     final title = contractTypeLabel
         ?? (contractType == ContractType.unit
             ? l10n.unitSummaryTitle
             : l10n.finishingContractSummary);
 
-    final icon = contractType == ContractType.unit
-        ? FluentIcons.building_retail_24_regular
-        : FluentIcons.paint_brush_24_regular;
-
     final price = finishingTotal
         ?? (contractType == ContractType.unit
             ? (unit?.price ?? 0.0)
             : 0.0);
+
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
       padding: const EdgeInsets.all(AppSpacing.md),
       decoration: BoxDecoration(
         color: context.colors.white,
         borderRadius: BorderRadius.circular(AppRadius.lg),
-        boxShadow: [
-          BoxShadow(
-            color: context.colors.border.withValues(alpha: 0.1),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        border: Border.all(color: context.colors.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Icon(icon, color: context.colors.primary),
+              Icon(FluentIcons.document_24_regular, color: context.colors.primary),
               const SizedBox(width: AppSpacing.sm),
               Text(
                 title,
                 style: TextStyle(
-                  fontSize: AppFonts.headlineSmall,
+                  fontSize: AppFonts.bodyLarge,
                   fontWeight: FontWeight.bold,
-                  color: context.colors.primary,
+                  color: context.colors.textPrimary,
                 ),
               ),
             ],
@@ -91,13 +100,13 @@ class ContractSummaryCard extends StatelessWidget {
           if (contractNumber != null)
             const SizedBox(height: AppSpacing.sm),
           if (unit != null) ...[
-            _buildInfoRow(context, l10n.project, 'Riyadh Project', FluentIcons.location_24_regular),
+            _buildInfoRow(context, l10n.project, resolvedProjectName, FluentIcons.location_24_regular),
             const SizedBox(height: AppSpacing.sm),
             _buildInfoRow(context, l10n.unitType, l10n.unitTypeDesc(unit.title, unit.area.toString()), FluentIcons.home_24_regular),
             const SizedBox(height: AppSpacing.sm),
             _buildInfoRow(context, l10n.floor, l10n.floorDesc(unit.floor.toString()), FluentIcons.layer_24_regular),
           ] else if (contractNumber == null) ...[
-            _buildInfoRow(context, l10n.project, 'Riyadh Project', FluentIcons.location_24_regular),
+            _buildInfoRow(context, l10n.project, resolvedProjectName, FluentIcons.location_24_regular),
             const SizedBox(height: AppSpacing.sm),
             _buildInfoRow(context, l10n.details, l10n.loadingStatus, FluentIcons.info_24_regular),
           ],

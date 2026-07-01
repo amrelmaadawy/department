@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failures.dart';
+import '../../../../core/routes/app_router.dart';
 import '../../domain/entities/user_entity.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../datasources/auth_remote_data_source.dart';
@@ -90,21 +91,19 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<Failure, void>> logout() async {
+    // Always clean up local session first so the user is never trapped
+    await secureStorage.delete(key: _tokenKey);
+    await secureStorage.delete(key: _userIdKey);
+    await secureStorage.delete(key: _sessionStartKey);
+    AppRouter.clearAuthCache();
+
     try {
       await remoteDataSource.logout();
-      await secureStorage.delete(key: _tokenKey);
-      await secureStorage.delete(key: _userIdKey);
-      await secureStorage.delete(key: _sessionStartKey);
       return const Right(null);
-    } on FailureException catch (e) {
-      return Left(e.failure as Failure);
-    } on ServerException catch (e) {
-      return Left(ServerFailure(e.message));
-    } on NetworkException {
-      return const Left(NetworkFailure('فشل الاتصال بالشبكة، يرجى التحقق من اتصال الإنترنت'));
-    } catch (e) {
-      final msg = e.toString().replaceAll('Exception: ', '').replaceAll('ServerException(message: ', '');
-      return Left(ServerFailure(msg));
+    } catch (_) {
+      // Even if remote logout throws 401 Unauthenticated or network error,
+      // local logout has succeeded and we return Right(null).
+      return const Right(null);
     }
   }
 }

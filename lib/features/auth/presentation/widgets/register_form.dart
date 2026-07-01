@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:apartment/l10n/app_localizations.dart';
+import 'package:apartment/core/utils/input_sanitizer.dart';
 import '../../../../core/theme/app_spacing.dart';
 import 'custom_text_field.dart';
 
@@ -41,8 +42,11 @@ class _RegisterFormState extends State<RegisterForm> {
             hintText: l10n.fullName,
             prefixIcon: FluentIcons.person_24_regular,
             validator: (value) {
-              if (value == null || value.isEmpty) {
+              if (!InputSanitizer.isNotEmpty(value)) {
                 return l10n.requiredField;
+              }
+              if (!InputSanitizer.isValidName(value!)) {
+                return 'اسم غير صحيح';
               }
               return null;
             },
@@ -54,10 +58,10 @@ class _RegisterFormState extends State<RegisterForm> {
             prefixIcon: FluentIcons.mail_24_regular,
             keyboardType: TextInputType.emailAddress,
             validator: (value) {
-              if (value == null || value.isEmpty) {
+              if (!InputSanitizer.isNotEmpty(value)) {
                 return l10n.requiredField;
               }
-              if (!value.contains('@')) {
+              if (!InputSanitizer.isValidEmail(value!)) {
                 return l10n.invalidEmail;
               }
               return null;
@@ -72,8 +76,11 @@ class _RegisterFormState extends State<RegisterForm> {
             textDirection: TextDirection.ltr,
             textAlign: TextAlign.right, // Align text right for Arabic standard
             validator: (value) {
-              if (value == null || value.isEmpty) {
+              if (!InputSanitizer.isNotEmpty(value)) {
                 return l10n.requiredField;
+              }
+              if (!InputSanitizer.isValidPhone(value!)) {
+                return 'رقم هاتف غير صحيح';
               }
               return null;
             },

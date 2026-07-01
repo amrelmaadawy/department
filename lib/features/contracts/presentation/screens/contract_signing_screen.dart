@@ -109,6 +109,7 @@ class _ContractSigningScreenState extends State<ContractSigningScreen> {
               unit: widget.unit,
               contractNumber: widget.contract?.contractNumber,
               contractTypeLabel: widget.contract?.typeLabel,
+              contract: widget.contract,
             ),
             const SizedBox(height: AppSpacing.sm),
             ContractSignatureCard(
@@ -143,6 +144,9 @@ class _ContractSigningScreenState extends State<ContractSigningScreen> {
             } else if (context.mounted) {
               context.pop(true);
             }
+          } else if (state is SessionExpiredState) {
+            AppToast.showError(context, 'انتهت صلاحية الجلسة، يرجى تسجيل الدخول مرة أخرى');
+            context.go(AppRouter.auth);
           } else if (state is ContractsError) {
             AppToast.showError(context, state.message);
           }

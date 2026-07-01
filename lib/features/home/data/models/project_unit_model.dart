@@ -5,6 +5,7 @@ class ProjectUnitModel extends ProjectUnitEntity {
   const ProjectUnitModel({
     required super.id,
     required super.title,
+    super.projectName,
     required super.unitNumber,
     required super.buildingNumber,
     required super.locationType,
@@ -57,9 +58,21 @@ class ProjectUnitModel extends ProjectUnitEntity {
       parsedRoomsCount = (parsedArea / 35).ceil().clamp(1, 10);
     }
 
+    String parsedProjectName = json['project_name']?.toString().trim() ?? '';
+    if (parsedProjectName.isEmpty && json['project'] != null && json['project'] is Map) {
+      parsedProjectName = json['project']['name']?.toString().trim() ?? '';
+    }
+    if (parsedProjectName.isEmpty && json['apartment'] != null && json['apartment'] is Map) {
+      parsedProjectName = json['apartment']['project_name']?.toString().trim() ?? '';
+      if (parsedProjectName.isEmpty && json['apartment']['project'] != null && json['apartment']['project'] is Map) {
+        parsedProjectName = json['apartment']['project']['name']?.toString().trim() ?? '';
+      }
+    }
+
     return ProjectUnitModel(
       id: json['id']?.toString() ?? '',
       title: json['name'] ?? '',
+      projectName: parsedProjectName,
       unitNumber: json['number']?.toString() ?? '',
       buildingNumber: json['building_number'] ?? 1,
       locationType: json['location_type'] ?? '',
@@ -68,10 +81,10 @@ class ProjectUnitModel extends ProjectUnitEntity {
       area: parsedArea,
       price: (json['base_price'] ?? 0).toDouble(),
       floor: json['floor_number'] ?? 0,
-      status: json['status'] == 'sold' ? UnitStatus.sold : UnitStatus.available,
+      status: _parseUnitStatus(json['status']),
       statusLabel: json['status_label']?.toString().trim().isNotEmpty == true
           ? json['status_label'].toString().trim()
-          : (json['status'] == 'sold' ? 'مباعة' : 'متاحة'),
+          : _defaultStatusLabel(json['status']),
       imagePath: mainImage,
       images: imagesList,
       rooms: roomsList,
@@ -84,10 +97,25 @@ class ProjectUnitModel extends ProjectUnitEntity {
     );
   }
 
+  static UnitStatus _parseUnitStatus(dynamic status) {
+    final s = status?.toString().toLowerCase().trim();
+    if (s == 'sold') return UnitStatus.sold;
+    if (s == 'reserved') return UnitStatus.reserved;
+    return UnitStatus.available;
+  }
+
+  static String _defaultStatusLabel(dynamic status) {
+    final s = status?.toString().toLowerCase().trim();
+    if (s == 'sold') return 'مباعة';
+    if (s == 'reserved') return 'محجوزة';
+    return 'متاحة';
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'id': id,
       'name': title,
+      'project_name': projectName,
       'number': unitNumber,
       'building_number': buildingNumber,
       'location_type': locationType,
@@ -96,7 +124,9 @@ class ProjectUnitModel extends ProjectUnitEntity {
       'area': area,
       'base_price': price,
       'floor_number': floor,
-      'status': status == UnitStatus.sold ? 'sold' : 'available',
+      'status': status == UnitStatus.sold
+          ? 'sold'
+          : (status == UnitStatus.reserved ? 'reserved' : 'available'),
       'status_label': statusLabel,
       'images': images,
       'rooms': rooms.map((e) => (e as UnitRoomModel).toJson()).toList(),

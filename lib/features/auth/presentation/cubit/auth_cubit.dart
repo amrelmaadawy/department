@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import '../../domain/usecases/login_usecase.dart';
 import '../../domain/usecases/logout_usecase.dart';
 import '../../domain/usecases/register_usecase.dart';
+import '../../domain/services/login_rate_limiter.dart';
 
 part 'auth_state.dart';
 
@@ -11,12 +12,15 @@ class AuthCubit extends Cubit<AuthState> {
   final RegisterUseCase registerUseCase;
   final LoginUseCase loginUseCase;
   final LogoutUseCase logoutUseCase;
+  final LoginRateLimiter rateLimiter;
 
   AuthCubit({
     required this.registerUseCase,
     required this.loginUseCase,
     required this.logoutUseCase,
-  }) : super(const AuthState());
+    LoginRateLimiter? rateLimiter,
+  })  : rateLimiter = rateLimiter ?? LoginRateLimiter(),
+        super(const AuthState());
 
   void toggleTab(bool isLogin) {
     emit(state.copyWith(
@@ -61,6 +65,15 @@ class AuthCubit extends Cubit<AuthState> {
     required String email,
     required String password,
   }) async {
+    final attemptResult = rateLimiter.canAttempt();
+    if (!attemptResult.isAllowed) {
+      emit(state.copyWith(
+        status: AuthStatus.failure,
+        errorMessage: attemptResult.lockMessage,
+      ));
+      return;
+    }
+
     emit(state.copyWith(status: AuthStatus.loading));
 
     final result = await loginUseCase(
@@ -71,14 +84,21 @@ class AuthCubit extends Cubit<AuthState> {
     );
 
     result.fold(
-      (failure) => emit(state.copyWith(
-        status: AuthStatus.failure,
-        errorMessage: failure.message,
-      )),
-      (user) => emit(state.copyWith(
-        status: AuthStatus.success,
-        clearMessages: true,
-      )),
+      (failure) {
+        rateLimiter.recordFailure();
+        final remaining = rateLimiter.remainingAttempts;
+        emit(state.copyWith(
+          status: AuthStatus.failure,
+          errorMessage: '${failure.message} (تبقى $remaining محاولات)',
+        ));
+      },
+      (user) {
+        rateLimiter.recordSuccess();
+        emit(state.copyWith(
+          status: AuthStatus.success,
+          clearMessages: true,
+        ));
+      },
     );
   }
 

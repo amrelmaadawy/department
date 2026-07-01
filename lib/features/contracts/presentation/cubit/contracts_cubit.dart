@@ -7,6 +7,7 @@ import '../../domain/usecases/get_contract_signature_status_usecase.dart';
 import '../../domain/usecases/mark_contract_as_signed_usecase.dart';
 import '../../domain/usecases/get_contract_by_id_usecase.dart';
 import '../../../auth/data/services/session_manager.dart';
+import '../../../../core/services/security/biometric_auth_service.dart';
 import 'contracts_state.dart';
 
 class ContractsCubit extends Cubit<ContractsState> {
@@ -18,6 +19,7 @@ class ContractsCubit extends Cubit<ContractsState> {
   final MarkContractAsSignedUseCase markContractAsSignedUseCase;
   final GetContractByIdUseCase getContractByIdUseCase;
   final SessionManager sessionManager;
+  final BiometricAuthService? biometricAuthService;
 
   bool isUnitContractSigned = false;
   bool isFinishingContractSigned = false;
@@ -31,6 +33,7 @@ class ContractsCubit extends Cubit<ContractsState> {
     required this.markContractAsSignedUseCase,
     required this.getContractByIdUseCase,
     required this.sessionManager,
+    this.biometricAuthService,
   }) : super(ContractsInitial());
 
   Future<void> loadSignatureStatuses(String unitId) async {
@@ -94,6 +97,16 @@ class ContractsCubit extends Cubit<ContractsState> {
     if (!isValid) {
       emit(SessionExpiredState());
       return;
+    }
+
+    if (biometricAuthService != null) {
+      final bioResult = await biometricAuthService!.authenticate(
+        reason: 'يرجى التحقق من هويتك لتوقيع العقد',
+      );
+      if (bioResult == BiometricResult.failed || bioResult == BiometricResult.error) {
+        emit(const ContractsError('فشل التحقق من الهوية (البصمة/القياسات الحيوية)'));
+        return;
+      }
     }
 
     emit(ContractSigningLoading());

@@ -80,7 +80,7 @@ class MyUnitsScreen extends StatelessWidget {
               }
 
               if (state is ProfileLoaded) {
-                final soldUnits = state.profile.apartments.where((u) => u.status == UnitStatus.sold).toList();
+                final soldUnits = state.profile.apartments.where((u) => u.status.isUnavailable).toList();
                 final availableUnits = state.profile.apartments.where((u) => u.status == UnitStatus.available).toList();
 
                 return TabBarView(

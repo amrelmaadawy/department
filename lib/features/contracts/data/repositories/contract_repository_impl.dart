@@ -23,11 +23,8 @@ class ContractRepositoryImpl implements ContractRepository {
       final customerId = await localDataSource.getCustomerId();
       final contract = await remoteDataSource.createBoneContract(apartmentId, customerId);
       return Right(contract);
-    } on DioException catch (e) {
-      return Left(ServerFailure(e.response?.data?['message']?.toString() ?? e.message ?? 'خطأ في الاتصال بالشبكة'));
     } catch (e) {
-      final msg = e.toString().replaceAll('Exception: ', '');
-      return Left(ServerFailure(msg));
+      return Left(_handleError(e));
     }
   }
 
@@ -56,23 +53,18 @@ class ContractRepositoryImpl implements ContractRepository {
     try {
       final contract = await remoteDataSource.createFinishingContract(finishingOrderIds);
       return Right(contract);
-    } on DioException catch (e) {
-      return Left(ServerFailure(e.response?.data?['message']?.toString() ?? e.message ?? 'خطأ في الاتصال بالشبكة'));
     } catch (e) {
-      final msg = e.toString().replaceAll('Exception: ', '');
-      return Left(ServerFailure(msg));
+      return Left(_handleError(e));
     }
   }
+
   @override
   Future<Either<Failure, ContractEntity>> signContract(int contractId, String signatureBase64) async {
     try {
       final contract = await remoteDataSource.signContract(contractId, signatureBase64);
       return Right(contract);
-    } on DioException catch (e) {
-      return Left(ServerFailure(e.response?.data?['message']?.toString() ?? e.message ?? 'خطأ في الاتصال بالشبكة'));
     } catch (e) {
-      final msg = e.toString().replaceAll('Exception: ', '');
-      return Left(ServerFailure(msg));
+      return Left(_handleError(e));
     }
   }
 
@@ -81,11 +73,8 @@ class ContractRepositoryImpl implements ContractRepository {
     try {
       final orders = await remoteDataSource.getApartmentFinishingOrders(apartmentId);
       return Right(orders);
-    } on DioException catch (e) {
-      return Left(ServerFailure(e.response?.data?['message']?.toString() ?? e.message ?? 'خطأ في الاتصال بالشبكة'));
     } catch (e) {
-      final msg = e.toString().replaceAll('Exception: ', '');
-      return Left(ServerFailure(msg));
+      return Left(_handleError(e));
     }
   }
 
@@ -94,11 +83,8 @@ class ContractRepositoryImpl implements ContractRepository {
     try {
       final contracts = await remoteDataSource.getContracts();
       return Right(contracts);
-    } on DioException catch (e) {
-      return Left(ServerFailure(e.response?.data?['message']?.toString() ?? e.message ?? 'خطأ في الاتصال بالشبكة'));
     } catch (e) {
-      final msg = e.toString().replaceAll('Exception: ', '');
-      return Left(ServerFailure(msg));
+      return Left(_handleError(e));
     }
   }
 
@@ -107,11 +93,68 @@ class ContractRepositoryImpl implements ContractRepository {
     try {
       final contract = await remoteDataSource.getContractById(id);
       return Right(contract);
-    } on DioException catch (e) {
-      return Left(ServerFailure(e.response?.data?['message']?.toString() ?? e.message ?? 'خطأ في الاتصال بالشبكة'));
     } catch (e) {
-      final msg = e.toString().replaceAll('Exception: ', '');
-      return Left(ServerFailure(msg));
+      return Left(_handleError(e));
     }
+  }
+
+  Failure _handleError(Object e) {
+    if (e is DioException) {
+      if (e.error is Failure) {
+        final fail = e.error as Failure;
+        return _ensureArabicFailure(fail);
+      }
+      switch (e.type) {
+        case DioExceptionType.connectionTimeout:
+        case DioExceptionType.receiveTimeout:
+        case DioExceptionType.sendTimeout:
+          return const TimeoutFailure('انتهت مهلة الاتصال بالخادم، يرجى التحقق من جودة الإنترنت والمحاولة مرة أخرى');
+        case DioExceptionType.connectionError:
+          return const OfflineFailure('لا يوجد اتصال بالإنترنت، يرجى التحقق من الشبكة');
+        default:
+          final serverMsg = e.response?.data?['message']?.toString();
+          if (serverMsg != null && serverMsg.isNotEmpty) {
+            return ServerFailure(_translateToArabic(serverMsg));
+          }
+          return const ServerFailure('حدث خطأ أثناء الاتصال بالخادم، يرجى إعادة المحاولة');
+      }
+    }
+    final msg = e.toString().replaceAll('Exception: ', '');
+    return ServerFailure(_translateToArabic(msg));
+  }
+
+  Failure _ensureArabicFailure(Failure failure) {
+    final msg = _translateToArabic(failure.message);
+    if (failure is TimeoutFailure) return TimeoutFailure(msg);
+    if (failure is OfflineFailure) return OfflineFailure(msg);
+    if (failure is ServerFailure) return ServerFailure(msg, failure.code);
+    return ServerFailure(msg);
+  }
+
+  String _translateToArabic(String msg) {
+    if (msg.isEmpty) return 'حدث خطأ غير متوقع، يرجى إعادة المحاولة.';
+    final lower = msg.toLowerCase();
+    if (lower.contains('timeout') || lower.contains('took longer than')) {
+      return 'انتهت مهلة الاتصال بالخادم، يرجى التحقق من جودة الإنترنت والمحاولة مرة أخرى.';
+    }
+    if (lower.contains('connection') || lower.contains('socket') || lower.contains('network') || lower.contains('failed host lookup')) {
+      return 'تعذر الاتصال بالخادم، يرجى التحقق من اتصالك بالإنترنت.';
+    }
+    if (lower.contains('already signed')) {
+      return 'تم توقيع هذا العقد بالفعل.';
+    }
+    if (lower.contains('invalid signature')) {
+      return 'التوقيع المرسل غير صالح، يرجى إعادة التوقيع.';
+    }
+    if (lower.contains('unauthorized') || lower.contains('unauthenticated')) {
+      return 'انتهت صلاحية الجلسة، يرجى تسجيل الدخول مرة أخرى.';
+    }
+    if (lower.contains('not found')) {
+      return 'العقد المطلوب غير موجود.';
+    }
+    if (RegExp(r'^[a-zA-Z0-9\s\.\,\:\-\_\/\(\)]+$').hasMatch(msg)) {
+      return 'استغرقت العملية وقتاً أطول من المعتاد أو حدث خطأ في الخادم، يرجى إعادة المحاولة.';
+    }
+    return msg;
   }
 }

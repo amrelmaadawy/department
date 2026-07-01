@@ -1008,6 +1008,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get unitSoldOut => 'مباع';
 
   @override
+  String get unitReserved => 'محجوزة';
+
+  @override
   String get unitSqMeter => 'متر';
 
   @override

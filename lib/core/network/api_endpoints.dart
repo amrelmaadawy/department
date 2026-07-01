@@ -1,6 +1,8 @@
+import 'package:apartment/core/config/app_config.dart';
+
 class ApiEndpoints {
   // Base URLs
-  static const String baseUrl = 'https://moqlate.coderaeg.com/api/v1'; // Assuming api/v1, adjust if needed
+  static String get baseUrl => AppConfig.baseUrl;
   static const String imageBaseUrl = 'https://moqlate.coderaeg.com/storage/'; 
 
   // Auth
@@ -20,6 +22,9 @@ class ApiEndpoints {
   // Future endpoints can be added here
   static const String savedDesigns = '/saved-designs';
   static const String packages = '/packages';
+
+  // Customer Journey
+  static const String activeJourneys = '/customer/active-journeys';
 
   // Settings
   static const String presetNotes = '/settings/preset-notes';

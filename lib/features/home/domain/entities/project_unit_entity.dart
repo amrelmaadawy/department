@@ -3,11 +3,19 @@ import 'unit_room_entity.dart';
 
 enum UnitType { apartment, villa, duplex }
 
-enum UnitStatus { available, sold }
+enum UnitStatus { available, sold, reserved }
+
+extension UnitStatusExtension on UnitStatus {
+  bool get isAvailable => this == UnitStatus.available;
+  bool get isSold => this == UnitStatus.sold;
+  bool get isReserved => this == UnitStatus.reserved;
+  bool get isUnavailable => this == UnitStatus.sold || this == UnitStatus.reserved;
+}
 
 class ProjectUnitEntity extends Equatable {
   final String id;
   final String title;
+  final String projectName;
   
   // New API Fields
   final String unitNumber;
@@ -34,6 +42,7 @@ class ProjectUnitEntity extends Equatable {
   const ProjectUnitEntity({
     required this.id,
     required this.title,
+    this.projectName = '',
     this.unitNumber = '',
     this.buildingNumber = 1,
     this.locationType = '',
@@ -54,10 +63,59 @@ class ProjectUnitEntity extends Equatable {
     this.rooms = const [],
   });
 
+  ProjectUnitEntity copyWith({
+    String? id,
+    String? title,
+    String? projectName,
+    String? unitNumber,
+    int? buildingNumber,
+    String? locationType,
+    String? locationTypeLabel,
+    int? roomsCount,
+    String? statusLabel,
+    UnitType? type,
+    double? area,
+    int? bedrooms,
+    int? bathrooms,
+    double? price,
+    UnitStatus? status,
+    String? imagePath,
+    int? floor,
+    List<String>? extras,
+    String? description,
+    List<String>? images,
+    List<UnitRoomEntity>? rooms,
+  }) {
+    return ProjectUnitEntity(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      projectName: projectName ?? this.projectName,
+      unitNumber: unitNumber ?? this.unitNumber,
+      buildingNumber: buildingNumber ?? this.buildingNumber,
+      locationType: locationType ?? this.locationType,
+      locationTypeLabel: locationTypeLabel ?? this.locationTypeLabel,
+      roomsCount: roomsCount ?? this.roomsCount,
+      statusLabel: statusLabel ?? this.statusLabel,
+      type: type ?? this.type,
+      area: area ?? this.area,
+      bedrooms: bedrooms ?? this.bedrooms,
+      bathrooms: bathrooms ?? this.bathrooms,
+      price: price ?? this.price,
+      status: status ?? this.status,
+      imagePath: imagePath ?? this.imagePath,
+      floor: floor ?? this.floor,
+      extras: extras ?? this.extras,
+      description: description ?? this.description,
+      images: images ?? this.images,
+      rooms: rooms ?? this.rooms,
+    );
+  }
+
   @override
   List<Object> get props => [
     id,
     title,
+    projectName,
     unitNumber,
     buildingNumber,
     locationType,

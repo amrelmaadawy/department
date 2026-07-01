@@ -415,6 +415,7 @@
   "unitLabel": "الوحدة",
   "unitPriceWithTitle": "سعر الوحدة ({title})",
   "unitSoldOut": "مباع",
+  "unitReserved": "محجوزة",
   "unitSqMeter": "متر",
   "unitStartsFrom": "يبدأ من",
   "unitSummaryTitle": "ملخص بيانات الوحدة",

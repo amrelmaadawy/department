@@ -36,7 +36,7 @@ class ProjectUnitCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final isSold = unit.status == UnitStatus.sold;
+    final isUnavailable = unit.status.isUnavailable;
 
     final int effectiveRoomsCount = unit.roomsCount > 0
         ? unit.roomsCount
@@ -54,7 +54,7 @@ class ProjectUnitCard extends StatelessWidget {
         return Transform.translate(
           offset: Offset(0, 50 * (1 - value)),
           child: Opacity(
-            opacity: value * (isSold ? 0.85 : 1.0),
+            opacity: value * (isUnavailable ? 0.85 : 1.0),
             child: child,
           ),
         );
@@ -84,7 +84,7 @@ class ProjectUnitCard extends StatelessWidget {
           color: AppColors.transparent,
           borderRadius: BorderRadius.circular(AppRadius.md),
           child: InkWell(
-            onTap: isSold ? null : onTap,
+            onTap: isUnavailable ? null : onTap,
             child: SizedBox(
               height: 140,
               child: Row(

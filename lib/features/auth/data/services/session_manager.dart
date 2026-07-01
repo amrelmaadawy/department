@@ -35,10 +35,7 @@ class SessionManager {
   }
 
   Future<bool> validateAndRefresh({bool sensitive = false}) async {
-    final valid = sensitive
-        ? await isSensitiveSessionValid()
-        : await isSessionValid();
-
+    final valid = await isSessionValid();
     if (!valid) {
       await _secureStorage.deleteAll();
       return false;

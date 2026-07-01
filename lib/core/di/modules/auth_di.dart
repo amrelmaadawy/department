@@ -9,11 +9,15 @@ import 'package:apartment/features/auth/domain/usecases/register_usecase.dart';
 import 'package:apartment/features/auth/presentation/cubit/auth_cubit.dart';
 
 import 'package:apartment/features/auth/data/services/session_manager.dart';
+import 'package:apartment/features/auth/domain/services/login_rate_limiter.dart';
 
 Future<void> registerAuthDi(GetIt sl) async {
   // Services
   sl.registerLazySingleton<SessionManager>(
     () => SessionManager(secureStorage: sl()),
+  );
+  sl.registerLazySingleton<LoginRateLimiter>(
+    () => LoginRateLimiter(),
   );
 
   // Data sources
@@ -40,6 +44,7 @@ Future<void> registerAuthDi(GetIt sl) async {
       registerUseCase: sl(),
       loginUseCase: sl(),
       logoutUseCase: sl(),
+      rateLimiter: sl(),
     ),
   );
 }

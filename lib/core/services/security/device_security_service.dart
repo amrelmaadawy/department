@@ -1,4 +1,5 @@
-import 'package:flutter_jailbreak_detection/flutter_jailbreak_detection.dart';
+import 'dart:io';
+import 'package:flutter/services.dart';
 
 enum DeviceSecurityStatus {
   secure,
@@ -7,14 +8,17 @@ enum DeviceSecurityStatus {
 }
 
 class DeviceSecurityService {
+  static const _channel = MethodChannel('com.codra.shatabha/security');
+
   Future<DeviceSecurityStatus> checkDeviceSecurity() async {
     try {
-      final isJailbroken = await FlutterJailbreakDetection.jailbroken;
-      if (isJailbroken) return DeviceSecurityStatus.jailbroken;
+      if (Platform.isAndroid || Platform.isIOS) {
+        final bool isJailbroken = await _channel.invokeMethod('isJailbroken') ?? false;
+        if (isJailbroken) return DeviceSecurityStatus.jailbroken;
 
-      final isDeveloperMode = await FlutterJailbreakDetection.developerMode;
-      if (isDeveloperMode) return DeviceSecurityStatus.developerMode;
-
+        final bool isDevMode = await _channel.invokeMethod('isDeveloperMode') ?? false;
+        if (isDevMode) return DeviceSecurityStatus.developerMode;
+      }
       return DeviceSecurityStatus.secure;
     } catch (_) {
       return DeviceSecurityStatus.secure;

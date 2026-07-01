@@ -7,6 +7,7 @@ import 'modules/projects_di.dart';
 import 'modules/contracts_di.dart';
 import 'modules/packages_di.dart';
 import 'modules/settings_di.dart';
+import 'modules/customer_journey_di.dart';
 
 final sl = GetIt.instance;
 
@@ -18,4 +19,5 @@ Future<void> init() async {
   await initContractsModule();
   await registerPackagesDi(sl);
   await registerSettingsDi(sl);
+  initCustomerJourneyDI(sl);
 }

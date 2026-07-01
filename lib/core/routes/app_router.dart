@@ -7,6 +7,7 @@ import '../../../features/app_startup/presentation/screens/welcome_screen.dart';
 import '../../../features/layout/presentation/screens/layout_screen.dart';
 import '../di/injection_container.dart';
 
+import '../services/security/deep_link_validator.dart';
 import 'auth_routes.dart';
 import 'project_routes.dart';
 import 'profile_routes.dart';
@@ -83,6 +84,17 @@ class AppRouter {
     navigatorKey: navigatorKey,
     initialLocation: initial,
     redirect: (context, state) async {
+      if (state.uri.scheme.isNotEmpty && !DeepLinkValidator.isValid(state.uri)) {
+        log('Rejected invalid deep link: ${state.uri}', name: 'AppRouter');
+        return initial;
+      }
+      if (state.uri.queryParameters.containsKey('redirect_url') ||
+          state.uri.queryParameters.containsKey('redirect') ||
+          state.uri.queryParameters.containsKey('next')) {
+        log('Rejected potential Open Redirect: ${state.uri}', name: 'AppRouter');
+        return initial;
+      }
+
       final isAuth = await _resolveAuth();
 
       final isGoingToAuth = state.uri.path == auth;

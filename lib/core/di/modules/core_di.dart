@@ -18,6 +18,8 @@ import 'package:apartment/core/network/cubit/network_cubit.dart';
 import 'package:apartment/core/services/share/share_service.dart';
 import 'package:apartment/core/services/share/share_service_impl.dart';
 import 'package:apartment/core/services/download/download_service.dart';
+import 'package:apartment/core/services/security/token_rotation_service.dart';
+import 'package:apartment/core/services/security/biometric_auth_service.dart';
 
 import 'package:apartment/features/home/presentation/cubit/home_cubit.dart';
 import 'package:apartment/features/layout/presentation/cubit/layout_cubit.dart';
@@ -36,6 +38,8 @@ Future<void> registerCoreDi(GetIt sl) async {
   ));
   sl.registerLazySingleton<IShareService>(() => ShareServiceImpl(dio: sl()));
   sl.registerLazySingleton<IDownloadService>(() => DownloadServiceImpl(dio: sl()));
+  sl.registerLazySingleton(() => TokenRotationService(secureStorage: sl()));
+  sl.registerLazySingleton(() => BiometricAuthService());
 
   // Network Monitoring
   sl.registerLazySingleton(() => Connectivity());
@@ -45,7 +49,7 @@ Future<void> registerCoreDi(GetIt sl) async {
   );
 
   // Network Interceptors
-  sl.registerLazySingleton(() => AuthInterceptor(secureStorage: sl()));
+  sl.registerLazySingleton(() => AuthInterceptor(secureStorage: sl(), tokenRotationService: sl()));
   sl.registerLazySingleton(() => ErrorInterceptor());
   sl.registerLazySingleton(() => SecureLoggingInterceptor());
   

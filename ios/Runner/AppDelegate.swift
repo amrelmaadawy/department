@@ -11,6 +11,26 @@ import UIKit
   ) -> Bool {
     GeneratedPluginRegistrant.register(with: self)
     setupScreenshotPrevention()
+
+    if let controller = window?.rootViewController as? FlutterViewController {
+      let channel = FlutterMethodChannel(
+        name: "com.codra.shatabha/security",
+        binaryMessenger: controller.binaryMessenger
+      )
+      channel.setMethodCallHandler { (call: FlutterMethodCall, result: @escaping FlutterResult) in
+        switch call.method {
+        case "enableSecure", "disableSecure":
+          result(true)
+        case "isJailbroken":
+          result(self.checkJailbreak())
+        case "isDeveloperMode":
+          result(false)
+        default:
+          result(FlutterMethodNotImplemented)
+        }
+      }
+    }
+
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 
@@ -40,5 +60,21 @@ import UIKit
   @objc private func removePrivacyView() {
     privacyView?.removeFromSuperview()
     privacyView = nil
+  }
+
+  private func checkJailbreak() -> Bool {
+    let paths = [
+      "/Applications/Cydia.app",
+      "/Library/MobileSubstrate/MobileSubstrate.dylib",
+      "/bin/bash",
+      "/usr/sbin/sshd",
+      "/etc/apt"
+    ]
+    for path in paths {
+      if FileManager.default.fileExists(atPath: path) {
+        return true
+      }
+    }
+    return false
   }
 }

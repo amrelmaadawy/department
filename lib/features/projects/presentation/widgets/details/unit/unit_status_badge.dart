@@ -20,19 +20,33 @@ class UnitStatusBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final isSold = status == UnitStatus.sold;
     final label = statusLabel.isNotEmpty
         ? statusLabel
-        : (isSold ? l10n.unitSoldOut : l10n.unitAvailable);
+        : (status == UnitStatus.sold
+            ? l10n.unitSoldOut
+            : (status == UnitStatus.reserved ? l10n.unitReserved : l10n.unitAvailable));
 
-    // Clean luxury color palette
-    final primaryColor = isSold ? const Color(0xFFDC2626) : const Color(0xFF059669);
-    final bgColor = isSold ? const Color(0xFFFEE2E2) : const Color(0xFFD1FAE5);
-    final borderColor = isSold ? const Color(0xFFFECACA) : const Color(0xFFA7F3D0);
+    Color primaryColor;
+    Color bgColor;
+    Color borderColor;
+    IconData icon;
 
-    final icon = isSold
-        ? FluentIcons.lock_closed_16_filled
-        : FluentIcons.checkmark_circle_16_filled;
+    if (status == UnitStatus.sold) {
+      primaryColor = const Color(0xFFDC2626);
+      bgColor = const Color(0xFFFEE2E2);
+      borderColor = const Color(0xFFFECACA);
+      icon = FluentIcons.lock_closed_16_filled;
+    } else if (status == UnitStatus.reserved) {
+      primaryColor = const Color(0xFFD97706); // Amber 600
+      bgColor = const Color(0xFFFEF3C7); // Amber 100
+      borderColor = const Color(0xFFFDE68A); // Amber 200
+      icon = FluentIcons.bookmark_16_filled;
+    } else {
+      primaryColor = const Color(0xFF059669);
+      bgColor = const Color(0xFFD1FAE5);
+      borderColor = const Color(0xFFA7F3D0);
+      icon = FluentIcons.checkmark_circle_16_filled;
+    }
 
     if (isOverlay) {
       return Container(

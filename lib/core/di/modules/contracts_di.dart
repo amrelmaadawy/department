@@ -74,6 +74,7 @@ Future<void> initContractsModule() async {
       markContractAsSignedUseCase: sl(),
       getContractByIdUseCase: sl(),
       sessionManager: sl(),
+      biometricAuthService: sl(),
     ),
   );
 }

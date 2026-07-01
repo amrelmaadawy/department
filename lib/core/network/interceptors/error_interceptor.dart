@@ -70,7 +70,7 @@ class ErrorInterceptor extends Interceptor {
 
     switch (statusCode) {
       case 401:
-        return UnauthorizedFailure(message);
+        return const UnauthorizedFailure('انتهت صلاحية الجلسة، يرجى تسجيل الدخول مرة أخرى');
       case 403:
         return ForbiddenFailure(message);
       case 404:
@@ -89,6 +89,14 @@ class ErrorInterceptor extends Interceptor {
   String _translateErrorMessage(String msg) {
     String lowerMsg = msg.toLowerCase();
     
+    if (lowerMsg.contains('unauthenticated') || lowerMsg.contains('unauthorized')) {
+      return 'انتهت صلاحية الجلسة، يرجى تسجيل الدخول مرة أخرى.';
+    }
+
+    if (lowerMsg.contains('forbidden') || lowerMsg.contains('not authorized') || lowerMsg.contains('access denied')) {
+      return 'عفواً، ليس لديك صلاحية للوصول إلى هذه الوحدة أو إجراء هذه العملية.';
+    }
+
     if (lowerMsg.contains('selecation') || lowerMsg.contains('selection')) {
       if (lowerMsg.contains('material_ids')) {
         return 'يرجى التأكد من اختيار جميع الخامات المطلوبة للغرفة قبل المتابعة.';

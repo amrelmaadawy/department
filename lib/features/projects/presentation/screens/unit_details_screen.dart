@@ -125,7 +125,7 @@ class _UnitDetailsScreenContent extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: unit.status == UnitStatus.sold
+      bottomNavigationBar: unit.status.isUnavailable
           ? null
           : Container(
               padding: const EdgeInsets.symmetric(

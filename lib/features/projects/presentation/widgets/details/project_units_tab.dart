@@ -165,6 +165,7 @@ class _ProjectUnitsTabState extends State<ProjectUnitsTab> {
                 child: Builder(
                   builder: (context) {
                     final availableCount = filteredUnits.where((u) => u.status == UnitStatus.available).length;
+                    final reservedCount = filteredUnits.where((u) => u.status == UnitStatus.reserved).length;
                     final soldCount = filteredUnits.where((u) => u.status == UnitStatus.sold).length;
                     final l10n = AppLocalizations.of(context)!;
                     return Column(
@@ -182,28 +183,56 @@ class _ProjectUnitsTabState extends State<ProjectUnitsTab> {
                           overflow: TextOverflow.ellipsis,
                         ),
                         const SizedBox(height: 2),
-                        Row(
+                        Wrap(
+                          spacing: AppSpacing.sm,
+                          runSpacing: 4,
+                          crossAxisAlignment: WrapCrossAlignment.center,
                           children: [
-                            const Icon(FluentIcons.checkmark_circle_16_filled, size: 12, color: AppColors.success),
-                            const SizedBox(width: 4),
-                            Text(
-                              '$availableCount ${l10n.unitAvailable}',
-                              style: const TextStyle(
-                                fontSize: AppFonts.labelSmall,
-                                color: AppColors.success,
-                                fontWeight: FontWeight.bold,
-                              ),
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(FluentIcons.checkmark_circle_16_filled, size: 12, color: AppColors.success),
+                                const SizedBox(width: 4),
+                                Text(
+                                  '$availableCount ${l10n.unitAvailable}',
+                                  style: const TextStyle(
+                                    fontSize: AppFonts.labelSmall,
+                                    color: AppColors.success,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
                             ),
-                            const SizedBox(width: AppSpacing.sm),
-                            Icon(FluentIcons.lock_closed_16_filled, size: 12, color: context.colors.textSecondary),
-                            const SizedBox(width: 4),
-                            Text(
-                              '$soldCount ${l10n.unitSoldOut}',
-                              style: TextStyle(
-                                fontSize: AppFonts.labelSmall,
-                                color: context.colors.textSecondary,
-                                fontWeight: FontWeight.bold,
+                            if (reservedCount > 0)
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const Icon(FluentIcons.bookmark_16_filled, size: 12, color: Color(0xFFD97706)),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    '$reservedCount ${l10n.unitReserved}',
+                                    style: const TextStyle(
+                                      fontSize: AppFonts.labelSmall,
+                                      color: Color(0xFFD97706),
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
                               ),
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(FluentIcons.lock_closed_16_filled, size: 12, color: context.colors.textSecondary),
+                                const SizedBox(width: 4),
+                                Text(
+                                  '$soldCount ${l10n.unitSoldOut}',
+                                  style: TextStyle(
+                                    fontSize: AppFonts.labelSmall,
+                                    color: context.colors.textSecondary,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),

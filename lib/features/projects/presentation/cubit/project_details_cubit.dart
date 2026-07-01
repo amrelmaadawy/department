@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../../home/domain/entities/project_entity.dart';
+import '../../../home/domain/entities/project_unit_entity.dart';
 import '../../domain/usecases/get_project_details_usecase.dart';
 import '../../domain/usecases/get_project_units_usecase.dart';
 
@@ -23,7 +24,7 @@ class ProjectDetailsCubit extends Cubit<ProjectDetailsState> {
     required this.getProjectUnitsUseCase,
   }) : super(ProjectDetailsInitial()) {
     _contractSignedSubscription = AppEvents.onContractSigned.listen((_) {
-      if (_currentProjectId != null) {
+      if (_currentProjectId != null && !isClosed) {
         loadProjectDetails(_currentProjectId!);
       }
     });
@@ -62,7 +63,13 @@ class ProjectDetailsCubit extends Cubit<ProjectDetailsState> {
     }
 
     final project = detailsResult.getOrElse(() => throw Exception()) as ProjectEntity;
-    final units = unitsResult.getOrElse(() => throw Exception()) as List;
+    final unitsList = unitsResult.getOrElse(() => throw Exception()) as List;
+    final units = unitsList.map((u) {
+      if (u is ProjectUnitEntity) {
+        return u.projectName.isNotEmpty ? u : u.copyWith(projectName: project.name);
+      }
+      return u;
+    }).toList();
 
     // Attach units to project
     final projectWithUnits = ProjectEntity(
@@ -82,7 +89,7 @@ class ProjectDetailsCubit extends Cubit<ProjectDetailsState> {
       deliveryDate: project.deliveryDate,
       finishingType: project.finishingType,
       services: project.services,
-      units: List.from(units),
+      units: List<ProjectUnitEntity>.from(units),
     );
 
     if (!isClosed) {

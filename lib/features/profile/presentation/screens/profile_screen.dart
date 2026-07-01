@@ -187,8 +187,8 @@ class _ProfileViewState extends State<ProfileView>
             if (profileState is ProfileLoaded) {
               userName = profileState.profile.user.name;
               avatarUrl = profileState.profile.user.avatarUrl;
-              designsCount = profileState.profile.statistics.totalSavedDesigns;
-              contractsCount = profileState.profile.statistics.totalOrders;
+              designsCount = profileState.profile.statistics.totalOrders;
+              contractsCount = profileState.profile.statistics.totalSavedDesigns;
               unitsCount = profileState.profile.statistics.totalApartments;
               aiCredits = profileState.profile.user.aiCredits;
               totalSpent = profileState.profile.statistics.totalSpent;

@@ -2006,6 +2006,12 @@ abstract class AppLocalizations {
   /// **'Sold Out'**
   String get unitSoldOut;
 
+  /// No description provided for @unitReserved.
+  ///
+  /// In en, this message translates to:
+  /// **'Reserved'**
+  String get unitReserved;
+
   /// No description provided for @unitSqMeter.
   ///
   /// In en, this message translates to:

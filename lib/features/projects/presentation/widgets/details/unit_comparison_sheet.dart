@@ -108,12 +108,12 @@ class UnitComparisonSheet extends StatelessWidget {
                             _buildValueCell(context, unit.roomsCount.toString(), isBest: unit.roomsCount == maxRooms, icon: FluentIcons.conference_room_24_regular),
                             _buildValueCell(context, unit.bathrooms.toString(), isBest: unit.bathrooms == maxBaths, icon: FluentIcons.drop_24_regular),
                             _buildValueCell(context, unit.floor.toString(), isBest: false, icon: FluentIcons.layer_24_regular),
-                            _buildValueCell(context, unit.status == UnitStatus.available ? l10n.unitAvailable : l10n.unitSoldOut, isBest: unit.status == UnitStatus.available, icon: FluentIcons.info_24_regular),
+                            _buildValueCell(context, unit.status == UnitStatus.sold ? l10n.unitSoldOut : (unit.status == UnitStatus.reserved ? l10n.unitReserved : l10n.unitAvailable), isBest: unit.status == UnitStatus.available, icon: FluentIcons.info_24_regular),
                             _buildValueCell(context, _getTypeLabel(unit.type), isBest: false, icon: FluentIcons.building_24_regular),
                             
                             const SizedBox(height: AppSpacing.lg),
                             ElevatedButton(
-                              onPressed: unit.status == UnitStatus.sold ? null : () {
+                              onPressed: unit.status.isUnavailable ? null : () {
                                 Navigator.of(context).pop();
                                 Future.delayed(const Duration(milliseconds: 150), () {
                                   if (context.mounted) {
