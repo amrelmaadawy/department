@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:apartment/core/services/security/screenshot_prevention_service.dart';
 
 import 'package:apartment/core/di/injection_container.dart';
 import 'package:apartment/core/routes/app_router.dart';
@@ -32,8 +33,25 @@ class ContractDetailsScreen extends StatelessWidget {
   }
 }
 
-class _ContractDetailsView extends StatelessWidget {
+class _ContractDetailsView extends StatefulWidget {
   const _ContractDetailsView();
+
+  @override
+  State<_ContractDetailsView> createState() => _ContractDetailsViewState();
+}
+
+class _ContractDetailsViewState extends State<_ContractDetailsView> {
+  @override
+  void initState() {
+    super.initState();
+    ScreenshotPreventionService.enable();
+  }
+
+  @override
+  void dispose() {
+    ScreenshotPreventionService.disable();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

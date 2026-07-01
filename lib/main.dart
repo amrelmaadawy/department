@@ -17,8 +17,19 @@ import 'core/network/cubit/network_state.dart';
 import 'features/settings/presentation/cubit/settings_cubit.dart';
 import 'core/presentation/widgets/offline_banner.dart';
 
+import 'core/services/security/device_security_service.dart';
+import 'core/presentation/widgets/jailbreak_warning_app.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  final deviceSecurity = DeviceSecurityService();
+  final status = await deviceSecurity.checkDeviceSecurity();
+
+  if (status == DeviceSecurityStatus.jailbroken) {
+    runApp(const JailbreakWarningApp());
+    return;
+  }
 
   await di.init();
   await AppRouter.initAuth();

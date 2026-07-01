@@ -1,4 +1,5 @@
 import 'package:apartment/core/theme/app_colors.dart';
+import 'package:apartment/core/services/security/screenshot_prevention_service.dart';
 import 'dart:typed_data';
 
 import 'package:apartment/core/theme/app_spacing.dart';
@@ -53,6 +54,7 @@ class _ContractSigningScreenState extends State<ContractSigningScreen> {
   @override
   void initState() {
     super.initState();
+    ScreenshotPreventionService.enable();
     _signatureController = SignatureController(
       penStrokeWidth: 3,
       penColor: AppColors.black,
@@ -62,6 +64,7 @@ class _ContractSigningScreenState extends State<ContractSigningScreen> {
 
   @override
   void dispose() {
+    ScreenshotPreventionService.disable();
     _signatureController.dispose();
     super.dispose();
   }

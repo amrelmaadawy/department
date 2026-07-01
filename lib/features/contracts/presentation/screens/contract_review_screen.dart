@@ -1,4 +1,5 @@
 import 'package:apartment/core/theme/app_colors.dart';
+import 'package:apartment/core/services/security/screenshot_prevention_service.dart';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -42,7 +43,14 @@ class _ContractReviewScreenState extends State<ContractReviewScreen> {
   @override
   void initState() {
     super.initState();
+    ScreenshotPreventionService.enable();
     WidgetsBinding.instance.addPostFrameCallback((_) => _buildPdf());
+  }
+
+  @override
+  void dispose() {
+    ScreenshotPreventionService.disable();
+    super.dispose();
   }
 
   Future<void> _buildPdf() async {
