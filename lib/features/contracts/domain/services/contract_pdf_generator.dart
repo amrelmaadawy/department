@@ -89,49 +89,54 @@ class ContractPdfGenerator {
     );
 
     pdf.addPage(
-      pw.MultiPage(
+      pw.Page(
         pageFormat: PdfPageFormat.a4,
-        margin: const pw.EdgeInsets.fromLTRB(16, 12, 16, 12),
+        margin: const pw.EdgeInsets.fromLTRB(14, 10, 14, 10),
         textDirection: pw.TextDirection.rtl,
         theme: pw.ThemeData.withFont(
           base: ContractPdfFonts.regular,
           bold: ContractPdfFonts.bold,
         ),
-        header: (_) => ContractPdfHeader.buildTopBar(
-          companyNameAr: companyName,
-          companyPhone: companyPhone,
-          companyCr: companyCr,
-          logoProvider: logoProvider,
-        ),
-        footer: (_) => ContractPdfSignatures.buildFooter(generatedAt),
         build: (ctx) {
-          return [
-            pw.SizedBox(height: 4),
-            ContractPdfHeader.buildTitleBlock(contract.type, contract.typeLabel),
-            ContractPdfMetaBox.build(
-              customerName: user?.name ?? 'عميل شطبها بكيفك',
-              customerPhone: user?.phone ?? '---',
-              customerEmail: user?.email ?? '---',
-              contractNumber: contract.contractNumber,
-              formattedDate: formattedDate,
-              statusLabel: contract.statusLabel,
-              typeLabel: contract.typeLabel,
-            ),
-            pw.SizedBox(height: 6),
-            ...ContractPdfBodySection.build(contract.contractBody),
-            pw.SizedBox(height: 6),
-            ContractPdfMetaBox.buildSectionTitle('المواد والشروط القانونية للعقد'),
-            pw.SizedBox(height: 5),
-            ...ContractPdfClausesGrid.build(clauses),
-            pw.SizedBox(height: 6),
-            pw.Container(
-              decoration: const pw.BoxDecoration(),
-              child: ContractPdfSignatures.buildSignatures(
+          return pw.Column(
+            crossAxisAlignment: pw.CrossAxisAlignment.stretch,
+            children: [
+              // Header
+              ContractPdfHeader.buildTopBar(
+                companyNameAr: companyName,
+                companyPhone: companyPhone,
+                companyCr: companyCr,
+                logoProvider: logoProvider,
+              ),
+              pw.SizedBox(height: 3),
+              ContractPdfHeader.buildTitleBlock(contract.type, contract.typeLabel),
+              ContractPdfMetaBox.build(
+                customerName: user?.name ?? '---',
+                customerPhone: user?.phone ?? '---',
+                customerEmail: user?.email ?? '---',
+                contractNumber: contract.contractNumber,
+                formattedDate: formattedDate,
+                statusLabel: contract.statusLabel,
+                typeLabel: contract.typeLabel,
+              ),
+              pw.SizedBox(height: 4),
+              // Body
+              ...ContractPdfBodySection.build(contract.contractBody),
+              pw.SizedBox(height: 4),
+              // Clauses
+              ContractPdfMetaBox.buildSectionTitle('المواد والشروط القانونية للعقد'),
+              pw.SizedBox(height: 3),
+              ...ContractPdfClausesGrid.build(clauses),
+              // Signatures
+              pw.Spacer(),
+              ContractPdfSignatures.buildSignatures(
                 signatureProvider: signatureProvider,
                 hasCustomerSignature: contract.hasCustomerSignature,
               ),
-            ),
-          ];
+              // Footer
+              ContractPdfSignatures.buildFooter(generatedAt),
+            ],
+          );
         },
       ),
     );

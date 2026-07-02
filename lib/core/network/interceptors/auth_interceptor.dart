@@ -28,7 +28,11 @@ class AuthInterceptor extends Interceptor {
       }
     }
     
-    options.headers['Accept'] = 'application/json';
+    if (options.responseType != ResponseType.bytes) {
+      options.headers['Accept'] = 'application/json';
+    } else {
+      options.headers['Accept'] ??= '*/*';
+    }
     super.onRequest(options, handler);
   }
 

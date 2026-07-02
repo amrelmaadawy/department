@@ -8,7 +8,7 @@ import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 
 import '../../domain/entities/contract_entity.dart';
-import 'contract_details_screen.dart' show ContractStatChip, formatContractDate;
+import '../widgets/contract_stat_chip.dart' show ContractStatChip, formatContractDate;
 
 /// Renders the full scrollable body of the contract details screen.
 /// Split from ContractDetailsScreen to respect the 150-line file limit.

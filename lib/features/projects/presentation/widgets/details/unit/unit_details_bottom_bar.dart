@@ -10,6 +10,8 @@ import '../../../../../../core/theme/theme_extension.dart';
 import '../../../../../../core/widgets/custom_button.dart';
 import '../../../../../../l10n/app_localizations.dart';
 import '../../../../../home/domain/entities/project_unit_entity.dart';
+import '../../../../../../features/contracts/presentation/cubit/contracts_cubit.dart';
+import '../../../../../../features/contracts/presentation/cubit/contracts_state.dart';
 import '../../../cubit/unit_details_cubit.dart';
 
 class UnitDetailsBottomBar extends StatelessWidget {
@@ -68,10 +70,78 @@ class UnitDetailsBottomBar extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    final buttonText = unit.isCurrentUserUnit
-        ? 'متابعة رحلة التشطيب وتوقيع العقود'
-        : l10n.startFinishingJourney;
+    if (unit.isCurrentUserUnit) {
+      return BlocBuilder<ContractsCubit, ContractsState>(
+        builder: (context, contractsState) {
+          // حالة التحميل
+          final isLoading = contractsState is FinishingOrdersLoading ||
+              contractsState is ContractSigningLoading;
 
+          // نجمع كل المعلومات من الـ Cubit مباشرة (مش من الـ State فقط)
+          final cubit = context.read<ContractsCubit>();
+          final boneSigned = cubit.isUnitContractSigned;
+          final finishingSigned = cubit.isFinishingContractSigned;
+
+          // هل في Finishing Orders محفوظة في السيرفر؟
+          List<int> existingOrderIds = [];
+          if (contractsState is FinishingOrdersLoaded) {
+            existingOrderIds = contractsState.rooms
+                .expand((r) => r.orders)
+                .map((o) => o.id)
+                .toList();
+          }
+
+          // ---- منطق القرار ----
+          String btnText;
+          VoidCallback? onPressed;
+
+          if (boneSigned && finishingSigned) {
+            // ✅ كل العقود موقّعة
+            btnText = 'عرض عقودك';
+            onPressed = () => context.push(AppRouter.myContracts);
+          } else if (boneSigned && existingOrderIds.isNotEmpty) {
+            // ✅ عقد العظم موقّع + في طلبات تشطيب → امضي عقد التشطيب
+            btnText = 'استكمال توقيع عقد التشطيب';
+            onPressed = () => context.push(
+                  AppRouter.contractsReview,
+                  extra: {
+                    'unit': unit,
+                    'totalFinishingCost': 0.0,
+                    'selectedFinishingOrderIds': existingOrderIds,
+                  },
+                );
+          } else if (boneSigned && existingOrderIds.isEmpty && contractsState is! FinishingOrdersLoading) {
+            // ✅ عقد العظم موقّع + مفيش طلبات تشطيب → اختر التشطيب أولاً
+            btnText = 'اختر تشطيب شقتك';
+            onPressed = () => context.push(AppRouter.finishingGuide, extra: {'unit': unit});
+          } else {
+            // حالة التحميل أو البداية
+            btnText = 'جاري التحقق من حالة عقودك...';
+            onPressed = null;
+          }
+
+          return _buildContainer(context, btnText, onPressed, isLoading);
+        },
+      );
+    }
+
+    return _buildContainer(
+      context,
+      l10n.startFinishingJourney,
+      () {
+        final state = context.read<UnitDetailsCubit>().state;
+        if (state is UnitDetailsError &&
+            (state.message.contains('صلاحية') || state.message.contains('بيعت') || state.message.contains('مرفوض'))) {
+          _showUnavailableDialog(context);
+          return;
+        }
+        context.push(AppRouter.finishingGuide, extra: {'unit': unit});
+      },
+      false,
+    );
+  }
+
+  Widget _buildContainer(BuildContext context, String text, VoidCallback? onPressed, bool isLoading) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
       decoration: BoxDecoration(
@@ -88,17 +158,9 @@ class UnitDetailsBottomBar extends StatelessWidget {
         child: SizedBox(
           width: double.infinity,
           child: CustomButton(
-            text: buttonText,
-            onPressed: () {
-              final state = context.read<UnitDetailsCubit>().state;
-              if (state is UnitDetailsError &&
-                  (state.message.contains('صلاحية') || state.message.contains('بيعت') || state.message.contains('مرفوض'))) {
-                _showUnavailableDialog(context);
-                return;
-              }
-
-              context.push(AppRouter.finishingGuide, extra: {'unit': unit});
-            },
+            text: text,
+            onPressed: isLoading ? () {} : onPressed,
+            isLoading: isLoading,
           ),
         ),
       ),

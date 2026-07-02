@@ -15,6 +15,13 @@ import '../../../features/contracts/domain/usecases/get_contract_statuses_list_u
 import '../../../features/contracts/domain/usecases/mark_contract_as_signed_usecase.dart';
 import '../../../features/contracts/domain/usecases/get_contracts_usecase.dart';
 import '../../../features/contracts/domain/usecases/get_contract_by_id_usecase.dart';
+import '../../../features/contracts/data/datasources/contract_print_remote_datasource.dart';
+import '../../../features/contracts/data/repositories/contract_print_repository_impl.dart';
+import '../../../features/contracts/domain/repositories/contract_print_repository.dart';
+import '../../../features/contracts/domain/usecases/get_bone_contract_print_data_usecase.dart';
+import '../../../features/contracts/domain/usecases/get_finishing_contract_print_data_usecase.dart';
+import '../../../features/contracts/domain/usecases/download_contract_pdf_usecase.dart';
+import '../../../features/contracts/presentation/cubit/contract_print_cubit.dart';
 
 final sl = GetIt.instance;
 
@@ -29,6 +36,9 @@ Future<void> initContractsModule() async {
       secureStorage: sl(),
     ),
   );
+  sl.registerLazySingleton<ContractPrintRemoteDataSource>(
+    () => ContractPrintRemoteDataSourceImpl(dio: sl()),
+  );
 
   // Repositories
   sl.registerLazySingleton<ContractRepository>(
@@ -36,6 +46,9 @@ Future<void> initContractsModule() async {
       remoteDataSource: sl(),
       localDataSource: sl(),
     ),
+  );
+  sl.registerLazySingleton<ContractPrintRepository>(
+    () => ContractPrintRepositoryImpl(remoteDataSource: sl()),
   );
 
   // Use Cases
@@ -66,6 +79,15 @@ Future<void> initContractsModule() async {
   sl.registerLazySingleton(
     () => GetContractByIdUseCase(sl()),
   );
+  sl.registerLazySingleton(
+    () => GetBoneContractPrintDataUseCase(repository: sl()),
+  );
+  sl.registerLazySingleton(
+    () => GetFinishingContractPrintDataUseCase(repository: sl()),
+  );
+  sl.registerLazySingleton(
+    () => DownloadContractPdfUseCase(repository: sl()),
+  );
 
   // Cubits
   sl.registerFactory(
@@ -82,4 +104,12 @@ Future<void> initContractsModule() async {
       biometricAuthService: sl(),
     ),
   );
+  sl.registerFactory(
+    () => ContractPrintCubit(
+      getBoneContractPrintDataUseCase: sl(),
+      getFinishingContractPrintDataUseCase: sl(),
+      downloadContractPdfUseCase: sl(),
+    ),
+  );
 }
+

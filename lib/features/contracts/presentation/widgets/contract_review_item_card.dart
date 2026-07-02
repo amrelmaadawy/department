@@ -14,6 +14,7 @@ class ContractReviewItemCard extends StatelessWidget {
   final bool isLoading;
   final String? failureMessage;
   final VoidCallback onSign;
+  final VoidCallback? onPrint;
 
   const ContractReviewItemCard({
     super.key,
@@ -22,6 +23,7 @@ class ContractReviewItemCard extends StatelessWidget {
     required this.sequenceOrder,
     required this.isSigned,
     required this.onSign,
+    this.onPrint,
     this.isLocked = false,
     this.isLoading = false,
     this.failureMessage,
@@ -119,20 +121,25 @@ class ContractReviewItemCard extends StatelessWidget {
       );
     }
     if (isSigned) {
-      return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-        decoration: BoxDecoration(
-          color: context.colors.success.withValues(alpha: 0.15),
-          borderRadius: BorderRadius.circular(AppRadius.md),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(FluentIcons.checkmark_circle_24_filled, color: context.colors.success, size: 18),
-            const SizedBox(width: 4),
-            Text('موقّع ✓', style: TextStyle(color: context.colors.success, fontWeight: FontWeight.bold, fontSize: AppFonts.bodyMedium)),
-          ],
-        ),
+      return Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+            decoration: BoxDecoration(
+              color: context.colors.success.withValues(alpha: 0.15),
+              borderRadius: BorderRadius.circular(AppRadius.md),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(FluentIcons.checkmark_circle_24_filled, color: context.colors.success, size: 18),
+                const SizedBox(width: 4),
+                Text('موقّع ✓', style: TextStyle(color: context.colors.success, fontWeight: FontWeight.bold, fontSize: AppFonts.bodyMedium)),
+              ],
+            ),
+          ),
+        ],
       );
     }
     if (isLocked) {

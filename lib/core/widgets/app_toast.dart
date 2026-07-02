@@ -36,6 +36,10 @@ class AppToast {
   static void showSuccess(BuildContext context, String message) {
     show(context, message: message, isError: false);
   }
+
+  static void showInfo(BuildContext context, String message) {
+    show(context, message: message, isError: false);
+  }
 }
 
 class _ToastWidget extends StatefulWidget {

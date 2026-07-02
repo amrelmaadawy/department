@@ -57,7 +57,15 @@ class RoomActionButtons extends StatelessWidget {
           }
         } else if (state.status == AiDesignStatus.failure) {
           final errorMessage = state.errorMessage?.toLowerCase() ?? '';
-          if (errorMessage.contains('credit') || errorMessage.contains('رصيد')) {
+          if (errorMessage.contains('credit') || 
+              errorMessage.contains('رصيد') || 
+              errorMessage.contains('token') || 
+              errorMessage.contains('نقاط') || 
+              errorMessage.contains('insufficient') || 
+              errorMessage.contains('balance') || 
+              errorMessage.contains('نفذ') || 
+              errorMessage.contains('يكفي') ||
+              errorMessage.contains('ليس لديك')) {
             showDialog(
               context: context,
               barrierDismissible: false,

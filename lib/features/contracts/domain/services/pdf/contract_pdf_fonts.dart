@@ -5,7 +5,10 @@ import 'package:pdf/widgets.dart' as pw;
 
 class ContractPdfFonts {
   static final ArabicReshaper _reshaper = ArabicReshaper(
-    configuration: const ArabicReshaperConfig(supportLigatures: true),
+    configuration: const ArabicReshaperConfig(
+      supportLigatures: true,
+      deleteHarakat: true,
+    ),
   );
 
   static pw.Font? _cachedTtf;
@@ -28,6 +31,28 @@ class ContractPdfFonts {
 
   static String sanitize(String text) {
     return text
+        // Normalize Arabic Yaa variants to standard Yaa (fixes broken Yaa rendering)
+        .replaceAll('\u0649', '\u064A') // Alef Maqsoura → Yaa
+        .replaceAll('\uFEEF', '\u064A') // Alef Maqsoura presentation → Yaa
+        // Normalize Hamza on Alef (fixes broken Hamza rendering)
+        .replaceAll('\u0625', '\u0627') // إ → ا (Alef with Hamza below → Alef)
+        .replaceAll('\u0623', '\u0627') // أ → ا (Alef with Hamza above → Alef)
+        .replaceAll('\u0622', '\u0627') // آ → ا (Alef with Madda → Alef)
+        // Tanween and special diacritics
+        .replaceAll('\u064B', '') // Fathatan
+        .replaceAll('\u064C', '') // Dammatan
+        .replaceAll('\u064D', '') // Kasratan
+        .replaceAll('\u064E', '') // Fatha
+        .replaceAll('\u064F', '') // Damma
+        .replaceAll('\u0650', '') // Kasra
+        .replaceAll('\u0651', '') // Shadda
+        .replaceAll('\u0652', '') // Sukun
+        // Special symbols
+        .replaceAll('\u2714', 'v')  // ✔ → v
+        .replaceAll('\u2713', 'v')  // ✓ → v
+        .replaceAll('\u2717', 'x')  // ✗ → x
+        .replaceAll('\u2718', 'x')  // ✘ → x
+        // Typography replacements
         .replaceAll('\u2014', '-')
         .replaceAll('\u2013', '-')
         .replaceAll('\u201C', '"')
@@ -36,8 +61,6 @@ class ContractPdfFonts {
         .replaceAll('\u2019', "'")
         .replaceAll('\u2022', '-')
         .replaceAll('\u25CF', '-')
-        .replaceAll('\u2713', 'v')
-        .replaceAll('\u2717', 'x')
         .replaceAll('\u00A0', ' ')
         .replaceAll('\u200B', '')
         .replaceAll('\u200F', '')

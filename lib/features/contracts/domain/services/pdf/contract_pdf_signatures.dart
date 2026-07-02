@@ -15,81 +15,102 @@ class ContractPdfSignatures {
   }) {
     return pw.Column(
       children: [
-        pw.SizedBox(height: 8),
         pw.Container(height: 0.8, color: borderColor),
-        pw.SizedBox(height: 8),
+        pw.SizedBox(height: 6),
         pw.Row(
-          mainAxisAlignment: pw.MainAxisAlignment.spaceAround,
           crossAxisAlignment: pw.CrossAxisAlignment.start,
           children: [
-            // Company Seal (Left/Second party in display order or Right)
-            pw.Column(
-              crossAxisAlignment: pw.CrossAxisAlignment.center,
-              children: [
-                pw.Text(
-                  ContractPdfFonts.ar('الطرف الأول: الشركة (الختم المعتمد)'),
-                  style: ContractPdfFonts.b(sz: 6.5),
+            // First in RTL → appears on RIGHT: Client Signature
+            pw.Expanded(
+              child: pw.Container(
+                padding: const pw.EdgeInsets.all(6),
+                decoration: pw.BoxDecoration(
+                  border: pw.Border.all(color: borderColor, width: 0.8),
+                  borderRadius: const pw.BorderRadius.all(pw.Radius.circular(3)),
+                  color: PdfColors.white,
                 ),
-                pw.SizedBox(height: 6),
-                pw.Container(
-                  padding: const pw.EdgeInsets.symmetric(
-                      horizontal: 10, vertical: 6),
-                  decoration: pw.BoxDecoration(
-                    border: pw.Border.all(color: greenColor, width: 1.2),
-                    borderRadius:
-                        const pw.BorderRadius.all(pw.Radius.circular(4)),
-                  ),
-                  child: pw.Column(
-                    children: [
-                      pw.Text(
-                        ContractPdfFonts.ar('v معتمد إلكترونياً'),
-                        style: ContractPdfFonts.b(sz: 7, color: greenColor),
-                      ),
-                      pw.SizedBox(height: 2),
-                      pw.Text(
-                        ContractPdfFonts.ar('شركة بروز العصرية للعقارات'),
-                        style: ContractPdfFonts.s(sz: 5.5, color: greenColor),
-                      ),
-                    ],
-                  ),
+                child: pw.Column(
+                  crossAxisAlignment: pw.CrossAxisAlignment.center,
+                  children: [
+                    pw.Text(
+                      ContractPdfFonts.ar('الطرف الأول: العميل'),
+                      style: ContractPdfFonts.b(sz: 6, color: const PdfColor.fromInt(0xFF0F2942)),
+                      textDirection: pw.TextDirection.rtl,
+                    ),
+                    pw.SizedBox(height: 4),
+                    pw.Container(
+                      height: 36,
+                      width: double.infinity,
+                      alignment: pw.Alignment.center,
+                      child: signatureProvider != null
+                          ? pw.Image(signatureProvider, fit: pw.BoxFit.contain)
+                          : (hasCustomerSignature
+                              ? pw.Text(
+                                  ContractPdfFonts.ar('تم التوقيع الكترونيا'),
+                                  style: ContractPdfFonts.b(sz: 6, color: greenColor),
+                                  textDirection: pw.TextDirection.rtl,
+                                )
+                              : pw.Text(
+                                  ContractPdfFonts.ar('في انتظار التوقيع'),
+                                  style: ContractPdfFonts.b(sz: 6, color: redColor),
+                                  textDirection: pw.TextDirection.rtl,
+                                )),
+                    ),
+                    pw.SizedBox(height: 4),
+                    pw.Container(height: 0.5, color: borderColor),
+                    pw.SizedBox(height: 3),
+                    pw.Text(
+                      ContractPdfFonts.ar('التوقيع'),
+                      style: ContractPdfFonts.s(sz: 5.5, color: PdfColors.grey600),
+                      textDirection: pw.TextDirection.rtl,
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
-            // Client Signature
-            pw.Column(
-              crossAxisAlignment: pw.CrossAxisAlignment.center,
-              children: [
-                pw.Text(
-                  ContractPdfFonts.ar('الطرف الثاني: العميل (التوقيع)'),
-                  style: ContractPdfFonts.b(sz: 6.5),
+            pw.SizedBox(width: 8),
+            // Last in RTL → appears on LEFT: Company Seal
+            pw.Expanded(
+              child: pw.Container(
+                padding: const pw.EdgeInsets.all(6),
+                decoration: pw.BoxDecoration(
+                  border: pw.Border.all(color: greenColor, width: 0.8),
+                  borderRadius: const pw.BorderRadius.all(pw.Radius.circular(3)),
+                  color: const PdfColor.fromInt(0xFFF0FDF4),
                 ),
-                pw.SizedBox(height: 6),
-                pw.Container(
-                  height: 42,
-                  width: 130,
-                  decoration: pw.BoxDecoration(
-                    border: pw.Border.all(color: borderColor, width: 0.8),
-                    color: PdfColors.white,
-                  ),
-                  alignment: pw.Alignment.center,
-                  child: signatureProvider != null
-                      ? pw.Image(signatureProvider, fit: pw.BoxFit.contain)
-                      : (hasCustomerSignature
-                          ? pw.Text(
-                              ContractPdfFonts.ar('تم التوقيع إلكترونياً'),
-                              style:
-                                  ContractPdfFonts.b(sz: 6, color: greenColor),
-                            )
-                          : pw.Text(
-                              ContractPdfFonts.ar('في انتظار التوقيع'),
-                              style: ContractPdfFonts.b(sz: 6.5, color: redColor),
-                            )),
+                child: pw.Column(
+                  crossAxisAlignment: pw.CrossAxisAlignment.center,
+                  children: [
+                    pw.Text(
+                      ContractPdfFonts.ar('الطرف الثاني: الشركة'),
+                      style: ContractPdfFonts.b(sz: 6, color: greenColor),
+                      textDirection: pw.TextDirection.rtl,
+                    ),
+                    pw.SizedBox(height: 4),
+                    pw.Container(
+                      height: 36,
+                      alignment: pw.Alignment.center,
+                      child: pw.Text(
+                        ContractPdfFonts.ar('v معتمد الكترونيا'),
+                        style: ContractPdfFonts.b(sz: 7.5, color: greenColor),
+                        textDirection: pw.TextDirection.rtl,
+                      ),
+                    ),
+                    pw.SizedBox(height: 4),
+                    pw.Container(height: 0.5, color: greenColor),
+                    pw.SizedBox(height: 3),
+                    pw.Text(
+                      ContractPdfFonts.ar('التوقيع / الختم'),
+                      style: ContractPdfFonts.s(sz: 5.5, color: PdfColors.grey600),
+                      textDirection: pw.TextDirection.rtl,
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ],
         ),
-        pw.SizedBox(height: 10),
+        pw.SizedBox(height: 6),
       ],
     );
   }

@@ -15,6 +15,8 @@ import '../widgets/details/unit/unit_pricing_card.dart';
 import '../widgets/details/unit/unit_rooms_list.dart';
 import '../widgets/details/project_features_row.dart';
 import '../widgets/details/unit/unit_details_bottom_bar.dart';
+import '../../../customer_journey/presentation/cubit/active_journey_cubit.dart';
+import '../../../../features/contracts/presentation/cubit/contracts_cubit.dart';
 
 class UnitDetailsScreen extends StatefulWidget {
   final ProjectUnitEntity unit;
@@ -33,9 +35,29 @@ class UnitDetailsScreen extends StatefulWidget {
 class _UnitDetailsScreenState extends State<UnitDetailsScreen> {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => sl<UnitDetailsCubit>()
-        ..loadUnitDetails(int.tryParse(widget.unit.id) ?? 0, initialUnit: widget.unit),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => sl<UnitDetailsCubit>()
+            ..loadUnitDetails(int.tryParse(widget.unit.id) ?? 0, initialUnit: widget.unit),
+        ),
+        if (widget.unit.isCurrentUserUnit) ...[
+          BlocProvider(
+            create: (context) => sl<ActiveJourneyCubit>()..loadActiveJourneys(),
+          ),
+          BlocProvider(
+            create: (context) {
+              final cubit = sl<ContractsCubit>();
+              final apartmentId = int.tryParse(widget.unit.id) ?? 0;
+              // جلب حالات التوقيع
+              cubit.loadSignatureStatuses(widget.unit.id);
+              // جلب الـ Finishing Orders لتحديد الخطوة التالية الصحيحة
+              if (apartmentId > 0) cubit.fetchFinishingOrders(apartmentId);
+              return cubit;
+            },
+          ),
+        ],
+      ],
       child: _UnitDetailsScreenContent(heroTag: widget.heroTag),
     );
   }

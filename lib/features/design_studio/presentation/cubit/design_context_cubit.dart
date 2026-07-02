@@ -6,6 +6,7 @@ import 'package:apartment/features/projects/domain/usecases/save_customization_d
 import 'package:apartment/features/projects/data/datasources/local/room_design_cache_service.dart';
 import 'package:apartment/core/di/injection_container.dart';
 import 'package:apartment/core/services/analytics/analytics_service.dart';
+import 'package:apartment/core/error/failures.dart';
 import 'design_context_state.dart';
 
 class DesignContextCubit extends Cubit<DesignContextState> {
@@ -44,7 +45,7 @@ class DesignContextCubit extends Cubit<DesignContextState> {
     final res = await saveDraftUseCase!(apartmentId, draftData);
     if (!isClosed) {
       res.fold(
-        (_) => emit(state.copyWith(isSyncing: false, isOffline: true)),
+        (failure) => emit(state.copyWith(isSyncing: false, isOffline: failure is NetworkFailure)),
         (draft) => emit(state.copyWith(isSyncing: false, isOffline: false, lastUpdatedAt: draft.updatedAt)),
       );
     }
@@ -56,11 +57,14 @@ class DesignContextCubit extends Cubit<DesignContextState> {
     final res = await getDraftUseCase!(apartmentId);
     if (isClosed) return;
     res.fold(
-      (_) => emit(state.copyWith(
-        isSyncing: false,
-        isOffline: true,
-        syncMessage: 'offlineDraftMessage',
-      )),
+      (failure) {
+        final isOffline = failure is NetworkFailure;
+        emit(state.copyWith(
+          isSyncing: false,
+          isOffline: isOffline,
+          syncMessage: isOffline ? 'offlineDraftMessage' : null,
+        ));
+      },
       (serverDraft) {
         final serverTime = serverDraft.updatedAt ?? DateTime.fromMillisecondsSinceEpoch(0);
         final localTime = state.lastUpdatedAt ?? DateTime.fromMillisecondsSinceEpoch(0);
