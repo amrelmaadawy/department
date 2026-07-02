@@ -1,3 +1,5 @@
+﻿import 'dart:ui' as ui;
+
 import 'package:apartment/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -34,7 +36,7 @@ class ContractDetailsBody extends StatelessWidget {
               AppSpacing.lg, AppSpacing.lg, AppSpacing.lg, AppSpacing.sm,
             ),
             child: Text(
-              'نص العقد',
+              'Ã™â€ Ã˜Âµ Ã˜Â§Ã™â€žÃ˜Â¹Ã™â€šÃ˜Â¯',
               style: TextStyle(
                 fontSize: AppFonts.headlineMedium,
                 fontWeight: FontWeight.bold,
@@ -141,7 +143,7 @@ class ContractDetailsBody extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'إجمالي العقد',
+                    'Ã˜Â¥Ã˜Â¬Ã™â€¦Ã˜Â§Ã™â€žÃ™Å  Ã˜Â§Ã™â€žÃ˜Â¹Ã™â€šÃ˜Â¯',
                     style: TextStyle(
                       fontSize: AppFonts.bodyMedium,
                       color: context.colors.textSecondary,
@@ -159,7 +161,7 @@ class ContractDetailsBody extends StatelessWidget {
                       ),
                       const SizedBox(width: AppSpacing.xs),
                       Text(
-                        'ر.س',
+                        'Ã˜Â±.Ã˜Â³',
                         style: TextStyle(
                           fontSize: AppFonts.labelMedium,
                           color: context.colors.textSecondary,
@@ -177,22 +179,22 @@ class ContractDetailsBody extends StatelessWidget {
                 Expanded(
                   child: ContractStatChip(
                     icon: Icons.calendar_today_outlined,
-                    label: 'تاريخ العقد',
+                    label: 'Ã˜ÂªÃ˜Â§Ã˜Â±Ã™Å Ã˜Â® Ã˜Â§Ã™â€žÃ˜Â¹Ã™â€šÃ˜Â¯',
                     value: formatContractDate(contract.createdAt),
                   ),
                 ),
                 Expanded(
                   child: ContractStatChip(
                     icon: Icons.timelapse_rounded,
-                    label: 'مدة التنفيذ',
-                    value: '${contract.executionDuration} شهر',
+                    label: 'Ã™â€¦Ã˜Â¯Ã˜Â© Ã˜Â§Ã™â€žÃ˜ÂªÃ™â€ Ã™ÂÃ™Å Ã˜Â°',
+                    value: '${contract.executionDuration} Ã˜Â´Ã™â€¡Ã˜Â±',
                   ),
                 ),
                 if (contract.signedAt != null)
                   Expanded(
                     child: ContractStatChip(
                       icon: Icons.verified_rounded,
-                      label: 'تاريخ التوقيع',
+                      label: 'Ã˜ÂªÃ˜Â§Ã˜Â±Ã™Å Ã˜Â® Ã˜Â§Ã™â€žÃ˜ÂªÃ™Ë†Ã™â€šÃ™Å Ã˜Â¹',
                       value: formatContractDate(contract.signedAt!),
                     ),
                   ),
@@ -221,7 +223,7 @@ class ContractDetailsBody extends StatelessWidget {
   }
 }
 
-// ─── Body Item Widgets ──────────────────────────────────────────────────────
+// Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Body Item Widgets Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 
 class _ContractTitleItem extends StatelessWidget {
   final String content;
@@ -229,30 +231,33 @@ class _ContractTitleItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: AppSpacing.lg, bottom: AppSpacing.sm),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            content,
-            style: TextStyle(
-              fontSize: AppFonts.bodyLarge,
-              fontWeight: FontWeight.bold,
-              color: context.colors.gold,
-              height: 1.6,
+    return Directionality(
+      textDirection: ui.TextDirection.rtl,
+      child: Padding(
+        padding: const EdgeInsets.only(top: AppSpacing.lg, bottom: AppSpacing.sm),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              content,
+              style: TextStyle(
+                fontSize: AppFonts.bodyLarge,
+                fontWeight: FontWeight.bold,
+                color: context.colors.gold,
+                height: 1.6,
+              ),
             ),
-          ),
-          const SizedBox(height: AppSpacing.xs),
-          Container(
-            height: 2,
-            width: 40,
-            decoration: BoxDecoration(
-              color: context.colors.gold.withValues(alpha: 0.4),
-              borderRadius: BorderRadius.circular(AppRadius.round),
+            const SizedBox(height: AppSpacing.xs),
+            Container(
+              height: 2,
+              width: 40,
+              decoration: BoxDecoration(
+                color: context.colors.gold.withValues(alpha: 0.4),
+                borderRadius: BorderRadius.circular(AppRadius.round),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -264,16 +269,19 @@ class _ContractParagraphItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: AppSpacing.md),
-      child: Text(
-        content,
-        style: TextStyle(
-          fontSize: AppFonts.bodyMedium,
-          color: context.colors.textPrimary,
-          height: 1.9,
+    return Directionality(
+      textDirection: ui.TextDirection.rtl,
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: AppSpacing.md),
+        child: Text(
+          content,
+          style: TextStyle(
+            fontSize: AppFonts.bodyMedium,
+            color: context.colors.textPrimary,
+            height: 1.9,
+          ),
+          textAlign: TextAlign.justify,
         ),
-        textAlign: TextAlign.justify,
       ),
     );
   }
@@ -285,49 +293,58 @@ class _ContractListGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: AppSpacing.md),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: items.map((item) {
-          final isBullet = item.type == 'list_item';
-          return Padding(
-            padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (isBullet)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 6, left: AppSpacing.sm),
-                    child: Container(
-                      width: 6,
-                      height: 6,
-                      decoration: BoxDecoration(
-                        color: context.colors.primary,
-                        shape: BoxShape.circle,
+    return Directionality(
+      textDirection: ui.TextDirection.rtl,
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: AppSpacing.md),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: items.map((item) {
+            final isBullet = item.type == 'list_item';
+            return Padding(
+              padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (isBullet)
+                    Padding(
+                      padding: const EdgeInsetsDirectional.only(
+                        top: 6,
+                        start: AppSpacing.sm,
+                      ),
+                      child: Container(
+                        width: 6,
+                        height: 6,
+                        decoration: BoxDecoration(
+                          color: context.colors.primary,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                    ),
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.only(
+                        start: isBullet ? AppSpacing.sm : 0,
+                      ),
+                      child: Text(
+                        item.content,
+                        style: TextStyle(
+                          fontSize: AppFonts.bodyMedium,
+                          color: isBullet
+                              ? context.colors.textPrimary
+                              : context.colors.textSecondary,
+                          height: 1.7,
+                          fontStyle:
+                              isBullet ? FontStyle.normal : FontStyle.italic,
+                        ),
                       ),
                     ),
                   ),
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.only(right: isBullet ? AppSpacing.sm : 0),
-                    child: Text(
-                      item.content,
-                      style: TextStyle(
-                        fontSize: AppFonts.bodyMedium,
-                        color: isBullet
-                            ? context.colors.textPrimary
-                            : context.colors.textSecondary,
-                        height: 1.7,
-                        fontStyle: isBullet ? FontStyle.normal : FontStyle.italic,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          );
-        }).toList(),
+                ],
+              ),
+            );
+          }).toList(),
+        ),
       ),
     );
   }

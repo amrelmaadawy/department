@@ -21,6 +21,8 @@ import '../../../features/contracts/domain/repositories/contract_print_repositor
 import '../../../features/contracts/domain/usecases/get_bone_contract_print_data_usecase.dart';
 import '../../../features/contracts/domain/usecases/get_finishing_contract_print_data_usecase.dart';
 import '../../../features/contracts/domain/usecases/download_contract_pdf_usecase.dart';
+import '../../../features/contracts/domain/usecases/save_finishing_order_ids_usecase.dart';
+import '../../../features/contracts/domain/usecases/get_finishing_order_ids_usecase.dart';
 import '../../../features/contracts/presentation/cubit/contract_print_cubit.dart';
 
 final sl = GetIt.instance;
@@ -88,6 +90,12 @@ Future<void> initContractsModule() async {
   sl.registerLazySingleton(
     () => DownloadContractPdfUseCase(repository: sl()),
   );
+  sl.registerLazySingleton(
+    () => SaveFinishingOrderIdsUseCase(sl()),
+  );
+  sl.registerLazySingleton(
+    () => GetFinishingOrderIdsUseCase(sl()),
+  );
 
   // Cubits
   sl.registerFactory(
@@ -100,6 +108,8 @@ Future<void> initContractsModule() async {
       getContractStatusesListUseCase: sl(),
       markContractAsSignedUseCase: sl(),
       getContractByIdUseCase: sl(),
+      saveFinishingOrderIdsUseCase: sl(),
+      getFinishingOrderIdsUseCase: sl(),
       sessionManager: sl(),
       biometricAuthService: sl(),
     ),

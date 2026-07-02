@@ -68,6 +68,10 @@ flutter:
   fonts:
     - family: Cairo
       fonts:
+        - asset: assets/font/Cairo-ExtraLight.ttf
+          weight: 200
+        - asset: assets/font/Cairo-Light.ttf
+          weight: 300
         - asset: assets/font/Cairo-Regular.ttf
           weight: 400
         - asset: assets/font/Cairo-Medium.ttf
@@ -76,3 +80,11 @@ flutter:
           weight: 600
         - asset: assets/font/Cairo-Bold.ttf
           weight: 700
+        - asset: assets/font/Cairo-ExtraBold.ttf
+          weight: 800
+        - asset: assets/font/Cairo-Black.ttf
+          weight: 900
+    - family: NotoSansArabic
+      fonts:
+        - asset: assets/font/NotoSansArabic-Regular.ttf
+          weight: 400

@@ -8,6 +8,7 @@ class AppTheme {
     return ThemeData(
       brightness: Brightness.light,
       fontFamily: 'Cairo',
+      fontFamilyFallback: const ['NotoSansArabic'],
       scaffoldBackgroundColor: AppColors.background,
       appBarTheme: const AppBarTheme(
         backgroundColor: AppColors.white,
@@ -45,6 +46,7 @@ class AppTheme {
     return ThemeData(
       brightness: Brightness.dark,
       fontFamily: 'Cairo',
+      fontFamilyFallback: const ['NotoSansArabic'],
       scaffoldBackgroundColor: const Color(0xFF0B132B), // Deep Ocean Navy Background
       appBarTheme: const AppBarTheme(
         backgroundColor: Color(0xFF0B132B),

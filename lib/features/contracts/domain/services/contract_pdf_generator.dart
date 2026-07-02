@@ -89,55 +89,62 @@ class ContractPdfGenerator {
     );
 
     pdf.addPage(
-      pw.Page(
+      pw.MultiPage(
         pageFormat: PdfPageFormat.a4,
         margin: const pw.EdgeInsets.fromLTRB(14, 10, 14, 10),
         textDirection: pw.TextDirection.rtl,
         theme: pw.ThemeData.withFont(
           base: ContractPdfFonts.regular,
           bold: ContractPdfFonts.bold,
+          // NotoSansArabic covers any glyph missing from the Cairo subset (e.g. ى)
+          fontFallback: [ContractPdfFonts.noto],
         ),
-        build: (ctx) {
-          return pw.Column(
-            crossAxisAlignment: pw.CrossAxisAlignment.stretch,
-            children: [
-              // Header
-              ContractPdfHeader.buildTopBar(
-                companyNameAr: companyName,
-                companyPhone: companyPhone,
-                companyCr: companyCr,
-                logoProvider: logoProvider,
-              ),
-              pw.SizedBox(height: 3),
-              ContractPdfHeader.buildTitleBlock(contract.type, contract.typeLabel),
-              ContractPdfMetaBox.build(
-                customerName: user?.name ?? '---',
-                customerPhone: user?.phone ?? '---',
-                customerEmail: user?.email ?? '---',
-                contractNumber: contract.contractNumber,
-                formattedDate: formattedDate,
-                statusLabel: contract.statusLabel,
-                typeLabel: contract.typeLabel,
-              ),
-              pw.SizedBox(height: 4),
-              // Body
-              ...ContractPdfBodySection.build(contract.contractBody),
-              pw.SizedBox(height: 4),
-              // Clauses
-              ContractPdfMetaBox.buildSectionTitle('المواد والشروط القانونية للعقد'),
-              pw.SizedBox(height: 3),
-              ...ContractPdfClausesGrid.build(clauses),
-              // Signatures
-              pw.Spacer(),
-              ContractPdfSignatures.buildSignatures(
-                signatureProvider: signatureProvider,
-                hasCustomerSignature: contract.hasCustomerSignature,
-              ),
-              // Footer
-              ContractPdfSignatures.buildFooter(generatedAt),
-            ],
-          );
-        },
+        // Header printed on every page
+        header: (ctx) => pw.Column(
+          children: [
+            ContractPdfHeader.buildTopBar(
+              companyNameAr: companyName,
+              companyPhone: companyPhone,
+              companyCr: companyCr,
+              logoProvider: logoProvider,
+            ),
+            pw.SizedBox(height: 3),
+            ContractPdfHeader.buildTitleBlock(contract.type, contract.typeLabel),
+            ContractPdfMetaBox.build(
+              customerName: user?.name ?? '---',
+              customerPhone: user?.phone ?? '---',
+              customerEmail: user?.email ?? '---',
+              contractNumber: contract.contractNumber,
+              formattedDate: formattedDate,
+              statusLabel: contract.statusLabel,
+              typeLabel: contract.typeLabel,
+            ),
+            pw.SizedBox(height: 4),
+          ],
+        ),
+        // Footer with signature printed on the LAST page only
+        footer: (ctx) => ctx.pagesCount == ctx.pageNumber
+            ? pw.Column(
+                children: [
+                  pw.SizedBox(height: 6),
+                  ContractPdfSignatures.buildSignatures(
+                    signatureProvider: signatureProvider,
+                    hasCustomerSignature: contract.hasCustomerSignature,
+                  ),
+                  ContractPdfSignatures.buildFooter(generatedAt),
+                ],
+              )
+            : ContractPdfSignatures.buildFooter(generatedAt),
+        // Main content flows across pages
+        build: (ctx) => [
+          // Body (contract text + tables)
+          ...ContractPdfBodySection.build(contract.contractBody),
+          pw.SizedBox(height: 4),
+          // Legal clauses
+          ContractPdfMetaBox.buildSectionTitle('المواد والشروط القانونية للعقد'),
+          pw.SizedBox(height: 3),
+          ...ContractPdfClausesGrid.build(clauses),
+        ],
       ),
     );
 

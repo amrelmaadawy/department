@@ -130,6 +130,26 @@ class ContractRepositoryImpl implements ContractRepository {
   }
 
   @override
+  Future<Either<Failure, void>> saveFinishingOrderIds(int apartmentId, List<int> ids) async {
+    try {
+      await localDataSource.saveFinishingOrderIds(apartmentId, ids);
+      return const Right(null);
+    } catch (e) {
+      return const Left(ServerFailure('فشل في حفظ بيانات طلبات التشطيب محلياً'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<int>>> getFinishingOrderIds(int apartmentId) async {
+    try {
+      final ids = await localDataSource.getFinishingOrderIds(apartmentId);
+      return Right(ids);
+    } catch (e) {
+      return const Left(ServerFailure('فشل في قراءة بيانات طلبات التشطيب المحفوظة'));
+    }
+  }
+
+  @override
   Future<Either<Failure, ContractEntity>> getContractById(int id) async {
     try {
       final contract = await remoteDataSource.getContractById(id);

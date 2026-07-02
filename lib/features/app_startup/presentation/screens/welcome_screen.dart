@@ -29,6 +29,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   late Animation<double> _glassOpacity;
   late Animation<double> _contentOpacity;
   late Animation<double> _taglineOpacity;
+  late Animation<double> _logoScale;
 
   @override
   void initState() {
@@ -56,11 +57,17 @@ class _WelcomeScreenState extends State<WelcomeScreen>
       ),
     );
 
-    // 3. Logo fades in
+    // 3. Logo fades in and scales up
     _contentOpacity = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
         parent: _controller,
         curve: const Interval(0.4, 0.7, curve: Curves.easeIn),
+      ),
+    );
+    _logoScale = Tween<double>(begin: 0.8, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.4, 0.7, curve: Curves.easeOutBack),
       ),
     );
 
@@ -161,21 +168,24 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                       // Logo
                                       Opacity(
                                         opacity: _contentOpacity.value,
-                                        child: (state is SettingsLoading || state is SettingsInitial)
-                                            ? SizedBox(height: AppSizes.logoMedium)
-                                            : (state is SettingsLoaded && state.settings.siteLogo.isNotEmpty)
-                                                ? Image.network(
-                                                    state.settings.siteLogo,
-                                                    height: AppSizes.logoMedium,
-                                                    errorBuilder: (context, error, stackTrace) => Image.asset(
+                                        child: Transform.scale(
+                                          scale: _logoScale.value,
+                                          child: (state is SettingsLoading || state is SettingsInitial)
+                                              ? const SizedBox(height: AppSizes.logoMedium)
+                                              : (state is SettingsLoaded && state.settings.siteLogo.isNotEmpty)
+                                                  ? Image.network(
+                                                      state.settings.siteLogo,
+                                                      height: AppSizes.logoMedium,
+                                                      errorBuilder: (context, error, stackTrace) => Image.asset(
+                                                        'assets/images/لين فخامة معتمد.png',
+                                                        height: AppSizes.logoMedium,
+                                                      ),
+                                                    )
+                                                  : Image.asset(
                                                       'assets/images/لين فخامة معتمد.png',
                                                       height: AppSizes.logoMedium,
                                                     ),
-                                                  )
-                                                : Image.asset(
-                                                    'assets/images/لين فخامة معتمد.png',
-                                                    height: AppSizes.logoMedium,
-                                                  ),
+                                        ),
                                       ),
 
                                       const SizedBox(height: AppSpacing.sm),

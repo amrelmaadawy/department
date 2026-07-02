@@ -7,6 +7,8 @@ import '../../domain/usecases/get_contract_signature_status_usecase.dart';
 import '../../domain/usecases/mark_contract_as_signed_usecase.dart';
 import '../../domain/usecases/get_contract_by_id_usecase.dart';
 import '../../domain/usecases/get_contract_statuses_list_usecase.dart';
+import '../../domain/usecases/save_finishing_order_ids_usecase.dart';
+import '../../domain/usecases/get_finishing_order_ids_usecase.dart';
 import '../../domain/entities/contract_signature_status_entity.dart';
 import '../../../auth/data/services/session_manager.dart';
 import '../../../../core/services/security/biometric_auth_service.dart';
@@ -21,12 +23,26 @@ class ContractsCubit extends Cubit<ContractsState> {
   final GetContractStatusesListUseCase? getContractStatusesListUseCase;
   final MarkContractAsSignedUseCase markContractAsSignedUseCase;
   final GetContractByIdUseCase getContractByIdUseCase;
+  final SaveFinishingOrderIdsUseCase saveFinishingOrderIdsUseCase;
+  final GetFinishingOrderIdsUseCase getFinishingOrderIdsUseCase;
   final SessionManager sessionManager;
   final BiometricAuthService? biometricAuthService;
 
   bool isUnitContractSigned = false;
   bool isFinishingContractSigned = false;
   List<ContractSignatureStatusEntity> contractStatusesList = [];
+
+  /// Finishing order IDs cached independently of the Bloc state.
+  /// Survives state changes caused by [loadSignatureStatuses] or other operations,
+  /// eliminating the race condition where the user taps "Sign" before
+  /// [fetchFinishingOrders] emits [FinishingOrdersLoaded].
+  List<int> cachedFinishingOrderIds = [];
+
+  /// True once finishing orders have been fetched from the server at least once.
+  bool isFinishingOrdersReady = false;
+
+  /// True while finishing orders are being fetched.
+  bool isLoadingFinishingOrders = false;
 
   ContractsCubit({
     required this.createBoneContractUseCase,
@@ -37,6 +53,8 @@ class ContractsCubit extends Cubit<ContractsState> {
     this.getContractStatusesListUseCase,
     required this.markContractAsSignedUseCase,
     required this.getContractByIdUseCase,
+    required this.saveFinishingOrderIdsUseCase,
+    required this.getFinishingOrderIdsUseCase,
     required this.sessionManager,
     this.biometricAuthService,
   }) : super(ContractsInitial());
@@ -101,14 +119,45 @@ class ContractsCubit extends Cubit<ContractsState> {
     );
   }
 
+  /// Reads cached finishing order IDs from local storage (instant, no network).
+  /// Called before [fetchFinishingOrders] so the IDs are available immediately
+  /// even while the server call is still in progress.
+  Future<void> loadCachedFinishingOrderIds(int apartmentId) async {
+    if (cachedFinishingOrderIds.isNotEmpty) return; // already loaded
+    final result = await getFinishingOrderIdsUseCase(apartmentId);
+    result.fold(
+      (_) {}, // silent fail — network fetch will cover it
+      (ids) {
+        if (ids.isNotEmpty) {
+          cachedFinishingOrderIds = ids;
+          isFinishingOrdersReady = true;
+        }
+      },
+    );
+  }
+
   Future<void> fetchFinishingOrders(int apartmentId) async {
+    isLoadingFinishingOrders = true;
     emit(FinishingOrdersLoading());
 
     final ordersResult = await getApartmentFinishingOrdersUseCase(apartmentId);
-    
+
+    if (isClosed) return;
+    isLoadingFinishingOrders = false;
+
     ordersResult.fold(
       (failure) => emit(ContractsError(failure.message)),
-      (rooms) => emit(FinishingOrdersLoaded(rooms)),
+      (rooms) {
+        // Cache IDs in memory — survives subsequent state emissions
+        cachedFinishingOrderIds = rooms
+            .expand((room) => room.orders)
+            .map((order) => order.id)
+            .toList();
+        isFinishingOrdersReady = true;
+        // Persist to local storage so they survive app restarts
+        saveFinishingOrderIdsUseCase(apartmentId, cachedFinishingOrderIds);
+        emit(FinishingOrdersLoaded(rooms));
+      },
     );
   }
 

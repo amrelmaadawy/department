@@ -7,6 +7,7 @@ import 'package:apartment/features/projects/data/datasources/local/room_design_c
 import 'package:apartment/core/di/injection_container.dart';
 import 'package:apartment/core/services/analytics/analytics_service.dart';
 import 'package:apartment/core/error/failures.dart';
+import 'package:apartment/core/events/app_events.dart';
 import 'design_context_state.dart';
 
 class DesignContextCubit extends Cubit<DesignContextState> {
@@ -15,11 +16,23 @@ class DesignContextCubit extends Cubit<DesignContextState> {
   final RoomDesignCacheService? cacheService;
   Timer? _debounceTimer;
 
+  StreamSubscription? _contractSignedSub;
+
   DesignContextCubit({
     this.getDraftUseCase,
     this.saveDraftUseCase,
     this.cacheService,
-  }) : super(const DesignContextState());
+  }) : super(const DesignContextState()) {
+    _contractSignedSub = AppEvents.onContractSigned.listen((unitId) {
+      if (state.selectedUnit != null && state.selectedUnit!.id == unitId) {
+        final updatedUnit = state.selectedUnit!.copyWith(
+          status: UnitStatus.sold,
+          statusLabel: 'مباعة',
+        );
+        emit(state.copyWith(selectedUnit: updatedUnit));
+      }
+    });
+  }
 
   void selectUnit(ProjectUnitEntity unit) {
     emit(state.copyWith(selectedUnit: unit, baseArea: unit.area));
@@ -117,6 +130,7 @@ class DesignContextCubit extends Cubit<DesignContextState> {
   @override
   Future<void> close() {
     _debounceTimer?.cancel();
+    _contractSignedSub?.cancel();
     return super.close();
   }
 }

@@ -78,23 +78,16 @@ class ProfileRecentOrdersSection extends StatelessWidget {
   Widget _buildOrderCard(BuildContext context, FinishingOrderEntity order) {
     // Determine status color
     Color statusColor = context.colors.primary;
-    if (order.status == 'completed') {
+    final lowerStatus = order.status.toLowerCase();
+    if (lowerStatus == 'completed' || lowerStatus == 'done' || lowerStatus == 'approved' || lowerStatus == 'finished') {
       statusColor = AppColors.success;
-    } else if (order.status == 'pending') {
+    } else if (lowerStatus == 'pending') {
       statusColor = Colors.orange;
     }
 
     return GestureDetector(
       onTap: () {
-        if (order.status == 'completed') {
-          _showCompletedOrderDetails(context, order);
-        } else {
-          AppToast.show(
-            context,
-            message: 'طلبك لا يزال قيد التنفيذ. سنقوم بإشعارك فور الانتهاء.',
-            isError: false,
-          );
-        }
+        _showOrderDetails(context, order);
       },
       child: Container(
         width: 260,
@@ -210,7 +203,7 @@ class ProfileRecentOrdersSection extends StatelessWidget {
     );
   }
 
-  void _showCompletedOrderDetails(BuildContext context, FinishingOrderEntity order) {
+  void _showOrderDetails(BuildContext context, FinishingOrderEntity order) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,

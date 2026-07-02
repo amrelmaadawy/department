@@ -39,31 +39,55 @@ class ContractsReviewScreen extends StatefulWidget {
 class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
   String? _partialFailureType;
   String? _partialFailureMsg;
+  ProjectUnitEntity? _currentUnit;
+
+  /// Tracks whether finishing orders are still loading from the server.
+  /// Shown as a loading indicator on the finishing contract card so the
+  /// user cannot tap "Sign" before the order IDs are available.
+  bool _isLoadingFinishingOrders = false;
 
   @override
   void initState() {
     super.initState();
-    final unit = widget.unit ?? sl<DesignContextCubit>().state.selectedUnit;
-    if (unit != null) {
-      // جلب حالات التوقيع دائماً
-      context.read<ContractsCubit>().loadSignatureStatuses(unit.id);
+    _currentUnit = widget.unit ?? sl<DesignContextCubit>().state.selectedUnit;
+    if (_currentUnit != null) {
+      context.read<ContractsCubit>().loadSignatureStatuses(_currentUnit!.id);
 
-      // لو اليوزر رجع لاستئناف توقيع عقد التشطيب بدون IDs (مثلاً بعد ما طلع وعقد العظم موقّع)
-      // نجلب الـ Finishing Orders من السيرفر تلقائياً
-      if (widget.selectedFinishingOrderIds.isEmpty) {
-        final apartmentId = int.tryParse(unit.id) ?? 0;
-        if (apartmentId > 0) {
-          context.read<ContractsCubit>().fetchFinishingOrders(apartmentId);
-        }
+      final apartmentId = int.tryParse(_currentUnit!.id) ?? 0;
+
+      if (widget.selectedFinishingOrderIds.isNotEmpty) {
+        // IDs passed directly from the previous screen — seed the cache.
+        context.read<ContractsCubit>().cachedFinishingOrderIds =
+            widget.selectedFinishingOrderIds;
+        context.read<ContractsCubit>().isFinishingOrdersReady = true;
+      } else if (apartmentId > 0) {
+        // Resume scenario: load from local storage first (instant),
+        // then refresh from server in background.
+        _loadFinishingOrdersForResume(apartmentId);
       }
+    }
+  }
+
+  Future<void> _loadFinishingOrdersForResume(int apartmentId) async {
+    final cubit = context.read<ContractsCubit>();
+
+    // Step 1: Read from local storage immediately (no network, no spinner)
+    await cubit.loadCachedFinishingOrderIds(apartmentId);
+
+    // Step 2: If still empty after local read → show spinner and fetch from server
+    if (!cubit.isFinishingOrdersReady) {
+      if (mounted) setState(() => _isLoadingFinishingOrders = true);
+      cubit.fetchFinishingOrders(apartmentId);
+    } else {
+      // IDs available from cache — silently refresh from server in background
+      cubit.fetchFinishingOrders(apartmentId);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final unit = widget.unit ?? sl<DesignContextCubit>().state.selectedUnit;
-    final totalCost = (unit?.price ?? 0.0) + widget.totalFinishingCost;
+    final totalCost = (_currentUnit?.price ?? 0.0) + widget.totalFinishingCost;
 
     return BlocProvider(
       create: (_) => sl<ContractPrintCubit>(),
@@ -89,12 +113,13 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
             builder: (context, state) {
               return ContractsReviewList(
                 totalCost: totalCost,
-                unit: unit,
+                unit: _currentUnit,
                 l10n: l10n,
                 cubit: context.read<ContractsCubit>(),
                 state: state,
                 partialFailureType: _partialFailureType,
                 partialFailureMsg: _partialFailureMsg,
+                isLoadingFinishingOrders: _isLoadingFinishingOrders,
                 onSignClick: _handleSignClick,
               );
             },
@@ -117,18 +142,27 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
   }
 
   void _onContractStateListener(BuildContext context, ContractsState state) {
-    final unit = widget.unit ?? sl<DesignContextCubit>().state.selectedUnit;
     if (state is ContractsError) {
+      // If finishing orders failed to load, clear the loading flag so the
+      // user sees the error and can retry.
+      if (_isLoadingFinishingOrders) {
+        setState(() => _isLoadingFinishingOrders = false);
+      }
       AppToast.showError(context, state.message);
+    } else if (state is FinishingOrdersLoaded) {
+      // Orders are now cached in cubit.cachedFinishingOrderIds — hide spinner.
+      if (_isLoadingFinishingOrders) {
+        setState(() => _isLoadingFinishingOrders = false);
+      }
     } else if (state is ContractPartialSigningFailure) {
       setState(() {
         _partialFailureType = state.contractType;
         _partialFailureMsg = state.message;
       });
     } else if (state is BoneContractCreated) {
-      _navigateToSign(ContractType.unit, unit, state.contract);
+      _navigateToSign(ContractType.unit, _currentUnit, state.contract);
     } else if (state is FinishingContractCreated) {
-      _navigateToSign(ContractType.finishing, unit, state.contract);
+      _navigateToSign(ContractType.finishing, _currentUnit, state.contract);
     }
   }
 
@@ -148,6 +182,12 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
       cubit.markContractAsSigned(unit.id, typeStr);
       if (type == ContractType.unit) {
         AppEvents.emitContractSigned(unit.id);
+        setState(() {
+          _currentUnit = _currentUnit?.copyWith(
+            status: UnitStatus.sold,
+            statusLabel: 'مباعة',
+          );
+        });
       }
     }
   }
@@ -158,22 +198,40 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
       _partialFailureType = null;
       _partialFailureMsg = null;
     });
+
     if (item.contractType == 'unit') {
-      context.read<ContractsCubit>().createBoneContract(apartmentId: int.tryParse(unit.id) ?? 0);
-    } else if (item.contractType == 'finishing') {
-      // لو الـ IDs ممررة من الشاشة السابقة استخدمها مباشرة
-      // لو فارغة (حالة الاستئناف) نجيب الـ IDs من الـ State اللي جبناه من السيرفر
-      List<int> orderIds = widget.selectedFinishingOrderIds;
-      if (orderIds.isEmpty) {
-        final cubitState = context.read<ContractsCubit>().state;
-        if (cubitState is FinishingOrdersLoaded) {
-          orderIds = cubitState.rooms
-              .expand((room) => room.orders)
-              .map((order) => order.id)
-              .toList();
-        }
+      context.read<ContractsCubit>().createBoneContract(
+            apartmentId: int.tryParse(unit.id) ?? 0,
+          );
+      return;
+    }
+
+    if (item.contractType == 'finishing') {
+      final cubit = context.read<ContractsCubit>();
+
+      // Guard: still loading orders → show toast instead of creating with empty IDs
+      if (_isLoadingFinishingOrders || cubit.isLoadingFinishingOrders) {
+        AppToast.showInfo(context, 'جاري جلب بيانات التشطيب، يرجى الانتظار لحظة...');
+        return;
       }
-      context.read<ContractsCubit>().createFinishingContract(orderIds: orderIds);
+
+      // Resolve IDs: prefer widget-provided → then cubit cache (resume scenario)
+      final orderIds = widget.selectedFinishingOrderIds.isNotEmpty
+          ? widget.selectedFinishingOrderIds
+          : cubit.cachedFinishingOrderIds;
+
+      if (orderIds.isEmpty) {
+        // Orders fetch may have failed — retry fetch then show error
+        AppToast.showError(context, 'لم يتم جلب بيانات طلبات التشطيب. تحقق من اتصالك وأعد المحاولة.');
+        final apartmentId = int.tryParse(unit.id) ?? 0;
+        if (apartmentId > 0) {
+          setState(() => _isLoadingFinishingOrders = true);
+          cubit.fetchFinishingOrders(apartmentId);
+        }
+        return;
+      }
+
+      cubit.createFinishingContract(orderIds: orderIds);
     }
   }
 }

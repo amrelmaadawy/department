@@ -13,18 +13,22 @@ class ContractPdfFonts {
 
   static pw.Font? _cachedTtf;
   static pw.Font? _cachedTtfBold;
+  static pw.Font? _cachedNoto;
 
   static Future<void> loadFonts() async {
-    if (_cachedTtf == null || _cachedTtfBold == null) {
+    if (_cachedTtf == null || _cachedTtfBold == null || _cachedNoto == null) {
       final fontData = await rootBundle.load('assets/font/Cairo-Regular.ttf');
       final boldData = await rootBundle.load('assets/font/Cairo-Bold.ttf');
+      final notoData = await rootBundle.load('assets/font/NotoSansArabic-Regular.ttf');
       _cachedTtf = pw.Font.ttf(fontData);
       _cachedTtfBold = pw.Font.ttf(boldData);
+      _cachedNoto = pw.Font.ttf(notoData);
     }
   }
 
   static pw.Font get regular => _cachedTtf!;
   static pw.Font get bold => _cachedTtfBold!;
+  static pw.Font get noto => _cachedNoto!;
 
   static String ar(String t) =>
       t.trim().isEmpty ? t : _reshaper.reshape(sanitize(t));

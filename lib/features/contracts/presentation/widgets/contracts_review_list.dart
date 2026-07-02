@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import '../../../../core/routes/app_router.dart';
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/widgets/app_toast.dart';
 import '../../../../core/widgets/custom_button.dart';
 import '../../../../features/home/domain/entities/project_unit_entity.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
@@ -23,6 +22,7 @@ class ContractsReviewList extends StatelessWidget {
   final ContractsState state;
   final String? partialFailureType;
   final String? partialFailureMsg;
+  final bool isLoadingFinishingOrders;
   final Function(ContractSignatureStatusEntity, ProjectUnitEntity?) onSignClick;
 
   const ContractsReviewList({
@@ -35,6 +35,7 @@ class ContractsReviewList extends StatelessWidget {
     required this.partialFailureType,
     required this.partialFailureMsg,
     required this.onSignClick,
+    this.isLoadingFinishingOrders = false,
   });
 
   List<ContractSignatureStatusEntity> _resolveStatuses() {
@@ -72,16 +73,30 @@ class ContractsReviewList extends StatelessWidget {
           final item = statuses[index];
           final prevSigned = index == 0 || statuses[index - 1].isSigned;
           final isLocked = !item.isSigned && !prevSigned;
-          final isItemLoading = (state is BoneContractLoading && item.contractType == 'unit') ||
-              (state is FinishingContractLoading && item.contractType == 'finishing');
+
+          // A finishing card is in loading state if:
+          // 1. The cubit is creating the finishing contract, OR
+          // 2. The finishing order IDs are still being fetched from the server
+          //    (resume scenario: user returned after signing the bone contract).
+          final isFinishing = item.contractType == 'finishing';
+          final isItemLoading =
+              (state is BoneContractLoading && item.contractType == 'unit') ||
+              (state is FinishingContractLoading && isFinishing) ||
+              (isFinishing && isLoadingFinishingOrders);
+
+          final subtitle = isFinishing && isLoadingFinishingOrders
+              ? 'جاري تحضير بيانات التشطيب...'
+              : (item.contractType == 'unit'
+                  ? (unit != null
+                      ? l10n.unitDetailsWithArea(unit!.title, unit!.area.toString())
+                      : l10n.unitDetailsDefault)
+                  : l10n.customFinishingComprehensive);
 
           return Padding(
             padding: const EdgeInsets.only(bottom: AppSpacing.sm),
             child: ContractReviewItemCard(
               title: item.title,
-              subtitle: item.contractType == 'unit'
-                  ? (unit != null ? l10n.unitDetailsWithArea(unit!.title, unit!.area.toString()) : l10n.unitDetailsDefault)
-                  : l10n.customFinishingComprehensive,
+              subtitle: subtitle,
               sequenceOrder: item.sequenceOrder,
               isSigned: item.isSigned,
               isLocked: isLocked,
@@ -105,9 +120,9 @@ class ContractsReviewList extends StatelessWidget {
           text: l10n.completeBookingAndPayment,
           onPressed: !allSigned
               ? null
-              : () => context.push(
-                    AppRouter.checkout,
-                    extra: {'totalCost': totalCost, 'unit': unit},
+              : () => AppToast.showInfo(
+                    context,
+                    'هذه الخاصية ستُضاف قريبًا',
                   ),
         ),
         const SizedBox(height: AppSpacing.lg),
