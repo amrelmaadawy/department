@@ -6,6 +6,7 @@ class ActiveJourneyEntity extends Equatable {
   final String unitNumber;
   final String currentStep;
   final DateTime? reservationExpiresAt;
+  final DateTime? lastUpdatedAt;
   final String resumeRoute;
   final Map<String, dynamic> resumeArgs;
 
@@ -15,6 +16,7 @@ class ActiveJourneyEntity extends Equatable {
     required this.unitNumber,
     required this.currentStep,
     this.reservationExpiresAt,
+    this.lastUpdatedAt,
     required this.resumeRoute,
     required this.resumeArgs,
   });
@@ -26,7 +28,9 @@ class ActiveJourneyEntity extends Equatable {
         unitNumber,
         currentStep,
         reservationExpiresAt,
+        lastUpdatedAt,
         resumeRoute,
         resumeArgs,
       ];
 }
+

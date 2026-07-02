@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import '../../../../core/error/failures.dart';
 import '../entities/contract_entity.dart';
 import '../entities/apartment_finishing_order_entity.dart';
+import '../entities/contract_signature_status_entity.dart';
 
 abstract class ContractRepository {
   Future<Either<Failure, ContractEntity>> createBoneContract(int apartmentId);
@@ -11,6 +12,7 @@ abstract class ContractRepository {
   
   Future<Either<Failure, bool>> isContractSigned(String unitId, String contractType);
   Future<Either<Failure, void>> markContractAsSigned(String unitId, String contractType, bool status);
+  Future<Either<Failure, List<ContractSignatureStatusEntity>>> getContractStatusesList(String unitId);
   
   Future<Either<Failure, List<ContractEntity>>> getContracts();
   Future<Either<Failure, ContractEntity>> getContractById(int id);

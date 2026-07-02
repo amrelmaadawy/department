@@ -9,17 +9,90 @@ class UnitStatusBadge extends StatelessWidget {
   final UnitStatus status;
   final String statusLabel;
   final bool isOverlay;
+  final bool isCurrentUserUnit;
 
   const UnitStatusBadge({
     super.key,
     required this.status,
     this.statusLabel = '',
     this.isOverlay = false,
+    this.isCurrentUserUnit = false,
   });
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    
+    if (isCurrentUserUnit) {
+      const primaryColor = Color(0xFFD97706); // Golden Amber
+      const bgColor = Color(0xFFFEF3C7);
+      const borderColor = Color(0xFFFDE68A);
+      const icon = FluentIcons.star_16_filled;
+      const label = 'وحدتك 🌟';
+
+      if (isOverlay) {
+        return Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              colors: [Color(0xFFF59E0B), Color(0xFFD97706)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(AppRadius.round),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.black.withValues(alpha: 0.25),
+                blurRadius: 6,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: const Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(icon, size: 13, color: AppColors.white),
+              SizedBox(width: 4),
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 11,
+                  color: AppColors.white,
+                  fontWeight: FontWeight.w800,
+                  height: 1.1,
+                ),
+              ),
+            ],
+          ),
+        );
+      }
+
+      return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        decoration: BoxDecoration(
+          color: bgColor,
+          borderRadius: BorderRadius.circular(AppRadius.round),
+          border: Border.all(color: borderColor, width: 1),
+        ),
+        child: const Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, size: 12, color: primaryColor),
+            SizedBox(width: 4),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 11,
+                color: primaryColor,
+                fontWeight: FontWeight.w800,
+                height: 1.1,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
     final label = statusLabel.isNotEmpty
         ? statusLabel
         : (status == UnitStatus.sold

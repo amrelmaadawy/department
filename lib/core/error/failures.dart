@@ -53,6 +53,9 @@ class ServerFailure extends Failure {
 class NotFoundFailure extends Failure {
   const NotFoundFailure([super.message = 'البيانات غير موجودة']);
 }
+class ReservationExpiredFailure extends Failure {
+  const ReservationExpiredFailure([super.message = 'انتهت صلاحية حجزك، تواصل مع فريق المبيعات لإعادة الحجز']);
+}
 
 // Data Failures
 class CacheFailure extends Failure {

@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import '../../../../core/network/api_endpoints.dart';
 import '../models/contract_model.dart';
 import '../models/apartment_finishing_order_model.dart';
+import '../models/contract_signature_status_model.dart';
 
 abstract class ContractRemoteDataSource {
   Future<ContractModel> createBoneContract(int apartmentId, int customerId);
@@ -10,6 +11,7 @@ abstract class ContractRemoteDataSource {
   Future<List<ApartmentFinishingOrderRoomModel>> getApartmentFinishingOrders(int apartmentId);
   Future<List<ContractModel>> getContracts();
   Future<ContractModel> getContractById(int id);
+  Future<List<ContractSignatureStatusModel>> getContractStatuses(String unitId);
 }
 
 class ContractRemoteDataSourceImpl implements ContractRemoteDataSource {
@@ -103,6 +105,17 @@ class ContractRemoteDataSourceImpl implements ContractRemoteDataSource {
       return ContractModel.fromJson(response.data['data'] as Map<String, dynamic>);
     } else {
       throw Exception(response.data?['message'] ?? 'Failed to fetch contract details');
+    }
+  }
+
+  @override
+  Future<List<ContractSignatureStatusModel>> getContractStatuses(String unitId) async {
+    final response = await dio.get('${ApiEndpoints.baseUrl}${ApiEndpoints.contractStatuses(unitId)}');
+    if (response.statusCode == 200 && response.data?['data'] != null) {
+      final List<dynamic> data = response.data['data'];
+      return data.map((e) => ContractSignatureStatusModel.fromJson(e as Map<String, dynamic>)).toList();
+    } else {
+      throw Exception(response.data?['message'] ?? 'Failed to fetch contract signature statuses');
     }
   }
 }

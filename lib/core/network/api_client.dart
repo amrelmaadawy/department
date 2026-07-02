@@ -83,6 +83,32 @@ class ApiClient {
     }
   }
 
+  Future<dynamic> patch(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+  }) async {
+    try {
+      final response = await _dio.patch(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+        options: options,
+        cancelToken: cancelToken,
+      );
+      return _processResponse(response);
+    } on DioException catch (e) {
+      if (e.error is Failure) {
+        throw FailureException(e.error as Failure);
+      }
+      throw _handleDioError(e);
+    } catch (e) {
+      throw ServerException(message: 'حدث خطأ غير متوقع: ${e.toString().replaceAll('Exception: ', '')}');
+    }
+  }
+
   Future<dynamic> delete(
     String path, {
     dynamic data,

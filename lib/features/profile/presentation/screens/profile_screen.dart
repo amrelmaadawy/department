@@ -23,6 +23,7 @@ import '../widgets/profile_recent_orders_section.dart';
 import '../../../projects/domain/entities/finishing_order_entity.dart';
 import '../../../../core/network/cubit/network_cubit.dart';
 import '../../../../core/network/cubit/network_state.dart';
+import '../../../customer_journey/presentation/widgets/active_journey_resume_card.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -262,6 +263,9 @@ class _ProfileViewState extends State<ProfileView>
                     // Provide space for the overlapping card
                     const SizedBox(height: 100),
                     const SizedBox(height: AppSpacing.md),
+
+                    // Active Journeys Hub
+                    const ActiveJourneyResumeCard(),
 
                     // Recent Orders
                     ProfileRecentOrdersSection(recentOrders: recentOrders),

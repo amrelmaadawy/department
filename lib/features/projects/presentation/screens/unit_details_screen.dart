@@ -1,24 +1,20 @@
-import 'package:apartment/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:apartment/core/di/injection_container.dart';
 import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
+import 'package:apartment/core/theme/theme_extension.dart';
 import 'package:apartment/features/home/domain/entities/project_unit_entity.dart';
 import 'package:apartment/l10n/app_localizations.dart';
-import 'package:apartment/core/theme/theme_extension.dart';
-import 'package:apartment/core/widgets/custom_button.dart';
-import 'package:apartment/core/routes/app_router.dart';
-
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:apartment/core/di/injection_container.dart';
 import '../cubit/unit_details_cubit.dart';
-
 import '../widgets/details/unit/unit_floor_plan_viewer.dart';
 import '../widgets/details/unit/unit_overview_card.dart';
 import '../widgets/details/unit/unit_bento_grid.dart';
 import '../widgets/details/unit/unit_pricing_card.dart';
 import '../widgets/details/unit/unit_rooms_list.dart';
 import '../widgets/details/project_features_row.dart';
+import '../widgets/details/unit/unit_details_bottom_bar.dart';
 
 class UnitDetailsScreen extends StatefulWidget {
   final ProjectUnitEntity unit;
@@ -54,8 +50,6 @@ class _UnitDetailsScreenContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    // Read the unit once — it is available from the initial loading state
-    // (passed as initialUnit) and never changes after that.
     final unit = context.select<UnitDetailsCubit, ProjectUnitEntity?>(
       (cubit) => cubit.state.unit,
     );
@@ -83,6 +77,10 @@ class _UnitDetailsScreenContent extends StatelessWidget {
             iconTheme: IconThemeData(color: context.colors.textPrimary),
             pinned: true,
             floating: true,
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back, color: context.colors.textPrimary),
+              onPressed: () => context.pop(),
+            ),
           ),
           SliverToBoxAdapter(
             child: Column(
@@ -111,7 +109,6 @@ class _UnitDetailsScreenContent extends StatelessWidget {
                 const SizedBox(height: AppSpacing.md),
                 UnitOverviewCard(unit: unit),
                 const SizedBox(height: AppSpacing.lg),
-                // Only this widget re-renders when loading state changes
                 BlocSelector<UnitDetailsCubit, UnitDetailsState, bool>(
                   selector: (state) => state is UnitDetailsLoading,
                   builder: (context, isLoading) => UnitRoomsList(
@@ -125,40 +122,7 @@ class _UnitDetailsScreenContent extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: unit.status.isUnavailable
-          ? null
-          : Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.lg,
-                vertical: AppSpacing.md,
-              ),
-              decoration: BoxDecoration(
-                color: context.colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.black.withValues(alpha: 0.05),
-                    blurRadius: 20,
-                    offset: const Offset(0, -5),
-                  ),
-                ],
-              ),
-              child: SafeArea(
-                child: SizedBox(
-                  width: double.infinity,
-                  child: CustomButton(
-                    text: l10n.startFinishingJourney,
-                    onPressed: () {
-                      context.push(
-                        AppRouter.finishingGuide,
-                        extra: {
-                          'unit': unit,
-                        },
-                      );
-                    },
-                  ),
-                ),
-              ),
-            ),
+      bottomNavigationBar: UnitDetailsBottomBar(unit: unit),
     );
   }
 }

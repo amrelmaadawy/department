@@ -636,5 +636,7 @@
   "interestedUnits": "وحدات مهتم بها",
   "noOwnedUnits": "لا توجد وحدات مملوكة حالياً",
   "noInterestedUnits": "لم تقم بحفظ أي وحدات بعد",
-  "totalSpent": "إجمالي الإنفاق"
+  "totalSpent": "إجمالي الإنفاق",
+  "draftRestoredMessage": "تم استرجاع آخر اختيارات قمت بها لهذه الوحدة",
+  "offlineDraftMessage": "أنت تعمل حالياً دون اتصال، سيتم مزامنة اختياراتك عند عودة الاتصال"
 }

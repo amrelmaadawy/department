@@ -16,6 +16,7 @@ class ProjectUnitEntity extends Equatable {
   final String id;
   final String title;
   final String projectName;
+  final bool isCurrentUserUnit;
   
   // New API Fields
   final String unitNumber;
@@ -43,6 +44,7 @@ class ProjectUnitEntity extends Equatable {
     required this.id,
     required this.title,
     this.projectName = '',
+    this.isCurrentUserUnit = false,
     this.unitNumber = '',
     this.buildingNumber = 1,
     this.locationType = '',
@@ -67,6 +69,7 @@ class ProjectUnitEntity extends Equatable {
     String? id,
     String? title,
     String? projectName,
+    bool? isCurrentUserUnit,
     String? unitNumber,
     int? buildingNumber,
     String? locationType,
@@ -90,6 +93,7 @@ class ProjectUnitEntity extends Equatable {
       id: id ?? this.id,
       title: title ?? this.title,
       projectName: projectName ?? this.projectName,
+      isCurrentUserUnit: isCurrentUserUnit ?? this.isCurrentUserUnit,
       unitNumber: unitNumber ?? this.unitNumber,
       buildingNumber: buildingNumber ?? this.buildingNumber,
       locationType: locationType ?? this.locationType,
@@ -116,6 +120,7 @@ class ProjectUnitEntity extends Equatable {
     id,
     title,
     projectName,
+    isCurrentUserUnit,
     unitNumber,
     buildingNumber,
     locationType,

@@ -6,6 +6,7 @@ class ProjectUnitModel extends ProjectUnitEntity {
     required super.id,
     required super.title,
     super.projectName,
+    super.isCurrentUserUnit,
     required super.unitNumber,
     required super.buildingNumber,
     required super.locationType,
@@ -73,6 +74,9 @@ class ProjectUnitModel extends ProjectUnitEntity {
       id: json['id']?.toString() ?? '',
       title: json['name'] ?? '',
       projectName: parsedProjectName,
+      isCurrentUserUnit: json['is_current_user_unit'] == true ||
+          json['is_my_unit'] == true ||
+          json['owned_by_current_user'] == true,
       unitNumber: json['number']?.toString() ?? '',
       buildingNumber: json['building_number'] ?? 1,
       locationType: json['location_type'] ?? '',
@@ -116,6 +120,7 @@ class ProjectUnitModel extends ProjectUnitEntity {
       'id': id,
       'name': title,
       'project_name': projectName,
+      'is_current_user_unit': isCurrentUserUnit,
       'number': unitNumber,
       'building_number': buildingNumber,
       'location_type': locationType,

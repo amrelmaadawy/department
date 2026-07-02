@@ -5,6 +5,8 @@ import '../../domain/entities/finishing_order_request_entity.dart';
 import '../../domain/usecases/get_preset_notes_use_case.dart';
 import '../../domain/usecases/submit_finishing_order_use_case.dart';
 import '../../data/datasources/local/room_design_cache_service.dart';
+import 'package:apartment/core/di/injection_container.dart';
+import 'package:apartment/features/design_studio/presentation/cubit/design_context_cubit.dart';
 import 'ai_room_design_state.dart';
 
 class AiRoomDesignCubit extends Cubit<AiRoomDesignState> {
@@ -96,7 +98,8 @@ class AiRoomDesignCubit extends Cubit<AiRoomDesignState> {
   }
 
   void _autoSave() {
-    final isCompleted = state.totalSubtypesCount > 0 && state.selectedMaterialIds.length >= state.totalSubtypesCount;
+    final isCompleted = state.selectedMaterialIds.length >= state.totalSubtypesCount && state.totalSubtypesCount > 0;
+    
     cacheService.saveRoomDesignProgress(
       roomId: state.roomId,
       selectedMaterialIds: state.selectedMaterialIds,
@@ -105,6 +108,23 @@ class AiRoomDesignCubit extends Cubit<AiRoomDesignState> {
       notes: state.notes,
       isCompleted: isCompleted,
     );
+
+    if (state.apartmentId > 0) {
+      final designContext = sl<DesignContextCubit>();
+      final currentDraft = Map<String, dynamic>.from(designContext.state.activeDraftData);
+      final roomsDraft = Map<String, dynamic>.from(currentDraft['rooms'] ?? <String, dynamic>{});
+      
+      roomsDraft[state.roomId.toString()] = {
+        'selectedMaterialIds': state.selectedMaterialIds,
+        'selectedMaterialsCost': state.selectedMaterialsCost,
+        'selectedStyle': state.selectedStyle,
+        'notes': state.notes,
+        'isCompleted': isCompleted,
+      };
+      currentDraft['rooms'] = roomsDraft;
+      
+      designContext.saveDraftSelection(state.apartmentId, currentDraft);
+    }
   }
 
   void setTotalSubtypesCount(int count) {

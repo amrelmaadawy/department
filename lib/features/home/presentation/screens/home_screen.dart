@@ -13,6 +13,7 @@ import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/network/cubit/network_cubit.dart';
 import '../../../../core/network/cubit/network_state.dart';
+import '../../../customer_journey/presentation/widgets/active_journey_resume_card.dart';
 import '../cubit/home_cubit.dart';
 import '../widgets/featured_project_card.dart';
 import '../widgets/home_header.dart';
@@ -96,7 +97,9 @@ class HomeView extends StatelessWidget {
                 else if (state is HomeLoaded)
                   SliverList(
                     delegate: SliverChildListDelegate([
+                      const ActiveJourneyResumeCard(),
                       const CompanyServicesCarousel(),
+
                       const SizedBox(height: AppSpacing.md),
                       const MyPropertiesSection(),
                       SectionHeader(

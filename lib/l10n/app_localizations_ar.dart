@@ -1569,4 +1569,12 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get totalSpent => 'إجمالي الإنفاق';
+
+  @override
+  String get draftRestoredMessage =>
+      'تم استرجاع آخر اختيارات قمت بها لهذه الوحدة';
+
+  @override
+  String get offlineDraftMessage =>
+      'أنت تعمل حالياً دون اتصال، سيتم مزامنة اختياراتك عند عودة الاتصال';
 }

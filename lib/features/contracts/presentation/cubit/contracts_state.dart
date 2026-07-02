@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import '../../domain/entities/apartment_finishing_order_entity.dart';
 import '../../domain/entities/contract_entity.dart';
+import '../../domain/entities/contract_signature_status_entity.dart';
 
 abstract class ContractsState extends Equatable {
   const ContractsState();
@@ -52,6 +53,16 @@ class ContractsError extends ContractsState {
   List<Object?> get props => [message];
 }
 
+class ContractPartialSigningFailure extends ContractsState {
+  final String contractType;
+  final String message;
+
+  const ContractPartialSigningFailure(this.contractType, this.message);
+
+  @override
+  List<Object?> get props => [contractType, message];
+}
+
 class ContractSigningLoading extends ContractsState {}
 
 class ContractSignedSuccess extends ContractsState {
@@ -61,6 +72,15 @@ class ContractSignedSuccess extends ContractsState {
 
   @override
   List<Object?> get props => [contract];
+}
+
+class ContractStatusesListLoaded extends ContractsState {
+  final List<ContractSignatureStatusEntity> statuses;
+
+  const ContractStatusesListLoaded(this.statuses);
+
+  @override
+  List<Object?> get props => [statuses];
 }
 
 class ContractSignatureStatusesLoaded extends ContractsState {

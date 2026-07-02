@@ -7,6 +7,7 @@ class ActiveJourneyModel extends ActiveJourneyEntity {
     required super.unitNumber,
     required super.currentStep,
     super.reservationExpiresAt,
+    super.lastUpdatedAt,
     required super.resumeRoute,
     required super.resumeArgs,
   });
@@ -20,6 +21,11 @@ class ActiveJourneyModel extends ActiveJourneyEntity {
       reservationExpiresAt: json['reservation_expires_at'] != null
           ? DateTime.tryParse(json['reservation_expires_at'].toString())
           : null,
+      lastUpdatedAt: json['last_updated_at'] != null
+          ? DateTime.tryParse(json['last_updated_at'].toString())
+          : (json['updated_at'] != null
+              ? DateTime.tryParse(json['updated_at'].toString())
+              : null),
       resumeRoute: json['resume_route']?.toString() ?? '',
       resumeArgs: json['resume_args'] is Map<String, dynamic>
           ? Map<String, dynamic>.from(json['resume_args'])
@@ -34,8 +40,10 @@ class ActiveJourneyModel extends ActiveJourneyEntity {
       'unit_number': unitNumber,
       'current_step': currentStep,
       'reservation_expires_at': reservationExpiresAt?.toIso8601String(),
+      'last_updated_at': lastUpdatedAt?.toIso8601String(),
       'resume_route': resumeRoute,
       'resume_args': resumeArgs,
     };
   }
 }
+

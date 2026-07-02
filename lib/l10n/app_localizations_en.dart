@@ -1580,4 +1580,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get totalSpent => 'Total Spent';
+
+  @override
+  String get draftRestoredMessage =>
+      'Last selections for this unit have been restored';
+
+  @override
+  String get offlineDraftMessage =>
+      'You are currently working offline. Your selections will be synced once connected';
 }

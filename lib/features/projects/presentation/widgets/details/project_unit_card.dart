@@ -36,7 +36,7 @@ class ProjectUnitCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final isUnavailable = unit.status.isUnavailable;
+    final isUnavailable = unit.status.isUnavailable && !unit.isCurrentUserUnit;
 
     final int effectiveRoomsCount = unit.roomsCount > 0
         ? unit.roomsCount

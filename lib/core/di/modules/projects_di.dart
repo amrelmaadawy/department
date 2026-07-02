@@ -16,6 +16,9 @@ import 'package:apartment/features/projects/domain/usecases/get_customer_renders
 import 'package:apartment/features/projects/domain/usecases/toggle_customer_render_favorite_use_case.dart';
 import 'package:apartment/features/projects/domain/usecases/calculate_unit_costs_use_case.dart';
 import 'package:apartment/features/projects/domain/usecases/check_duplicate_ai_design_use_case.dart';
+import 'package:apartment/features/projects/data/datasources/customization_draft_remote_data_source.dart';
+import 'package:apartment/features/projects/domain/usecases/get_customization_draft_use_case.dart';
+import 'package:apartment/features/projects/domain/usecases/save_customization_draft_use_case.dart';
 import 'package:apartment/features/projects/presentation/cubit/projects_cubit.dart';
 import 'package:apartment/features/projects/presentation/cubit/project_details_cubit.dart';
 import 'package:apartment/features/projects/presentation/cubit/unit_details_cubit.dart';
@@ -33,11 +36,15 @@ Future<void> registerProjectsDi(GetIt sl) async {
   sl.registerLazySingleton<ProjectRemoteDataSource>(
     () => ProjectRemoteDataSourceImpl(apiClient: sl()),
   );
+  sl.registerLazySingleton<CustomizationDraftRemoteDataSource>(
+    () => CustomizationDraftRemoteDataSourceImpl(apiClient: sl()),
+  );
 
   // Repository
   sl.registerLazySingleton<ProjectRepository>(
     () => ProjectRepositoryImpl(
       remoteDataSource: sl(),
+      draftDataSource: sl(),
       networkInfo: sl(),
     ),
   );
@@ -57,6 +64,8 @@ Future<void> registerProjectsDi(GetIt sl) async {
   sl.registerLazySingleton(() => ToggleCustomerRenderFavoriteUseCase(sl()));
   sl.registerLazySingleton(() => CalculateUnitCostsUseCase(sl()));
   sl.registerLazySingleton(() => CheckDuplicateAiDesignUseCase(sl()));
+  sl.registerLazySingleton(() => GetCustomizationDraftUseCase(sl()));
+  sl.registerLazySingleton(() => SaveCustomizationDraftUseCase(sl()));
 
   // Cubits
   sl.registerFactory(() => ProjectsCubit(getProjectsUseCase: sl()));

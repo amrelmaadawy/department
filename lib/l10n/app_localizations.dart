@@ -3043,6 +3043,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Total Spent'**
   String get totalSpent;
+
+  /// No description provided for @draftRestoredMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Last selections for this unit have been restored'**
+  String get draftRestoredMessage;
+
+  /// No description provided for @offlineDraftMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You are currently working offline. Your selections will be synced once connected'**
+  String get offlineDraftMessage;
 }
 
 class _AppLocalizationsDelegate

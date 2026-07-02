@@ -20,6 +20,8 @@ import 'finishing_options_section.dart';
 import 'unified_room_bottom_bar.dart';
 
 import 'package:apartment/features/projects/presentation/cubit/ai_room_design_cubit.dart';
+import 'package:apartment/features/design_studio/presentation/cubit/design_context_cubit.dart';
+import 'package:apartment/features/design_studio/presentation/cubit/design_context_state.dart';
 import 'category_tab_controller.dart';
 
 class RoomDetailsPage extends StatefulWidget {
@@ -91,16 +93,27 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> with AutomaticKeepAli
           value: _aiRoomDesignCubit!,
         ),
       ],
-      child: BlocListener<AiRoomDesignCubit, AiRoomDesignState>(
-        listenWhen: (previous, current) {
-          return previous.selectedMaterialIds != current.selectedMaterialIds ||
-                 previous.selectedMaterialsCost != current.selectedMaterialsCost ||
-                 previous.selectedStyle != current.selectedStyle ||
-                 previous.status != current.status;
-        },
-        listener: (context, state) {
-          context.read<UnitDetailsCubit>().refreshFinishingCost();
-        },
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<AiRoomDesignCubit, AiRoomDesignState>(
+            listenWhen: (previous, current) {
+              return previous.selectedMaterialIds != current.selectedMaterialIds ||
+                     previous.selectedMaterialsCost != current.selectedMaterialsCost ||
+                     previous.selectedStyle != current.selectedStyle ||
+                     previous.status != current.status;
+            },
+            listener: (context, state) {
+              context.read<UnitDetailsCubit>().refreshFinishingCost();
+            },
+          ),
+          BlocListener<DesignContextCubit, DesignContextState>(
+            bloc: sl<DesignContextCubit>(),
+            listenWhen: (prev, curr) => !prev.draftRestored && curr.draftRestored,
+            listener: (context, state) {
+              _aiRoomDesignCubit?.reloadFromCache();
+            },
+          ),
+        ],
         child: Scaffold(
           backgroundColor: context.colors.background,
           body: BlocBuilder<RoomDetailsCubit, RoomDetailsState>(

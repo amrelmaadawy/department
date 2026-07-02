@@ -8,6 +8,9 @@ import '../datasources/contract_remote_datasource.dart';
 
 import '../datasources/contract_local_datasource.dart';
 
+import '../../domain/entities/contract_signature_status_entity.dart';
+import '../models/contract_signature_status_model.dart';
+
 class ContractRepositoryImpl implements ContractRepository {
   final ContractRemoteDataSource remoteDataSource;
   final ContractLocalDataSource localDataSource;
@@ -16,6 +19,40 @@ class ContractRepositoryImpl implements ContractRepository {
     required this.remoteDataSource,
     required this.localDataSource,
   });
+
+  @override
+  Future<Either<Failure, List<ContractSignatureStatusEntity>>> getContractStatusesList(String unitId) async {
+    try {
+      final remoteStatuses = await remoteDataSource.getContractStatuses(unitId);
+      // Cache the statuses locally
+      for (final s in remoteStatuses) {
+        await localDataSource.saveSignatureStatus(unitId, s.contractType, s.isSigned);
+      }
+      return Right(remoteStatuses);
+    } catch (e) {
+      // Fallback to local storage if network fails or server doesn't support the endpoint yet
+      try {
+        final isUnitSigned = await localDataSource.getSignatureStatus(unitId, 'unit');
+        final isFinishingSigned = await localDataSource.getSignatureStatus(unitId, 'finishing');
+        return Right([
+          ContractSignatureStatusModel(
+            contractType: 'unit',
+            title: 'عقد بيع وتخصيص الوحدة',
+            sequenceOrder: 1,
+            isSigned: isUnitSigned,
+          ),
+          ContractSignatureStatusModel(
+            contractType: 'finishing',
+            title: 'عقد التشطيب الحصري',
+            sequenceOrder: 2,
+            isSigned: isFinishingSigned,
+          ),
+        ]);
+      } catch (_) {
+        return Left(_handleError(e));
+      }
+    }
+  }
 
   @override
   Future<Either<Failure, ContractEntity>> createBoneContract(int apartmentId) async {

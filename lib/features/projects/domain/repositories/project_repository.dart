@@ -11,6 +11,7 @@ import 'package:apartment/features/projects/domain/entities/ai_renders_entity.da
 import 'package:apartment/features/projects/domain/entities/saved_design_entity.dart';
 import 'package:apartment/features/projects/data/models/save_design_request_model.dart';
 import 'package:apartment/features/projects/domain/entities/customer_render_entity.dart';
+import 'package:apartment/features/projects/domain/entities/customization_draft_entity.dart';
 import '../../../../core/network/app_cancel_token.dart';
 
 abstract class ProjectRepository {
@@ -25,4 +26,6 @@ abstract class ProjectRepository {
   Future<Either<Failure, List<String>>> getPresetNotes();
   Future<Either<Failure, List<RoomCustomerRendersEntity>>> getCustomerRenders(int apartmentId);
   Future<Either<Failure, bool>> toggleCustomerRenderFavorite(int apartmentId, String imageUrl);
+  Future<Either<Failure, CustomizationDraftEntity>> getCustomizationDraft(int apartmentId);
+  Future<Either<Failure, CustomizationDraftEntity>> saveCustomizationDraft(int apartmentId, Map<String, dynamic> draftData);
 }

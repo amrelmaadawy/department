@@ -74,6 +74,7 @@ class _ProjectUnitCardImageState extends State<ProjectUnitCardImage> {
             status: widget.unit.status,
             statusLabel: widget.unit.statusLabel,
             isOverlay: true,
+            isCurrentUserUnit: widget.unit.isCurrentUserUnit,
           ),
         ),
 

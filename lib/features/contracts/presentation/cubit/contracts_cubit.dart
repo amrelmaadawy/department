@@ -6,6 +6,8 @@ import '../../domain/usecases/sign_contract_usecase.dart';
 import '../../domain/usecases/get_contract_signature_status_usecase.dart';
 import '../../domain/usecases/mark_contract_as_signed_usecase.dart';
 import '../../domain/usecases/get_contract_by_id_usecase.dart';
+import '../../domain/usecases/get_contract_statuses_list_usecase.dart';
+import '../../domain/entities/contract_signature_status_entity.dart';
 import '../../../auth/data/services/session_manager.dart';
 import '../../../../core/services/security/biometric_auth_service.dart';
 import 'contracts_state.dart';
@@ -16,6 +18,7 @@ class ContractsCubit extends Cubit<ContractsState> {
   final GetApartmentFinishingOrdersUseCase getApartmentFinishingOrdersUseCase;
   final SignContractUseCase signContractUseCase;
   final GetContractSignatureStatusUseCase getContractSignatureStatusUseCase;
+  final GetContractStatusesListUseCase? getContractStatusesListUseCase;
   final MarkContractAsSignedUseCase markContractAsSignedUseCase;
   final GetContractByIdUseCase getContractByIdUseCase;
   final SessionManager sessionManager;
@@ -23,6 +26,7 @@ class ContractsCubit extends Cubit<ContractsState> {
 
   bool isUnitContractSigned = false;
   bool isFinishingContractSigned = false;
+  List<ContractSignatureStatusEntity> contractStatusesList = [];
 
   ContractsCubit({
     required this.createBoneContractUseCase,
@@ -30,6 +34,7 @@ class ContractsCubit extends Cubit<ContractsState> {
     required this.getApartmentFinishingOrdersUseCase,
     required this.signContractUseCase,
     required this.getContractSignatureStatusUseCase,
+    this.getContractStatusesListUseCase,
     required this.markContractAsSignedUseCase,
     required this.getContractByIdUseCase,
     required this.sessionManager,
@@ -37,6 +42,24 @@ class ContractsCubit extends Cubit<ContractsState> {
   }) : super(ContractsInitial());
 
   Future<void> loadSignatureStatuses(String unitId) async {
+    if (getContractStatusesListUseCase != null) {
+      final result = await getContractStatusesListUseCase!(unitId);
+      result.fold(
+        (l) {},
+        (statuses) {
+          contractStatusesList = statuses;
+          for (final s in statuses) {
+            if (s.contractType == 'unit') isUnitContractSigned = s.isSigned;
+            if (s.contractType == 'finishing') isFinishingContractSigned = s.isSigned;
+          }
+        },
+      );
+      if (contractStatusesList.isNotEmpty) {
+        emit(ContractStatusesListLoaded(contractStatusesList));
+        return;
+      }
+    }
+
     final unitResult = await getContractSignatureStatusUseCase(unitId, 'unit');
     final finishingResult = await getContractSignatureStatusUseCase(unitId, 'finishing');
     
@@ -50,7 +73,19 @@ class ContractsCubit extends Cubit<ContractsState> {
     await markContractAsSignedUseCase(unitId, contractType, true);
     if (contractType == 'unit') isUnitContractSigned = true;
     if (contractType == 'finishing') isFinishingContractSigned = true;
-    emit(ContractSignatureStatusesLoaded(isUnitContractSigned, isFinishingContractSigned));
+
+    contractStatusesList = contractStatusesList.map((s) {
+      if (s.contractType == contractType) {
+        return s.copyWith(isSigned: true);
+      }
+      return s;
+    }).toList();
+
+    if (contractStatusesList.isNotEmpty) {
+      emit(ContractStatusesListLoaded(contractStatusesList));
+    } else {
+      emit(ContractSignatureStatusesLoaded(isUnitContractSigned, isFinishingContractSigned));
+    }
   }
 
   Future<void> createBoneContract({required int apartmentId}) async {
@@ -118,7 +153,13 @@ class ContractsCubit extends Cubit<ContractsState> {
 
     if (isClosed) return;
     result.fold(
-      (failure) => emit(ContractsError(failure.message)),
+      (failure) {
+        if (isUnitContractSigned || contractStatusesList.any((s) => s.isSigned)) {
+          emit(const ContractPartialSigningFailure('finishing', 'عقد تنفيذ التشطيب لم يكتمل توقيعه، حاول مرة أخرى'));
+        } else {
+          emit(ContractsError(failure.message));
+        }
+      },
       (contract) => emit(ContractSignedSuccess(contract)),
     );
   }

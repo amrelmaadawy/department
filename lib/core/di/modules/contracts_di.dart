@@ -11,6 +11,7 @@ import '../../../features/contracts/presentation/cubit/contracts_cubit.dart';
 
 import '../../../features/contracts/data/datasources/contract_local_datasource.dart';
 import '../../../features/contracts/domain/usecases/get_contract_signature_status_usecase.dart';
+import '../../../features/contracts/domain/usecases/get_contract_statuses_list_usecase.dart';
 import '../../../features/contracts/domain/usecases/mark_contract_as_signed_usecase.dart';
 import '../../../features/contracts/domain/usecases/get_contracts_usecase.dart';
 import '../../../features/contracts/domain/usecases/get_contract_by_id_usecase.dart';
@@ -54,6 +55,9 @@ Future<void> initContractsModule() async {
     () => GetContractSignatureStatusUseCase(sl()),
   );
   sl.registerLazySingleton(
+    () => GetContractStatusesListUseCase(sl()),
+  );
+  sl.registerLazySingleton(
     () => MarkContractAsSignedUseCase(sl()),
   );
   sl.registerLazySingleton(
@@ -71,6 +75,7 @@ Future<void> initContractsModule() async {
       getApartmentFinishingOrdersUseCase: sl(),
       signContractUseCase: sl(),
       getContractSignatureStatusUseCase: sl(),
+      getContractStatusesListUseCase: sl(),
       markContractAsSignedUseCase: sl(),
       getContractByIdUseCase: sl(),
       sessionManager: sl(),
