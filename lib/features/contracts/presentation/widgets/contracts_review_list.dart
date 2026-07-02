@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import '../../../../core/routes/app_router.dart';
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/widgets/custom_button.dart';
-import '../../../../core/widgets/app_toast.dart';
 import '../../../../features/home/domain/entities/project_unit_entity.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 import '../../../../l10n/app_localizations.dart';
@@ -102,7 +103,12 @@ class ContractsReviewList extends StatelessWidget {
         const SizedBox(height: AppSpacing.xl),
         CustomButton(
           text: l10n.completeBookingAndPayment,
-          onPressed: !allSigned ? null : () => AppToast.showSuccess(context, 'هذه الخاصية ستتوفر قريباً'),
+          onPressed: !allSigned
+              ? null
+              : () => context.push(
+                    AppRouter.checkout,
+                    extra: {'totalCost': totalCost, 'unit': unit},
+                  ),
         ),
         const SizedBox(height: AppSpacing.lg),
       ],

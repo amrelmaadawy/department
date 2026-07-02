@@ -1,5 +1,6 @@
 import 'package:apartment/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -396,7 +397,10 @@ class _ContractCard extends StatelessWidget {
     try {
       final date = DateTime.parse(contract.createdAt);
       formattedDate = DateFormat('d MMM yyyy', 'ar').format(date);
-    } catch (_) {
+    } catch (e, stackTrace) {
+      if (kDebugMode) {
+        print('Error parsing date: $e\n$stackTrace');
+      }
       formattedDate = contract.createdAt.split('T').first;
     }
 

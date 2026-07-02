@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import '../../../../core/error/failures.dart';
 import '../../domain/entities/contract_entity.dart';
 import '../../domain/repositories/contract_repository.dart';
@@ -48,7 +49,10 @@ class ContractRepositoryImpl implements ContractRepository {
             isSigned: isFinishingSigned,
           ),
         ]);
-      } catch (_) {
+      } catch (localError, stackTrace) {
+        if (kDebugMode) {
+          print('Local storage fallback failed: $localError\n$stackTrace');
+        }
         return Left(_handleError(e));
       }
     }

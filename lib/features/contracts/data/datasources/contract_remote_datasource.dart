@@ -32,7 +32,7 @@ class ContractRemoteDataSourceImpl implements ContractRemoteDataSource {
     if (response.data['success'] == true && response.data['data'] != null) {
       return ContractModel.fromJson(response.data['data']);
     } else {
-      throw Exception(response.data['message'] ?? 'Failed to create contract');
+      throw Exception(response.data['message'] ?? 'فشل إنشاء العقد');
     }
   }
 
@@ -48,7 +48,7 @@ class ContractRemoteDataSourceImpl implements ContractRemoteDataSource {
     if (response.data['success'] == true && response.data['data'] != null) {
       return ContractModel.fromJson(response.data['data']);
     } else {
-      throw Exception(response.data['message'] ?? 'Failed to create finishing contract');
+      throw Exception(response.data['message'] ?? 'فشل إنشاء عقد التشطيب');
     }
   }
 
@@ -64,7 +64,7 @@ class ContractRemoteDataSourceImpl implements ContractRemoteDataSource {
     if (response.data['success'] == true && response.data['data'] != null) {
       return ContractModel.fromJson(response.data['data']);
     } else {
-      throw Exception(response.data['message'] ?? 'Failed to sign contract');
+      throw Exception(response.data['message'] ?? 'فشل توقيع العقد');
     }
   }
 
@@ -77,7 +77,7 @@ class ContractRemoteDataSourceImpl implements ContractRemoteDataSource {
       final List<dynamic> data = response.data['data'];
       return data.map((e) => ApartmentFinishingOrderRoomModel.fromJson(e as Map<String, dynamic>)).toList();
     } else {
-      throw Exception(response.data['message'] ?? 'Failed to fetch finishing orders');
+      throw Exception(response.data['message'] ?? 'فشل جلب طلبات التشطيب');
     }
   }
 
@@ -90,7 +90,7 @@ class ContractRemoteDataSourceImpl implements ContractRemoteDataSource {
         final List<dynamic> data = response.data['data'];
         return data.map((e) => ContractModel.fromJson(e as Map<String, dynamic>)).toList();
       } else {
-        throw Exception(response.data?['message'] ?? 'Failed to fetch contracts');
+        throw Exception(response.data?['message'] ?? 'فشل جلب العقود');
       }
     } catch (e) {
       rethrow;
@@ -104,7 +104,7 @@ class ContractRemoteDataSourceImpl implements ContractRemoteDataSource {
     if (response.statusCode == 200 && response.data?['data'] != null) {
       return ContractModel.fromJson(response.data['data'] as Map<String, dynamic>);
     } else {
-      throw Exception(response.data?['message'] ?? 'Failed to fetch contract details');
+      throw Exception(response.data?['message'] ?? 'فشل جلب تفاصيل العقد');
     }
   }
 
@@ -115,7 +115,7 @@ class ContractRemoteDataSourceImpl implements ContractRemoteDataSource {
       final List<dynamic> data = response.data['data'];
       return data.map((e) => ContractSignatureStatusModel.fromJson(e as Map<String, dynamic>)).toList();
     } else {
-      throw Exception(response.data?['message'] ?? 'Failed to fetch contract signature statuses');
+      throw Exception(response.data?['message'] ?? 'فشل جلب حالة توقيع العقود');
     }
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:flutter/foundation.dart';
 
 
 import 'package:apartment/core/theme/app_fonts.dart';
@@ -36,13 +37,21 @@ class ContractSummaryCard extends StatelessWidget {
       try {
         final name = unitObj.projectName?.toString().trim() ?? '';
         if (name.isNotEmpty) return name;
-      } catch (_) {}
+      } catch (e, stackTrace) {
+        if (kDebugMode) {
+          print('Error parsing unit project name: $e\n$stackTrace');
+        }
+      }
     }
     if (contractObj != null) {
       try {
         final name = contractObj.projectName?.toString().trim() ?? '';
         if (name.isNotEmpty) return name;
-      } catch (_) {}
+      } catch (e, stackTrace) {
+        if (kDebugMode) {
+          print('Error parsing contract project name: $e\n$stackTrace');
+        }
+      }
     }
     return 'غير محدد';
   }

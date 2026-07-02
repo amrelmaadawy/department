@@ -19,3 +19,28 @@
 # Gson / Serialization code
 -keepattributes Signature
 -keep class com.google.gson.** { *; }
+
+# Keep all Data Models (JSON Parsing)
+-keep class com.codra.shatabha.** { *; }
+-keepclassmembers class ** {
+    @com.google.gson.annotations.SerializedName <fields>;
+}
+
+# local_auth (Biometric)
+-keep class io.flutter.plugins.localauth.** { *; }
+
+# Dio & OkHttp
+-dontwarn okhttp3.**
+-dontwarn okio.**
+-keep class okhttp3.** { *; }
+
+# Keep Enum values
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+
+# Keep Parcelable
+-keepclassmembers class * implements android.os.Parcelable {
+    public static final android.os.Parcelable$Creator CREATOR;
+}

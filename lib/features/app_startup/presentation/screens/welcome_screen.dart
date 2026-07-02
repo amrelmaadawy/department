@@ -161,19 +161,21 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                       // Logo
                                       Opacity(
                                         opacity: _contentOpacity.value,
-                                        child: (state is SettingsLoaded && state.settings.siteLogo.isNotEmpty)
-                                            ? Image.network(
-                                                state.settings.siteLogo,
-                                                height: AppSizes.logoMedium,
-                                                errorBuilder: (context, error, stackTrace) => Image.asset(
-                                                  'assets/images/لين فخامة معتمد.png',
-                                                  height: AppSizes.logoMedium,
-                                                ),
-                                              )
-                                            : Image.asset(
-                                                'assets/images/لين فخامة معتمد.png',
-                                                height: AppSizes.logoMedium,
-                                              ),
+                                        child: (state is SettingsLoading || state is SettingsInitial)
+                                            ? SizedBox(height: AppSizes.logoMedium)
+                                            : (state is SettingsLoaded && state.settings.siteLogo.isNotEmpty)
+                                                ? Image.network(
+                                                    state.settings.siteLogo,
+                                                    height: AppSizes.logoMedium,
+                                                    errorBuilder: (context, error, stackTrace) => Image.asset(
+                                                      'assets/images/لين فخامة معتمد.png',
+                                                      height: AppSizes.logoMedium,
+                                                    ),
+                                                  )
+                                                : Image.asset(
+                                                    'assets/images/لين فخامة معتمد.png',
+                                                    height: AppSizes.logoMedium,
+                                                  ),
                                       ),
 
                                       const SizedBox(height: AppSpacing.sm),

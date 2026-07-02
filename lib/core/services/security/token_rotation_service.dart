@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:apartment/core/config/app_config.dart';
 
 class TokenResponse {
@@ -54,7 +55,11 @@ class TokenRotationService {
       if (map.containsKey('exp') && map['exp'] is int) {
         return DateTime.fromMillisecondsSinceEpoch((map['exp'] as int) * 1000);
       }
-    } catch (_) {}
+    } catch (e, stackTrace) {
+      if (kDebugMode) {
+        print('Error decoding JWT expiry: $e\n$stackTrace');
+      }
+    }
     return null;
   }
 
@@ -87,7 +92,10 @@ class TokenRotationService {
         }
       }
       return false;
-    } catch (_) {
+    } catch (e, stackTrace) {
+      if (kDebugMode) {
+        print('Error refreshing tokens: $e\n$stackTrace');
+      }
       await _secureStorage.deleteAll();
       return false;
     }

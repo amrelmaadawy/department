@@ -58,8 +58,22 @@
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
-		<true/>
+		<false/>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>moqlate.coderaeg.com</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<false/>
+				<key>NSExceptionRequiresForwardSecrecy</key>
+				<true/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
+		</dict>
 	</dict>
+	<key>NSFaceIDUsageDescription</key>
+	<string>يحتاج التطبيق إلى التحقق من هويتك باستخدام Face ID لتوقيع العقود بأمان.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>يحتاج التطبيق إلى صلاحية الوصول لمعرض الصور لحفظ التصميمات واستعراضها.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
