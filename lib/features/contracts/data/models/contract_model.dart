@@ -138,7 +138,9 @@ class ContractModel extends ContractEntity {
               ?.map((e) => ContractBodyItemModel.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
-      apartmentId: json['apartment_id'] as int,
+      // apartment_id may be null in finishing contracts (API may omit it or use unit_id).
+      // Hard cast `as int` crashes at runtime when the field is missing — use null-safe parse.
+      apartmentId: (json['apartment_id'] as int?) ?? (json['unit_id'] as int?) ?? 0,
       customerId: json['customer_id'] as int,
       finishingOrderId: json['finishing_order_id'] as int?,
       createdAt: json['created_at'] as String,

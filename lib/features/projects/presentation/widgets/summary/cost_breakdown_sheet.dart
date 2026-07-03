@@ -207,7 +207,7 @@ class CostBreakdownSheet extends StatelessWidget {
                           ),
                           const SizedBox(height: 2),
                           Text(
-                            '${item.quantity} ${item.unit} × ${formatter.format(item.unitPrice).trim()} ${l10n.sar}',
+                            '${item.quantity} ${item.unit}',
                             style: TextStyle(
                               fontSize: AppFonts.labelMedium,
                               color: context.colors.textSecondary,

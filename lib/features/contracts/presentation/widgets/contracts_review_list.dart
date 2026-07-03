@@ -17,6 +17,7 @@ import 'contract_review_item_card.dart';
 class ContractsReviewList extends StatelessWidget {
   final double totalCost;
   final ProjectUnitEntity? unit;
+  final int aptId;
   final AppLocalizations l10n;
   final ContractsCubit cubit;
   final ContractsState state;
@@ -29,6 +30,7 @@ class ContractsReviewList extends StatelessWidget {
     super.key,
     required this.totalCost,
     required this.unit,
+    required this.aptId,
     required this.l10n,
     required this.cubit,
     required this.state,
@@ -104,8 +106,9 @@ class ContractsReviewList extends StatelessWidget {
               failureMessage: (partialFailureType == item.contractType) ? partialFailureMsg : null,
               onSign: () => onSignClick(item, unit),
               onPrint: () {
-                if (unit == null) return;
-                final aptId = int.tryParse(unit!.id) ?? 0;
+                // aptId is pre-resolved by the parent screen (prioritising
+                // contract.apartmentId so finishing contracts work without a unit).
+                if (aptId <= 0) return;
                 if (item.contractType == 'unit') {
                   context.read<ContractPrintCubit>().fetchBoneContractWebView(aptId);
                 } else {

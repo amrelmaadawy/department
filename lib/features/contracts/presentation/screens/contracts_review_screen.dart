@@ -40,10 +40,11 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
   String? _partialFailureType;
   String? _partialFailureMsg;
   ProjectUnitEntity? _currentUnit;
+  int _aptId = 0;
 
   /// Tracks whether finishing orders are still loading from the server.
   /// Shown as a loading indicator on the finishing contract card so the
-  /// user cannot tap "Sign" before the order IDs are available.
+  /// user cannot tap "سيجن" before the order IDs are available.
   bool _isLoadingFinishingOrders = false;
 
   @override
@@ -53,17 +54,17 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
     if (_currentUnit != null) {
       context.read<ContractsCubit>().loadSignatureStatuses(_currentUnit!.id);
 
-      final apartmentId = int.tryParse(_currentUnit!.id) ?? 0;
+      _aptId = int.tryParse(_currentUnit!.id) ?? 0;
 
       if (widget.selectedFinishingOrderIds.isNotEmpty) {
         // IDs passed directly from the previous screen — seed the cache.
         context.read<ContractsCubit>().cachedFinishingOrderIds =
             widget.selectedFinishingOrderIds;
         context.read<ContractsCubit>().isFinishingOrdersReady = true;
-      } else if (apartmentId > 0) {
+      } else if (_aptId > 0) {
         // Resume scenario: load from local storage first (instant),
         // then refresh from server in background.
-        _loadFinishingOrdersForResume(apartmentId);
+        _loadFinishingOrdersForResume(_aptId);
       }
     }
   }
@@ -114,6 +115,7 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
               return ContractsReviewList(
                 totalCost: totalCost,
                 unit: _currentUnit,
+                aptId: _aptId,
                 l10n: l10n,
                 cubit: context.read<ContractsCubit>(),
                 state: state,
