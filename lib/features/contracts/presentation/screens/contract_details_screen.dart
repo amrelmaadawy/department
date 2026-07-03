@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:apartment/core/services/security/screenshot_prevention_service.dart';
 import 'package:apartment/core/di/injection_container.dart';
 import 'package:apartment/core/routes/app_router.dart';
@@ -60,9 +59,18 @@ class _ContractDetailsViewState extends State<_ContractDetailsView> {
     return BlocListener<ContractPrintCubit, ContractPrintState>(
       listener: (context, printState) {
         if (printState is ContractPrintLoading) {
-          AppToast.showInfo(context, 'جاري جلب وتحضير العقد للطباعة من الخادم...');
+          AppToast.showInfo(context, 'جاري تحضير العقد...');
         } else if (printState is ContractPrintError) {
           AppToast.showError(context, printState.message);
+        } else if (printState is ContractPrintWebViewReady) {
+          context.push(
+            AppRouter.contractWebView,
+            extra: {
+              'printUrl': printState.printUrl,
+              'pdfUrl': printState.pdfUrl,
+              'contractTitle': printState.contractTitle,
+            },
+          );
         } else if (printState is ContractPrintReady) {
           Navigator.of(context).push(MaterialPageRoute(
             builder: (_) => ServerContractPrintPreviewScreen(
@@ -94,23 +102,6 @@ class _ContractDetailsViewState extends State<_ContractDetailsView> {
   Widget? _buildFab(BuildContext context, ContractsState state) {
     if (state is! ContractDetailsLoaded) return null;
     final ContractEntity contract = state.contract;
-
-    if (contract.status == 'signed') {
-      return FloatingActionButton.extended(
-        onPressed: () {
-          final aptId = contract.apartmentId;
-          if (contract.type.contains('finishing')) {
-            context.read<ContractPrintCubit>().fetchAndPrepareFinishingContract(aptId);
-          } else {
-            context.read<ContractPrintCubit>().fetchAndPrepareBoneContract(aptId);
-          }
-        },
-        backgroundColor: context.colors.primary,
-        foregroundColor: context.colors.white,
-        icon: const Icon(FluentIcons.print_24_regular, size: 20),
-        label: const Text('عرض وطباعة العقد', style: TextStyle(fontWeight: FontWeight.bold, fontSize: AppFonts.bodyMedium)),
-      );
-    }
 
     if (contract.status == 'pending_signature') {
       final contractType = contract.type.contains('finishing') ? ContractType.finishing : ContractType.unit;

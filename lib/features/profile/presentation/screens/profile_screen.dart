@@ -65,8 +65,6 @@ class _ProfileViewState extends State<ProfileView>
       duration: const Duration(milliseconds: 1200),
     );
 
-    context.read<ProfileCubit>().loadProfileIfNeeded();
-
     _headerAnim = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
         parent: _animController,
@@ -87,6 +85,21 @@ class _ProfileViewState extends State<ProfileView>
         curve: const Interval(0.5, 1.0, curve: Curves.easeOutCubic),
       ),
     );
+
+    // If the cubit is a singleton that already holds ProfileLoaded state
+    // (e.g., retained from a previous session), the BlocConsumer listener
+    // won't fire on the initial frame because no state change occurs.
+    // Jump the animation to its final position so all widgets are visible.
+    final currentState = context.read<ProfileCubit>().state;
+    if (currentState is ProfileLoaded) {
+      _hasAnimated = true;
+      _animController.value = 1.0; // All widgets immediately visible.
+    }
+
+    // Always refresh data on mount to ensure the logged-in user's data is shown.
+    // loadProfileIfNeeded() skips this when state is ProfileLoaded — which is
+    // exactly the stale-data scenario we need to fix.
+    context.read<ProfileCubit>().getProfile();
   }
 
   @override
@@ -133,7 +146,9 @@ class _ProfileViewState extends State<ProfileView>
                   isError: false,
                 );
                 
-                // Clear global states, router auth cache, and caches on logout
+                // Reset singleton cubit state so next login starts fresh.
+                // Without this, ProfileLoaded retains the previous user's data.
+                sl<ProfileCubit>().clearProfile();
                 sl<DesignContextCubit>().clearUnitSelection();
                 AppRouter.clearAuthCache();
                 
@@ -160,7 +175,14 @@ class _ProfileViewState extends State<ProfileView>
             }
           },
           builder: (context, profileState) {
-            if (profileState is ProfileLoading || profileState is ProfileInitial) {
+            if (profileState is ProfileLoading ||
+                profileState is ProfileInitial ||
+                // Update states are emitted while EditProfileScreen is on top.
+                // The ProfileView is invisible, but the builder still fires.
+                // Show shimmer instead of an empty-data flash.
+                profileState is ProfileUpdateLoading ||
+                profileState is ProfileUpdateSuccess ||
+                profileState is ProfileUpdateError) {
               return RefreshIndicator(
                 onRefresh: _onRefresh,
                 color: context.colors.primary,

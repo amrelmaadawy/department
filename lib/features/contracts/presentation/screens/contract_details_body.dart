@@ -1,4 +1,4 @@
-﻿import 'dart:ui' as ui;
+import 'dart:ui' as ui;
 
 import 'package:apartment/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +36,7 @@ class ContractDetailsBody extends StatelessWidget {
               AppSpacing.lg, AppSpacing.lg, AppSpacing.lg, AppSpacing.sm,
             ),
             child: Text(
-              'Ã™â€ Ã˜Âµ Ã˜Â§Ã™â€žÃ˜Â¹Ã™â€šÃ˜Â¯',
+              'نص العقد',
               style: TextStyle(
                 fontSize: AppFonts.headlineMedium,
                 fontWeight: FontWeight.bold,
@@ -143,7 +143,7 @@ class ContractDetailsBody extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Ã˜Â¥Ã˜Â¬Ã™â€¦Ã˜Â§Ã™â€žÃ™Å  Ã˜Â§Ã™â€žÃ˜Â¹Ã™â€šÃ˜Â¯',
+                    'إجمالي العقد',
                     style: TextStyle(
                       fontSize: AppFonts.bodyMedium,
                       color: context.colors.textSecondary,
@@ -161,7 +161,7 @@ class ContractDetailsBody extends StatelessWidget {
                       ),
                       const SizedBox(width: AppSpacing.xs),
                       Text(
-                        'Ã˜Â±.Ã˜Â³',
+                        'ر.س',
                         style: TextStyle(
                           fontSize: AppFonts.labelMedium,
                           color: context.colors.textSecondary,
@@ -179,22 +179,22 @@ class ContractDetailsBody extends StatelessWidget {
                 Expanded(
                   child: ContractStatChip(
                     icon: Icons.calendar_today_outlined,
-                    label: 'Ã˜ÂªÃ˜Â§Ã˜Â±Ã™Å Ã˜Â® Ã˜Â§Ã™â€žÃ˜Â¹Ã™â€šÃ˜Â¯',
+                    label: 'تاريخ العقد',
                     value: formatContractDate(contract.createdAt),
                   ),
                 ),
                 Expanded(
                   child: ContractStatChip(
                     icon: Icons.timelapse_rounded,
-                    label: 'Ã™â€¦Ã˜Â¯Ã˜Â© Ã˜Â§Ã™â€žÃ˜ÂªÃ™â€ Ã™ÂÃ™Å Ã˜Â°',
-                    value: '${contract.executionDuration} Ã˜Â´Ã™â€¡Ã˜Â±',
+                    label: 'مدة التنفيذ',
+                    value: '${contract.executionDuration} شهر',
                   ),
                 ),
                 if (contract.signedAt != null)
                   Expanded(
                     child: ContractStatChip(
                       icon: Icons.verified_rounded,
-                      label: 'Ã˜ÂªÃ˜Â§Ã˜Â±Ã™Å Ã˜Â® Ã˜Â§Ã™â€žÃ˜ÂªÃ™Ë†Ã™â€šÃ™Å Ã˜Â¹',
+                      label: 'تاريخ التوقيع',
                       value: formatContractDate(contract.signedAt!),
                     ),
                   ),
@@ -223,7 +223,7 @@ class ContractDetailsBody extends StatelessWidget {
   }
 }
 
-// Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Body Item Widgets Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+// ─── Body Item Widgets ─────────────────────────────────────────────────────────
 
 class _ContractTitleItem extends StatelessWidget {
   final String content;

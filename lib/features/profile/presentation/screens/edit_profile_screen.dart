@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_spacing.dart';
@@ -34,6 +35,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   String? _selectedAvatarPath;
   bool _isInitialized = false;
+  bool _isUpdating = false;
 
   @override
   void dispose() {
@@ -65,7 +67,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         bio: _bioController.text.trim(),
         avatarPath: _selectedAvatarPath,
       );
-
+      setState(() => _isUpdating = true);
       context.read<ProfileCubit>().updateProfile(params);
     }
   }
@@ -97,17 +99,21 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       ),
       body: BlocConsumer<ProfileCubit, ProfileState>(
         listener: (context, state) {
-          if (state is ProfileUpdateSuccess) {
+          if (state is ProfileLoaded && _isUpdating) {
+            // Pop only after ProfileLoaded is received following an update.
+            // This guarantees ProfileView already has the fresh data.
+            _isUpdating = false;
             AppToast.show(context,
                 message: l10n.updateProfileSuccess, isError: false);
-            context.pop(); // Go back after successful update
+            context.pop();
           } else if (state is ProfileUpdateError) {
+            _isUpdating = false;
             AppToast.show(context, message: state.message, isError: true);
           }
         },
         builder: (context, state) {
           if (state is ProfileLoading || state is ProfileInitial) {
-            return const Center(child: CircularProgressIndicator());
+            return const ProfileEditShimmer();
           }
 
           if (state is ProfileLoaded || state is ProfileUpdateLoading || state is ProfileUpdateError) {
@@ -120,7 +126,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
             return SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.all(AppSpacing.xl),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.lg,
+                vertical: AppSpacing.md,
+              ),
               child: Form(
                 key: _formKey,
                 child: Column(
@@ -195,7 +204,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       },
                       enabled: !isLoading,
                     ),
-                    const SizedBox(height: AppSpacing.xl),
+                    const SizedBox(height: AppSpacing.sm),
 
                     CustomTextField(
                       controller: _emailController,
@@ -214,7 +223,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       },
                       enabled: !isLoading,
                     ),
-                    const SizedBox(height: AppSpacing.xl),
+                    const SizedBox(height: AppSpacing.sm),
 
                     CustomTextField(
                       controller: _phoneController,
@@ -230,7 +239,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       },
                       enabled: !isLoading,
                     ),
-                    const SizedBox(height: AppSpacing.xl),
+                    const SizedBox(height: AppSpacing.sm),
 
                     CustomTextField(
                       controller: _addressController,
@@ -239,7 +248,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       icon: FluentIcons.location_24_regular,
                       enabled: !isLoading,
                     ),
-                    const SizedBox(height: AppSpacing.xl),
+                    const SizedBox(height: AppSpacing.sm),
 
                     CustomTextField(
                       controller: _bioController,
@@ -250,7 +259,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       enabled: !isLoading,
                     ),
 
-                    const SizedBox(height: AppSpacing.xxxl * 1.5),
+                    const SizedBox(height: AppSpacing.lg),
 
                     // Save Button
                     NetworkActionGuard(
@@ -268,6 +277,63 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
           return const SizedBox.shrink();
         },
+      ),
+    );
+  }
+}
+
+// ─── Shimmer skeleton for edit profile loading ────────────────────────────────
+
+class ProfileEditShimmer extends StatelessWidget {
+  const ProfileEditShimmer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final base = context.colors.border.withValues(alpha: 0.15);
+    final highlight = context.colors.white.withValues(alpha: 0.7);
+
+    return Shimmer.fromColors(
+      baseColor: base,
+      highlightColor: highlight,
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(AppSpacing.xl),
+        child: Column(
+          children: List.generate(5, (i) => _ShimmerField(index: i)),
+        ),
+      ),
+    );
+  }
+}
+
+class _ShimmerField extends StatelessWidget {
+  final int index;
+  const _ShimmerField({required this.index});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: AppSpacing.xl),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 100,
+            height: 12,
+            decoration: BoxDecoration(
+              color: context.colors.white,
+              borderRadius: BorderRadius.circular(6),
+            ),
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          Container(
+            width: double.infinity,
+            height: 56,
+            decoration: BoxDecoration(
+              color: context.colors.white,
+              borderRadius: BorderRadius.circular(14),
+            ),
+          ),
+        ],
       ),
     );
   }

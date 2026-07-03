@@ -1,11 +1,7 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:go_router/go_router.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:dio/dio.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:share_plus/share_plus.dart';
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -38,7 +34,6 @@ class _ContractWebViewScreenState extends State<ContractWebViewScreen> {
   bool _isPageLoading = true;
   bool _hasError = false;
   String _errorMessage = '';
-  bool _isPdfLoading = false;
 
   @override
   void initState() {
@@ -59,17 +54,38 @@ class _ContractWebViewScreenState extends State<ContractWebViewScreen> {
           },
           onPageFinished: (url) {
             if (mounted) setState(() => _isPageLoading = false);
-            // Inject Cairo Arabic font into the server's HTML page.
+            // 1. Force scrolling — print CSS often sets overflow:hidden / height:100vh
+            //    which blocks touch scrolling on real devices (emulator ignores this).
+            // 2. Inject Cairo Arabic font for readable contract text.
             _controller?.runJavaScript(r"""
               (function() {
-                var link = document.createElement('link');
-                link.rel = 'stylesheet';
-                link.href = 'https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap';
-                document.head.appendChild(link);
+                /* ── Scroll fix ── */
+                var scrollStyle = document.createElement('style');
+                scrollStyle.innerHTML = [
+                  'html, body {',
+                  '  overflow: auto !important;',
+                  '  height: auto !important;',
+                  '  min-height: 100% !important;',
+                  '  -webkit-overflow-scrolling: touch !important;',
+                  '}',
+                  '@media print {',
+                  '  html, body {',
+                  '    overflow: auto !important;',
+                  '    height: auto !important;',
+                  '  }',
+                  '}'
+                ].join('');
+                document.head.appendChild(scrollStyle);
 
-                var style = document.createElement('style');
-                style.innerHTML = "* { font-family: 'Cairo', sans-serif !important; direction: rtl; }";
-                document.head.appendChild(style);
+                /* ── Arabic font ── */
+                var fontLink = document.createElement('link');
+                fontLink.rel = 'stylesheet';
+                fontLink.href = 'https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap';
+                document.head.appendChild(fontLink);
+
+                var fontStyle = document.createElement('style');
+                fontStyle.innerHTML = "* { font-family: 'Cairo', sans-serif !important; direction: rtl; }";
+                document.head.appendChild(fontStyle);
               })();
             """);
           },
@@ -106,54 +122,6 @@ class _ContractWebViewScreenState extends State<ContractWebViewScreen> {
     }
   }
 
-  /// Downloads the PDF bytes silently via Dio, saves to a temp file,
-  /// then opens the system share sheet.
-  /// The user can pick any installed PDF viewer (Adobe, WPS, Drive, etc.)
-  /// or save to Downloads — nothing automatically leaves the app UI.
-  Future<void> _openPdfPreview() async {
-    if (_isPdfLoading) return;
-    if (widget.pdfUrl.isEmpty) {
-      AppToast.showError(context, 'رابط الملف غير متاح');
-      return;
-    }
-
-    setState(() => _isPdfLoading = true);
-    try {
-      // The pdf_url is self-signed — no Bearer token needed.
-      final response = await Dio(BaseOptions(
-        receiveTimeout: const Duration(seconds: 60),
-        sendTimeout: const Duration(seconds: 30),
-      )).get<List<int>>(
-        widget.pdfUrl,
-        options: Options(responseType: ResponseType.bytes),
-      );
-
-      final bytes = response.data;
-      if (bytes == null || bytes.isEmpty) throw Exception('الملف فارغ');
-
-      // Save to temp directory (avoids Scoped Storage issues on Android 10+).
-      final dir = await getTemporaryDirectory();
-      final safeTitle = widget.contractTitle.replaceAll(RegExp(r'[^\w\u0600-\u06FF]'), '_');
-      final filePath = '${dir.path}/${safeTitle}_${DateTime.now().millisecondsSinceEpoch}.pdf';
-      await File(filePath).writeAsBytes(bytes);
-
-      if (!mounted) return;
-
-      // Share sheet lets the user open in PDF viewer / share / save to Drive.
-      await SharePlus.instance.share(
-        ShareParams(
-          files: [XFile(filePath, mimeType: 'application/pdf')],
-          subject: widget.contractTitle,
-        ),
-      );
-    } catch (e) {
-      if (mounted) {
-        AppToast.showError(context, 'فشل تحميل ملف العقد. تحقق من الاتصال بالإنترنت.');
-      }
-    } finally {
-      if (mounted) setState(() => _isPdfLoading = false);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -191,55 +159,9 @@ class _ContractWebViewScreenState extends State<ContractWebViewScreen> {
           if (_hasError) _buildErrorView(context),
         ],
       ),
-      bottomNavigationBar: _buildActionBar(context),
     );
   }
 
-  Widget _buildActionBar(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(
-        AppSpacing.md,
-        AppSpacing.sm,
-        AppSpacing.md,
-        AppSpacing.md,
-      ),
-      decoration: BoxDecoration(
-        color: context.colors.white,
-        border: Border(
-          top: BorderSide(color: context.colors.border.withValues(alpha: 0.2)),
-        ),
-      ),
-      child: ElevatedButton.icon(
-        onPressed: _isPdfLoading ? null : _openPdfPreview,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: context.colors.primary,
-          foregroundColor: AppColors.white,
-          disabledBackgroundColor: context.colors.primary.withValues(alpha: 0.4),
-          disabledForegroundColor: AppColors.white,
-          minimumSize: const Size(double.infinity, 52),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(14),
-          ),
-          elevation: 0,
-        ),
-        icon: _isPdfLoading
-            ? const SizedBox(
-                width: 18,
-                height: 18,
-                child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.white),
-              )
-            : const Icon(FluentIcons.document_pdf_24_regular, size: 20),
-        label: Text(
-          _isPdfLoading ? 'جاري التحضير...' : 'عرض / طباعة PDF',
-          style: const TextStyle(
-            fontFamily: 'Cairo',
-            fontSize: AppFonts.bodyMedium,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-    );
-  }
 
   Widget _buildLoadingOverlay(BuildContext context) {
     return Container(

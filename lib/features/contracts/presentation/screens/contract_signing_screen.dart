@@ -77,8 +77,18 @@ class _ContractSigningScreenState extends State<ContractSigningScreen> {
     if (value != null) setState(() => _isAgreed = value);
   }
 
-  /// Extracts the numeric apartment ID from the unit passed to this screen.
+  /// Extracts the numeric apartment ID.
+  ///
+  /// Priority order:
+  ///   1. contract.apartmentId — always available, used when navigating from
+  ///      ContractDetailsScreen (finishing contracts don't pass a unit).
+  ///   2. unit.id — used when navigating from the customer journey flow.
   int _resolveApartmentId() {
+    // 1. Use contract entity directly (most reliable).
+    final contractAptId = widget.contract?.apartmentId ?? 0;
+    if (contractAptId > 0) return contractAptId;
+
+    // 2. Fallback: extract from the dynamic unit object.
     if (widget.unit == null) return 0;
     try {
       final id = widget.unit.id;
