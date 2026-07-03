@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:go_router/go_router.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:apartment/core/services/security/screenshot_prevention_service.dart';
 import 'package:apartment/core/di/injection_container.dart';
 import 'package:apartment/core/theme/app_fonts.dart';
@@ -74,28 +75,23 @@ class _ContractReviewScreenState extends State<ContractReviewScreen> {
     setState(() => _isPrinting = true);
     try {
       final fileName = 'contract_${widget.contract.contractNumber}.pdf';
-      Directory? saveDir;
-
-      if (Platform.isAndroid) {
-        // Save directly to Downloads folder on Android
-        saveDir = Directory('/storage/emulated/0/Download');
-        if (!await saveDir.exists()) {
-          saveDir = await getExternalStorageDirectory();
-        }
-      } else {
-        // iOS: save to app's Documents directory (accessible via Files app)
-        saveDir = await getApplicationDocumentsDirectory();
-      }
-
-      final filePath = '${saveDir!.path}/$fileName';
+      final tempDir = await getTemporaryDirectory();
+      final filePath = '${tempDir.path}/$fileName';
       final file = File(filePath);
       await file.writeAsBytes(_pdfBytes!);
 
-      if (mounted) {
-        AppToast.showSuccess(context, 'تم حفظ العقد في: $filePath');
-      }
+      // Use SharePlus to let the user save to files, print, or share.
+      // This avoids Scoped Storage permission issues on Android.
+      await SharePlus.instance.share(
+        ShareParams(
+          files: [XFile(filePath)],
+          text: 'عقد التشطيب رقم ${widget.contract.contractNumber}',
+        ),
+      );
+
+      // No toast here; user can successfully save or print from the Share sheet.
     } catch (e) {
-      if (mounted) AppToast.showError(context, 'فشل في حفظ الملف');
+      if (mounted) AppToast.showError(context, 'فشل في حفظ أو مشاركة الملف');
     } finally {
       if (mounted) setState(() => _isPrinting = false);
     }

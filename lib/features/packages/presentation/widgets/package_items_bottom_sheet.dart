@@ -148,10 +148,7 @@ class _RoomMaterialsGroup extends StatelessWidget {
   final String roomType;
   final List<PackageItemEntity> items;
 
-  const _RoomMaterialsGroup({
-    required this.roomType,
-    required this.items,
-  });
+  const _RoomMaterialsGroup({required this.roomType, required this.items});
 
   @override
   Widget build(BuildContext context) {

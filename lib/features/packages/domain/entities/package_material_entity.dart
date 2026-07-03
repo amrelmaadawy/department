@@ -7,6 +7,8 @@ class PackageMaterialEntity extends Equatable {
   final double priceMaterial;
   final double priceLabor;
   final double finalUnitPrice;
+  final int? companyId;
+  final String? companyName;
   final List<String> images;
 
   const PackageMaterialEntity({
@@ -16,9 +18,21 @@ class PackageMaterialEntity extends Equatable {
     required this.priceMaterial,
     required this.priceLabor,
     required this.finalUnitPrice,
+    this.companyId,
+    this.companyName,
     required this.images,
   });
 
   @override
-  List<Object?> get props => [id, name, unit, priceMaterial, priceLabor, finalUnitPrice, images];
+  List<Object?> get props => [
+    id,
+    name,
+    unit,
+    priceMaterial,
+    priceLabor,
+    finalUnitPrice,
+    companyId,
+    companyName,
+    images,
+  ];
 }

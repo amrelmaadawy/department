@@ -638,5 +638,12 @@
   "noInterestedUnits": "لم تقم بحفظ أي وحدات بعد",
   "totalSpent": "إجمالي الإنفاق",
   "draftRestoredMessage": "تم استرجاع آخر اختيارات قمت بها لهذه الوحدة",
-  "offlineDraftMessage": "أنت تعمل حالياً دون اتصال، سيتم مزامنة اختياراتك عند عودة الاتصال"
+  "offlineDraftMessage": "أنت تعمل حالياً دون اتصال، سيتم مزامنة اختياراتك عند عودة الاتصال",
+  "finishingEditLockedSigned": "تم توقيع عقد التشطيب — لا يمكن التعديل بعد الآن",
+  "finishingEditLockedNotOwner": "أنت لست مالك هذه الوحدة",
+  "finishingEditLockedNotSold": "هذه الوحدة لم تُباع بعد",
+  "finishingEditAvailableBanner": "يمكنك تعديل اختيارات التشطيب حتى توقيع عقد التشطيب",
+  "editFinishingSelections": "تعديل اختيارات التشطيب",
+  "viewFinishingSelections": "عرض اختيارات التشطيب",
+  "finishingLockedReadOnly": "التشطيب مؤمَّن — العقد موقَّع"
 }

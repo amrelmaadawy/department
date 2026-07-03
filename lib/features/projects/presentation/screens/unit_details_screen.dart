@@ -7,6 +7,8 @@ import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 import 'package:apartment/features/home/domain/entities/project_unit_entity.dart';
 import 'package:apartment/l10n/app_localizations.dart';
+import 'package:apartment/features/contracts/presentation/cubit/contracts_cubit.dart';
+import 'package:apartment/features/contracts/presentation/cubit/contracts_state.dart';
 import '../cubit/unit_details_cubit.dart';
 import '../widgets/details/unit/unit_floor_plan_viewer.dart';
 import '../widgets/details/unit/unit_overview_card.dart';
@@ -16,7 +18,6 @@ import '../widgets/details/unit/unit_rooms_list.dart';
 import '../widgets/details/project_features_row.dart';
 import '../widgets/details/unit/unit_details_bottom_bar.dart';
 import '../../../customer_journey/presentation/cubit/active_journey_cubit.dart';
-import '../../../../features/contracts/presentation/cubit/contracts_cubit.dart';
 
 class UnitDetailsScreen extends StatefulWidget {
   final ProjectUnitEntity unit;
@@ -49,16 +50,32 @@ class _UnitDetailsScreenState extends State<UnitDetailsScreen> {
             create: (context) {
               final cubit = sl<ContractsCubit>();
               final apartmentId = int.tryParse(widget.unit.id) ?? 0;
-              // جلب حالات التوقيع
               cubit.loadSignatureStatuses(widget.unit.id);
-              // جلب الـ Finishing Orders لتحديد الخطوة التالية الصحيحة
               if (apartmentId > 0) cubit.fetchFinishingOrders(apartmentId);
               return cubit;
             },
           ),
         ],
       ],
-      child: _UnitDetailsScreenContent(heroTag: widget.heroTag),
+      // BlocListener wires ContractsCubit statuses → UnitDetailsCubit eligibility.
+      // This keeps the two features decoupled: UnitDetailsCubit never imports contracts.
+      child: widget.unit.isCurrentUserUnit
+          ? BlocListener<ContractsCubit, ContractsState>(
+              listenWhen: (prev, curr) =>
+                  curr is ContractStatusesListLoaded ||
+                  curr is ContractSignatureStatusesLoaded,
+              listener: (context, state) {
+                final unitCubit = context.read<UnitDetailsCubit>();
+                if (state is ContractStatusesListLoaded) {
+                  unitCubit.updateEditEligibility(state.statuses);
+                } else if (state is ContractSignatureStatusesLoaded) {
+                  // Fallback: no statuses list, derive from flags
+                  unitCubit.updateEditEligibility([]);
+                }
+              },
+              child: _UnitDetailsScreenContent(heroTag: widget.heroTag),
+            )
+          : _UnitDetailsScreenContent(heroTag: widget.heroTag),
     );
   }
 }

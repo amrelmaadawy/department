@@ -7,6 +7,7 @@ import 'package:apartment/features/packages/domain/entities/finishing_package_en
 import 'package:apartment/features/packages/domain/utils/package_helper.dart';
 import 'package:apartment/features/design_studio/presentation/cubit/design_context_cubit.dart';
 import 'package:apartment/features/design_studio/presentation/cubit/design_context_state.dart';
+import 'package:apartment/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -21,10 +22,15 @@ class UnitCustomizationContent extends StatefulWidget {
   final ProjectUnitEntity initialUnit;
   final FinishingPackageEntity? selectedPackage;
 
+  /// When true, the screen is in view-only mode because the finishing
+  /// contract has been signed. No edits are possible.
+  final bool isReadOnly;
+
   const UnitCustomizationContent({
     super.key,
     required this.initialUnit,
     this.selectedPackage,
+    this.isReadOnly = false,
   });
 
   @override
@@ -123,7 +129,8 @@ class _UnitCustomizationContentState extends State<UnitCustomizationContent> {
                         ),
                       ),
                       if (selectedPackage != null) PackageModeBanner(packageName: selectedPackage.name),
-                      const AiCreditsBanner(),
+                      if (widget.isReadOnly) const _FinishingLockedBanner(),
+                      if (!widget.isReadOnly) const AiCreditsBanner(),
                       Expanded(
                         child: TabBarView(
                           children: currentUnit.rooms.map((room) => RoomDetailsPage(
@@ -131,6 +138,7 @@ class _UnitCustomizationContentState extends State<UnitCustomizationContent> {
                             unit: currentUnit,
                             tabController: tabController,
                             selectedPackage: selectedPackage,
+                            isReadOnly: widget.isReadOnly,
                           )).toList(),
                         ),
                       ),
@@ -141,6 +149,38 @@ class _UnitCustomizationContentState extends State<UnitCustomizationContent> {
             );
           },
         ),
+      ),
+    );
+  }
+}
+
+/// Shown at the top of [UnitCustomizationContent] when [isReadOnly] is true.
+/// Informs the user that the finishing contract is signed and no edits are possible.
+class _FinishingLockedBanner extends StatelessWidget {
+  const _FinishingLockedBanner();
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      color: context.colors.success.withValues(alpha: 0.12),
+      child: Row(
+        children: [
+          Icon(Icons.lock_outline_rounded, size: 18, color: context.colors.success),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              l10n.finishingLockedReadOnly,
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: context.colors.success,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

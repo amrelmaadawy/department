@@ -38,6 +38,12 @@ class FakeContractRepository implements ContractRepository {
 
   @override
   Future<Either<Failure, ContractEntity>> signContract(int contractId, String signatureBase64) => throw UnimplementedError();
+
+  @override
+  Future<Either<Failure, void>> saveFinishingOrderIds(int apartmentId, List<int> ids) => throw UnimplementedError();
+
+  @override
+  Future<Either<Failure, List<int>>> getFinishingOrderIds(int apartmentId) => throw UnimplementedError();
 }
 
 void main() {

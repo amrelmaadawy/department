@@ -3055,6 +3055,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You are currently working offline. Your selections will be synced once connected'**
   String get offlineDraftMessage;
+
+  /// No description provided for @finishingEditLockedSigned.
+  ///
+  /// In en, this message translates to:
+  /// **'Finishing contract signed — edits are no longer allowed'**
+  String get finishingEditLockedSigned;
+
+  /// No description provided for @finishingEditLockedNotOwner.
+  ///
+  /// In en, this message translates to:
+  /// **'You are not the owner of this unit'**
+  String get finishingEditLockedNotOwner;
+
+  /// No description provided for @finishingEditLockedNotSold.
+  ///
+  /// In en, this message translates to:
+  /// **'This unit has not been sold yet'**
+  String get finishingEditLockedNotSold;
+
+  /// No description provided for @finishingEditAvailableBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'You can edit your finishing selections until the contract is signed'**
+  String get finishingEditAvailableBanner;
+
+  /// No description provided for @editFinishingSelections.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Finishing Selections'**
+  String get editFinishingSelections;
+
+  /// No description provided for @viewFinishingSelections.
+  ///
+  /// In en, this message translates to:
+  /// **'View Finishing Selections'**
+  String get viewFinishingSelections;
+
+  /// No description provided for @finishingLockedReadOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Finishing Locked — Contract Signed'**
+  String get finishingLockedReadOnly;
 }
 
 class _AppLocalizationsDelegate

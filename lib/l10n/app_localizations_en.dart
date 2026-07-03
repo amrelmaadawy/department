@@ -1588,4 +1588,28 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get offlineDraftMessage =>
       'You are currently working offline. Your selections will be synced once connected';
+
+  @override
+  String get finishingEditLockedSigned =>
+      'Finishing contract signed — edits are no longer allowed';
+
+  @override
+  String get finishingEditLockedNotOwner =>
+      'You are not the owner of this unit';
+
+  @override
+  String get finishingEditLockedNotSold => 'This unit has not been sold yet';
+
+  @override
+  String get finishingEditAvailableBanner =>
+      'You can edit your finishing selections until the contract is signed';
+
+  @override
+  String get editFinishingSelections => 'Edit Finishing Selections';
+
+  @override
+  String get viewFinishingSelections => 'View Finishing Selections';
+
+  @override
+  String get finishingLockedReadOnly => 'Finishing Locked — Contract Signed';
 }

@@ -24,10 +24,19 @@ class FinishingPackageEntity extends Equatable {
   /// Returns unique room types present in this package
   List<String> get roomTypes => items.map((e) => e.roomType).toSet().toList();
 
-  List<PackageItemEntity> itemsForRoom(String roomType) =>
-      items.where((e) => e.roomType.trim().toLowerCase() == roomType.trim().toLowerCase()).toList();
+  List<PackageItemEntity> itemsForRoom(String roomType) => items
+      .where(
+        (e) => e.roomType.trim().toLowerCase() == roomType.trim().toLowerCase(),
+      )
+      .toList();
 
   @override
-  List<Object?> get props => [id, name, badges, description, calculatedPrice, items];
+  List<Object?> get props => [
+    id,
+    name,
+    badges,
+    description,
+    calculatedPrice,
+    items,
+  ];
 }
-

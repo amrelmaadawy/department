@@ -1,7 +1,7 @@
 name: apartment
 description: "شطبها — منصة تشطيب وتصميم الوحدات السكنية بالذكاء الاصطناعي"
 publish_to: 'none'
-version: 1.0.4+8
+version: 1.0.5+9
 
 environment:
   sdk: ^3.10.4
@@ -40,6 +40,7 @@ dependencies:
   internet_connection_checker_plus: ^3.1.0
   crypto: ^3.0.3
   local_auth: ^2.1.0
+  webview_flutter: ^4.14.0
 
 dev_dependencies:
   flutter_test:

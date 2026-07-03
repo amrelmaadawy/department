@@ -10,6 +10,8 @@ class PackageMaterialModel extends PackageMaterialEntity {
     required super.priceMaterial,
     required super.priceLabor,
     required super.finalUnitPrice,
+    super.companyId,
+    super.companyName,
     required super.images,
   });
 
@@ -18,10 +20,15 @@ class PackageMaterialModel extends PackageMaterialEntity {
       id: int.tryParse(json['id']?.toString() ?? '') ?? 0,
       name: json['name']?.toString() ?? '',
       unit: json['unit']?.toString() ?? '',
-      priceMaterial: double.tryParse(json['price_material']?.toString() ?? '') ?? 0.0,
+      priceMaterial:
+          double.tryParse(json['price_material']?.toString() ?? '') ?? 0.0,
       priceLabor: double.tryParse(json['price_labor']?.toString() ?? '') ?? 0.0,
-      finalUnitPrice: double.tryParse(json['final_unit_price']?.toString() ?? '') ?? 0.0,
-      images: (json['images'] as List<dynamic>?)
+      finalUnitPrice:
+          double.tryParse(json['final_unit_price']?.toString() ?? '') ?? 0.0,
+      companyId: int.tryParse(json['company_id']?.toString() ?? ''),
+      companyName: json['company_name']?.toString(),
+      images:
+          (json['images'] as List<dynamic>?)
               ?.map((e) => e.toString())
               .toList() ??
           [],
@@ -30,10 +37,7 @@ class PackageMaterialModel extends PackageMaterialEntity {
 }
 
 class PackageItemModel extends PackageItemEntity {
-  const PackageItemModel({
-    required super.roomType,
-    required super.material,
-  });
+  const PackageItemModel({required super.roomType, required super.material});
 
   factory PackageItemModel.fromJson(Map<String, dynamic> json) {
     final matJson = json['material'];
@@ -48,6 +52,8 @@ class PackageItemModel extends PackageItemEntity {
               priceMaterial: 0.0,
               priceLabor: 0.0,
               finalUnitPrice: 0.0,
+              companyId: null,
+              companyName: null,
               images: [],
             ),
     );
@@ -71,19 +77,20 @@ class PackageModel extends FinishingPackageEntity {
 
     final List<String> parsedBadges = rawBadges != null
         ? rawBadges
-            .map((e) => e.toString().trim())
-            .where((e) => e.isNotEmpty)
-            .toList()
+              .map((e) => e.toString().trim())
+              .where((e) => e.isNotEmpty)
+              .toList()
         : (singleBadge != null && singleBadge.trim().isNotEmpty
-            ? [singleBadge.trim()]
-            : []);
+              ? [singleBadge.trim()]
+              : []);
 
     return PackageModel(
       id: int.tryParse(json['id']?.toString() ?? '') ?? 0,
       name: json['name']?.toString() ?? '',
       badges: parsedBadges,
       description: json['description']?.toString() ?? '',
-      calculatedPrice: double.tryParse(json['calculated_price']?.toString() ?? '') ?? 0.0,
+      calculatedPrice:
+          double.tryParse(json['calculated_price']?.toString() ?? '') ?? 0.0,
       items: rawItems
           .whereType<Map<String, dynamic>>()
           .map((e) => PackageItemModel.fromJson(e))
@@ -91,4 +98,3 @@ class PackageModel extends FinishingPackageEntity {
     );
   }
 }
-

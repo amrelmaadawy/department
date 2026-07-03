@@ -104,10 +104,7 @@ class PackagesView extends StatelessWidget {
                         left: AppSpacing.lg,
                         right: AppSpacing.lg,
                       ),
-                      child: PackageCard(
-                        package: package,
-                        unit: unit,
-                      ),
+                      child: PackageCard(package: package, unit: unit),
                     ),
                   ),
                 ],
@@ -148,10 +145,7 @@ class _ErrorView extends StatelessWidget {
               style: TextStyle(color: context.colors.textSecondary),
             ),
             const SizedBox(height: AppSpacing.lg),
-            ElevatedButton(
-              onPressed: onRetry,
-              child: Text(l10n.retryLoad),
-            ),
+            ElevatedButton(onPressed: onRetry, child: Text(l10n.retryLoad)),
           ],
         ),
       ),

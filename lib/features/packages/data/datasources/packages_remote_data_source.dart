@@ -15,7 +15,9 @@ class PackagesRemoteDataSourceImpl implements PackagesRemoteDataSource {
   @override
   Future<List<PackageModel>> getPackages() async {
     final response = await apiClient.get(ApiEndpoints.packages);
-    if (response != null && response['data'] != null && response['data'] is List) {
+    if (response != null &&
+        response['data'] != null &&
+        response['data'] is List) {
       return (response['data'] as List)
           .map((item) => PackageModel.fromJson(item as Map<String, dynamic>))
           .toList();

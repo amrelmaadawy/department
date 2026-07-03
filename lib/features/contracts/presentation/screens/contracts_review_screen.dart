@@ -131,12 +131,26 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
 
   void _onPrintStateListener(BuildContext context, ContractPrintState state) {
     if (state is ContractPrintLoading) {
-      AppToast.showInfo(context, 'جاري جلب وتحضير العقد للطباعة من الخادم...');
+      AppToast.showInfo(context, 'جاري جلب بيانات العقد...');
     } else if (state is ContractPrintError) {
       AppToast.showError(context, state.message);
+    } else if (state is ContractPrintWebViewReady) {
+      // Preferred path: open the server print_url in an in-app WebView
+      context.push(
+        AppRouter.contractWebView,
+        extra: {
+          'printUrl': state.printUrl,
+          'pdfUrl': state.pdfUrl,
+          'contractTitle': state.contractTitle,
+        },
+      );
     } else if (state is ContractPrintReady) {
+      // Fallback: legacy PDF bytes path (kept for backward compatibility)
       Navigator.of(context).push(MaterialPageRoute(
-        builder: (_) => ServerContractPrintPreviewScreen(pdfBytes: state.pdfBytes, contractTitle: state.contractTitle),
+        builder: (_) => ServerContractPrintPreviewScreen(
+          pdfBytes: state.pdfBytes,
+          contractTitle: state.contractTitle,
+        ),
       ));
     }
   }

@@ -634,5 +634,12 @@
   "noInterestedUnits": "You haven't saved any units yet",
   "totalSpent": "Total Spent",
   "draftRestoredMessage": "Last selections for this unit have been restored",
-  "offlineDraftMessage": "You are currently working offline. Your selections will be synced once connected"
+  "offlineDraftMessage": "You are currently working offline. Your selections will be synced once connected",
+  "finishingEditLockedSigned": "Finishing contract signed — edits are no longer allowed",
+  "finishingEditLockedNotOwner": "You are not the owner of this unit",
+  "finishingEditLockedNotSold": "This unit has not been sold yet",
+  "finishingEditAvailableBanner": "You can edit your finishing selections until the contract is signed",
+  "editFinishingSelections": "Edit Finishing Selections",
+  "viewFinishingSelections": "View Finishing Selections",
+  "finishingLockedReadOnly": "Finishing Locked — Contract Signed"
 }

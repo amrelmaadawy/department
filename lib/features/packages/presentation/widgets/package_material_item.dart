@@ -25,9 +25,7 @@ class PackageMaterialItemWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: context.colors.white,
         borderRadius: BorderRadius.circular(AppRadius.lg),
-        border: Border.all(
-          color: context.colors.border.withValues(alpha: 0.5),
-        ),
+        border: Border.all(color: context.colors.border.withValues(alpha: 0.5)),
       ),
       child: Row(
         children: [
@@ -63,6 +61,20 @@ class PackageMaterialItemWidget extends StatelessWidget {
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
+                if (item.material.companyName != null &&
+                    item.material.companyName!.isNotEmpty) ...[
+                  const SizedBox(height: 2),
+                  Text(
+                    item.material.companyName!,
+                    style: TextStyle(
+                      fontSize: AppFonts.bodySmall,
+                      fontWeight: FontWeight.w500,
+                      color: context.colors.primary,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
                 const SizedBox(height: 2),
                 Text(
                   '${item.material.unit} · ${item.material.finalUnitPrice.toStringAsFixed(0)} ر.س',

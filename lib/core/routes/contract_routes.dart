@@ -8,6 +8,7 @@ import 'package:apartment/core/routes/app_router_transitions.dart';
 import '../../../features/contracts/presentation/screens/contract_signing_screen.dart';
 import '../../../features/contracts/presentation/screens/contract_review_screen.dart';
 import '../../../features/contracts/presentation/screens/contract_details_screen.dart';
+import '../../../features/contracts/presentation/screens/contract_webview_screen.dart';
 import '../../../features/contracts/domain/entities/contract_type.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../features/contracts/presentation/cubit/contracts_cubit.dart';
@@ -29,7 +30,7 @@ class ContractRoutes {
           key: state.pageKey,
           transitionDuration: const Duration(milliseconds: 600),
           child: BlocProvider(
-            create: (context) => sl<ContractsCubit>(),
+            create: (_) => sl<ContractsCubit>(),
             child: ContractSigningScreen(
               contractType: contractType,
               finishingTotal: finishingTotal,
@@ -72,6 +73,25 @@ class ContractRoutes {
           transitionDuration: const Duration(milliseconds: 500),
           child: ContractDetailsScreen(contractId: contractId),
           transitionsBuilder: AppRouterTransitions.slideFromRight,
+        );
+      },
+    ),
+    GoRoute(
+      path: AppRouter.contractWebView,
+      pageBuilder: (context, state) {
+        final args = state.extra as Map<String, dynamic>? ?? {};
+        final printUrl = args['printUrl'] as String? ?? '';
+        final pdfUrl = args['pdfUrl'] as String? ?? '';
+        final contractTitle = args['contractTitle'] as String? ?? 'العقد';
+        return CustomTransitionPage(
+          key: state.pageKey,
+          transitionDuration: const Duration(milliseconds: 500),
+          child: ContractWebViewScreen(
+            printUrl: printUrl,
+            pdfUrl: pdfUrl,
+            contractTitle: contractTitle,
+          ),
+          transitionsBuilder: AppRouterTransitions.slideUpFromBottom,
         );
       },
     ),

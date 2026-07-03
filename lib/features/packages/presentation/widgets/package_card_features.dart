@@ -24,9 +24,7 @@ class PackageCardFeatures extends StatelessWidget {
         horizontal: AppSpacing.xl,
         vertical: AppSpacing.xl,
       ),
-      decoration: const BoxDecoration(
-        color: AppColors.transparent,
-      ),
+      decoration: const BoxDecoration(color: AppColors.transparent),
       child: Column(
         children: features
             .map((feature) => _buildFeatureRow(context, feature, isDark))
@@ -37,9 +35,7 @@ class PackageCardFeatures extends StatelessWidget {
 
   Widget _buildFeatureRow(BuildContext context, String feature, bool isDark) {
     return Padding(
-      padding: const EdgeInsets.only(
-        bottom: AppSpacing.lg,
-      ),
+      padding: const EdgeInsets.only(bottom: AppSpacing.lg),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

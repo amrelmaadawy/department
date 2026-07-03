@@ -73,16 +73,17 @@ class UnitDetailsBottomBar extends StatelessWidget {
     if (unit.isCurrentUserUnit) {
       return BlocBuilder<ContractsCubit, ContractsState>(
         builder: (context, contractsState) {
-          // حالة التحميل
           final isLoading = contractsState is FinishingOrdersLoading ||
               contractsState is ContractSigningLoading;
 
-          // نجمع كل المعلومات من الـ Cubit مباشرة (مش من الـ State فقط)
-          final cubit = context.read<ContractsCubit>();
-          final boneSigned = cubit.isUnitContractSigned;
-          final finishingSigned = cubit.isFinishingContractSigned;
+          final contractsCubit = context.read<ContractsCubit>();
+          final boneSigned = contractsCubit.isUnitContractSigned;
+          final finishingSigned = contractsCubit.isFinishingContractSigned;
 
-          // هل في Finishing Orders محفوظة في السيرفر؟
+          // Read eligibility from UnitDetailsCubit (computed by the UseCase)
+          final unitState = context.watch<UnitDetailsCubit>().state;
+          final canEditFinishing = unitState.canEditFinishing;
+
           List<int> existingOrderIds = [];
           if (contractsState is FinishingOrdersLoaded) {
             existingOrderIds = contractsState.rooms
@@ -96,9 +97,17 @@ class UnitDetailsBottomBar extends StatelessWidget {
           VoidCallback? onPressed;
 
           if (boneSigned && finishingSigned) {
-            // ✅ كل العقود موقّعة
-            btnText = 'عرض عقودك';
-            onPressed = () => context.push(AppRouter.myContracts);
+            // ✅ كل العقود موقّعة — عرض فقط
+            btnText = canEditFinishing
+                ? l10n.editFinishingSelections
+                : l10n.viewFinishingSelections;
+            onPressed = () => context.push(
+                  AppRouter.unitCustomization,
+                  extra: {
+                    'unit': unit,
+                    'isReadOnly': !canEditFinishing,
+                  },
+                );
           } else if (boneSigned && existingOrderIds.isNotEmpty) {
             // ✅ عقد العظم موقّع + في طلبات تشطيب → امضي عقد التشطيب
             btnText = 'استكمال توقيع عقد التشطيب';
@@ -110,17 +119,30 @@ class UnitDetailsBottomBar extends StatelessWidget {
                     'selectedFinishingOrderIds': existingOrderIds,
                   },
                 );
-          } else if (boneSigned && existingOrderIds.isEmpty && contractsState is! FinishingOrdersLoading) {
-            // ✅ عقد العظم موقّع + مفيش طلبات تشطيب → اختر التشطيب أولاً
-            btnText = 'اختر تشطيب شقتك';
-            onPressed = () => context.push(AppRouter.finishingGuide, extra: {'unit': unit});
+          } else if (boneSigned &&
+              existingOrderIds.isEmpty &&
+              contractsState is! FinishingOrdersLoading) {
+            // ✅ عقد العظم موقّع + مفيش طلبات → اختر التشطيب
+            btnText = canEditFinishing
+                ? l10n.editFinishingSelections
+                : 'اختر تشطيب شقتك';
+            onPressed = () => context.push(
+                  AppRouter.finishingGuide,
+                  extra: {'unit': unit},
+                );
           } else {
-            // حالة التحميل أو البداية
             btnText = 'جاري التحقق من حالة عقودك...';
             onPressed = null;
           }
 
-          return _buildContainer(context, btnText, onPressed, isLoading);
+          return _buildContainer(
+            context,
+            btnText,
+            onPressed,
+            isLoading,
+            showEditBanner: canEditFinishing && boneSigned && !finishingSigned,
+            showLockedBanner: boneSigned && finishingSigned,
+          );
         },
       );
     }
@@ -131,7 +153,9 @@ class UnitDetailsBottomBar extends StatelessWidget {
       () {
         final state = context.read<UnitDetailsCubit>().state;
         if (state is UnitDetailsError &&
-            (state.message.contains('صلاحية') || state.message.contains('بيعت') || state.message.contains('مرفوض'))) {
+            (state.message.contains('صلاحية') ||
+                state.message.contains('بيعت') ||
+                state.message.contains('مرفوض'))) {
           _showUnavailableDialog(context);
           return;
         }
@@ -141,9 +165,16 @@ class UnitDetailsBottomBar extends StatelessWidget {
     );
   }
 
-  Widget _buildContainer(BuildContext context, String text, VoidCallback? onPressed, bool isLoading) {
+  Widget _buildContainer(
+    BuildContext context,
+    String text,
+    VoidCallback? onPressed,
+    bool isLoading, {
+    bool showEditBanner = false,
+    bool showLockedBanner = false,
+  }) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
       decoration: BoxDecoration(
         color: context.colors.white,
         boxShadow: [
@@ -155,13 +186,76 @@ class UnitDetailsBottomBar extends StatelessWidget {
         ],
       ),
       child: SafeArea(
-        child: SizedBox(
-          width: double.infinity,
-          child: CustomButton(
-            text: text,
-            onPressed: isLoading ? () {} : onPressed,
-            isLoading: isLoading,
-          ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Edit-available banner: amber warning
+            if (showEditBanner)
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.lg,
+                  vertical: AppSpacing.sm,
+                ),
+                color: context.colors.gold.withValues(alpha: 0.1),
+                child: Row(
+                  children: [
+                    Icon(Icons.edit_note_rounded, size: 16, color: context.colors.gold),
+                    const SizedBox(width: AppSpacing.xs),
+                    Expanded(
+                      child: Text(
+                        l10n.finishingEditAvailableBanner,
+                        style: TextStyle(
+                          fontSize: AppFonts.bodySmall,
+                          fontWeight: FontWeight.w600,
+                          color: context.colors.gold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            // Locked banner: green success
+            if (showLockedBanner)
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.lg,
+                  vertical: AppSpacing.sm,
+                ),
+                color: context.colors.success.withValues(alpha: 0.1),
+                child: Row(
+                  children: [
+                    Icon(Icons.lock_outline_rounded, size: 16, color: context.colors.success),
+                    const SizedBox(width: AppSpacing.xs),
+                    Expanded(
+                      child: Text(
+                        l10n.finishingEditLockedSigned,
+                        style: TextStyle(
+                          fontSize: AppFonts.bodySmall,
+                          fontWeight: FontWeight.w600,
+                          color: context.colors.success,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.lg,
+                vertical: AppSpacing.md,
+              ),
+              child: SizedBox(
+                width: double.infinity,
+                child: CustomButton(
+                  text: text,
+                  onPressed: isLoading ? () {} : onPressed,
+                  isLoading: isLoading,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

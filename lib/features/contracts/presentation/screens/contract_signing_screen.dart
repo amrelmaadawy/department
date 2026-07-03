@@ -20,8 +20,11 @@ import '../../domain/entities/contract_entity.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 import 'package:apartment/core/widgets/app_toast.dart';
 import 'package:apartment/core/routes/app_router.dart';
+import 'package:apartment/core/di/injection_container.dart';
 import '../cubit/contracts_cubit.dart';
 import '../cubit/contracts_state.dart';
+import '../cubit/contract_print_cubit.dart';
+import '../cubit/contract_print_state.dart';
 
 
 class ContractSigningScreen extends StatefulWidget {
@@ -49,6 +52,7 @@ class ContractSigningScreen extends StatefulWidget {
 class _ContractSigningScreenState extends State<ContractSigningScreen> {
   bool _isAgreed = false;
   late SignatureController _signatureController;
+  // ignore: unused_field
   Uint8List? _capturedSignatureBytes;
 
   @override
@@ -70,115 +74,152 @@ class _ContractSigningScreenState extends State<ContractSigningScreen> {
   }
 
   void _toggleAgreement(bool? value) {
-    if (value != null) {
-      setState(() {
-        _isAgreed = value;
-      });
+    if (value != null) setState(() => _isAgreed = value);
+  }
+
+  /// Extracts the numeric apartment ID from the unit passed to this screen.
+  int _resolveApartmentId() {
+    if (widget.unit == null) return 0;
+    try {
+      final id = widget.unit.id;
+      return id is int ? id : int.tryParse(id.toString()) ?? 0;
+    } catch (_) {
+      return 0;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    
-    return Scaffold(
-      backgroundColor: context.colors.background,
-      appBar: AppBar(
-        title: Text(
-          widget.contractType == ContractType.unit
-              ? l10n.contractScreenTitle
-              : l10n.finishingContract,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: context.colors.primary,
-          ),
-        ),
-        backgroundColor: context.colors.background,
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        centerTitle: true,
-        iconTheme: IconThemeData(color: context.colors.primary),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            ContractSummaryCard(
-              contractType: widget.contractType,
-              finishingTotal: widget.overrideTotalAmount ?? (widget.contractType == ContractType.unit ? null : widget.finishingTotal),
-              unit: widget.unit,
-              contractNumber: widget.contract?.contractNumber,
-              contractTypeLabel: widget.contract?.typeLabel,
-              contract: widget.contract,
-            ),
-            const SizedBox(height: AppSpacing.sm),
-            ContractSignatureCard(
-              controller: _signatureController,
-              isAgreed: _isAgreed,
-              contractType: widget.contractType,
-              contract: widget.contract,
-              onAgreementChanged: _toggleAgreement,
-            ),
-            const SizedBox(height: AppSpacing.md),
-          ],
-        ),
-      ),
-      bottomNavigationBar: BlocConsumer<ContractsCubit, ContractsState>(
-        listener: (context, state) {
-          if (state is ContractSignedSuccess) {
-            // Use the already-captured bytes — captured BEFORE the API call
-            // to avoid any race condition with controller disposal.
-            final signatureBytes = _capturedSignatureBytes;
-            if (signatureBytes != null && signatureBytes.isNotEmpty && context.mounted) {
-              context.push(
-                AppRouter.contractReview,
+
+    // ContractPrintCubit is created here (scoped to this screen) so it is
+    // always available regardless of how this route was pushed.
+    // Builder provides an inner context that IS a descendant of the provider,
+    // which is required for BlocListener to locate the cubit.
+    return BlocProvider(
+      create: (_) => sl<ContractPrintCubit>(),
+      child: Builder(
+        builder: (innerContext) => BlocListener<ContractPrintCubit, ContractPrintState>(
+          listener: (ctx, printState) {
+            if (printState is ContractPrintLoading) {
+              AppToast.showInfo(ctx, 'جاري تحضير نسخة العقد...');
+            } else if (printState is ContractPrintError) {
+              // Sign succeeded — only the print fetch failed.
+              // Pop with success so the parent screen refreshes.
+              AppToast.showError(ctx, printState.message);
+              innerContext.pop(true);
+            } else if (printState is ContractPrintWebViewReady) {
+              innerContext.push(
+                AppRouter.contractWebView,
                 extra: {
-                  'contract': state.contract,
-                  'signatureImage': signatureBytes,
+                  'printUrl': printState.printUrl,
+                  'pdfUrl': printState.pdfUrl,
+                  'contractTitle': printState.contractTitle,
                 },
               ).then((_) {
-                if (context.mounted) {
-                  context.pop(true);
-                }
+                if (innerContext.mounted) innerContext.pop(true);
               });
-            } else if (context.mounted) {
-              context.pop(true);
             }
-          } else if (state is SessionExpiredState) {
-            AppToast.showError(context, 'انتهت صلاحية الجلسة، يرجى تسجيل الدخول مرة أخرى');
-            context.go(AppRouter.auth);
-          } else if (state is ContractsError) {
-            AppToast.showError(context, state.message);
-          }
-        },
-        builder: (context, state) {
-          final isLoading = state is ContractSigningLoading;
-          return AnimatedBuilder(
-            animation: Listenable.merge([_signatureController]),
-            builder: (context, _) {
-              return ContractBottomActions(
-                isAgreed: _isAgreed,
-                signatureController: _signatureController,
-                contractType: widget.contractType,
-                price: widget.contractType == ContractType.unit ? (widget.unit?.price ?? 0.0) : (widget.finishingTotal ?? 0.0),
-                unit: widget.unit,
-                isLoading: isLoading,
-                onSign: (base64Signature, capturedBytes) async {
-                  // Store the captured bytes immediately before API call
-                  _capturedSignatureBytes = capturedBytes;
-                  if (widget.contract != null) {
-                    context.read<ContractsCubit>().signContract(
-                      contractId: widget.contract!.id,
-                      signatureBase64: base64Signature,
-                    );
+          },
+          child: Scaffold(
+            backgroundColor: context.colors.background,
+            appBar: AppBar(
+              title: Text(
+                widget.contractType == ContractType.unit
+                    ? l10n.contractScreenTitle
+                    : l10n.finishingContract,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: context.colors.primary,
+                ),
+              ),
+              backgroundColor: context.colors.background,
+              elevation: 0,
+              scrolledUnderElevation: 0,
+              centerTitle: true,
+              iconTheme: IconThemeData(color: context.colors.primary),
+            ),
+            body: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  ContractSummaryCard(
+                    contractType: widget.contractType,
+                    finishingTotal: widget.overrideTotalAmount ??
+                        (widget.contractType == ContractType.unit
+                            ? null
+                            : widget.finishingTotal),
+                    unit: widget.unit,
+                    contractNumber: widget.contract?.contractNumber,
+                    contractTypeLabel: widget.contract?.typeLabel,
+                    contract: widget.contract,
+                  ),
+                  const SizedBox(height: AppSpacing.sm),
+                  ContractSignatureCard(
+                    controller: _signatureController,
+                    isAgreed: _isAgreed,
+                    contractType: widget.contractType,
+                    contract: widget.contract,
+                    onAgreementChanged: _toggleAgreement,
+                  ),
+                  const SizedBox(height: AppSpacing.md),
+                ],
+              ),
+            ),
+            bottomNavigationBar: BlocConsumer<ContractsCubit, ContractsState>(
+              listener: (ctx, state) {
+                if (state is ContractSignedSuccess) {
+                  final aptId = _resolveApartmentId();
+                  if (aptId > 0) {
+                    // Trigger print_url fetch.
+                    // BlocListener above handles navigation to WebView.
+                    final printCubit = innerContext.read<ContractPrintCubit>();
+                    if (widget.contractType == ContractType.unit) {
+                      printCubit.fetchBoneContractWebView(aptId);
+                    } else {
+                      printCubit.fetchFinishingContractWebView(aptId);
+                    }
                   } else {
-                    AppToast.showError(context, 'Contract data is missing');
+                    innerContext.pop(true);
                   }
-                },
-              );
-            },
-          );
-        },
+                } else if (state is SessionExpiredState) {
+                  AppToast.showError(
+                      ctx, 'انتهت صلاحية الجلسة، يرجى تسجيل الدخول مرة أخرى');
+                  innerContext.go(AppRouter.auth);
+                } else if (state is ContractsError) {
+                  AppToast.showError(ctx, state.message);
+                }
+              },
+              builder: (ctx, state) {
+                final isLoading = state is ContractSigningLoading;
+                return AnimatedBuilder(
+                  animation: Listenable.merge([_signatureController]),
+                  builder: (_, child) => ContractBottomActions(
+                    isAgreed: _isAgreed,
+                    signatureController: _signatureController,
+                    contractType: widget.contractType,
+                    price: widget.contractType == ContractType.unit
+                        ? (widget.unit?.price ?? 0.0)
+                        : (widget.finishingTotal ?? 0.0),
+                    unit: widget.unit,
+                    isLoading: isLoading,
+                    onSign: (base64Signature, capturedBytes) async {
+                      _capturedSignatureBytes = capturedBytes;
+                      if (widget.contract != null) {
+                        ctx.read<ContractsCubit>().signContract(
+                          contractId: widget.contract!.id,
+                          signatureBase64: base64Signature,
+                        );
+                      } else {
+                        AppToast.showError(ctx, 'Contract data is missing');
+                      }
+                    },
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
       ),
     );
   }

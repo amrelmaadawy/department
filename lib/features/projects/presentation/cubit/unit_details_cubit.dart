@@ -7,8 +7,11 @@ import '../../domain/usecases/get_customer_renders_use_case.dart';
 import '../../domain/usecases/toggle_customer_render_favorite_use_case.dart';
 import '../../domain/entities/customer_render_entity.dart';
 import '../../domain/usecases/calculate_unit_costs_use_case.dart';
+import '../../domain/usecases/check_finishing_edit_eligibility_use_case.dart';
+import '../../domain/entities/finishing_edit_eligibility_entity.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/network/app_cancel_token.dart';
+import 'package:apartment/features/contracts/domain/entities/contract_signature_status_entity.dart';
 import 'package:dartz/dartz.dart' as dartz;
 
 part 'unit_details_state.dart';
@@ -18,6 +21,7 @@ class UnitDetailsCubit extends Cubit<UnitDetailsState> {
   final GetCustomerRendersUseCase getCustomerRendersUseCase;
   final ToggleCustomerRenderFavoriteUseCase toggleCustomerRenderFavoriteUseCase;
   final CalculateUnitCostsUseCase calculateUnitCostsUseCase;
+  final CheckFinishingEditEligibilityUseCase checkFinishingEditEligibilityUseCase;
 
   final _cancelToken = AppCancelToken();
 
@@ -26,6 +30,7 @@ class UnitDetailsCubit extends Cubit<UnitDetailsState> {
     required this.getCustomerRendersUseCase,
     required this.toggleCustomerRenderFavoriteUseCase,
     required this.calculateUnitCostsUseCase,
+    required this.checkFinishingEditEligibilityUseCase,
   }) : super(UnitDetailsInitial());
 
   @override
@@ -80,6 +85,8 @@ class UnitDetailsCubit extends Cubit<UnitDetailsState> {
               roomCosts: costs.roomCosts,
               completedRoomIds: syncedCompletedRooms,
               customerRenders: customerRenders,
+              // Eligibility defaults to false; caller updates via updateEditEligibility().
+              canEditFinishing: false,
             ));
           }
         );
@@ -224,5 +231,35 @@ class UnitDetailsCubit extends Cubit<UnitDetailsState> {
         // Success, nothing more to do
       },
     );
+  }
+
+  /// Updates the finishing-edit eligibility in the current state.
+  ///
+  /// Called by the Presenter (Screen) after [ContractsCubit] loads its
+  /// signature statuses — keeping features decoupled while still sharing data.
+  ///
+  /// This is **not** an async network call; it is a pure synchronous
+  /// state update derived from already-loaded data.
+  void updateEditEligibility(List<ContractSignatureStatusEntity> contractStatuses) {
+    final currentUnit = state.unit;
+    if (currentUnit == null) return;
+
+    final eligibility = checkFinishingEditEligibilityUseCase(
+      unit: currentUnit,
+      contractStatuses: contractStatuses,
+    );
+
+    if (state is UnitDetailsLoaded) {
+      final s = state as UnitDetailsLoaded;
+      emit(UnitDetailsLoaded(
+        unit: s.unit!,
+        totalFinishingCost: s.totalFinishingCost,
+        roomCosts: s.roomCosts,
+        completedRoomIds: s.completedRoomIds,
+        customerRenders: s.customerRenders,
+        canEditFinishing: eligibility.canEdit,
+        editBlockReason: eligibility.blockReason,
+      ));
+    }
   }
 }

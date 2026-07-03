@@ -6,14 +6,20 @@ import 'package:apartment/features/packages/domain/entities/package_item_entity.
 import 'package:apartment/features/projects/data/datasources/local/room_design_cache_service.dart';
 
 class PackageHelper {
-  static void applyPackageToRooms(ProjectUnitEntity unit, FinishingPackageEntity package) {
+  static void applyPackageToRooms(
+    ProjectUnitEntity unit,
+    FinishingPackageEntity package,
+  ) {
     final cacheService = sl<RoomDesignCacheService>();
     for (final room in unit.rooms) {
       final items = _findDynamicMatchingItems(room, package);
 
       if (items.isNotEmpty) {
         final materialIds = items.map((e) => e.material.id).toList();
-        final cost = items.fold<double>(0.0, (sum, item) => sum + item.material.finalUnitPrice);
+        final cost = items.fold<double>(
+          0.0,
+          (sum, item) => sum + item.material.finalUnitPrice,
+        );
         cacheService.saveRoomDesignProgress(
           roomId: room.id,
           selectedMaterialIds: materialIds,
@@ -29,13 +35,18 @@ class PackageHelper {
   }
 
   /// Dynamically matches a room to package items supporting exact, token, and semantic cluster matches.
-  static List<PackageItemEntity> _findDynamicMatchingItems(UnitRoomEntity room, FinishingPackageEntity package) {
+  static List<PackageItemEntity> _findDynamicMatchingItems(
+    UnitRoomEntity room,
+    FinishingPackageEntity package,
+  ) {
     // 1. Tier 1: Exact or direct normalized match
     var items = package.itemsForRoom(room.type);
     if (items.isNotEmpty) return items;
 
     final roomClean = _cleanToken(room.type);
-    items = package.items.where((e) => _cleanToken(e.roomType) == roomClean).toList();
+    items = package.items
+        .where((e) => _cleanToken(e.roomType) == roomClean)
+        .toList();
     if (items.isNotEmpty) return items;
 
     // 2. Tier 2: Dynamic Token & Semantic Cluster Scoring against available package room types
@@ -60,7 +71,8 @@ class PackageHelper {
     return [];
   }
 
-  static String _cleanToken(String text) => text.trim().toLowerCase().replaceAll(RegExp(r'[\s\-_]+'), '');
+  static String _cleanToken(String text) =>
+      text.trim().toLowerCase().replaceAll(RegExp(r'[\s\-_]+'), '');
 
   static int _calculateMatchScore(UnitRoomEntity room, String packageRoomType) {
     final roomStr = '${room.type} ${room.name}'.toLowerCase();
@@ -97,7 +109,18 @@ class PackageHelper {
   }
 
   static const List<List<String>> _semanticClusters = [
-    ['salon', 'living', 'reception', 'lounge', 'sitting', 'صالون', 'معيش', 'ريسبشن', 'جلوس', 'استقبال'],
+    [
+      'salon',
+      'living',
+      'reception',
+      'lounge',
+      'sitting',
+      'صالون',
+      'معيش',
+      'ريسبشن',
+      'جلوس',
+      'استقبال',
+    ],
     ['bed', 'master', 'sleep', 'guestbed', 'نوم', 'ماستر'],
     ['bath', 'toilet', 'wc', 'restroom', 'حمام', 'تواليت'],
     ['kitchen', 'cook', 'pantry', 'مطبخ'],

@@ -16,6 +16,7 @@ import 'package:apartment/features/projects/domain/usecases/get_customer_renders
 import 'package:apartment/features/projects/domain/usecases/toggle_customer_render_favorite_use_case.dart';
 import 'package:apartment/features/projects/domain/usecases/calculate_unit_costs_use_case.dart';
 import 'package:apartment/features/projects/domain/usecases/check_duplicate_ai_design_use_case.dart';
+import 'package:apartment/features/projects/domain/usecases/check_finishing_edit_eligibility_use_case.dart';
 import 'package:apartment/features/projects/data/datasources/customization_draft_remote_data_source.dart';
 import 'package:apartment/features/projects/domain/usecases/get_customization_draft_use_case.dart';
 import 'package:apartment/features/projects/domain/usecases/save_customization_draft_use_case.dart';
@@ -64,6 +65,7 @@ Future<void> registerProjectsDi(GetIt sl) async {
   sl.registerLazySingleton(() => ToggleCustomerRenderFavoriteUseCase(sl()));
   sl.registerLazySingleton(() => CalculateUnitCostsUseCase(sl()));
   sl.registerLazySingleton(() => CheckDuplicateAiDesignUseCase(sl()));
+  sl.registerLazySingleton(() => const CheckFinishingEditEligibilityUseCase());
   sl.registerLazySingleton(() => GetCustomizationDraftUseCase(sl()));
   sl.registerLazySingleton(() => SaveCustomizationDraftUseCase(sl()));
 
@@ -82,6 +84,7 @@ Future<void> registerProjectsDi(GetIt sl) async {
       getCustomerRendersUseCase: sl(),
       toggleCustomerRenderFavoriteUseCase: sl(),
       calculateUnitCostsUseCase: sl(),
+      checkFinishingEditEligibilityUseCase: sl(),
     ),
   );
   sl.registerFactory(

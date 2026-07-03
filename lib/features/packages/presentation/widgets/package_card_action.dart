@@ -80,10 +80,7 @@ class PackageCardAction extends StatelessWidget {
               onPressed: () {
                 context.push(
                   AppRouter.unitCustomization,
-                  extra: {
-                    'unit': unit,
-                    'selectedPackage': package,
-                  },
+                  extra: {'unit': unit, 'selectedPackage': package},
                 );
               },
               style: ElevatedButton.styleFrom(

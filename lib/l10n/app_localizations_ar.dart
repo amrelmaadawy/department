@@ -1577,4 +1577,27 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get offlineDraftMessage =>
       'أنت تعمل حالياً دون اتصال، سيتم مزامنة اختياراتك عند عودة الاتصال';
+
+  @override
+  String get finishingEditLockedSigned =>
+      'تم توقيع عقد التشطيب — لا يمكن التعديل بعد الآن';
+
+  @override
+  String get finishingEditLockedNotOwner => 'أنت لست مالك هذه الوحدة';
+
+  @override
+  String get finishingEditLockedNotSold => 'هذه الوحدة لم تُباع بعد';
+
+  @override
+  String get finishingEditAvailableBanner =>
+      'يمكنك تعديل اختيارات التشطيب حتى توقيع عقد التشطيب';
+
+  @override
+  String get editFinishingSelections => 'تعديل اختيارات التشطيب';
+
+  @override
+  String get viewFinishingSelections => 'عرض اختيارات التشطيب';
+
+  @override
+  String get finishingLockedReadOnly => 'التشطيب مؤمَّن — العقد موقَّع';
 }

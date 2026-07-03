@@ -12,10 +12,15 @@ class UnitCustomizationScreen extends StatefulWidget {
   final ProjectUnitEntity unit;
   final FinishingPackageEntity? selectedPackage;
 
+  /// When true, all edit controls are hidden and the screen is read-only.
+  /// Set to true when the finishing contract has already been signed.
+  final bool isReadOnly;
+
   const UnitCustomizationScreen({
     super.key,
     required this.unit,
     this.selectedPackage,
+    this.isReadOnly = false,
   });
 
   @override
@@ -37,6 +42,7 @@ class _UnitCustomizationScreenState extends State<UnitCustomizationScreen> {
       child: UnitCustomizationContent(
         initialUnit: widget.unit,
         selectedPackage: widget.selectedPackage,
+        isReadOnly: widget.isReadOnly,
       ),
     );
   }

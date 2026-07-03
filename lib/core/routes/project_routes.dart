@@ -78,6 +78,7 @@ class ProjectRoutes {
           child: UnitCustomizationScreen(
             unit: extra['unit'] as ProjectUnitEntity,
             selectedPackage: extra['selectedPackage'] as FinishingPackageEntity?,
+            isReadOnly: extra['isReadOnly'] as bool? ?? false,
           ),
           transitionsBuilder: AppRouterTransitions.slideUpFromBottom,
         );

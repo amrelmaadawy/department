@@ -107,9 +107,9 @@ class ContractsReviewList extends StatelessWidget {
                 if (unit == null) return;
                 final aptId = int.tryParse(unit!.id) ?? 0;
                 if (item.contractType == 'unit') {
-                  context.read<ContractPrintCubit>().fetchAndPrepareBoneContract(aptId);
+                  context.read<ContractPrintCubit>().fetchBoneContractWebView(aptId);
                 } else {
-                  context.read<ContractPrintCubit>().fetchAndPrepareFinishingContract(aptId);
+                  context.read<ContractPrintCubit>().fetchFinishingContractWebView(aptId);
                 }
               },
             ),

@@ -47,6 +47,7 @@ class AppRouter {
   static const String finishingGuide = '/finishing-guide';
   static const String myContracts = '/my-contracts';
   static const String contractDetails = '/contract-details';
+  static const String contractWebView = '/contract-web-view';
 
   // ── Auth Cache ─────────────────────────────────────────────────────────────
   // Caches auth status so SecureStorage is only read once per session.

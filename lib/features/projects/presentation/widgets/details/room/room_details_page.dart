@@ -30,12 +30,16 @@ class RoomDetailsPage extends StatefulWidget {
   final TabController tabController;
   final FinishingPackageEntity? selectedPackage;
 
+  /// When true, no material edits are allowed (finishing contract signed).
+  final bool isReadOnly;
+
   const RoomDetailsPage({
     super.key,
     required this.room,
     required this.unit,
     required this.tabController,
     this.selectedPackage,
+    this.isReadOnly = false,
   });
 
   @override
@@ -169,7 +173,8 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> with AutomaticKeepAli
             unitRooms: widget.unit.rooms,
             currentRoom: widget.room,
             categoryTabController: _categoryTabController,
-            isReadOnly: widget.selectedPackage != null,
+            // Read-only when: package mode OR finishing contract already signed
+            isReadOnly: widget.isReadOnly || widget.selectedPackage != null,
           ),
           const SizedBox(height: AppSpacing.xxl),
         ],

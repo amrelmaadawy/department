@@ -15,12 +15,43 @@ class ContractPrintCubit extends Cubit<ContractPrintState> {
     required this.downloadContractPdfUseCase,
   }) : super(const ContractPrintInitial());
 
+  // ─── WebView Methods (preferred) ──────────────────────────────────────────
+  // Use the server-signed print_url directly in a WebView — zero bytes download.
+
+  Future<void> fetchBoneContractWebView(int apartmentId) async {
+    emit(const ContractPrintLoading());
+    final result = await getBoneContractPrintDataUseCase(apartmentId);
+    if (isClosed) return;
+    result.fold(
+      (failure) => emit(ContractPrintError(failure.message)),
+      (printData) => emit(ContractPrintWebViewReady(
+        printUrl: printData.printUrl,
+        pdfUrl: printData.pdfUrl,
+        contractTitle: 'عقد العظم',
+      )),
+    );
+  }
+
+  Future<void> fetchFinishingContractWebView(int apartmentId) async {
+    emit(const ContractPrintLoading());
+    final result = await getFinishingContractPrintDataUseCase(apartmentId);
+    if (isClosed) return;
+    result.fold(
+      (failure) => emit(ContractPrintError(failure.message)),
+      (printData) => emit(ContractPrintWebViewReady(
+        printUrl: printData.printUrl,
+        pdfUrl: printData.pdfUrl,
+        contractTitle: 'عقد التشطيب',
+      )),
+    );
+  }
+
+  // ─── Legacy PDF-Bytes Methods (kept as fallback) ───────────────────────────
+
   Future<void> fetchAndPrepareBoneContract(int apartmentId) async {
     emit(const ContractPrintLoading());
-
     final printDataResult = await getBoneContractPrintDataUseCase(apartmentId);
     if (isClosed) return;
-
     await printDataResult.fold(
       (failure) async => emit(ContractPrintError(failure.message)),
       (printData) async {
@@ -39,10 +70,8 @@ class ContractPrintCubit extends Cubit<ContractPrintState> {
 
   Future<void> fetchAndPrepareFinishingContract(int apartmentId) async {
     emit(const ContractPrintLoading());
-
     final printDataResult = await getFinishingContractPrintDataUseCase(apartmentId);
     if (isClosed) return;
-
     await printDataResult.fold(
       (failure) async => emit(ContractPrintError(failure.message)),
       (printData) async {

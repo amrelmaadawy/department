@@ -29,6 +29,23 @@ class ContractPrintReady extends ContractPrintState {
   List<Object?> get props => [pdfBytes, contractTitle];
 }
 
+/// Emitted when the server `print_url` is ready to be displayed in a WebView.
+/// No PDF bytes are downloaded — both URLs carry their own auth signatures.
+class ContractPrintWebViewReady extends ContractPrintState {
+  final String printUrl;
+  final String pdfUrl;
+  final String contractTitle;
+
+  const ContractPrintWebViewReady({
+    required this.printUrl,
+    required this.pdfUrl,
+    required this.contractTitle,
+  });
+
+  @override
+  List<Object?> get props => [printUrl, pdfUrl, contractTitle];
+}
+
 class ContractPrintError extends ContractPrintState {
   final String message;
 

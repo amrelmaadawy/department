@@ -14,15 +14,13 @@ class PackageCard extends StatelessWidget {
   final FinishingPackageEntity package;
   final ProjectUnitEntity unit;
 
-  const PackageCard({
-    super.key,
-    required this.package,
-    required this.unit,
-  });
+  const PackageCard({super.key, required this.package, required this.unit});
 
   @override
   Widget build(BuildContext context) {
-    final primaryBadge = package.badges.isNotEmpty ? package.badges.first : null;
+    final primaryBadge = package.badges.isNotEmpty
+        ? package.badges.first
+        : null;
     final secondaryBadges = package.badges.length > 1
         ? package.badges.sublist(1)
         : <String>[];
@@ -54,10 +52,7 @@ class PackageCard extends StatelessWidget {
                 secondaryBadges: secondaryBadges,
               ),
               PackageCardRooms(package: package),
-              PackageCardAction(
-                package: package,
-                unit: unit,
-              ),
+              PackageCardAction(package: package, unit: unit),
             ],
           ),
         ),

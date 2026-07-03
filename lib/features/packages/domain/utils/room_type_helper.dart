@@ -54,16 +54,27 @@ class RoomTypeHelper {
     if (clean.contains('kitchen') || clean.contains('مطبخ')) {
       return FluentIcons.food_24_regular;
     }
-    if (clean.contains('salon') || clean.contains('living') || clean.contains('majlis') || clean.contains('مجلس') || clean.contains('معيش') || clean.contains('ريسبشن')) {
+    if (clean.contains('salon') ||
+        clean.contains('living') ||
+        clean.contains('majlis') ||
+        clean.contains('مجلس') ||
+        clean.contains('معيش') ||
+        clean.contains('ريسبشن')) {
       return FluentIcons.tv_24_regular;
     }
     if (clean.contains('bed') || clean.contains('نوم')) {
       return FluentIcons.bed_24_regular;
     }
-    if (clean.contains('bath') || clean.contains('toilet') || clean.contains('حمام')) {
+    if (clean.contains('bath') ||
+        clean.contains('toilet') ||
+        clean.contains('حمام')) {
       return FluentIcons.drop_24_regular;
     }
-    if (clean.contains('garden') || clean.contains('balcony') || clean.contains('terrace') || clean.contains('حديق') || clean.contains('تراس')) {
+    if (clean.contains('garden') ||
+        clean.contains('balcony') ||
+        clean.contains('terrace') ||
+        clean.contains('حديق') ||
+        clean.contains('تراس')) {
       return FluentIcons.leaf_one_24_regular;
     }
     return FluentIcons.home_24_regular;
