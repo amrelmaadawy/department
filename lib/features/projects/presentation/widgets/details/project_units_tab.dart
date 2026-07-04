@@ -167,6 +167,7 @@ class _ProjectUnitsTabState extends State<ProjectUnitsTab> {
                     final availableCount = filteredUnits.where((u) => u.status == UnitStatus.available).length;
                     final reservedCount = filteredUnits.where((u) => u.status == UnitStatus.reserved).length;
                     final soldCount = filteredUnits.where((u) => u.status == UnitStatus.sold).length;
+                    final ownedCount = filteredUnits.where((u) => u.status == UnitStatus.owned).length;
                     final l10n = AppLocalizations.of(context)!;
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -214,6 +215,22 @@ class _ProjectUnitsTabState extends State<ProjectUnitsTab> {
                                     style: const TextStyle(
                                       fontSize: AppFonts.labelSmall,
                                       color: Color(0xFFD97706),
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            if (ownedCount > 0)
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const Icon(FluentIcons.person_16_filled, size: 12, color: Color(0xFF4338CA)),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    '$ownedCount ${l10n.unitOwned}',
+                                    style: const TextStyle(
+                                      fontSize: AppFonts.labelSmall,
+                                      color: Color(0xFF4338CA),
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),

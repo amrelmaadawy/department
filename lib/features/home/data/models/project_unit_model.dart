@@ -76,7 +76,8 @@ class ProjectUnitModel extends ProjectUnitEntity {
       projectName: parsedProjectName,
       isCurrentUserUnit: json['is_current_user_unit'] == true ||
           json['is_my_unit'] == true ||
-          json['owned_by_current_user'] == true,
+          json['owned_by_current_user'] == true ||
+          json['status']?.toString().toLowerCase().trim() == 'owned',
       unitNumber: json['number']?.toString() ?? '',
       buildingNumber: json['building_number'] ?? 1,
       locationType: json['location_type'] ?? '',
@@ -105,6 +106,7 @@ class ProjectUnitModel extends ProjectUnitEntity {
     final s = status?.toString().toLowerCase().trim();
     if (s == 'sold') return UnitStatus.sold;
     if (s == 'reserved') return UnitStatus.reserved;
+    if (s == 'owned') return UnitStatus.owned;
     return UnitStatus.available;
   }
 
@@ -112,6 +114,7 @@ class ProjectUnitModel extends ProjectUnitEntity {
     final s = status?.toString().toLowerCase().trim();
     if (s == 'sold') return 'مباعة';
     if (s == 'reserved') return 'محجوزة';
+    if (s == 'owned') return 'مملوكة';
     return 'متاحة';
   }
 
@@ -131,7 +134,9 @@ class ProjectUnitModel extends ProjectUnitEntity {
       'floor_number': floor,
       'status': status == UnitStatus.sold
           ? 'sold'
-          : (status == UnitStatus.reserved ? 'reserved' : 'available'),
+          : (status == UnitStatus.reserved 
+              ? 'reserved' 
+              : (status == UnitStatus.owned ? 'owned' : 'available')),
       'status_label': statusLabel,
       'images': images,
       'rooms': rooms.map((e) => (e as UnitRoomModel).toJson()).toList(),

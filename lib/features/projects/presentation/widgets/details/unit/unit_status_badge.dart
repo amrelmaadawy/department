@@ -23,7 +23,7 @@ class UnitStatusBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     
-    if (isCurrentUserUnit) {
+    if (isCurrentUserUnit && status != UnitStatus.owned) {
       const primaryColor = Color(0xFFD97706); // Golden Amber
       const bgColor = Color(0xFFFEF3C7);
       const borderColor = Color(0xFFFDE68A);
@@ -97,7 +97,8 @@ class UnitStatusBadge extends StatelessWidget {
         ? statusLabel
         : (status == UnitStatus.sold
             ? l10n.unitSoldOut
-            : (status == UnitStatus.reserved ? l10n.unitReserved : l10n.unitAvailable));
+            : (status == UnitStatus.reserved ? l10n.unitReserved : 
+               (status == UnitStatus.owned ? l10n.unitOwned : l10n.unitAvailable)));
 
     Color primaryColor;
     Color bgColor;
@@ -114,6 +115,11 @@ class UnitStatusBadge extends StatelessWidget {
       bgColor = const Color(0xFFFEF3C7); // Amber 100
       borderColor = const Color(0xFFFDE68A); // Amber 200
       icon = FluentIcons.bookmark_16_filled;
+    } else if (status == UnitStatus.owned) {
+      primaryColor = const Color(0xFF4338CA); // Indigo 700
+      bgColor = const Color(0xFFE0E7FF); // Indigo 100
+      borderColor = const Color(0xFFC7D2FE); // Indigo 200
+      icon = FluentIcons.person_16_filled;
     } else {
       primaryColor = const Color(0xFF059669);
       bgColor = const Color(0xFFD1FAE5);

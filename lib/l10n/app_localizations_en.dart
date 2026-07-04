@@ -1014,6 +1014,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get unitSoldOut => 'Sold Out';
 
   @override
+  String get unitOwned => 'Owned';
+
+  @override
   String get unitReserved => 'Reserved';
 
   @override

@@ -3,12 +3,13 @@ import 'unit_room_entity.dart';
 
 enum UnitType { apartment, villa, duplex }
 
-enum UnitStatus { available, sold, reserved }
+enum UnitStatus { available, sold, reserved, owned }
 
 extension UnitStatusExtension on UnitStatus {
   bool get isAvailable => this == UnitStatus.available;
   bool get isSold => this == UnitStatus.sold;
   bool get isReserved => this == UnitStatus.reserved;
+  bool get isOwned => this == UnitStatus.owned;
   bool get isUnavailable => this == UnitStatus.sold || this == UnitStatus.reserved;
 }
 
