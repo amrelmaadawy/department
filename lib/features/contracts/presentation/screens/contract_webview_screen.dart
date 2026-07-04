@@ -1,10 +1,10 @@
+import 'dart:async';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:go_router/go_router.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:webview_flutter_android/webview_flutter_android.dart';
 import '../../../../core/di/injection_container.dart';
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_spacing.dart';
@@ -40,12 +40,26 @@ class _ContractWebViewScreenState extends State<ContractWebViewScreen> {
   // Cached safe URL (http→https) computed once in _initWebView,
   // reused by _reload to avoid re-computing on every retry.
   String _safeUrl = '';
-  // Scroll slider: tracks current scroll position (0.0 – 1.0).
   double _scrollProgress = 0.0;
-  // True once the page finishes loading — shows the right-side slider.
   bool _pageLoaded = false;
-  // Loading message shown during retries so the user sees progress.
   String _loadingMessage = 'جاري تحضير العقد...';
+  // Scrollbar auto-hide: visible for 2 s after any scroll activity.
+  bool _showScrollbar = false;
+  Timer? _scrollbarHideTimer;
+
+  void _onScrollActivity() {
+    _scrollbarHideTimer?.cancel();
+    if (!_showScrollbar && mounted) setState(() => _showScrollbar = true);
+    _scrollbarHideTimer = Timer(const Duration(seconds: 2), () {
+      if (mounted) setState(() => _showScrollbar = false);
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollbarHideTimer?.cancel();
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -77,38 +91,65 @@ class _ContractWebViewScreenState extends State<ContractWebViewScreen> {
       },
       onPageFinished: (url) {
         if (mounted) setState(() { _isPageLoading = false; _pageLoaded = true; });
-        // 1. Force scrolling — print CSS sets overflow:hidden / height:100vh which
-        //    blocks touch on real devices. Emulators are permissive, masking this.
-        // 2. Inject Cairo Arabic font.
-        // 3. Listen for scroll events and post progress to Flutter.
+        // Inject scroll fix + scroll-progress channel via JS.
+        // NOTE: Do NOT add external resources (e.g. Google Fonts) here —
+        // any failed sub-resource request fires onWebResourceError which
+        // was previously swallowing the whole page as a fatal error.
         _controller?.runJavaScript(r"""
-          (function() {
-            /* ── Scroll fix ── */
-            var s = document.createElement('style');
-            s.innerHTML = 'html,body{overflow:auto!important;height:auto!important;min-height:100%!important;-webkit-overflow-scrolling:touch!important;}';
-            document.head.appendChild(s);
+          (function init() {
+            /* ── Aggressive overflow unlock ──────────────────────────────────────
+               Contract pages often wrap all content in a fixed-height container
+               (height:100vh, overflow:hidden). We must fix EVERY element, not
+               just html/body, otherwise window.scrollTo has nothing to scroll.  */
+            function unlockScroll() {
+              var els = document.querySelectorAll('*');
+              for (var i = 0; i < els.length; i++) {
+                var el = els[i];
+                var cs = window.getComputedStyle(el);
+                if (cs.overflow === 'hidden' || cs.overflowY === 'hidden') {
+                  el.style.setProperty('overflow',  'visible', 'important');
+                  el.style.setProperty('overflow-y','visible', 'important');
+                }
+                /* Un-fix any element taller than 90% of the viewport */
+                var h = parseFloat(cs.height);
+                if (!isNaN(h) && h >= window.innerHeight * 0.9) {
+                  el.style.setProperty('height',    'auto',    'important');
+                  el.style.setProperty('max-height','none',    'important');
+                }
+              }
+              /* Make the document itself scrollable */
+              document.documentElement.style.setProperty('overflow-y','auto','important');
+              document.documentElement.style.setProperty('height',    'auto','important');
+              document.body.style.setProperty('overflow-y','auto','important');
+              document.body.style.setProperty('height',    'auto','important');
+            }
 
-            /* ── Arabic font ── */
-            var fl = document.createElement('link');
-            fl.rel = 'stylesheet';
-            fl.href = 'https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap';
-            document.head.appendChild(fl);
-            var fs = document.createElement('style');
-            fs.innerHTML = "*{font-family:'Cairo',sans-serif!important;direction:rtl;}";
-            document.head.appendChild(fs);
+            /* Run immediately and again after 1 s (lazy-rendered frameworks) */
+            unlockScroll();
+            setTimeout(unlockScroll, 1000);
 
             /* ── Scroll progress channel ── */
             function report() {
               if (typeof ScrollSync === 'undefined') return;
-              var max = document.body.scrollHeight - window.innerHeight;
-              ScrollSync.postMessage(max > 0 ? (window.scrollY / max).toFixed(4) : '0.0000');
+              var docH = Math.max(
+                document.body.scrollHeight,
+                document.documentElement.scrollHeight
+              );
+              var max = docH - window.innerHeight;
+              var pos = window.scrollY || document.documentElement.scrollTop || 0;
+              ScrollSync.postMessage(max > 0 ? (pos / max).toFixed(4) : '0.0000');
             }
             window.addEventListener('scroll', report, { passive: true });
-            setTimeout(report, 600);
+            setTimeout(report, 1200);
           })();
         """);
       },
       onWebResourceError: (error) {
+        // CRITICAL: Only treat MAIN-FRAME errors as fatal.
+        // Sub-resource failures (CSS, images, external fonts) are expected
+        // on restricted networks and must NOT block the contract from showing.
+        // error.isForMainFrame is null on older platform versions — treat null as main-frame.
+        if (error.isForMainFrame == false) return;
         if (mounted) {
           setState(() {
             _isPageLoading = false;
@@ -119,14 +160,24 @@ class _ContractWebViewScreenState extends State<ContractWebViewScreen> {
       },
     );
 
-    final controller = WebViewController()
+    late final PlatformWebViewControllerCreationParams params;
+    if (WebViewPlatform.instance is AndroidWebViewPlatform) {
+      params = AndroidWebViewControllerCreationParams();
+    } else {
+      params = const PlatformWebViewControllerCreationParams();
+    }
+
+    final controller = WebViewController.fromPlatformCreationParams(params)
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(AppColors.white)
       ..addJavaScriptChannel(
         'ScrollSync',
         onMessageReceived: (msg) {
           final progress = double.tryParse(msg.message) ?? 0.0;
-          if (mounted) setState(() => _scrollProgress = progress.clamp(0.0, 1.0));
+          if (mounted) {
+            setState(() => _scrollProgress = progress.clamp(0.0, 1.0));
+            _onScrollActivity(); // auto-show scrollbar when page scrolls
+          }
         },
       )
       ..setNavigationDelegate(delegate);
@@ -179,7 +230,11 @@ class _ContractWebViewScreenState extends State<ContractWebViewScreen> {
         // Detect HTML regardless of doctype casing or leading whitespace.
         if (lower.startsWith('<!') || lower.startsWith('<html') ||
             lower.contains('<!doctype html')) {
-          await controller.loadHtmlString(html, baseUrl: _safeUrl);
+          // Inject scroll-fix CSS directly into the HTML *before* loading.
+          // This is more reliable than injecting via JS after onPageFinished
+          // because it prevents any page JS from overriding overflow:hidden.
+          final fixedHtml = _injectScrollCss(html);
+          await controller.loadHtmlString(fixedHtml, baseUrl: _safeUrl);
           return;  // ✔️ success
         }
         // Server returned something that isn’t HTML yet (e.g. JSON progress response).
@@ -201,6 +256,36 @@ class _ContractWebViewScreenState extends State<ContractWebViewScreen> {
     if (mounted) setState(() => _loadingMessage = 'جاري تحميل العقد...');
     debugPrint('[ContractWebView] All Dio retries failed — falling back to loadRequest.');
     await controller.loadRequest(Uri.parse(_safeUrl));
+  }
+
+  /// Injects scroll-fix CSS into the HTML string before it is loaded.
+  /// Injecting here (not via runJavaScript after load) prevents page scripts
+  /// from overriding the styles before the browser has applied them.
+  static String _injectScrollCss(String html) {
+    // Targets all common block containers used in server-rendered contract pages.
+    // `!important` overrides any inline style or print-stylesheet rules.
+    const css = '<style>'
+        'html,body,div,section,main,article,aside,header,footer,form,table{'
+        '  overflow:visible!important;'
+        '  height:auto!important;'
+        '  min-height:0!important;'
+        '  max-height:none!important;'
+        '}'
+        'html,body{'
+        '  overflow-y:auto!important;'
+        '  -webkit-overflow-scrolling:touch!important;'
+        '  position:relative!important;'
+        '}'
+        '@media print{'
+        '  html,body{overflow:auto!important;height:auto!important;}'
+        '}'
+        '</style>';
+    final lower = html.toLowerCase();
+    final idx = lower.indexOf('</head>');
+    if (idx != -1) return html.substring(0, idx) + css + html.substring(idx);
+    final bodyIdx = lower.indexOf('<body');
+    if (bodyIdx != -1) return html.substring(0, bodyIdx) + css + html.substring(bodyIdx);
+    return css + html;
   }
 
   Future<void> _reload() async {
@@ -252,31 +337,35 @@ class _ContractWebViewScreenState extends State<ContractWebViewScreen> {
       ),
       body: Stack(
         children: [
-          // WebView — fills the entire body.
+          // The WebView is rendered using Hybrid Composition on Android to ensure
+          // touch events are correctly routed to the native Android view without
+          // needing EagerGestureRecognizer, which previously blocked scrolling.
           if (!_hasError && _controller != null)
-            WebViewWidget(
-              controller: _controller!,
-              // gestureRecognizers: gives WebView priority in Flutter's gesture arena
-              // so vertical touch-scroll works on real Android devices (not just emulators).
-              gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
-                Factory<VerticalDragGestureRecognizer>(
-                  () => VerticalDragGestureRecognizer(),
-                ),
-                Factory<HorizontalDragGestureRecognizer>(
-                  () => HorizontalDragGestureRecognizer(),
-                ),
+            Builder(
+              builder: (context) {
+                if (WebViewPlatform.instance is AndroidWebViewPlatform) {
+                  return WebViewWidget.fromPlatformCreationParams(
+                    params: AndroidWebViewWidgetCreationParams(
+                      controller: _controller!.platform,
+                      displayWithHybridComposition: true,
+                    ),
+                  );
+                }
+                return WebViewWidget(
+                  controller: _controller!,
+                );
               },
             ),
-          // Right-side vertical scroll slider — always visible after page loads.
-          // Drag the thumb up/down to scroll the contract. Guaranteed to work
-          // even when WebView touch gestures compete with Flutter's gesture arena.
+          // Native-style scrollbar overlay — thin iOS pill on the right edge.
+          // It sits ABOVE the WebView in the Stack, so its GestureDetector
+          // captures drags in the scrollbar area before the WebView does.
           if (_pageLoaded && !_hasError && _controller != null)
             Positioned(
               right: 0,
               top: 0,
               bottom: 0,
-              width: 36,
-              child: _buildVerticalScrollSlider(context),
+              width: 20,
+              child: _buildNativeScrollbar(context),
             ),
           if (_isPageLoading) _buildLoadingOverlay(context),
           if (_hasError) _buildErrorView(context),
@@ -285,48 +374,43 @@ class _ContractWebViewScreenState extends State<ContractWebViewScreen> {
     );
   }
 
-  /// Right-side vertical scroll slider.
-  /// The Flutter Slider widget is horizontal by default; RotatedBox(quarterTurns:1)
-  /// rotates it 90° clockwise: left-end (0.0) → top, right-end (1.0) → bottom.
-  /// LayoutBuilder provides the available height so the rotated slider fills it.
-  Widget _buildVerticalScrollSlider(BuildContext context) {
+  /// Native-style scrollbar: thin iOS-inspired pill painted via CustomPainter.
+  /// The GestureDetector captures vertical drags in the 20px strip and
+  /// translates them to JS window.scrollTo() calls.
+  Widget _buildNativeScrollbar(BuildContext context) {
     return LayoutBuilder(
       builder: (ctx, constraints) {
-        return Container(
-          decoration: BoxDecoration(
-            color: context.colors.white.withValues(alpha: 0.88),
-            border: Border(
-              left: BorderSide(
-                color: context.colors.border,
-                width: 1,
-              ),
-            ),
-          ),
-          child: RotatedBox(
-            quarterTurns: 1,            // 90° CW: left(0.0)=top, right(1.0)=bottom
-            child: SizedBox(
-              width: constraints.maxHeight,
-              child: SliderTheme(
-                data: SliderTheme.of(context).copyWith(
-                  trackHeight: 3,
-                  thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 9),
-                  overlayShape: const RoundSliderOverlayShape(overlayRadius: 18),
-                  activeTrackColor: context.colors.primary,
-                  inactiveTrackColor: context.colors.border,
-                  thumbColor: context.colors.primary,
-                  overlayColor: context.colors.primary.withValues(alpha: 0.15),
-                ),
-                child: Slider(
-                  value: _scrollProgress,
-                  onChanged: (value) {
-                    setState(() => _scrollProgress = value);
-                    // Directly scroll the WebView via JS — no smooth behavior
-                    // (smooth is unsupported on some Android system WebViews).
-                    _controller?.runJavaScript(
-                      'window.scrollTo(0, $value * (document.body.scrollHeight - window.innerHeight));',
-                    );
-                  },
-                ),
+        final trackH = constraints.maxHeight;
+        return GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onVerticalDragUpdate: (d) {
+            const thumbH = 48.0;
+            final delta = d.delta.dy / (trackH - thumbH);
+            final next = (_scrollProgress + delta).clamp(0.0, 1.0);
+            setState(() => _scrollProgress = next);
+            _controller?.runJavaScript('''
+              (function(p) {
+                var docH = Math.max(
+                  document.body.scrollHeight,
+                  document.documentElement.scrollHeight
+                );
+                var max = docH - window.innerHeight;
+                if (max > 0) {
+                  window.scrollTo(0, p * max);
+                  document.documentElement.scrollTop = p * max;
+                }
+              })($next);
+            ''');
+            _onScrollActivity();
+          },
+          child: AnimatedOpacity(
+            opacity: _showScrollbar ? 1.0 : 0.25,
+            duration: const Duration(milliseconds: 300),
+            child: CustomPaint(
+              size: Size(20, trackH),
+              painter: _ScrollbarPainter(
+                progress: _scrollProgress,
+                color: context.colors.primary,
               ),
             ),
           ),
@@ -407,6 +491,48 @@ class _ContractWebViewScreenState extends State<ContractWebViewScreen> {
   }
 }
 
+/// iOS-inspired native scrollbar painter.
+/// Track: 2px semi-transparent line.
+/// Thumb: 4px pill, primary color, proportional height (min 40px, max 30% screen).
+class _ScrollbarPainter extends CustomPainter {
+  const _ScrollbarPainter({required this.progress, required this.color});
+
+  final double progress;
+  final Color color;
+
+  static const double _thumbWidth = 4.0;
+  static const double _thumbMinH = 40.0;
+  static const double _rightPad = 4.0;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final thumbH = (size.height * 0.18).clamp(_thumbMinH, size.height * 0.35);
+    final thumbTop = progress * (size.height - thumbH);
+    final left = size.width - _thumbWidth - _rightPad;
+
+    // Track (subtle)
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromLTWH(left, 0, _thumbWidth, size.height),
+        const Radius.circular(2),
+      ),
+      Paint()..color = color.withValues(alpha: 0.12),
+    );
+
+    // Thumb
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromLTWH(left, thumbTop, _thumbWidth, thumbH),
+        const Radius.circular(2),
+      ),
+      Paint()..color = color.withValues(alpha: 0.75),
+    );
+  }
+
+  @override
+  bool shouldRepaint(_ScrollbarPainter old) =>
+      old.progress != progress || old.color != color;
+}
 // ─── Lightweight in-app PDF viewer ───────────────────────────────────────────
 
 /// Loads [url] (the signed pdf_url) directly in a Chrome-based WebView.
