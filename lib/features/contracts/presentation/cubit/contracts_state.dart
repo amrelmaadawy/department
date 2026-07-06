@@ -106,3 +106,18 @@ class ContractDetailsLoaded extends ContractsState {
 
 class SessionExpiredState extends ContractsState {}
 
+class ContractPdfGenerating extends ContractsState {}
+
+class ContractPdfGenerated extends ContractsState {
+  final String filePath;
+  const ContractPdfGenerated(this.filePath);
+  @override
+  List<Object?> get props => [filePath];
+}
+
+class ContractPdfError extends ContractsState {
+  final String message;
+  const ContractPdfError(this.message);
+  @override
+  List<Object?> get props => [message];
+}

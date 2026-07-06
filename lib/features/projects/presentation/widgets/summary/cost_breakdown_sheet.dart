@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
 import 'package:apartment/core/widgets/app_cached_network_image.dart';
 import 'package:apartment/core/theme/theme_extension.dart';

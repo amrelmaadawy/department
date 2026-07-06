@@ -9,6 +9,7 @@ import '../../domain/usecases/get_contract_by_id_usecase.dart';
 import '../../domain/usecases/get_contract_statuses_list_usecase.dart';
 import '../../domain/usecases/save_finishing_order_ids_usecase.dart';
 import '../../domain/usecases/get_finishing_order_ids_usecase.dart';
+import '../../domain/usecases/generate_contract_pdf_use_case.dart';
 import '../../domain/entities/contract_signature_status_entity.dart';
 import '../../../auth/data/services/session_manager.dart';
 import '../../../../core/services/security/biometric_auth_service.dart';
@@ -25,6 +26,7 @@ class ContractsCubit extends Cubit<ContractsState> {
   final GetContractByIdUseCase getContractByIdUseCase;
   final SaveFinishingOrderIdsUseCase saveFinishingOrderIdsUseCase;
   final GetFinishingOrderIdsUseCase getFinishingOrderIdsUseCase;
+  final GenerateContractPdfUseCase generateContractPdfUseCase;
   final SessionManager sessionManager;
   final BiometricAuthService? biometricAuthService;
 
@@ -59,6 +61,7 @@ class ContractsCubit extends Cubit<ContractsState> {
     required this.getContractByIdUseCase,
     required this.saveFinishingOrderIdsUseCase,
     required this.getFinishingOrderIdsUseCase,
+    required this.generateContractPdfUseCase,
     required this.sessionManager,
     this.biometricAuthService,
   }) : super(ContractsInitial());
@@ -125,7 +128,12 @@ class ContractsCubit extends Cubit<ContractsState> {
     );
 
     result.fold(
-      (failure) => emit(ContractsError(failure.message)),
+      (failure) {
+        if (failure.message == 'تم توقيع هذا العقد بالفعل.') {
+          markContractAsSigned(apartmentId.toString(), 'unit');
+        }
+        emit(ContractsError(failure.message));
+      },
       (contract) => emit(BoneContractCreated(contract)),
     );
   }
@@ -220,7 +228,12 @@ class ContractsCubit extends Cubit<ContractsState> {
           emit(ContractsError(failure.message));
         }
       },
-      (contract) => emit(ContractSignedSuccess(contract)),
+      (contract) {
+        if (contract.apartmentId > 0) {
+          markContractAsSigned(contract.apartmentId.toString(), contract.type);
+        }
+        emit(ContractSignedSuccess(contract));
+      },
     );
   }
 
@@ -235,4 +248,18 @@ class ContractsCubit extends Cubit<ContractsState> {
       (contract) => emit(ContractDetailsLoaded(contract)),
     );
   }
+
+  Future<void> generateContractPdf(String htmlContent) async {
+    emit(ContractPdfGenerating());
+    
+    final result = await generateContractPdfUseCase(htmlContent);
+    
+    if (isClosed) return;
+    
+    result.fold(
+      (failure) => emit(ContractPdfError(failure.message)),
+      (filePath) => emit(ContractPdfGenerated(filePath)),
+    );
+  }
 }
+

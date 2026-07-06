@@ -25,11 +25,25 @@ class ContractRepositoryImpl implements ContractRepository {
   Future<Either<Failure, List<ContractSignatureStatusEntity>>> getContractStatusesList(String unitId) async {
     try {
       final remoteStatuses = await remoteDataSource.getContractStatuses(unitId);
-      // Cache the statuses locally
+      final List<ContractSignatureStatusEntity> mergedStatuses = [];
+      // Cache the statuses locally, but do not overwrite local TRUE with remote FALSE
       for (final s in remoteStatuses) {
-        await localDataSource.saveSignatureStatus(unitId, s.contractType, s.isSigned);
+        bool currentLocal = false;
+        try {
+          currentLocal = await localDataSource.getSignatureStatus(unitId, s.contractType);
+        } catch (_) {}
+        
+        final finalStatus = currentLocal || s.isSigned;
+        await localDataSource.saveSignatureStatus(unitId, s.contractType, finalStatus);
+        
+        mergedStatuses.add(ContractSignatureStatusModel(
+          contractType: s.contractType,
+          title: s.title,
+          sequenceOrder: s.sequenceOrder,
+          isSigned: finalStatus,
+        ));
       }
-      return Right(remoteStatuses);
+      return Right(mergedStatuses);
     } catch (e) {
       // Fallback to local storage if network fails or server doesn't support the endpoint yet
       try {

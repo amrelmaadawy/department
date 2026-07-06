@@ -10,6 +10,13 @@ import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/theme_extension.dart';
+import 'dart:convert';
+import 'dart:ui';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../cubit/contracts_cubit.dart';
+import '../cubit/contracts_state.dart';
+import '../widgets/contract_pdf_action_bottom_sheet.dart';
+import '../../../../core/widgets/app_toast.dart';
 
 /// Displays a server-generated contract print page inside an in-app WebView.
 ///
@@ -306,70 +313,176 @@ class _ContractWebViewScreenState extends State<ContractWebViewScreen> {
     await _loadViaProxy(_controller!);
   }
 
+  Future<void> _handlePdfGeneration(BuildContext context) async {
+    if (_controller == null) return;
+    try {
+      final htmlStr = await _controller!.runJavaScriptReturningResult('document.documentElement.outerHTML;');
+      String htmlContent = htmlStr.toString();
+      if (htmlContent.startsWith('"') && htmlContent.endsWith('"')) {
+        // String from JavaScript is often JSON-encoded
+        htmlContent = jsonDecode(htmlContent) as String;
+      }
+      if (!context.mounted) return;
+      context.read<ContractsCubit>().generateContractPdf(htmlContent);
+    } catch (e) {
+      if (mounted) {
+        AppToast.show(context, message: 'حدث خطأ أثناء قراءة محتوى العقد', isError: true);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: context.colors.background,
-      appBar: AppBar(
-        backgroundColor: context.colors.white,
-        scrolledUnderElevation: 0,
-        centerTitle: true,
-        title: Text(
-          widget.contractTitle,
-          style: TextStyle(
-            fontSize: AppFonts.headlineMedium,
-            fontWeight: FontWeight.bold,
-            color: context.colors.primary,
-          ),
-        ),
-        leading: IconButton(
-          icon: Icon(FluentIcons.arrow_left_24_filled, color: context.colors.primary),
-          onPressed: () => context.pop(),
-        ),
-        actions: [
-          IconButton(
-            tooltip: 'إعادة تحميل',
-            icon: Icon(FluentIcons.arrow_clockwise_24_regular, color: context.colors.primary),
-            onPressed: _reload,
-          ),
-        ],
-      ),
-      body: Stack(
-        children: [
-          // The WebView is rendered using Hybrid Composition on Android to ensure
-          // touch events are correctly routed to the native Android view without
-          // needing EagerGestureRecognizer, which previously blocked scrolling.
-          if (!_hasError && _controller != null)
-            Builder(
-              builder: (context) {
-                if (WebViewPlatform.instance is AndroidWebViewPlatform) {
-                  return WebViewWidget.fromPlatformCreationParams(
-                    params: AndroidWebViewWidgetCreationParams(
-                      controller: _controller!.platform,
-                      displayWithHybridComposition: true,
+    return BlocProvider(
+      create: (context) => sl<ContractsCubit>(),
+      child: BlocListener<ContractsCubit, ContractsState>(
+        listenWhen: (prev, curr) => curr is ContractPdfGenerated || curr is ContractPdfError,
+        listener: (context, state) {
+          if (state is ContractPdfError) {
+            AppToast.show(context, message: state.message, isError: true);
+          } else if (state is ContractPdfGenerated) {
+            ContractPdfActionBottomSheet.show(context, filePath: state.filePath);
+          }
+        },
+        child: BlocBuilder<ContractsCubit, ContractsState>(
+          builder: (context, state) {
+            final isGeneratingPdf = state is ContractPdfGenerating;
+            return Stack(
+              children: [
+                Scaffold(
+                  backgroundColor: context.colors.background,
+                  appBar: AppBar(
+                    backgroundColor: context.colors.white,
+                    scrolledUnderElevation: 0,
+                    centerTitle: true,
+                    title: Text(
+                      widget.contractTitle,
+                      style: TextStyle(
+                        fontSize: AppFonts.headlineMedium,
+                        fontWeight: FontWeight.bold,
+                        color: context.colors.primary,
+                      ),
                     ),
-                  );
-                }
-                return WebViewWidget(
-                  controller: _controller!,
-                );
-              },
-            ),
-          // Native-style scrollbar overlay — thin iOS pill on the right edge.
-          // It sits ABOVE the WebView in the Stack, so its GestureDetector
-          // captures drags in the scrollbar area before the WebView does.
-          if (_pageLoaded && !_hasError && _controller != null)
-            Positioned(
-              right: 0,
-              top: 0,
-              bottom: 0,
-              width: 20,
-              child: _buildNativeScrollbar(context),
-            ),
-          if (_isPageLoading) _buildLoadingOverlay(context),
-          if (_hasError) _buildErrorView(context),
-        ],
+                    leading: IconButton(
+                      icon: Icon(FluentIcons.arrow_left_24_filled, color: context.colors.primary),
+                      onPressed: () => context.pop(),
+                    ),
+                    actions: [
+                      Builder(
+                        builder: (ctx) => IconButton(
+                          tooltip: 'تحميل / طباعة',
+                          icon: Icon(FluentIcons.arrow_download_24_regular, color: ctx.colors.primary),
+                          onPressed: isGeneratingPdf ? null : () => _handlePdfGeneration(ctx),
+                        ),
+                      ),
+                      IconButton(
+                        tooltip: 'إعادة تحميل',
+                        icon: Icon(FluentIcons.arrow_clockwise_24_regular, color: context.colors.primary),
+                        onPressed: _reload,
+                      ),
+                    ],
+                  ),
+                  body: Stack(
+                    children: [
+                      if (!_hasError && _controller != null)
+                        Builder(
+                          builder: (context) {
+                            if (WebViewPlatform.instance is AndroidWebViewPlatform) {
+                              return WebViewWidget.fromPlatformCreationParams(
+                                params: AndroidWebViewWidgetCreationParams(
+                                  controller: _controller!.platform,
+                                  displayWithHybridComposition: true,
+                                ),
+                              );
+                            }
+                            return WebViewWidget(
+                              controller: _controller!,
+                            );
+                          },
+                        ),
+                      if (_pageLoaded && !_hasError && _controller != null)
+                        Positioned(
+                          right: 0,
+                          top: 0,
+                          bottom: 0,
+                          width: 20,
+                          child: _buildNativeScrollbar(context),
+                        ),
+                      if (_isPageLoading) _buildLoadingOverlay(context),
+                      if (_hasError) _buildErrorView(context),
+                    ],
+                  ),
+                ),
+                if (isGeneratingPdf)
+                  Positioned.fill(
+                    child: Material(
+                      type: MaterialType.transparency,
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+                        child: Container(
+                          color: context.colors.background.withValues(alpha: 0.4),
+                          child: Center(
+                            child: Container(
+                              margin: const EdgeInsets.symmetric(horizontal: 32),
+                              padding: const EdgeInsets.all(20),
+                              decoration: BoxDecoration(
+                                color: context.colors.white,
+                                borderRadius: BorderRadius.circular(16),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withValues(alpha: 0.1),
+                                    blurRadius: 16,
+                                    offset: const Offset(0, 4),
+                                  ),
+                                ],
+                              ),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    width: 24,
+                                    height: 24,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2.5,
+                                      color: context.colors.primary,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 16),
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'جاري تجهيز العقد...',
+                                          style: TextStyle(
+                                            fontSize: AppFonts.bodyLarge,
+                                            fontWeight: FontWeight.bold,
+                                            color: context.colors.textPrimary,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 2),
+                                        Text(
+                                          'يرجى الانتظار للحظات',
+                                          style: TextStyle(
+                                            fontSize: AppFonts.bodySmall,
+                                            color: context.colors.textSecondary,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }

@@ -4,14 +4,13 @@ import 'package:apartment/core/theme/theme_extension.dart';
 import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/core/theme/app_radius.dart';
-import 'package:apartment/l10n/app_localizations.dart';
+import 'package:apartment/features/projects/presentation/widgets/summary/cost_breakdown_sheet.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:apartment/core/widgets/app_cached_network_image.dart';
 import 'package:apartment/features/contracts/domain/entities/apartment_finishing_order_entity.dart';
 import 'package:apartment/core/network/api_endpoints.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:intl/intl.dart';
-import 'package:apartment/features/projects/presentation/widgets/summary/cost_breakdown_sheet.dart';
 
 class OrderSelectionCard extends StatelessWidget {
   final ApartmentFinishingOrderEntity order;
@@ -29,7 +28,6 @@ class OrderSelectionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
     
     // We expect the backend to provide a relative path that we need to prefix with the storage url.
     String? imageUrl = order.aiRenders.isNotEmpty ? order.aiRenders.first.url : null;

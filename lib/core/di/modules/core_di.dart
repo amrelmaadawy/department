@@ -21,6 +21,7 @@ import 'package:apartment/core/services/download/download_service.dart';
 import 'package:apartment/core/services/security/token_rotation_service.dart';
 import 'package:apartment/core/services/security/biometric_auth_service.dart';
 import 'package:apartment/core/services/analytics/analytics_service.dart';
+import 'package:apartment/core/services/pdf/pdf_generator_service.dart';
 
 import 'package:apartment/features/home/presentation/cubit/home_cubit.dart';
 import 'package:apartment/features/layout/presentation/cubit/layout_cubit.dart';
@@ -44,6 +45,7 @@ Future<void> registerCoreDi(GetIt sl) async {
   sl.registerLazySingleton(() => TokenRotationService(secureStorage: sl()));
   sl.registerLazySingleton(() => BiometricAuthService());
   sl.registerLazySingleton<AnalyticsService>(() => AppAnalyticsService());
+  sl.registerLazySingleton<IPdfGeneratorService>(() => PdfGeneratorServiceImpl());
 
   // Network Monitoring
   sl.registerLazySingleton(() => Connectivity());
