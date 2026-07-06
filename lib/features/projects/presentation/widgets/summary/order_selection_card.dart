@@ -134,7 +134,7 @@ class OrderSelectionCard extends StatelessWidget {
             ),
             // Details Section
             Expanded(
-              flex: 3,
+              flex: 4,
               child: Padding(
                 padding: const EdgeInsets.all(AppSpacing.sm),
                 child: Column(

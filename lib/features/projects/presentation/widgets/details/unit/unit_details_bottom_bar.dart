@@ -99,14 +99,26 @@ class UnitDetailsBottomBar extends StatelessWidget {
             // ✅ كل العقود موقّعة — عرض فقط
             btnText = canEditFinishing
                 ? l10n.editFinishingSelections
-                : l10n.viewFinishingSelections;
-            onPressed = () => context.push(
+                : 'عرض ملخص التشطيبات';
+            onPressed = () {
+              if (canEditFinishing) {
+                context.push(
                   AppRouter.unitCustomization,
                   extra: {
                     'unit': unit,
-                    'isReadOnly': !canEditFinishing,
+                    'isReadOnly': false,
                   },
                 );
+              } else {
+                context.push(
+                  AppRouter.finishingSummary,
+                  extra: {
+                    'unit': unit,
+                    'totalFinishingCost': 0.0,
+                  },
+                );
+              }
+            };
           } else if (existingOrderIds.isNotEmpty) {
             // ✅ في طلبات تشطيب → امضي أو استكمل العقود
             btnText = 'استكمال توقيع العقود';

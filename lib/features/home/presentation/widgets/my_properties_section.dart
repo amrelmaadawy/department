@@ -26,7 +26,7 @@ class MyPropertiesSection extends StatelessWidget {
       builder: (context, state) {
         if (state is ProfileLoaded) {
           final soldUnits = state.profile.apartments
-              .where((u) => u.status.isUnavailable)
+              .where((u) => u.status.isUnavailable || u.status == UnitStatus.owned)
               .toList();
 
           if (soldUnits.isEmpty) return const SizedBox.shrink();

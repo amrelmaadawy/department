@@ -25,6 +25,7 @@ class FinishingMaterialGridSection extends StatelessWidget {
   final UnitRoomEntity? currentRoom;
   final CategoryTabController categoryTabController;
   final bool isReadOnly;
+  final bool isPackageMode;
   final VoidCallback onHighlightNextTab;
 
   const FinishingMaterialGridSection({
@@ -35,6 +36,7 @@ class FinishingMaterialGridSection extends StatelessWidget {
     required this.currentRoom,
     required this.categoryTabController,
     required this.isReadOnly,
+    this.isPackageMode = false,
     required this.onHighlightNextTab,
   });
 
@@ -134,10 +136,13 @@ class FinishingMaterialGridSection extends StatelessWidget {
   }
 
   void _handleMaterialTap(BuildContext context, FinishingMaterialEntity material, bool isSelected) {
-    if (isReadOnly) {
+    if (isReadOnly || isPackageMode) {
+      final msg = isPackageMode
+          ? 'تم اختيار هذه الخامات تلقائياً من الباقة المختارة ولا يمكن تغييرها.'
+          : 'لقد قمت بتوقيع عقود التشطيب مسبقاً، ولا يمكن تغيير الخيارات الحالية.';
       AppToast.show(
         context,
-        message: 'تم اختيار هذه الخامات تلقائياً من الباقة المختارة ولا يمكن تغييرها.',
+        message: msg,
         isError: false,
       );
       return;

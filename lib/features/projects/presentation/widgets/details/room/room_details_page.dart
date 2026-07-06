@@ -173,8 +173,8 @@ class _RoomDetailsPageState extends State<RoomDetailsPage> with AutomaticKeepAli
             unitRooms: widget.unit.rooms,
             currentRoom: widget.room,
             categoryTabController: _categoryTabController,
-            // Read-only when: package mode OR finishing contract already signed
-            isReadOnly: widget.isReadOnly || widget.selectedPackage != null,
+            isReadOnly: widget.isReadOnly,
+            isPackageMode: widget.selectedPackage != null,
           ),
           const SizedBox(height: AppSpacing.xxl),
         ],

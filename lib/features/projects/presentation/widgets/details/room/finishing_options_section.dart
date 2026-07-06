@@ -23,6 +23,7 @@ class FinishingOptionsSection extends StatefulWidget {
   final UnitRoomEntity? currentRoom;
   final CategoryTabController categoryTabController;
   final bool isReadOnly;
+  final bool isPackageMode;
 
   const FinishingOptionsSection({
     super.key,
@@ -31,6 +32,7 @@ class FinishingOptionsSection extends StatefulWidget {
     this.currentRoom,
     required this.categoryTabController,
     this.isReadOnly = false,
+    this.isPackageMode = false,
   });
 
   @override
@@ -158,6 +160,7 @@ class _FinishingOptionsSectionState extends State<FinishingOptionsSection> {
               currentRoom: widget.currentRoom,
               categoryTabController: widget.categoryTabController,
               isReadOnly: widget.isReadOnly,
+              isPackageMode: widget.isPackageMode,
               onHighlightNextTab: _triggerHighlightNextTab,
             ),
           ],
