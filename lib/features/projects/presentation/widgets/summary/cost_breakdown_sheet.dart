@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
+import 'package:apartment/core/widgets/app_cached_network_image.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
@@ -133,9 +134,10 @@ class CostBreakdownSheet extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(AppRadius.sm - 1),
                         child: imageUrl != null && imageUrl.isNotEmpty
-                            ? CachedNetworkImage(
+                            ? AppCachedNetworkImage(
                                 imageUrl: imageUrl,
                                 fit: BoxFit.cover,
+                                memCacheWidth: 150,
                                 errorWidget: (context, url, error) => Icon(
                                   FluentIcons.image_24_regular,
                                   color: context.colors.textSecondary,

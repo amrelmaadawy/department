@@ -9,6 +9,8 @@ class AppCachedNetworkImage extends StatelessWidget {
   final Widget Function(BuildContext, String, dynamic)? errorWidget;
   final Widget Function(BuildContext, String, DownloadProgress)? progressIndicatorBuilder;
   final Widget Function(BuildContext, String)? placeholder;
+  final int? memCacheWidth;
+  final int? memCacheHeight;
 
   const AppCachedNetworkImage({
     super.key,
@@ -19,6 +21,8 @@ class AppCachedNetworkImage extends StatelessWidget {
     this.errorWidget,
     this.progressIndicatorBuilder,
     this.placeholder,
+    this.memCacheWidth,
+    this.memCacheHeight,
   });
 
   @override
@@ -35,16 +39,21 @@ class AppCachedNetworkImage extends StatelessWidget {
     } else if (height != null && height != double.infinity) {
       cacheHeight = (height! * devicePixelRatio).toInt();
     } else {
-      cacheWidth = 800; // Safe default for full-screen unconstrained images
+      cacheWidth = 400; // Safe default for unconstrained images to prevent OOM
     }
+
+    int? finalCacheWidth = memCacheWidth ?? cacheWidth;
+    int? finalCacheHeight = memCacheHeight ?? cacheHeight;
 
     return CachedNetworkImage(
       imageUrl: imageUrl,
       width: width,
       height: height,
       fit: fit,
-      memCacheWidth: cacheWidth,
-      memCacheHeight: cacheHeight,
+      memCacheWidth: finalCacheWidth,
+      memCacheHeight: finalCacheHeight,
+      maxWidthDiskCache: 800,
+      maxHeightDiskCache: 800,
       errorWidget: errorWidget,
       progressIndicatorBuilder: progressIndicatorBuilder,
       placeholder: placeholder,

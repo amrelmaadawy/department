@@ -10,6 +10,12 @@ class RoomDetailsCubit extends Cubit<RoomDetailsState> {
     required this.getRoomDetailsUseCase,
   }) : super(RoomDetailsInitial());
 
+  @override
+  void emit(RoomDetailsState state) {
+    if (isClosed) return;
+    super.emit(state);
+  }
+
   Future<void> loadRoomDetails(UnitRoomEntity room) async {
     emit(RoomDetailsLoading(room: room));
 

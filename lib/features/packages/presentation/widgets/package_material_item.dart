@@ -4,7 +4,7 @@ import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 import 'package:apartment/features/packages/domain/entities/package_item_entity.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:apartment/core/widgets/app_cached_network_image.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 
@@ -32,10 +32,11 @@ class PackageMaterialItemWidget extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(AppRadius.md),
             child: imageUrl != null
-                ? CachedNetworkImage(
+                ? AppCachedNetworkImage(
                     imageUrl: imageUrl,
                     width: 56,
                     height: 56,
+                    memCacheWidth: 150,
                     fit: BoxFit.cover,
                     placeholder: (ctx, url) => Container(
                       width: 56,

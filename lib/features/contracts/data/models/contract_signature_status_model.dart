@@ -11,11 +11,19 @@ class ContractSignatureStatusModel extends ContractSignatureStatusEntity {
   });
 
   factory ContractSignatureStatusModel.fromJson(Map<String, dynamic> json) {
+    final statusStr = json['status']?.toString().toLowerCase() ?? '';
+    final isSignedRaw = json['is_signed'];
+    final isSignedBool = isSignedRaw == true || 
+                         isSignedRaw == 1 || 
+                         isSignedRaw?.toString() == '1' || 
+                         isSignedRaw?.toString().toLowerCase() == 'true';
+    final isStatusSigned = statusStr == 'signed' || statusStr == 'completed' || statusStr == 'approved' || statusStr == 'done';
+
     return ContractSignatureStatusModel(
       contractType: json['contract_type']?.toString() ?? json['type']?.toString() ?? 'unit',
       title: json['title']?.toString() ?? (json['contract_type'] == 'finishing' ? 'عقد التشطيب الحصري' : 'عقد بيع وتخصيص الوحدة'),
       sequenceOrder: int.tryParse(json['sequence_order']?.toString() ?? '1') ?? 1,
-      isSigned: json['is_signed'] == true || json['status']?.toString().toLowerCase() == 'signed',
+      isSigned: isSignedBool || isStatusSigned,
       contractId: int.tryParse(json['contract_id']?.toString() ?? json['id']?.toString() ?? ''),
       lastFailureMessage: json['last_failure_message']?.toString(),
     );

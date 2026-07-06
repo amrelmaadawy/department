@@ -5,8 +5,8 @@ import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/core/theme/app_radius.dart';
 import 'package:apartment/l10n/app_localizations.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:apartment/core/widgets/app_cached_network_image.dart';
 import 'package:apartment/features/contracts/domain/entities/apartment_finishing_order_entity.dart';
 import 'package:apartment/core/network/api_endpoints.dart';
 import 'package:shimmer/shimmer.dart';
@@ -68,16 +68,17 @@ class OrderSelectionCard extends StatelessWidget {
           children: [
             // Image Section
             Expanded(
-              flex: 4,
+              flex: 5,
               child: ClipRRect(
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(AppRadius.lg - 2)),
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
                     imageUrl != null && imageUrl.isNotEmpty
-                        ? CachedNetworkImage(
+                        ? AppCachedNetworkImage(
                             imageUrl: imageUrl, // Assuming full URL or handled by network layer
                             fit: BoxFit.cover,
+                            memCacheWidth: 200,
                             placeholder: (context, url) => Shimmer.fromColors(
                               baseColor: AppColors.grey300,
                               highlightColor: AppColors.grey100,
@@ -131,9 +132,9 @@ class OrderSelectionCard extends StatelessWidget {
                 ),
               ),
             ),
-            // Price & Details Section
+            // Details Section
             Expanded(
-              flex: 4,
+              flex: 3,
               child: Padding(
                 padding: const EdgeInsets.all(AppSpacing.sm),
                 child: Column(
@@ -167,7 +168,7 @@ class OrderSelectionCard extends StatelessWidget {
                     const SizedBox(height: 2),
 
                     if (order.costBreakdown != null) ...[
-                      const Spacer(),
+                      const SizedBox(height: 8),
                       SizedBox(
                         width: double.infinity,
                         height: 32,

@@ -18,8 +18,24 @@ import '../cubit/profile_state.dart';
 import '../../../home/domain/entities/project_unit_entity.dart';
 import '../widgets/my_unit_card.dart';
 
-class MyUnitsScreen extends StatelessWidget {
+class MyUnitsScreen extends StatefulWidget {
   const MyUnitsScreen({super.key});
+
+  @override
+  State<MyUnitsScreen> createState() => _MyUnitsScreenState();
+}
+
+class _MyUnitsScreenState extends State<MyUnitsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Load profile if it hasn't been loaded yet
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context.read<ProfileCubit>().loadProfileIfNeeded();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
