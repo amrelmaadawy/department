@@ -17,12 +17,11 @@ class FinishingOrderEntity extends Equatable {
   final String unitName;
   final String createdAt;
   final String imageUrl;
-  
+ 
   final double? paidAmount;
   final double? remainingAmount;
   final int? progressPercentage;
-  
-  // Custom materials mapping if API provides it
+
   final List<dynamic> materials;
   final List<dynamic> rooms;
   final Map<String, dynamic> rawJson;

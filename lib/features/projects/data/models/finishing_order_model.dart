@@ -61,55 +61,82 @@ class FinishingOrderModel extends FinishingOrderEntity {
       progressPercentage: json['progress_percentage'] is num 
           ? (json['progress_percentage'] as num).toInt() 
           : int.tryParse(json['progress_percentage']?.toString() ?? ''),
-      materials: _parseMaterials(json),
-      rooms: json['rooms'] != null ? List<dynamic>.from(json['rooms']) : [],
+      materials: [], // We won't use flat materials anymore
+      rooms: _parseRoomsData(json),
       rawJson: json,
     );
   }
 
-  static List<dynamic> _parseMaterials(Map<String, dynamic> json) {
-    if (json['materials'] != null && json['materials'] is List) return List<dynamic>.from(json['materials']);
-    if (json['items'] != null && json['items'] is List) return List<dynamic>.from(json['items']);
-    
+  static List<dynamic> _parseRoomsData(Map<String, dynamic> json) {
     final cb = json['cost_breakdown'];
-    if (cb == null) return [];
+    if (cb == null) {
+       // fallback if rooms array exists directly
+       if (json['rooms'] != null && json['rooms'] is List) return List<dynamic>.from(json['rooms']);
+       return [];
+    }
     
-    List<dynamic> allMaterials = [];
-    
-    void extractFrom(dynamic data, String? roomName) {
-      if (data is List) {
-        for (var item in data) {
-          extractFrom(item, roomName);
-        }
-      } else if (data is Map) {
-        // If this map represents a material
-        if (data.containsKey('company_name') || data.containsKey('material_name') || data.containsKey('name') || data.containsKey('price') || data.containsKey('final_price') || data.containsKey('total_price')) {
-          // Avoid adding the "room_total" wrapper as a material
-          if (!data.containsKey('room_total') || data.containsKey('name') || data.containsKey('company_name')) {
-            var mat = Map<String, dynamic>.from(data);
-            if (roomName != null && !mat.containsKey('room')) mat['room'] = roomName;
-            allMaterials.add(mat);
+    List<dynamic> parsedRooms = [];
+
+    void processRoom(String roomName, dynamic roomData) {
+      List<dynamic> roomMaterials = [];
+      List<String> roomImages = [];
+      String roomTotal = '';
+
+      void extract(dynamic data) {
+        if (data is List) {
+          for (var item in data) extract(item);
+        } else if (data is Map) {
+          bool isMaterial = false;
+          // If it's a material
+          if (data.containsKey('company_name') || data.containsKey('material_name') || data.containsKey('name') || data.containsKey('price') || data.containsKey('final_price') || data.containsKey('total_price')) {
+            if (!data.containsKey('room_total') || data.containsKey('name') || data.containsKey('company_name')) {
+              isMaterial = true;
+              roomMaterials.add(Map<String, dynamic>.from(data));
+            }
           }
-        }
-        
-        // Recursively extract from any lists or maps inside this map
-        data.forEach((k, v) {
-          if (v is List || v is Map) {
-            extractFrom(v, roomName);
+          if (data.containsKey('room_total')) roomTotal = data['room_total'].toString();
+          
+          if (!isMaterial) {
+            // Try to find room design images
+            if (data.containsKey('image') && data['image'] != null) roomImages.add(data['image'].toString());
+            if (data.containsKey('image_url') && data['image_url'] != null) roomImages.add(data['image_url'].toString());
+            if (data.containsKey('url') && data['url'] != null) roomImages.add(data['url'].toString());
+            if (data.containsKey('images') && data['images'] is List) {
+              roomImages.addAll(List<String>.from(data['images'].map((e) => e.toString())));
+            }
           }
-        });
+
+          data.forEach((k, v) {
+            if (v is List || v is Map) extract(v);
+          });
+        }
       }
+
+      extract(roomData);
+      
+      parsedRooms.add({
+        'room_name': roomName,
+        'room_total': roomTotal,
+        'materials': roomMaterials,
+        'images': roomImages.toSet().toList(), // unique images
+      });
     }
 
     if (cb is Map) {
       cb.forEach((k, v) {
-         extractFrom(v, k);
+        processRoom(k, v);
       });
-    } else {
-      extractFrom(cb, null);
+    } else if (cb is List) {
+      for (int i = 0; i < cb.length; i++) {
+        var item = cb[i];
+        if (item is Map) {
+           String rName = item['name']?.toString() ?? item['room_name']?.toString() ?? item['title']?.toString() ?? 'غرفة ${i + 1}';
+           processRoom(rName, item);
+        }
+      }
     }
     
-    return allMaterials;
+    return parsedRooms;
   }
 
   Map<String, dynamic> toJson() {

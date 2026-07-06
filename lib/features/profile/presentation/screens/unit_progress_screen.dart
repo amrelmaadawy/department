@@ -66,53 +66,40 @@ class UnitProgressScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   _buildDetailCard(context, 'رقم الطلب', '#${order!.id}'),
-                  const SizedBox(height: AppSpacing.md),
+                  const SizedBox(height: AppSpacing.sm),
                   _buildDetailCard(context, 'الحالة', order!.statusLabel),
-                  const SizedBox(height: AppSpacing.md),
+                  const SizedBox(height: AppSpacing.sm),
                   _buildDetailCard(context, 'نوع الطلب', order!.orderTypeLabel),
-                  const SizedBox(height: AppSpacing.md),
+                  const SizedBox(height: AppSpacing.sm),
                   _buildDetailCard(context, 'حالة التصميم (AI)', order!.aiStatusLabel),
-                  const SizedBox(height: AppSpacing.md),
+                  const SizedBox(height: AppSpacing.sm),
                   _buildDetailCard(context, 'إجمالي التكلفة', '${order!.totalCost.toStringAsFixed(0)} ج.م'),
                   if (order!.paidAmount != null) ...[
-                    const SizedBox(height: AppSpacing.md),
+                    const SizedBox(height: AppSpacing.sm),
                     _buildDetailCard(context, 'المدفوع', '${order!.paidAmount!.toStringAsFixed(0)} ج.م'),
                   ],
                   if (order!.remainingAmount != null) ...[
-                    const SizedBox(height: AppSpacing.md),
+                    const SizedBox(height: AppSpacing.sm),
                     _buildDetailCard(context, 'المتبقي', '${order!.remainingAmount!.toStringAsFixed(0)} ج.م'),
                   ],
                   if (order!.progressPercentage != null) ...[
-                    const SizedBox(height: AppSpacing.md),
+                    const SizedBox(height: AppSpacing.sm),
                     _buildDetailCard(context, 'نسبة الإنجاز', '${order!.progressPercentage}%'),
                   ],
-                  const SizedBox(height: AppSpacing.md),
+                  const SizedBox(height: AppSpacing.sm),
                   _buildDetailCard(context, 'تاريخ الطلب', _formatDate(order!.createdAt)),
                   if (order!.style.isNotEmpty) ...[
-                    const SizedBox(height: AppSpacing.md),
+                    const SizedBox(height: AppSpacing.sm),
                     _buildDetailCard(context, 'النمط المختار', order!.style),
                   ],
                   if (order!.notes.isNotEmpty) ...[
-                    const SizedBox(height: AppSpacing.md),
+                    const SizedBox(height: AppSpacing.sm),
                     _buildDetailCard(context, 'ملاحظات', order!.notes),
                   ],
-                  if (order!.materials.isNotEmpty) ...[
-                    const SizedBox(height: AppSpacing.xl),
-                    Text(
-                      'الخامات المختارة',
-                      style: TextStyle(
-                        color: context.colors.textPrimary,
-                        fontSize: AppFonts.headlineSmall,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: AppSpacing.md),
-                    _buildMaterialsList(context, order!.materials),
-                  ],
                   if (order!.rooms.isNotEmpty) ...[
-                    const SizedBox(height: AppSpacing.xl),
+                    const SizedBox(height: AppSpacing.lg),
                     Text(
-                      'الغرف',
+                      'التشطيبات والغرف',
                       style: TextStyle(
                         color: context.colors.textPrimary,
                         fontSize: AppFonts.headlineSmall,
@@ -120,35 +107,144 @@ class UnitProgressScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: AppSpacing.md),
-                    _buildMaterialsList(context, order!.rooms), // Use same layout for rooms for now
+                    ...order!.rooms.map((room) {
+                      if (room is Map) {
+                        return _buildGroupedRoomCard(context, room);
+                      }
+                      return const SizedBox.shrink();
+                    }),
                   ],
-                  if (order!.materials.isEmpty && order!.rooms.isEmpty) ...[
+                  if (order!.rooms.isEmpty) ...[
                     const SizedBox(height: AppSpacing.md),
                     Container(
                       padding: const EdgeInsets.all(AppSpacing.md),
                       color: Colors.red.withValues(alpha: 0.1),
                       child: Text(
-                        'مطور الباك إند: لم يتم العثور على مصفوفة materials أو rooms أو items في الـ API. المفاتيح المتاحة هي:\n${order!.rawJson.keys.join(', ')}',
+                        'مطور الباك إند: لم يتم العثور على أي تفاصيل بداخل cost_breakdown أو غرف في الـ API. المفاتيح المتاحة هي:\n${order!.rawJson.keys.join(', ')}',
                         style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
-                  if (order!.images.isNotEmpty) ...[
-                    const SizedBox(height: AppSpacing.xl),
+                ],
+              ),
+            ),
+    );
+  }
+
+  Widget _buildGroupedRoomCard(BuildContext context, Map<dynamic, dynamic> room) {
+    final String roomName = room['room_name']?.toString() ?? 'غرفة';
+    final String roomTotal = room['room_total']?.toString() ?? '';
+    final List<dynamic> materials = room['materials'] as List<dynamic>? ?? [];
+    final List<String> images = (room['images'] as List<dynamic>? ?? []).map((e) => e.toString()).toList();
+
+    if (materials.isEmpty && images.isEmpty) return const SizedBox.shrink();
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: AppSpacing.md),
+      decoration: BoxDecoration(
+        color: context.colors.white,
+        borderRadius: BorderRadius.circular(AppRadius.lg),
+        border: Border.all(color: context.colors.border.withValues(alpha: 0.5)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.03),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // Room Header
+          Container(
+            padding: const EdgeInsets.all(AppSpacing.md),
+            decoration: BoxDecoration(
+              color: context.colors.primary.withValues(alpha: 0.05),
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(AppRadius.lg)),
+              border: Border(bottom: BorderSide(color: context.colors.border.withValues(alpha: 0.3))),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Icon(FluentIcons.conference_room_24_filled, color: context.colors.primary),
+                    const SizedBox(width: AppSpacing.sm),
                     Text(
-                      'صور التشطيبات',
+                      roomName,
                       style: TextStyle(
                         color: context.colors.textPrimary,
                         fontSize: AppFonts.headlineSmall,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: AppSpacing.md),
-                    _buildImageGallery(context, order!.images),
                   ],
+                ),
+                if (roomTotal.isNotEmpty && roomTotal != 'null')
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: context.colors.white,
+                      borderRadius: BorderRadius.circular(AppRadius.round),
+                      border: Border.all(color: context.colors.border.withValues(alpha: 0.5)),
+                    ),
+                    child: Text(
+                      '$roomTotal ج.م',
+                      style: TextStyle(
+                        color: context.colors.primary,
+                        fontSize: AppFonts.bodySmall,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+          
+          // Room Materials
+          if (materials.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(AppSpacing.md, AppSpacing.md, AppSpacing.md, AppSpacing.sm),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'الخامات المختارة:',
+                    style: TextStyle(
+                      color: context.colors.textSecondary,
+                      fontSize: AppFonts.bodyMedium,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.xs),
+                  _buildMaterialsList(context, materials),
                 ],
               ),
             ),
+
+          // Room Images
+          if (images.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(AppSpacing.md, AppSpacing.xs, AppSpacing.md, AppSpacing.sm),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'صور التصميم:',
+                    style: TextStyle(
+                      color: context.colors.textSecondary,
+                      fontSize: AppFonts.bodyMedium,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.sm),
+                  _buildImageGallery(context, images),
+                ],
+              ),
+            ),
+        ],
+      ),
     );
   }
 
@@ -160,58 +256,57 @@ class UnitProgressScreen extends StatelessWidget {
           final String name = item['name']?.toString() ?? item['title']?.toString() ?? item['item']?.toString() ?? item['material_name']?.toString() ?? item['description']?.toString() ?? 'عنصر تشطيب (مفاتيح: ${item.keys.join(', ')})';
           final String category = item['category']?.toString() ?? item['type']?.toString() ?? item['subtype']?.toString() ?? item['room']?.toString() ?? '';
           final String price = item['price']?.toString() ?? item['cost']?.toString() ?? item['amount']?.toString() ?? item['final_price']?.toString() ?? item['total_price']?.toString() ?? '';
+          final String imageUrl = item['image']?.toString() ?? item['image_url']?.toString() ?? item['url']?.toString() ?? '';
           
           return Container(
             margin: const EdgeInsets.only(bottom: AppSpacing.sm),
-            padding: const EdgeInsets.all(AppSpacing.md),
             decoration: BoxDecoration(
               color: context.colors.white,
               borderRadius: BorderRadius.circular(AppRadius.md),
               border: Border.all(color: context.colors.border.withValues(alpha: 0.3)),
             ),
-            child: Row(
-              children: [
-                Icon(FluentIcons.toolbox_24_regular, color: context.colors.primary, size: 24),
-                const SizedBox(width: AppSpacing.md),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        name,
-                        style: TextStyle(
-                          color: context.colors.textPrimary,
-                          fontSize: AppFonts.bodyMedium,
-                          fontWeight: FontWeight.bold,
-                        ),
+            child: ListTile(
+              contentPadding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: 4),
+              minLeadingWidth: 48,
+              leading: imageUrl.isNotEmpty
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.circular(AppRadius.sm),
+                      child: Image.network(
+                        imageUrl,
+                        width: 48,
+                        height: 48,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) => Icon(FluentIcons.toolbox_24_regular, color: context.colors.primary, size: 28),
                       ),
-                      if (category.isNotEmpty)
-                        Text(
-                          category,
-                          style: TextStyle(
-                            color: context.colors.textSecondary,
-                            fontSize: AppFonts.labelSmall,
-                          ),
-                        ),
-                    ],
-                  ),
+                    )
+                  : Icon(FluentIcons.toolbox_24_regular, color: context.colors.primary, size: 28),
+              title: Text(
+                name,
+                style: TextStyle(
+                  color: context.colors.textPrimary,
+                  fontSize: AppFonts.bodyMedium,
+                  fontWeight: FontWeight.bold,
                 ),
-                if (price.isNotEmpty)
-                  Flexible(
-                    flex: 1,
-                    child: Text(
+              ),
+              subtitle: category.isNotEmpty
+                  ? Text(
+                      category,
+                      style: TextStyle(
+                        color: context.colors.textSecondary,
+                        fontSize: AppFonts.labelSmall,
+                      ),
+                    )
+                  : null,
+              trailing: price.isNotEmpty
+                  ? Text(
                       '$price ج.م',
                       style: TextStyle(
                         color: context.colors.primary,
                         fontSize: AppFonts.bodyMedium,
                         fontWeight: FontWeight.bold,
                       ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.end,
-                    ),
-                  ),
-              ],
+                    )
+                  : null,
             ),
           );
         } else if (item is String) {
