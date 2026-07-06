@@ -36,7 +36,10 @@ class ProfileRoutes {
 
     GoRoute(
       path: AppRouter.unitProgress,
-      builder: (context, state) => const UnitProgressScreen(),
+      builder: (context, state) {
+        final order = state.extra as dynamic;
+        return UnitProgressScreen(order: order);
+      },
     ),
     GoRoute(
       path: AppRouter.unitContract,

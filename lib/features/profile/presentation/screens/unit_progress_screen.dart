@@ -4,53 +4,28 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/theme/app_fonts.dart';
-import '../widgets/progress_timeline_tile.dart';
 import 'package:apartment/core/theme/theme_extension.dart';
 
+import 'package:apartment/features/projects/domain/entities/finishing_order_entity.dart';
+import 'package:apartment/core/theme/app_spacing.dart';
+import 'package:apartment/core/theme/app_radius.dart';
 
-class UnitProgressScreen extends StatefulWidget {
-  const UnitProgressScreen({super.key});
+import 'package:intl/intl.dart';
 
-  @override
-  State<UnitProgressScreen> createState() => _UnitProgressScreenState();
-}
+class UnitProgressScreen extends StatelessWidget {
+  final FinishingOrderEntity? order;
 
-class _UnitProgressScreenState extends State<UnitProgressScreen> {
-  // Mock Data: The unit is currently at phase 3 (Index 2)
-  final int _currentStep = 2;
+  const UnitProgressScreen({super.key, this.order});
 
-  final List<Map<String, dynamic>> _phases = [
-    {
-      'title': 'التأسيس والمحارة',
-      'subtitle': 'تم الانتهاء من أعمال البناء والمحارة الأساسية',
-      'date': '12 أكتوبر 2026',
-      'images': [],
-    },
-    {
-      'title': 'تأسيس السباكة والكهرباء',
-      'subtitle': 'تم تمديد شبكات المياه والكهرباء والتكييف',
-      'date': '28 أكتوبر 2026',
-      'images': [],
-    },
-    {
-      'title': 'الأرضيات والأسقف',
-      'subtitle': 'جاري العمل على تركيب الرخام وأسقف الجبس بورد',
-      'date': 'جاري التنفيذ',
-      'images': [],
-    },
-    {
-      'title': 'الدهانات والتشطيب النهائي',
-      'subtitle': 'سيتم البدء بعد جفاف الأرضيات',
-      'date': 'متوقع: 15 ديسمبر 2026',
-      'images': [],
-    },
-    {
-      'title': 'التسليم',
-      'subtitle': 'تسليم الوحدة مطابقة للمواصفات',
-      'date': 'متوقع: 1 يناير 2027',
-      'images': [],
-    },
-  ];
+  String _formatDate(String isoString) {
+    if (isoString.isEmpty) return 'غير متوفر';
+    try {
+      final date = DateTime.parse(isoString);
+      return DateFormat('d MMMM yyyy', 'ar').format(date);
+    } catch (e) {
+      return isoString;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +36,7 @@ class _UnitProgressScreenState extends State<UnitProgressScreen> {
         backgroundColor: context.colors.white,
         elevation: 0,
         scrolledUnderElevation: 0.0,
-        title:  Text(
+        title: Text(
           l10n.finishingProgressTitle,
           style: TextStyle(
             color: context.colors.textPrimary,
@@ -75,26 +50,264 @@ class _UnitProgressScreenState extends State<UnitProgressScreen> {
           onPressed: () => context.pop(),
         ),
       ),
-      body: ListView.builder(
-        padding: const EdgeInsets.only(top: 24, left: 16, right: 16, bottom: 40),
-        physics: const BouncingScrollPhysics(),
-        itemCount: _phases.length,
-        itemBuilder: (context, index) {
-          final phase = _phases[index];
-          final bool isCompleted = index < _currentStep;
-          final bool isActive = index == _currentStep;
-          final bool isFirst = index == 0;
-          final bool isLast = index == _phases.length - 1;
+      body: order == null
+          ? Center(
+              child: Text(
+                'لا يوجد طلب تشطيب لهذه الوحدة.',
+                style: TextStyle(
+                  color: context.colors.textSecondary,
+                  fontSize: AppFonts.bodyLarge,
+                ),
+              ),
+            )
+          : SingleChildScrollView(
+              padding: const EdgeInsets.all(AppSpacing.lg),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  _buildDetailCard(context, 'رقم الطلب', '#${order!.id}'),
+                  const SizedBox(height: AppSpacing.md),
+                  _buildDetailCard(context, 'الحالة', order!.statusLabel),
+                  const SizedBox(height: AppSpacing.md),
+                  _buildDetailCard(context, 'نوع الطلب', order!.orderTypeLabel),
+                  const SizedBox(height: AppSpacing.md),
+                  _buildDetailCard(context, 'حالة التصميم (AI)', order!.aiStatusLabel),
+                  const SizedBox(height: AppSpacing.md),
+                  _buildDetailCard(context, 'إجمالي التكلفة', '${order!.totalCost.toStringAsFixed(0)} ج.م'),
+                  if (order!.paidAmount != null) ...[
+                    const SizedBox(height: AppSpacing.md),
+                    _buildDetailCard(context, 'المدفوع', '${order!.paidAmount!.toStringAsFixed(0)} ج.م'),
+                  ],
+                  if (order!.remainingAmount != null) ...[
+                    const SizedBox(height: AppSpacing.md),
+                    _buildDetailCard(context, 'المتبقي', '${order!.remainingAmount!.toStringAsFixed(0)} ج.م'),
+                  ],
+                  if (order!.progressPercentage != null) ...[
+                    const SizedBox(height: AppSpacing.md),
+                    _buildDetailCard(context, 'نسبة الإنجاز', '${order!.progressPercentage}%'),
+                  ],
+                  const SizedBox(height: AppSpacing.md),
+                  _buildDetailCard(context, 'تاريخ الطلب', _formatDate(order!.createdAt)),
+                  if (order!.style.isNotEmpty) ...[
+                    const SizedBox(height: AppSpacing.md),
+                    _buildDetailCard(context, 'النمط المختار', order!.style),
+                  ],
+                  if (order!.notes.isNotEmpty) ...[
+                    const SizedBox(height: AppSpacing.md),
+                    _buildDetailCard(context, 'ملاحظات', order!.notes),
+                  ],
+                  if (order!.materials.isNotEmpty) ...[
+                    const SizedBox(height: AppSpacing.xl),
+                    Text(
+                      'الخامات المختارة',
+                      style: TextStyle(
+                        color: context.colors.textPrimary,
+                        fontSize: AppFonts.headlineSmall,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.md),
+                    _buildMaterialsList(context, order!.materials),
+                  ],
+                  if (order!.rooms.isNotEmpty) ...[
+                    const SizedBox(height: AppSpacing.xl),
+                    Text(
+                      'الغرف',
+                      style: TextStyle(
+                        color: context.colors.textPrimary,
+                        fontSize: AppFonts.headlineSmall,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.md),
+                    _buildMaterialsList(context, order!.rooms), // Use same layout for rooms for now
+                  ],
+                  if (order!.materials.isEmpty && order!.rooms.isEmpty) ...[
+                    const SizedBox(height: AppSpacing.md),
+                    Container(
+                      padding: const EdgeInsets.all(AppSpacing.md),
+                      color: Colors.red.withValues(alpha: 0.1),
+                      child: Text(
+                        'مطور الباك إند: لم يتم العثور على مصفوفة materials أو rooms أو items في الـ API. المفاتيح المتاحة هي:\n${order!.rawJson.keys.join(', ')}',
+                        style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                  if (order!.images.isNotEmpty) ...[
+                    const SizedBox(height: AppSpacing.xl),
+                    Text(
+                      'صور التشطيبات',
+                      style: TextStyle(
+                        color: context.colors.textPrimary,
+                        fontSize: AppFonts.headlineSmall,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.md),
+                    _buildImageGallery(context, order!.images),
+                  ],
+                ],
+              ),
+            ),
+    );
+  }
 
-          return ProgressTimelineTile(
-            isFirst: isFirst,
-            isLast: isLast,
-            isCompleted: isCompleted,
-            isActive: isActive,
-            phase: phase,
+  Widget _buildMaterialsList(BuildContext context, List<dynamic> materials) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: materials.map((item) {
+        if (item is Map) {
+          final String name = item['name']?.toString() ?? item['title']?.toString() ?? item['item']?.toString() ?? item['material_name']?.toString() ?? item['description']?.toString() ?? 'عنصر تشطيب (مفاتيح: ${item.keys.join(', ')})';
+          final String category = item['category']?.toString() ?? item['type']?.toString() ?? item['subtype']?.toString() ?? item['room']?.toString() ?? '';
+          final String price = item['price']?.toString() ?? item['cost']?.toString() ?? item['amount']?.toString() ?? item['final_price']?.toString() ?? item['total_price']?.toString() ?? '';
+          
+          return Container(
+            margin: const EdgeInsets.only(bottom: AppSpacing.sm),
+            padding: const EdgeInsets.all(AppSpacing.md),
+            decoration: BoxDecoration(
+              color: context.colors.white,
+              borderRadius: BorderRadius.circular(AppRadius.md),
+              border: Border.all(color: context.colors.border.withValues(alpha: 0.3)),
+            ),
+            child: Row(
+              children: [
+                Icon(FluentIcons.toolbox_24_regular, color: context.colors.primary, size: 24),
+                const SizedBox(width: AppSpacing.md),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        name,
+                        style: TextStyle(
+                          color: context.colors.textPrimary,
+                          fontSize: AppFonts.bodyMedium,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      if (category.isNotEmpty)
+                        Text(
+                          category,
+                          style: TextStyle(
+                            color: context.colors.textSecondary,
+                            fontSize: AppFonts.labelSmall,
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+                if (price.isNotEmpty)
+                  Flexible(
+                    flex: 1,
+                    child: Text(
+                      '$price ج.م',
+                      style: TextStyle(
+                        color: context.colors.primary,
+                        fontSize: AppFonts.bodyMedium,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.end,
+                    ),
+                  ),
+              ],
+            ),
+          );
+        } else if (item is String) {
+          return Container(
+            margin: const EdgeInsets.only(bottom: AppSpacing.sm),
+            padding: const EdgeInsets.all(AppSpacing.md),
+            decoration: BoxDecoration(
+              color: context.colors.white,
+              borderRadius: BorderRadius.circular(AppRadius.md),
+              border: Border.all(color: context.colors.border.withValues(alpha: 0.3)),
+            ),
+            child: Text(
+              item,
+              style: TextStyle(
+                color: context.colors.textPrimary,
+                fontSize: AppFonts.bodyMedium,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          );
+        }
+        return const SizedBox.shrink();
+      }).toList(),
+    );
+  }
+
+  Widget _buildImageGallery(BuildContext context, List<String> images) {
+    return SizedBox(
+      height: 140,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        itemCount: images.length,
+        separatorBuilder: (context, index) => const SizedBox(width: AppSpacing.sm),
+        itemBuilder: (context, index) {
+          final imageUrl = images[index];
+          return ClipRRect(
+            borderRadius: BorderRadius.circular(AppRadius.md),
+            child: Container(
+              width: 140,
+              height: 140,
+              color: context.colors.border.withValues(alpha: 0.2),
+              child: Image.network(
+                imageUrl,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) => Icon(
+                  FluentIcons.image_off_24_regular,
+                  color: context.colors.textSecondary,
+                  size: 32,
+                ),
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return Center(
+                    child: CircularProgressIndicator(
+                      color: context.colors.primary,
+                    ),
+                  );
+                },
+              ),
+            ),
           );
         },
       ),
     );
   }
-}
+  }
+  Widget _buildDetailCard(BuildContext context, String title, String value) {
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.md),
+      decoration: BoxDecoration(
+        color: context.colors.white,
+        borderRadius: BorderRadius.circular(AppRadius.lg),
+        border: Border.all(color: context.colors.border.withValues(alpha: 0.5)),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+              color: context.colors.textSecondary,
+              fontSize: AppFonts.bodyMedium,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Flexible(
+            child: Text(
+              value,
+              style: TextStyle(
+                color: context.colors.textPrimary,
+                fontSize: AppFonts.bodyMedium,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.end,
+            ),
+          ),
+        ],
+      ),
+    );
+  }

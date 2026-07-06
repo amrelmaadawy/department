@@ -16,7 +16,6 @@ import '../cubit/contracts_state.dart';
 import '../cubit/contract_print_cubit.dart';
 import '../cubit/contract_print_state.dart';
 import '../../../../core/widgets/app_toast.dart';
-import '../../../../core/events/app_events.dart';
 import '../widgets/contracts_review_list.dart';
 import 'server_contract_print_preview_screen.dart';
 
@@ -197,7 +196,6 @@ class _ContractsReviewScreenState extends State<ContractsReviewScreen> {
       final typeStr = type == ContractType.unit ? 'unit' : 'finishing';
       cubit.markContractAsSigned(unit.id, typeStr);
       if (type == ContractType.unit) {
-        AppEvents.emitContractSigned(unit.id);
         setState(() {
           _currentUnit = _currentUnit?.copyWith(
             status: UnitStatus.sold,

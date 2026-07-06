@@ -30,14 +30,20 @@ class ContractRepositoryImpl implements ContractRepository {
       for (final s in remoteStatuses) {
         bool currentLocal = false;
         try {
-          currentLocal = await localDataSource.getSignatureStatus(unitId, s.contractType);
+          final effectiveType = (s.contractType == 'bone' || s.contractType == 'unit') ? 'unit' : 'finishing';
+          // Check the unified key, but also check the legacy 'bone' key for users who signed before the fix
+          currentLocal = await localDataSource.getSignatureStatus(unitId, effectiveType);
+          if (!currentLocal && effectiveType == 'unit') {
+            currentLocal = await localDataSource.getSignatureStatus(unitId, 'bone');
+          }
         } catch (_) {}
         
         final finalStatus = currentLocal || s.isSigned;
-        await localDataSource.saveSignatureStatus(unitId, s.contractType, finalStatus);
+        final effectiveTypeToSave = (s.contractType == 'bone' || s.contractType == 'unit') ? 'unit' : 'finishing';
+        await localDataSource.saveSignatureStatus(unitId, effectiveTypeToSave, finalStatus);
         
         mergedStatuses.add(ContractSignatureStatusModel(
-          contractType: s.contractType,
+          contractType: effectiveTypeToSave,
           title: s.title,
           sequenceOrder: s.sequenceOrder,
           isSigned: finalStatus,
@@ -47,7 +53,9 @@ class ContractRepositoryImpl implements ContractRepository {
     } catch (e) {
       // Fallback to local storage if network fails or server doesn't support the endpoint yet
       try {
-        final isUnitSigned = await localDataSource.getSignatureStatus(unitId, 'unit');
+        bool isUnitSigned = await localDataSource.getSignatureStatus(unitId, 'unit');
+        if (!isUnitSigned) isUnitSigned = await localDataSource.getSignatureStatus(unitId, 'bone');
+        
         final isFinishingSigned = await localDataSource.getSignatureStatus(unitId, 'finishing');
         return Right([
           ContractSignatureStatusModel(

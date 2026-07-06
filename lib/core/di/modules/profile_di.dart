@@ -6,6 +6,7 @@ import 'package:apartment/features/profile/domain/repositories/profile_repositor
 import 'package:apartment/features/profile/domain/usecases/get_profile_usecase.dart';
 import 'package:apartment/features/profile/domain/usecases/toggle_favorite_design_usecase.dart';
 import 'package:apartment/features/profile/domain/usecases/update_profile_usecase.dart';
+import 'package:apartment/features/profile/domain/usecases/calculate_finishing_progress_usecase.dart';
 import 'package:apartment/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:apartment/features/profile/presentation/cubit/my_contracts_cubit.dart';
 
@@ -24,6 +25,7 @@ Future<void> registerProfileDi(GetIt sl) async {
   sl.registerLazySingleton(() => GetProfileUseCase(sl()));
   sl.registerLazySingleton(() => ToggleFavoriteDesignUseCase(sl()));
   sl.registerLazySingleton(() => UpdateProfileUseCase(sl()));
+  sl.registerLazySingleton(() => CalculateFinishingProgressUseCase());
 
   // Cubit
   sl.registerLazySingleton(() => ProfileCubit(

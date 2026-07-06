@@ -17,6 +17,15 @@ class FinishingOrderEntity extends Equatable {
   final String unitName;
   final String createdAt;
   final String imageUrl;
+  
+  final double? paidAmount;
+  final double? remainingAmount;
+  final int? progressPercentage;
+  
+  // Custom materials mapping if API provides it
+  final List<dynamic> materials;
+  final List<dynamic> rooms;
+  final Map<String, dynamic> rawJson;
 
   const FinishingOrderEntity({
     required this.id,
@@ -35,6 +44,12 @@ class FinishingOrderEntity extends Equatable {
     this.unitName = '',
     this.createdAt = '',
     this.imageUrl = '',
+    this.paidAmount,
+    this.remainingAmount,
+    this.progressPercentage,
+    this.materials = const [],
+    this.rooms = const [],
+    this.rawJson = const {},
   });
 
   @override
@@ -55,5 +70,11 @@ class FinishingOrderEntity extends Equatable {
         unitName,
         createdAt,
         imageUrl,
+        paidAmount,
+        remainingAmount,
+        progressPercentage,
+        materials,
+        rooms,
+        rawJson,
       ];
 }

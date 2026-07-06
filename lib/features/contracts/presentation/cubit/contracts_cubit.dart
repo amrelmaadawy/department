@@ -13,6 +13,7 @@ import '../../domain/usecases/generate_contract_pdf_use_case.dart';
 import '../../domain/entities/contract_signature_status_entity.dart';
 import '../../../auth/data/services/session_manager.dart';
 import '../../../../core/services/security/biometric_auth_service.dart';
+import '../../../../core/events/app_events.dart';
 import 'contracts_state.dart';
 
 class ContractsCubit extends Cubit<ContractsState> {
@@ -102,12 +103,16 @@ class ContractsCubit extends Cubit<ContractsState> {
   }
 
   Future<void> markContractAsSigned(String unitId, String contractType) async {
-    await markContractAsSignedUseCase(unitId, contractType, true);
-    if (contractType == 'unit') isUnitContractSigned = true;
-    if (contractType == 'finishing') isFinishingContractSigned = true;
+    // Normalize type to ensure local storage keys match what loadSignatureStatuses expects
+    final effectiveType = (contractType == 'bone' || contractType == 'unit') ? 'unit' : 'finishing';
+
+    await markContractAsSignedUseCase(unitId, effectiveType, true);
+    if (effectiveType == 'unit') isUnitContractSigned = true;
+    if (effectiveType == 'finishing') isFinishingContractSigned = true;
 
     contractStatusesList = contractStatusesList.map((s) {
-      if (s.contractType == contractType) {
+      if (s.contractType == effectiveType || (effectiveType == 'unit' && s.contractType == 'bone')) {
+        // We recreate the entity if copyWith doesn't exist
         return s.copyWith(isSigned: true);
       }
       return s;
@@ -231,6 +236,7 @@ class ContractsCubit extends Cubit<ContractsState> {
       (contract) {
         if (contract.apartmentId > 0) {
           markContractAsSigned(contract.apartmentId.toString(), contract.type);
+          AppEvents.emitContractSigned(contract.apartmentId.toString());
         }
         emit(ContractSignedSuccess(contract));
       },

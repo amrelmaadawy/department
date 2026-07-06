@@ -97,64 +97,50 @@ class _UnitFloorPlanViewerState extends State<UnitFloorPlanViewer> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          width: double.infinity,
-          height: 320,
-          decoration: BoxDecoration(
-            color: context.colors.background,
-            gradient: RadialGradient(
-              colors: [
-                context.colors.white,
-                context.colors.primary.withValues(alpha: 0.05),
-              ],
-              radius: 1.5,
-            ),
-            border: Border(
-              bottom: BorderSide(
-                color: context.colors.border.withValues(alpha: 0.5),
-                width: 1,
-              ),
-            ),
-          ),
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              // The image carousel
-              ClipRect(
-                child: PageView.builder(
-                  physics: _isZoomedIn ? const NeverScrollableScrollPhysics() : null,
-                  controller: _pageController,
-                  onPageChanged: (index) {
-                    setState(() {
-                      _currentIndex = index;
-                      for (int i = 0; i < _transformationControllers.length; i++) {
-                        if (i != index) {
-                          _transformationControllers[i].value = Matrix4.identity();
+        AspectRatio(
+          aspectRatio: 3 / 2,
+          child: Container(
+            width: double.infinity,
+            color: Colors.transparent,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                // The image carousel
+                ClipRect(
+                  child: PageView.builder(
+                    physics: _isZoomedIn ? const NeverScrollableScrollPhysics() : null,
+                    controller: _pageController,
+                    onPageChanged: (index) {
+                      setState(() {
+                        _currentIndex = index;
+                        for (int i = 0; i < _transformationControllers.length; i++) {
+                          if (i != index) {
+                            _transformationControllers[i].value = Matrix4.identity();
+                          }
                         }
-                      }
-                      _isZoomedIn = _transformationControllers[index].value.getMaxScaleOnAxis() > 1.01;
-                      widget.onZoomChanged?.call(_isZoomedIn);
-                    });
-                  },
-                  itemCount: images.isEmpty ? 1 : images.length,
-                  itemBuilder: (context, index) {
-                    final isCurrentPage = index == _currentIndex;
-                    final hasImage = images.isNotEmpty;
-                    
-                    Widget imageWidget = InteractiveViewer(
-                      transformationController: _transformationControllers[index],
-                      panEnabled: isCurrentPage,
-                      scaleEnabled: isCurrentPage,
-                      minScale: 1.0,
-                      maxScale: 4.0,
-                      child: hasImage
-                          ? (images[index].startsWith('http') ? AppCachedNetworkImage(imageUrl: images[index], fit: BoxFit.contain) : Image.asset(images[index], fit: BoxFit.contain))
-                          : Center(
-                              child: Icon(FluentIcons.image_off_24_regular, size: 48, color: context.colors.textSecondary),
-                            ),
-                    );
-                    
-                    final tag = index == 0 ? widget.heroTag : '${widget.heroTag}_$index';
+                        _isZoomedIn = _transformationControllers[index].value.getMaxScaleOnAxis() > 1.01;
+                        widget.onZoomChanged?.call(_isZoomedIn);
+                      });
+                    },
+                    itemCount: images.isEmpty ? 1 : images.length,
+                    itemBuilder: (context, index) {
+                      final isCurrentPage = index == _currentIndex;
+                      final hasImage = images.isNotEmpty;
+                      
+                      Widget imageWidget = InteractiveViewer(
+                        transformationController: _transformationControllers[index],
+                        panEnabled: isCurrentPage,
+                        scaleEnabled: isCurrentPage,
+                        minScale: 1.0,
+                        maxScale: 4.0,
+                        child: hasImage
+                            ? (images[index].startsWith('http') ? AppCachedNetworkImage(imageUrl: images[index], fit: BoxFit.contain) : Image.asset(images[index], fit: BoxFit.contain))
+                            : Center(
+                                child: Icon(FluentIcons.image_off_24_regular, size: 48, color: context.colors.textSecondary),
+                              ),
+                      );
+                      
+                      final tag = index == 0 ? widget.heroTag : '${widget.heroTag}_$index';
 
                     return GestureDetector(
                       onTap: () {
@@ -209,6 +195,7 @@ class _UnitFloorPlanViewerState extends State<UnitFloorPlanViewer> {
               ),
             ],
           ),
+        ),
         ),
         
         // Thumbnails

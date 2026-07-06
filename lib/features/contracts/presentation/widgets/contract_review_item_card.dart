@@ -139,6 +139,22 @@ class ContractReviewItemCard extends StatelessWidget {
               ],
             ),
           ),
+          if (onPrint != null) ...[
+            const SizedBox(width: AppSpacing.sm),
+            Container(
+              decoration: BoxDecoration(
+                color: context.colors.primary.withValues(alpha: 0.05),
+                borderRadius: BorderRadius.circular(AppRadius.md),
+              ),
+              child: IconButton(
+                onPressed: onPrint,
+                icon: Icon(FluentIcons.print_24_regular, color: context.colors.primary, size: 20),
+                tooltip: 'عرض وطباعة العقد',
+                padding: const EdgeInsets.all(6),
+                constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
+              ),
+            ),
+          ],
         ],
       );
     }

@@ -18,6 +18,12 @@ class FinishingOrderModel extends FinishingOrderEntity {
     super.unitName,
     super.createdAt,
     super.imageUrl,
+    super.paidAmount,
+    super.remainingAmount,
+    super.progressPercentage,
+    super.materials,
+    super.rooms,
+    super.rawJson,
   });
 
   factory FinishingOrderModel.fromJson(Map<String, dynamic> json) {
@@ -46,7 +52,64 @@ class FinishingOrderModel extends FinishingOrderEntity {
       unitName: json['apartment'] != null ? (json['apartment']['name'] ?? '') : '',
       createdAt: json['created_at'] ?? '',
       imageUrl: json['image_url'] ?? (json['images'] != null && (json['images'] as List).isNotEmpty ? json['images'][0] : ''),
+      paidAmount: json['paid_amount'] is num 
+          ? (json['paid_amount'] as num).toDouble() 
+          : double.tryParse(json['paid_amount']?.toString() ?? ''),
+      remainingAmount: json['remaining_amount'] is num 
+          ? (json['remaining_amount'] as num).toDouble() 
+          : double.tryParse(json['remaining_amount']?.toString() ?? ''),
+      progressPercentage: json['progress_percentage'] is num 
+          ? (json['progress_percentage'] as num).toInt() 
+          : int.tryParse(json['progress_percentage']?.toString() ?? ''),
+      materials: _parseMaterials(json),
+      rooms: json['rooms'] != null ? List<dynamic>.from(json['rooms']) : [],
+      rawJson: json,
     );
+  }
+
+  static List<dynamic> _parseMaterials(Map<String, dynamic> json) {
+    if (json['materials'] != null && json['materials'] is List) return List<dynamic>.from(json['materials']);
+    if (json['items'] != null && json['items'] is List) return List<dynamic>.from(json['items']);
+    
+    final cb = json['cost_breakdown'];
+    if (cb == null) return [];
+    
+    List<dynamic> allMaterials = [];
+    
+    void extractFrom(dynamic data, String? roomName) {
+      if (data is List) {
+        for (var item in data) {
+          extractFrom(item, roomName);
+        }
+      } else if (data is Map) {
+        // If this map represents a material
+        if (data.containsKey('company_name') || data.containsKey('material_name') || data.containsKey('name') || data.containsKey('price') || data.containsKey('final_price') || data.containsKey('total_price')) {
+          // Avoid adding the "room_total" wrapper as a material
+          if (!data.containsKey('room_total') || data.containsKey('name') || data.containsKey('company_name')) {
+            var mat = Map<String, dynamic>.from(data);
+            if (roomName != null && !mat.containsKey('room')) mat['room'] = roomName;
+            allMaterials.add(mat);
+          }
+        }
+        
+        // Recursively extract from any lists or maps inside this map
+        data.forEach((k, v) {
+          if (v is List || v is Map) {
+            extractFrom(v, roomName);
+          }
+        });
+      }
+    }
+
+    if (cb is Map) {
+      cb.forEach((k, v) {
+         extractFrom(v, k);
+      });
+    } else {
+      extractFrom(cb, null);
+    }
+    
+    return allMaterials;
   }
 
   Map<String, dynamic> toJson() {
@@ -67,6 +130,10 @@ class FinishingOrderModel extends FinishingOrderEntity {
       'unit_name': unitName,
       'created_at': createdAt,
       'image_url': imageUrl,
+      if (paidAmount != null) 'paid_amount': paidAmount,
+      if (remainingAmount != null) 'remaining_amount': remainingAmount,
+      if (progressPercentage != null) 'progress_percentage': progressPercentage,
+      'materials': materials,
     };
   }
 }

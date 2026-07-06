@@ -339,7 +339,24 @@ class _ContractWebViewScreenState extends State<ContractWebViewScreen> {
         listenWhen: (prev, curr) => curr is ContractPdfGenerated || curr is ContractPdfError,
         listener: (context, state) {
           if (state is ContractPdfError) {
-            AppToast.show(context, message: state.message, isError: true);
+            showDialog(
+              context: context,
+              builder: (ctx) => AlertDialog(
+                title: const Text('تفاصيل الخطأ التقني (لتشخيص المشكلة)'),
+                content: SingleChildScrollView(
+                  child: SelectableText(
+                    state.message,
+                    textDirection: TextDirection.ltr,
+                  ),
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(ctx),
+                    child: const Text('إغلاق'),
+                  ),
+                ],
+              ),
+            );
           } else if (state is ContractPdfGenerated) {
             ContractPdfActionBottomSheet.show(context, filePath: state.filePath);
           }
