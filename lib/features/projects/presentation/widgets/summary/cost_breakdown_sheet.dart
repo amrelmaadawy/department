@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -7,7 +6,6 @@ import 'package:apartment/core/theme/theme_extension.dart';
 import 'package:apartment/core/theme/app_fonts.dart';
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/core/theme/app_radius.dart';
-import 'package:apartment/l10n/app_localizations.dart';
 import 'package:apartment/features/contracts/domain/entities/cost_breakdown_entity.dart';
 import 'package:apartment/core/network/api_endpoints.dart';
 
@@ -18,9 +16,6 @@ class CostBreakdownSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    final formatter = NumberFormat.currency(symbol: '', decimalDigits: 0);
-
     return Container(
       padding: const EdgeInsets.all(AppSpacing.md),
       decoration: BoxDecoration(
@@ -48,7 +43,7 @@ class CostBreakdownSheet extends StatelessWidget {
                 Icon(FluentIcons.receipt_24_regular, color: context.colors.primary),
                 const SizedBox(width: AppSpacing.sm),
                 Text(
-                  'تفاصيل التكلفة والتسعير',
+                  'تفاصيل المواد والخامات',
                   style: TextStyle(
                     fontSize: AppFonts.headlineSmall,
                     fontWeight: FontWeight.bold,
@@ -65,38 +60,8 @@ class CostBreakdownSheet extends StatelessWidget {
                 separatorBuilder: (context, index) => const SizedBox(height: AppSpacing.md),
                 itemBuilder: (context, index) {
                   final room = breakdown.rooms[index];
-                  return _buildRoomBreakdown(context, room, formatter, l10n);
+                  return _buildRoomBreakdown(context, room);
                 },
-              ),
-            ),
-            const SizedBox(height: AppSpacing.lg),
-            Container(
-              padding: const EdgeInsets.all(AppSpacing.md),
-              decoration: BoxDecoration(
-                color: context.colors.primary.withValues(alpha: 0.05),
-                borderRadius: BorderRadius.circular(AppRadius.lg),
-                border: Border.all(color: context.colors.primary.withValues(alpha: 0.2)),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'الإجمالي (لهذا الطلب)',
-                    style: TextStyle(
-                      fontSize: AppFonts.bodyLarge,
-                      fontWeight: FontWeight.bold,
-                      color: context.colors.textPrimary,
-                    ),
-                  ),
-                  Text(
-                    '${formatter.format(breakdown.grandTotal).trim()} ${l10n.sar}',
-                    style: TextStyle(
-                      fontSize: AppFonts.headlineSmall,
-                      fontWeight: FontWeight.bold,
-                      color: context.colors.primary,
-                    ),
-                  ),
-                ],
               ),
             ),
           ],
@@ -108,8 +73,6 @@ class CostBreakdownSheet extends StatelessWidget {
   Widget _buildRoomBreakdown(
     BuildContext context,
     CostBreakdownRoomEntity room,
-    NumberFormat formatter,
-    AppLocalizations l10n,
   ) {
     return Container(
       decoration: BoxDecoration(
@@ -136,14 +99,6 @@ class CostBreakdownSheet extends StatelessWidget {
                     fontSize: AppFonts.bodyLarge,
                     fontWeight: FontWeight.bold,
                     color: context.colors.textPrimary,
-                  ),
-                ),
-                Text(
-                  '${formatter.format(room.roomTotal).trim()} ${l10n.sar}',
-                  style: TextStyle(
-                    fontSize: AppFonts.bodyMedium,
-                    fontWeight: FontWeight.bold,
-                    color: context.colors.textSecondary,
                   ),
                 ),
               ],
@@ -214,14 +169,6 @@ class CostBreakdownSheet extends StatelessWidget {
                             ),
                           ),
                         ],
-                      ),
-                    ),
-                    Text(
-                      '${formatter.format(item.total).trim()} ${l10n.sar}',
-                      style: TextStyle(
-                        fontSize: AppFonts.bodyMedium,
-                        fontWeight: FontWeight.bold,
-                        color: context.colors.textPrimary,
                       ),
                     ),
                   ],

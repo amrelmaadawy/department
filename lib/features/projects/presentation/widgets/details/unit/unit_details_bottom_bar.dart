@@ -73,30 +73,29 @@ class UnitDetailsBottomBar extends StatelessWidget {
     if (unit.isCurrentUserUnit) {
       return BlocBuilder<ContractsCubit, ContractsState>(
         builder: (context, contractsState) {
-          final isLoading = contractsState is FinishingOrdersLoading ||
-              contractsState is ContractSigningLoading;
-
           final contractsCubit = context.read<ContractsCubit>();
           final boneSigned = contractsCubit.isUnitContractSigned;
           final finishingSigned = contractsCubit.isFinishingContractSigned;
+
+          final isLoading = !contractsCubit.isSignatureStatusesReady || 
+                            contractsCubit.isLoadingFinishingOrders || 
+                            contractsState is ContractSigningLoading ||
+                            contractsState is ContractsInitial;
 
           // Read eligibility from UnitDetailsCubit (computed by the UseCase)
           final unitState = context.watch<UnitDetailsCubit>().state;
           final canEditFinishing = unitState.canEditFinishing;
 
-          List<int> existingOrderIds = [];
-          if (contractsState is FinishingOrdersLoaded) {
-            existingOrderIds = contractsState.rooms
-                .expand((r) => r.orders)
-                .map((o) => o.id)
-                .toList();
-          }
+          List<int> existingOrderIds = contractsCubit.cachedFinishingOrderIds;
 
           // ---- منطق القرار ----
           String btnText;
           VoidCallback? onPressed;
 
-          if (boneSigned && finishingSigned) {
+          if (isLoading) {
+            btnText = 'جاري التحقق من حالة عقودك...';
+            onPressed = null;
+          } else if (boneSigned && finishingSigned) {
             // ✅ كل العقود موقّعة — عرض فقط
             btnText = canEditFinishing
                 ? l10n.editFinishingSelections
@@ -108,9 +107,9 @@ class UnitDetailsBottomBar extends StatelessWidget {
                     'isReadOnly': !canEditFinishing,
                   },
                 );
-          } else if (boneSigned && existingOrderIds.isNotEmpty) {
-            // ✅ عقد العظم موقّع + في طلبات تشطيب → امضي عقد التشطيب
-            btnText = 'استكمال توقيع عقد التشطيب';
+          } else if (existingOrderIds.isNotEmpty) {
+            // ✅ في طلبات تشطيب → امضي أو استكمل العقود
+            btnText = 'استكمال توقيع العقود';
             onPressed = () => context.push(
                   AppRouter.contractsReview,
                   extra: {
@@ -119,10 +118,8 @@ class UnitDetailsBottomBar extends StatelessWidget {
                     'selectedFinishingOrderIds': existingOrderIds,
                   },
                 );
-          } else if (boneSigned &&
-              existingOrderIds.isEmpty &&
-              contractsState is! FinishingOrdersLoading) {
-            // ✅ عقد العظم موقّع + مفيش طلبات → اختر التشطيب
+          } else {
+            // ✅ مفيش طلبات → اختر التشطيب
             btnText = canEditFinishing
                 ? l10n.editFinishingSelections
                 : 'اختر تشطيب شقتك';
@@ -130,9 +127,6 @@ class UnitDetailsBottomBar extends StatelessWidget {
                   AppRouter.finishingGuide,
                   extra: {'unit': unit},
                 );
-          } else {
-            btnText = 'جاري التحقق من حالة عقودك...';
-            onPressed = null;
           }
 
           return _buildContainer(

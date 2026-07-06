@@ -1,7 +1,5 @@
 import 'package:apartment/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart' hide TextDirection;
-import 'package:apartment/l10n/app_localizations.dart';
 
 import '../../../../../home/domain/entities/project_unit_entity.dart';
 import '../../../../../../core/theme/app_spacing.dart';
@@ -52,41 +50,7 @@ class UnifiedRoomBottomBar extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (finishingCost > 0)
-                  Builder(
-                    builder: (context) {
-                      final l10n = AppLocalizations.of(context)!;
-                      final formatter = NumberFormat.currency(symbol: '', decimalDigits: 0);
-                      return Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'إجمالي سعر تشطيب الشقة:',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: context.colors.textSecondary,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              Text(
-                                '${formatter.format(finishingCost).trim()} ${l10n.sar}',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: context.colors.gold,
-                                ),
-                                textDirection: TextDirection.ltr,
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: AppSpacing.md),
-                        ],
-                      );
-                    }
-                  ),
+
                 RoomActionButtons(
                   isLastRoom: isLastRoom,
                   finishingCost: finishingCost,

@@ -41,6 +41,10 @@ class ContractsCubit extends Cubit<ContractsState> {
   /// True once finishing orders have been fetched from the server at least once.
   bool isFinishingOrdersReady = false;
 
+  /// True once signature statuses have been fetched.
+  bool isSignatureStatusesReady = false;
+  bool isLoadingSignatureStatuses = false;
+
   /// True while finishing orders are being fetched.
   bool isLoadingFinishingOrders = false;
 
@@ -60,6 +64,9 @@ class ContractsCubit extends Cubit<ContractsState> {
   }) : super(ContractsInitial());
 
   Future<void> loadSignatureStatuses(String unitId) async {
+    isLoadingSignatureStatuses = true;
+    isSignatureStatusesReady = false;
+    
     if (getContractStatusesListUseCase != null) {
       final result = await getContractStatusesListUseCase!(unitId);
       result.fold(
@@ -73,6 +80,8 @@ class ContractsCubit extends Cubit<ContractsState> {
         },
       );
       if (contractStatusesList.isNotEmpty) {
+        isLoadingSignatureStatuses = false;
+        isSignatureStatusesReady = true;
         emit(ContractStatusesListLoaded(contractStatusesList));
         return;
       }
@@ -84,6 +93,8 @@ class ContractsCubit extends Cubit<ContractsState> {
     isUnitContractSigned = unitResult.fold((l) => false, (r) => r);
     isFinishingContractSigned = finishingResult.fold((l) => false, (r) => r);
     
+    isLoadingSignatureStatuses = false;
+    isSignatureStatusesReady = true;
     emit(ContractSignatureStatusesLoaded(isUnitContractSigned, isFinishingContractSigned));
   }
 

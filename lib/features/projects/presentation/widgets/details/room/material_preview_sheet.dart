@@ -2,7 +2,6 @@ import 'package:apartment/core/theme/app_colors.dart';
 import 'package:apartment/core/widgets/app_cached_network_image.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import '../../../../../../core/theme/app_fonts.dart';
 import '../../../../../../core/theme/app_radius.dart';
@@ -49,12 +48,6 @@ class MaterialPreviewSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final fullFormatter = NumberFormat.currency(symbol: '', decimalDigits: 0);
-    
-    double? totalCost;
-    if (roomArea != null && roomArea! > 0) {
-      totalCost = material.finalPrice * roomArea!;
-    }
 
     return Container(
       decoration: BoxDecoration(
@@ -146,29 +139,7 @@ class MaterialPreviewSheet extends StatelessWidget {
                   const SizedBox(height: AppSpacing.lg),
                 ],
                 
-                if (totalCost != null)
-                  Container(
-                    padding: const EdgeInsets.all(AppSpacing.md),
-                    decoration: BoxDecoration(
-                      color: context.colors.background,
-                      borderRadius: BorderRadius.circular(AppRadius.md),
-                      border: Border.all(color: context.colors.border),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          l10n.totalRoomCostLabel(fullFormatter.format(totalCost).trim()),
-                          style: TextStyle(
-                            fontSize: AppFonts.bodyLarge,
-                            fontWeight: FontWeight.bold,
-                            color: context.colors.gold,
-                          ),
-                        ),
-                        Icon(FluentIcons.money_20_filled, color: context.colors.gold, size: 20),
-                      ],
-                    ),
-                  ),
+
               ],
             ),
           ),

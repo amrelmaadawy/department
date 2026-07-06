@@ -1,8 +1,7 @@
 import 'package:apartment/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
-import 'package:apartment/core/theme/app_fonts.dart';
+
 import 'package:apartment/core/theme/app_spacing.dart';
 import 'package:apartment/l10n/app_localizations.dart';
 import 'package:apartment/features/home/domain/entities/project_unit_entity.dart';
@@ -58,7 +57,7 @@ class _UnitWizardBottomBarState extends State<UnitWizardBottomBar> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final formatter = NumberFormat.currency(symbol: '', decimalDigits: 0);
+
 
     final currentIndex = widget.tabController.index;
     final totalRooms = widget.unit.rooms.length;
@@ -87,54 +86,7 @@ class _UnitWizardBottomBarState extends State<UnitWizardBottomBar> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Price Header Row
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    l10n.priceTitle,
-                    style: TextStyle(
-                      fontSize: AppFonts.bodyMedium,
-                      color: context.colors.textSecondary,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  Text(
-                    '${formatter.format(widget.unit.price + widget.finishingCost).trim()} ${l10n.sar}',
-                    style: TextStyle(
-                      fontSize: AppFonts.headlineLarge,
-                      fontWeight: FontWeight.bold,
-                      color: context.colors.gold,
-                    ),
-                  ),
-                ],
-              ),
-              
-              // Breakdown Row (only if finishing is present)
-              if (widget.finishingCost > 0) ...[
-                const SizedBox(height: AppSpacing.xs),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      l10n.finishingContract,
-                      style: TextStyle(
-                        fontSize: AppFonts.bodySmall,
-                        color: context.colors.textSecondary.withValues(alpha: 0.8),
-                      ),
-                    ),
-                    Text(
-                      '+ ${formatter.format(widget.finishingCost).trim()} ${l10n.sar}',
-                      style: TextStyle(
-                        fontSize: AppFonts.bodySmall,
-                        color: context.colors.success,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+
               
               const SizedBox(height: AppSpacing.md),
               

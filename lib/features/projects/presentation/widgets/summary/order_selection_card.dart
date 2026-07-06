@@ -165,28 +165,7 @@ class OrderSelectionCard extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 2),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.baseline,
-                      textBaseline: TextBaseline.alphabetic,
-                      children: [
-                        Text(
-                          order.totalCost,
-                          style: TextStyle(
-                            fontSize: AppFonts.bodyLarge,
-                            fontWeight: FontWeight.bold,
-                            color: isSelected ? context.colors.primary : context.colors.textPrimary,
-                          ),
-                        ),
-                        const SizedBox(width: 4),
-                        Text(
-                          l10n.sar,
-                          style: TextStyle(
-                            fontSize: AppFonts.bodySmall,
-                            color: isSelected ? context.colors.gold : context.colors.textSecondary,
-                          ),
-                        ),
-                      ],
-                    ),
+
                     if (order.costBreakdown != null) ...[
                       const Spacer(),
                       SizedBox(
