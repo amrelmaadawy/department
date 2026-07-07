@@ -651,7 +651,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pricePerSqm => 'ر.س / متر';
 
   @override
-  String get priceTitle => 'السعر الإجمالي';
+  String get priceTitle => 'السعر الاساسي ( العظم )';
 
   @override
   String get privacyPolicy => 'سياسة الخصوصية';
