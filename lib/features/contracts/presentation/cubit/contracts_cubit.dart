@@ -103,8 +103,8 @@ class ContractsCubit extends Cubit<ContractsState> {
   }
 
   Future<void> markContractAsSigned(String unitId, String contractType) async {
-    // Normalize type to ensure local storage keys match what loadSignatureStatuses expects
-    final effectiveType = (contractType == 'bone' || contractType == 'unit') ? 'unit' : 'finishing';
+    // Normalize type: if it contains 'finish', it's finishing, otherwise default to unit.
+    final effectiveType = (contractType.toLowerCase().contains('finish')) ? 'finishing' : 'unit';
 
     await markContractAsSignedUseCase(unitId, effectiveType, true);
     if (effectiveType == 'unit') isUnitContractSigned = true;

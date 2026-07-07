@@ -30,7 +30,7 @@ class ContractRepositoryImpl implements ContractRepository {
       for (final s in remoteStatuses) {
         bool currentLocal = false;
         try {
-          final effectiveType = (s.contractType == 'bone' || s.contractType == 'unit') ? 'unit' : 'finishing';
+          final effectiveType = (s.contractType.toLowerCase().contains('finish')) ? 'finishing' : 'unit';
           // Check the unified key, but also check the legacy 'bone' key for users who signed before the fix
           currentLocal = await localDataSource.getSignatureStatus(unitId, effectiveType);
           if (!currentLocal && effectiveType == 'unit') {
@@ -39,7 +39,7 @@ class ContractRepositoryImpl implements ContractRepository {
         } catch (_) {}
         
         final finalStatus = currentLocal || s.isSigned;
-        final effectiveTypeToSave = (s.contractType == 'bone' || s.contractType == 'unit') ? 'unit' : 'finishing';
+        final effectiveTypeToSave = (s.contractType.toLowerCase().contains('finish')) ? 'finishing' : 'unit';
         await localDataSource.saveSignatureStatus(unitId, effectiveTypeToSave, finalStatus);
         
         mergedStatuses.add(ContractSignatureStatusModel(

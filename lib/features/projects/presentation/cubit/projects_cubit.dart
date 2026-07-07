@@ -1,8 +1,10 @@
+import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/network/app_cancel_token.dart';
+import '../../../../core/events/app_events.dart';
 import '../../../home/domain/entities/project_entity.dart';
 import '../../domain/usecases/get_projects_usecase.dart';
 
@@ -10,8 +12,13 @@ part 'projects_state.dart';
 
 class ProjectsCubit extends Cubit<ProjectsState> {
   final GetProjectsUseCase getProjectsUseCase;
+  StreamSubscription? _contractSignedSubscription;
 
-  ProjectsCubit({required this.getProjectsUseCase}) : super(ProjectsInitial());
+  ProjectsCubit({required this.getProjectsUseCase}) : super(ProjectsInitial()) {
+    _contractSignedSubscription = AppEvents.onContractSigned.listen((_) {
+      if (!isClosed) loadProjects();
+    });
+  }
 
   final AppCancelToken _cancelToken = AppCancelToken();
 
@@ -88,6 +95,7 @@ class ProjectsCubit extends Cubit<ProjectsState> {
 
   @override
   Future<void> close() {
+    _contractSignedSubscription?.cancel();
     _cancelToken.cancel('ProjectsCubit closed');
     return super.close();
   }

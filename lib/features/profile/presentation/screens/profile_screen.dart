@@ -24,8 +24,6 @@ import '../../../projects/domain/entities/finishing_order_entity.dart';
 import '../../../../core/network/cubit/network_cubit.dart';
 import '../../../../core/network/cubit/network_state.dart';
 import '../../../customer_journey/presentation/widgets/active_journey_resume_card.dart';
-import '../widgets/profile_finishing_progress_section.dart';
-
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
@@ -289,10 +287,6 @@ class _ProfileViewState extends State<ProfileView>
 
                     // Active Journeys Hub
                     const ActiveJourneyResumeCard(),
-
-                    // Finishing Progress Section
-                    if (profileState is ProfileLoaded)
-                      ProfileFinishingProgressSection(profile: profileState.profile),
 
                     // Recent Orders
                     ProfileRecentOrdersSection(recentOrders: recentOrders),

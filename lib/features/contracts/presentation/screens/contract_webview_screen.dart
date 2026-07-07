@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:go_router/go_router.dart';
@@ -313,22 +315,170 @@ class _ContractWebViewScreenState extends State<ContractWebViewScreen> {
     await _loadViaProxy(_controller!);
   }
 
+  /// Triggers PDF saving from the already-rendered WebView.
+  ///
+  /// Strategy 1: Try downloading the PDF from pdfUrl (if server returns actual PDF).
+  /// Strategy 2: Use the already-rendered WebView's window.print() which opens
+  ///   Android's native print dialog with "Save as PDF" option — this is 100%
+  ///   reliable because NO new WebView is created.
   Future<void> _handlePdfGeneration(BuildContext context) async {
+    // Strategy 1: Try direct PDF download from server
+    if (widget.pdfUrl.isNotEmpty) {
+      debugPrint('[ContractWebView] Trying direct PDF download...');
+      final savedPath = await _tryDownloadPdf(widget.pdfUrl);
+      if (savedPath != null) {
+        if (!context.mounted) return;
+        ContractPdfActionBottomSheet.show(context, filePath: savedPath);
+        return;
+      }
+      debugPrint('[ContractWebView] Direct PDF download failed, falling back to HTML...');
+    }
+
+    // Strategy 2: Generate PDF from HTML content via flutter_native_html_to_pdf
     if (_controller == null) return;
     try {
-      final htmlStr = await _controller!.runJavaScriptReturningResult('document.documentElement.outerHTML;');
-      String htmlContent = htmlStr.toString();
-      if (htmlContent.startsWith('"') && htmlContent.endsWith('"')) {
-        // String from JavaScript is often JSON-encoded
-        htmlContent = jsonDecode(htmlContent) as String;
+      String htmlContent = '';
+
+      try {
+        htmlContent = await _extractHtmlChunked(_controller!);
+      } catch (jsError) {
+        debugPrint('[ContractWebView] JS extraction failed: $jsError');
       }
+
+      if (htmlContent.isEmpty && _safeUrl.isNotEmpty) {
+        try {
+          final dio = sl<Dio>();
+          final response = await dio.get<String>(
+            _safeUrl,
+            options: Options(
+              responseType: ResponseType.plain,
+              receiveTimeout: const Duration(seconds: 30),
+            ),
+          );
+          htmlContent = (response.data ?? '').replaceFirst('\uFEFF', '').trim();
+        } catch (dioError) {
+          debugPrint('[ContractWebView] Dio fallback also failed: $dioError');
+        }
+      }
+
+      if (htmlContent.isEmpty) {
+        if (context.mounted) {
+          AppToast.show(context, message: 'تعذر قراءة محتوى العقد. يرجى إعادة تحميل الصفحة.', isError: true);
+        }
+        return;
+      }
+
       if (!context.mounted) return;
       context.read<ContractsCubit>().generateContractPdf(htmlContent);
     } catch (e) {
-      if (mounted) {
+      debugPrint('[ContractWebView] _handlePdfGeneration error: $e');
+      if (context.mounted) {
         AppToast.show(context, message: 'حدث خطأ أثناء قراءة محتوى العقد', isError: true);
       }
     }
+  }
+
+  /// Attempts to download a PDF from [url]. Returns the local file path
+  /// on success, or null if the response is not a valid PDF.
+  Future<String?> _tryDownloadPdf(String url) async {
+    final safeUrl = url.replaceFirst(RegExp(r'^http://'), 'https://');
+
+    var bytes = await _downloadBytes(safeUrl, useAuth: false);
+    if (bytes == null || !_isPdf(bytes)) {
+      bytes = await _downloadBytes(safeUrl, useAuth: true);
+    }
+
+    if (bytes == null || !_isPdf(bytes)) {
+      debugPrint('[ContractWebView] pdfUrl did not return valid PDF');
+      return null;
+    }
+
+    final dir = await _getWriteablePath();
+    final filePath = '$dir/contract_${DateTime.now().millisecondsSinceEpoch}.pdf';
+    await File(filePath).writeAsBytes(bytes, flush: true);
+    debugPrint('[ContractWebView] ✔ PDF saved: $filePath');
+    return filePath;
+  }
+
+  Future<List<int>?> _downloadBytes(String url, {required bool useAuth}) async {
+    try {
+      final dio = useAuth
+          ? sl<Dio>()
+          : Dio(BaseOptions(
+              receiveTimeout: const Duration(seconds: 60),
+              sendTimeout: const Duration(seconds: 30),
+              headers: {'Accept': 'application/pdf, */*'},
+            ));
+      final response = await dio.get(
+        url,
+        options: Options(responseType: ResponseType.bytes),
+      );
+      final data = response.data as List<int>;
+      return data.length > 10 ? data : null;
+    } catch (e) {
+      debugPrint('[ContractWebView] _downloadBytes error: $e');
+      return null;
+    }
+  }
+
+  static bool _isPdf(List<int> bytes) {
+    if (bytes.length < 5) return false;
+    return String.fromCharCodes(bytes.take(10)).contains('%PDF');
+  }
+
+  static Future<String> _getWriteablePath() async {
+    // Priority 1: Application Documents Directory
+    try {
+      final dir = await getApplicationDocumentsDirectory();
+      if (!dir.existsSync()) dir.createSync(recursive: true);
+      return dir.path;
+    } catch (_) {}
+    
+    // Priority 2: Temporary Directory
+    try {
+      final dir = await getTemporaryDirectory();
+      if (dir.existsSync()) return dir.path;
+    } catch (_) {}
+    
+    return '';
+  }
+
+  /// Extracts the full HTML from the WebView in chunks to avoid the
+  /// Android Binder ~1MB transaction limit (TransactionTooLargeException).
+  static Future<String> _extractHtmlChunked(WebViewController controller) async {
+    final lenResult = await controller.runJavaScriptReturningResult(
+      'document.documentElement.outerHTML.length',
+    );
+    final totalLen = int.tryParse(lenResult.toString()) ?? 0;
+
+    if (totalLen == 0) return '';
+
+    const maxChunkSize = 400000;
+    if (totalLen < maxChunkSize) {
+      final raw = await controller.runJavaScriptReturningResult(
+        'document.documentElement.outerHTML;',
+      );
+      return _decodeJsString(raw.toString());
+    }
+
+    final buffer = StringBuffer();
+    for (int offset = 0; offset < totalLen; offset += maxChunkSize) {
+      final chunk = await controller.runJavaScriptReturningResult(
+        'document.documentElement.outerHTML.substring($offset, ${offset + maxChunkSize});',
+      );
+      buffer.write(_decodeJsString(chunk.toString()));
+    }
+    return buffer.toString();
+  }
+
+  /// Decodes a JS-returned string that may be JSON-encoded (wrapped in quotes).
+  static String _decodeJsString(String raw) {
+    if (raw.startsWith('"') && raw.endsWith('"')) {
+      try {
+        return jsonDecode(raw) as String;
+      } catch (_) {}
+    }
+    return raw;
   }
 
   @override

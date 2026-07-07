@@ -342,14 +342,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.4.1"
-  flutter_html_to_pdf_plus:
-    dependency: "direct main"
-    description:
-      name: flutter_html_to_pdf_plus
-      sha256: "9a8ac6bbcd68781df831ad3b9cd1347189845842d6b2794def9827329fe468f9"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.4.0"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:
@@ -371,6 +363,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_native_html_to_pdf:
+    dependency: "direct main"
+    description:
+      name: flutter_native_html_to_pdf
+      sha256: "4fe41886433e3efc42bc4b7b6a1bd11a8fec9bd31fe1461c2e2b568267531700"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.2"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:

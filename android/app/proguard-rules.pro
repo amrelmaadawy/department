@@ -44,3 +44,11 @@
 -keepclassmembers class * implements android.os.Parcelable {
     public static final android.os.Parcelable$Creator CREATOR;
 }
+
+# ── flutter_native_html_to_pdf (WebView-based HTML→PDF) ────────────────────
+# The plugin uses Android WebView internally to render HTML and convert to PDF.
+# R8 strips these classes in release builds, causing crashes on real devices.
+-keep class android.webkit.** { *; }
+-keep class android.print.** { *; }
+-dontwarn android.webkit.**
+-dontwarn android.print.**

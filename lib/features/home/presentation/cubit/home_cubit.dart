@@ -1,9 +1,11 @@
+import 'dart:async';
 import 'package:apartment/core/network/app_cancel_token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../domain/entities/project_entity.dart';
 import '../../../../features/projects/domain/usecases/get_projects_usecase.dart';
+import '../../../../core/events/app_events.dart';
 
 part 'home_state.dart';
 
@@ -11,8 +13,13 @@ part 'home_state.dart';
 class HomeCubit extends Cubit<HomeState> {
   final GetProjectsUseCase getProjectsUseCase;
   final AppCancelToken _cancelToken = AppCancelToken();
+  StreamSubscription? _contractSignedSubscription;
 
-  HomeCubit({required this.getProjectsUseCase}) : super(HomeInitial());
+  HomeCubit({required this.getProjectsUseCase}) : super(HomeInitial()) {
+    _contractSignedSubscription = AppEvents.onContractSigned.listen((_) {
+      if (!isClosed) loadHomeData();
+    });
+  }
 
   Future<void> loadHomeData() async {
     emit(HomeLoading());
@@ -31,6 +38,7 @@ class HomeCubit extends Cubit<HomeState> {
 
   @override
   Future<void> close() {
+    _contractSignedSubscription?.cancel();
     _cancelToken.cancel('HomeCubit closed');
     return super.close();
   }

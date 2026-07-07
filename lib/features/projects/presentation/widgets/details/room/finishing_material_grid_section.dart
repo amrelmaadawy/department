@@ -47,49 +47,98 @@ class FinishingMaterialGridSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Contextual Action Bar
-          if (unitRooms.length > 1 && !isReadOnly)
-            BlocBuilder<AiRoomDesignCubit, AiRoomDesignState>(
-              buildWhen: (previous, current) {
-                // Rebuild only if the selected materials in this subtype changed
-                final prevSelected = filteredMaterials.where((m) => previous.selectedMaterialIds.contains(m.id)).firstOrNull;
-                final currSelected = filteredMaterials.where((m) => current.selectedMaterialIds.contains(m.id)).firstOrNull;
-                return prevSelected?.id != currSelected?.id;
-              },
-              builder: (context, state) {
-                final selectedMaterial = filteredMaterials
-                    .where((m) => state.selectedMaterialIds.contains(m.id))
-                    .firstOrNull;
-                return _buildActionBar(context, selectedMaterial);
-              },
-            ),
-          
-          // Materials Grid
+          // Custom Grid System with Inline Action Bar
           AnimatedSwitcher(
             duration: const Duration(milliseconds: 300),
             child: filteredMaterials.isEmpty
                 ? const FinishingEmptyState()
-                : GridView.builder(
+                : LayoutBuilder(
                     key: ValueKey<String>('${selectedSubtype.subtypeId}_${filteredMaterials.length}'),
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: 220,
-                      mainAxisSpacing: AppSpacing.md,
-                      crossAxisSpacing: AppSpacing.md,
-                      childAspectRatio: 0.75,
-                    ),
-                    itemCount: filteredMaterials.length,
-                    itemBuilder: (context, index) {
-                      final material = filteredMaterials[index];
+                    builder: (context, constraints) {
+                      final double maxCrossAxisExtent = 220.0;
+                      final double crossAxisSpacing = AppSpacing.md;
+                      
+                      int crossAxisCount = (constraints.maxWidth / (maxCrossAxisExtent + crossAxisSpacing)).ceil();
+                      if (crossAxisCount < 1) crossAxisCount = 1;
+                      
+                      final List<List<FinishingMaterialEntity>> rows = [];
+                      for (int i = 0; i < filteredMaterials.length; i += crossAxisCount) {
+                        rows.add(
+                          filteredMaterials.sublist(
+                            i,
+                            i + crossAxisCount > filteredMaterials.length
+                                ? filteredMaterials.length
+                                : i + crossAxisCount,
+                          ),
+                        );
+                      }
+
                       return BlocBuilder<AiRoomDesignCubit, AiRoomDesignState>(
+                        buildWhen: (previous, current) {
+                          final prevSelected = filteredMaterials.where((m) => previous.selectedMaterialIds.contains(m.id)).firstOrNull;
+                          final currSelected = filteredMaterials.where((m) => current.selectedMaterialIds.contains(m.id)).firstOrNull;
+                          return prevSelected?.id != currSelected?.id;
+                        },
                         builder: (context, state) {
-                          final isSelected = state.selectedMaterialIds.contains(material.id);
-                          return FinishingMaterialGridCard(
-                            material: material,
-                            isSelected: isSelected,
-                            roomArea: currentRoom?.area,
-                            onTap: () => _handleMaterialTap(context, material, isSelected),
+                          final selectedMaterial = filteredMaterials
+                              .where((m) => state.selectedMaterialIds.contains(m.id))
+                              .firstOrNull;
+                          
+                          final bool showActionBar = unitRooms.length > 1 && !isReadOnly && selectedMaterial != null;
+                          
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: rows.map((rowMaterials) {
+                              final bool hasSelectedMaterial = selectedMaterial != null && 
+                                  rowMaterials.any((m) => m.id == selectedMaterial.id);
+                                  
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: AppSpacing.md),
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: List.generate(crossAxisCount * 2 - 1, (index) {
+                                        if (index.isOdd) return const SizedBox(width: AppSpacing.md);
+                                        
+                                        final colIndex = index ~/ 2;
+                                        if (colIndex < rowMaterials.length) {
+                                          final material = rowMaterials[colIndex];
+                                          final isSelected = selectedMaterial?.id == material.id;
+                                          return Expanded(
+                                            child: AspectRatio(
+                                              aspectRatio: 0.75,
+                                              child: FinishingMaterialGridCard(
+                                                material: material,
+                                                isSelected: isSelected,
+                                                roomArea: currentRoom?.area,
+                                                onTap: () => _handleMaterialTap(context, material, isSelected),
+                                              ),
+                                            ),
+                                          );
+                                        } else {
+                                          return const Expanded(child: SizedBox.shrink());
+                                        }
+                                      }),
+                                    ),
+                                  ),
+                                  
+                                  AnimatedSize(
+                                    duration: const Duration(milliseconds: 300),
+                                    curve: Curves.easeOutCubic,
+                                    child: (showActionBar && hasSelectedMaterial)
+                                        ? _buildActionBarWithPointer(
+                                            context, 
+                                            selectedMaterial,
+                                            rowMaterials.indexOf(selectedMaterial),
+                                            crossAxisCount,
+                                          )
+                                        : const SizedBox.shrink(),
+                                  ),
+                                ],
+                              );
+                            }).toList(),
                           );
                         },
                       );
@@ -98,6 +147,44 @@ class FinishingMaterialGridSection extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildActionBarWithPointer(
+    BuildContext context, 
+    FinishingMaterialEntity selectedMaterial, 
+    int colIndex, 
+    int crossAxisCount,
+  ) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Row(
+          children: List.generate(crossAxisCount * 2 - 1, (index) {
+            if (index.isOdd) return const SizedBox(width: AppSpacing.md);
+            final currColIndex = index ~/ 2;
+            if (currColIndex == colIndex) {
+              return Expanded(
+                child: Center(
+                  child: CustomPaint(
+                    size: const Size(20, 10),
+                    painter: _TrianglePainter(
+                      color: context.colors.primary.withValues(alpha: 0.05),
+                      borderColor: context.colors.primary.withValues(alpha: 0.15),
+                    ),
+                  ),
+                ),
+              );
+            } else {
+              return const Expanded(child: SizedBox.shrink());
+            }
+          }),
+        ),
+        Transform.translate(
+          offset: const Offset(0, -1),
+          child: _buildActionBar(context, selectedMaterial),
+        ),
+      ],
     );
   }
 
@@ -394,5 +481,45 @@ class _InlineContextualActionBarState extends State<InlineContextualActionBar> {
         ),
       ],
     );
+  }
+}
+
+class _TrianglePainter extends CustomPainter {
+  final Color color;
+  final Color borderColor;
+
+  _TrianglePainter({required this.color, required this.borderColor});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = color
+      ..style = PaintingStyle.fill;
+
+    final borderPaint = Paint()
+      ..color = borderColor
+      ..strokeWidth = 1.0
+      ..style = PaintingStyle.stroke;
+
+    final path = Path()
+      ..moveTo(size.width / 2, 0)
+      ..lineTo(size.width, size.height)
+      ..lineTo(0, size.height)
+      ..close();
+
+    canvas.drawPath(path, paint);
+
+    // Draw only the top two sides of the triangle for the border
+    final borderPath = Path()
+      ..moveTo(0, size.height)
+      ..lineTo(size.width / 2, 0)
+      ..lineTo(size.width, size.height);
+
+    canvas.drawPath(borderPath, borderPaint);
+  }
+
+  @override
+  bool shouldRepaint(covariant _TrianglePainter oldDelegate) {
+    return oldDelegate.color != color || oldDelegate.borderColor != borderColor;
   }
 }
