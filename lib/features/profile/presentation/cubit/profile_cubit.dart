@@ -16,6 +16,9 @@ class ProfileCubit extends Cubit<ProfileState> {
   StreamSubscription? _contractSignedSubscription;
   StreamSubscription? _logoutSubscription;
 
+  /// Guard flag to prevent concurrent API calls.
+  bool _isFetching = false;
+
   ProfileCubit({
     required this.getProfileUseCase,
     required this.toggleFavoriteDesignUseCase,
@@ -32,16 +35,25 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   Future<void> getProfile() async {
+    // Prevent concurrent requests — only one in-flight fetch at a time.
+    if (_isFetching) return;
+    _isFetching = true;
     emit(ProfileLoading());
-    final result = await getProfileUseCase();
-    result.fold(
-      (failure) => emit(ProfileError(message: failure.message)),
-      (profile) => emit(ProfileLoaded(profile: profile)),
-    );
+    try {
+      final result = await getProfileUseCase();
+      result.fold(
+        (failure) => emit(ProfileError(message: failure.message)),
+        (profile) => emit(ProfileLoaded(profile: profile)),
+      );
+    } finally {
+      _isFetching = false;
+    }
   }
 
   void loadProfileIfNeeded() {
-    if (state is ProfileInitial || state is ProfileError) getProfile();
+    // Skip if already fetching or data is already loaded.
+    if (_isFetching || state is ProfileLoaded) return;
+    getProfile();
   }
 
   Future<void> updateProfile(UpdateProfileParams params) async {
@@ -60,7 +72,10 @@ class ProfileCubit extends Cubit<ProfileState> {
     );
   }
 
-  void clearProfile() => emit(ProfileInitial());
+  void clearProfile() {
+    _isFetching = false;
+    emit(ProfileInitial());
+  }
 
   @override
   Future<void> close() {

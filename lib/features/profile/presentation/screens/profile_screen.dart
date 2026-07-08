@@ -95,10 +95,8 @@ class _ProfileViewState extends State<ProfileView>
       _animController.value = 1.0; // All widgets immediately visible.
     }
 
-    // Always refresh data on mount to ensure the logged-in user's data is shown.
-    // loadProfileIfNeeded() skips this when state is ProfileLoaded — which is
-    // exactly the stale-data scenario we need to fix.
-    context.read<ProfileCubit>().getProfile();
+    // Use loadProfileIfNeeded() — it will skip if already fetching or loaded.
+    context.read<ProfileCubit>().loadProfileIfNeeded();
   }
 
   @override

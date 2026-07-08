@@ -23,7 +23,9 @@ class LayoutScreen extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => sl<LayoutCubit>()),
-        BlocProvider(create: (_) => sl<ProfileCubit>()..getProfile()),
+        // Use .value so the BlocProvider does NOT own or close the singleton
+        // when LayoutScreen is removed from tree on logout.
+        BlocProvider.value(value: sl<ProfileCubit>()..loadProfileIfNeeded()),
       ],
       child: const LayoutView(),
     );
