@@ -642,5 +642,12 @@
   "finishingEditAvailableBanner": "You can edit your finishing selections until the contract is signed",
   "editFinishingSelections": "Edit Finishing Selections",
   "viewFinishingSelections": "View Finishing Selections",
-  "finishingLockedReadOnly": "Finishing Locked — Contract Signed"
+  "finishingLockedReadOnly": "Finishing Locked — Contract Signed",
+  "finishingProgress": "Finishing Progress",
+  "trackFinishing": "Track Finishing",
+  "noNotesYet": "No notes yet",
+  "roomsCount": "Rooms Count",
+  "completedStages": "Completed Stages",
+  "activeStage": "Active Stage",
+  "finishingProgressSummary": "Finishing Progress Summary"
 }

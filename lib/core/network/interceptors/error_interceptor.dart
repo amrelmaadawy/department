@@ -70,7 +70,7 @@ class ErrorInterceptor extends Interceptor {
 
     switch (statusCode) {
       case 401:
-        return const UnauthorizedFailure('انتهت صلاحية الجلسة، يرجى تسجيل الدخول مرة أخرى');
+        return const UnauthorizedFailure('SESSION_EXPIRED_SILENT');
       case 403:
         return ForbiddenFailure(message);
       case 404:
@@ -90,7 +90,7 @@ class ErrorInterceptor extends Interceptor {
     String lowerMsg = msg.toLowerCase();
     
     if (lowerMsg.contains('unauthenticated') || lowerMsg.contains('unauthorized')) {
-      return 'انتهت صلاحية الجلسة، يرجى تسجيل الدخول مرة أخرى.';
+      return 'SESSION_EXPIRED_SILENT';
     }
 
     if (lowerMsg.contains('forbidden') || lowerMsg.contains('not authorized') || lowerMsg.contains('access denied')) {

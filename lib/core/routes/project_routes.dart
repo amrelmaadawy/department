@@ -8,6 +8,7 @@ import '../../../features/projects/presentation/screens/unit_customization_scree
 
 import '../../../features/projects/presentation/screens/ai_renders_screen.dart';
 import '../../../features/projects/presentation/screens/finishing_journey_guide_screen.dart';
+import '../../../features/projects/presentation/screens/finishing_progress_screen.dart';
 import '../../../features/home/domain/entities/project_entity.dart';
 import '../../../features/home/domain/entities/project_unit_entity.dart';
 import '../../../features/packages/domain/entities/finishing_package_entity.dart';
@@ -119,6 +120,14 @@ class ProjectRoutes {
           ),
           transitionsBuilder: AppRouterTransitions.slideUpFromBottom,
         );
+      },
+    ),
+    GoRoute(
+      path: AppRouter.finishingProgressPath,
+      builder: (context, state) {
+        final apartmentIdStr = state.pathParameters['apartmentId'];
+        final apartmentId = int.tryParse(apartmentIdStr ?? '0') ?? 0;
+        return FinishingProgressScreen(apartmentId: apartmentId);
       },
     ),
   ];

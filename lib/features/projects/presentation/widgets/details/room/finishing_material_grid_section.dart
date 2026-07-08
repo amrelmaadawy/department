@@ -55,8 +55,8 @@ class FinishingMaterialGridSection extends StatelessWidget {
                 : LayoutBuilder(
                     key: ValueKey<String>('${selectedSubtype.subtypeId}_${filteredMaterials.length}'),
                     builder: (context, constraints) {
-                      final double maxCrossAxisExtent = 220.0;
-                      final double crossAxisSpacing = AppSpacing.md;
+                      const double maxCrossAxisExtent = 220.0;
+                      const double crossAxisSpacing = AppSpacing.md;
                       
                       int crossAxisCount = (constraints.maxWidth / (maxCrossAxisExtent + crossAxisSpacing)).ceil();
                       if (crossAxisCount < 1) crossAxisCount = 1;

@@ -14,6 +14,7 @@ import 'package:apartment/features/projects/domain/entities/ai_renders_entity.da
 import 'package:apartment/features/projects/domain/entities/saved_design_entity.dart';
 import 'package:apartment/features/projects/data/models/save_design_request_model.dart';
 import 'package:apartment/features/projects/domain/entities/customer_render_entity.dart';
+import 'package:apartment/features/projects/domain/entities/finishing_progress_stage_entity.dart';
 import '../datasources/customization_draft_remote_data_source.dart';
 import 'project_repository_draft_mixin.dart';
 
@@ -197,6 +198,16 @@ class ProjectRepositoryImpl extends BaseRepository with ProjectRepositoryDraftMi
     return executeWithNetwork(
       isMutation: true,
       onlineCall: () => remoteDataSource.toggleCustomerRenderFavorite(apartmentId, imageUrl),
+    );
+  }
+
+  @override
+  Future<Either<Failure, List<FinishingProgressStageEntity>>> getFinishingProgress(int apartmentId) async {
+    return executeWithNetwork(
+      onlineCall: () async {
+        final progress = await remoteDataSource.getFinishingProgress(apartmentId);
+        return progress.cast<FinishingProgressStageEntity>();
+      },
     );
   }
 }

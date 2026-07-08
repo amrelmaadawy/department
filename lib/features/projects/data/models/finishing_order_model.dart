@@ -61,7 +61,7 @@ class FinishingOrderModel extends FinishingOrderEntity {
       progressPercentage: json['progress_percentage'] is num 
           ? (json['progress_percentage'] as num).toInt() 
           : int.tryParse(json['progress_percentage']?.toString() ?? ''),
-      materials: [], // We won't use flat materials anymore
+      materials: const [], // We won't use flat materials anymore
       rooms: _parseRoomsData(json),
       rawJson: json,
     );
@@ -84,7 +84,9 @@ class FinishingOrderModel extends FinishingOrderEntity {
 
       void extract(dynamic data) {
         if (data is List) {
-          for (var item in data) extract(item);
+          for (var item in data) {
+            extract(item);
+          }
         } else if (data is Map) {
           bool isMaterial = false;
           // If it's a material

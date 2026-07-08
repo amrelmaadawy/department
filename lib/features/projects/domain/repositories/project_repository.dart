@@ -12,6 +12,7 @@ import 'package:apartment/features/projects/domain/entities/saved_design_entity.
 import 'package:apartment/features/projects/data/models/save_design_request_model.dart';
 import 'package:apartment/features/projects/domain/entities/customer_render_entity.dart';
 import 'package:apartment/features/projects/domain/entities/customization_draft_entity.dart';
+import 'package:apartment/features/projects/domain/entities/finishing_progress_stage_entity.dart';
 import '../../../../core/network/app_cancel_token.dart';
 
 abstract class ProjectRepository {
@@ -28,4 +29,5 @@ abstract class ProjectRepository {
   Future<Either<Failure, bool>> toggleCustomerRenderFavorite(int apartmentId, String imageUrl);
   Future<Either<Failure, CustomizationDraftEntity>> getCustomizationDraft(int apartmentId);
   Future<Either<Failure, CustomizationDraftEntity>> saveCustomizationDraft(int apartmentId, Map<String, dynamic> draftData);
+  Future<Either<Failure, List<FinishingProgressStageEntity>>> getFinishingProgress(int apartmentId);
 }

@@ -1615,4 +1615,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get finishingLockedReadOnly => 'Finishing Locked — Contract Signed';
+
+  @override
+  String get finishingProgress => 'Finishing Progress';
+
+  @override
+  String get noNotesYet => 'No notes yet';
+
+  @override
+  String get roomsCount => 'Rooms Count';
+
+  @override
+  String get completedStages => 'Completed Stages';
+
+  @override
+  String get activeStage => 'Active Stage';
+
+  @override
+  String get finishingProgressSummary => 'Finishing Progress Summary';
 }

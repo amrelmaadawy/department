@@ -20,6 +20,7 @@ class ApiEndpoints {
   static String customerRenders(int apartmentId) => '/apartments/$apartmentId/customer-renders';
   static String customizationDraft(int apartmentId) => '/apartments/$apartmentId/customization-draft';
   static String contractStatuses(String unitId) => '/apartments/$unitId/contract-statuses';
+  static String finishingProgress(int apartmentId) => '/apartments/$apartmentId/finishing-progress';
 
   // Future endpoints can be added here
   static const String savedDesigns = '/saved-designs';

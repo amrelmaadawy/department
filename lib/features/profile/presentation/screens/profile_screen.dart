@@ -33,8 +33,8 @@ class ProfileScreen extends StatelessWidget {
       context.read<ProfileCubit>();
       return const ProfileView();
     } catch (_) {
-      return BlocProvider(
-        create: (context) => sl<ProfileCubit>(),
+      return BlocProvider.value(
+        value: sl<ProfileCubit>(),
         child: const ProfileView(),
       );
     }

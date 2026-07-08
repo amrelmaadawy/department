@@ -1603,4 +1603,22 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get finishingLockedReadOnly => 'التشطيب مؤمَّن — العقد موقَّع';
+
+  @override
+  String get finishingProgress => 'تقدم التشطيب';
+
+  @override
+  String get noNotesYet => 'لا توجد ملاحظات';
+
+  @override
+  String get roomsCount => 'عدد الغرف';
+
+  @override
+  String get completedStages => 'مراحل مكتملة';
+
+  @override
+  String get activeStage => 'المرحلة الحالية';
+
+  @override
+  String get finishingProgressSummary => 'ملخص تقدم التشطيب';
 }

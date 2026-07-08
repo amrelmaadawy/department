@@ -16,8 +16,8 @@ class HomeHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => sl<ProfileCubit>()..loadProfileIfNeeded(),
+    return BlocProvider.value(
+      value: sl<ProfileCubit>()..loadProfileIfNeeded(),
       child: const HomeHeaderView(),
     );
   }

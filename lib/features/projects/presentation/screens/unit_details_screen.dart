@@ -10,9 +10,11 @@ import 'package:apartment/l10n/app_localizations.dart';
 import 'package:apartment/features/contracts/presentation/cubit/contracts_cubit.dart';
 import 'package:apartment/features/contracts/presentation/cubit/contracts_state.dart';
 import '../cubit/unit_details_cubit.dart';
+import '../cubit/finishing_progress_cubit.dart';
 import '../widgets/details/unit/unit_floor_plan_viewer.dart';
 import '../widgets/details/unit/unit_overview_card.dart';
 import '../widgets/details/unit/unit_bento_grid.dart';
+import '../widgets/details/unit/finishing_progress_summary_card.dart';
 import '../widgets/details/unit/unit_pricing_card.dart';
 import '../widgets/details/unit/unit_rooms_list.dart';
 import '../widgets/details/project_features_row.dart';
@@ -53,6 +55,12 @@ class _UnitDetailsScreenState extends State<UnitDetailsScreen> {
               cubit.loadSignatureStatuses(widget.unit.id);
               if (apartmentId > 0) cubit.fetchFinishingOrders(apartmentId);
               return cubit;
+            },
+          ),
+          BlocProvider(
+            create: (context) {
+              final apartmentId = int.tryParse(widget.unit.id) ?? 0;
+              return sl<FinishingProgressCubit>()..loadFinishingProgress(apartmentId);
             },
           ),
         ],
@@ -129,6 +137,10 @@ class _UnitDetailsScreenContent extends StatelessWidget {
                 const SizedBox(height: AppSpacing.lg),
                 UnitBentoGrid(unit: unit),
                 const SizedBox(height: AppSpacing.md),
+                if (unit.isCurrentUserUnit) ...[
+                  FinishingProgressSummaryCard(unit: unit),
+                  const SizedBox(height: AppSpacing.md),
+                ],
                 UnitPricingCard(unit: unit),
                 if (unit.extras.isNotEmpty) ...[
                   const SizedBox(height: AppSpacing.lg),

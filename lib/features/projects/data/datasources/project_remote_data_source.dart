@@ -12,6 +12,7 @@ import 'package:apartment/features/projects/data/models/ai_renders_model.dart';
 import 'package:apartment/features/projects/data/models/save_design_request_model.dart';
 import 'package:apartment/features/projects/data/models/saved_design_model.dart';
 import 'package:apartment/features/projects/data/models/customer_render_model.dart';
+import 'package:apartment/features/projects/data/models/finishing_progress_stage_model.dart';
 
 import '../../../../core/network/app_cancel_token.dart';
 
@@ -27,6 +28,7 @@ abstract class ProjectRemoteDataSource {
   Future<List<String>> getPresetNotes();
   Future<List<RoomCustomerRendersModel>> getCustomerRenders(int apartmentId);
   Future<bool> toggleCustomerRenderFavorite(int apartmentId, String imageUrl);
+  Future<List<FinishingProgressStageModel>> getFinishingProgress(int apartmentId);
 }
 
 // Top-level functions for Isolate parsing
@@ -40,6 +42,10 @@ List<ProjectUnitModel> _parseProjectUnitsList(List data) {
 
 List<RoomCustomerRendersModel> _parseCustomerRendersList(List data) {
   return data.map((item) => RoomCustomerRendersModel.fromJson(item)).toList();
+}
+
+List<FinishingProgressStageModel> _parseFinishingProgressList(List data) {
+  return data.map((item) => FinishingProgressStageModel.fromJson(item)).toList();
 }
 
 class ProjectRemoteDataSourceImpl implements ProjectRemoteDataSource {
@@ -180,6 +186,17 @@ class ProjectRemoteDataSourceImpl implements ProjectRemoteDataSource {
       return response['data']['saved'] ?? false;
     } else {
       throw ServerException(message: response?['message'] ?? 'Failed to toggle favorite design');
+    }
+  }
+
+  @override
+  Future<List<FinishingProgressStageModel>> getFinishingProgress(int apartmentId) async {
+    final response = await apiClient.get(ApiEndpoints.finishingProgress(apartmentId));
+
+    if (response != null && response['data'] != null && response['data'] is List) {
+      return compute(_parseFinishingProgressList, response['data'] as List);
+    } else {
+      throw const ServerException(message: 'Failed to load finishing progress');
     }
   }
 }

@@ -23,14 +23,18 @@ class ContractPdfGenerator {
     required Uint8List signatureImage,
     UserEntity? user,
   }) async {
+    debugPrint('[ContractPdfGenerator] Starting generation...');
+    final startTime = DateTime.now();
+    
     await ContractPdfFonts.loadFonts();
+    debugPrint('[ContractPdfGenerator] Fonts loaded in ${DateTime.now().difference(startTime).inMilliseconds}ms');
 
     pw.ImageProvider? signatureProvider;
     if (signatureImage.isNotEmpty) {
       try {
         signatureProvider = pw.MemoryImage(signatureImage);
       } catch (e) {
-        debugPrint('Failed to decode signature image: $e');
+        debugPrint('[ContractPdfGenerator] Failed to decode signature image: $e');
       }
     }
 
@@ -47,33 +51,57 @@ class ContractPdfGenerator {
       if (settingsState.settings.siteLogo.isNotEmpty) logoUrl = settingsState.settings.siteLogo;
     }
 
-    final settingsResult = await sl<GetGeneralSettingsUseCase>().call();
-    settingsResult.fold(
-      (failure) {},
-      (settings) {
-        if (settings.siteName.isNotEmpty) companyName = settings.siteName;
-        if (settings.contactPhone.isNotEmpty) companyPhone = settings.contactPhone;
-        if (settings.companyCr.isNotEmpty) companyCr = settings.companyCr;
-        if (settings.siteLogo.isNotEmpty) logoUrl = settings.siteLogo;
-      },
-    );
+    debugPrint('[ContractPdfGenerator] Fetching settings...');
+    final settingsFetchStart = DateTime.now();
+    try {
+      final settingsResult = await sl<GetGeneralSettingsUseCase>().call().timeout(
+        const Duration(seconds: 8),
+        onTimeout: () => throw Exception('GetGeneralSettingsUseCase timed out'),
+      );
+      settingsResult.fold(
+        (failure) {
+          debugPrint('[ContractPdfGenerator] Settings fetch failed: ${failure.message}');
+        },
+        (settings) {
+          if (settings.siteName.isNotEmpty) companyName = settings.siteName;
+          if (settings.contactPhone.isNotEmpty) companyPhone = settings.contactPhone;
+          if (settings.companyCr.isNotEmpty) companyCr = settings.companyCr;
+          if (settings.siteLogo.isNotEmpty) logoUrl = settings.siteLogo;
+        },
+      );
+    } catch (e) {
+      debugPrint('[ContractPdfGenerator] Settings fetch error/timeout: $e');
+    }
+    debugPrint('[ContractPdfGenerator] Settings fetched in ${DateTime.now().difference(settingsFetchStart).inMilliseconds}ms');
 
     pw.ImageProvider? logoProvider;
     if (logoUrl != null && logoUrl!.isNotEmpty) {
+      debugPrint('[ContractPdfGenerator] Fetching logo from: $logoUrl');
+      final logoFetchStart = DateTime.now();
       try {
         final dio = sl<Dio>();
         final response = await dio.get<List<int>>(
           logoUrl!,
-          options: Options(responseType: ResponseType.bytes),
+          options: Options(
+            responseType: ResponseType.bytes,
+            receiveTimeout: const Duration(seconds: 8),
+            sendTimeout: const Duration(seconds: 8),
+          ),
+        ).timeout(
+          const Duration(seconds: 10),
+          onTimeout: () => throw Exception('Dio get logo timed out'),
         );
         if (response.data != null && response.data!.isNotEmpty) {
           logoProvider = pw.MemoryImage(Uint8List.fromList(response.data!));
         }
       } catch (e) {
-        debugPrint('Failed to fetch siteLogo image for PDF: $e');
+        debugPrint('[ContractPdfGenerator] Failed to fetch siteLogo image for PDF: $e');
       }
+      debugPrint('[ContractPdfGenerator] Logo fetched in ${DateTime.now().difference(logoFetchStart).inMilliseconds}ms');
     }
 
+    debugPrint('[ContractPdfGenerator] Building PDF document...');
+    final buildStart = DateTime.now();
     final pdf = pw.Document();
     final formattedDate = ContractPdfFonts.formatDate(contract.createdAt);
     final generatedAt = ContractPdfFonts.formatDate(DateTime.now().toIso8601String());
@@ -148,6 +176,13 @@ class ContractPdfGenerator {
       ),
     );
 
-    return pdf.save();
+    debugPrint('[ContractPdfGenerator] PDF document built in ${DateTime.now().difference(buildStart).inMilliseconds}ms');
+    
+    debugPrint('[ContractPdfGenerator] Saving PDF...');
+    final saveStart = DateTime.now();
+    final bytes = await pdf.save();
+    debugPrint('[ContractPdfGenerator] PDF saved in ${DateTime.now().difference(saveStart).inMilliseconds}ms');
+    
+    return bytes;
   }
 }

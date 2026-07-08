@@ -48,6 +48,9 @@ class AppRouter {
   static const String myContracts = '/my-contracts';
   static const String contractDetails = '/contract-details';
   static const String contractWebView = '/contract-web-view';
+  
+  static const String finishingProgressPath = '/finishing-progress/:apartmentId';
+  static String finishingProgress(int apartmentId) => '/finishing-progress/$apartmentId';
 
   // ── Auth Cache ─────────────────────────────────────────────────────────────
   // Caches auth status so SecureStorage is only read once per session.
@@ -58,6 +61,9 @@ class AppRouter {
 
   /// Call this on logout to invalidate the cache.
   static void clearAuthCache() => _cachedAuthStatus = null;
+
+  /// Call this on session expiry to force unauthenticated state immediately.
+  static void setUnauthenticated() => _cachedAuthStatus = false;
 
   /// Pre-resolves authentication state during app initialization.
   static Future<void> initAuth() async {

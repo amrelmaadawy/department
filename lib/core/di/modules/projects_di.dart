@@ -20,7 +20,9 @@ import 'package:apartment/features/projects/domain/usecases/check_finishing_edit
 import 'package:apartment/features/projects/data/datasources/customization_draft_remote_data_source.dart';
 import 'package:apartment/features/projects/domain/usecases/get_customization_draft_use_case.dart';
 import 'package:apartment/features/projects/domain/usecases/save_customization_draft_use_case.dart';
+import 'package:apartment/features/projects/domain/usecases/get_finishing_progress_usecase.dart';
 import 'package:apartment/features/projects/presentation/cubit/projects_cubit.dart';
+import 'package:apartment/features/projects/presentation/cubit/finishing_progress_cubit.dart';
 import 'package:apartment/features/projects/presentation/cubit/project_details_cubit.dart';
 import 'package:apartment/features/projects/presentation/cubit/unit_details_cubit.dart';
 import 'package:apartment/features/projects/presentation/cubit/room_details_cubit.dart';
@@ -68,6 +70,7 @@ Future<void> registerProjectsDi(GetIt sl) async {
   sl.registerLazySingleton(() => const CheckFinishingEditEligibilityUseCase());
   sl.registerLazySingleton(() => GetCustomizationDraftUseCase(sl()));
   sl.registerLazySingleton(() => SaveCustomizationDraftUseCase(sl()));
+  sl.registerLazySingleton(() => GetFinishingProgressUseCase(sl()));
 
   // Cubits
   sl.registerFactory(() => ProjectsCubit(getProjectsUseCase: sl()));
@@ -117,6 +120,11 @@ Future<void> registerProjectsDi(GetIt sl) async {
   sl.registerFactory(
     () => DownloadImageCubit(
       downloadService: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => FinishingProgressCubit(
+      getFinishingProgressUseCase: sl(),
     ),
   );
 }

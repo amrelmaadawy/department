@@ -14,6 +14,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   final ToggleFavoriteDesignUseCase toggleFavoriteDesignUseCase;
   final UpdateProfileUseCase updateProfileUseCase;
   StreamSubscription? _contractSignedSubscription;
+  StreamSubscription? _logoutSubscription;
 
   ProfileCubit({
     required this.getProfileUseCase,
@@ -21,6 +22,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     required this.updateProfileUseCase,
   }) : super(ProfileInitial()) {
     _contractSignedSubscription = AppEvents.onContractSigned.listen((_) => getProfile());
+    _logoutSubscription = AppEvents.onLogout.listen((_) => clearProfile());
   }
 
   @override
@@ -63,6 +65,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   @override
   Future<void> close() {
     _contractSignedSubscription?.cancel();
+    _logoutSubscription?.cancel();
     return super.close();
   }
 

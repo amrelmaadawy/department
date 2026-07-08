@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failures.dart';
+import '../../../../core/events/app_events.dart';
 import '../../../../core/routes/app_router.dart';
 import '../../domain/entities/user_entity.dart';
 import '../../domain/repositories/auth_repository.dart';
@@ -51,6 +52,7 @@ class AuthRepositoryImpl implements AuthRepository {
       );
 
       await _saveSessionData(user);
+      AppEvents.emitLogin();
       return Right(user);
     } on FailureException catch (e) {
       return Left(e.failure as Failure);
@@ -76,6 +78,7 @@ class AuthRepositoryImpl implements AuthRepository {
       );
 
       await _saveSessionData(user);
+      AppEvents.emitLogin();
       return Right(user);
     } on FailureException catch (e) {
       return Left(e.failure as Failure);
@@ -96,6 +99,7 @@ class AuthRepositoryImpl implements AuthRepository {
     await secureStorage.delete(key: _userIdKey);
     await secureStorage.delete(key: _sessionStartKey);
     AppRouter.clearAuthCache();
+    AppEvents.emitLogout();
 
     try {
       await remoteDataSource.logout();

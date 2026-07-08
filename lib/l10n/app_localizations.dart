@@ -3103,6 +3103,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Finishing Locked — Contract Signed'**
   String get finishingLockedReadOnly;
+
+  /// No description provided for @finishingProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Finishing Progress'**
+  String get finishingProgress;
+
+  /// No description provided for @noNotesYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No notes yet'**
+  String get noNotesYet;
+
+  /// No description provided for @roomsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Rooms Count'**
+  String get roomsCount;
+
+  /// No description provided for @completedStages.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed Stages'**
+  String get completedStages;
+
+  /// No description provided for @activeStage.
+  ///
+  /// In en, this message translates to:
+  /// **'Active Stage'**
+  String get activeStage;
+
+  /// No description provided for @finishingProgressSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Finishing Progress Summary'**
+  String get finishingProgressSummary;
 }
 
 class _AppLocalizationsDelegate

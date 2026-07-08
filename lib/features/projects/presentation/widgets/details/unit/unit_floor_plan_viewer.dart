@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:apartment/core/widgets/app_cached_network_image.dart';
@@ -127,17 +128,36 @@ class _UnitFloorPlanViewerState extends State<UnitFloorPlanViewer> {
                       final isCurrentPage = index == _currentIndex;
                       final hasImage = images.isNotEmpty;
                       
-                      Widget imageWidget = InteractiveViewer(
-                        transformationController: _transformationControllers[index],
-                        panEnabled: isCurrentPage,
-                        scaleEnabled: isCurrentPage,
-                        minScale: 1.0,
-                        maxScale: 4.0,
-                        child: hasImage
-                            ? (images[index].startsWith('http') ? AppCachedNetworkImage(imageUrl: images[index], fit: BoxFit.contain) : Image.asset(images[index], fit: BoxFit.contain))
-                            : Center(
-                                child: Icon(FluentIcons.image_off_24_regular, size: 48, color: context.colors.textSecondary),
-                              ),
+                      Widget imageWidget = Stack(
+                        fit: StackFit.expand,
+                        children: [
+                          if (hasImage) ...[
+                            // Blurred Background Cover
+                            Opacity(
+                              opacity: 0.5,
+                              child: images[index].startsWith('http')
+                                  ? AppCachedNetworkImage(imageUrl: images[index], fit: BoxFit.cover)
+                                  : Image.asset(images[index], fit: BoxFit.cover),
+                            ),
+                            BackdropFilter(
+                              filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+                              child: Container(color: context.colors.background.withValues(alpha: 0.1)),
+                            ),
+                          ],
+                          // Foreground Interactive Image
+                          InteractiveViewer(
+                            transformationController: _transformationControllers[index],
+                            panEnabled: isCurrentPage,
+                            scaleEnabled: isCurrentPage,
+                            minScale: 1.0,
+                            maxScale: 4.0,
+                            child: hasImage
+                                ? (images[index].startsWith('http') ? AppCachedNetworkImage(imageUrl: images[index], fit: BoxFit.contain) : Image.asset(images[index], fit: BoxFit.contain))
+                                : Center(
+                                    child: Icon(FluentIcons.image_off_24_regular, size: 48, color: context.colors.textSecondary),
+                                  ),
+                          ),
+                        ],
                       );
                       
                       final tag = index == 0 ? widget.heroTag : '${widget.heroTag}_$index';
