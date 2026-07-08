@@ -29,6 +29,9 @@ class AiRendersCubit extends Cubit<AiRendersState> {
         if (aiRenders.aiStatus == 'completed') {
           _stopPolling();
           emit(AiRendersCompleted(aiRenders: aiRenders));
+        } else if (aiRenders.aiStatus == 'failed') {
+          _stopPolling();
+          emit(AiRendersError(message: aiRenders.aiStatusLabel));
         } else {
           emit(AiRendersPending(aiRenders: aiRenders));
           _startPolling(orderId);

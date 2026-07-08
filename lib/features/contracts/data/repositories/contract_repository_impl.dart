@@ -51,12 +51,32 @@ class ContractRepositoryImpl implements ContractRepository {
       }
       return Right(mergedStatuses);
     } catch (e) {
-      // Fallback to local storage if network fails or server doesn't support the endpoint yet
+      // Fallback: If the contract-statuses endpoint fails or doesn't exist,
+      // use the getContracts() endpoint as a reliable source of truth across devices!
       try {
-        bool isUnitSigned = await localDataSource.getSignatureStatus(unitId, 'unit');
-        if (!isUnitSigned) isUnitSigned = await localDataSource.getSignatureStatus(unitId, 'bone');
+        final allContracts = await remoteDataSource.getContracts();
+        final int aptId = int.tryParse(unitId) ?? 0;
         
-        final isFinishingSigned = await localDataSource.getSignatureStatus(unitId, 'finishing');
+        // A contract is signed if it exists in the user's contracts list and has a signature/signedAt
+        bool isUnitSigned = allContracts.any((c) => 
+            c.apartmentId == aptId && 
+            (c.type == 'bone' || c.type == 'unit') && 
+            (c.hasCustomerSignature || c.signedAt != null || c.status == 'signed' || c.status == 'active'));
+            
+        bool isFinishingSigned = allContracts.any((c) => 
+            c.apartmentId == aptId && 
+            c.type == 'finishing' && 
+            (c.hasCustomerSignature || c.signedAt != null || c.status == 'signed' || c.status == 'active'));
+
+        // If not found in API (e.g. offline), fallback to local cache
+        if (!isUnitSigned) isUnitSigned = await localDataSource.getSignatureStatus(unitId, 'unit');
+        if (!isUnitSigned) isUnitSigned = await localDataSource.getSignatureStatus(unitId, 'bone');
+        if (!isFinishingSigned) isFinishingSigned = await localDataSource.getSignatureStatus(unitId, 'finishing');
+        
+        // Save the truth back to local cache
+        await localDataSource.saveSignatureStatus(unitId, 'unit', isUnitSigned);
+        await localDataSource.saveSignatureStatus(unitId, 'finishing', isFinishingSigned);
+
         return Right([
           ContractSignatureStatusModel(
             contractType: 'unit',
@@ -71,11 +91,33 @@ class ContractRepositoryImpl implements ContractRepository {
             isSigned: isFinishingSigned,
           ),
         ]);
-      } catch (localError, stackTrace) {
-        if (kDebugMode) {
-          print('Local storage fallback failed: $localError\n$stackTrace');
+      } catch (fallbackError) {
+        // Absolute worst-case fallback: purely local cache
+        try {
+          bool isUnitSigned = await localDataSource.getSignatureStatus(unitId, 'unit');
+          if (!isUnitSigned) isUnitSigned = await localDataSource.getSignatureStatus(unitId, 'bone');
+          
+          final isFinishingSigned = await localDataSource.getSignatureStatus(unitId, 'finishing');
+          return Right([
+            ContractSignatureStatusModel(
+              contractType: 'unit',
+              title: 'عقد بيع وتخصيص الوحدة',
+              sequenceOrder: 1,
+              isSigned: isUnitSigned,
+            ),
+            ContractSignatureStatusModel(
+              contractType: 'finishing',
+              title: 'عقد التشطيب الحصري',
+              sequenceOrder: 2,
+              isSigned: isFinishingSigned,
+            ),
+          ]);
+        } catch (localError, stackTrace) {
+          if (kDebugMode) {
+            print('Local storage fallback failed: $localError\n$stackTrace');
+          }
+          return Left(_handleError(e));
         }
-        return Left(_handleError(e));
       }
     }
   }
@@ -94,8 +136,22 @@ class ContractRepositoryImpl implements ContractRepository {
   @override
   Future<Either<Failure, bool>> isContractSigned(String unitId, String contractType) async {
     try {
-      final isSigned = await localDataSource.getSignatureStatus(unitId, contractType);
-      return Right(isSigned);
+      final statusesEither = await getContractStatusesList(unitId);
+      return await statusesEither.fold(
+        (failure) async {
+          // If all network calls fail, check local storage directly.
+          final isSigned = await localDataSource.getSignatureStatus(unitId, contractType);
+          return Right(isSigned);
+        },
+        (statuses) async {
+          final effectiveType = contractType == 'bone' ? 'unit' : contractType;
+          final statusObj = statuses.firstWhere(
+            (s) => s.contractType == effectiveType,
+            orElse: () => ContractSignatureStatusModel(contractType: effectiveType, title: '', sequenceOrder: 0, isSigned: false),
+          );
+          return Right(statusObj.isSigned);
+        },
+      );
     } catch (e) {
       return const Left(ServerFailure('فشل في قراءة حالة التوقيع'));
     }

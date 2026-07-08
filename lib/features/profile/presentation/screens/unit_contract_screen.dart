@@ -135,17 +135,17 @@ class _UnitContractScreenState extends State<UnitContractScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(AppSpacing.xl),
-          child: CustomButton(
-            text: _isGeneratingPdf ? l10n.generatingPdf : l10n.downloadPdf,
-            backgroundColor: context.colors.primary,
-            textColor: context.colors.white,
-            onPressed: _isGeneratingPdf ? null : _downloadPdf,
-          ),
-        ),
-      ),
+      // bottomNavigationBar: SafeArea(
+      //   child: Padding(
+      //     padding: const EdgeInsets.all(AppSpacing.xl),
+      //     child: CustomButton(
+      //       text: _isGeneratingPdf ? l10n.generatingPdf : l10n.downloadPdf,
+      //       backgroundColor: context.colors.primary,
+      //       textColor: context.colors.white,
+      //       onPressed: _isGeneratingPdf ? null : _downloadPdf,
+      //     ),
+      //   ),
+      // ),
     );
   }
 }
