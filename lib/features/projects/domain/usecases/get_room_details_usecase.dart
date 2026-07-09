@@ -8,7 +8,7 @@ class GetRoomDetailsUseCase {
 
   GetRoomDetailsUseCase(this.repository);
 
-  Future<Either<Failure, RoomDetailsEntity>> call(int id) async {
-    return await repository.getRoomDetails(id);
+  Future<Either<Failure, RoomDetailsEntity>> call(int id, {bool forceRefresh = false}) async {
+    return await repository.getRoomDetails(id, forceRefresh: forceRefresh);
   }
 }

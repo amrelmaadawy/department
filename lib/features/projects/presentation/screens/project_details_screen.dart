@@ -71,7 +71,7 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
             if (networkState is NetworkOnline) {
               final s = _cubit.state;
               if (s is ProjectDetailsError || s is ProjectDetailsInitial) {
-                _cubit.loadProjectDetails(widget.project.id);
+                _cubit.loadProjectDetails(widget.project.id, forceRefresh: true);
               }
             }
           },
@@ -91,7 +91,7 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
                           child: Center(
                             child: ErrorStateView(
                               message: state.message,
-                              onRetry: () => _cubit.loadProjectDetails(widget.project.id),
+                              onRetry: () => _cubit.loadProjectDetails(widget.project.id, forceRefresh: true),
                             ),
                           ),
                         ),

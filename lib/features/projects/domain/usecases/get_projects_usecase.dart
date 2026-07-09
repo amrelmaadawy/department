@@ -10,7 +10,7 @@ class GetProjectsUseCase {
 
   GetProjectsUseCase(this.repository);
 
-  Future<Either<Failure, List<ProjectEntity>>> call({AppCancelToken? cancelToken}) async {
-    return await repository.getProjects(cancelToken: cancelToken);
+  Future<Either<Failure, List<ProjectEntity>>> call({AppCancelToken? cancelToken, bool forceRefresh = false}) async {
+    return await repository.getProjects(cancelToken: cancelToken, forceRefresh: forceRefresh);
   }
 }

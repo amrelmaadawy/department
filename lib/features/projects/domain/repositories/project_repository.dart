@@ -16,11 +16,11 @@ import 'package:apartment/features/projects/domain/entities/finishing_progress_s
 import '../../../../core/network/app_cancel_token.dart';
 
 abstract class ProjectRepository {
-  Future<Either<Failure, List<ProjectEntity>>> getProjects({AppCancelToken? cancelToken});
-  Future<Either<Failure, ProjectEntity>> getProjectDetails(int id);
-  Future<Either<Failure, List<ProjectUnitEntity>>> getProjectUnits(int id);
-  Future<Either<Failure, ProjectUnitEntity>> getUnitDetails(int id);
-  Future<Either<Failure, RoomDetailsEntity>> getRoomDetails(int id);
+  Future<Either<Failure, List<ProjectEntity>>> getProjects({AppCancelToken? cancelToken, bool forceRefresh = false});
+  Future<Either<Failure, ProjectEntity>> getProjectDetails(int id, {bool forceRefresh = false});
+  Future<Either<Failure, List<ProjectUnitEntity>>> getProjectUnits(int id, {bool forceRefresh = false});
+  Future<Either<Failure, ProjectUnitEntity>> getUnitDetails(int id, {bool forceRefresh = false});
+  Future<Either<Failure, RoomDetailsEntity>> getRoomDetails(int id, {bool forceRefresh = false});
   Future<Either<Failure, FinishingOrderEntity>> submitFinishingOrder(FinishingOrderRequestEntity request);
   Future<Either<Failure, AiRendersEntity>> getAiRenders(int orderId);
   Future<Either<Failure, SavedDesignEntity>> saveDesign(SaveDesignRequestModel request);
@@ -30,4 +30,5 @@ abstract class ProjectRepository {
   Future<Either<Failure, CustomizationDraftEntity>> getCustomizationDraft(int apartmentId);
   Future<Either<Failure, CustomizationDraftEntity>> saveCustomizationDraft(int apartmentId, Map<String, dynamic> draftData);
   Future<Either<Failure, List<FinishingProgressStageEntity>>> getFinishingProgress(int apartmentId);
+  void clearCache();
 }

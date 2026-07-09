@@ -16,7 +16,7 @@ class ProjectsCubit extends Cubit<ProjectsState> {
 
   ProjectsCubit({required this.getProjectsUseCase}) : super(ProjectsInitial()) {
     _contractSignedSubscription = AppEvents.onContractSigned.listen((_) {
-      if (!isClosed) loadProjects();
+      if (!isClosed) loadProjects(forceRefresh: true);
     });
   }
 
@@ -26,10 +26,10 @@ class ProjectsCubit extends Cubit<ProjectsState> {
   String _currentFilter = AppConstants.filterAll;
   String _currentSearchQuery = '';
 
-  Future<void> loadProjects() async {
+  Future<void> loadProjects({bool forceRefresh = false}) async {
     emit(ProjectsLoading());
 
-    final result = await getProjectsUseCase(cancelToken: _cancelToken);
+    final result = await getProjectsUseCase(cancelToken: _cancelToken, forceRefresh: forceRefresh);
 
     result.fold(
       (failure) => emit(ProjectsError(message: failure.message)), // Needs ProjectsError in state

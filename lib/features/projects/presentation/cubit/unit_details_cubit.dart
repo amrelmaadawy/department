@@ -39,12 +39,12 @@ class UnitDetailsCubit extends Cubit<UnitDetailsState> {
     return super.close();
   }
 
-  Future<void> loadUnitDetails(int id, {ProjectUnitEntity? initialUnit}) async {
+  Future<void> loadUnitDetails(int id, {ProjectUnitEntity? initialUnit, bool forceRefresh = false}) async {
     emit(UnitDetailsLoading(unit: initialUnit));
 
     // Fetch unit details and customer renders concurrently
     final responses = await Future.wait([
-      getUnitDetailsUseCase(id),
+      getUnitDetailsUseCase(id, forceRefresh: forceRefresh),
       getCustomerRendersUseCase(id),
     ]);
 

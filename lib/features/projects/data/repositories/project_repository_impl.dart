@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'package:dartz/dartz.dart';
+import '../../../../core/events/app_events.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/network/base_repository.dart';
 import '../../../home/domain/entities/project_entity.dart';
@@ -41,15 +43,32 @@ class ProjectRepositoryImpl extends BaseRepository with ProjectRepositoryDraftMi
   final Map<int, _CacheEntry<ProjectUnitEntity>> _cachedUnitDetails = {};
   final Map<int, _CacheEntry<RoomDetailsEntity>> _cachedRoomDetails = {};
 
+  StreamSubscription? _logoutSubscription;
+
   ProjectRepositoryImpl({
     required this.remoteDataSource,
     required this.draftDataSource,
     required super.networkInfo,
-  });
+  }) {
+    _logoutSubscription = AppEvents.onLogout.listen((_) => clearCache());
+  }
 
   @override
-  Future<Either<Failure, List<ProjectEntity>>> getProjects({AppCancelToken? cancelToken}) async {
-    if (_cachedProjects != null && _cachedProjects!.isValid) {
+  void clearCache() {
+    _cachedProjects = null;
+    _cachedProjectDetails.clear();
+    _cachedProjectUnits.clear();
+    _cachedUnitDetails.clear();
+    _cachedRoomDetails.clear();
+  }
+
+  void dispose() {
+    _logoutSubscription?.cancel();
+  }
+
+  @override
+  Future<Either<Failure, List<ProjectEntity>>> getProjects({AppCancelToken? cancelToken, bool forceRefresh = false}) async {
+    if (!forceRefresh && _cachedProjects != null && _cachedProjects!.isValid) {
       return Right(_cachedProjects!.data);
     }
 
@@ -67,8 +86,8 @@ class ProjectRepositoryImpl extends BaseRepository with ProjectRepositoryDraftMi
   }
 
   @override
-  Future<Either<Failure, ProjectEntity>> getProjectDetails(int id) async {
-    if (_cachedProjectDetails.containsKey(id) && _cachedProjectDetails[id]!.isValid) {
+  Future<Either<Failure, ProjectEntity>> getProjectDetails(int id, {bool forceRefresh = false}) async {
+    if (!forceRefresh && _cachedProjectDetails.containsKey(id) && _cachedProjectDetails[id]!.isValid) {
       return Right(_cachedProjectDetails[id]!.data);
     }
 
@@ -86,8 +105,8 @@ class ProjectRepositoryImpl extends BaseRepository with ProjectRepositoryDraftMi
   }
 
   @override
-  Future<Either<Failure, List<ProjectUnitEntity>>> getProjectUnits(int id) async {
-    if (_cachedProjectUnits.containsKey(id) && _cachedProjectUnits[id]!.isValid) {
+  Future<Either<Failure, List<ProjectUnitEntity>>> getProjectUnits(int id, {bool forceRefresh = false}) async {
+    if (!forceRefresh && _cachedProjectUnits.containsKey(id) && _cachedProjectUnits[id]!.isValid) {
       return Right(_cachedProjectUnits[id]!.data);
     }
 
@@ -105,8 +124,8 @@ class ProjectRepositoryImpl extends BaseRepository with ProjectRepositoryDraftMi
   }
 
   @override
-  Future<Either<Failure, ProjectUnitEntity>> getUnitDetails(int id) async {
-    if (_cachedUnitDetails[id]?.isValid == true) {
+  Future<Either<Failure, ProjectUnitEntity>> getUnitDetails(int id, {bool forceRefresh = false}) async {
+    if (!forceRefresh && _cachedUnitDetails[id]?.isValid == true) {
       return Right(_cachedUnitDetails[id]!.data);
     }
 
@@ -124,8 +143,8 @@ class ProjectRepositoryImpl extends BaseRepository with ProjectRepositoryDraftMi
   }
 
   @override
-  Future<Either<Failure, RoomDetailsEntity>> getRoomDetails(int id) async {
-    if (_cachedRoomDetails[id]?.isValid == true) {
+  Future<Either<Failure, RoomDetailsEntity>> getRoomDetails(int id, {bool forceRefresh = false}) async {
+    if (!forceRefresh && _cachedRoomDetails[id]?.isValid == true) {
       return Right(_cachedRoomDetails[id]!.data);
     }
 

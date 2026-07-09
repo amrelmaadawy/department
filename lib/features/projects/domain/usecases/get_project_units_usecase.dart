@@ -8,7 +8,7 @@ class GetProjectUnitsUseCase {
 
   GetProjectUnitsUseCase(this.repository);
 
-  Future<Either<Failure, List<ProjectUnitEntity>>> call(int id) async {
-    return await repository.getProjectUnits(id);
+  Future<Either<Failure, List<ProjectUnitEntity>>> call(int id, {bool forceRefresh = false}) async {
+    return await repository.getProjectUnits(id, forceRefresh: forceRefresh);
   }
 }

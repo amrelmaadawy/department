@@ -51,13 +51,13 @@ class ProjectDetailsCubit extends Cubit<ProjectDetailsState> {
     });
   }
 
-  void loadProjectDetails(int id) async {
+  void loadProjectDetails(int id, {bool forceRefresh = false}) async {
     _currentProjectId = id;
     emit(ProjectDetailsLoading());
 
     final results = await Future.wait([
-      getProjectDetailsUseCase(id),
-      getProjectUnitsUseCase(id),
+      getProjectDetailsUseCase(id, forceRefresh: forceRefresh),
+      getProjectUnitsUseCase(id, forceRefresh: forceRefresh),
     ]);
 
     final detailsResult = results[0] as Either;
@@ -123,8 +123,8 @@ class ProjectDetailsCubit extends Cubit<ProjectDetailsState> {
 
   void _silentReloadProjectDetails(int id) async {
     final results = await Future.wait([
-      getProjectDetailsUseCase(id),
-      getProjectUnitsUseCase(id),
+      getProjectDetailsUseCase(id, forceRefresh: true),
+      getProjectUnitsUseCase(id, forceRefresh: true),
     ]);
 
     final detailsResult = results[0] as Either;

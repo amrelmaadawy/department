@@ -13,6 +13,8 @@ class FinishingProgressCubit extends Cubit<FinishingProgressState> {
     emit(FinishingProgressLoading());
     final result = await getFinishingProgressUseCase(apartmentId);
     
+    if (isClosed) return;
+
     result.fold(
       (failure) => emit(FinishingProgressError(failure.message)),
       (stages) {

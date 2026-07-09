@@ -67,7 +67,7 @@ class _ProjectsViewState extends State<ProjectsView> {
             if (networkState is NetworkOnline) {
               final state = context.read<ProjectsCubit>().state;
               if (state is ProjectsError || (state is ProjectsLoaded && state.allProjects.isEmpty)) {
-                context.read<ProjectsCubit>().loadProjects();
+                context.read<ProjectsCubit>().loadProjects(forceRefresh: true);
               }
             }
           },
@@ -75,7 +75,7 @@ class _ProjectsViewState extends State<ProjectsView> {
             builder: (context, state) {
               return RefreshIndicator(
                 onRefresh: () async {
-                  await context.read<ProjectsCubit>().loadProjects();
+                  await context.read<ProjectsCubit>().loadProjects(forceRefresh: true);
                 },
                 color: context.colors.primary,
                 child: CustomScrollView(
@@ -209,7 +209,7 @@ class _ProjectsViewState extends State<ProjectsView> {
                     child: Center(
                       child: ErrorStateView(
                         message: state.message,
-                        onRetry: () => context.read<ProjectsCubit>().loadProjects(),
+                        onRetry: () => context.read<ProjectsCubit>().loadProjects(forceRefresh: true),
                       ),
                     ),
                   ),

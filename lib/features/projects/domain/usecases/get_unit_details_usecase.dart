@@ -8,7 +8,7 @@ class GetUnitDetailsUseCase {
 
   GetUnitDetailsUseCase(this.repository);
 
-  Future<Either<Failure, ProjectUnitEntity>> call(int id) async {
-    return await repository.getUnitDetails(id);
+  Future<Either<Failure, ProjectUnitEntity>> call(int id, {bool forceRefresh = false}) async {
+    return await repository.getUnitDetails(id, forceRefresh: forceRefresh);
   }
 }
