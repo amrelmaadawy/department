@@ -644,10 +644,13 @@
   "viewFinishingSelections": "View Finishing Selections",
   "finishingLockedReadOnly": "Finishing Locked — Contract Signed",
   "finishingProgress": "Finishing Progress",
+  "finishingProgressSummary": "Finishing Progress Summary",
   "trackFinishing": "Track Finishing",
+  "viewSitePhotos": "View Site Photos",
+  "completionPercentage": "Completion Percentage",
+  "executionStages": "Execution Stages",
   "noNotesYet": "No notes yet",
   "roomsCount": "Rooms Count",
   "completedStages": "Completed Stages",
-  "activeStage": "Active Stage",
-  "finishingProgressSummary": "Finishing Progress Summary"
+  "activeStage": "Active Stage"
 }

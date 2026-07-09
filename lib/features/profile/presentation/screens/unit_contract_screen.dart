@@ -7,7 +7,6 @@ import 'package:printing/printing.dart';
 
 import '../../../../core/theme/app_fonts.dart';
 import '../../../../core/theme/app_spacing.dart';
-import '../../../../core/widgets/custom_button.dart';
 import '../../../contracts/domain/services/contract_pdf_generator.dart';
 import '../widgets/contract_details_card.dart';
 import '../widgets/contract_financial_card.dart';
@@ -32,6 +31,7 @@ class _UnitContractScreenState extends State<UnitContractScreen> {
     setState(() => _isGeneratingPdf = true);
     try {
       // Create an empty dummy signature since it's already a finalized contract
+      
       final emptySignature = Uint8List(0);
       final bytes = await ContractPdfGenerator.generate(
         signatureImage: emptySignature,

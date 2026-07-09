@@ -96,7 +96,7 @@ class UnitDetailsBottomBar extends StatelessWidget {
             btnText = 'جاري التحقق من حالة عقودك...';
             onPressed = null;
           } else if (boneSigned && finishingSigned) {
-            // ✅ كل العقود موقّعة — عرض فقط
+            // ✅ كل العقود موقّعة — عرض مع زر متابعة التشطيب
             btnText = canEditFinishing
                 ? l10n.editFinishingSelections
                 : 'عرض ملخص التشطيبات';
@@ -119,6 +119,17 @@ class UnitDetailsBottomBar extends StatelessWidget {
                 );
               }
             };
+
+            final apartmentId = int.tryParse(unit.id) ?? 0;
+
+            return _buildContainer(
+              context,
+              btnText,
+              onPressed,
+              false,
+              showEditBanner: canEditFinishing,
+              showLockedBanner: true,
+            );
           } else if (existingOrderIds.isNotEmpty) {
             // ✅ في طلبات تشطيب → امضي أو استكمل العقود
             btnText = 'استكمال توقيع العقود';
@@ -178,6 +189,8 @@ class UnitDetailsBottomBar extends StatelessWidget {
     bool isLoading, {
     bool showEditBanner = false,
     bool showLockedBanner = false,
+    String? secondaryBtnText,
+    VoidCallback? onSecondaryPressed,
   }) {
     final l10n = AppLocalizations.of(context)!;
     return Container(
@@ -248,19 +261,71 @@ class UnitDetailsBottomBar extends StatelessWidget {
                 ),
               ),
             Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.lg,
-                vertical: AppSpacing.md,
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.lg,
+                AppSpacing.md,
+                AppSpacing.lg,
+                AppSpacing.sm,
               ),
-              child: SizedBox(
-                width: double.infinity,
-                child: CustomButton(
-                  text: text,
-                  onPressed: isLoading ? () {} : onPressed,
-                  isLoading: isLoading,
-                ),
-              ),
+              child: secondaryBtnText != null
+                  ? Row(
+                      children: [
+                        Expanded(
+                          flex: 3,
+                          child: CustomButton(
+                            text: text,
+                            onPressed: isLoading ? () {} : onPressed,
+                            isLoading: isLoading,
+                          ),
+                        ),
+                        const SizedBox(width: AppSpacing.sm),
+                        Expanded(
+                          flex: 2,
+                          child: ElevatedButton(
+                            onPressed: onSecondaryPressed,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: context.colors.textPrimary,
+                              foregroundColor: context.colors.white,
+                              elevation: 0,
+                              padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(AppRadius.md),
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(Icons.construction_rounded, size: 16),
+                                const SizedBox(width: 4),
+                                Flexible(
+                                  child: Text(
+                                    secondaryBtnText,
+                                    style: TextStyle(
+                                      color: context.colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: AppFonts.bodySmall,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  : SizedBox(
+                      width: double.infinity,
+                      child: CustomButton(
+                        text: text,
+                        onPressed: isLoading ? () {} : onPressed,
+                        isLoading: isLoading,
+                      ),
+                    ),
             ),
+            const SizedBox(height: AppSpacing.xs),
           ],
         ),
       ),

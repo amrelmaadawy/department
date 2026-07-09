@@ -10,6 +10,7 @@ import 'package:apartment/l10n/app_localizations.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:apartment/core/widgets/full_screen_gallery.dart';
 
 import '../cubit/finishing_progress_cubit.dart';
 import '../cubit/finishing_progress_state.dart';
@@ -17,26 +18,73 @@ import '../../domain/entities/finishing_progress_stage_entity.dart';
 
 class FinishingProgressScreen extends StatelessWidget {
   final int apartmentId;
+  final String projectName;
+  final String unitName;
 
-  const FinishingProgressScreen({super.key, required this.apartmentId});
+  const FinishingProgressScreen({
+    super.key,
+    required this.apartmentId,
+    required this.projectName,
+    required this.unitName,
+  });
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => sl<FinishingProgressCubit>()..loadFinishingProgress(apartmentId),
-      child: const _FinishingProgressView(),
+      child: _FinishingProgressView(
+        projectName: projectName,
+        unitName: unitName,
+      ),
     );
   }
 }
 
 class _FinishingProgressView extends StatefulWidget {
-  const _FinishingProgressView();
+  final String projectName;
+  final String unitName;
+
+  const _FinishingProgressView({
+    required this.projectName,
+    required this.unitName,
+  });
 
   @override
   State<_FinishingProgressView> createState() => _FinishingProgressViewState();
 }
 
 class _FinishingProgressViewState extends State<_FinishingProgressView> {
+  /// Groups stages by room and returns a flat list of [Widget]s:
+  /// a styled header for each room, followed by its timeline tiles.
+  List<Widget> _buildGroupedStages(
+    BuildContext context,
+    List<FinishingProgressStageEntity> stages,
+  ) {
+    // Maintain insertion order: room → stages
+    final grouped = <String, List<FinishingProgressStageEntity>>{};
+    for (final stage in stages) {
+      final room = stage.rooms.isNotEmpty ? stage.rooms.first : 'أعمال عامة';
+      grouped.putIfAbsent(room, () => []).add(stage);
+    }
+
+    final widgets = <Widget>[];
+    grouped.forEach((room, roomStages) {
+      // Room header
+      widgets.add(_RoomSectionHeader(roomName: room));
+      // Timeline tiles for this room
+      for (int i = 0; i < roomStages.length; i++) {
+        widgets.add(_TimelineTile(
+          stage: roomStages[i],
+          isFirst: i == 0,
+          isLast: i == roomStages.length - 1,
+        ));
+      }
+      // Small gap between groups
+      widgets.add(const SizedBox(height: AppSpacing.md));
+    });
+    return widgets;
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -49,7 +97,7 @@ class _FinishingProgressViewState extends State<_FinishingProgressView> {
         scrolledUnderElevation: 0,
         centerTitle: true,
         title: Text(
-          l10n.finishingProgress,
+          l10n.finishingProgress, // "متابعة التنفيذ"
           style: TextStyle(
             color: context.colors.textPrimary,
             fontSize: AppFonts.headlineSmall,
@@ -64,7 +112,7 @@ class _FinishingProgressViewState extends State<_FinishingProgressView> {
       body: BlocBuilder<FinishingProgressCubit, FinishingProgressState>(
         builder: (context, state) {
           if (state is FinishingProgressLoading || state is FinishingProgressInitial) {
-            return _buildShimmer(context);
+            return const _ShimmerLoading();
           }
 
           if (state is FinishingProgressError) {
@@ -77,59 +125,166 @@ class _FinishingProgressViewState extends State<_FinishingProgressView> {
           }
 
           if (state is FinishingProgressLoaded) {
-            if (state.stages.isEmpty) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(FluentIcons.timeline_24_regular, size: 64, color: context.colors.textSecondary.withValues(alpha: 0.5)),
-                    const SizedBox(height: AppSpacing.md),
-                    Text(
-                      l10n.noNotesYet,
-                      style: TextStyle(fontSize: AppFonts.bodyLarge, color: context.colors.textSecondary),
+            return Stack(
+              children: [
+                CustomScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  slivers: [
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Project & Unit Names
+                            if (widget.projectName.isNotEmpty)
+                              Text(
+                                widget.projectName,
+                                style: TextStyle(
+                                  color: context.colors.textPrimary,
+                                  fontSize: AppFonts.headlineMedium,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            if (widget.unitName.isNotEmpty) ...[
+                              const SizedBox(height: 4),
+                              Text(
+                                widget.unitName,
+                                style: TextStyle(
+                                  color: context.colors.textSecondary,
+                                  fontSize: AppFonts.bodyMedium,
+                                ),
+                              ),
+                            ],
+
+                            const SizedBox(height: AppSpacing.xl),
+
+                            // Progress Percentage and Label
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  '${state.totalProgress}%',
+                                  style: TextStyle(
+                                    color: context.colors.textPrimary,
+                                    fontSize: AppFonts.displaySmall,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  l10n.completionPercentage, // "نسبة الإنجاز"
+                                  style: TextStyle(
+                                    color: context.colors.textSecondary,
+                                    fontSize: AppFonts.bodyMedium,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: AppSpacing.xs),
+                            // Horizontal Progress Bar
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(AppRadius.round),
+                              child: LinearProgressIndicator(
+                                value: state.totalProgress / 100,
+                                backgroundColor: context.colors.border.withValues(alpha: 0.3),
+                                color: const Color(0xFFC49A45), // Gold color from screenshot
+                                minHeight: 12,
+                              ),
+                            ),
+
+                            const SizedBox(height: AppSpacing.xl),
+
+                            // Stages Title
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                l10n.executionStages, // "مراحل التنفيذ"
+                                style: TextStyle(
+                                  color: context.colors.textPrimary,
+                                  fontSize: AppFonts.headlineSmall,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: AppSpacing.md),
+                          ],
+                        ),
+                      ),
+                    ),
+                    
+                    if (state.stages.isEmpty)
+                      SliverToBoxAdapter(
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: AppSpacing.xxl),
+                            child: Text(
+                              'لا توجد مراحل هنا',
+                              style: TextStyle(color: context.colors.textSecondary),
+                            ),
+                          ),
+                        ),
+                      )
+                    else
+                      SliverPadding(
+                        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                        sliver: SliverList(
+                          delegate: SliverChildListDelegate(
+                            _buildGroupedStages(context, state.stages),
+                          ),
+                        ),
+                      ),
+                      
+                    // Add padding at the bottom for the fixed button
+                    const SliverToBoxAdapter(
+                      child: SizedBox(height: 100),
                     ),
                   ],
                 ),
-              );
-            }
 
-            final allRoomsSet = <String>{};
-            for (var stage in state.stages) {
-              allRoomsSet.addAll(stage.rooms);
-            }
-            final roomsList = allRoomsSet.toList()..sort();
-            
-            // If no rooms exist in any stage, just show the timeline directly
-            if (roomsList.isEmpty) {
-              return _buildTimeline(state.stages, context);
-            }
-
-            return CustomScrollView(
-              physics: const BouncingScrollPhysics(),
-              slivers: [
-                SliverPadding(
-                  padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
-                  sliver: SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        final room = roomsList[index];
-                        final roomStages = state.stages
-                            .where((stage) => stage.rooms.contains(room))
-                            .toList();
-                        
-                        double averageProgress = 0.0;
-                        if (roomStages.isNotEmpty) {
-                          averageProgress = roomStages.fold(
-                              0.0, (sum, item) => sum + item.progressPercent) / roomStages.length;
-                        }
-
-                        return _RoomProgressCard(
-                          roomName: room,
-                          stages: roomStages,
-                          progressPercent: averageProgress,
-                        );
-                      },
-                      childCount: roomsList.length,
+                // Bottom Button: "عرض صور الموقع"
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter,
+                        colors: [
+                          context.colors.background,
+                          context.colors.background.withValues(alpha: 0.8),
+                          context.colors.background.withValues(alpha: 0.0),
+                        ],
+                      ),
+                    ),
+                    padding: EdgeInsets.fromLTRB(AppSpacing.lg, AppSpacing.md, AppSpacing.lg, MediaQuery.paddingOf(context).bottom + AppSpacing.md),
+                    child: ElevatedButton(
+                      onPressed: () => _showSitePhotos(context, state.stages),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: context.colors.textPrimary, // Dark black color
+                        foregroundColor: context.colors.background, // White text/icon
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(AppRadius.lg),
+                        ),
+                        elevation: 0,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            l10n.viewSitePhotos, // "عرض صور الموقع"
+                            style: TextStyle(
+                              fontSize: AppFonts.bodyLarge,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(width: AppSpacing.sm),
+                          const Icon(FluentIcons.arrow_reply_20_filled, size: 20), // Standard icon that exists in fluent_ui
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -143,210 +298,198 @@ class _FinishingProgressViewState extends State<_FinishingProgressView> {
     );
   }
 
-  Widget _buildTimeline(List<FinishingProgressStageEntity> stages, BuildContext context) {
-    if (stages.isEmpty) {
-      return Center(
-        child: Text(
-          'لا توجد مراحل هنا',
-          style: TextStyle(color: context.colors.textSecondary),
-        ),
-      );
-    }
-    
-    return CustomScrollView(
-      slivers: [
-        SliverPadding(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
-          sliver: SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) {
-                final stage = stages[index];
-                final isLast = index == stages.length - 1;
-                return _TimelineTile(
-                  stage: stage,
-                  isLast: isLast,
-                );
-              },
-              childCount: stages.length,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
+  void _showSitePhotos(BuildContext context, List<FinishingProgressStageEntity> stages) {
+    // Filter stages that actually have images
+    final stagesWithImages = stages.where((s) => s.images.isNotEmpty).toList();
 
-  Widget _buildShimmer(BuildContext context) {
-    return Shimmer.fromColors(
-      baseColor: context.colors.border.withValues(alpha: 0.3),
-      highlightColor: context.colors.border.withValues(alpha: 0.1),
-      child: ListView.builder(
-        physics: const NeverScrollableScrollPhysics(),
-        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
-        itemCount: 5,
-        itemBuilder: (context, index) {
-          return Container(
-            margin: const EdgeInsets.only(bottom: AppSpacing.md),
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: 12),
-            decoration: BoxDecoration(
-              color: context.colors.white,
-              borderRadius: BorderRadius.circular(AppRadius.lg),
-              border: Border.all(color: context.colors.border.withValues(alpha: 0.5)),
-            ),
-            child: Row(
-              children: [
-                // Icon placeholder
-                Container(
-                  width: 48,
-                  height: 48,
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        final l10n = AppLocalizations.of(context)!;
+        return DraggableScrollableSheet(
+          initialChildSize: 0.85,
+          minChildSize: 0.5,
+          maxChildSize: 0.95,
+          builder: (_, controller) {
+            return Container(
+              decoration: BoxDecoration(
+                color: context.colors.background,
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(AppRadius.xl)),
+              ),
+              child: Column(
+                children: [
+                  const SizedBox(height: AppSpacing.md),
+                  Container(
+                    width: 40,
+                    height: 5,
+                    decoration: BoxDecoration(
+                      color: context.colors.border,
+                      borderRadius: BorderRadius.circular(AppRadius.round),
+                    ),
                   ),
-                ),
-                const SizedBox(width: AppSpacing.md),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: 120,
-                        height: 16,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Container(
-                        width: 80,
-                        height: 12,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                      ),
-                    ],
+                  const SizedBox(height: AppSpacing.lg),
+                  Text(
+                    l10n.viewSitePhotos,
+                    style: TextStyle(
+                      color: context.colors.textPrimary,
+                      fontSize: AppFonts.headlineSmall,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                const SizedBox(width: AppSpacing.sm),
-                // Circular progress placeholder
-                Container(
-                  width: 44,
-                  height: 44,
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
+                  const SizedBox(height: AppSpacing.md),
+                  Expanded(
+                    child: stagesWithImages.isEmpty
+                        ? Center(
+                            child: Text(
+                              'لا توجد صور للموقع حالياً',
+                              style: TextStyle(color: context.colors.textSecondary, fontSize: AppFonts.bodyLarge),
+                            ),
+                          )
+                        : ListView.builder(
+                            controller: controller,
+                            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
+                            itemCount: stagesWithImages.length,
+                            itemBuilder: (context, index) {
+                              final stage = stagesWithImages[index];
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: AppSpacing.sm, top: AppSpacing.md),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          stage.name,
+                                          style: TextStyle(
+                                            color: context.colors.textPrimary,
+                                            fontSize: AppFonts.bodyLarge,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        if (stage.rooms.isNotEmpty)
+                                          Expanded(
+                                            child: Text(
+                                              stage.rooms.join('، '),
+                                              style: TextStyle(
+                                                color: context.colors.textSecondary,
+                                                fontSize: AppFonts.bodySmall,
+                                              ),
+                                              textAlign: TextAlign.end,
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ),
+                                      ],
+                                    ),
+                                  ),
+                                  GridView.builder(
+                                    shrinkWrap: true,
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      crossAxisSpacing: AppSpacing.sm,
+                                      mainAxisSpacing: AppSpacing.sm,
+                                    ),
+                                    itemCount: stage.images.length,
+                                    itemBuilder: (context, imgIndex) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          FullScreenGallery.show(
+                                            context,
+                                            images: stage.images,
+                                            initialIndex: imgIndex,
+                                            heroTagPrefix: 'site_photo_${stage.id}',
+                                          );
+                                        },
+                                        child: Hero(
+                                          tag: imgIndex == 0 
+                                              ? 'site_photo_${stage.id}' 
+                                              : 'site_photo_${stage.id}_$imgIndex',
+                                          child: ClipRRect(
+                                            borderRadius: BorderRadius.circular(AppRadius.md),
+                                            child: CachedNetworkImage(
+                                              imageUrl: stage.images[imgIndex],
+                                              fit: BoxFit.cover,
+                                              placeholder: (context, url) => Shimmer.fromColors(
+                                                baseColor: context.colors.border.withValues(alpha: 0.3),
+                                                highlightColor: context.colors.border.withValues(alpha: 0.1),
+                                                child: Container(color: Colors.white),
+                                              ),
+                                              errorWidget: (context, url, error) => Container(
+                                                color: context.colors.border.withValues(alpha: 0.3),
+                                                child: Icon(FluentIcons.image_16_regular, color: context.colors.textSecondary),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
                   ),
-                ),
-              ],
-            ),
-          );
-        },
-      ),
+                ],
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }
 
-class _RoomProgressCard extends StatelessWidget {
+/// Styled room section header shown above each group of stages.
+class _RoomSectionHeader extends StatelessWidget {
   final String roomName;
-  final List<FinishingProgressStageEntity> stages;
-  final double progressPercent;
-
-  const _RoomProgressCard({
-    required this.roomName,
-    required this.stages,
-    required this.progressPercent,
-  });
+  const _RoomSectionHeader({required this.roomName});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: AppSpacing.md),
-      decoration: BoxDecoration(
-        color: context.colors.white,
-        borderRadius: BorderRadius.circular(AppRadius.lg),
-        border: Border.all(color: context.colors.border.withValues(alpha: 0.5)),
-        boxShadow: [
-          BoxShadow(
-            color: context.colors.border.withValues(alpha: 0.2),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
+    return Padding(
+      padding: const EdgeInsets.only(top: AppSpacing.xs, bottom: AppSpacing.sm),
+      child: Row(
+        children: [
+          Expanded(
+            child: Divider(
+              color: context.colors.border.withValues(alpha: 0.5),
+              thickness: 1,
+            ),
+          ),
+          const SizedBox(width: AppSpacing.sm),
+          Container(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.md,
+              vertical: AppSpacing.xs,
+            ),
+            decoration: BoxDecoration(
+              color: context.colors.primary.withValues(alpha: 0.08),
+              borderRadius: BorderRadius.circular(AppRadius.round),
+              border: Border.all(
+                color: context.colors.primary.withValues(alpha: 0.25),
+              ),
+            ),
+            child: Text(
+              roomName,
+              style: TextStyle(
+                fontSize: AppFonts.bodySmall,
+                fontWeight: FontWeight.bold,
+                color: context.colors.primary,
+              ),
+            ),
+          ),
+          const SizedBox(width: AppSpacing.sm),
+          Expanded(
+            child: Divider(
+              color: context.colors.border.withValues(alpha: 0.5),
+              thickness: 1,
+            ),
           ),
         ],
-      ),
-      child: Theme(
-        data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-        child: ExpansionTile(
-          tilePadding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: 8),
-          childrenPadding: const EdgeInsets.only(left: AppSpacing.sm, right: AppSpacing.sm, bottom: AppSpacing.md),
-          shape: const RoundedRectangleBorder(side: BorderSide.none),
-          title: Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(AppSpacing.sm),
-                decoration: BoxDecoration(
-                  color: context.colors.primary.withValues(alpha: 0.1),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(FluentIcons.conference_room_24_regular, color: context.colors.primary),
-              ),
-              const SizedBox(width: AppSpacing.md),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      roomName,
-                      style: TextStyle(
-                        fontSize: AppFonts.bodyLarge,
-                        fontWeight: FontWeight.bold,
-                        color: context.colors.textPrimary,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      '${stages.length} مراحل',
-                      style: TextStyle(
-                        fontSize: AppFonts.bodySmall,
-                        color: context.colors.textSecondary,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: AppSpacing.sm),
-              // Circular progress
-              SizedBox(
-                width: 44,
-                height: 44,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    CircularProgressIndicator(
-                      value: progressPercent / 100,
-                      strokeWidth: 3,
-                      backgroundColor: context.colors.border,
-                      color: progressPercent >= 100 ? context.colors.success : context.colors.primary,
-                      strokeCap: StrokeCap.round,
-                    ),
-                    Text(
-                      '${progressPercent.toInt()}%',
-                      style: TextStyle(
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold,
-                        color: progressPercent >= 100 ? context.colors.success : context.colors.primary,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          children: stages.map((stage) {
-            final isLast = stages.last == stage;
-            return _TimelineTile(stage: stage, isLast: isLast);
-          }).toList(),
-        ),
       ),
     );
   }
@@ -355,245 +498,238 @@ class _RoomProgressCard extends StatelessWidget {
 class _TimelineTile extends StatelessWidget {
   final FinishingProgressStageEntity stage;
   final bool isLast;
+  final bool isFirst;
 
-  const _TimelineTile({required this.stage, required this.isLast});
+  const _TimelineTile({
+    required this.stage,
+    required this.isLast,
+    required this.isFirst,
+  });
 
   @override
   Widget build(BuildContext context) {
     final bool isCompleted = stage.status == 'completed';
     final bool isInProgress = stage.status == 'in_progress';
-    
+    final bool isCancelled = stage.status == 'cancelled';
+    final bool isPending = !isCompleted && !isInProgress && !isCancelled;
+
+    // Define colors based on status
+    const Color completedColor = Color(0xFF1F8B50);   // Green
+    final Color inProgressColor = context.colors.textPrimary; // Black/Dark
+    final Color cancelledColor = context.colors.textSecondary; // Muted grey instead of red
+    final Color pendingColor = context.colors.textSecondary.withValues(alpha: 0.4); // Light Grey
+
     Color statusColor;
     if (isCompleted) {
-      statusColor = context.colors.success;
+      statusColor = completedColor;
     } else if (isInProgress) {
-      statusColor = context.colors.primary;
+      statusColor = inProgressColor;
+    } else if (isCancelled) {
+      statusColor = cancelledColor;
     } else {
-      statusColor = context.colors.textSecondary.withValues(alpha: 0.5);
+      statusColor = pendingColor;
     }
 
     return IntrinsicHeight(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Left side: Line and Indicator
+          // RIGHT side (first in code = right in RTL): Timeline Indicator
           SizedBox(
-            width: 40,
-            child: Column(
+            width: 32,
+            child: Stack(
+              alignment: Alignment.center,
               children: [
-                // Indicator
+                // Connecting line (above & below circle)
+                Column(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        width: 2,
+                        color: isFirst 
+                            ? Colors.transparent 
+                            : ((isCompleted || isInProgress) ? completedColor : pendingColor),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        width: 2,
+                        color: isLast
+                            ? Colors.transparent
+                            : (isCompleted ? completedColor : pendingColor),
+                      ),
+                    ),
+                  ],
+                ),
+
+                // Circle Indicator
                 Container(
-                  width: 32,
-                  height: 32,
+                  width: 24,
+                  height: 24,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: isCompleted ? statusColor : context.colors.background,
-                    border: Border.all(
-                      color: statusColor,
-                      width: 2,
-                    ),
+                    color: isCancelled
+                        ? cancelledColor.withValues(alpha: 0.1)
+                        : context.colors.background,
+                    border: Border.all(color: statusColor, width: 2),
                   ),
                   child: Center(
                     child: isCompleted
-                        ? Icon(FluentIcons.checkmark_16_regular, color: context.colors.white, size: 16)
-                        : (isInProgress
-                            ? SizedBox(
-                                width: 14,
-                                height: 14,
-                                child: CircularProgressIndicator(
-                                  value: stage.progressPercent / 100,
-                                  strokeWidth: 2,
-                                  color: statusColor,
-                                ),
-                              )
-                            : Icon(FluentIcons.clock_16_regular, color: statusColor, size: 16)),
+                        ? Icon(FluentIcons.checkmark_16_regular, color: completedColor, size: 14)
+                        : isCancelled
+                            ? Icon(FluentIcons.dismiss_16_regular, color: cancelledColor, size: 12)
+                            : isInProgress
+                                ? Container(
+                                    width: 8,
+                                    height: 8,
+                                    decoration: BoxDecoration(
+                                      color: inProgressColor,
+                                      shape: BoxShape.circle,
+                                    ),
+                                  )
+                                : Container(
+                                    width: 6,
+                                    height: 6,
+                                    decoration: BoxDecoration(
+                                      color: pendingColor,
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
                   ),
                 ),
-                // Line
-                if (!isLast)
-                  Expanded(
-                    child: Container(
-                      width: 2,
-                      color: statusColor.withValues(alpha: 0.3),
-                    ),
-                  ),
               ],
             ),
           ),
-          const SizedBox(width: AppSpacing.sm),
-          // Right side: Content Card
+
+          const SizedBox(width: AppSpacing.md),
+
+          // CENTER: Stage Name + per-stage progress bar
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.only(bottom: AppSpacing.md),
-              child: Container(
-                padding: const EdgeInsets.all(AppSpacing.md),
-                decoration: BoxDecoration(
-                  color: isInProgress ? context.colors.primary.withValues(alpha: 0.05) : context.colors.white,
-                  borderRadius: BorderRadius.circular(AppRadius.lg),
-                  border: Border.all(
-                    color: isInProgress ? context.colors.primary.withValues(alpha: 0.3) : context.colors.border.withValues(alpha: 0.5),
-                  ),
-                  boxShadow: [
-                    if (isInProgress)
-                      BoxShadow(
-                        color: context.colors.primary.withValues(alpha: 0.05),
-                        blurRadius: 10,
-                        offset: const Offset(0, 4),
-                      ),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            stage.name,
-                            style: TextStyle(
-                              fontSize: AppFonts.bodyLarge,
-                              fontWeight: FontWeight.bold,
-                              color: context.colors.textPrimary,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                          decoration: BoxDecoration(
-                            color: statusColor.withValues(alpha: 0.1),
-                            borderRadius: BorderRadius.circular(AppRadius.round),
-                          ),
-                          child: Text(
-                            stage.statusLabel,
-                            style: TextStyle(
-                              fontSize: AppFonts.labelSmall,
-                              fontWeight: FontWeight.bold,
-                              color: statusColor,
-                            ),
-                          ),
-                        ),
-                      ],
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    stage.name,
+                    style: TextStyle(
+                      fontSize: AppFonts.bodyLarge,
+                      fontWeight: FontWeight.bold,
+                      color: isCancelled
+                          ? cancelledColor.withValues(alpha: 0.7)
+                          : (isPending
+                              ? context.colors.textSecondary
+                              : context.colors.textPrimary),
+                      decoration: isCancelled ? TextDecoration.lineThrough : null,
+                      decorationColor: cancelledColor,
                     ),
-                    if (isInProgress) ...[
-                      const SizedBox(height: AppSpacing.sm),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(AppRadius.round),
-                              child: LinearProgressIndicator(
-                                value: stage.progressPercent / 100,
-                                backgroundColor: context.colors.border,
-                                color: statusColor,
-                                minHeight: 6,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: AppSpacing.sm),
-                          Text(
-                            '${stage.progressPercent}%',
-                            style: TextStyle(
-                              fontSize: AppFonts.labelSmall,
-                              fontWeight: FontWeight.bold,
-                              color: context.colors.textSecondary,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                    if (stage.rooms.isNotEmpty) ...[
-                      const SizedBox(height: AppSpacing.md),
-                      Wrap(
-                        spacing: 8,
-                        runSpacing: 8,
-                        children: stage.rooms.map((room) => Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                          decoration: BoxDecoration(
-                            color: context.colors.background,
-                            borderRadius: BorderRadius.circular(AppRadius.sm),
-                            border: Border.all(color: context.colors.border),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(FluentIcons.building_16_regular, size: 14, color: context.colors.textSecondary),
-                              const SizedBox(width: 4),
-                              Text(
-                                room,
-                                style: TextStyle(
-                                  fontSize: AppFonts.labelSmall,
-                                  color: context.colors.textSecondary,
-                                ),
-                              ),
-                            ],
-                          ),
-                        )).toList(),
-                      ),
-                    ],
-                    if (stage.notes != null && stage.notes!.isNotEmpty) ...[
-                      const SizedBox(height: AppSpacing.md),
-                      Container(
-                        padding: const EdgeInsets.all(AppSpacing.sm),
-                        decoration: BoxDecoration(
-                          color: context.colors.background,
-                          borderRadius: BorderRadius.circular(AppRadius.sm),
-                          border: Border.all(color: context.colors.border.withValues(alpha: 0.5)),
+                    textAlign: TextAlign.start,
+                  ),
+                  const SizedBox(height: 6),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${stage.progressPercent}%',
+                        style: TextStyle(
+                          fontSize: AppFonts.labelSmall,
+                          fontWeight: FontWeight.bold,
+                          color: statusColor,
                         ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Icon(FluentIcons.document_16_regular, size: 16, color: context.colors.textSecondary),
-                            const SizedBox(width: AppSpacing.sm),
-                            Expanded(
-                              child: Text(
-                                stage.notes!,
-                                style: TextStyle(
-                                  fontSize: AppFonts.bodySmall,
-                                  color: context.colors.textSecondary,
-                                ),
-                              ),
-                            ),
-                          ],
+                      ),
+                      const SizedBox(width: 6),
+                      Expanded(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(AppRadius.round),
+                          child: LinearProgressIndicator(
+                            value: (stage.progressPercent / 100).clamp(0.0, 1.0),
+                            backgroundColor:
+                                context.colors.border.withValues(alpha: 0.3),
+                            color: isCancelled
+                                ? cancelledColor
+                                : (isCompleted
+                                    ? completedColor
+                                    : (isInProgress
+                                        ? const Color(0xFFC49A45)
+                                        : pendingColor)),
+                            minHeight: 5,
+                          ),
                         ),
                       ),
                     ],
-                    if (stage.images.isNotEmpty) ...[
-                      const SizedBox(height: AppSpacing.md),
-                      SizedBox(
-                        height: 80,
-                        child: ListView.separated(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: stage.images.length,
-                          separatorBuilder: (context, index) => const SizedBox(width: AppSpacing.sm),
-                          itemBuilder: (context, index) {
-                            return ClipRRect(
-                              borderRadius: BorderRadius.circular(AppRadius.sm),
-                              child: CachedNetworkImage(
-                                imageUrl: stage.images[index],
-                                width: 80,
-                                height: 80,
-                                fit: BoxFit.cover,
-                                placeholder: (context, url) => Container(
-                                  color: context.colors.border.withValues(alpha: 0.3),
-                                  child: const Center(child: CircularProgressIndicator(strokeWidth: 2)),
-                                ),
-                                errorWidget: (context, url, error) => Container(
-                                  color: context.colors.border.withValues(alpha: 0.3),
-                                  child: Icon(FluentIcons.image_16_regular, color: context.colors.textSecondary),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          const SizedBox(width: AppSpacing.md),
+
+          // LEFT side (last in code = left in RTL): Status Label
+          SizedBox(
+            width: 72,
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                stage.statusLabel,
+                style: TextStyle(
+                  fontSize: AppFonts.bodySmall,
+                  fontWeight: isPending ? FontWeight.normal : FontWeight.bold,
+                  color: statusColor,
                 ),
+                textAlign: TextAlign.start,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           ),
         ],
+      ));
+  }
+}
+
+
+class _ShimmerLoading extends StatelessWidget {
+  const _ShimmerLoading();
+
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer.fromColors(
+      baseColor: context.colors.border.withValues(alpha: 0.3),
+      highlightColor: context.colors.border.withValues(alpha: 0.1),
+      child: ListView.builder(
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.xl),
+        itemCount: 6,
+        itemBuilder: (context, index) {
+          if (index == 0) {
+             return Column(
+               crossAxisAlignment: CrossAxisAlignment.start,
+               children: [
+                 Container(width: 200, height: 24, color: Colors.white),
+                 const SizedBox(height: 8),
+                 Container(width: 150, height: 16, color: Colors.white),
+                 const SizedBox(height: 32),
+                 Container(width: double.infinity, height: 12, decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10))),
+                 const SizedBox(height: 32),
+                 Container(width: 100, height: 20, color: Colors.white),
+                 const SizedBox(height: 16),
+               ],
+             );
+          }
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 24),
+            child: Row(
+              children: [
+                Container(width: 60, height: 16, color: Colors.white),
+                const SizedBox(width: 16),
+                Expanded(child: Container(height: 20, color: Colors.white)),
+                const SizedBox(width: 16),
+                Container(width: 24, height: 24, decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle)),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

@@ -40,7 +40,15 @@ class FinishingProgressSummaryCard extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
             child: InkWell(
               onTap: () {
-                context.push(AppRouter.finishingProgress(int.parse(unit.id)));
+                final apartmentId = int.tryParse(unit.id) ?? 0;
+                if (apartmentId <= 0) return;
+                context.push(
+                  AppRouter.finishingProgress(apartmentId),
+                  extra: {
+                    'projectName': unit.projectName,
+                    'unitName': unit.title,
+                  },
+                );
               },
               borderRadius: BorderRadius.circular(AppRadius.lg),
               child: Container(

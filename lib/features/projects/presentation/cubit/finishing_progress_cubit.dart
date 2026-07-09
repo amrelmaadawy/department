@@ -21,32 +21,34 @@ class FinishingProgressCubit extends Cubit<FinishingProgressState> {
           return;
         }
 
-        // Calculate total progress (average of all stages)
+        // Exclude cancelled stages from progress calculation
+        final activeStages = stages.where((s) => s.status != 'cancelled').toList();
+
         int totalSum = 0;
         String activeStage = stages.first.name; // default to first
         bool foundActive = false;
 
-        for (final stage in stages) {
+        for (final stage in activeStages) {
           totalSum += stage.progressPercent;
-          
+
           if (!foundActive && stage.status == 'in_progress') {
             activeStage = stage.name;
             foundActive = true;
           }
         }
-        
-        // If none is in_progress, maybe all are completed, or all are pending.
+
+        // If none is in_progress, pick first pending or mark as completed
         if (!foundActive) {
           final pendingStage = stages.where((s) => s.status == 'pending').firstOrNull;
           if (pendingStage != null) {
             activeStage = pendingStage.name;
           } else {
-            // all completed
             activeStage = 'مكتمل';
           }
         }
 
-        final totalProgress = (totalSum / stages.length).round();
+        final divisor = activeStages.isNotEmpty ? activeStages.length : 1;
+        final totalProgress = (totalSum / divisor).round().clamp(0, 100);
 
         emit(FinishingProgressLoaded(
           stages: stages,

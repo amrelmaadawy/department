@@ -3110,6 +3110,30 @@ abstract class AppLocalizations {
   /// **'Finishing Progress'**
   String get finishingProgress;
 
+  /// No description provided for @finishingProgressSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Finishing Progress Summary'**
+  String get finishingProgressSummary;
+
+  /// No description provided for @viewSitePhotos.
+  ///
+  /// In en, this message translates to:
+  /// **'View Site Photos'**
+  String get viewSitePhotos;
+
+  /// No description provided for @completionPercentage.
+  ///
+  /// In en, this message translates to:
+  /// **'Completion Percentage'**
+  String get completionPercentage;
+
+  /// No description provided for @executionStages.
+  ///
+  /// In en, this message translates to:
+  /// **'Execution Stages'**
+  String get executionStages;
+
   /// No description provided for @noNotesYet.
   ///
   /// In en, this message translates to:
@@ -3133,12 +3157,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Active Stage'**
   String get activeStage;
-
-  /// No description provided for @finishingProgressSummary.
-  ///
-  /// In en, this message translates to:
-  /// **'Finishing Progress Summary'**
-  String get finishingProgressSummary;
 }
 
 class _AppLocalizationsDelegate

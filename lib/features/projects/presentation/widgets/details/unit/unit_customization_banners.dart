@@ -107,7 +107,7 @@ class AiCreditsBanner extends StatelessWidget {
                         ],
                       )
                     : Text(
-                        hasError ? 'لم يتم جلب الرصيد ($errorMessage)' : 'رصيد التصميم الذكي المتبقي: $credits',
+                        hasError ? 'لم يتم جلب الرصيد ($errorMessage)' : 'رصيد التصميم الذكي المتبقي: ${credits! > 200 ? 'غير محدود' : credits}',
                         style: TextStyle(
                           fontSize: AppFonts.bodySmall,
                           fontWeight: FontWeight.bold,

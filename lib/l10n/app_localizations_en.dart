@@ -1620,6 +1620,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get finishingProgress => 'Finishing Progress';
 
   @override
+  String get finishingProgressSummary => 'Finishing Progress Summary';
+
+  @override
+  String get viewSitePhotos => 'View Site Photos';
+
+  @override
+  String get completionPercentage => 'Completion Percentage';
+
+  @override
+  String get executionStages => 'Execution Stages';
+
+  @override
   String get noNotesYet => 'No notes yet';
 
   @override
@@ -1630,7 +1642,4 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get activeStage => 'Active Stage';
-
-  @override
-  String get finishingProgressSummary => 'Finishing Progress Summary';
 }

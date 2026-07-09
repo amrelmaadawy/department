@@ -1608,6 +1608,18 @@ class AppLocalizationsAr extends AppLocalizations {
   String get finishingProgress => 'تقدم التشطيب';
 
   @override
+  String get finishingProgressSummary => 'ملخص تقدم التشطيب';
+
+  @override
+  String get viewSitePhotos => 'عرض صور الموقع';
+
+  @override
+  String get completionPercentage => 'نسبة الإنجاز';
+
+  @override
+  String get executionStages => 'مراحل التنفيذ';
+
+  @override
   String get noNotesYet => 'لا توجد ملاحظات';
 
   @override
@@ -1618,7 +1630,4 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get activeStage => 'المرحلة الحالية';
-
-  @override
-  String get finishingProgressSummary => 'ملخص تقدم التشطيب';
 }

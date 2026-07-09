@@ -127,7 +127,15 @@ class ProjectRoutes {
       builder: (context, state) {
         final apartmentIdStr = state.pathParameters['apartmentId'];
         final apartmentId = int.tryParse(apartmentIdStr ?? '0') ?? 0;
-        return FinishingProgressScreen(apartmentId: apartmentId);
+        final extra = state.extra as Map<String, dynamic>?;
+        final projectName = extra?['projectName'] as String? ?? '';
+        final unitName = extra?['unitName'] as String? ?? '';
+        
+        return FinishingProgressScreen(
+          apartmentId: apartmentId,
+          projectName: projectName,
+          unitName: unitName,
+        );
       },
     ),
   ];

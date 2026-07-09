@@ -86,7 +86,7 @@ class ContractsCubit extends Cubit<ContractsState> {
       if (contractStatusesList.isNotEmpty) {
         isLoadingSignatureStatuses = false;
         isSignatureStatusesReady = true;
-        emit(ContractStatusesListLoaded(contractStatusesList));
+        if (!isClosed) emit(ContractStatusesListLoaded(contractStatusesList));
         return;
       }
     }
@@ -99,7 +99,9 @@ class ContractsCubit extends Cubit<ContractsState> {
     
     isLoadingSignatureStatuses = false;
     isSignatureStatusesReady = true;
-    emit(ContractSignatureStatusesLoaded(isUnitContractSigned, isFinishingContractSigned));
+    if (!isClosed) {
+      emit(ContractSignatureStatusesLoaded(isUnitContractSigned, isFinishingContractSigned));
+    }
   }
 
   Future<void> markContractAsSigned(String unitId, String contractType) async {

@@ -214,7 +214,7 @@ class ProfileHeader extends StatelessWidget {
                       ),
                       const SizedBox(width: AppSpacing.xs),
                       Text(
-                        '$aiCredits رصيد AI',
+                        aiCredits > 200 ? 'رصيد AI غير محدود' : '$aiCredits رصيد AI',
                         style: TextStyle(
                           fontSize: AppFonts.labelMedium,
                           fontWeight: FontWeight.bold,

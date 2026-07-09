@@ -652,5 +652,8 @@
   "completedStages": "مراحل مكتملة",
   "activeStage": "المرحلة الحالية",
   "finishingProgressSummary": "ملخص تقدم التشطيب",
-  "trackFinishing": "متابعة التشطيب"
+  "trackFinishing": "متابعة التشطيب",
+  "viewSitePhotos": "عرض صور الموقع",
+  "completionPercentage": "نسبة الإنجاز",
+  "executionStages": "مراحل التنفيذ"
 }

@@ -13,6 +13,18 @@ class FinishingProgressStageModel extends FinishingProgressStageEntity {
   });
 
   factory FinishingProgressStageModel.fromJson(Map<String, dynamic> json) {
+    // Images can be either a List<String> or a List<Map> with {id, url, full_url}
+    // Using Map.from() instead of 'is Map<String, dynamic>' to handle _InternalLinkedHashMap in isolates
+    final rawImages = json['images'] as List<dynamic>? ?? [];
+    final images = rawImages.map<String>((img) {
+      if (img is String) return img;
+      if (img is Map) {
+        // Covers Map<String, dynamic>, _Map, _InternalLinkedHashMap in isolates
+        return (img['full_url'] ?? img['url'] ?? '').toString();
+      }
+      return '';
+    }).where((url) => url.isNotEmpty).toList();
+
     return FinishingProgressStageModel(
       id: json['id'] ?? 0,
       name: json['name'] ?? '',
@@ -21,7 +33,7 @@ class FinishingProgressStageModel extends FinishingProgressStageEntity {
       statusLabel: json['status_label'] ?? '',
       notes: json['notes'],
       rooms: List<String>.from(json['rooms'] ?? []),
-      images: List<String>.from(json['images'] ?? []),
+      images: images,
     );
   }
 
