@@ -1,11 +1,9 @@
-import 'package:apartment/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
 import '../../../../core/di/injection_container.dart';
 import '../../../../core/theme/app_fonts.dart';
-import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/theme_extension.dart';
 import '../cubit/ai_renders_cubit.dart';
 import '../cubit/ai_renders_state.dart';
@@ -18,6 +16,7 @@ import '../../../../../core/network/cubit/network_state.dart';
 
 import '../widgets/ai_renders/ai_renders_pending_view.dart';
 import '../widgets/ai_renders/ai_renders_completed_view.dart';
+import '../widgets/ai_renders/ai_renders_error_view.dart';
 
 class AiRendersScreen extends StatelessWidget {
   final int orderId;
@@ -107,27 +106,9 @@ class AiRendersScreen extends StatelessWidget {
                 ),
               );
             } else if (state is AiRendersError) {
-              return Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(AppSpacing.xl),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(FluentIcons.error_circle_24_regular, color: AppColors.error, size: 64),
-                      const SizedBox(height: AppSpacing.md),
-                      Text(
-                        state.message,
-                        style: TextStyle(fontSize: AppFonts.bodyLarge, color: context.colors.textPrimary),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: AppSpacing.lg),
-                      ElevatedButton(
-                        onPressed: () => context.read<AiRendersCubit>().fetchAiRenders(orderId),
-                        child: Text(AppLocalizations.of(context)!.aiRendersRetry),
-                      ),
-                    ],
-                  ),
-                ),
+              return AiRendersErrorView(
+                message: state.message,
+                onRetry: () => context.read<AiRendersCubit>().fetchAiRenders(orderId),
               );
             }
             return const SizedBox.shrink();

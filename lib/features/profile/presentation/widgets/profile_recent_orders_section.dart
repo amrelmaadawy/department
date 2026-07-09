@@ -83,10 +83,12 @@ class ProfileRecentOrdersSection extends StatelessWidget {
       statusColor = AppColors.success;
     } else if (lowerStatus == 'pending') {
       statusColor = Colors.orange;
+    } else if (lowerStatus == 'failed') {
+      statusColor = context.colors.error;
     }
 
     return GestureDetector(
-      onTap: () {
+      onTap: lowerStatus == 'failed' ? null : () {
         _showOrderDetails(context, order);
       },
       child: Container(
