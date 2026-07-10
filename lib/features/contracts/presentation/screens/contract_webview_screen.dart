@@ -535,13 +535,13 @@ class _ContractWebViewScreenState extends State<ContractWebViewScreen> {
                       onPressed: () => context.pop(),
                     ),
                     actions: [
-                      Builder(
-                        builder: (ctx) => IconButton(
-                          tooltip: 'تحميل / طباعة',
-                          icon: Icon(FluentIcons.arrow_download_24_regular, color: ctx.colors.primary),
-                          onPressed: isGeneratingPdf ? null : () => _handlePdfGeneration(ctx),
-                        ),
-                      ),
+                      // Builder(
+                      //   builder: (ctx) => IconButton(
+                      //     tooltip: 'تحميل / طباعة',
+                      //     icon: Icon(FluentIcons.arrow_download_24_regular, color: ctx.colors.primary),
+                      //     onPressed: isGeneratingPdf ? null : () => _handlePdfGeneration(ctx),
+                      //   ),
+                      // ),
                       IconButton(
                         tooltip: 'إعادة تحميل',
                         icon: Icon(FluentIcons.arrow_clockwise_24_regular, color: context.colors.primary),
