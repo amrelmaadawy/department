@@ -1,4 +1,5 @@
 import 'package:apartment/l10n/app_localizations.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,6 +17,7 @@ import 'core/network/cubit/network_cubit.dart';
 import 'core/network/cubit/network_state.dart';
 import 'features/settings/presentation/cubit/settings_cubit.dart';
 import 'core/presentation/widgets/offline_banner.dart';
+import 'core/logging/debug_log_overlay.dart';
 
 import 'core/services/security/device_security_service.dart';
 import 'core/presentation/widgets/jailbreak_warning_app.dart';
@@ -97,7 +99,9 @@ class MyApp extends StatelessWidget {
                         }
                         showBanner();
                       },
-                      child: child!,
+                      child: kReleaseMode
+                          ? child!
+                          : DebugLogOverlay(child: child!),
                     ),
                   );
                 },

@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:apartment/core/logging/debug_log_buffer.dart';
 import '../../domain/usecases/create_bone_contract_usecase.dart';
 import '../../domain/usecases/create_finishing_contract_usecase.dart';
 import '../../domain/usecases/get_apartment_finishing_orders_use_case.dart';
@@ -258,16 +259,30 @@ class ContractsCubit extends Cubit<ContractsState> {
   }
 
   Future<void> generateContractPdf(String htmlContent) async {
+    final sw = Stopwatch()..start();
+    void log(String msg) =>
+        DebugLogBuffer.instance.log('Download', '[${sw.elapsedMilliseconds}ms] $msg');
+
+    log('START generateContractPdf — cubit layer');
     emit(ContractPdfGenerating());
-    
+
+    log('BEFORE GenerateContractPdfUseCase.call()');
     final result = await generateContractPdfUseCase(htmlContent);
-    
+    log('AFTER GenerateContractPdfUseCase.call()');
+
     if (isClosed) return;
-    
+
     result.fold(
-      (failure) => emit(ContractPdfError(failure.message)),
-      (filePath) => emit(ContractPdfGenerated(filePath)),
+      (failure) {
+        log('RESULT: FAILURE — ${failure.message}');
+        emit(ContractPdfError(failure.message));
+      },
+      (filePath) {
+        log('RESULT: SUCCESS — $filePath');
+        emit(ContractPdfGenerated(filePath));
+      },
     );
+    log('END generateContractPdf (${sw.elapsedMilliseconds}ms total)');
   }
 }
 

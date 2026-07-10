@@ -19,6 +19,8 @@ import '../cubit/contracts_cubit.dart';
 import '../cubit/contracts_state.dart';
 import '../widgets/contract_pdf_action_bottom_sheet.dart';
 import '../../../../core/widgets/app_toast.dart';
+import '../../../../core/logging/debug_log_buffer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 /// Displays a server-generated contract print page inside an in-app WebView.
 ///
@@ -315,88 +317,85 @@ class _ContractWebViewScreenState extends State<ContractWebViewScreen> {
     await _loadViaProxy(_controller!);
   }
 
-  /// Triggers PDF saving from the already-rendered WebView.
+  /// Opens the contract PDF for the user.
   ///
-  /// Strategy 1: Try downloading the PDF from pdfUrl (if server returns actual PDF).
-  /// Strategy 2: Use the already-rendered WebView's window.print() which opens
-  ///   Android's native print dialog with "Save as PDF" option — this is 100%
-  ///   reliable because NO new WebView is created.
+  /// Strategy 1: Download PDF bytes from server URL → save locally → show bottom sheet.
+  ///   (Only succeeds if the server returns a binary PDF, not HTML.)
+  /// Strategy 2: Open pdfUrl in Chrome — Chrome renders HTML contract pages
+  ///   natively and the user can share/print from there.
+  /// Strategy 3: Open the print HTML URL in Chrome as last resort.
   Future<void> _handlePdfGeneration(BuildContext context) async {
-    // Strategy 1: Try direct PDF download from server
+    final sw = Stopwatch()..start();
+    void log(String msg) =>
+        DebugLogBuffer.instance.log('WebView', '[${sw.elapsedMilliseconds}ms] $msg');
+
+    log('START _handlePdfGeneration');
+
+    // ── Strategy 1: Try binary PDF download (succeeds only if server returns PDF) ──
     if (widget.pdfUrl.isNotEmpty) {
-      debugPrint('[ContractWebView] Trying direct PDF download...');
       final savedPath = await _tryDownloadPdf(widget.pdfUrl);
       if (savedPath != null) {
+        log('END via direct PDF save (${sw.elapsedMilliseconds}ms)');
         if (!context.mounted) return;
         ContractPdfActionBottomSheet.show(context, filePath: savedPath);
         return;
       }
-      debugPrint('[ContractWebView] Direct PDF download failed, falling back to HTML...');
     }
 
-    // Strategy 2: Generate PDF from HTML content via flutter_native_html_to_pdf
-    if (_controller == null) return;
-    try {
-      String htmlContent = '';
-
+    // ── Strategy 2: Open PDF/print URL in Chrome ─────────────────────────────
+    // Server currently returns HTML for the download URL, so Chrome is used
+    // to display the contract — user can share or print→Save as PDF from there.
+    final targetUrl = widget.pdfUrl.isNotEmpty ? widget.pdfUrl : _safeUrl;
+    if (targetUrl.isNotEmpty) {
+      final uri = Uri.parse(
+        targetUrl.replaceFirst(RegExp(r'^http://'), 'https://'),
+      );
+      log('BEFORE launchUrl in Chrome — $uri');
       try {
-        htmlContent = await _extractHtmlChunked(_controller!);
-      } catch (jsError) {
-        debugPrint('[ContractWebView] JS extraction failed: $jsError');
-      }
-
-      if (htmlContent.isEmpty && _safeUrl.isNotEmpty) {
-        try {
-          final dio = sl<Dio>();
-          final response = await dio.get<String>(
-            _safeUrl,
-            options: Options(
-              responseType: ResponseType.plain,
-              receiveTimeout: const Duration(seconds: 30),
-            ),
-          );
-          htmlContent = (response.data ?? '').replaceFirst('\uFEFF', '').trim();
-        } catch (dioError) {
-          debugPrint('[ContractWebView] Dio fallback also failed: $dioError');
+        final launched = await launchUrl(uri, mode: LaunchMode.externalApplication);
+        if (launched) {
+          log('END via Chrome (${sw.elapsedMilliseconds}ms)');
+          if (context.mounted) {
+            AppToast.show(
+              context,
+              message: 'تم فتح العقد في المتصفح — يمكنك حفظه أو مشاركته من هناك.',
+            );
+          }
+          return;
         }
+      } catch (e) {
+        log('launchUrl FAILED: $e');
       }
+    }
 
-      if (htmlContent.isEmpty) {
-        if (context.mounted) {
-          AppToast.show(context, message: 'تعذر قراءة محتوى العقد. يرجى إعادة تحميل الصفحة.', isError: true);
-        }
-        return;
-      }
-
-      if (!context.mounted) return;
-      context.read<ContractsCubit>().generateContractPdf(htmlContent);
-    } catch (e) {
-      debugPrint('[ContractWebView] _handlePdfGeneration error: $e');
-      if (context.mounted) {
-        AppToast.show(context, message: 'حدث خطأ أثناء قراءة محتوى العقد', isError: true);
-      }
+    log('All strategies failed');
+    if (context.mounted) {
+      AppToast.show(
+        context,
+        message: 'تعذّر فتح العقد. يرجى المحاولة مرة أخرى.',
+        isError: true,
+      );
     }
   }
 
   /// Attempts to download a PDF from [url]. Returns the local file path
-  /// on success, or null if the response is not a valid PDF.
+  /// on success, or null if the server returns HTML instead of binary PDF.
   Future<String?> _tryDownloadPdf(String url) async {
     final safeUrl = url.replaceFirst(RegExp(r'^http://'), 'https://');
 
+    // Try without auth first (signed URL is self-authenticating).
     var bytes = await _downloadBytes(safeUrl, useAuth: false);
     if (bytes == null || !_isPdf(bytes)) {
+      // Retry with Bearer token.
       bytes = await _downloadBytes(safeUrl, useAuth: true);
     }
-
-    if (bytes == null || !_isPdf(bytes)) {
-      debugPrint('[ContractWebView] pdfUrl did not return valid PDF');
-      return null;
-    }
+    if (bytes == null || !_isPdf(bytes)) return null;
 
     final dir = await _getWriteablePath();
+    if (dir.isEmpty) return null;
     final filePath = '$dir/contract_${DateTime.now().millisecondsSinceEpoch}.pdf';
     await File(filePath).writeAsBytes(bytes, flush: true);
-    debugPrint('[ContractWebView] ✔ PDF saved: $filePath');
+    DebugLogBuffer.instance.log('PDF', '✔ saved to: $filePath');
     return filePath;
   }
 
@@ -405,18 +404,20 @@ class _ContractWebViewScreenState extends State<ContractWebViewScreen> {
       final dio = useAuth
           ? sl<Dio>()
           : Dio(BaseOptions(
-              receiveTimeout: const Duration(seconds: 60),
-              sendTimeout: const Duration(seconds: 30),
+              receiveTimeout: const Duration(seconds: 20),
+              sendTimeout: const Duration(seconds: 10),
+              followRedirects: true,
+              maxRedirects: 5,
               headers: {'Accept': 'application/pdf, */*'},
             ));
       final response = await dio.get(
         url,
-        options: Options(responseType: ResponseType.bytes),
+        options: Options(responseType: ResponseType.bytes, followRedirects: true),
       );
       final data = response.data as List<int>;
       return data.length > 10 ? data : null;
     } catch (e) {
-      debugPrint('[ContractWebView] _downloadBytes error: $e');
+      DebugLogBuffer.instance.log('PDF', '_downloadBytes error: $e');
       return null;
     }
   }
@@ -535,13 +536,13 @@ class _ContractWebViewScreenState extends State<ContractWebViewScreen> {
                       onPressed: () => context.pop(),
                     ),
                     actions: [
-                      // Builder(
-                      //   builder: (ctx) => IconButton(
-                      //     tooltip: 'تحميل / طباعة',
-                      //     icon: Icon(FluentIcons.arrow_download_24_regular, color: ctx.colors.primary),
-                      //     onPressed: isGeneratingPdf ? null : () => _handlePdfGeneration(ctx),
-                      //   ),
-                      // ),
+                      Builder(
+                        builder: (ctx) => IconButton(
+                          tooltip: 'تحميل / طباعة',
+                          icon: Icon(FluentIcons.arrow_download_24_regular, color: ctx.colors.primary),
+                          onPressed: isGeneratingPdf ? null : () => _handlePdfGeneration(ctx),
+                        ),
+                      ),
                       IconButton(
                         tooltip: 'إعادة تحميل',
                         icon: Icon(FluentIcons.arrow_clockwise_24_regular, color: context.colors.primary),
